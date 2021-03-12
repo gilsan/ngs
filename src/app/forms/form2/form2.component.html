@@ -7,7 +7,7 @@
       <div id="content">
           <div class="box pd_20">
               <div class="box_100 main-table" style="height: auto;max-height: 500px;">
-                  <table cellpadding="0" cellspacing="0" class="table_list header-fix" style="text-align: center;">
+                  <table cellpadding="0" cellspacing="0" class="table_list header-fix padding_0" style="text-align: center;">
                       <thead>
                           <tr>
                               <th width="30px" class="border-left-1"></th>
@@ -83,7 +83,7 @@
                               <td class="textcenter">{{tsvList.locus}}</td>
                               <td><textarea class="textarea_02">{{tsvList.genotype}}</textarea></td>
                               <td class="textcenter">{{tsvList.filter}}</td>
-                              <td class="textcenter">{{tsvList.ref}}</td>
+                              <td class="textcenter multi_line">{{tsvList.ref}}</td>
                               <td><textarea class="textarea_02">{{tsvList.observed_allele}}</textarea></td>
                               <td class="textcenter">{{tsvList.type}}</td>
                               <td class="textcenter">{{tsvList.no_call_reason}}</td>
@@ -176,7 +176,7 @@
                 </tr>
             </table>
             <div style="margin-top:5px;"></div>
-            <table width="100%" cellpadding="0" cellspacing="0" class="table_result">
+            <table width="100%" cellpadding="0" cellspacing="0" class="table_result input_100">
                 <colgroup>
                 <col style="width:30%;" />
                 <col style="width:20%;" />
@@ -253,8 +253,8 @@
               <div class="box_100"  [ngStyle]="resizeHeight()" #box100>
 <!--    -------------------------------------                     -->
 <form [formGroup]="tablerowForm"> 
-     
-    <table class="table_list header-fix"  style="text-align: center;" #table>
+    <!-- header-fix : scroll시 header고정, td-fix : scroll시 1,2,3컬럼 고정 ※동시사용안됨 -->
+    <table class="table_list td_padding_0 header-fix"  style="text-align: center;" #table>
         <colgroup>  
             <col style="width:50px"/>         
             <col style="width:80px"/>
@@ -265,7 +265,7 @@
             <col style="width:120px"/>   <!-- Gene   -->
             <col style="width:180px"/>  <!-- Functional Impact    -->
             <col style="width:160px"/>  <!-- Transcript    --> 
-            <col style="width:90px"/>  <!-- Exon/Intron    -->
+            <col style="width:60px"/>  <!-- Exon/Intron    -->
             <col style="width:240px"/>  <!--  Nuceleotide change   -->
             <col style="width:200px"/>  <!-- Amino acid change    -->
             <col style="width:120px"/>  <!-- Zygosity    -->
@@ -288,7 +288,7 @@
               <th>Gene</th>
               <th>Functional Impact</th>
               <th>Transcript</th>
-              <th>Exon/Intron</th>  
+              <th>Exon/<br/>Intron</th>  
               <th>Nucleotide change</th>    
               <th>Amino acid change</th> 
               <th>Zygosity</th>
