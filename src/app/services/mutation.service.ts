@@ -41,7 +41,7 @@ export class MutationService {
     gene: string, functionalImpact: string, transcript: string, exonIntro: string, nucleotideChange: string,
     aminoAcidChange: string, zygosity: string, vaf: string, reference: string,
     siftPolyphenMutationTaster: string, buccal2: string, igv: string, sanger: string, cosmicId: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/mutation/insert`, {
+    return this.http.post(`${this.apiUrl}/mutationMapper/insert`, {
       id, buccal, name, registerNumber, fusion, gene,
       functionalImpact, transcript, exonIntro, nucleotideChange, aminoAcidChange, zygosity, vaf, reference,
       siftPolyphenMutationTaster, buccal2, igv, sanger, cosmicId
@@ -64,7 +64,7 @@ export class MutationService {
     gene: string, functionalImpact: string, transcript: string, exonIntro: string, nucleotideChange: string,
     aminoAcidChange: string, zygosity: string, vaf: string, reference: string,
     siftPolyphenMutationTaster: string, buccal2: string, igv: string, sanger: string, cosmicId: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/mutation/update`, {
+    return this.http.post(`${this.apiUrl}/mutationMapper/update`, {
       id, buccal, name, registerNumber, fusion, gene,
       functionalImpact, transcript, exonIntro, nucleotideChange, aminoAcidChange, zygosity, vaf, reference,
       siftPolyphenMutationTaster, buccal2, igv, sanger, cosmicId
@@ -72,7 +72,7 @@ export class MutationService {
   }
 
   public deleteMutationList(id: string, genes: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/mutation/delete`, { id });
+    return this.http.post(`${this.apiUrl}/mutationMapper/delete`, { id });
   }
 
 }
