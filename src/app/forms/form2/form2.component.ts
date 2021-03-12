@@ -149,6 +149,8 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
   allLuk: string[] = ['BCR-ABL1(e1a2)', 'BCR-ABL1(b2a2)', 'BCR-ABL1(b3a2)', 'BCR-ABL1',
     'KMT2A-AFF1', 'KMT2A-MLLT1', 'KMT2A-MLLT3', 'ETV6-RUNX1', 'IGH-IL3', 'TCF3-PBX1'];
 
+  functionalimpact: string[] = ['Pathogenic', 'Likely Pathogenic', 'VUS'];
+
   maxHeight = 500;
   @ViewChild('commentbox') private commentbox: TemplateRef<any>;
   @ViewChild('box100', { static: true }) box100: ElementRef;
