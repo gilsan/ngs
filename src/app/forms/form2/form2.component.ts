@@ -140,6 +140,12 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
   // variant detect 선택값 저장소
   vdcount = 0;
   vd: { sequence: number, selectedname: string, gene: string }[] = [];
+
+  lastScrollTop = 0;
+  lastScrollLeft = 0;
+  topScroll = false;
+  leftScroll = true;
+
   // tslint:disable-next-line:max-line-length
   vusmsg = `VUS는 ExAC, KRGDB등의 Population database에서 관찰되지 않았거나, 임상적 의의가 불분명합니다. 해당변이의 의의를 명확히 하기 위하여 환자의 buccal swab 검체로 germline variant 여부에 대한 확인이 필요 합니다.`;
   amlLuk: string[] = ['RUNX1-RUNX1T1', 'CBFB-MYH11', 'PML-RARA(bcr1)', 'PML-RARA(bcr2)',
@@ -171,7 +177,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.findType();
-    this.box100.nativeElement.scrollLeft += 250;
+    // this.box100.nativeElement.scrollLeft += 250;
 
     this.initLoad();
     if (parseInt(this.screenstatus, 10) >= 1 || parseInt(this.screenstatus, 10) === 2) {
@@ -193,6 +199,36 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
 
   resizeHeight() {
     return { height: `${this.maxHeight}px` };
+  }
+
+  tableScroll(evt: Event): void {
+    const target = evt.target as Element;
+    const lastScrollTop = target.scrollTop;
+    const lastScrollLeft = target.scrollLeft;
+
+    if (this.lastScrollTop > lastScrollTop || this.lastScrollTop < lastScrollTop) {
+      this.topScroll = true;
+      this.leftScroll = false;
+    } else {
+      this.topScroll = false;
+    }
+
+    if (this.lastScrollLeft > lastScrollLeft || this.lastScrollLeft < lastScrollLeft) {
+      this.topScroll = false;
+      this.leftScroll = true;
+    } else {
+      this.leftScroll = false;
+    }
+
+    this.lastScrollTop = lastScrollTop <= 0 ? 0 : lastScrollTop;
+    this.lastScrollLeft = lastScrollLeft <= 0 ? 0 : lastScrollLeft;
+  }
+
+  tableHeader(): {} {
+    if (this.topScroll) {
+      return { 'header-fix': true, 'td-fix': false };
+    }
+    return { 'header-fix': false, 'td-fix': true };
   }
 
 
@@ -913,10 +949,10 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
   createRow(item: IAFormVariant): FormGroup {
     let checktype: boolean;
 
-    console.log('==== [904][createRow]', item);
+    // console.log('==== [904][createRow]', item);
 
     if (String(item.checked) === 'false') {
-      console.log('==== [907][createRow]', item.id, item.gene, item.checked);
+      // console.log('==== [907][createRow]', item.id, item.gene, item.checked);
       checktype = false;
     } else {
       checktype = true;
