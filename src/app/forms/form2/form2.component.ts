@@ -1936,7 +1936,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
         this.checkboxStatus = [];
         this.detactedVariants = [];
         this.recoverVariants = [];
-        console.log('formData: ', formData);
+        // console.log('formData: ', formData);
         // tslint:disable-next-line:prefer-for-of
         for (let i = 0; i < formData.length; i++) {
           this.deleteRow(0);
@@ -1944,7 +1944,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
 
         this.recoverVariants = data;
         this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
-        console.log('[1945][form2][Detected variant_id]', this.recoverVariants);
+        // console.log('[1945][form2][Detected variant_id]', this.recoverVariants);
         this.store.setDetactedVariants(data);
         this.recoverVariants.forEach(item => {
           this.recoverVariant(item);

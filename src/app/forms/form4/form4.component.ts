@@ -1765,12 +1765,12 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
         this.detactedVariants = [];
         // tslint:disable-next-line:prefer-for-of
         for (let i = 0; i < formData.length; i++) {
-          control.removeAt(i);
+          this.deleteRow(0);
         }
 
         this.recoverVariants = data;
         this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
-        console.log('[1925][form2][Detected variant_id]', this.recoverVariants);
+        // console.log('[1925][form2][Detected variant_id]', this.recoverVariants);
         this.store.setDetactedVariants(data); // Detected variant 저장
         this.recoverVariants.forEach(item => {
           this.recoverVariant(item);
