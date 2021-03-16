@@ -1891,6 +1891,65 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     return true;
   }
   ////////////////////////////////////////////////////////
+  // detected variant 정렬
+  dvSort(): void {
+
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    const formData = control.getRawValue();
+
+    if (this.comments.length) {
+      const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
+      this.comments = commentControl.getRawValue();
+    }
+    this.store.setComments(this.comments);
+    this.patientInfo.recheck = this.recheck;
+    this.patientInfo.examin = this.examin;
+    this.patientInfo.vusmsg = this.vusmsg;
+
+    this.store.setRechecker(this.patientInfo.recheck);
+    this.store.setExamin(this.patientInfo.examin);
+    this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimen);
+    this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimen);
+
+    if (this.reportType === 'AML') {
+      this.analysisService.putAnalysisAML(
+        this.form2TestedId,
+        this.profile.leukemia,
+        this.profile.flt3itd,
+        this.profile.chron).subscribe(data => console.log('AML INSERT'));
+    } else if (this.reportType === 'ALL') {
+      this.analysisService.putAnalysisALL(
+        this.form2TestedId,
+        this.profile.leukemia,
+        this.profile.flt3itd,
+        this.profile.chron).subscribe(data => console.log('ALL INSERT'));
+    }
+
+
+    // tslint:disable-next-line:max-line-length
+    this.variantsService.screenTempSave(this.form2TestedId, formData, this.comments, this.profile, this.resultStatus, this.patientInfo)
+      .pipe(
+        concatMap(() => this.variantsService.screenSelect(this.form2TestedId))
+      ).subscribe(data => {
+        this.vd = [];
+        this.checkboxStatus = [];
+        this.detactedVariants = [];
+        // tslint:disable-next-line:prefer-for-of
+        for (let i = 0; i < formData.length; i++) {
+          control.removeAt(i);
+        }
+
+        this.recoverVariants = data;
+        this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
+        console.log('[1925][form2][Detected variant_id]', this.recoverVariants);
+        this.store.setDetactedVariants(data); // Detected variant 저장
+        this.recoverVariants.forEach(item => {
+          this.recoverVariant(item);
+        });
+        this.putCheckboxInit(); // 체크박스 초기화
+      });
+
+  }
 
 
 }
