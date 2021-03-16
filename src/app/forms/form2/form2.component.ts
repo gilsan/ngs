@@ -25,6 +25,7 @@ import { UtilsService } from '../commons/utils.service';
 import { CommentsService } from 'src/app/services/comments.service';
 import { moveItemInArray, CdkDragDrop } from '@angular/cdk/drag-drop';
 import { AnalysisService } from '../commons/analysis.service';
+import { ClrCommonFormsModule } from '@clr/angular';
 
 @Component({
   selector: 'app-form2',
@@ -1934,19 +1935,21 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
         this.vd = [];
         this.checkboxStatus = [];
         this.detactedVariants = [];
+        this.recoverVariants = [];
+        console.log('formData: ', formData);
         // tslint:disable-next-line:prefer-for-of
         for (let i = 0; i < formData.length; i++) {
-          control.removeAt(i);
+          this.deleteRow(0);
         }
 
         this.recoverVariants = data;
         this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
-        console.log('[1925][form2][Detected variant_id]', this.recoverVariants);
-        this.store.setDetactedVariants(data); // Detected variant 저장
+        console.log('[1945][form2][Detected variant_id]', this.recoverVariants);
+        this.store.setDetactedVariants(data);
         this.recoverVariants.forEach(item => {
           this.recoverVariant(item);
         });
-        this.putCheckboxInit(); // 체크박스 초기화
+        this.putCheckboxInit();
       });
 
   }
