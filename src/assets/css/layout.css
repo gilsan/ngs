@@ -936,3 +936,12 @@
   height: auto !important;
   max-height: 800px;
 }
+
+.mat-tooltip {
+  font-size: 14px !important;
+  white-space: pre-line !important;
+  height: auto !important;
+  overflow: hidden  !important;
+  text-overflow: ellipsis !important;
+  max-width: unset !important;
+}
