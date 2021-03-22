@@ -1,6 +1,8 @@
 
 <div id="wrap111">
-    <app-upload [hidden]="!isVisible"    (onSelected)="onSelected()" (onCanceled)="onCanceled()"></app-upload>         
+    <app-upload [hidden]="!isVisible"    (onSelected)="onSelected()" (onCanceled)="onCanceled()"
+      (onWrongFile)="onWrongFile()"
+    ></app-upload>         
     <!-- <app-upload *ngIf="!isVisible"    (onSelected)="onSelected()" (onCanceled)="onCanceled()"></app-upload> -->
   <div id="container" style="margin-top: 0px;">
     <div id="content" >

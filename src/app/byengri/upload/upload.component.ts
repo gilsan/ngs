@@ -21,6 +21,8 @@ export class UploadComponent implements OnInit {
   @Output() onSelected = new EventEmitter<void>();
   // tslint:disable-next-line: no-output-on-prefix
   @Output() onCanceled = new EventEmitter<void>();
+  // tslint:disable-next-line:no-output-on-prefix
+  @Output() onWrongFile = new EventEmitter<void>();
 
   upload: UploadResponse = new UploadResponse();
   isActive: boolean;
@@ -48,6 +50,7 @@ export class UploadComponent implements OnInit {
   burden: string;
 
   fields: string[] = [];
+
   constructor(
     // private fileUploadService: PathologyService,
     private pathologyService: PathologyService,
@@ -55,6 +58,7 @@ export class UploadComponent implements OnInit {
     private store: StorePathService,
     private router: Router,
     private route: ActivatedRoute,
+
   ) { }
 
 
@@ -152,15 +156,15 @@ export class UploadComponent implements OnInit {
       } else {
         const diseaseFilename = filename.split('_');
         this.diseaseNumber = diseaseFilename[0];
-        //  console.log('[fileupload][병리 파일분류][102]', diseaseFilename);
+        // console.log('[fileupload][병리 파일분류][159]', diseaseFilename);
         // this.pathologyNum = this.pathologyService.getPathologyNum();
         this.pathologyNum = this.store.getPathologyNo();
-        console.log('[142][pathologyNum]', this.pathologyNum);
+        console.log('[162][pathologyNum]', this.pathologyNum);
         this.type = this.pathologyService.getType();
 
         if (diseaseFilename.includes('RNA')) {
           this.nonefilter(file);
-        } else if (diseaseFilename.includes('All')) {
+        } else if (diseaseFilename.includes('All') || diseaseFilename.includes('All (1)')) {
           this.fileType = 'OR';
           this.allOR(file);
         } else {
@@ -185,7 +189,7 @@ export class UploadComponent implements OnInit {
 
         const diseaseFilename = filename.split('_');
         this.diseaseNumber = diseaseFilename[0];
-        //  console.log('[fileupload][병리 파일분류][102]', diseaseFilename);
+        console.log('[fileupload][병리 파일분류][192]', diseaseFilename);
         // this.pathologyNum = this.pathologyService.getPathologyNum();
         this.pathologyNum = this.store.getPathologyNo();
         if (this.pathologyNum === undefined || this.pathologyNum === null) {
@@ -198,7 +202,7 @@ export class UploadComponent implements OnInit {
         }
         if (diseaseFilename.includes('RNA')) {
           this.nonefilter(file);
-        } else if (diseaseFilename.includes('All')) {
+        } else if (diseaseFilename.includes('All') || diseaseFilename.includes('All (1)')) {
           this.fileType = 'OR';
           this.allOR(file);
         } else {
@@ -413,21 +417,33 @@ export class UploadComponent implements OnInit {
 
   }
 
-  donefilter(file: File): void {
+  donefilter(file: File): any {
     const reader = new FileReader();
     reader.onload = (e) => {
       const lists = [];
 
       const data = this.loadData(reader.result);
       this.filteredOriginData = [];
-      console.log('==== [423][donefilter] ', data[18].includes('Locus'), file);
+      // console.log('==== [423][donefilter] ', data[18].includes('Locus'), file);
       /**
-       * IR 파일이 아닐경우 메세지 보냄.
+       * IR 파일이 아닐경우 에러메세지 보냄.
        */
       if (!data[18].includes('Locus')) {
+        console.log(data[18].includes('Locus'));
         alert('IR 파일명이 맞는지 확인해 주세요.\n ' + file.name);
-        // this.router.navigate(['/pathology']);
-        return;
+
+        // 파일 취소후 초기화
+        this.uploadfileList = [];
+        this.upload.files = [];
+        this.uploadfile.nativeElement.value = '';
+        this.filteredOriginData = [];
+        this.prelevalentMutation = [];
+        this.clinically = [];
+        this.clinical = [];
+        this.prevalent = [];
+        this.onWrongFile.emit(null);
+        return false;
+
       }
       // console.log('==== [412][filteredOriginData] ', this.filteredOriginData);
       // 기본자료 수집

@@ -378,4 +378,8 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
 
+  onWrongFile(): void {
+    this.isVisible = false;
+  }
+
 }
