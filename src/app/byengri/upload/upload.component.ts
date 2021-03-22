@@ -162,9 +162,9 @@ export class UploadComponent implements OnInit {
         console.log('[162][pathologyNum]', this.pathologyNum);
         this.type = this.pathologyService.getType();
 
-        if (diseaseFilename.includes('RNA')) {
+        if (diseaseFilename.includes('RNA') || diseaseFilename.includes('Non-Filtered')) {
           this.nonefilter(file);
-        } else if (diseaseFilename.includes('All') || diseaseFilename.includes('All (1)')) {
+        } else if (diseaseFilename.includes('All') || diseaseFilename.includes('All (1)') || diseaseFilename.includes('OR.tsv')) {
           this.fileType = 'OR';
           this.allOR(file);
         } else {
@@ -200,9 +200,9 @@ export class UploadComponent implements OnInit {
         if (this.type === undefined) {
           this.type = this.store.getType();
         }
-        if (diseaseFilename.includes('RNA')) {
+        if (diseaseFilename.includes('RNA') || diseaseFilename.includes('Non-Filtered')) {
           this.nonefilter(file);
-        } else if (diseaseFilename.includes('All') || diseaseFilename.includes('All (1)')) {
+        } else if (diseaseFilename.includes('All') || diseaseFilename.includes('All (1)') || diseaseFilename.includes('OR.tsv')) {
           this.fileType = 'OR';
           this.allOR(file);
         } else {
