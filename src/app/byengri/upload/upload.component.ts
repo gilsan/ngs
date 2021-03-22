@@ -420,7 +420,11 @@ export class UploadComponent implements OnInit {
 
       const data = this.loadData(reader.result);
       this.filteredOriginData = [];
-      // console.log('==== [411][filteredOriginData] ', data);
+      console.log('==== [423][donefilter] ', data[18].includes('Locus'), file);
+      if (!data[18].includes('Locus')) {
+        alert('IR 파일명이 맞는지 확인해 수세요.\n ' + file.name);
+        return;
+      }
       // console.log('==== [412][filteredOriginData] ', this.filteredOriginData);
       // 기본자료 수집
       data.forEach((list, index) => {
