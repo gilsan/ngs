@@ -421,8 +421,12 @@ export class UploadComponent implements OnInit {
       const data = this.loadData(reader.result);
       this.filteredOriginData = [];
       console.log('==== [423][donefilter] ', data[18].includes('Locus'), file);
+      /**
+       * IR 파일이 아닐경우 메세지 보냄.
+       */
       if (!data[18].includes('Locus')) {
-        alert('IR 파일명이 맞는지 확인해 수세요.\n ' + file.name);
+        alert('IR 파일명이 맞는지 확인해 주세요.\n ' + file.name);
+        // this.router.navigate(['/pathology']);
         return;
       }
       // console.log('==== [412][filteredOriginData] ', this.filteredOriginData);
