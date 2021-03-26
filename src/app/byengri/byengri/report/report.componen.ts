@@ -21,6 +21,7 @@ import { mentlists } from '../special-ment';
 import { clinically, msiScore, patientInfo, prevalent, tsvData, tumorcellpercentage, tumorMutationalBurden, tumortype } from './mockData';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { NavigationServie } from 'src/app/services/navigation.service';
+import { essentialDNAMentList } from '../essensDNAMent';
 
 @Component({
   selector: 'app-report',
@@ -247,15 +248,14 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   checkingMent(title: string): void {
-    // this.extraction.tumortype
-    // const type = 'Ovarian cancer';
+
     this.ments.forEach(item => {
-      // console.log('[147][checkingMent][item]', item, title);
+
       const tempItem = item.title.toLowerCase();
       const tempTitle = title.toLowerCase();
       if (tempItem === tempTitle) {
         this.specialment = item.content;
-        // console.log('[150][checkingMent][item]', item, title);
+
       }
     });
   }
@@ -364,7 +364,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 
       // console.log('[기본정보]', this.basicInfo);
       // console.log('[확인자/검사자]', this.examedno, this.examedname, this.checkeredno, this.checkername);
-      this.checkingMent(this.patientInfo.tumor_type);
+      // this.checkingMent(this.patientInfo.tumor_type);
       this.getDataFromDB(this.patientInfo);
 
     } else if (parseInt(this.patientInfo.screenstatus, 10) === 0) {  // tsv에서 데이타 가져옴
@@ -719,24 +719,22 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 
         if (tumortypeVal.length > 0) {
           tumortypes = tumortypeVal[0].tumortype;
-          this.checkingMent(tumortypeVal[0].tumortype); // 유전자에 따른 멘트 찿음
+          // this.checkingMent(tumortypeVal[0].tumortype); // 유전자에 따른 멘트 찿음
         } else {
           tumortypes = '';
         }
 
         console.log('[710][tumorcellpercentage]', tumorcellpercentageVal);
         if (tumorcellpercentageVal.length > 0) {
-          // console.log('-------[603][트림검사]');
           this.tumorcellpercentage = tumorcellpercentageVal[0].tumorcellpercentage.trim(); // 공백 없앰
-          // console.log('-------[605][트림검사]');
         } else {
           this.tumorcellpercentage = '';
         }
         this.screenstatus = this.patientInfo.screenstatus;
-        // this.clinically = clinicallyVal;
+
         this.tempClinically = clinicallyVal;
         this.clinical = clinicalVal;
-        // this.prevalent = prevalentVal;
+
         this.tempPrevalent = prevalentVal;
         this.basicInfo.name = this.patientInfo.name;
         this.basicInfo.registerNum = this.patientInfo.patientID;
@@ -1097,7 +1095,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                 oncomine = 'Gain';
               }
               this.ifusion.push({
-                // gene: this.filteredOriginData[index].gene,
+
                 gene,
                 breakpoint: this.filteredOriginData[index].locus,
                 readcount: this.filteredOriginData[index].readcount,
@@ -1108,27 +1106,46 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
         });
 
         if (this.imutation.length) {
-          // console.log('===== [876][prevalent][imutation]', this.imutation);
           this.imutation.forEach((mItem, index) => {
             this.imutationLists().push(this.createIMutaion(mItem, index.toString()));
           });
         }
 
         if (this.iamplifications.length) {
-          // console.log('######## [883][prevalent][iamplifications]', this.iamplifications);
           this.iamplifications.forEach((aItem, index) => {
             this.iamplificationsLists().push(this.createIAmplifications(aItem, index.toString()));
           });
         }
 
         if (this.ifusion.length) {
-          // console.log('******* [890][prevalent][ifusion]', this.ifusion);
           this.ifusion.forEach((fItem, index) => {
             this.ifusionLists().push(this.createIFusion(fItem, index.toString()));
           });
         }
 
       }); // End of Subscirbe;
+
+    // 필수 유전자 코멘트
+    combineLatest([tumortype$.pipe(
+      map(data => data[0].tumortype)
+    ),
+    clinically$.pipe(
+      map(datas => datas.map(data => data.clinically)),
+      map(items => items.map(item => {
+        const lists = item.split(' ');
+        if (lists[1].toLowerCase() === 'fusion') {
+          return { type: 'fusion', dna: lists[0] };
+        } else if (lists[1].toLowerCase() === 'amplification') {
+          return { type: 'amplification', dna: lists[0] };
+        }
+        return { type: 'mutation', dna: lists[0] };
+      })),
+    )])
+      .subscribe(([type, dnaData]) => {
+        this.essenceDNAComment(type, dnaData);
+      });
+
+
 
   }
 
@@ -2387,7 +2404,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }
   }
-  ////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////
   statusControl(status: string): void {
     this.searchService.resetscreenstatus(this.pathologyNum, status)
       .subscribe(msg => {
@@ -2397,10 +2414,78 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   //////////////////////////////////////////////////
+  // 필수유전자 코멘트
+  essenceDNAComment(typetumor: string, lists: { type: string, dna: string }[]): void {
+    let mentContent;
+    const mentLists = Object.values(essentialDNAMentList);
+    mentContent = mentLists.filter(mentlist => mentlist.title.toLowerCase() === typetumor.toLowerCase())[0].content;
+    console.log('[2425][] *** ', mentContent, lists);
+    lists.forEach(list => {
+      mentContent.forEach(ment => {
+        if (ment.type.toLowerCase() === list.type.toLowerCase()) {
+          console.log('[2302][]', ment.type.toLowerCase(), list.type.toLowerCase(), ment.data);
+          const mentId = ment.data.findIndex(item => item === list.dna);
+          if (mentId !== -1) {
+            ment.data.splice(mentId, 1);
+          }
+
+        }
+      });
+    });
+    console.log('[2438][ment]', mentContent);
+    try {
+      if (mentContent.length > 0) {
+        let muDNA = '';
+        let amDNA = '';
+        let fuDNA = '';
+        mentContent.forEach(item => {
+          if (item.type.toLowerCase() === 'mutation') {
+            item.data.forEach((dna, index) => {
+              if (index === 0) {
+                muDNA = dna;
+              } else {
+                muDNA = muDNA + ', ' + dna;
+              }
+            });
+            console.log('[2453][mutation]**** ', muDNA);
+            muDNA = '-' + item.type + ': ' + muDNA;
+          } else if (item.type.toLowerCase() === 'amplification') {
+            item.data.forEach((dna, index) => {
+              if (index === 0) {
+                amDNA = dna;
+              } else {
+                amDNA = amDNA + ', ' + dna;
+              }
+            });
+            amDNA = '-' + item.type + ': ' + amDNA;
+          } else if (item.type.toLowerCase() === 'fusion') {
+            item.data.forEach((dna, index) => {
+              if (index === 0) {
+                fuDNA = dna;
+              } else {
+                fuDNA = fuDNA + ', ' + dna;
+              }
+            });
+            fuDNA = '-' + item.type + ' / Exon varian: ' + fuDNA;
+          }
+        });
+
+        this.specialment = `${muDNA}
+${amDNA}
+${fuDNA}`;
+      }
+
+    } catch (error) {
+      console.log(error);
+    }
+
+
+  }
 
 
 
 
 
+  ///////////////////////////////////////////////////
 
 }

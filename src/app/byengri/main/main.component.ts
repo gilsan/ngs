@@ -9,6 +9,7 @@ import { StorePathService } from '../store.path.service';
 import { SearchService } from './../services/search.service';
 import { SubSink } from 'subsink';
 import * as moment from 'moment';
+import { filter, first, take, tap } from 'rxjs/operators';
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -51,6 +52,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit(): void {
 
     this.checkStore();
+    console.log('[init]', this.storeStartDay, this.storeEndDay);
     if (this.storeStartDay === null || this.storeEndDay === null) {
       this.init();
     }
@@ -105,6 +107,9 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     const dd = oneMonthsAgo.format('DD');
     // console.log('[115][오늘날자]년[' + yy + ']월[' + mm + ']일[' + dd + ']');
     const now1 = yy + '-' + mm + '-' + dd;
+    if (this.storeStartDay) {
+      return this.storeStartDay;
+    }
     return now1;
   }
 
@@ -184,7 +189,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   search(start: string, end: string, pathologynum: string = '', patient: string = '', saveStore = 'N'): void {
-    console.log('[177][main] [찿기]', start, end, pathologynum, patient, saveStore);
+    console.log('[188][main] [찿기]', start, end, pathologynum, patient, saveStore);
     this.startday = start;
     this.endday = end;
     this.pathologyNo = pathologynum;
@@ -199,11 +204,11 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
 
-    console.log('=== [183][검색조건저장]', this.startday, this.endday, this.pathologyNo, this.patientid);
+    console.log('=== [203][검색조건저장] [찿기]', this.startday, this.endday, this.pathologyNo, this.patientid);
     this.lists = []; // 리스트 초기화
     const startdate = start.toString().replace(/-/gi, '');
     const enddate = end.toString().replace(/-/gi, '');
-    // console.log('[176][main][search]', startdate, enddate, patient, pathologynum);
+    console.log('[207][main][search] [찿기]', startdate, enddate, patient, pathologynum);
     if (patient !== undefined && patient !== null) {
       patient = patient.trim();
     }
@@ -211,12 +216,23 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     if (pathologynum !== undefined && pathologynum !== null) {
       pathologynum = pathologynum.trim();
     }
-    this.lists$ = this.pathologyService.search(startdate, enddate, patient, pathologynum);
-    this.subs.sink = this.lists$.subscribe((data) => {
-      // console.log('[197][병리검색]', data);
-      this.lists = data;
-      console.log('[208][MAIN][SEARCH][리스트]: ', this.lists);
-    });
+    this.lists$ = this.pathologyService.search(startdate, enddate, patient, pathologynum)
+      .pipe(
+        take(1),
+        filter(data => data.length > 0),
+      );
+
+    this.subs.sink = this.lists$
+      .pipe(
+        take(1),
+        filter(data => data.length > 0),
+        tap(data => console.log(data)),
+      )
+      .subscribe((data) => {
+        console.log('[217][병리검색] [찿기]', data);
+        this.lists = data;
+        console.log('[219][MAIN][SEARCH][리스트] [찿기]: ', this.lists);
+      });
 
   }
 

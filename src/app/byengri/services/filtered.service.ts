@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { emrUrl } from 'src/app/config';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { shareReplay, tap } from 'rxjs/operators';
 import { IFilteredOriginData, Ipolymorphism } from '../models/patients';
 
 
@@ -42,12 +42,18 @@ export class FilteredService {
 
   // tumortype/list   POST { pathologyNum: "123456" }
   getTumorType(pathologyNum: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/tumortype/list`, { pathologyNum });
+    return this.http.post(`${this.apiUrl}/tumortype/list`, { pathologyNum })
+      .pipe(
+        shareReplay()
+      );
   }
 
   // clinically/list   POST { pathologyNum: "123456" }
   getClinically(pathologyNum: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/clinically/list`, { pathologyNum });
+    return this.http.post(`${this.apiUrl}/clinically/list`, { pathologyNum })
+      .pipe(
+        shareReplay()
+      );
   }
 
 

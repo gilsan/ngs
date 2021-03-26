@@ -41,17 +41,26 @@ export class SearchService {
 
   // mutation_c 찿기
   getMutationC(pathologyNo: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/pathologyReportSearch/mutationC`, { pathologyNum: pathologyNo });
+    return this.http.post(`${this.apiUrl}/pathologyReportSearch/mutationC`, { pathologyNum: pathologyNo })
+      .pipe(
+        shareReplay()
+      );
   }
 
 
   // amplification_c 찿기
   getAmplificationC(pathologyNo: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/pathologyReportSearch/amplificationC`, { pathologyNum: pathologyNo });
+    return this.http.post(`${this.apiUrl}/pathologyReportSearch/amplificationC`, { pathologyNum: pathologyNo })
+      .pipe(
+        shareReplay()
+      );
   }
   // fusion_c 찿기
   getFusionC(pathologyNo: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/pathologyReportSearch/fusionC`, { pathologyNum: pathologyNo });
+    return this.http.post(`${this.apiUrl}/pathologyReportSearch/fusionC`, { pathologyNum: pathologyNo })
+      .pipe(
+        shareReplay()
+      );
   }
   // mutation_p 찿기
   getMutationP(pathologyNo: string): Observable<any> {
