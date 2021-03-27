@@ -4,6 +4,7 @@ import { ByengriComponent } from './byengri/byengri.component';
 import { ManageStatisticsComponent } from './byengri/manage-statistics/manage-statistics.component';
 import { ManageUsersComponent } from './byengri/manage-users/manage-users.component';
 import { ReportComponent } from './byengri/report/report.componen';
+import { ReportResolver } from './byengri/report/report.resolver';
 
 import { FileuploadComponent } from './fileupload/fileupload.component';
 import { MainComponent } from './main/main.component';
@@ -15,9 +16,14 @@ const routes: Routes = [
     path: '', component: ByengriComponent, children: [
       { path: '', component: MainComponent },
       { path: 'fileupload', component: FileuploadComponent },
-      { path: 'fileupload/:id', component: FileuploadComponent },
+      {
+        path: 'fileupload/:id', component: FileuploadComponent
+      },
       { path: 'report', component: ReportComponent },
-      { path: 'report/:id', component: ReportComponent },
+      {
+        path: 'report/:id', component: ReportComponent,
+        resolve: { patientinfo: ReportResolver }
+      },
       { path: 'managestatistics', component: ManageStatisticsComponent },
       { path: 'manageusers', component: ManageUsersComponent },
       { path: 'report/:pathologyNum', component: ReportComponent },

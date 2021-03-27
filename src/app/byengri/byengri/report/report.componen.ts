@@ -212,22 +212,25 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     this.filteredService.getPolymorphism()
       .subscribe(data => {
         this.polymorphismList = data;
-        // console.log(this.polymorphismList);
+
       });
+
+    // tslint:disable-next-line:no-string-literal
+    this.patientInfo = this.route.snapshot.data['patientinfo'];
 
     this.route.paramMap.pipe(
       map(route => route.get('id')),
       take(1)
     ).subscribe(pathologyNum => {
-      console.log('[167][getParams]', pathologyNum);
+
       this.pathologyNum = pathologyNum; // 검체번호 저장
-      // this.pathologyService.findPatientinfo(pathologyNum)
-      //   .subscribe(patientinfo => {
-      //     console.log('[233][]', this.patientInfo);
-      //     this.patientInfo = patientinfo;
-      //     this.init(pathologyNum);
-      //   });
-      this.patientInfo = this.pathologyService.patientInfo.filter(item => item.pathology_num === pathologyNum)[0];
+
+      try {
+        this.patientInfo = this.pathologyService.patientInfo.filter(item => item.pathology_num === pathologyNum)[0];
+      } catch (err) {
+        console.log(err);
+      }
+
       this.searchService.howManyImages(this.pathologyNum)
         .subscribe(data => {
           if (Number(data.count) > 0) {
