@@ -2450,7 +2450,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                 muDNA = muDNA + ', ' + dna;
               }
             });
-            console.log('[2453][mutation]**** ', muDNA);
+            // console.log('[2453][mutation]**** ', muDNA);
             muDNA = '-' + item.type + ': ' + muDNA;
           } else if (item.type.toLowerCase() === 'amplification') {
             item.data.forEach((dna, index) => {
@@ -2469,7 +2469,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                 fuDNA = fuDNA + ', ' + dna;
               }
             });
-            fuDNA = '-' + item.type + ' / Exon varian: ' + fuDNA;
+            fuDNA = '-' + item.type + ' / Exon variant: ' + fuDNA;
           }
         });
 
