@@ -59,18 +59,22 @@ export class UploadComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
 
-  ) { }
+  ) {
+
+  }
 
 
   ngOnInit(): void {
     this.uploadfileList = [];
     this.tumorType = '';
     this.burden = '';
-    // console.log('[55][upload][ngOnInit]', this.uploadfileList);
+    console.log('[55][upload][ngOnInit]', this.uploadfileList);
 
   }
 
+
   onConfirm(): void {
+
     this.onSelected.emit(null);
     // 파일 업로드후 초기화
     this.uploadfileList = [];
@@ -79,6 +83,7 @@ export class UploadComponent implements OnInit {
   }
 
   onCancel(): void {
+
     this.onCanceled.emit(null);
     // 파일 취소후 초기화
     this.uploadfileList = [];
@@ -92,12 +97,14 @@ export class UploadComponent implements OnInit {
   }
 
   onDragOver(event: any): void {
+
     event.preventDefault();
     event.stopPropagation();
     this.isActive = true;
   }
 
   onDragLeave(event: any): void {
+
     event.preventDefault();
     event.stopPropagation();
     this.isActive = false;
@@ -105,6 +112,7 @@ export class UploadComponent implements OnInit {
   }
 
   onDrop(event: any): void {
+
     event.preventDefault();
     event.stopPropagation();
     // console.log('[96][upload][onDrop] ', event);
@@ -116,6 +124,7 @@ export class UploadComponent implements OnInit {
   }
 
   onDroppedFile(droppedFiles: any): void {
+
     const formData = new FormData();
     for (const item of droppedFiles) {
       formData.append('userfiles', item);
@@ -142,6 +151,7 @@ export class UploadComponent implements OnInit {
   }
 
   onSelectedFile(event: any): void {
+
     console.log('[130][화일선택]', event.target.fileList);
     const target = event.target as HTMLInputElement;
     const files = target.files as FileList;
@@ -172,12 +182,17 @@ export class UploadComponent implements OnInit {
           this.donefilter(file);
         }
       }
+
       this.onDroppedFile(event.target.files);
       // alert('파일이 등록 되었습니다.');
+
+
     }
   }
 
   onFileSelect(event: Event): any {
+
+    console.log(event);
     const target = event.target as HTMLInputElement;
     const files = target.files as FileList;
     //  console.log(files, files.length);
@@ -210,7 +225,10 @@ export class UploadComponent implements OnInit {
           this.donefilter(file);
         }
       }
+
       this.onDroppedFile(files);
+
+
     }
 
 
@@ -219,6 +237,7 @@ export class UploadComponent implements OnInit {
   // 보고서/결과지에 표시할 "tumor mutation burden" => 9.44
   // tslint:disable-next-line: typedef
   allOR(file: File) {
+
     const reader = new FileReader();
     let data;
     reader.onload = (e) => {
@@ -386,6 +405,7 @@ export class UploadComponent implements OnInit {
   }
 
   nonefilter(file: File): void {
+
     const reader = new FileReader();
     reader.onload = (e) => {
       const lists = [];
@@ -418,6 +438,7 @@ export class UploadComponent implements OnInit {
   }
 
   donefilter(file: File): any {
+
     const reader = new FileReader();
     reader.onload = (e) => {
       const lists = [];
@@ -429,9 +450,9 @@ export class UploadComponent implements OnInit {
        * IR 파일이 아닐경우 에러메세지 보냄.
        */
       if (!data[18].includes('Locus')) {
-        console.log(data[18].includes('Locus'));
-        alert('IR 파일명이 맞는지 확인해 주세요.\n ' + file.name);
 
+        alert('IR 파일명이 맞는지 확인해 주세요.\n ' + file.name);
+        this.onWrongFile.emit(null);
         // 파일 취소후 초기화
         this.uploadfileList = [];
         this.upload.files = [];
@@ -441,7 +462,6 @@ export class UploadComponent implements OnInit {
         this.clinically = [];
         this.clinical = [];
         this.prevalent = [];
-        this.onWrongFile.emit(null);
         return false;
 
       }
@@ -489,7 +509,7 @@ export class UploadComponent implements OnInit {
         }
 
       });
-      console.log('==== [465][upload][유전자 데이터 중복검색][filteredOriginData]  ===== \n ', this.filteredOriginData);
+      // console.log('==== [465][upload][유전자 데이터 중복검색][filteredOriginData]  ===== \n ', this.filteredOriginData);
       this.pathologyService.setFilteredTSV(this.filteredOriginData);
       data.forEach(item => {
         const checkshap = item.toString().indexOf('#');
@@ -533,6 +553,7 @@ export class UploadComponent implements OnInit {
 
   // tslint:disable-next-line: typedef
   loadData(file: ArrayBuffer | string) {
+
     let rowCount = 0;
     const scenarios = [];
     this.parse_tsv(file, (row) => {
@@ -570,6 +591,7 @@ export class UploadComponent implements OnInit {
   *///
   // 유전자의 위치 찿음
   findGenePostion(item: string): number {
+
     return this.fields.findIndex(field => field === item);
   }
 
