@@ -1096,6 +1096,9 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     control.push(this.addTableRowGroup());
     this.addBoxStatus(control.length - 1); // 체크박스 추가
+    // 추가시 select box mutation  선택추가 해줌
+    const len = this.vd.length;
+    this.vd.push({ gene: '', selectedname: 'mutation', sequence: len });
   }
 
   // tslint:disable-next-line: typedef
@@ -1148,10 +1151,10 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
 
   // tslint:disable-next-line: typedef
   save(index: number) {
-    console.log('[1097][저장] ', index, this.vd);
+    console.log('[1151][저장] [index]', index, this.vd);
     const selected = this.vd.find(item => item.sequence === index);
     this.selectedItem = selected.selectedname;
-    console.log('[1100][저장] ', index, this.vd, this.selectedItem);
+    console.log('[1154][저장] ', index, this.vd, this.selectedItem);
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const row = control.value[index];
     // console.log('[1104][저장][mutation/artifacts] ', row, this.patientInfo);
