@@ -1812,7 +1812,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     console.log('[1743][reset]', temp);
 
 
-    const tempUserid: any = localStorage.getItem('pathuser');
+    const tempUserid: any = localStorage.getItem('diaguser');
     const tempuser: any = JSON.parse(tempUserid);
     const userid = tempuser.userid;
 

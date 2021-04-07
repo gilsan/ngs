@@ -1638,7 +1638,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     console.log('[1509][reset][checkboxStatus]', this.checkboxStatus);
     console.log('[1510][reset]', temp);
 
-    const tempUserid: any = localStorage.getItem('pathuser');
+    const tempUserid: any = localStorage.getItem('diaguser');
     const tempuser: any = JSON.parse(tempUserid);
     const userid = tempuser.userid;
     console.log('[1633][reset][userid]', userid);
