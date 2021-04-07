@@ -363,6 +363,11 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
       console.log('[204][form2][Detected variant_id]', this.recoverVariants);
       this.store.setDetactedVariants(data); // Detected variant 저장
+
+      // VUS 메제시 확인
+      this.vusmsg = this.patientInfo.vusmsg;
+      console.log('[369][recoverDetected][VUS메세지]', this.patientInfo.vusmsg, this.vusmsg);
+
       this.recoverVariants.forEach(item => {
         this.recoverVariant(item);  // 354
 
@@ -457,6 +462,12 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
   }
 
   init(form2TestedId: string): void {
+
+    // VUS 메제시 확인 2021.4.7 추가
+    if (this.patientInfo.vusmsg.length) {
+      this.vusmsg = this.patientInfo.vusmsg;
+      console.log('[469][init][VUS메세지]', this.vusmsg);
+    }
 
     if (this.form2TestedId) {
       this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {

@@ -262,7 +262,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     /*
      const lists$ = this.utilsService.getDiagList()
        .pipe(shareReplay());
- 
+
      lists$.pipe(
        map(lists => lists.filter(list => list.part === 'D'))
      ).subscribe(data => {
@@ -275,7 +275,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
          }
        });
      });
- 
+
      lists$.pipe(
        map(lists => lists.filter(list => list.part === 'T'))
      ).subscribe(data => {
@@ -372,25 +372,27 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
   recoverDetected(): void {
     // 디비에서 Detected variant_id 와 comments 가져오기
     this.subs.sink = this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {
+      console.log('[375][form2][recoverDetected][screen/query]', data);
       this.recoverVariants = data;
       this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
-      console.log('[329][form2][Detected variant_id]', this.recoverVariants);
+      console.log('[377][form2][Detected variant_id]', this.recoverVariants);
       this.store.setDetactedVariants(data); // Detected variant 저장
+
+      // VUS 메제시 확인 2021.4.7 추가
+      this.vusmsg = this.patientInfo.vusmsg;
+      console.log('[383][recoverDetected][VUS메세지]', this.patientInfo.vusmsg, this.vusmsg);
+
       this.recoverVariants.forEach(item => {
-        // console.log('[270][recoverDetected]', item.functional_impact);
         this.recoverVariant(item);  // 354
 
         // VUS 메제시 확인
         this.vusmsg = this.patientInfo.vusmsg;
-
+        console.log('[391][recoverDetected][VUS메세지]', this.patientInfo.vusmsg, this.vusmsg);
         if (item.functional_impact === 'VUS') {
           this.vusstatus = true;
           this.store.setVUSStatus(this.vusstatus);
         }
-        // } else {
-        //   this.store.setVUSStatus(this.vusstatus);
-        //   this.vusstatus = false;
-        // }
+
       });
       this.putCheckboxInit(); // 체크박스 초기화
     });
@@ -498,16 +500,27 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
 
   init(form2TestedId: string): void {
     if (this.form2TestedId) {
+
+      // VUS 메제시 확인 2021.4.7 추가
+      if (this.patientInfo.vusmsg.length) {
+        this.vusmsg = this.patientInfo.vusmsg;
+        console.log('[507][init][VUS메세지]', this.vusmsg);
+      }
+
       this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {
-        console.log('==== [454][detected variants]', data);
+        console.log('==== [511][detected variants]', data);
         if (data.length > 0) {
           this.recoverVariants = data;
+
+
+
           this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
           this.store.setDetactedVariants(data); // Detected variant 저장
           this.recoverVariants.forEach(item => {
             this.recoverVariant(item);  // 354
             // VUS 메제시 확인
             this.vusmsg = this.patientInfo.vusmsg;
+            console.log('[511][init][VUS 메세지] ', this.vusmsg, this.patientInfo.vusmsg);
             if (item.functional_impact === 'VUS') {
               this.vusstatus = true;
               this.store.setVUSStatus(this.vusstatus);
@@ -523,12 +536,12 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       /*
        this.subs.sink = this.patientsListService.filtering(this.form2TestedId, this.reportType)
          .subscribe(data => {
- 
+
            let type: string;
            let gene: string;
            let dvariable: IAFormVariant;
            // console.log('********** [필터링원시자료][377]', data);
- 
+
            // 타입 분류
            if (data.mtype === 'M') {  // mutation
              type = 'M';
@@ -559,9 +572,9 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
              // } else {
              //   this.store.setVUSStatus(this.vusstatus);
              // }
- 
+
            }
- 
+
            // 유전자명
            if (data.gene1 !== 'none' && data.gene2 !== 'none') {
              gene = data.gene1 + ',' + data.gene2;
@@ -570,14 +583,14 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
            } else if (data.gene1 === 'none' && data.gene2 === 'none') {
              gene = data.gene2;
            }
- 
+
            // comments 분류
            if (parseInt(data.comments1Count, 10) > 0) {
              // console.log('[422][코멘트]', data, data.commentList1, data.commentList2);
              // console.log('[423]', data.commentList1.reference);
              if (typeof data.commentList1 !== 'undefined' && data.commentList1 !== 'none') {
                if (parseInt(data.comments1Count, 10) > 0) {
- 
+
                  const variant_id = data.tsv.amino_acid_change;
                  const comment = { ...data.commentList1, variant_id, type: this.reportType };
                  // console.log('[429][코멘트]', comment);
@@ -603,11 +616,11 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
                  tempArray = [];
                }
              }
- 
+
            }
- 
+
            this.addVarient(type, dvariable, gene, data.coding, data.tsv);
- 
+
          }); // End of Subscribe
          */
       // 검사자 정보 가져오기
@@ -1711,13 +1724,13 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
 
 
   tempSave(): void {
-    console.log('[1658][tempSave]');
+    console.log('[1714][tempSave]');
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
-    console.log('[1661][tableerowForm]', formData);
+    console.log('[1717][tableerowForm]', formData);
     // console.log('[1335][checkbox]', this.checkboxStatus);
     // const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
-    console.log('[1664][Detected variants]', formData);
+    console.log('[1720][Detected variants]', formData);
     if (this.comments.length) {
       const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
       this.comments = commentControl.getRawValue();
@@ -1726,8 +1739,8 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     this.patientInfo.recheck = this.recheck;
     this.patientInfo.examin = this.examin;
     this.patientInfo.vusmsg = this.vusmsg;
-    console.log('[1673][tempSave]patient,reform,comment]', this.patientInfo, formData, this.comments);
-
+    console.log('[1729][tempSave]patient,reform,comment]', this.patientInfo, formData, this.comments);
+    console.log('[1730][tempSave]VUS 메세지]', this.vusmsg);
     this.store.setRechecker(this.patientInfo.recheck);
     this.store.setExamin(this.patientInfo.examin);
     this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimen);
