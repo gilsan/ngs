@@ -472,7 +472,7 @@ export class UploadComponent implements OnInit {
           this.fields = list;
         }
         if (index >= 19) {
-          console.log('==== [431][UPLOAD][filteredOriginData] ', list);
+          console.log('==== [475][UPLOAD][filteredOriginData] ', list);
           this.filteredOriginData.push({
             locus: list[this.findGenePostion('Locus')].trim(),
             readcount: list[this.findGenePostion('Read Counts')].trim(),
@@ -591,7 +591,7 @@ export class UploadComponent implements OnInit {
   *///
   // 유전자의 위치 찿음
   findGenePostion(item: string): number {
-
+    console.log('[594] findGenePosition: ', this.fields, item);
     return this.fields.findIndex(field => field === item);
   }
 

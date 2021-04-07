@@ -1665,7 +1665,10 @@ export class Form3Component implements OnInit, OnDestroy, AfterViewInit {
     console.log('[1547][reset][checkboxStatus]', this.checkboxStatus);
     console.log('[1548][reset]', temp);
 
-    const userid = localStorage.getItem('pathuser');
+    const tempUserid: any = localStorage.getItem('pathuser');
+    const tempuser: any = JSON.parse(tempUserid);
+    const userid = tempuser.userid;
+    console.log('[1671][reset][userid]', userid);
     this.patientsListService.resetscreenstatus(this.form2TestedId, '2', userid, this.reportType)
       .subscribe(data => {
         this.screenstatus = '2';

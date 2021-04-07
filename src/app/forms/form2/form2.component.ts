@@ -1799,12 +1799,16 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     console.log('[1743][reset]', temp);
 
 
-    const userid = localStorage.getItem('pathuser');
+    const tempUserid: any = localStorage.getItem('pathuser');
+    const tempuser: any = JSON.parse(tempUserid);
+    const userid = tempuser.userid;
+
+    console.log('[1805][reset][userid]', userid);
     this.patientsListService.resetscreenstatus(this.form2TestedId, '2', userid, this.reportType)
       .subscribe(data => {
         this.screenstatus = '2';
         this.patientInfo.screenstatus = '2';
-        console.log('[1586]', this.screenstatus);
+        console.log('[1810]', this.screenstatus);
       });
   }
 
