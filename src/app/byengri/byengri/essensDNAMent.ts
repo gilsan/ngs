@@ -24,22 +24,22 @@ export const essentialDNAMentList = [
   {
     title: 'Cholangiocarcinoma',
     content: [
-      { type: 'Mutation', data: ['ERBB2', 'NTRK1', 'NTRK3'] },
-      { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3'] }
+      { type: 'Mutation', data: ['ERBB2', 'IDH1', 'NTRK1', 'NTRK3'] },
+      { type: 'Fusion', data: ['FGFR2', 'NTRK1', 'NTRK2', 'NTRK3'] }
     ]
   },
   {
     title: 'Colorectal cancer',
     content: [
-      { type: 'Mutation', data: ['BRAF', 'ERBB2', 'KRAS', 'NRAS', 'NTRK1', 'NTRK3'] },
-      { type: 'Amplification', data: ['KRAS'] },
+      { type: 'Mutation', data: ['BRAF', 'ERBB2', 'KRAS', 'NRAS', 'NTRK1', 'NTRK3', 'POLE'] },
+      { type: 'Amplification', data: ['ERBB2', 'KRAS'] },
       { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3'] }
     ]
   },
   {
     title: 'Endometrial cancer',
     content: [
-      { type: 'Mutation', data: ['ERBB2', 'NTRK1', 'NTRK3'] },
+      { type: 'Mutation', data: ['ERBB2', 'NTRK1', 'NTRK3', 'POLE'] },
       { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3'] }
     ]
   },
@@ -77,14 +77,15 @@ export const essentialDNAMentList = [
   {
     title: 'Glioblastoma',
     content: [
-      { type: 'Mutation', data: ['ERBB2', 'IDH1', 'IDH2', 'NTRK1', 'NTRK3', 'TSC1', 'TSC2'] },
-      { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3'] }
+      { type: 'Mutation', data: ['CTNNB1', 'ERBB2', 'IDH1', 'IDH2', 'NTRK1', 'NTRK3', 'SMARCA4', 'SMARCB1', 'SMO', 'TERT promoter', 'TSC1', 'TSC2'] },
+      { type: 'Amplification', data: ['EGFR', 'MYCN'] },
+      { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3', 'RELA'] }
     ]
   },
   {
     title: 'Head and neck cancer',
     content: [
-      { type: 'Mutation', data: ['AR', 'ERBB2', 'NTRK1', 'NTRK3'] },
+      { type: 'Mutation', data: ['ERBB2', 'NTRK1', 'NTRK3'] },
       { type: 'Amplification', data: ['ERBB2'] },
       { type: 'Fusion', data: ['AR', 'NTRK1', 'NTRK2', 'NTRK3'] }
     ]
@@ -92,8 +93,7 @@ export const essentialDNAMentList = [
   {
     title: 'Kidney cancer',
     content: [
-      { type: 'Mutation', data: ['ERBB2', 'NTRK1', 'NTRK3', 'TSC1', 'TSC2'] },
-      { type: 'Amplification', data: ['MET'] },
+      { type: 'Mutation', data: ['ERBB2', 'NTRK1', 'NTRK3'] },
       { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3'] }
     ]
   },
@@ -107,7 +107,7 @@ export const essentialDNAMentList = [
   {
     title: 'Melanoma',
     content: [
-      { type: 'Mutation', data: ['BRAF', 'ERBB2', 'KIT', 'NTRK1', 'NTRK3'] },
+      { type: 'Mutation', data: ['BRAF', 'ERBB2', 'KIT', 'NRAS', 'NTRK1', 'NTRK3'] },
       { type: 'Amplification', data: ['KIT'] },
       { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3'] }
     ]
@@ -115,15 +115,15 @@ export const essentialDNAMentList = [
   {
     title: 'Mesothelioma',
     content: [
-      { type: 'Mutation', data: ['ERBB2', 'NTRK1', 'NTRK3'] },
+      { type: 'Mutation', data: ['BAP1', 'ERBB2', 'NTRK1', 'NTRK3'] },
       { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3'] }
     ]
   },
   {
     title: 'Non-Small Cell Lung cancer',
     content: [
-      { type: 'Mutation', data: ['ALK', 'BRAF', 'EGFR', 'ERBB2', 'KRAS', 'NTRK1', 'NTRK3', 'ROS1'] },
-      { type: 'Amplification', data: ['MET'] },
+      { type: 'Mutation', data: ['ALK', 'BRAF', 'EGFR', 'ERBB2', 'KRAS', 'MET', 'NTRK1', 'NTRK3', 'ROS1'] },
+      { type: 'Amplification', data: ['CD274', 'MET'] },
       { type: 'Fusion', data: ['ALK', 'MET', 'NTRK1', 'NTRK2', 'NTRK3', 'RET', 'ROS1'] }
     ]
   },
@@ -151,14 +151,14 @@ export const essentialDNAMentList = [
   {
     title: 'Prostate cancer',
     content: [
-      { type: 'Mutation', data: ['ERBB2', 'NTRK1', 'NTRK3'] },
+      { type: 'Mutation', data: ['ATM', 'BARD1', 'BRCA1', 'BRCA2', 'BRIP1', 'CDK12', 'CHEK1', 'CHEK2', 'ERBB2', 'FANCL', 'NTRK1', 'NTRK3', 'PALB2', 'RAD51B', 'RAD51C', 'RAD51D', 'RAD54L'] },
       { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3'] }
     ]
   },
   {
     title: 'Skin Basal Cell Carcinoma',
     content: [
-      { type: 'Mutation', data: ['ERBB2', 'NTRK1', 'NTRK3'] },
+      { type: 'Mutation', data: ['ERBB2', 'NTRK1', 'NTRK3', 'SMO'] },
       { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3'] }
     ]
   },
@@ -185,14 +185,13 @@ export const essentialDNAMentList = [
     ]
   },
   {
-    title: 'Well-differentiated liposarcoma',
+    title: 'Well-dedifferentiated liposarcoma',
     content: [
       { type: 'Mutation', data: ['ERBB2', 'NTRK1', 'NTRK3'] },
       { type: 'Amplification', data: ['CDK4'] },
       { type: 'Fusion', data: ['ALK', 'NTRK1', 'NTRK2', 'NTRK3'] }
     ]
-  },
-  {
+  }, {
     title: 'Testicular cancer',
     content: [
       { type: 'Mutation', data: ['ERBB2', 'NTRK1', 'NTRK3'] },
@@ -201,13 +200,6 @@ export const essentialDNAMentList = [
   },
   {
     title: 'Thyroid cancer',
-    content: [
-      { type: 'Mutation', data: ['BRAF', 'ERBB2', 'NTRK1', 'NTRK3'] },
-      { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3'] }
-    ]
-  },
-  {
-    title: 'Medullary carcinoma',
     content: [
       { type: 'Mutation', data: ['BRAF', 'ERBB2', 'NTRK1', 'NTRK3', 'RET'] },
       { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3', 'RET'] }
@@ -238,7 +230,7 @@ export const essentialDNAMentList = [
     title: 'Neuroblastoma',
     content: [
       { type: 'Mutation', data: ['ALK', 'ERBB2', 'NTRK1', 'NTRK3'] },
-      { type: 'Amplification', data: ['MYC', 'MYCN'] },
+      { type: 'Amplification', data: ['MYCN'] },
       { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3'] }
     ]
   },
@@ -252,7 +244,7 @@ export const essentialDNAMentList = [
   {
     title: 'Uterine papillary serous carcinoma',
     content: [
-      { type: 'Mutation', data: ['BRAF', 'ERBB2', 'NTRK1', 'NTRK3'] },
+      { type: 'Mutation', data: ['ERBB2', 'NTRK1', 'NTRK3'] },
       { type: 'Amplification', data: ['ERBB2'] },
       { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3'] }
     ]
