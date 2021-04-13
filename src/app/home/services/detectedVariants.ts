@@ -53,7 +53,7 @@ export class DetectedVariantsService {
     } else if (resultStatus === 'Not Detected') {
       detectedType = 'notdetected';
     }
-    return this.http.post(`${this.apiUrl}/screen/tempsave`,
+    return this.http.post(`${this.apiUrl}/screen/tempsave2`,
       {
         specimenNo,
         detected_variants: detectedVariants,
