@@ -43,7 +43,9 @@ export class DetectedVariantsService {
       });
   }
 
-  public screenTempSave(specimenNo: string, detectedVariants: IAFormVariant[],
+
+  // 정렬
+  public screenTempSave2(specimenNo: string, detectedVariants: IAFormVariant[],
     comments: IComment[], profile: IProfile, resultStatus: string, patientInfo: IPatient): Observable<any> {
     // console.log('[19][DetectedVariantsService] ', specimenNo, detectedVariants, comments, profile, patientInfo);
     let detectedType: string;
@@ -54,6 +56,30 @@ export class DetectedVariantsService {
       detectedType = 'notdetected';
     }
     return this.http.post(`${this.apiUrl}/screen/tempsave2`,
+      {
+        specimenNo,
+        detected_variants: detectedVariants,
+        comments,
+        chron,
+        flt3itd,
+        leukemia,
+        resultStatus: detectedType, // detected, notdetected
+        patientInfo
+      });
+  }
+
+  // 임시저장
+  public screenTempSave(specimenNo: string, detectedVariants: IAFormVariant[],
+    comments: IComment[], profile: IProfile, resultStatus: string, patientInfo: IPatient): Observable<any> {
+    // console.log('[19][DetectedVariantsService] ', specimenNo, detectedVariants, comments, profile, patientInfo);
+    let detectedType: string;
+    const { chron, flt3itd, leukemia } = profile;
+    if (resultStatus === 'Detected') {
+      detectedType = 'detected';
+    } else if (resultStatus === 'Not Detected') {
+      detectedType = 'notdetected';
+    }
+    return this.http.post(`${this.apiUrl}/screen/tempsave`,
       {
         specimenNo,
         detected_variants: detectedVariants,

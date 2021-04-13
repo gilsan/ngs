@@ -1798,7 +1798,7 @@ export class Form3Component implements OnInit, OnDestroy, AfterViewInit {
 
 
     // tslint:disable-next-line:max-line-length
-    this.variantsService.screenTempSave(this.form2TestedId, formData, this.comments, this.profile, this.resultStatus, this.patientInfo)
+    this.variantsService.screenTempSave2(this.form2TestedId, formData, this.comments, this.profile, this.resultStatus, this.patientInfo)
       .pipe(
         concatMap(() => this.variantsService.screenSelect(this.form2TestedId))
       ).subscribe(data => {
