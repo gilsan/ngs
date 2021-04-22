@@ -471,6 +471,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
 
     if (this.form2TestedId) {
       this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {
+        // console.log('[471][init]', data);
         if (data.length > 0) {
           this.recoverVariants = data;
           this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));

@@ -308,6 +308,7 @@ export class PatientsListService {
           let coding: string;
           let gene1: string;
           let gene2: string;
+          let clinVar: string;
           let tsv: IFilteredTSV;
 
           tsv = item;
@@ -327,6 +328,7 @@ export class PatientsListService {
             // 유전자가 2개인 경우도 2개의 유전자로 검색
             gene1 = item.genes;
             gene2 = 'none';
+            clinVar = item.clinvar;
             // const semi = item.coding.indexOf(',');
             // if (semi !== -1) {
             //   coding = item.coding.split(',')[0];
@@ -336,7 +338,7 @@ export class PatientsListService {
             coding = item.coding.replace(/;/g, ',');
             const id = item.id;
             // console.log('===== [335][gene1/coding]', gene1, coding);
-            return { id, gene1, gene2, coding, tsv };
+            return { id, gene1, gene2, coding, tsv, clinVar };
           }
         });
       }), // End of tap
@@ -511,61 +513,115 @@ export class PatientsListService {
         }
       }),
       concatMap(item => {
-        // console.log(item);
-        if (item.gene2 === 'none') {
-          return this.getCommentInfoCount(item.gene1, testType).pipe(
-            map(comments1Count => {
-              // console.log('==== [456][코멘트 갯수]', comments1Count, item.gene1, testType);
-              return { ...item, comments1Count: comments1Count[0].count, comments2Count: 0 };
-            })
-          );
-        } else {
-          // CSDE1,NRAS 인경우 NRAS로 찿는다.
-          let tempMentcountGene;
-          if (item.gene1 === 'NRAS') {
-            tempMentcountGene = item.gene1;
-          } else {
-            tempMentcountGene = item.gene2;
-          }
-          return this.getCommentInfoCount(tempMentcountGene, testType).pipe(
-            map(comments1Count => {
-              return { ...item, comments1Count: comments1Count[0].count, comments2Count: 0 };
-            })
-          );
 
+        if (item.gene2 === 'none') {
+          // console.log('[코멘트][518][' + item.tsv.clinvar + ']');
+          // console.log('[코멘트][519][', item.gene1, item.gene2, item.tsv.clinvar);
+          const clinvar = item.tsv.clinvar.toString().toLowerCase();
+          if (clinvar === 'likely pathogenic'
+            || clinvar === 'pathogenic'
+            || clinvar === 'pathogenic/likely pathogenic'
+            || clinvar === 'likely pathogenic/pathogenic') {
+            let gene1;
+            const checkNum = item.gene1.split(',');
+            gene1 = item.gene1;
+            if (checkNum.length === 2) {
+              if (checkNum.includes('NRAS')) {
+                gene1 = 'NRAS';
+              }
+            }
+
+            return this.getCommentInfoCount(gene1, testType).pipe(
+              map(comments1Count => {
+                return { ...item, comments1Count: comments1Count[0].count, comments2Count: 0 };
+              })
+            );
+          } else {
+            return of({ ...item, comments1Count: 0, comments2Count: 0 });
+          }
+
+        } else {
+          console.log('[코멘트][534][' + item.tsv.clinvar + ']', item);
+          const clinvar = item.tsv.clinvar.toString().toLowerCase();
+          if (clinvar === 'likely pathogenic'
+            || clinvar === 'pathogenic'
+            || clinvar === 'pathogenic/likely pathogenic'
+            || clinvar === 'likely pathogenic/pathogenic') {
+            console.log('==== [540][코멘트 갯수]');
+            // CSDE1,NRAS 인경우 NRAS로 찿는다.
+            let tempMentcountGene;
+            if (item.gene1 === 'NRAS') {
+              tempMentcountGene = item.gene1;
+            } else {
+              tempMentcountGene = item.gene2;
+            }
+            return this.getCommentInfoCount(tempMentcountGene, testType).pipe(
+              map(comments1Count => {
+                console.log('==== [546][코멘트 갯수]', comments1Count, item.gene1, testType, item.tsv.clinvar);
+                return { ...item, comments1Count: comments1Count[0].count, comments2Count: 0 };
+              })
+            );
+          } else {
+            return of({ ...item, comments1Count: 0, comments2Count: 0 });
+          }
         }
       }),
       concatMap(item => {  // Comments
-        if (item.gene2 === 'none') {
-          return this.getCommentInfoLists(item.gene1, testType).pipe(
-            map(comment => {
-              // console.log('==== [480][멘트정보 내용]  Comment List :', comment);
-              if (Array.isArray(comment) && comment.length) {
-                return { ...item, commentList1: comment[0], commentList2: 'none' };
-              } else {
-                return { ...item, commentList1: 'none', commentList2: 'none' };
-              }
-            })
-          );
-        } else {
-          // CSDE1,NRAS 인경우 NRAS로 찿는다.
-          let tempMentGene;
-          if (item.gene1 === 'NRAS') {
-            tempMentGene = item.gene1;
-          } else {
-            tempMentGene = item.gene2;
-          }
-          return this.getCommentInfoLists(tempMentGene, testType).pipe(
-            map(comment => {
-              // console.log('[405][멘트정보]  Comment List :', comment);
-              if (Array.isArray(comment) && comment.length) {
-                return { ...item, commentList1: comment[0], commentList2: 'none' };
-              } else {
-                return { ...item, commentList1: 'none', commentList2: 'none' };
-              }
-            })
-          );
 
+        if (item.gene2 === 'none') {
+          const clinvar = item.tsv.clinvar.toString().toLowerCase();
+          if (clinvar === 'likely pathogenic'
+            || clinvar === 'pathogenic'
+            || clinvar === 'pathogenic/likely pathogenic'
+            || clinvar === 'likely pathogenic/pathogenic') {
+            let gene1;
+            const checkNum = item.gene1.split(',');
+            gene1 = item.gene1;
+            if (checkNum.length === 2) {
+              if (checkNum.includes('NRAS')) {
+                gene1 = 'NRAS';
+              }
+            }
+
+            return this.getCommentInfoLists(gene1, testType).pipe(
+              map(comment => {
+                // console.log('==== [480][멘트정보 내용]  Comment List :', comment);
+                if (Array.isArray(comment) && comment.length) {
+                  return { ...item, commentList1: comment[0], commentList2: 'none' };
+                } else {
+                  return { ...item, commentList1: 'none', commentList2: 'none' };
+                }
+              })
+            );
+          } else {
+            return of({ ...item, commentList1: 'none', commentList2: 'none' });
+          }
+        } else {
+          const clinvar = item.tsv.clinvar.toString().toLowerCase();
+          if (clinvar === 'likely pathogenic'
+            || clinvar === 'pathogenic'
+            || clinvar === 'pathogenic/likely pathogenic'
+            || clinvar === 'likely pathogenic/pathogenic') {
+            // CSDE1,NRAS 인경우 NRAS로 찿는다.
+            let tempMentGene;
+            if (item.gene1 === 'NRAS') {
+              tempMentGene = item.gene1;
+            } else {
+              tempMentGene = item.gene2;
+            }
+            return this.getCommentInfoLists(tempMentGene, testType).pipe(
+              map(comment => {
+                // console.log('[405][멘트정보]  Comment List :', comment);
+                if (Array.isArray(comment) && comment.length) {
+                  return { ...item, commentList1: comment[0], commentList2: 'none' };
+                } else {
+                  return { ...item, commentList1: 'none', commentList2: 'none' };
+                }
+              })
+            );
+          } else {
+            return of({ ...item, commentList1: 'none', commentList2: 'none' });
+          }
         }
       })
     ); // End of pipe
