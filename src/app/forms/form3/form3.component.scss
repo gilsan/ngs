@@ -171,6 +171,30 @@ td.multi_line {
   position: sticky;
   left: 130px;
   background-color: #fff;
+}
+
+.table_list.td-fix tr td:first-child+td+td+td {
+  position: sticky;
+  left: 170px;
+  background-color: #fff;
+}
+
+.table_list.td-fix tr td:first-child+td+td+td+td {
+  position: sticky;
+  left: 250px;
+  background-color: #fff;
+}
+
+.table_list.td-fix tr td:first-child+td+td+td+td+td {
+  position: sticky;
+  left: 470px;
+  background-color: #fff;
+}
+
+.table_list.td-fix tr td:first-child+td+td+td+td+td+td {
+  position: sticky;
+  left: 530px;
+  background-color: #fff;
   border-right: 1px solid #7b7a7a;
 }
 
@@ -189,6 +213,27 @@ td.multi_line {
 .table_list.td-fix tr th:first-child+th+th {
   position: sticky;
   left: 130px;
+  background-color: #fafafa;
+}
+ 
+.table_list.td-fix tr th:first-child+th+th+th {
+  position: sticky;
+  left: 170px;
+  background-color: #fafafa;
+}
+.table_list.td-fix tr th:first-child+th+th+th+th {
+  position: sticky;
+  left: 250px;
+  background-color: #fafafa;
+}
+.table_list.td-fix tr th:first-child+th+th+th+th+th {
+  position: sticky;
+  left: 470px;
+  background-color: #fafafa;
+}
+.table_list.td-fix tr th:first-child+th+th+th+th+th+th {
+  position: sticky;
+  left: 530px;
   background-color: #fafafa;
   border-right: 1px solid #7b7a7a;
 }
