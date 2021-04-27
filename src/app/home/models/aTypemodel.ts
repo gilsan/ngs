@@ -75,9 +75,9 @@ export function makeAForm(
 				<Col id="rsltleft1">Leukemia associated fusion</Col>
 				<Col id="rsltleft2">${profile.leukemia}</Col>
 				<Col id="rsltcenter1">IKZF1 deletion</Col>
-				<Col id="rsltcenter2">><![CDATA[${profile.flt3itd}]]></Col>
+				<Col id="rsltcenter2"> <![CDATA[${profile.flt3itd}]]> </Col>
 				<Col id="rsltright1">Chromosomal analysis</Col>
-				<Col id="rsltright2"><![CDATA[${profile.chron}]]></Col>
+				<Col id="rsltright2"> <![CDATA[${profile.chron}]]> </Col>
 				<Col id="testinfo1">TARGET DISEASE: Acute lymphoblastic leukemia</Col>
 				<Col id="testinfo2">METHOD: *Massively parallel sequencing</Col>
 				<Col id="testinfo3">SPECIMEN: <![CDATA[${specimenMessage}]]> </Col>
