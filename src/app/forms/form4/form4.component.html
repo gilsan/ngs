@@ -92,8 +92,8 @@
             <col style="width:50px"/>         
             <col style="width:80px"/>
             <col style="width:40px"/>  <!--     -->
-            <col style="width:80px"/>  <!-- IGV -->
-            <col style="width:220px"/>  <!--  sanger -->
+          <!--  <col style="width:80px"/>   IGV -->
+          <!--   <col style="width:220px"/>   sanger -->
             <col style="width:60px"/>  <!-- Type    -->
             <col style="width:120px"/>   <!-- Gene   -->
             <col style="width:180px"/>  <!-- Functional Impact    -->
@@ -105,6 +105,8 @@
             <col style="width:200px"/>  <!--  VAF %   -->  
             <col style="width:150px"/>  <!--   References  -->
             <col style="width:100px"/>   <!--  COSMIC ID   -->
+            <col style="width:80px"/>  <!-- IGV -->
+            <col style="width:220px"/>  <!--  sanger -->
             <col style="width:120px"/>  <!--   Site  -->
             <col style="width:80px"/>   <!--  Action -->           
             </colgroup>
@@ -117,8 +119,10 @@
                 <button class="btn btn_01 btn-s" (click)="addRow()">추가</button>
               </th> 
               <th></th>
+              <!--
               <th>IGV</th>
               <th>Sanger</th>
+               -->
               <th>Type</th>                  
               <th>Gene</th>
               <th>Functional Impact</th>  
@@ -130,6 +134,8 @@
               <th>VAF %</th> 
               <th>Reference(s)</th>      
               <th>COSMIC ID</th> 
+              <th>IGV</th>
+              <th>Sanger</th>
               <th>Site</th>
               <th>Action</th>                        
           </tr>
@@ -148,6 +154,7 @@
                  <img [src]="'assets/images/cancel.png'">
             </td> 
             <td><input type="checkbox" class="ckbox" formControlName="checked" (change)="boxstatus(i, $event)"></td> 
+            <!--
             <td><input type="text" size="10"  class="clr-input textcenter  tdbox"  
             [matTooltip]="group.get('igv').value"
             formControlName="igv"></td>
@@ -157,6 +164,7 @@
                 formControlName="sanger"></textarea>
                 
             </td>
+             -->
             <td><input type="text" size="10"  class="clr-input textcenter tdbox"  
             [matTooltip]="group.get('type').value"
             formControlName="type"></td>
@@ -202,7 +210,15 @@
             <td><input type="text" size="20"  class="clr-input textcenter  tdbox" 
             [matTooltip]="group.get('cosmicID').value"
             formControlName="cosmicID"></td>
-            
+            <td><input type="text" size="10"  class="clr-input textcenter  tdbox"  
+            [matTooltip]="group.get('igv').value"
+            formControlName="igv"></td>
+            <td>
+                <textarea class="textarea_01"  style="width: 100%; height: 100%; border: none" 
+                [matTooltip]="group.get('sanger').value"
+                formControlName="sanger"></textarea>
+                
+            </td>
             <td  class="txt_c">
               <select class="select_01" style="width: 100%;" name="options" (change)="saveInhouse(i, inhouse.value)" 
                #inhouse>

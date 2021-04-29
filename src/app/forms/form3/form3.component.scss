@@ -181,13 +181,19 @@ td.multi_line {
 
 .table_list.td-fix tr td:first-child+td+td+td+td {
   position: sticky;
-  left: 250px;
+  /*
+left: 250px;
+  */
+  left: 230px;
   background-color: #fff;
 }
 
 .table_list.td-fix tr td:first-child+td+td+td+td+td {
   position: sticky;
+  /* 
   left: 470px;
+  */
+  left: 350px;
   background-color: #fff;
 }
 
@@ -215,22 +221,30 @@ td.multi_line {
   left: 130px;
   background-color: #fafafa;
 }
- 
+
 .table_list.td-fix tr th:first-child+th+th+th {
   position: sticky;
   left: 170px;
   background-color: #fafafa;
 }
+
 .table_list.td-fix tr th:first-child+th+th+th+th {
   position: sticky;
+  /*
   left: 250px;
+  */
+  left: 230px;
   background-color: #fafafa;
 }
+
 .table_list.td-fix tr th:first-child+th+th+th+th+th {
   position: sticky;
-  left: 470px;
+  /* left: 470px; 
+ */
+  left: 350px;
   background-color: #fafafa;
 }
+
 .table_list.td-fix tr th:first-child+th+th+th+th+th+th {
   position: sticky;
   left: 530px;
