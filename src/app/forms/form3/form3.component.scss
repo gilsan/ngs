@@ -197,12 +197,14 @@ left: 250px;
   background-color: #fff;
 }
 
+/*
 .table_list.td-fix tr td:first-child+td+td+td+td+td+td {
   position: sticky;
   left: 530px;
   background-color: #fff;
   border-right: 1px solid #7b7a7a;
 }
+*/
 
 .table_list.td-fix tr th:first-child {
   position: sticky;
@@ -245,9 +247,11 @@ left: 250px;
   background-color: #fafafa;
 }
 
+/*
 .table_list.td-fix tr th:first-child+th+th+th+th+th+th {
   position: sticky;
   left: 530px;
   background-color: #fafafa;
   border-right: 1px solid #7b7a7a;
 }
+*/
