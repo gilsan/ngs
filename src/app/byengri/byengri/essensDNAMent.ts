@@ -1,3 +1,5 @@
+// 2021.5.4 colon cancer, rectal cancer add
+
 export const essentialDNAMentList = [
   {
     title: 'Bladder cancer',
@@ -30,6 +32,22 @@ export const essentialDNAMentList = [
   },
   {
     title: 'Colorectal cancer',
+    content: [
+      { type: 'Mutation', data: ['BRAF', 'ERBB2', 'KRAS', 'NRAS', 'NTRK1', 'NTRK3', 'POLE'] },
+      { type: 'Amplification', data: ['ERBB2', 'KRAS'] },
+      { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3'] }
+    ]
+  },
+  {
+    title: 'Colon cancer',
+    content: [
+      { type: 'Mutation', data: ['BRAF', 'ERBB2', 'KRAS', 'NRAS', 'NTRK1', 'NTRK3', 'POLE'] },
+      { type: 'Amplification', data: ['ERBB2', 'KRAS'] },
+      { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3'] }
+    ]
+  },
+  {
+    title: 'Rectal cancer',
     content: [
       { type: 'Mutation', data: ['BRAF', 'ERBB2', 'KRAS', 'NRAS', 'NTRK1', 'NTRK3', 'POLE'] },
       { type: 'Amplification', data: ['ERBB2', 'KRAS'] },
