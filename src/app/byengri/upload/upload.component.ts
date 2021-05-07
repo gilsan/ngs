@@ -251,7 +251,8 @@ export class UploadComponent implements OnInit {
       let clinicallyCount = 0;
       data.filter(list => list[0] !== 'Public data sources included in relevant therapies')
         .forEach((list, index) => {
-          // console.log('[174][]', list);
+          // console.log('[254][]', list, list[0], index);
+
           if (list[0].length > 0) {
             if (list[0].trim() === 'Sample Cancer Type') {
               this.tumorType = list[1].trim();
@@ -287,7 +288,7 @@ export class UploadComponent implements OnInit {
               count++;
             }
 
-            if (list[4] === undefined) {
+            if (list[4] === undefined || list[4].length === 0) {
               status = false;
             }
 
@@ -331,21 +332,22 @@ export class UploadComponent implements OnInit {
                 }
 
               } else if (len > 1) {
+                // console.log('==== [353][네번째][tempGene]', list[0]);
                 const tempGene = list[0].split(';');
                 const tempfre = list[3].split('(')[0].split(';');
-                // console.log('==== [322][네번째][clinically]', this.clinically, clinicallyCount);
-                for (let i = 0; i < tempGene.length; i++) {
+
+                for (let i = 0; i < tempGene.length - 1; i++) {
                   const onetier = list[2].substring(0, list[2].length - 1);
                   const tempfilteredlist = tempGene[i].trim().split(' ');
+                  console.log('==== [370][네번째][tempGene]', list[3], tempfre[i], tempfre.length);
                   if (tempfilteredlist[1] !== 'deletion') {
                     this.clinical.push({ gene: tempfilteredlist[0], tier: onetier, frequency: tempfre[i].trim() });
                     this.clinically.push(tempGene[i].trim());
                     this.clinically2.push({ gene: tempGene[i].trim(), seq: clinicallyCount.toString() }); // 신규
                     clinicallyCount++;
-
                   }
-
                 } // End of for loop
+
               }
 
             }  // End of Clinically if
@@ -353,13 +355,14 @@ export class UploadComponent implements OnInit {
             if (count === 2) { }
 
             if (list[0].trim() === 'Prevalent cancer biomarkers without relevant evidence based on included data sources') {
+              console.log('[[checkk!!!!]] ===> ', list[0]);
               nextline = index + 1;
             }
 
             if (nextline === index) {
               this.prevalent = list[0].replace(/&gt;/g, '>').split(';').filter(item => {
                 const member = item.trim().split(' ');
-
+                console.log('[362][prevalent]', this.prevalent);
                 return member[1] !== 'deletion';
 
               });
