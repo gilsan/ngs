@@ -251,9 +251,10 @@ export class UploadComponent implements OnInit {
       let clinicallyCount = 0;
       data.filter(list => list[0] !== 'Public data sources included in relevant therapies')
         .forEach((list, index) => {
-          // console.log('[254][]', list, list[0], index);
+          // console.log('[254][]', list[0]);
 
           if (list[0].length > 0) {
+
             if (list[0].trim() === 'Sample Cancer Type') {
               this.tumorType = list[1].trim();
               // this.pathologyService.setTumortype(list[1].trim(), this.pathologyNum);
@@ -332,16 +333,16 @@ export class UploadComponent implements OnInit {
                 }
 
               } else if (len > 1) {
-                // console.log('==== [353][네번째][tempGene]', list[0]);
-                const tempGene = list[0].split(';');
-                const tempfre = list[3].split('(')[0].split(';');
-
+                //  구분자를 ; ==> , 변경 21.5.7
+                const tempGene = list[0].split(',');
+                const tempfre = list[3].split('(')[0].split(',');
+                // console.log('==== [346][네번째][tempGene]', list, tempfre);
                 for (let i = 0; i < tempGene.length - 1; i++) {
                   const onetier = list[2].substring(0, list[2].length - 1);
                   const tempfilteredlist = tempGene[i].trim().split(' ');
-                  console.log('==== [370][네번째][tempGene]', list[3], tempfre[i], tempfre.length);
+
                   if (tempfilteredlist[1] !== 'deletion') {
-                    this.clinical.push({ gene: tempfilteredlist[0], tier: onetier, frequency: tempfre[i].trim() });
+                    this.clinical.push({ gene: tempfilteredlist[0], tier: onetier, frequency: tempfre[i].trim() }); // 원본 tempfre[i].trim()
                     this.clinically.push(tempGene[i].trim());
                     this.clinically2.push({ gene: tempGene[i].trim(), seq: clinicallyCount.toString() }); // 신규
                     clinicallyCount++;
@@ -355,7 +356,7 @@ export class UploadComponent implements OnInit {
             if (count === 2) { }
 
             if (list[0].trim() === 'Prevalent cancer biomarkers without relevant evidence based on included data sources') {
-              console.log('[[checkk!!!!]] ===> ', list[0]);
+
               nextline = index + 1;
             }
 
@@ -572,7 +573,18 @@ export class UploadComponent implements OnInit {
 
   // 갯수확인
   checkListNum(genes: string): number {
-    const num = genes.split(';');
+    console.log('[585][genes[ ==> ', genes);
+    // const re = /[\[\]=]/gi;  // BAP1 p.([V409=;Q410*]) c.1227_1228delGCinsTT 경우
+    // // let tempfre  = [];
+    // if (re.test(genes)) {
+    //   const tempLen = genes.split(';');
+    //   if (tempLen.length === 1) {
+    //     return 1;
+    //   }
+    //   return tempLen.length;
+    // }
+    // 구분자를 ; ==> , 변경
+    const num = genes.split(',');
     return num.length;
   }
 
