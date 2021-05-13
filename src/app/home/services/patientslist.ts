@@ -398,7 +398,7 @@ export class PatientsListService {
           if (cnt === 1) {
             return this.getMutationInfoLists(item.gene1, item.coding).pipe(
               map(lists => {
-                // console.log('========[396][patientslist][뮤테이션]', lists);
+                // console.log('========[396][patientslist][뮤테이션]', lists, item.gene1, item.coding);
                 if (Array.isArray(lists) && lists.length) {
                   return { ...item, mutationList1: lists[0], mutationList2: 'none', mtype: 'M' };
                 } else {
@@ -515,9 +515,10 @@ export class PatientsListService {
       concatMap(item => {
 
         if (item.gene2 === 'none') {
-          // console.log('[코멘트][518][' + item.tsv.clinvar + ']');
+          console.log('[코멘트][518][', item);
           // console.log('[코멘트][519][', item.gene1, item.gene2, item.tsv.clinvar);
-          const clinvar = item.tsv.clinvar.toString().toLowerCase();
+          // const clinvar = item.tsv.clinvar.toString().toLowerCase();
+          const clinvar = item.mutationList1.functionalImpact;
           if (clinvar === 'likely pathogenic'
             || clinvar === 'pathogenic'
             || clinvar === 'pathogenic/likely pathogenic'
@@ -542,7 +543,8 @@ export class PatientsListService {
 
         } else {
           console.log('[코멘트][534][' + item.tsv.clinvar + ']', item);
-          const clinvar = item.tsv.clinvar.toString().toLowerCase();
+          // const clinvar = item.tsv.clinvar.toString().toLowerCase();
+          const clinvar = item.mutationList1.functionalImpact;
           if (clinvar === 'likely pathogenic'
             || clinvar === 'pathogenic'
             || clinvar === 'pathogenic/likely pathogenic'
@@ -569,7 +571,8 @@ export class PatientsListService {
       concatMap(item => {  // Comments
 
         if (item.gene2 === 'none') {
-          const clinvar = item.tsv.clinvar.toString().toLowerCase();
+          // const clinvar = item.tsv.clinvar.toString().toLowerCase();
+          const clinvar = item.mutationList1.functionalImpact;
           if (clinvar === 'likely pathogenic'
             || clinvar === 'pathogenic'
             || clinvar === 'pathogenic/likely pathogenic'
@@ -585,7 +588,7 @@ export class PatientsListService {
 
             return this.getCommentInfoLists(gene1, testType).pipe(
               map(comment => {
-                // console.log('==== [480][멘트정보 내용]  Comment List :', comment);
+                console.log('==== [588][멘트정보 내용]  Comment List :', comment);
                 if (Array.isArray(comment) && comment.length) {
                   return { ...item, commentList1: comment[0], commentList2: 'none' };
                 } else {
@@ -597,7 +600,8 @@ export class PatientsListService {
             return of({ ...item, commentList1: 'none', commentList2: 'none' });
           }
         } else {
-          const clinvar = item.tsv.clinvar.toString().toLowerCase();
+          // const clinvar = item.tsv.clinvar.toString().toLowerCase();
+          const clinvar = item.mutationList1.functionalImpact;
           if (clinvar === 'likely pathogenic'
             || clinvar === 'pathogenic'
             || clinvar === 'pathogenic/likely pathogenic'

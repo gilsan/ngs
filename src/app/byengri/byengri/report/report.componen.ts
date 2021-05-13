@@ -846,7 +846,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 
             let aminoAcidChange = itemMembers[1];
             const tempAminoAcidChange = itemMembers[1];
-            // console.log('====[831][clinically]: ', gene, tempAminoAcidChange);
+            // console.log('====[849][clinically]: ', gene, tempAminoAcidChange, itemMembers);
             if (type === 'exon') {
               nucleotideChange = '';
             } else {
@@ -887,7 +887,8 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
               }
               customid = '';
             }
-            // console.log('[557][유전자]' + gene, aminoAcidChange, nucleotideChange);
+            // console.log('[890][삭제유전자 리스트 ', this.polymorphismList);
+            // console.log('[891][유전자]' + gene, aminoAcidChange, nucleotideChange);
             // gene, aminoAcidChange, nucleotideChange 조합으로 해당 되는것 삭제
             const result = this.removeGeneCheck(gene, aminoAcidChange, nucleotideChange);
             if (result === -1) {
