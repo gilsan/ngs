@@ -1259,7 +1259,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     // if (temp === '%') {
     //   this.extraction.tumorcellpercentage = percentage.slice(0, -1);
     // } else {
-    // 
+    //
     // }
     const per = percentage.replace('/\%/g', '');
     this.extraction.tumorcellpercentage = per;
@@ -1664,7 +1664,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         /*
         console.log('[1572][]', howmanyimages);
-  
+
         if (howmanyimages.count === 0) {
           msg = '이미지가 확인되지 않았습니다. 전송 하시겠습니까?';
           result = confirm(msg);
@@ -2230,7 +2230,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   ////////////////////////////////////////////////////////////////////
   // ifusionForm
   /*
-  
+
   */
   createIFusion(fusion: IFusion, index: string): FormGroup {
     // console.log('===== [1471][ createIFusion]', fusion);
@@ -2309,14 +2309,14 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
           this.iamplificationsLists().clear();
           this.ifusionLists().clear();
           this.loadForm();
-  
+
           this.mutation = [];
           this.amplifications = [];
           this.fusion = [];
           this.imutation = [];
           this.iamplifications = [];
           this.ifusion = [];
-  
+
           this.generalReport = '';
           this.specialment = '';
           this.tumorMutationalBurden = '';
@@ -2331,7 +2331,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
             tumortype: '',
             diagnosis: ''
           };
-  
+
           this.searchService.resetscreenstatus(this.pathologyNum, '1')
             .subscribe(data => {
               this.init(this.pathologyNum);
@@ -2339,7 +2339,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
               this.screenstatus = '1';
               console.log(this.screenstatus);
             });
-  
+
         }
         */
         this.patientInfo.screenstatus = '1';
@@ -2395,7 +2395,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
         return false;
       } else if (parseInt(this.screenstatus, 10) === 1) {
         return false;
-      } else if (parseInt(this.screenstatus, 10) === 3) {
+      } else if (parseInt(this.screenstatus, 10) === 3 || parseInt(this.screenstatus, 10) === 4) {
         return true;
       }
     } else if (index === 4) {
