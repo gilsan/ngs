@@ -4,6 +4,7 @@
       <h2 *ngIf="reportType === 'ALL'" style="margin-top: 5px;">Acute Lymphoblastic Leukemia NGS</h2>
       <button type="button" class="preview__button" (click)="previewToggle()">미리보기</button>
       <button type="button" class="excel" (click)="excelDownload()">Excel</button>
+      <button type="button" class="excel2" (click)="excelDV()">Excel(결과지)</button>
       <div id="content">
           <div class="box pd_20">
               <div class="box_100 main-table" style="height: auto;max-height: 500px;">
@@ -73,8 +74,8 @@
                               <th width="200px">Homopolymer<br/>Length</th>
                               <th width="200px">Subset of</th>
                               <th width="200px">KRGDB_622_Lukemia</th>
-                              <th width="200px">KRGDB_1100_Leukemia</th>    
-                                                     
+                              <th width="200px">KRGDB_1100_Leukemia</th>
+
                           </tr>
                       </thead>
                       <tbody>
@@ -151,7 +152,7 @@
                           </tr>
                       </tbody>
                   </table>
-                
+
               </div>
               <div class="sub_title">Patient: {{patientInfo.name}}, {{patientInfo.patientID}} ({{patientInfo.gender}}/{{patientInfo.age}})</div>
               <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -208,26 +209,26 @@
                             <datalist id="luke">
                                 <option *ngFor="let item of amlLuk" [value]="item">
                             </datalist>
-                        </td>                        
+                        </td>
                         <!-- <td  *ngIf="reportType === 'AML'" class="table_result_line" style="text-align: center;">
-                            <input type="text" class="input_02 textcenter"  
+                            <input type="text" class="input_02 textcenter"
                             [(ngModel)]= "profile.leukemia" [ngModelOptions]="{standalone: true}">
                         </td> -->
 
 
                         <td class="table_result_line"  style="text-align: center;">
-                            <input type="text" class="input_02  textcenter"  
+                            <input type="text" class="input_02  textcenter"
                             [(ngModel)]="profile.flt3itd" [ngModelOptions]="{standalone: true}">
                         </td>
                         <td  style="text-align: center;">
-                            <input type="text" class="input_02 textcenter"  
+                            <input type="text" class="input_02 textcenter"
                             [(ngModel)]="profile.chron" [ngModelOptions]="{standalone: true}">
                         </td>
                     </tr>
                 </tbody>
             </table>
 
-               
+
               <div class="sub_title">Test Information</div>
               <table cellpadding="0" cellspacing="0" class="table_result02">
                   <colgroup>
@@ -252,11 +253,11 @@
     <div class="box">
               <div class="box_100" (scroll)="tableScroll($event)" [ngStyle]="resizeHeight()" #box100>
 <!--    -------------------------------------                     -->
-<form [formGroup]="tablerowForm"> 
+<form [formGroup]="tablerowForm">
     <!-- header-fix : scroll시 header고정, td-fix : scroll시 1,2,3컬럼 고정 ※동시사용안됨 -->
     <table class="table_list td_padding_0 td-fix" [ngClass]="tableHeader()" style="text-align: center;" #table>
-        <colgroup>  
-            <col style="width:50px"/>         
+        <colgroup>
+            <col style="width:50px"/>
             <col style="width:80px"/>
             <col style="width:40px"/>  <!--     -->
            <!-- <col style="width:80px"/>    IGV -->
@@ -264,18 +265,18 @@
             <col style="width:60px"/>  <!-- Type    -->
             <col style="width:120px"/>   <!-- Gene   -->
             <col style="width:160px"/>  <!-- Functional Impact    -->
-            <col style="width:140px"/>  <!-- Transcript    --> 
+            <col style="width:140px"/>  <!-- Transcript    -->
             <col style="width:60px"/>  <!-- Exon/Intron    -->
             <col style="width:220px"/>  <!--  Nuceleotide change   -->
             <col style="width:180px"/>  <!-- Amino acid change    -->
             <col style="width:120px"/>  <!-- Zygosity    -->
-            <col style="width:200px"/>  <!--  VAF %   -->  
+            <col style="width:200px"/>  <!--  VAF %   -->
             <col style="width:130px"/>  <!--   References  -->
             <col style="width:100px"/>   <!--  COSMIC ID   -->
             <col style="width:80px"/>  <!-- IGV -->
             <col style="width:200px"/>  <!--  sanger -->
             <col style="width:120px"/>  <!-- Site  -->
-            <col style="width:80px"/>   <!--  Action -->           
+            <col style="width:80px"/>   <!--  Action -->
             </colgroup>
       <thead>
           <tr>
@@ -284,63 +285,63 @@
               </th>
               <th>
                 <button class="btn btn_01 btn-s" (click)="addRow()">추가</button>
-              </th> 
+              </th>
               <th></th>
-              <!-- 
+              <!--
               <th>IGV</th>
               <th>Sanger</th>
               -->
-              <th>Type</th>                  
+              <th>Type</th>
               <th>Gene</th>
               <th>Functional Impact</th>
               <th>Transcript</th>
-              <th>Exon/<br/>Intron</th>  
-              <th>Nucleotide change</th>    
-              <th>Amino acid change</th> 
+              <th>Exon/<br/>Intron</th>
+              <th>Nucleotide change</th>
+              <th>Amino acid change</th>
               <th>Zygosity</th>
-              <th>VAF %</th> 
-              <th>Reference(s)</th>      
-              <th>COSMIC ID</th> 
+              <th>VAF %</th>
+              <th>Reference(s)</th>
+              <th>COSMIC ID</th>
               <th>IGV</th>
-              <th>Sanger</th>   
+              <th>Sanger</th>
               <th>Site</th>
-              <th>Action</th>                        
+              <th>Action</th>
           </tr>
       </thead>
       <tbody  cdkDropList (cdkDropListDropped)="droped($event)">
-         
+
         <ng-container formArrayName="tableRows" *ngFor="let group of getFormControls.controls; let i=index">
           <tr  [formGroupName]="i" cdkDrag>
             <td>
-                <button type="button" class="drag-handle"   cdkDragHandle>   
+                <button type="button" class="drag-handle"   cdkDragHandle>
                     <img [src]="'assets/baseline_unfold_more_black_18dp.png'">
                 </button>
-            </td> 
-            <td class="trash"  (click)="deleteRow(i)"> 
+            </td>
+            <td class="trash"  (click)="deleteRow(i)">
                 <img [src]="'assets/images/cancel.png'">
-            </td> 
-            <td> 
+            </td>
+            <td>
                 <input type="checkbox"  class="ckbox" formControlName="checked"   (change)="boxstatus(i, $event)">
-            </td> 
-            <!-- 
-            <td><input type="text" size="10" 
+            </td>
+            <!--
+            <td><input type="text" size="10"
                 (keydown.enter)="$event.preventDefault()"
                 [matTooltip]="group.get('igv').value"
                 class="clr-input textcenter  tdbox"  formControlName="igv"></td>
             <td>
-                <textarea class="textarea_01"  style="width: 100%; height: 100%; border: none" 
+                <textarea class="textarea_01"  style="width: 100%; height: 100%; border: none"
                 [matTooltip]="group.get('sanger').value"
-                formControlName="sanger"></textarea>               
+                formControlName="sanger"></textarea>
             </td>
-          -->  
-            <td><input type="text" size="10" 
+          -->
+            <td><input type="text" size="10"
                 (keydown.enter)="$event.preventDefault()"
                 [matTooltip]="group.get('type').value"
                 class="clr-input textcenter tdbox"  formControlName="type"></td>
             <td ><input type="text" size="20" #gene  (keydown.enter)="$event.preventDefault()"
             [matTooltip]="group.get('gene').value"
                  class="clr-input textcenter tdbox" formControlName="gene"></td>
-            <td><input type="text" size="10"  class="clr-input textcenter  tdbox" 
+            <td><input type="text" size="10"  class="clr-input textcenter  tdbox"
                 (keydown.enter)="$event.preventDefault()"
                 matInput
                 [matAutocomplete]="auto"
@@ -352,19 +353,19 @@
                    </mat-option>
                 </mat-autocomplete>
             </td>
-            <td><input type="text" size="20" 
+            <td><input type="text" size="20"
                 (keydown.enter)="$event.preventDefault()"
                 [matTooltip]="group.get('transcript').value"
-                class="clr-input textcenter  tdbox" formControlName="transcript"></td> 
-            <td><input type="text" size="15" 
+                class="clr-input textcenter  tdbox" formControlName="transcript"></td>
+            <td><input type="text" size="15"
                 (keydown.enter)="$event.preventDefault()"
                 [matTooltip]="group.get('exonIntro').value"
                 class="clr-input textcenter  tdbox" formControlName="exonIntro"></td>
-            <td><input type="text" size="40"  class="clr-input textcenter  tdbox" 
+            <td><input type="text" size="40"  class="clr-input textcenter  tdbox"
                 (keydown.enter)="$event.preventDefault()"
                 [matTooltip]="group.get('nucleotideChange').value"
                 formControlName="nucleotideChange"></td>
-            <td><input type="text" size="40"  class="clr-input textcenter  tdbox" 
+            <td><input type="text" size="40"  class="clr-input textcenter  tdbox"
                 (keydown.enter)="$event.preventDefault()"
                 [matTooltip]="group.get('aminoAcidChange').value"
                 formControlName="aminoAcidChange"></td>
@@ -373,46 +374,46 @@
                 [matTooltip]="group.get('zygosity').value"
                 formControlName="zygosity"></td>
             <td>
-                <textarea class="textarea_01" 
+                <textarea class="textarea_01"
                 [matTooltip]="group.get('vafPercent').value"
                  style="width: 100%; height: 100%; border: none" formControlName="vafPercent"></textarea>
-               
+
             </td>
-            <td><input type="text" size="10"  class="clr-input textcenter  tdbox" 
+            <td><input type="text" size="10"  class="clr-input textcenter  tdbox"
                 (keydown.enter)="$event.preventDefault()"
                 [matTooltip]="group.get('references').value"
                 formControlName="references"></td>
-            <td><input type="text" size="20"  class="clr-input textcenter  tdbox" 
+            <td><input type="text" size="20"  class="clr-input textcenter  tdbox"
                 (keydown.enter)="$event.preventDefault()"
                 [matTooltip]="group.get('cosmicID').value"
                 formControlName="cosmicID"></td>
-               
-            <td><input type="text" size="10" 
+
+            <td><input type="text" size="10"
                 (keydown.enter)="$event.preventDefault()"
                 [matTooltip]="group.get('igv').value"
                 class="clr-input textcenter  tdbox"  formControlName="igv"></td>
             <td>
-                <textarea class="textarea_01"  style="width: 100%; height: 100%; border: none" 
+                <textarea class="textarea_01"  style="width: 100%; height: 100%; border: none"
                 [matTooltip]="group.get('sanger').value"
-                formControlName="sanger"></textarea>               
+                formControlName="sanger"></textarea>
             </td>
-             
+
             <td  class="txt_c">
               <select class="select_01" style="width: 100%;" name="options" (change)="saveInhouse(i, inhouse.value)"   #inhouse>
                 <option value="mutation" selected>Mutation</option>
                 <option value="artifacts">Artifacts</option>
                <!-- <option value="benign">Benign</option>  -->
-              </select>                    
+              </select>
             </td>
                <td>
                <button class="btn-s blue"  (click)="save(i)"  >저장</button>
-               
+
             </td>
-            </tr>                               
+            </tr>
           </ng-container>
       </tbody>
     </table>
- 
+
   </form>
 
 <!---  ---------------------------   -->
@@ -435,10 +436,10 @@
                 <li>
                     <button type="button" class="btn btn_01" (click)="addComments(reportType)">저장</button>
                 </li>
-            </ul>            
-            </div> 
-        <div  class="comment_box_50">   
-        <form [formGroup]="tablerowForm" >            
+            </ul>
+            </div>
+        <div  class="comment_box_50">
+        <form [formGroup]="tablerowForm" >
             <table width="100%" cellpadding="0" cellspacing="0" class="table_result">
                <colgroup>
                 <col style="width:7%;" />
@@ -446,14 +447,14 @@
                 <col style="width:30%;" />
                 <col style="width:30%;" />
                 <col style="width:8%;" />
-               </colgroup>  
+               </colgroup>
               <thead>
                   <tr>
                       <th class="table_result_line">Gene</th>
                       <th >Variants</th>
                       <th> Comments</th>
                       <th >Reference</th>
-                 
+
                       <th><button class="btn btn_01" (click)="addNewCommentRow()">추가</button></th>
                   </tr>
               </thead>
@@ -466,12 +467,12 @@
                             (keydown.enter)="$event.preventDefault()"
                              class="input_02  textcenter" size="10" formControlName="gene">
                         </td>
-                        <td><input type="text" style="width:88%;display:block;margin:0 auto;" 
+                        <td><input type="text" style="width:88%;display:block;margin:0 auto;"
                             (keydown.enter)="$event.preventDefault()"
                             class="input_02  textcenter" size="10" formControlName="variant_id">
                         </td>
                         <td class="textarea01"><textarea style="width:96%;display:block;margin:0 auto;" class="textarea_01" formControlName="comment"></textarea></td>
-                        <td class="textarea01" style="white-space: pre-wrap;"><textarea style="width:96%;display:block;margin:0 auto;white-space: pre-wrap;" class="textarea_01" formControlName="reference"></textarea></td> 
+                        <td class="textarea01" style="white-space: pre-wrap;"><textarea style="width:96%;display:block;margin:0 auto;white-space: pre-wrap;" class="textarea_01" formControlName="reference"></textarea></td>
                         <td  align="center">
                             <img [src]="'assets/images/cancel.png'" (click)="removeCommentRow(i)">
                         </td>
@@ -480,9 +481,9 @@
               </tbody>
             </table>
         </form>
-        </div>    
+        </div>
       </div>
-  
+
 <!--     -->
               <div class="sub_title">*Methods</div>
               <div class="pd_r20">
@@ -517,7 +518,7 @@
                     <td class="txt_c">{{list.g7}}</td>
                     <td class="txt_c">{{list.g8}}</td>
                     <td class="txt_c">{{list.g9}}</td>
-                  </tr> 
+                  </tr>
               </table>
   <!--  ------------------------------- ALL   -->
   <table cellpadding="0" cellspacing="0" class="table_result02"    *ngIf="reportType === 'ALL'">
@@ -544,7 +545,7 @@
         <td class="txt_c">{{list.g7}}</td>
         <td class="txt_c">{{list.g8}}</td>
         <td class="txt_c">{{list.g9}}</td>
-      </tr> 
+      </tr>
 </table>
 
   <!-- ------------------------------- END ALL -->
@@ -553,10 +554,10 @@
       <tr>
           <td class="txt_l font_16 fb">검사의뢰일/검사보고일/수정보고일: {{requestDate | date: 'yyyy.MM.dd'}}/{{firstReportDay}}/{{lastReportDay}}  </td>
           <td class="txt_1 font_16 fb">검사자:  <input type="text" [(ngModel)]="examin" class="input_02" size="30">
-                                    
-         </td> 
+
+         </td>
           <td class="txt_1 font_16 fb">판독의사: <input type="text"   [(ngModel)]="recheck" class="input_02" size="30">
-              
+
           </td>
       </tr>
   </table>
@@ -569,33 +570,33 @@
           <div class="foot_btn mg_t30 pd_b30 txt_c main_btn"  *ngIf="preview">
             <ul>
                 <li>
-                    <button type="button" class="btn btn_01" (click)="previewToggle()">미리보기</button>                   
+                    <button type="button" class="btn btn_01" (click)="previewToggle()">미리보기</button>
                 </li>
                 <li>
                     <button class="btn btn_01" (click)="reset()"
-                    [disabled]="getStatus(4)">수정</button>                 
+                    [disabled]="getStatus(4)">수정</button>
                 </li>
                 <li>
-                    <button class="btn btn_01" (click)="tempSave()">임시저장</button>                   
+                    <button class="btn btn_01" (click)="tempSave()">임시저장</button>
                 </li>
                 <li>
-                    <button class="btn btn_01" (click)="screenRead()" [disabled]="getStatus(1)">스크린완료</button>                   
+                    <button class="btn btn_01" (click)="screenRead()" [disabled]="getStatus(1)">스크린완료</button>
                 </li>
                 <li>
-                    <button class="btn btn_01" (click)="screenReadFinish()" [disabled]="getStatus(2)">판독완료</button>                   
+                    <button class="btn btn_01" (click)="screenReadFinish()" [disabled]="getStatus(2)">판독완료</button>
                 </li>
                 <li  *ngIf="reportType === 'AML'">
-                    <button class="btn btn_01" (click)="goEMR()" [disabled]="getStatus(3)">EMR전송</button>                   
+                    <button class="btn btn_01" (click)="goEMR()" [disabled]="getStatus(3)">EMR전송</button>
                 </li>
                 <li  *ngIf="reportType === 'ALL'">
-                    <button class="btn btn_01" (click)="gotoEMR()" [disabled]="getStatus(3)">EMR전송</button>                    
-                </li>                
+                    <button class="btn btn_01" (click)="gotoEMR()" [disabled]="getStatus(3)">EMR전송</button>
+                </li>
             </ul>
         </div>
       </div>
   </div>
   <!-- -----------------------------------------------------------  -->
-  
+
   <!--    -->
    <div class="modal-overlay" *ngIf="isVisible">
        <div class="modal-body">

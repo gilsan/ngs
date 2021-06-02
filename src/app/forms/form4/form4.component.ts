@@ -142,7 +142,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
   sendEMR = 0; // EMR 보낸 수
   firstReportDay = '-'; // 검사보고일
   lastReportDay = '-';  // 수정보고일
-  reportType: string; // 
+  reportType: string; //
 
   genelists: IGeneList[] = [];
 
@@ -454,7 +454,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     //       this.profile.chron = data[0].chromosomalanalysis;
     //       this.profile.flt3itd = data[0].genetictest;
     //       this.profile.leukemia = data[0].diagnosis;
-    //       this.store.setProfile(this.profile);  
+    //       this.store.setProfile(this.profile);
 
     //     }
     //   });
@@ -1496,6 +1496,33 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     console.log('excel', this.tsvLists);
     this.excel.exportAsExcelFile(this.tsvLists, 'sample');
   }
+  ///////////////////////////////////////////////////////////
+  excelDV(): void {
+    const excel = [];
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    const formData = control.getRawValue();
+
+    formData.forEach(item => {
+      excel.push({
+        name: this.patientInfo.name,
+        gender: this.patientInfo.gender,
+        age: this.patientInfo.age,
+        gene: item.gene,
+        functionalImpact: item.functionalImpact,
+        transcript: item.transcript,
+        exonIntro: item.exonIntro,
+        nucleotideChange: item.nucleotideChange,
+        aminoAcidChange: item.aminoAcidChange,
+        zygosity: item.zygosity,
+        vafPercent: item.vafPercent,
+        references: item.references,
+        cosmicID: item.cosmicID,
+        igv: item.igv,
+        sanger: item.sanger
+      });
+    });
+    this.excel.exportAsExcelFile(excel, 'result');
+  }
   ////////////////////////////////////////////////////////////
   today(): string {
     const today = new Date();
@@ -1609,7 +1636,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
             this.screenstatus = msg[0].screenstatus;
             this.patientsListService.getPatientInfo(this.form2TestedId)
               .subscribe(patientInfo => {
-                // 초기화 
+                // 초기화
                 this.mockData = [];
                 // 코멘트 초기화
                 this.comments = [];

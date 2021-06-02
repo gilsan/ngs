@@ -1538,6 +1538,33 @@ export class Form3Component implements OnInit, OnDestroy, AfterViewInit {
     console.log('excel', this.tsvLists);
     this.excel.exportAsExcelFile(this.tsvLists, 'sample');
   }
+  ///////////////////////////////////////////////////////////
+  excelDV(): void {
+    const excel = [];
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    const formData = control.getRawValue();
+
+    formData.forEach(item => {
+      excel.push({
+        name: this.patientInfo.name,
+        gender: this.patientInfo.gender,
+        age: this.patientInfo.age,
+        gene: item.gene,
+        functionalImpact: item.functionalImpact,
+        transcript: item.transcript,
+        exonIntro: item.exonIntro,
+        nucleotideChange: item.nucleotideChange,
+        aminoAcidChange: item.aminoAcidChange,
+        zygosity: item.zygosity,
+        vafPercent: item.vafPercent,
+        references: item.references,
+        cosmicID: item.cosmicID,
+        igv: item.igv,
+        sanger: item.sanger
+      });
+    });
+    this.excel.exportAsExcelFile(excel, 'result');
+  }
   ////////////////////////////////////////////////////////////
   today(): string {
     const today = new Date();
@@ -1761,7 +1788,7 @@ export class Form3Component implements OnInit, OnDestroy, AfterViewInit {
     return Math.max(0, Math.min(max, value));
   }
 
-  ///////////////////////////////////////////////////////////////////// 
+  /////////////////////////////////////////////////////////////////////
   // detected variant 정렬
   dvSort(): void {
 
