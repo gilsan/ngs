@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest, from, Observable, of } from 'rxjs';
 
 import {
-  IComment, IDList, IFilteredTSV, IGeneCoding,
+  IComment, IDList, IExcelData, IFilteredTSV, IGeneCoding,
   IGeneList,
   ILYMProfile,
   IPatient, IProfile, IRecoverVariants
@@ -28,6 +28,7 @@ import { makeDForm } from 'src/app/home/models/dTypemodel';
 import { makeCForm } from 'src/app/home/models/cTypemodel';
 import { moveItemInArray, CdkDragDrop } from '@angular/cdk/drag-drop';
 import { AnalysisService } from '../commons/analysis.service';
+import { ExcelAddListService } from 'src/app/home/services/excelAddList';
 
 /**  profile
  *  ALL/AML   LYM           MDS
@@ -180,6 +181,7 @@ export class Form3Component implements OnInit, OnDestroy, AfterViewInit {
     private utilsService: UtilsService,
     private commentsService: CommentsService,
     private analysisService: AnalysisService,
+    private excelService: ExcelAddListService
   ) { }
 
   ngOnInit(): void {
@@ -1540,12 +1542,13 @@ export class Form3Component implements OnInit, OnDestroy, AfterViewInit {
   }
   ///////////////////////////////////////////////////////////
   excelDV(): void {
-    const excel = [];
+    const excelData: IExcelData[] = [];
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
 
     formData.forEach(item => {
-      excel.push({
+      excelData.push({
+        patientID: this.patientInfo.patientID,
         name: this.patientInfo.name,
         gender: this.patientInfo.gender,
         age: this.patientInfo.age,
@@ -1557,13 +1560,42 @@ export class Form3Component implements OnInit, OnDestroy, AfterViewInit {
         aminoAcidChange: item.aminoAcidChange,
         zygosity: item.zygosity,
         vafPercent: item.vafPercent,
-        references: item.references,
-        cosmicID: item.cosmicID,
-        igv: item.igv,
-        sanger: item.sanger
+        reference: item.references,
+        cosmicID: item.cosmicID
+
       });
     });
-    this.excel.exportAsExcelFile(excel, 'result');
+
+
+    this.excelService.excelInsert(excelData, this.patientInfo.specimenNo)
+      .subscribe((data: { message: string }) => {
+        // console.log('입력요청에 대한 응답: ', data.message);
+        if (data.message === 'SUCCESS') {
+          this.excelService.excelList().subscribe((lists: IExcelData[]) => {
+            const excelLists: IExcelData[] = [];
+            lists.forEach(list => {
+              excelLists.push({
+                name: list.name,
+                patientID: list.patientID,
+                gender: list.gender,
+                age: list.age,
+                gene: list.gene,
+                functionalImpact: list.functionalImpact,
+                transcript: list.transcript,
+                exonIntro: list.exonIntro,
+                nucleotideChange: list.nucleotideChange,
+                aminoAcidChange: list.aminoAcidChange,
+                zygosity: list.zygosity,
+                vafPercent: list.vafPercent,
+                references: list.references,
+                cosmicID: list.cosmicID
+              });
+            });
+            this.excel.exportAsExcelFile(excelLists, 'report');
+          });
+        }
+      });
+
   }
   ////////////////////////////////////////////////////////////
   today(): string {

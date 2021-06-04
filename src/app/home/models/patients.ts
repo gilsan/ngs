@@ -54,6 +54,26 @@ export interface ILYMProfile {
   chron: string;
 }
 
+export interface IExcelData {
+  id?: string;
+  patientID?: string;
+  specimenNo?: string;
+  name: string;
+  gender: string;
+  age: string;
+  gene: string;
+  functionalImpact: string;
+  transcript: string;
+  exonIntro: string;
+  nucleotideChange: string;
+  aminoAcidChange: string;
+  zygosity: string;
+  vafPercent: string;
+  reference?: string;
+  references?: string;
+  cosmicID: string;
+}
+
 
 
 export interface IAMLProfile {
@@ -286,3 +306,5 @@ export interface IGeneList {
   g8: string;
   g9: string;
 }
+
+
