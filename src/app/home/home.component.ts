@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { StoreService } from '../forms/store.current';
 import { PatientsListService } from './services/patientslist';
@@ -10,13 +10,18 @@ import { ManageUsersService } from 'src/app/home/services/manageUsers.service';
 import { IPasswd } from '../byengri/models/patients';
 import { DiagpasswdchangeComponent } from './diagpasswdchange/diagpasswdchange.component';
 import { filter, map, tap } from 'rxjs/operators';
-
+import { ExcelAddListService } from './services/excelAddList';
+import { IExcelData } from './models/patients';
+import { ExcelService } from '../services/excel.service';
+import { SubSink } from 'subsink';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
+
+  private subs = new SubSink();
 
   userid: string;
   username: string;
@@ -31,6 +36,8 @@ export class HomeComponent implements OnInit {
     private store: StorePathService,
     public dialog: MatDialog,
     private service: ManageUsersService,
+    private excelService: ExcelAddListService,
+    private excel: ExcelService,
   ) { }
 
   ngOnInit(): void {
@@ -61,6 +68,10 @@ export class HomeComponent implements OnInit {
           }
         }
       });
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 
   logout(): void {
@@ -158,6 +169,37 @@ export class HomeComponent implements OnInit {
           });
       }
     });
+  }
+
+  excelDownload(): void {
+
+    this.subs.sink = this.excelService.excelList().subscribe((lists: IExcelData[]) => {
+      console.log(lists);
+      const excelLists: IExcelData[] = [];
+      lists.forEach(list => {
+        excelLists.push({
+          name: list.name,
+          gender: list.gender,
+          age: list.age,
+          patientID: list.patientID,
+          acceptdate: list.acceptdate,
+          reportdate: list.reportdate,
+          testcode: list.testcode,
+          gene: list.gene,
+          functionalImpact: list.functionalImpact,
+          transcript: list.transcript,
+          exonIntro: list.exonIntro,
+          nucleotideChange: list.nucleotideChange,
+          aminoAcidChange: list.aminoAcidChange,
+          zygosity: list.zygosity,
+          vafPercent: list.vafPercent,
+          references: list.references,
+          cosmicID: list.cosmicID
+        });
+      });
+      this.excel.exportAsExcelFile(excelLists, 'report');
+    });
+
   }
 
 

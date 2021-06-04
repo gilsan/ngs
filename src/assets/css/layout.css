@@ -2,11 +2,11 @@
 
 /*
 //=============================================================================
-// 로컬정보 (http://www. )                                                      
+// 로컬정보 (http://www. )
 // 설  명: NGS 통합관리시스템
 // 작업일: 2020.10.28
 // 작업일: 2020.10.28
-// 수정자: 조현정                                                                    
+// 수정자: 조현정
 //=============================================================================
 */
 
@@ -873,7 +873,8 @@
   display: none;
   position: absolute;
   border: 3px solid #2196f3;
-  width: 475px;
+  /* width: 475px;  */
+  width: 680px;
   top: 65px;
   left: 20%;
   padding: 10px 0;
@@ -941,7 +942,7 @@
   font-size: 14px !important;
   white-space: pre-line !important;
   height: auto !important;
-  overflow: hidden  !important;
+  overflow: hidden !important;
   text-overflow: ellipsis !important;
   max-width: unset !important;
 }

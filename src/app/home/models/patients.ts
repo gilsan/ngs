@@ -72,6 +72,9 @@ export interface IExcelData {
   reference?: string;
   references?: string;
   cosmicID: string;
+  acceptdate: string;
+  reportdate: string;
+  testcode: string;
 }
 
 

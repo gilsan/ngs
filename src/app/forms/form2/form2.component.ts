@@ -27,6 +27,7 @@ import { moveItemInArray, CdkDragDrop } from '@angular/cdk/drag-drop';
 import { AnalysisService } from '../commons/analysis.service';
 import { ClrCommonFormsModule } from '@clr/angular';
 import { ExcelAddListService } from 'src/app/home/services/excelAddList';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-form2',
@@ -175,7 +176,8 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     private utilsService: UtilsService,
     private commentsService: CommentsService,
     private analysisService: AnalysisService,
-    private excelService: ExcelAddListService
+    private excelService: ExcelAddListService,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -1671,11 +1673,13 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
 
     formData.forEach(item => {
       excelData.push({
-        patientID: this.patientInfo.patientID,
-        // specimenNo: this.patientInfo.specimenNo,
         name: this.patientInfo.name,
         gender: this.patientInfo.gender,
         age: this.patientInfo.age,
+        acceptdate: this.patientInfo.accept_date,
+        reportdate: this.today(),
+        testcode: this.reportType,
+        patientID: this.patientInfo.patientID,
         gene: item.gene,
         functionalImpact: item.functionalImpact,
         transcript: item.transcript,
@@ -1690,33 +1694,13 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       });
     });
 
-
-    this.excelService.excelInsert(excelData, this.patientInfo.specimenNo)
+    this.subs.sink = this.excelService.excelInsert(excelData, this.patientInfo.specimenNo)
       .subscribe((data: { message: string }) => {
         // console.log('입력요청에 대한 응답: ', data.message);
         if (data.message === 'SUCCESS') {
-          this.excelService.excelList().subscribe((lists: IExcelData[]) => {
-            const excelLists: IExcelData[] = [];
-            lists.forEach(list => {
-              excelLists.push({
-                name: list.name,
-                patientID: list.patientID,
-                gender: list.gender,
-                age: list.age,
-                gene: list.gene,
-                functionalImpact: list.functionalImpact,
-                transcript: list.transcript,
-                exonIntro: list.exonIntro,
-                nucleotideChange: list.nucleotideChange,
-                aminoAcidChange: list.aminoAcidChange,
-                zygosity: list.zygosity,
-                vafPercent: list.vafPercent,
-                references: list.references,
-                cosmicID: list.cosmicID
-              });
-            });
-            this.excel.exportAsExcelFile(excelLists, 'report');
-          });
+          this.snackBar.open('저장 했습니다.', '닫기', { duration: 3000 });
+        } else {
+          this.snackBar.open('저장하지 못했습니다.', '닫기', { duration: 3000 });
         }
       });
 
