@@ -186,14 +186,14 @@ export class HomeComponent implements OnInit, OnDestroy {
         acceptdate: "검사일시",
         reportdate: "저장일시",
         testcode: "결과지 구분",
-        gene: "gene",
-        functionalImpact: "functional Impact",
-        transcript: "transcript",
+        gene: "Gene",
+        functionalImpact: "Functional Impact",
+        transcript: "Transcript",
         exonIntro: "Exon/Intron",
         nucleotideChange: "Nucleotide Change",
         aminoAcidChange: "Amino Acid Change",
         zygosity: "Zygosity",
-        vafPercent: "VAF",
+        vafPercent: "VAF %",
         references: "Reference(s)",
         cosmicID: "COSMIC ID"
       });
