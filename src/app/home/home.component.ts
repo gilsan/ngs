@@ -189,10 +189,10 @@ export class HomeComponent implements OnInit, OnDestroy {
         gene: "gene",
         functionalImpact: "functional Impact",
         transcript: "transcript",
-        exonIntro: "Exon/ Intron",
+        exonIntro: "Exon/Intron",
         nucleotideChange: "Nucleotide Change",
         aminoAcidChange: "Amino Acid Change",
-        zygosity: "zygosity",
+        zygosity: "Zygosity",
         vafPercent: "VAF",
         references: "Reference(s)",
         cosmicID: "COSMIC ID"
