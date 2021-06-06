@@ -176,6 +176,28 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.subs.sink = this.excelService.excelList().subscribe((lists: IExcelData[]) => {
       console.log(lists);
       const excelLists: IExcelData[] = [];
+
+      
+      excelLists.push({
+        name: "환자명",
+        gender: "성별",
+        age: "나이",
+        patientID: "등록번호",
+        acceptdate: "검사일시",
+        reportdate: "저장일시",
+        testcode: "결과지 구분",
+        gene: "gene",
+        functionalImpact: "functional_Impact",
+        transcript: "transcript",
+        exonIntro: "exonIntro",
+        nucleotideChange: "nucleotideChange",
+        aminoAcidChange: "aminoAcidChange",
+        zygosity: "zygosity",
+        vafPercent: "vafPercent",
+        references: "references",
+        cosmicID: "cosmicID"
+      });
+
       lists.forEach(list => {
         excelLists.push({
           name: list.name,
