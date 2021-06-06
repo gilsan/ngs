@@ -16,7 +16,7 @@ export class ExcelService {
 
   public exportAsExcelFile(jsonData: any[], excelFileName: string): void {
 
-    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(jsonData);
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(jsonData, { skipHeader: true });
     const workbook: XLSX.WorkBook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
     const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
 
