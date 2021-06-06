@@ -187,15 +187,15 @@ export class HomeComponent implements OnInit, OnDestroy {
         reportdate: "저장일시",
         testcode: "결과지 구분",
         gene: "gene",
-        functionalImpact: "functional_Impact",
+        functionalImpact: "functional Impact",
         transcript: "transcript",
-        exonIntro: "exonIntro",
-        nucleotideChange: "nucleotideChange",
-        aminoAcidChange: "aminoAcidChange",
+        exonIntro: "Exon/ Intron",
+        nucleotideChange: "Nucleotide Change",
+        aminoAcidChange: "Amino Acid Change",
         zygosity: "zygosity",
-        vafPercent: "vafPercent",
-        references: "references",
-        cosmicID: "cosmicID"
+        vafPercent: "VAF",
+        references: "Reference(s)",
+        cosmicID: "COSMIC ID"
       });
 
       lists.forEach(list => {
