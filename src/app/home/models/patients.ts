@@ -75,6 +75,7 @@ export interface IExcelData {
   acceptdate: string;
   reportdate: string;
   testcode: string;
+  tsvname?: string;
 }
 
 

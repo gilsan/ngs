@@ -1689,21 +1689,20 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
         zygosity: item.zygosity,
         vafPercent: item.vafPercent,
         reference: item.references,
-        cosmicID: item.cosmicID
-
+        cosmicID: item.cosmicID,
+        tsvname: this.patientInfo.tsvFilteredFilename
       });
     });
-
+    console.log('액셀데이터: ', excelData);
     this.subs.sink = this.excelService.excelInsert(excelData, this.patientInfo.specimenNo)
       .subscribe((data: { message: string }) => {
-        // console.log('입력요청에 대한 응답: ', data.message);
+
         if (data.message === 'SUCCESS') {
           this.snackBar.open('저장 했습니다.', '닫기', { duration: 3000 });
         } else {
           this.snackBar.open('저장하지 못했습니다.', '닫기', { duration: 3000 });
         }
       });
-
   }
   ////////////////////////////////////////////////////////////
   today(): string {

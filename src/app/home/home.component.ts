@@ -177,29 +177,31 @@ export class HomeComponent implements OnInit, OnDestroy {
       console.log(lists);
       const excelLists: IExcelData[] = [];
 
-      
+
       excelLists.push({
-        name: "환자명",
-        gender: "성별",
-        age: "나이",
-        patientID: "등록번호",
-        acceptdate: "검사일시",
-        reportdate: "저장일시",
-        testcode: "결과지 구분",
-        gene: "Gene",
-        functionalImpact: "Functional Impact",
-        transcript: "Transcript",
-        exonIntro: "Exon/Intron",
-        nucleotideChange: "Nucleotide Change",
-        aminoAcidChange: "Amino Acid Change",
-        zygosity: "Zygosity",
-        vafPercent: "VAF %",
-        references: "Reference(s)",
-        cosmicID: "COSMIC ID"
+        tsvname: 'TSV파일명',
+        name: '환자명',
+        gender: '성별',
+        age: '나이',
+        patientID: '등록번호',
+        acceptdate: '검사일시',
+        reportdate: '저장일시',
+        testcode: '결과지 구분',
+        gene: 'Gene',
+        functionalImpact: 'Functional Impact',
+        transcript: 'Transcript',
+        exonIntro: 'Exon/Intron',
+        nucleotideChange: 'Nucleotide Change',
+        aminoAcidChange: 'Amino Acid Change',
+        zygosity: 'Zygosity',
+        vafPercent: 'VAF %',
+        references: 'Reference(s)',
+        cosmicID: 'COSMIC ID'
       });
 
       lists.forEach(list => {
         excelLists.push({
+          tsvname: list.tsvname,
           name: list.name,
           gender: list.gender,
           age: list.age,

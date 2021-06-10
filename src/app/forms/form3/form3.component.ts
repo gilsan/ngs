@@ -1566,7 +1566,8 @@ export class Form3Component implements OnInit, OnDestroy, AfterViewInit {
         zygosity: item.zygosity,
         vafPercent: item.vafPercent,
         reference: item.references,
-        cosmicID: item.cosmicID
+        cosmicID: item.cosmicID,
+        tsvname: this.patientInfo.tsvFilteredFilename
 
       });
     });
