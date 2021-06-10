@@ -1677,7 +1677,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
         gender: this.patientInfo.gender,
         age: this.patientInfo.age,
         acceptdate: this.patientInfo.accept_date,
-        reportdate: this.today(),
+        reportdate: this.today2(),
         testcode: this.reportType,
         patientID: this.patientInfo.patientID,
         gene: item.gene,
@@ -1715,6 +1715,23 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     const newmon = ('0' + month).substr(-2);
     const newday = ('0' + date).substr(-2);
     const now = year + '.' + newmon + '.' + newday;
+
+    return now;
+  }
+
+  today2(): string {
+    const today = new Date();
+
+    const year = today.getFullYear(); // 년도
+    const month = today.getMonth() + 1;  // 월
+    const date = today.getDate();  // 날짜
+    const hour = today.getHours();
+    const min = today.getMinutes();
+    const sec = today.getSeconds();
+
+    const newmon = ('0' + month).substr(-2);
+    const newday = ('0' + date).substr(-2);
+    const now = year + '-' + newmon + '-' + newday + ' ' + hour + ':' + min + ':' + sec;
 
     return now;
   }
