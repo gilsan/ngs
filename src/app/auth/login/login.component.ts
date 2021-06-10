@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     } else if (this.type === 'path') {
       this.subs.sink = this.authService.loginPath(this.loginGroup.value.user, this.loginGroup.value.passwd)
         .subscribe((data) => {
-          console.log('[65][path]', data);
+          // console.log('[65][path]', data);
           if (data.message === 'WRONGID') {
             alert('아이디가 맞지 않습니다.');
           } else if (data.message === 'WRONGPW') {

@@ -272,7 +272,7 @@ export class MainscreenComponent implements OnInit, AfterViewInit, OnDestroy {
     if (specimenNo !== undefined) {
       specimenNo = specimenNo.trim();
     }
-    console.log('[275][검색]' + '[' + startdate + '][' + enddate + '][' + patientId + '][' + specimenNo + '][' + status + '][' + sheet + ']');
+    // console.log('[275][검색]' + '[' + startdate + '][' + enddate + '][' + patientId + '][' + specimenNo + '][' + status + '][' + sheet + ']');
     this.lists$ = this.patientsList.search(startdate, enddate, patientId, specimenNo, status, sheet);
     this.subs.sink = this.lists$
       .pipe(
