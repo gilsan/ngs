@@ -1503,7 +1503,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
         this.screenstatus = '3';
         // console.log('[1312][SEND EMR][AML] ', msg, this.screenstatus);
         alert('EMR로 전송했습니다.');
-
+        this.excelDV();
         // 환자정보 가져오기
         this.patientsListService.getPatientInfo(this.form2TestedId)
           .subscribe(patient => {
@@ -1591,7 +1591,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       ).subscribe((msg: { screenstatus: string }) => {
         this.screenstatus = '3';
         alert('EMR로 전송했습니다.');
-
+        this.excelDV();
         // 환자정보 가져오기
         this.patientsListService.getPatientInfo(this.form2TestedId)
           .subscribe(patient => {
@@ -1693,7 +1693,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
         tsvname: this.patientInfo.tsvFilteredFilename
       });
     });
-    console.log('액셀데이터: ', excelData);
+    // console.log('액셀데이터: ', excelData);
     this.subs.sink = this.excelService.excelInsert(excelData, this.patientInfo.specimenNo)
       .subscribe((data: { message: string }) => {
 
