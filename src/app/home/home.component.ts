@@ -217,7 +217,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           aminoAcidChange: list.aminoAcidChange,
           zygosity: list.zygosity,
           vafPercent: list.vafPercent,
-          references: list.references,
+          references: list.reference,
           cosmicID: list.cosmicID
         });
       });
