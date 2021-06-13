@@ -1670,39 +1670,62 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     const excelData: IExcelData[] = [];
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
-
-    formData.forEach(item => {
+    // console.log(formData.length);
+    if (formData.length === 0) {
       excelData.push({
+        tsvname: this.patientInfo.tsvFilteredFilename,
         name: this.patientInfo.name,
         gender: this.patientInfo.gender,
         age: this.patientInfo.age,
+        patientID: this.patientInfo.patientID,
         acceptdate: this.patientInfo.accept_date,
         reportdate: this.today2(),
         testcode: this.reportType,
-        patientID: this.patientInfo.patientID,
-        gene: item.gene,
-        functionalImpact: item.functionalImpact,
-        transcript: item.transcript,
-        exonIntro: item.exonIntro,
-        nucleotideChange: item.nucleotideChange,
-        aminoAcidChange: item.aminoAcidChange,
-        zygosity: item.zygosity,
-        vafPercent: item.vafPercent,
-        reference: item.references,
-        cosmicID: item.cosmicID,
-        tsvname: this.patientInfo.tsvFilteredFilename
+        gene: '',
+        functionalImpact: ' ',
+        transcript: '',
+        exonIntro: '',
+        nucleotideChange: '',
+        aminoAcidChange: '',
+        zygosity: '',
+        vafPercent: '',
+        references: '',
+        cosmicID: ''
       });
-    });
-    // console.log('액셀데이터: ', excelData);
-    this.subs.sink = this.excelService.excelInsert(excelData, this.patientInfo.specimenNo)
-      .subscribe((data: { message: string }) => {
+    } else {
+      formData.forEach(item => {
+        excelData.push({
+          name: this.patientInfo.name,
+          gender: this.patientInfo.gender,
+          age: this.patientInfo.age,
+          acceptdate: this.patientInfo.accept_date,
+          reportdate: this.today2(),
+          testcode: this.reportType,
+          patientID: this.patientInfo.patientID,
+          gene: item.gene,
+          functionalImpact: item.functionalImpact,
+          transcript: item.transcript,
+          exonIntro: item.exonIntro,
+          nucleotideChange: item.nucleotideChange,
+          aminoAcidChange: item.aminoAcidChange,
+          zygosity: item.zygosity,
+          vafPercent: item.vafPercent,
+          reference: item.references,
+          cosmicID: item.cosmicID,
+          tsvname: this.patientInfo.tsvFilteredFilename
+        });
+      });
+    }
+    console.log(excelData, formData.length);
+    // this.subs.sink = this.excelService.excelInsert(excelData, this.patientInfo.specimenNo)
+    //   .subscribe((data: { message: string }) => {
 
-        if (data.message === 'SUCCESS') {
-          this.snackBar.open('저장 했습니다.', '닫기', { duration: 3000 });
-        } else {
-          this.snackBar.open('저장하지 못했습니다.', '닫기', { duration: 3000 });
-        }
-      });
+    //     if (data.message === 'SUCCESS') {
+    //       this.snackBar.open('저장 했습니다.', '닫기', { duration: 3000 });
+    //     } else {
+    //       this.snackBar.open('저장하지 못했습니다.', '닫기', { duration: 3000 });
+    //     }
+    //   });
   }
   ////////////////////////////////////////////////////////////
   today(): string {

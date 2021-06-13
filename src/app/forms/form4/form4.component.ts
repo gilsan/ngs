@@ -1506,30 +1506,53 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
 
-    formData.forEach(item => {
+    if (formData.length === 0) {
       excelData.push({
+        tsvname: this.patientInfo.tsvFilteredFilename,
         name: this.patientInfo.name,
         gender: this.patientInfo.gender,
         age: this.patientInfo.age,
-        acceptdate: this.patientInfo.accept_date,
-        reportdate: this.today(),
-        testcode: 'MDS/MPN',
         patientID: this.patientInfo.patientID,
-        gene: item.gene,
-        functionalImpact: item.functionalImpact,
-        transcript: item.transcript,
-        exonIntro: item.exonIntro,
-        nucleotideChange: item.nucleotideChange,
-        aminoAcidChange: item.aminoAcidChange,
-        zygosity: item.zygosity,
-        vafPercent: item.vafPercent,
-        reference: item.references,
-        cosmicID: item.cosmicID,
-        tsvname: this.patientInfo.tsvFilteredFilename
-
+        acceptdate: this.patientInfo.accept_date,
+        reportdate: this.today2(),
+        testcode: this.reportType,
+        gene: '',
+        functionalImpact: '',
+        transcript: '',
+        exonIntro: '',
+        nucleotideChange: '',
+        aminoAcidChange: '',
+        zygosity: '',
+        vafPercent: '',
+        references: '',
+        cosmicID: ''
       });
-    });
+    } else {
 
+      formData.forEach(item => {
+        excelData.push({
+          name: this.patientInfo.name,
+          gender: this.patientInfo.gender,
+          age: this.patientInfo.age,
+          acceptdate: this.patientInfo.accept_date,
+          reportdate: this.today2(),
+          testcode: 'MDS/MPN',
+          patientID: this.patientInfo.patientID,
+          gene: item.gene,
+          functionalImpact: item.functionalImpact,
+          transcript: item.transcript,
+          exonIntro: item.exonIntro,
+          nucleotideChange: item.nucleotideChange,
+          aminoAcidChange: item.aminoAcidChange,
+          zygosity: item.zygosity,
+          vafPercent: item.vafPercent,
+          reference: item.references,
+          cosmicID: item.cosmicID,
+          tsvname: this.patientInfo.tsvFilteredFilename
+
+        });
+      });
+    }
 
     this.subs.sink = this.excelService.excelInsert(excelData, this.patientInfo.specimenNo)
       .subscribe((data: { message: string }) => {
@@ -1553,6 +1576,22 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     const newmon = ('0' + month).substr(-2);
     const newday = ('0' + date).substr(-2);
     const now = year + '.' + newmon + '.' + newday;
+
+    return now;
+  }
+  today2(): string {
+    const today = new Date();
+
+    const year = today.getFullYear(); // 년도
+    const month = today.getMonth() + 1;  // 월
+    const date = today.getDate();  // 날짜
+    const hour = today.getHours();
+    const min = today.getMinutes();
+    const sec = today.getSeconds();
+
+    const newmon = ('0' + month).substr(-2);
+    const newday = ('0' + date).substr(-2);
+    const now = year + '-' + newmon + '-' + newday + ' ' + hour + ':' + min + ':' + sec;
 
     return now;
   }
