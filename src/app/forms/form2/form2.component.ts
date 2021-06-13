@@ -1717,15 +1717,15 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       });
     }
     console.log(excelData, formData.length);
-    // this.subs.sink = this.excelService.excelInsert(excelData, this.patientInfo.specimenNo)
-    //   .subscribe((data: { message: string }) => {
+    this.subs.sink = this.excelService.excelInsert(excelData, this.patientInfo.specimenNo)
+      .subscribe((data: { message: string }) => {
 
-    //     if (data.message === 'SUCCESS') {
-    //       this.snackBar.open('저장 했습니다.', '닫기', { duration: 3000 });
-    //     } else {
-    //       this.snackBar.open('저장하지 못했습니다.', '닫기', { duration: 3000 });
-    //     }
-    //   });
+        if (data.message === 'SUCCESS') {
+          this.snackBar.open('저장 했습니다.', '닫기', { duration: 3000 });
+        } else {
+          this.snackBar.open('저장하지 못했습니다.', '닫기', { duration: 3000 });
+        }
+      });
   }
   ////////////////////////////////////////////////////////////
   today(): string {
