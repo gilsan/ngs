@@ -63,7 +63,7 @@
                         <th>&nbsp;</th>
                     </tr>
                 </thead>
-                <tbody class="bodytable">
+                <tbody class="bodytable" [ngStyle]="adjustBodyTable()">
                     <tr [ngClass]="toggle(i)"  *ngFor="let list of (lists$ | async) as lists; let i = index">
                         <td class="txt_c">{{i + 1}}</td>
                         <td class="txt_c">{{list.prescription_date}}</td>

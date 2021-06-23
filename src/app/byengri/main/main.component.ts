@@ -52,7 +52,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit(): void {
 
     this.checkStore();
-    console.log('[init]', this.storeStartDay, this.storeEndDay);
+    // console.log('[init]', this.storeStartDay, this.storeEndDay);
     if (this.storeStartDay === null || this.storeEndDay === null) {
       this.init();
     }
@@ -81,7 +81,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.subs.sink = this.lists$.subscribe(data => {
       this.lists = data;
-      // console.log('[병리 환자번호][69] ', data);
+      // console.log('[병리 출력갯수][84] ', this.lists.length);
     });
   }
 
@@ -137,14 +137,14 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   goUploadpage(pathologyNo: string, i: number, type: string): void {
-    console.log('[125][main][환자검체정보]goUploadpage]', pathologyNo, type, i, this.isSelected);
+    // console.log('[125][main][환자검체정보]goUploadpage]', pathologyNo, type, i, this.isSelected);
     this.store.setPathologyNo(pathologyNo);
     this.store.setType(type);
     if (this.isSelected) {
       this.pathologyService.setPathologyNo(pathologyNo);
       this.pathologyService.setType(type); // // N:신규입력, R: 재입력
       this.type = type;
-      console.log('[130][main][goUploadpage]', pathologyNo, type, i);
+      // console.log('[130][main][goUploadpage]', pathologyNo, type, i);
 
       this.pathologyService.setPersonalInfoandPathologyNum(i, pathologyNo);
     } else {
@@ -189,7 +189,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   search(start: string, end: string, pathologynum: string = '', patient: string = '', saveStore = 'N'): void {
-    console.log('[188][main] [찿기]', start, end, pathologynum, patient, saveStore);
+    // console.log('[188][main] [찿기]', start, end, pathologynum, patient, saveStore);
     this.startday = start;
     this.endday = end;
     this.pathologyNo = pathologynum;
@@ -204,11 +204,11 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
 
-    console.log('=== [207][검색조건저장] [찿기]', this.startday, this.endday, this.pathologyNo, this.patientid);
+    // console.log('=== [207][검색조건저장] [찿기]', this.startday, this.endday, this.pathologyNo, this.patientid);
     this.lists = []; // 리스트 초기화
     const startdate = start.toString().replace(/-/gi, '');
     const enddate = end.toString().replace(/-/gi, '');
-    console.log('[211][main][search] [찿기]', startdate, enddate, patient, pathologynum);
+    // console.log('[211][main][search] [찿기]', startdate, enddate, patient, pathologynum);
     if (patient !== undefined && patient !== null) {
       patient = patient.trim();
     }
@@ -229,15 +229,28 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
         tap(data => console.log(data)),
       )
       .subscribe((data) => {
-        console.log('[232][병리검색] [찿기]', data);
+        // console.log('[232][병리검색] [찿기]', data);
         this.lists = data;
-        console.log('[234][MAIN][SEARCH][리스트] [찿기]: ', this.lists);
+        console.log('[234] [목록길이]: ', this.lists.length);
       });
 
   }
 
+  /******
+   *  테이블의 목록이 8개 미만시
+   *  bodytable 의 height를 57px로 조정
+   */
+  adjustBodyTable(): object {
+    let bodytableHeight = 0;
+    if (this.lists.length <= 8 && this.lists.length >= 1) {
+      bodytableHeight = this.lists.length * 57;
+      return { height: bodytableHeight + 'px;' };
+    }
+    return { height: '500px;' };
+  }
+
   onSelected(): void {
-    console.log('[207] [onSelected]');
+    // console.log('[207] [onSelected]');
 
     this.startday = this.store.getSearchStartDay();
     this.endday = this.store.getSearchEndDay();
@@ -246,7 +259,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     this.lists = []; // 리스트 초기화
 
     const status = this.store.getUseSearch();
-    console.log('[onSelected][ 상태] ', status);
+    // console.log('[onSelected][ 상태] ', status);
     if (status === 'N') {
       this.pathologyNo = '';
       this.patientid = '';
@@ -254,11 +267,10 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       this.store.setUseSearch('N');
     }
-    console.log('[257][파일 업로드후 검색조건]', this.startday, this.endday, this.pathologyNo, this.patientid.length);
+    // console.log('[257][파일 업로드후 검색조건]', this.startday, this.endday, this.pathologyNo, this.patientid.length);
     if (this.startday.length && this.endday.length && this.pathologyNo && this.patientid) {
       this.search(this.startday, this.endday, this.pathologyno, this.patientid, 'N');
     } else if (this.startday.length && this.endday.length && this.pathologyNo.length && this.patientid.length === 0) {
-      console.log('[259][2]');
       this.search(this.startday, this.endday, this.pathologyNo, '', 'N');
     } else if (this.startday.length && this.endday.length && this.pathologyNo.length === 0 && this.patientid.length) {
       this.search(this.startday, this.endday, '', this.patientid, 'N');
@@ -283,7 +295,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   checkStore(): void {
-    console.log('[231][checkStore]');
+    // console.log('[231][checkStore]');
     const status = this.store.getWhichstate();
     this.storeStartDay = this.store.getSearchStartDay();
     this.storeEndDay = this.store.getSearchEndDay();
@@ -308,7 +320,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     this.pathologyno = this.storePathologyNo;
     this.patientid = this.storePatientID;
 
-    console.log('=== [289][저장된것 불러온값]', this.startday, this.endday, this.pathologyno, this.patientid);
+    // console.log('=== [289][저장된것 불러온값]', this.startday, this.endday, this.pathologyno, this.patientid);
     if (this.storeStartDay && this.storeEndDay) {
       this.search(this.storeStartDay, this.storeEndDay, this.storePathologyNo, this.storePatientID);
     }
@@ -361,7 +373,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   searchData(start: string, end: string, pathologynum: string, patient: string, saveStore = 'N'): void {
-    console.log('[326] [search]');
+    // console.log('[326] [search]');
     this.startday = start;
     this.endday = end;
     this.pathologyNo = pathologynum;
@@ -376,7 +388,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
 
-    console.log('=== [341][검색조건저장]', this.startday, this.endday, this.pathologyNo, this.patientid);
+    // console.log('=== [341][검색조건저장]', this.startday, this.endday, this.pathologyNo, this.patientid);
     this.lists = []; // 리스트 초기화
     const startdate = start.toString().replace(/-/gi, '');
     const enddate = end.toString().replace(/-/gi, '');
@@ -392,7 +404,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subs.sink = this.lists$.subscribe((data) => {
       // console.log('[197][병리검색]', data);
       this.lists = data;
-      console.log('[357][MAIN][SEARCH][리스트]: ', this.lists);
+      // console.log('[357][MAIN][SEARCH][리스트]: ', this.lists);
     });
 
   }

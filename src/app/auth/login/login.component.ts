@@ -105,7 +105,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   // 진검, 병리 구분
   result(type: string): void {
     this.type = type;
-    console.log('[checkbox status]', this.type);
+    // console.log('[checkbox status]', this.type);
   }
 
 
