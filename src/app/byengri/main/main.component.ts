@@ -204,11 +204,11 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
 
-    console.log('=== [203][검색조건저장] [찿기]', this.startday, this.endday, this.pathologyNo, this.patientid);
+    console.log('=== [207][검색조건저장] [찿기]', this.startday, this.endday, this.pathologyNo, this.patientid);
     this.lists = []; // 리스트 초기화
     const startdate = start.toString().replace(/-/gi, '');
     const enddate = end.toString().replace(/-/gi, '');
-    console.log('[207][main][search] [찿기]', startdate, enddate, patient, pathologynum);
+    console.log('[211][main][search] [찿기]', startdate, enddate, patient, pathologynum);
     if (patient !== undefined && patient !== null) {
       patient = patient.trim();
     }
@@ -229,9 +229,9 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
         tap(data => console.log(data)),
       )
       .subscribe((data) => {
-        console.log('[217][병리검색] [찿기]', data);
+        console.log('[232][병리검색] [찿기]', data);
         this.lists = data;
-        console.log('[219][MAIN][SEARCH][리스트] [찿기]: ', this.lists);
+        console.log('[234][MAIN][SEARCH][리스트] [찿기]: ', this.lists);
       });
 
   }
@@ -254,10 +254,11 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       this.store.setUseSearch('N');
     }
-    console.log('[212][]', this.startday, this.endday, this.pathologyNo, this.patientid.length);
+    console.log('[257][파일 업로드후 검색조건]', this.startday, this.endday, this.pathologyNo, this.patientid.length);
     if (this.startday.length && this.endday.length && this.pathologyNo && this.patientid) {
       this.search(this.startday, this.endday, this.pathologyno, this.patientid, 'N');
     } else if (this.startday.length && this.endday.length && this.pathologyNo.length && this.patientid.length === 0) {
+      console.log('[259][2]');
       this.search(this.startday, this.endday, this.pathologyNo, '', 'N');
     } else if (this.startday.length && this.endday.length && this.pathologyNo.length === 0 && this.patientid.length) {
       this.search(this.startday, this.endday, '', this.patientid, 'N');

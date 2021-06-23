@@ -402,7 +402,7 @@ export function makeReport(
               <Col id="mutation">${mutationData}</Col>
               <Col id="amplification">${amplificationData}</Col>
               <Col id="fusion">${fusionData}</Col>
-              <Col id="note">${notement}</Col>
+              <Col id="note"><![CDATA[${notement}]]></Col>
           </Row>
        </Rows>
     </Dataset>

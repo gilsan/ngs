@@ -1,11 +1,11 @@
 
 <div id="wrap111">
-<!-- 
+<!--
     <app-upload [hidden]="!isVisible"    (onSelected)="onSelected()" (onCanceled)="onCanceled()"
       (onWrongFile)="onWrongFile()"
-    ></app-upload>   
-    -->      
-  <app-upload *ngIf="isVisible"    (onSelected)="onSelected()" (onCanceled)="onCanceled()"  (onWrongFile)="onWrongFile()"></app-upload>  
+    ></app-upload>
+    -->
+  <app-upload *ngIf="isVisible"    (onSelected)="onSelected()" (onCanceled)="onCanceled()"  (onWrongFile)="onWrongFile()"></app-upload>
   <div id="container" style="margin-top: 0px;">
     <div id="content" >
         <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mg_b10">
@@ -15,18 +15,18 @@
             </tr>
         </table>
         <div class="box mg_b20 pd_20">
-            <!-- <input type="text" class="input_01" 
+            <!-- <input type="text" class="input_01"
             #pathologyNo  (click)="setPathologyNo(pathologyNo.value)" placeholder="검체번호" />&nbsp;&nbsp;
             <input name="" type="text"  #patient placeholder="환자ID" (change)="setPatientID(patient.value)"
             class="input_01" />&nbsp;&nbsp; -->
-           <input type="text" class="input_01" 
+           <input type="text" class="input_01"
             #pathologynum    placeholder="분자병리번호"  [value]="pathologyno"
             (keyup.enter)="searchData(start.value, end.value, pathologynum.value, patient.value, 'Y')" />&nbsp;&nbsp;
             <input name="" type="text"   placeholder="환자ID"  #patient  [value]="patientid"
-            class="input_01" />&nbsp;&nbsp; 
+            class="input_01" />&nbsp;&nbsp;
             <input type="date" [value]="startToday()" class="input_01" #start  style="width:150px;"/>
             ~
-            <input type="date" [value]="endToday()" class="input_01" #end  style="width:150px;"/> &nbsp;&nbsp;          
+            <input type="date" [value]="endToday()" class="input_01" #end  style="width:150px;"/> &nbsp;&nbsp;
             <button type="button" class="btn btn_02" (click)="search(start.value, end.value, pathologynum.value, patient.value, 'Y')"
              >조회</button>
         </div>
@@ -69,7 +69,7 @@
                         <td class="txt_c">{{list.prescription_date}}</td>
                         <td class="txt_c">{{list.name}}</td>
                         <td class="txt_c">{{list.age}}</td>
-                        <td class="txt_c">{{list.gender}}</td>                      
+                        <td class="txt_c">{{list.gender}}</td>
                         <td class="txt_c">{{list.patientID}}</td>
                         <td class="txt_c">{{list.pathology_num}}</td>
                         <td class="txt_c"><a  [href]="getUrl(list, 'IR')" [download]="list.tsvirfilename" *ngIf="list.tsvirfilename">
@@ -82,13 +82,13 @@
                         <td class="txt_c">{{processingStatus(i)}}</td>
                         <td class="txt_c">
                             <button type="button" class="btn btn_03 "
-                            *ngIf="list.tsvirfilename  && list.tsvorfilename ; else printing"  
+                            *ngIf="list.tsvirfilename  && list.tsvorfilename ; else printing"
                             (click)="goReporter(i)"
                             >결과지/보고서</button>
                             <ng-template  #printing>
-                              <button type="button" class="btn btn_03" 
+                              <button type="button" class="btn btn_03"
                                   (click)="goUploadpage(list.pathology_num, i, 'N')">파일등록/변환</button>
-                           </ng-template> 
+                           </ng-template>
                         </td>
                         <td class="txt_c">
                           <button type="button" class="btn btn_03"
@@ -101,7 +101,7 @@
             </table>
           </div>
         </div>
-       
+
     </div>
 </div>
- </div> 
+ </div>
