@@ -1914,7 +1914,7 @@ export class Form3Component implements OnInit, OnDestroy, AfterViewInit {
     const lists = tsvfile.split('_');
     if (lists.length > 3) {
       const ver = lists[3].split('-')[0];
-      console.log('======[' + ver + ']');
+
       if (ver === '5.16') {
         this.tsvVersion = true;
       }
