@@ -156,7 +156,7 @@ export class Form3Component implements OnInit, OnDestroy, AfterViewInit {
   lastScrollLeft = 0;
   topScroll = false;
   leftScroll = true;
-
+  tsvVersion = false; // v5.16 버전확인
   // tslint:disable-next-line:max-line-length
   vusmsg = `VUS는 ExAC, KRGDB등의 Population database에서 관찰되지 않았거나, 임상적 의의가 불분명합니다. 해당변이의 의의를 명확히 하기 위하여 환자의 buccal swab 검체로 germline variant 여부에 대한 확인이 필요 합니다.`;
 
@@ -310,6 +310,9 @@ export class Form3Component implements OnInit, OnDestroy, AfterViewInit {
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
     console.log('[256][환자정보]', this.patientInfo);
     this.store.setPatientInfo(this.patientInfo); // 환자정보 저장
+
+    // tsvFilteredFilename 분석
+    this.tsvFileVersion(this.patientInfo.tsvFilteredFilename);
 
     this.requestDate = this.patientInfo.accept_date;
     if (this.patientInfo.specimen === '015') {
@@ -1907,6 +1910,16 @@ export class Form3Component implements OnInit, OnDestroy, AfterViewInit {
 
   }
 
+  tsvFileVersion(tsvfile: string): void {
+    const lists = tsvfile.split('_');
+    if (lists.length > 3) {
+      const ver = lists[3].split('-')[0];
+      console.log('======[' + ver + ']');
+      if (ver === '5.16') {
+        this.tsvVersion = true;
+      }
+    }
+  }
 
 
 

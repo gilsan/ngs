@@ -66,6 +66,8 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit(): void {
     setTimeout(() => {
       const scrolly = this.store.getScrollyPosition();
+      // const scrolly = 4999;
+      console.log('[69][main][스크롤위치]: ', scrolly);
       this.pbox100.nativeElement.scrollTop = scrolly;
     }, 300);
 
@@ -226,12 +228,12 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
       .pipe(
         take(1),
         filter(data => data.length > 0),
-        tap(data => console.log(data)),
+        // tap(data => console.log(data)),
       )
       .subscribe((data) => {
         // console.log('[232][병리검색] [찿기]', data);
         this.lists = data;
-        console.log('[234] [목록길이]: ', this.lists.length);
+        // console.log('[234] [목록길이]: ', this.lists.length);
       });
 
   }
