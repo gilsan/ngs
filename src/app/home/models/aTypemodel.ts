@@ -3,59 +3,62 @@ import { IAFormVariant, IPatient, IComment, IProfile, IGeneList } from './patien
 
 export const METHODS = 'Total genomic DNA was extracted from the each sample. Template and automated libraries were prepared on the Ion Chef System(Thermo Fisher Scientific) and subsequently sequenced on the Ion S5 system (Thermo Fisher Scientific) with the Ion 530 Chip kit. Alignment of sequences to the reference human genome (GRCh37/hg19) and base calling were performed using the Torrent Suite software version 5.8.0 (Thermo Fisher Scientific). The Torrent Variant Caller v5.8.0.19 (Thermo Fisher Scientific) was used for calling variants from mapped reads and the called variants were annotated by the Ion Reporter software v5.6. ';
 
+export const METHODS516 = 'Total genomic DNA was extracted from the each sample. Template and automated libraries were prepared on the Ion Chef System(Thermo Fisher Scientific) and subsequently sequenced on the Ion S5 system (Thermo Fisher Scientific) with the Ion 530 Chip kit. Alignment of sequences to the reference human genome (GRCh37/hg19) and base calling were performed using the Torrent Suite software version 5.16.0 (Thermo Fisher Scientific). The Torrent Variant Caller v.5.16.0.0 (Thermo Fisher Scientific) was used for calling variants from mapped reads and the called variants were annotated by the Ion Reporter software v5.16.';
+
 
 export const GENERAL = 'The analysis was optimised to identify base pair substitutions with a high sensitivity. The sensitivity for small insertions and deletions was lower. Deep-intronic mutations, mutations in the promoter region, repeats, large exonic deletions and duplications, and other structural variants were not detected by this test. Evaluation of germline mutation can be performed using buccal swab speciman.';
 
 
 export function makeAForm(
-	resultStatus: string, // detected, not detected
-	examin: string, // 검사자
-	recheck: string, // 확인자
-	profile: IProfile,
-	acceptdate: string,
-	specimenMessage: string,
-	fusion: string,
-	ment: string,
-	patientInfo: IPatient,
-	formData: IAFormVariant[],
-	comment: IComment[],
-	firstReportDay: string,
-	lastReportDay: string,
-	genelists: IGeneList[],
+  resultStatus: string, // detected, not detected
+  examin: string, // 검사자
+  recheck: string, // 확인자
+  profile: IProfile,
+  acceptdate: string,
+  specimenMessage: string,
+  fusion: string,
+  ment: string,
+  patientInfo: IPatient,
+  formData: IAFormVariant[],
+  comment: IComment[],
+  firstReportDay: string,
+  lastReportDay: string,
+  genelists: IGeneList[],
+  tsvVersionContents: string
 ): string {
 
-	// 금일날자:
-	function formatDate(date): any {
-		const d = new Date(date);
-		let month = '' + (d.getMonth() + 1);
-		let day = '' + d.getDate();
-		const year = d.getFullYear();
+  // 금일날자:
+  function formatDate(date): any {
+    const d = new Date(date);
+    let month = '' + (d.getMonth() + 1);
+    let day = '' + d.getDate();
+    const year = d.getFullYear();
 
-		if (month.length < 2) {
-			month = '0' + month;
-		}
+    if (month.length < 2) {
+      month = '0' + month;
+    }
 
-		if (day.length < 2) {
-			day = '0' + day;
-		}
+    if (day.length < 2) {
+      day = '0' + day;
+    }
 
-		return [year, month, day].join('.');
-	}
+    return [year, month, day].join('.');
+  }
 
-	const today = formatDate(new Date());
-	///////////////////////////////////////////////
-	// 강제로 값넣기
+  const today = formatDate(new Date());
+  ///////////////////////////////////////////////
+  // 강제로 값넣기
 
-	/////////////////////////////////////////////////////
-	const patient = `<root>
+  /////////////////////////////////////////////////////
+  const patient = `<root>
 	<Dataset id="ds_1">
 	    <ColumnInfo>
 			<Column id="patient" type="STRING" size="256"/>
 			<Column id="result" type="STRING" size="256"/>
 			<Column id="rsltleft1" type="STRING" size="256"/>
 			<Column id="rsltleft2" type="STRING" size="256"/>
-			<Column id="rsltcenter1" type="STRING" size="256"/>	
-			<Column id="rsltcenter2" type="STRING" size="256"/>	
+			<Column id="rsltcenter1" type="STRING" size="256"/>
+			<Column id="rsltcenter2" type="STRING" size="256"/>
 			<Column id="rsltright1" type="STRING" size="256"/>
 			<Column id="rsltright2" type="STRING" size="256"/>
 			<Column id="testinfo1" type="STRING" size="256"/>
@@ -92,7 +95,7 @@ export function makeAForm(
 	</Dataset>
 	`;
 
-	const variantHeader = `
+  const variantHeader = `
 	<Dataset id="ds_2">
 	<ColumnInfo>
 		<Column id="gene" type="STRING" size="256"/>
@@ -109,10 +112,10 @@ export function makeAForm(
 	<Rows>
 	`;
 
-	let data = '';
-	// tslint:disable-next-line: prefer-for-of
-	for (let i = 0; i < formData.length; i++) {
-		data = data + `
+  let data = '';
+  // tslint:disable-next-line: prefer-for-of
+  for (let i = 0; i < formData.length; i++) {
+    data = data + `
 			<Row>
 			 <Col id="gene">${formData[i].gene}</Col>
 			 <Col id="fimpact">${formData[i].functionalImpact}</Col>
@@ -126,15 +129,15 @@ export function makeAForm(
 			 <Col id="cosmicid">${formData[i].cosmicID}</Col>
 		 </Row>
 			`;
-	}
+  }
 
-	const variantBottom = `
+  const variantBottom = `
 		</Rows>
 </Dataset>
 	`;
 
-	let comments = '';
-	const commentHeader = `
+  let comments = '';
+  const commentHeader = `
 <Dataset id="ds_3">
 	<ColumnInfo>
 		<Column id="gene" type="STRING" size="256"/>
@@ -144,20 +147,20 @@ export function makeAForm(
 	</ColumnInfo>
 `;
 
-	let commentContent = '';
-	if (comment.length > 0) {
-		// tslint:disable-next-line: prefer-for-of
-		for (let i = 0; i < comment.length; i++) {
-			commentContent = commentContent + `
+  let commentContent = '';
+  if (comment.length > 0) {
+    // tslint:disable-next-line: prefer-for-of
+    for (let i = 0; i < comment.length; i++) {
+      commentContent = commentContent + `
 		<Row>
 		<Col id="gene">${comment[i].gene}</Col>
 		<Col id="variants">${comment[i].variant_id}</Col>
 		<Col id="comments">${comment[i].comment}</Col>
 		<Col id="reference">${comment[i].reference}</Col>
 	</Row>`;
-		}
-	} else {
-		commentContent = `
+    }
+  } else {
+    commentContent = `
  <Row>
  <Col id="gene"></Col>
  <Col id="variants"></Col>
@@ -165,26 +168,29 @@ export function makeAForm(
  <Col id="reference"></Col>
 </Row>
  `;
-	}
+  }
 
-	commentContent = `<Rows>
+  commentContent = `<Rows>
 		${commentContent}
 		</Rows>
 	`;
-	const commentBottom = `
+  const commentBottom = `
 	</Dataset>
 	`;
 
-	comments = commentHeader + commentContent + commentBottom;
+  comments = commentHeader + commentContent + commentBottom;
 
-	const fixedMent = `
+
+
+
+  const fixedMent = `
 	<Dataset id="ds_4">
 	<ColumnInfo>
 		<Column id="methods" type="STRING" size="256"/>
 	</ColumnInfo>
 	<Rows>
 		<Row>
-			<Col id="methods">Total genomic DNA was extracted from the each sample. Template and automated libraries were prepared on the Ion Chef System(Thermo Fisher Scientific) and subsequently sequenced on the Ion S5 system (Thermo Fisher Scientific) with the Ion 530 Chip kit. Alignment of sequences to the reference human genome (GRCh37/hg19) and base calling were performed using the Torrent Suite software version 5.8.0 (Thermo Fisher Scientific). The Torrent Variant Caller v5.8.0.19 (Thermo Fisher Scientific) was used for calling variants from mapped reads and the called variants were annotated by the Ion Reporter software v5.6.</Col>
+			<Col id="methods">${tsvVersionContents}</Col>
 		</Row>
 	</Rows>
 </Dataset>
@@ -214,11 +220,11 @@ export function makeAForm(
 		<Column id="tg9" type="STRING" size="256"/>
 	</ColumnInfo>
 	<Rows>`
-	let list = '';
+  let list = '';
 
-	// tslint:disable-next-line:no-unused-expression
-	genelists.forEach(gene => {
-		list = list + `
+  // tslint:disable-next-line:no-unused-expression
+  genelists.forEach(gene => {
+    list = list + `
 		<Row>
 			<Col id="tg0">${gene.g0}</Col>
 			<Col id="tg1">${gene.g1}</Col>
@@ -232,12 +238,12 @@ export function makeAForm(
 			<Col id="tg9">${gene.g9}</Col>
 		</Row>
 		`;
-	});
+  });
 
-	const rootbottom = `</Rows>
+  const rootbottom = `</Rows>
 	</Dataset>
 </root>`;
 
-	return patient + variantHeader + data + variantBottom + comments + fixedMent + list + rootbottom;
+  return patient + variantHeader + data + variantBottom + comments + fixedMent + list + rootbottom;
 
 }

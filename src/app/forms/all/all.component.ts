@@ -85,7 +85,7 @@ export class AllComponent implements OnInit, OnDestroy, AfterViewInit {
   firstReportDay: string;
   lastReportDay: string;
   genelists: IGeneList[] = [];
-
+  tsvVersion = '510'; // v5.16 버전확인
   @ViewChild('commentbox') private commentbox: TemplateRef<any>;
   constructor(
     private patientsListService: PatientsListService,
@@ -422,22 +422,24 @@ export class AllComponent implements OnInit, OnDestroy, AfterViewInit {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
 
-    const makeForm = makeBForm(
-      this.resultStatus,
-      this.examin, // 검사자
-      this.recheck, // 확인자
-      this.profile,
-      this.patientInfo.accept_date,
-      this.specimenMessage,
-      this.fusion,
-      this.ment,
-      this.patientInfo,
-      formData,
-      this.comments,
-      this.firstReportDay,
-      this.lastReportDay,
-      this.genelists
-    );
+    // const makeForm = makeBForm(
+    //   this.resultStatus,
+    //   this.examin, // 검사자
+    //   this.recheck, // 확인자
+    //   this.profile,
+    //   this.patientInfo.accept_date,
+    //   this.specimenMessage,
+    //   this.fusion,
+    //   this.ment,
+    //   this.patientInfo,
+    //   formData,
+    //   this.comments,
+    //   this.firstReportDay,
+    //   this.lastReportDay,
+    //   this.genelists,
+    //   this.tsvVersion
+    // );
+    const makeForm = {};
     console.log('[183] ', makeForm);
     // patientInfo_diag 테이블 참조
     // submit_id: TXLII00124
@@ -460,15 +462,15 @@ export class AllComponent implements OnInit, OnDestroy, AfterViewInit {
      *   rsltdesc: string
      */
     // 임시 멘트 처리함
-    this.subs.sink = this.patientsListService.sendEMR(
-      this.patientInfo.specimenNo,
-      this.patientInfo.patientID,
-      this.patientInfo.test_code,
-      this.patientInfo.name,
-      makeForm).subscribe((data) => {
-        // console.log('[응답]', data);
-        this.router.navigate(['/diag']);
-      });
+    // this.subs.sink = this.patientsListService.sendEMR(
+    //   this.patientInfo.specimenNo,
+    //   this.patientInfo.patientID,
+    //   this.patientInfo.test_code,
+    //   this.patientInfo.name,
+    //   makeForm).subscribe((data) => {
+    //     // console.log('[응답]', data);
+    //     this.router.navigate(['/diag']);
+    //   });
 
     // this.router.navigate(['/home']);
   }

@@ -13,7 +13,7 @@ import { IAFormVariant } from 'src/app/home/models/patients';
 import { shareReplay, switchMap, tap, concatMap, map, filter, last } from 'rxjs/operators';
 
 import { SubSink } from 'subsink';
-import { GENERAL, makeBForm, METHODS } from 'src/app/home/models/bTypemodel';
+import { GENERAL, makeBForm, METHODS, METHODS516 } from 'src/app/home/models/bTypemodel';
 import { DetectedVariantsService } from 'src/app/home/services/detectedVariants';
 import { StoreService } from '../store.current';
 import { ExcelService } from 'src/app/home/services/excelservice';
@@ -91,6 +91,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
   flt3itd = '';
   chronmosomal = '';
   methods = METHODS;
+  methods516 = METHODS516;
   general = GENERAL;
   indexNum = 0;
   selectedItem = 'mutation';
@@ -148,7 +149,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
   lastScrollLeft = 0;
   topScroll = false;
   leftScroll = true;
-  tsvVersion = false; // v5.16 버전확인
+  tsvVersion = '510'; // v5.10, v5.16 버전확인
   // tslint:disable-next-line:max-line-length
   vusmsg = `VUS는 ExAC, KRGDB등의 Population database에서 관찰되지 않았거나, 임상적 의의가 불분명합니다. 해당변이의 의의를 명확히 하기 위하여 환자의 buccal swab 검체로 germline variant 여부에 대한 확인이 필요 합니다.`;
   amlLuk: string[] = ['RUNX1-RUNX1T1', 'CBFB-MYH11', 'PML-RARA(bcr1)', 'PML-RARA(bcr2)',
@@ -1274,6 +1275,13 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     }
 
     // console.log('*******[1167][ALL][EMR전송횟수] ', this.sendEMR, this.lastReportDay);
+    let tsvVersionContents;
+    if (this.tsvVersion === '510') {
+      tsvVersionContents = this.methods;
+    } else if (this.tsvVersion === '516') {
+      tsvVersionContents = this.methods516;
+    }
+
     const makeForm = makeBForm(
       this.resultStatus,
       this.examin, // 검사자
@@ -1288,7 +1296,8 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       this.comments,
       this.firstReportDay,
       this.lastReportDay,
-      this.genelists
+      this.genelists,
+      tsvVersionContents
     );
     console.log('[1295] ', makeForm);
 
@@ -1366,6 +1375,13 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     }
 
     // console.log('*******[1241][ALL][EMR전송횟수] ', this.sendEMR, this.lastReportDay);
+    let tsvVersionContents;
+    if (this.tsvVersion === '510') {
+      tsvVersionContents = this.methods;
+    } else if (this.tsvVersion === '516') {
+      tsvVersionContents = this.methods516;
+    }
+
     const makeForm = makeAForm(
       this.resultStatus,
       this.examin, // 검사자
@@ -1380,7 +1396,8 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       this.comments,
       this.firstReportDay,
       this.lastReportDay,
-      this.genelists
+      this.genelists,
+      tsvVersionContents
     );
     console.log('[1150][ALL XML] ', makeForm);
 
@@ -1844,7 +1861,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       const ver = lists[3].split('-')[0];
 
       if (ver === '5.16') {
-        this.tsvVersion = true;
+        this.tsvVersion = '516';
       }
     }
   }

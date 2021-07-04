@@ -7,9 +7,9 @@
             <td>
               <h1 style="font-weight:bold; font-size: 18px;">NGS 고형암 검사 결과 분석 보고서</h1>
             </td>
-             
+
             <td>
-              <ngx-barcode [bc-value]="pathologyNum" 
+              <ngx-barcode [bc-value]="pathologyNum"
               [bc-font-size]="15"  [bc-height]="40" [bc-background]="'transparent'"
                [bc-display-value]="true"></ngx-barcode>
             </td>
@@ -93,7 +93,7 @@
               <td class="txt_c">
                 <!-- <input type="text" size="30" #diagnosis class="clr-input" [value]="extraction.diagnosis"
                   (change)="setDiagnosis(diagnosis.value)"> -->
-                <textarea class="textarea_01" 
+                <textarea class="textarea_01"
                                  #diagnosis  [value]="extraction.diagnosis"  [(ngModel)]="extraction.diagnosis" row=2
                                  (click)="diagnosisFocus()"
                                  style="width: 100%; height: 100%; border: none">
@@ -104,7 +104,7 @@
         </table>
 
         <!-- 정도관리 -->
-        <!-- <div class="main_title mg_t20 mg_b10 main_title_height_25">정도관리</div>
+        <!--   <div class="main_title mg_t20 mg_b10 main_title_height_25">정도관리</div>
         <table width="100%" border="0" cellpadding="0" cellspacing="0" class="table_result">
           <colgroup>
             <col width="190px">
@@ -200,7 +200,7 @@
                     <th class="fontsize">Variant allele frequency</th>
                     <th style="font-size: 14px;">ID</th>
                     <th style="font-size: 14px;" class="m-w-90">Tier</th>
-                    <th class="m-w-90">                      
+                    <th class="m-w-90">
                       <button class="btn btn_01" (click)="addMutation()">추가</button>
                     </th>
                   </tr>
@@ -408,7 +408,7 @@
         <br>
         <div class="sub_title_04">(2) Copy number alteration: <span *ngIf="!iamplifications.length"
             class="sub_title_04">{{noneIAm}}</span>&nbsp;&nbsp;</div>
-        <div class="font_14 pd_l35 pd_b15">{{msgAm}}</div>    
+        <div class="font_14 pd_l35 pd_b15">{{msgAm}}</div>
         <!-- <div class="font_14 pd_l35 pd_b15"> * Copy number loss에 관해서는 뒷부분에 첨부된 이미지 보고서를 참고하여 주십시오.</div> -->
         <!-- ------------------------------   -->
 
@@ -544,7 +544,7 @@
         </div>
         <hr class="mg_t30" />
         <div class="main_title mg_t20 mg_b10">해석적 보고
-         
+
           <a [href]="getUrl()" target="_blank">
             <button class="btn btn_01">링크</button>
           </a></div>
@@ -1242,7 +1242,7 @@
           <tr>
             <td class="txt_l font_16 fb">Date of report : {{reportday}} </td>
              <!-- 기사  -->
-             <!-- 
+             <!--
             <td class="txt_c font_16 fb">Examined by :
               <select #examine class="select_01" (change)="examimed(examine.value)" [value]="'10405461_황삼노'">
                 <option [value]="part.user_id + '_' + part.user_nm" [selected]="part.pickselect === 'Y'"
@@ -1251,14 +1251,14 @@
             </td>
             -->
              <!-- 의사  -->
-             <!-- 
+             <!--
             <td class="txt_r font_16 fb">Rechecked by :
               <select #rechecked class="select_01" (change)="checked(rechecked.value)" [value]="'21300990_강준'">
                 <option [value]="part.user_id + '_' + part.user_nm" [selected]="part.pickselect === 'Y'"
                   *ngFor="let part of dt;let i = index;">{{part.user_nm}}</option>
               </select>
-            </td>  
-            -->  
+            </td>
+            -->
 <!--   --------------     -------------------------- -->
            <td class="txt_c font_16 fb">Examined by :
              <select #examine class="select_01" (change)="examimed(examine.value)" >
@@ -1273,9 +1273,9 @@
                <option [value]="part.user_id + '_' + part.user_nm"  [selected]="part.user_nm === this.checkername"
                  *ngFor="let part of dt;let i = index;">{{part.user_nm}}</option>
              </select>
-           </td> 
+           </td>
 <!--   --------------     -------------------------- -->
-            
+
           </tr>
         </table>
       </div>
@@ -1298,23 +1298,23 @@
           </li> -->
           <li>
             <input type="text" [value]="imagemsg" class="input_02"  readonly />
-          </li>           
+          </li>
           <li>
             <button type="button" class="btn btn_01" (click)="printScreen()">출력</button>
-          </li> 
+          </li>
           <li>
             <button type="button" class="btn btn_01"  [disabled]="getStatus(1)" (click)="tempSave()">저장</button>
-          </li>          
-      
+          </li>
+
           <li>
             <button type="button" class="btn btn_01" [disabled]="getStatus(3)" (click)="makeEMRBase()">EMR전송</button>
-          </li>            
+          </li>
           <li>
             <button type="button" class="btn btn_01" [disabled]="getStatus(4)" (click)="reset()">전송취소</button>
-          </li> 
+          </li>
           <!-- <li>
             <button type="button" class="btn btn_01"  (click)="check()">회복</button>
-          </li>            
+          </li>
           <li>
             <input type="text" #hong (change)="statusControl(hong.value)" size="10" class="input_02" />
           </li>         -->
