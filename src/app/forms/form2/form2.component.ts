@@ -277,7 +277,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     this.store.setPatientInfo(this.patientInfo); // 환자정보 저장
 
     // tsvFilteredFilename 분석
-    this.tsvFileVersion(this.patientInfo.tsvFilteredFilename);
+    this.tsvFileVersion(this.patientInfo.verfile);
 
     this.requestDate = this.patientInfo.accept_date;
     if (this.patientInfo.specimen === '015') {
@@ -1431,8 +1431,8 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
         this.checkboxStatus.push(i);
       }
     }
-    console.log('[1538][putCheckboxInit]', this.detactedVariants);
-    console.log('[1539][putCheckboxInit]', this.checkboxStatus);
+    // console.log('[1538][putCheckboxInit]', this.detactedVariants);
+    // console.log('[1539][putCheckboxInit]', this.checkboxStatus);
   }
 
   // detected varient 줄이 증가/삭제 시 체크상태 길이 변경
@@ -1472,7 +1472,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     // Detected variants 값을 store에 저장
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue() as IAFormVariant[];
-    console.log('[1579][form2][previewToggle][] ', formData);
+    // console.log('[1579][form2][previewToggle][] ', formData);
     this.store.setDetactedVariants(formData);
 
     const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
@@ -1484,7 +1484,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
   }
 
   excelDownload(): void {
-    console.log('excel', this.tsvLists);
+    // console.log('excel', this.tsvLists);
     this.excel.exportAsExcelFile(this.tsvLists, 'tsvLists');
   }
 
@@ -1646,8 +1646,8 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     this.patientInfo.recheck = this.recheck;
     this.patientInfo.examin = this.examin;
     this.patientInfo.vusmsg = this.vusmsg;
-    console.log('[1729][tempSave]patient,reform,comment]', this.patientInfo, formData, this.comments);
-    console.log('[1730][tempSave]VUS 메세지]', this.vusmsg);
+    // console.log('[1729][tempSave]patient,reform,comment]', this.patientInfo, formData, this.comments);
+    // console.log('[1730][tempSave]VUS 메세지]', this.vusmsg);
     this.store.setRechecker(this.patientInfo.recheck);
     this.store.setExamin(this.patientInfo.examin);
     this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimen);
@@ -1660,7 +1660,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
         this.profile.flt3itd,
         this.profile.chron).subscribe(data => console.log('AML INSERT'));
     } else if (this.reportType === 'ALL') {
-      console.log('*****[1687][ALL]', this.profile);
+      // console.log('*****[1687][ALL]', this.profile);
       this.analysisService.putAnalysisALL(
         this.form2TestedId,
         this.profile.leukemia,
@@ -1671,7 +1671,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     // tslint:disable-next-line:max-line-length
     this.subs.sink = this.variantsService.screenTempSave(this.form2TestedId, formData, this.comments, this.profile, this.resultStatus, this.patientInfo)
       .subscribe(data => {
-        console.log('[1698]', data);
+        // console.log('[1698]', data);
         alert('저장되었습니다.');
       });
   }
@@ -1689,8 +1689,8 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
         this.checkboxStatus.push(i);
       }
     }
-    console.log('[1742][reset][checkboxStatus]', this.checkboxStatus);
-    console.log('[1743][reset]', temp);
+    // console.log('[1742][reset][checkboxStatus]', this.checkboxStatus);
+    // console.log('[1743][reset]', temp);
 
 
     const tempUserid: any = localStorage.getItem('diaguser');
@@ -1702,7 +1702,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       .subscribe(data => {
         this.screenstatus = '2';
         this.patientInfo.screenstatus = '2';
-        console.log('[1810]', this.screenstatus);
+        // console.log('[1810]', this.screenstatus);
       });
   }
 
@@ -1717,7 +1717,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     // this.createCommentRow(this.comments[0]);
     this.patientsListService.insertComments(this.comments)
       .subscribe(data => {
-        console.log('[1776][saveComments]', this.comments);
+        // console.log('[1776][saveComments]', this.comments);
         console.log(data);
       });
   }
@@ -1856,13 +1856,11 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
   }
 
   tsvFileVersion(tsvfile: string): void {
-    const lists = tsvfile.split('_');
-    if (lists.length > 3) {
-      const ver = lists[3].split('-')[0];
-
-      if (ver === '5.16') {
-        this.tsvVersion = '516';
-      }
+    console.log('=========> tsvfile: ', tsvfile);
+    if (tsvfile === '5.16') {
+      this.tsvVersion = '516';
+    } else if (tsvfile === '5.10') {
+      this.tsvVersion = '510';
     }
   }
 

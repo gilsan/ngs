@@ -37,6 +37,7 @@ export interface IPatient {
   recheck?: string; // 확인자
   examin?: string; // 검사자
   vusmsg?: string;
+  verfile?: string; // tsv version
 }
 
 export interface IProfile {

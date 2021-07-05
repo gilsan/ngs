@@ -1893,13 +1893,13 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
   }
 
   tsvFileVersion(tsvfile: string): void {
-    const lists = tsvfile.split('_');
-    if (lists.length > 3) {
-      const ver = lists[3].split('-')[0];
-      // console.log('======[' + ver + ']');
-      if (ver === '5.16') {
-        this.tsvVersion = '516';
-      }
+    // const lists = tsvfile.split('_');
+    // if (lists.length > 3) {
+    //   const ver = lists[3].split('-')[0];
+    if (tsvfile === '5.16') {
+      this.tsvVersion = '516';
+    } else if (tsvfile === '5.10') {
+      this.tsvVersion = '510';
     }
   }
 
