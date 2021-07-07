@@ -131,28 +131,28 @@
           <tbody>
             <tr>
               <td class="table_result_line txt_c" style="height: 40px;">
-                <input type="text" size="10" class="clr-input" #dnaRnasep [value]="stateControl.dnaRnasep" (change)="dnaRnasep(dnaRnasep.value)">
+                <input type="text" size="10" class="clr-input" #dnaRnasep [value]="stateControl.dnaRnasep" (change)="setDnaRnasep(dnaRnasep.value)">
               </td>
               <td class="txt_c">
-                <input type="text" size="10" class="clr-input" #rna18s [value]="stateControl.rna18s" (change)="rna18s(rna18s.value)">
+                <input type="text" size="10" class="clr-input" #rna18s [value]="stateControl.rna18s" (change)="setRna18s(rna18s.value)">
               </td>
               <td class="txt_c">
-                <input type="text" size="10" class="clr-input" #averageBase [value]="stateControl.averageBase" (change)="averageBase(averageBase.value)">
+                <input type="text" size="10" class="clr-input" #averageBase [value]="stateControl.averageBase" (change)="setAverageBase(averageBase.value)">
               </td>
               <td class="txt_c">
-                <input type="text" size="5" class="clr-input" #uniformity [value]="stateControl.uniformity" (change)="uniformity(uniformity.value)">
+                <input type="text" size="5" class="clr-input" #uniformity [value]="stateControl.uniformity" (change)="setUniformity(uniformity.value)">
               </td>
               <td class="txt_c">
-                <input type="text" size="16" class="clr-input" #meanRead [value]="stateControl.meanRead" (change)="meanRead(meanRead.value)">
+                <input type="text" size="16" class="clr-input" #meanRead [value]="stateControl.meanRead" (change)="setMeanRead(meanRead.value)">
               </td>
               <td class="txt_c">
-                <input type="text" size="20" class="clr-input" #meanRaw [value]="stateControl.meanRaw" (change)="meanRaw(meanRaw.value)">
+                <input type="text" size="20" class="clr-input" #rawMean [value]="stateControl.meanRaw" (change)="setMeanRaw(rawMean.value)">
               </td>
               <td class="txt_c">
-                <input type="text" size="30" class="clr-input" #mapd [value]="stateControl.mapd" (change)="mapd(mapd.value)">
+                <input type="text" size="30" class="clr-input" #mapd [value]="stateControl.mapd" (change)="setMapd(mapd.value)">
               </td>
               <td class="txt_c">
-                <input type="text" size="30" class="clr-input" #rnaMapped [value]="stateControl.rnaMapped" (change)="rnaMapped(rnaMapped.value)">
+                <input type="text" size="30" class="clr-input" #rnaMapped [value]="stateControl.rnaMapped" (change)="setRnaMapped(rnaMapped.value)">
               </td>
             </tr>
           </tbody>

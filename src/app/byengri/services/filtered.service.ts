@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { emrUrl } from 'src/app/config';
 import { Observable } from 'rxjs';
 import { shareReplay, tap } from 'rxjs/operators';
-import { IFilteredOriginData, Ipolymorphism } from '../models/patients';
+import { IFilteredOriginData, Ipolymorphism, IStateControl } from '../models/patients';
 
 
 
@@ -73,6 +73,10 @@ export class FilteredService {
     return this.http.get<Ipolymorphism[]>(`${this.apiUrl}/polymorphism/list`);
   }
 
+  // 정도관리 리스트 요청
+  getStatecontrol(pathologyNum: string): Observable<IStateControl[]> {
+    return this.http.post<IStateControl[]>(`${this.apiUrl}/statecontrol/list`, { pathologyNum });
+  }
 
 
 }

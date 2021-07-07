@@ -440,24 +440,14 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       map(lists => lists.filter(list => list.part === 'T'))
     ).subscribe(mt => {
       this.mt = mt;
-      // this.mt.forEach(list => {
-      //   if (list.pickselect === 'Y') {
-      //     this.examedno = list.user_id;
-      //     this.examedname = list.user_nm;
-      //   }
-      // });
+
     });
 
     const dt$ = medi$.pipe(
       map(lists => lists.filter(list => list.part === 'D')),
     ).subscribe(dt => {
       this.dt = dt;
-      // this.dt.forEach(list => {
-      //   if (list.pickselect === 'Y') {
-      //     this.checkeredno = list.user_id;
-      //     this.checkername = list.user_nm;
-      //   }
-      // });
+
     });
 
   }
@@ -657,7 +647,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
             tempifu = data;
           }
           tempifu.forEach((item, index) => {
-            console.log('[425]', item, item.gene, item.fusion_breakpoint, item.fusion_function, item.tier);
+            // console.log('[425]', item, item.gene, item.fusion_breakpoint, item.fusion_function, item.tier);
             this.ifusion.push({
               gene: item.gene,
               breakpoint: item.fusion_breakpoint,
@@ -674,6 +664,13 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
           });
         } else {
           this.ifusion = [];
+        }
+      });
+
+    this.subs.sink = this.filteredService.getStatecontrol(pathologyNo)
+      .subscribe(data => {
+        if (data.length !== null && data.length !== 0 && data.length !== undefined) {
+          this.stateControl = data[0];
         }
       });
   }
@@ -697,20 +694,14 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     const clinical$ = this.filteredService.getClinical(pathologynum);
     const prevalent$ = this.filteredService.getPrevalent(pathologynum);
     const tumorcellpercentage$ = this.filteredService.getTumorcellpercentage(pathologynum);
-
+    const statcontrol$ = this.filteredService.getStatecontrol(pathologynum);
     combineLatest([filteredOriginaData$, msiscore$, tumorMutationalBurden$,
-      tumortype$, clinically$, clinical$, prevalent$, tumorcellpercentage$])
+      tumortype$, clinically$, clinical$, prevalent$, tumorcellpercentage$, statcontrol$])
       .subscribe(([filteredOriginaDataVal, msiscoreVal, tumorMutationalBurdenVal,
-        tumortypeVal, clinicallyVal, clinicalVal, prevalentVal, tumorcellpercentageVal]) => {
+        tumortypeVal, clinicallyVal, clinicalVal, prevalentVal, tumorcellpercentageVal, statcontrolVal]) => {
 
-        // if (filteredOriginaDataVal.length === 0) {
-        //   alert('변환된 TSV 파일이 없습니다.');
-        //   this.router.navigate(['/pathology']);
-        //   return;
-        // }
         this.filteredOriginData = filteredOriginaDataVal; // filtered 된 데이터 가져옴
         // MSISCORE
-        // console.log('==== [686][MSI SCORE]', msiscoreVal);
 
         if (msiscoreVal[0].msiscore.split('').includes('(')) {
           this.msiTag = true;
@@ -786,6 +777,11 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
           this.prevalent = [];
         }
 
+        // 정도관리
+        if (statcontrolVal.length !== null && statcontrolVal.length !== 0 && statcontrolVal.length !== undefined) {
+          this.stateControl = statcontrolVal[0];
+        }
+
         console.log('[보고서 유전자정보]', this.filteredOriginData);
         console.log('[보고서][msiscore]', this.msiScore);
         console.log('[보고서][tumorcellpercentage]', this.tumorcellpercentage);
@@ -795,7 +791,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log('[보고서][clinical]', this.clinical);
         console.log('[보고서][prevalent]', this.prevalent);
         console.log('[보고서][환자정보]', this.patientInfo);
-
+        console.log('[보고서][정도관리]', statcontrolVal[0]);
         // 검체정보
         this.extraction.dnarna = 'FFPE tissue';
         this.extraction.managementNum = this.patientInfo.rel_pathology_num;
@@ -838,14 +834,9 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
         // tslint:disable-next-line:prefer-const
 
         this.clinically.forEach(item => {
-          // console.log('-------[698][트림 검사]', item);
           const members = item.trim().split(' ');
-          // console.log('-------[709][트림 검사]', members);
           const gene = members[0].trim().replace(/"/g, '');
-          // console.log('-------[702][트림 검사]', gene);
           const type = members[1].trim().replace(/"/g, '');
-          // console.log('-------[708][트림검사]', type);
-          // console.log('====[881][clinically]: ', item, gene, type);
           if (type.charAt(0) === 'p' || type === 'exon') {
             // const indexm = this.findGeneInfo(gene);
             let indexm: number;
@@ -944,15 +935,8 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                 }
               });
 
-              // console.log('[913][cytoband]', cytobandlen);
+
               /*
-                const cytoband = this.filteredOriginData[indexa].cytoband.split(')');
-                this.amplifications.push({
-                  gene: this.filteredOriginData[indexa].gene,
-                  region: cytoband[0] + ')',
-                  copynumber: cytoband[1],
-                  tier: atier
-                });
               */
             }
           } else if (type === 'fusion') {
@@ -1296,31 +1280,35 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   // 정도관리
-  dnaRnasep(dnarnasep: string): void {
+  setDnaRnasep(dnarnasep: string): void {
     this.stateControl.dnaRnasep = dnarnasep;
   }
 
-  rna18s(rna18s: string): void {
+  setRna18s(rna18s: string): void {
     this.stateControl.rna18s = rna18s;
   }
 
-  averageBase(averageBase: string): void {
+  setAverageBase(averageBase: string): void {
     this.stateControl.averageBase = averageBase;
   }
 
-  uniformity(uniformity: string): void {
+  setUniformity(uniformity: string): void {
     this.stateControl.uniformity = uniformity;
   }
 
-  meanRead(meanRead: string): void {
-    this.stateControl.meanRaw = meanRead;
+  setMeanRead(meanRead: string): void {
+    this.stateControl.meanRead = meanRead;
   }
 
-  meanRaw(meanRaw: string): void {
+  setMeanRaw(meanRaw: string): void {
     this.stateControl.meanRaw = meanRaw;
   }
 
-  rnaMapped(rnaMapped: string): void {
+  setMapd(mapd: string): void {
+    this.stateControl.mapd = mapd;
+  }
+
+  setRnaMapped(rnaMapped: string): void {
     this.stateControl.rnaMapped = rnaMapped;
   }
 
@@ -1957,7 +1945,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log('[1141][임시저장][ifusion]', this.ifusion);
     console.log('[1141][임시저장][멘트][ment]', this.generalReport, this.specialment, this.notement);
     console.log('[1141][임시저장][검수자/확인자][]', this.examedname, this.examedno, this.checkername, this.checkeredno);
-    console.log('[1976][임시저장][정도관리] ', this.stateControl);
+    console.log('[1946][임시저장][정도관리] ', this.stateControl);
     this.subs.sink = this.savepathologyService.savePathologyData(
       this.basicInfo.pathologyNum,
       this.patientInfo,
