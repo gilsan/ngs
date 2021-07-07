@@ -10,7 +10,7 @@ import { SubSink } from 'subsink';
 import { makeReport } from '../../models/dataset';
 import {
   IAmplification, IBasicInfo, IExtraction, IFilteredOriginData,
-  IFusion, IGeneTire, IIAmplification, IList, IMent, IMutation, IPatient, Ipolymorphism
+  IFusion, IGeneTire, IIAmplification, IList, IMent, IMutation, IPatient, Ipolymorphism, IStateControl
 } from '../../models/patients';
 import { FilteredService } from '../../services/filtered.service';
 import { PathologyService } from '../../services/pathology.service';
@@ -95,6 +95,18 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     diagnosis: '',
     msiscore: '',
     tumorburden: '',
+  };
+
+  // 정도관리
+  stateControl: IStateControl = {
+    dnaRnasep: '',
+    rna18s: '',
+    averageBase: '',
+    uniformity: '',
+    meanRead: '',
+    meanRaw: '',
+    mapd: '',
+    rnaMapped: ''
   };
 
 
@@ -1283,6 +1295,36 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     // console.log('======= [diagnosi]', this.extraction.diagnosis);
   }
 
+  // 정도관리
+  dnaRnasep(dnarnasep: string): void {
+    this.stateControl.dnaRnasep = dnarnasep;
+  }
+
+  rna18s(rna18s: string): void {
+    this.stateControl.rna18s = rna18s;
+  }
+
+  averageBase(averageBase: string): void {
+    this.stateControl.averageBase = averageBase;
+  }
+
+  uniformity(uniformity: string): void {
+    this.stateControl.uniformity = uniformity;
+  }
+
+  meanRead(meanRead: string): void {
+    this.stateControl.meanRaw = meanRead;
+  }
+
+  meanRaw(meanRaw: string): void {
+    this.stateControl.meanRaw = meanRaw;
+  }
+
+  rnaMapped(rnaMapped: string): void {
+    this.stateControl.rnaMapped = rnaMapped;
+  }
+
+
   convertFormData(): void {
     const mControl = this.mutationForm.get('mutationLists') as FormArray;
     // this.mutation = mControl.getRawValue();
@@ -1382,6 +1424,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       this.organ,
       this.basicInfo,
       this.extraction,
+      this.stateControl,
       this.mutation,
       this.amplifications,
       this.fusion,
@@ -1393,7 +1436,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       this.generalReport,
       this.specialment,
       this.notement,
-      this.pathimage
+      this.pathimage,
     );
     console.log(form);
 
@@ -1663,25 +1706,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
           this.pathimage = [];
         }
         /*
-        console.log('[1572][]', howmanyimages);
 
-        if (howmanyimages.count === 0) {
-          msg = '이미지가 확인되지 않았습니다. 전송 하시겠습니까?';
-          result = confirm(msg);
-          if (result === true) {
-            this.toEMR();
-          } else if (result === false) {
-            return;
-          }
-        } else {
-          msg = '이미지가 확인되었습니다. 전송 하시겠습니까?';
-          result = confirm(msg);
-          if (result === true) {
-            this.toEMR();
-          } else {
-            return;
-          }
-        }
        */
         this.toEMR();
       }); // End of combineLatest
@@ -1699,7 +1724,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log('[EMR tumor/msi]', this.tumorMutationalBurdenEMR, this.msiScoreEMR);
     console.log('[EMR 멘트]', this.generalReportEMR, this.specialmentEMR, this.notementEMR);
     console.log('[EMR 사진경로]', this.pathimage);
-
+    console.log('[EMR 정도관리', this.stateControl);
     // const emrDate = this.patientInfo.sendEMRDate.toString().slice(0, 10);
     const emrDate = this.today();
     const form = makeReport(
@@ -1709,7 +1734,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       this.checkerednoEMR, // 확인자 번호
       this.checkernameEMR, // 확인자 이름
       '', '',
-      this.basicInfoEMR, this.extractionEMR,
+      this.basicInfoEMR, this.extractionEMR, this.stateControl,
       this.mutationEMR, this.amplificationsEMR, this.fusionEMR,
       this.imutationEMR, this.iamplificationsEMR, this.ifusionEMR,
       this.tumorMutationalBurdenEMR, this.msiScoreEMR,
@@ -1830,7 +1855,8 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       this.extraction,
       this.generalReport,
       this.specialment,
-      this.notement
+      this.notement,
+      this.stateControl
     )
       .subscribe(data => {
         console.log('[1182][savePathologyData]', data);
@@ -1931,7 +1957,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log('[1141][임시저장][ifusion]', this.ifusion);
     console.log('[1141][임시저장][멘트][ment]', this.generalReport, this.specialment, this.notement);
     console.log('[1141][임시저장][검수자/확인자][]', this.examedname, this.examedno, this.checkername, this.checkeredno);
-
+    console.log('[1976][임시저장][정도관리] ', this.stateControl);
     this.subs.sink = this.savepathologyService.savePathologyData(
       this.basicInfo.pathologyNum,
       this.patientInfo,
@@ -1944,7 +1970,8 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       this.extraction,
       this.generalReport,
       this.specialment,
-      this.notement
+      this.notement,
+      this.stateControl
     ).subscribe(data => {
       console.log('[1267][tempSave]', data);
       if (data.info === 'SUCCESS') {
@@ -2300,47 +2327,6 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     this.searchService.resetscreenstatus(this.pathologyNum, '1')
       .subscribe(data => {
         /*
-        console.log('1786', data);
-        if (data.message === 'SUCCESS') {
-          this.mutationLists().clear();
-          this.amplificationsLists().clear();
-          this.fusionLists().clear();
-          this.imutationLists().clear();
-          this.iamplificationsLists().clear();
-          this.ifusionLists().clear();
-          this.loadForm();
-
-          this.mutation = [];
-          this.amplifications = [];
-          this.fusion = [];
-          this.imutation = [];
-          this.iamplifications = [];
-          this.ifusion = [];
-
-          this.generalReport = '';
-          this.specialment = '';
-          this.tumorMutationalBurden = '';
-          this.msiScore = '';
-          this.tumorcellpercentage = '';
-          this.extraction = {
-            dnarna: '',
-            keyblock: '',
-            managementNum: '',
-            tumorcellpercentage: '',
-            organ: '',
-            tumortype: '',
-            diagnosis: ''
-          };
-
-          this.searchService.resetscreenstatus(this.pathologyNum, '1')
-            .subscribe(data => {
-              this.init(this.pathologyNum);
-              this.patientInfo.screenstatus = '1';
-              this.screenstatus = '1';
-              console.log(this.screenstatus);
-            });
-
-        }
         */
         this.patientInfo.screenstatus = '1';
         this.screenstatus = '1';
@@ -2353,8 +2339,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     const result = this.polymorphismList.findIndex(item =>
       item.gene === gene && item.amino_acid_change === amino && item.nucleotide_change === nucleotide
     );
-    // console.log('[2210][removeGeneCheck]', this.polymorphismList);
-    // console.log('[2211]', gene, amino, nucleotide, result);
+
     return result;
     // 검증완료후 삭제 1.17 => 2021.03.01 적용
     // return -1;

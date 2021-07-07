@@ -104,7 +104,7 @@
         </table>
 
         <!-- 정도관리 -->
-        <!--   <div class="main_title mg_t20 mg_b10 main_title_height_25">정도관리</div>
+        <div class="main_title mg_t20 mg_b10 main_title_height_25">정도관리</div>
         <table width="100%" border="0" cellpadding="0" cellspacing="0" class="table_result">
           <colgroup>
             <col width="190px">
@@ -131,32 +131,32 @@
           <tbody>
             <tr>
               <td class="table_result_line txt_c" style="height: 40px;">
-                <input type="text" size="10" class="clr-input">
+                <input type="text" size="10" class="clr-input" #dnaRnasep [value]="stateControl.dnaRnasep" (change)="dnaRnasep(dnaRnasep.value)">
               </td>
               <td class="txt_c">
-                <input type="text" size="10" class="clr-input">
+                <input type="text" size="10" class="clr-input" #rna18s [value]="stateControl.rna18s" (change)="rna18s(rna18s.value)">
               </td>
               <td class="txt_c">
-                <input type="text" size="10" class="clr-input">
+                <input type="text" size="10" class="clr-input" #averageBase [value]="stateControl.averageBase" (change)="averageBase(averageBase.value)">
               </td>
               <td class="txt_c">
-                <input type="text" size="5" class="clr-input">
+                <input type="text" size="5" class="clr-input" #uniformity [value]="stateControl.uniformity" (change)="uniformity(uniformity.value)">
               </td>
               <td class="txt_c">
-                <input type="text" size="16" class="clr-input">
+                <input type="text" size="16" class="clr-input" #meanRead [value]="stateControl.meanRead" (change)="meanRead(meanRead.value)">
               </td>
               <td class="txt_c">
-                <input type="text" size="20" class="clr-input">
+                <input type="text" size="20" class="clr-input" #meanRaw [value]="stateControl.meanRaw" (change)="meanRaw(meanRaw.value)">
               </td>
               <td class="txt_c">
-                <input type="text" size="30" class="clr-input">
+                <input type="text" size="30" class="clr-input" #mapd [value]="stateControl.mapd" (change)="mapd(mapd.value)">
               </td>
               <td class="txt_c">
-                <input type="text" size="30" class="clr-input">
+                <input type="text" size="30" class="clr-input" #rnaMapped [value]="stateControl.rnaMapped" (change)="rnaMapped(rnaMapped.value)">
               </td>
             </tr>
           </tbody>
-        </table> -->
+        </table>
         <!-- //정도관리 -->
 
         <div class="main_title  mg_t20 main_title_height_25">검사결과</div>

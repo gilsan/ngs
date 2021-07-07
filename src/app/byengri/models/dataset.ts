@@ -1,4 +1,4 @@
-import { IAmplification, IBasicInfo, IExtraction, IFusion, IIAmplification, IMutation } from './patients';
+import { IAmplification, IBasicInfo, IExtraction, IFusion, IIAmplification, IMutation, IStateControl } from './patients';
 
 
 export function makeReport(
@@ -11,6 +11,7 @@ export function makeReport(
   organ: string = '',
   basicInfo: IBasicInfo,
   extraction: IExtraction,
+  statecontrol: IStateControl,
   mutations: IMutation[],
   amplification: IAmplification[],
   fusion: IFusion[],
@@ -107,6 +108,33 @@ export function makeReport(
           </Rows>
         </Dataset>
     `;
+
+  const stateControl = `
+      <Dataset id="ds_data11">
+      <ColumnInfo>
+        <Column id="qc1" type="STRING" size="256"/>
+        <Column id="qc2" type="STRING" size="256"/>
+        <Column id="qc3" type="STRING" size="256"/>
+        <Column id="qc4" type="STRING" size="256"/>
+        <Column id="qc5" type="STRING" size="256"/>
+        <Column id="qc6" type="STRING" size="256"/>
+        <Column id="qc7" type="STRING" size="256"/>
+        <Column id="qc8" type="STRING" size="256"/>
+     </ColumnInfo>
+     <Rows>
+        <Row>
+           <Col id="qc1"><![CDATA[${statecontrol.dnaRnasep}]]></Col>
+           <Col id="qc2"><![CDATA[${statecontrol.rna18s}]]></Col>
+           <Col id="qc3"><![CDATA[${statecontrol.averageBase}]]></Col>
+           <Col id="qc4"><![CDATA[${statecontrol.uniformity}]]></Col>
+           <Col id="qc5"><![CDATA[${statecontrol.meanRead}]]></Col>
+           <Col id="qc6"><![CDATA[${statecontrol.meanRaw}]]></Col>
+           <Col id="qc7"><![CDATA[${statecontrol.mapd}]]></Col>
+           <Col id="qc8"><![CDATA[${statecontrol.rnaMapped}]]></Col>
+        </Row>
+     </Rows>
+    </Dataset>
+  `;
 
   const mutationHeader = `
     <Dataset id="ds_data2_1">

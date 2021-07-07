@@ -42,6 +42,18 @@ export interface IExtraction {
   tumorburden?: string;
 }
 
+// 정도관리
+export interface IStateControl {
+  dnaRnasep: string;
+  rna18s: string;
+  averageBase: string;
+  uniformity: string;
+  meanRead: string;
+  meanRaw: string;
+  mapd: string;
+  rnaMapped: string;
+}
+
 // 검사결과 mutation
 export interface IMutation {
   gene: string;

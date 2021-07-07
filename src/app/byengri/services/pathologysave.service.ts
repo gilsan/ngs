@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IAmplification, IBasicInfo, IExtraction, IFusion, IIAmplification, IMutation, IPatient } from '../models/patients';
+import { IAmplification, IBasicInfo, IExtraction, IFusion, IIAmplification, IMutation, IPatient, IStateControl } from '../models/patients';
 import { emrUrl } from 'src/app/config';
 
 @Injectable({
@@ -28,7 +28,8 @@ export class PathologySaveService {
     extraction: IExtraction,
     generalReport: string,
     specialment: string,
-    notement: string
+    notement: string,
+    stateControl: IStateControl
   ): Observable<any> {
 
     return this.http.post(`${this.apiUrl}/pathologyReportInsert/insert`, {
@@ -43,7 +44,8 @@ export class PathologySaveService {
       extraction,
       generalReport,
       specialment,
-      notement
+      notement,
+      stateControl
     });
 
   }
