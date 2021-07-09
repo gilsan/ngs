@@ -536,7 +536,7 @@ export function makeReport(
 </root>`;
 
   // tslint:disable-next-line: max-line-length
-  return extractionContent + mutationValue + amplificationValue + fusionValue + imutationValue + iamplificationValue + ifusionValue + tumor + msiscore + stateControl + restpart + urllist + bottomroot;
+  return extractionContent + mutationValue + amplificationValue + fusionValue + imutationValue + iamplificationValue + ifusionValue + tumor + msiscore + restpart + urllist + stateControl + bottomroot;
 
   /*
       <Dataset id="ds_data10">
