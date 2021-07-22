@@ -28,7 +28,44 @@
             ~
             <input type="date" [value]="endToday()" class="input_01" #end  style="width:150px;"/> &nbsp;&nbsp;
             <button type="button" class="btn btn_02" (click)="search(start.value, end.value, pathologynum.value, patient.value, 'Y')"
-             >조회</button>
+             style="margin-right: 15px;">조회</button>
+             <!--div class="da-checkbox">
+                <label>
+                    <input type="checkbox">
+                    <span>
+                       <i></i>
+                       <em>My</em>
+                    </span>
+                </label>
+                <label>
+                   <input type="checkbox">
+                    <span>
+                       <i></i>
+                       <em>접수</em>
+                    </span>
+               </label>
+               <label>
+                   <input type="checkbox">
+                   <span>
+                       <i></i>
+                       <em>검사중</em>
+                    </span>
+               </label>
+               <label>
+                   <input type="checkbox">
+                   <span>
+                       <i></i>
+                       <em>최종진단</em>
+                    </span>
+               </label>
+               <label>
+                   <input type="checkbox">
+                   <span>
+                       <i></i>
+                       <em>전체</em>
+                    </span>
+               </label>
+            </div-->
         </div>
         <div class="box">
             <div class="box_100 "  appScrollMonitor  #pbox100>
@@ -37,15 +74,16 @@
                     <col width="40px">
                     <col width="8%">
                     <col width="8%">
-                    <col width="6%">
-                    <col width="6%">
+                    <col width="5%">
+                    <col width="5%">
                     <col width="9%">
-                    <col width="*">
+                    <col width="10%">
                     <col width="9%">
                     <col width="9%">
                     <col width="10%">
-                    <col width="10%">
+                    <col width="11%">
                     <col width="9%">
+                    <col width="8%">
                 </colgroup>
                 <thead class="fixheader">
                     <tr>
@@ -61,6 +99,7 @@
                         <th>진행상태</th>
                         <th>&nbsp;</th>
                         <th>&nbsp;</th>
+                        <th>진단의</th>
                     </tr>
                 </thead>
                 <tbody class="bodytable" [ngStyle]="adjustBodyTable()">
@@ -101,6 +140,14 @@
             </table>
           </div>
         </div>
+
+        <div class="foot_btn mg_t30 pd_b30 txt_c main_btn">
+            <ul>
+              <li>
+                <button type="button" class="btn btn_01">저장</button>
+              </li>
+            </ul>
+          </div>
 
     </div>
 </div>

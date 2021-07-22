@@ -49,3 +49,38 @@ table {
 .list-01 {
   width: 100%;
 }
+
+
+.da-checkbox {
+  display: inline-block;
+  width: auto;
+  vertical-align: middle;
+}
+.da-checkbox label {
+  display: inline-block;
+  margin-right: 10px;
+}
+.da-checkbox input {
+  display: none;
+}
+.da-checkbox em {
+  font-size: 12px;
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 3px;
+}
+.da-checkbox i {
+  display: inline-block;
+  position: relative;
+  width: 15px;
+  height: 15px;
+  border-radius: 3px;
+  margin-top: 3px;
+  border: 1px solid #dcdcdc;
+}
+.da-checkbox input:checked ~ span > i {
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDgwIDgwIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA4MCA4MDsiIHhtbDpzcGFjZT0icHJlc2VydmUiIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaW5ZTWlkIj48Zz48cG9seWdvbiBwb2ludHM9IjY4LjMsMjguNyA2MC45LDIyIDM0LjMsNTEuNiAxOC40LDM3LjIgMTEuNyw0NC43IDM1LDY1LjcgNDEuNyw1OC4zIDQxLjcsNTguMyIgc3R5bGU9ImZpbGw6IzMzMzMzMyIvPjxwb2x5Z29uIHBvaW50cz0iNjguMywyNCA2MC45LDE3LjMgMzQuMyw0Ni45IDE4LjQsMzIuNiAxMS43LDQwIDM1LDYxIDQxLjcsNTMuNiA0MS43LDUzLjYiIHN0eWxlPSJmaWxsOiNmZmZmZmYiLz48L2c+PC9zdmc+);
+  background-color: #2196f3;
+  border: 1px solid #2196f3;
+
+}

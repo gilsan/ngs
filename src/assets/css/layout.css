@@ -82,6 +82,31 @@
   background: url(../images/menu_010.png) no-repeat;
 }
 
+.menu11 a {
+  display: inline-block;
+  width: 204px;
+  height: 64px;
+  cursor: pointer;
+  background: url(../images/menu_011.png) no-repeat;
+}
+
+.menu11 a:hover,
+.menu11 a:active {
+  display: inline-block;
+  width: 204px;
+  height: 64px;
+  cursor: pointer;
+  background: url(../images/menu_011_on.png) no-repeat;
+}
+
+.menu11 a:visited {
+  display: inline-block;
+  width: 204px;
+  height: 64px;
+  cursor: pointer;
+  background: url(../images/menu_011.png) no-repeat;
+}
+
 .menu02 a {
   display: inline-block;
   width: 197px;
