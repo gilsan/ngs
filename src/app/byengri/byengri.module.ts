@@ -19,6 +19,7 @@ import { ScrollMonitorDirective } from './directives/scroll-monitor.directive';
 import { MainpaComponent } from './mainpa/mainpa.component';
 import { PwchangeComponent } from './pwchange/pwchange.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ResearchComponent } from './byengri/research/research.component';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ScrollMonitorDirective,
     MainpaComponent,
     PwchangeComponent,
+    ResearchComponent,
   ],
   imports: [
 

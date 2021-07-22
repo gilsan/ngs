@@ -91,8 +91,7 @@
                   (change)="setTumorType(tumortype.value)">
               </td>
               <td class="txt_c">
-                <!-- <input type="text" size="30" #diagnosis class="clr-input" [value]="extraction.diagnosis"
-                  (change)="setDiagnosis(diagnosis.value)"> -->
+
                 <textarea class="textarea_01"
                                  #diagnosis  [value]="extraction.diagnosis"  [(ngModel)]="extraction.diagnosis" row=2
                                  (click)="diagnosisFocus()"
@@ -165,17 +164,9 @@
           <div class="sub_title_04"> (1) Mutation: <span *ngIf="!mutation.length" class="sub_title_04">{{noneMu}}</span></div>
           <div>
             <form [formGroup]="mutationForm">
-              <!-- <table width="100%" cellpadding="0" cellspacing="0" class="table_result pd_l35"> -->
+
                 <table width="100%" cellpadding="0" cellspacing="0" class="table_result pd_l35">
-                  <!-- <colgroup>
-                     <col style="width:50px;"/>
-                     <col style="width:120px"/>
-                     <col style="width:120px"/>
-                     <col style="width:80px"/>
-                     <col style="width:60px"/>
-                     <col style="width:130px"/>
-                     <col style="width:130px"/>
-                  </colgroup> -->
+
                   <colgroup>
                     <col width="130px">
                     <col width="*">
@@ -187,13 +178,7 @@
                   </colgroup>
                 <thead>
                   <tr>
-                    <!-- <th class="table_result_line fontsize" style="width:50px;">Gene</th>
-                    <th class="fontsize">Amino acid change</th>
-                    <th class="fontsize">Nucleotide change</th>
-                    <th class="fontsize">Variant allele frequency</th>
-                    <th class="fontsize">ID</th>
-                    <th style="font-size: 14px;">Tier</th>
-                    <th style="font-size: 14px;"> -->
+
                     <th class="table_result_line fontsize">Gene</th>
                     <th class="fontsize m-w-160">Amino acid change</th>
                     <th class="fontsize">Nucleotide change</th>
@@ -241,9 +226,7 @@
           <br>
           <div class="sub_title_04"> (2) Copy number alteration: <span *ngIf="!amplifications.length" class="sub_title_04">{{noneAm}}</span>
           </div>
-          <!-- <div class="font_14 pd_l35 pd_b15">{{msgAm}}</div> -->
-          <!-- <ng-template #deletion>{{msgAm}}</ng-template> -->
-          <!-- <div class="font_14 pd_l35 pd_b15">* Copy number loss에 관해서는 뒷부분에 첨부된 이미지 보고서를 참고하여 주십시오.</div> -->
+
           <div>
             <form [formGroup]="amplificationsForm">
               <table width="100%" cellpadding="0" cellspacing="0" class="table_result pd_l35">
@@ -292,7 +275,6 @@
               class="sub_title_04">{{noneFu}}</span></div>
           <!-- --------------------------------------- -->
 
-          <!-- ---------------------------------------- -->
           <div>
             <form [formGroup]="fusionForm">
               <table width="100%" cellpadding="0" cellspacing="0" class="table_result pd_l35">
@@ -345,8 +327,6 @@
         </div>
         <!-- -----------------------------------  -->
 
-        <!-- ----------------------------------   -->
-
         <div style="margin-right:18px;">
           <form [formGroup]="imutationForm">
             <table width="100%" cellpadding="0" cellspacing="0" class="table_result pd_l35">
@@ -381,11 +361,11 @@
                     </td>
                     <td class="txt_c">
                       <input type="text" size="30" class="clr-input" formControlName="aminoAcidChange">
-                      <!-- <textarea class="textarea_01"  style="width: 100%; height: 100%; border: none" formControlName="aminoAcidChange"></textarea> -->
+
                     </td>
                     <td class="txt_c">
                       <input type="text" size="30" class="clr-input" formControlName="nucleotideChange">
-                      <!-- <textarea class="textarea_01" style="width: 100%; height: 100%; border: none" formControlName="nucleotideChange"></textarea> -->
+
                     </td>
                     <td class="txt_c">
                       <input type="text" size="5" class="clr-input" formControlName="variantAlleleFrequency">
@@ -408,10 +388,6 @@
         <br>
         <div class="sub_title_04">(2) Copy number alteration: <span *ngIf="!iamplifications.length"
             class="sub_title_04">{{noneIAm}}</span>&nbsp;&nbsp;</div>
-        <!-- <div class="font_14 pd_l35 pd_b15">{{msgAm}}</div>  -->
-        <!-- <div class="font_14 pd_l35 pd_b15"> * Copy number loss에 관해서는 뒷부분에 첨부된 이미지 보고서를 참고하여 주십시오.</div> -->
-        <!-- ------------------------------   -->
-
         <!-- ------------------------------    -->
         <div style="margin-right:18px;">
           <form [formGroup]="iamplificationsForm">
@@ -464,8 +440,6 @@
         <div class="sub_title_04">(3) Fusion: <span *ngIf="!ifusion.length" class="sub_title_04">{{noneIFu}}</span>
         </div>
         <!-- -------------------------------  -->
-
-        <!--  -------------------------------   -->
         <div style="margin-right:18px;">
           <form [formGroup]="ifusionForm">
             <table width="100%" cellpadding="0" cellspacing="0" class="table_result pd_l35">
@@ -526,10 +500,6 @@
             style="font-weight:bold; font-size:16px;text-align:center;" />
           </div>
 
-
-        <!-- <div class="sub_title_03_E">Tumor Mutational Burden (Mutations/Mb): {{tumorMutationalBurden}}</div>
-              <div class="sub_title_03_E">MSI Score: {{msiScore}} (MSS)</div> -->
-
         <div class="sub_title_03_E">Essential genomic alterations involving following genes were not found.</div>
         <div class="list_01">
           <textarea class="textarea_01" rows="4" cols="250" style="margin-left: 35px;width:97%;"
@@ -548,8 +518,6 @@
           <a [href]="getUrl()" target="_blank">
             <button class="btn btn_01">링크</button>
           </a></div>
-
-
 
         <div class="list_01 textareabox">
           <textarea class="textarea_01" rows="20" cols="200" #report [(ngModel)]="generalReport"
@@ -1242,23 +1210,6 @@
           <tr>
             <td class="txt_l font_16 fb">Date of report : {{reportday}} </td>
              <!-- 기사  -->
-             <!--
-            <td class="txt_c font_16 fb">Examined by :
-              <select #examine class="select_01" (change)="examimed(examine.value)" [value]="'10405461_황삼노'">
-                <option [value]="part.user_id + '_' + part.user_nm" [selected]="part.pickselect === 'Y'"
-                  *ngFor="let part of mt;let i = index;">{{part.user_nm}}</option>
-              </select>
-            </td>
-            -->
-             <!-- 의사  -->
-             <!--
-            <td class="txt_r font_16 fb">Rechecked by :
-              <select #rechecked class="select_01" (change)="checked(rechecked.value)" [value]="'21300990_강준'">
-                <option [value]="part.user_id + '_' + part.user_nm" [selected]="part.pickselect === 'Y'"
-                  *ngFor="let part of dt;let i = index;">{{part.user_nm}}</option>
-              </select>
-            </td>
-            -->
 <!--   --------------     -------------------------- -->
            <td class="txt_c font_16 fb">Examined by :
              <select #examine class="select_01" (change)="examimed(examine.value)" >
@@ -1279,23 +1230,10 @@
           </tr>
         </table>
       </div>
-      <!--   ---------------------------------  -->
 
-      <!--  ---------------      -->
       <div class="foot_btn mg_t30 pd_b30 txt_c main_btn">
         <ul>
 
-          <!-- <li>
-            <button type="button" class="btn btn_01" [disabled]="getStatus(1)"
-              (click)="savePathologyData()">1차저장</button>
-          </li>
-          <li>
-            <button type="button" class="btn btn_01" [disabled]="getStatus(2)"
-              (click)="updatePathologyData()">2차저장</button>
-          </li>
-          <li>
-            <button type="button" class="btn btn_01" [disabled]="getStatus(3)" (click)="sendEMR()">EMR전송</button>
-          </li> -->
           <li>
             <input type="text" [value]="imagemsg" class="input_02"  readonly />
           </li>
@@ -1312,12 +1250,7 @@
           <li>
             <button type="button" class="btn btn_01" [disabled]="getStatus(4)" (click)="reset()">전송취소</button>
           </li>
-          <!-- <li>
-            <button type="button" class="btn btn_01"  (click)="check()">회복</button>
-          </li>
-          <li>
-            <input type="text" #hong (change)="statusControl(hong.value)" size="10" class="input_02" />
-          </li>         -->
+
         </ul>
       </div>
       <!--  ----------------     -->
@@ -1325,3 +1258,4 @@
 
   </div>
 </div>
+

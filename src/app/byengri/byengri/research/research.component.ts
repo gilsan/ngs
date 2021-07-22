@@ -24,11 +24,11 @@ import { NavigationServie } from 'src/app/services/navigation.service';
 import { essentialDNAMentList } from '../essensDNAMent';
 
 @Component({
-  selector: 'app-report',
-  templateUrl: './report.component.html',
-  styleUrls: ['./report.component.scss']
+  selector: 'app-research',
+  templateUrl: './research.component.html',
+  styleUrls: ['./research.component.scss']
 })
-export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('examine', { static: true }) examine: ElementRef;
   @ViewChild('rechecked', { static: true }) rechecked: ElementRef;
@@ -2467,3 +2467,4 @@ ${fuDNA}`;
   ///////////////////////////////////////////////////
 
 }
+
