@@ -32,6 +32,7 @@ img.btn-logout {
   line-height: .3;
   width: 52px;
 }
+
 .btn__logout {
   margin-top: 0;
   margin-bottom: 2px;
@@ -47,4 +48,15 @@ img.btn-logout {
   height: 18px;
   line-height: .3;
   width: 60px;
+}
+
+.randd {
+  color: white;
+  font-size: 16px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.randd:hover {
+  color: lightcoral;
 }
