@@ -460,7 +460,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log('[272][report][ getDataFromDB][] ', pathologyNo);
     this.searchService.getPathmentlist(pathologyNo)
       .subscribe(data => {
-        // console.log('[275][멘트리스트][]', data);
+        console.log('[275][멘트리스트][]', data);
         if (data.message !== 'no data') {
           this.generalReport = data[0].generalReport;
           this.specialment = data[0].specialment;
