@@ -19,7 +19,7 @@
             <input type="date" [value]="startToday()" class="input_01" #start  style="width:150px;"/>
             ~
             <input type="date" [value]="endToday()" class="input_01" #end  style="width:150px;"/> &nbsp;&nbsp;
-            <button type="button" class="btn btn_02" (click)="search(start.value, end.value, pathologynum.value, patient.value, 'Y')"
+            <button type="button" class="btn btn_02" (click)="reSearch(start.value, end.value, pathologynum.value, patient.value, 'Y')"
              >조회</button>
         </div>
         <div class="box">
@@ -56,7 +56,7 @@
                     </tr>
                 </thead>
                 <tbody class="bodytable" [ngStyle]="adjustBodyTable()">
-                    <tr [ngClass]="toggle(i)"  *ngFor="let list of (lists$ | async) as lists; let i = index">
+                    <tr [ngClass]="toggle(i)"  *ngFor="let list of (lists$ | async) as  lists; let i = index">
                         <td class="txt_c">{{i + 1}}</td>
                         <td class="txt_c">{{list.prescription_date}}</td>
                         <td class="txt_c">{{list.name}}</td>

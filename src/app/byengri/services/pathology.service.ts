@@ -82,16 +82,29 @@ export class PathologyService {
   // 병리 환자의 정보를 가져 온다.
   public getPatientList(): Observable<IPatient[]> {
     return this.http.get<IPatient[]>(`${this.apiUrl}/patients_path/list`).pipe(
-      tap(data => this.patientInfo = data)
+      tap(data => this.patientInfo = data),
+      map((datas: IPatient[]) => datas.map(data => {
+        if (data.recheck !== undefined) {
+          data.recheck = data.recheck.split('_')[1];
+        }
+        return data;
+      })),
     );
   }
 
   // 날자별 환자ID, 검사ID 검사인 찿기
   public search(start: string, end: string, patientID: string = '', pathologyNo: string = ''): Observable<IPatient[]> {
-    // console.log('[24][searchService][병리검색]:', start, end, patientID, pathologyNo);
+    // console.log('[97][searchService][병리검색]:', start, end, patientID, pathologyNo);
     return this.http.post<IPatient[]>(`${this.apiUrl}/searchpatient_path/list`, { start, end, patientID, pathologyNo }).pipe(
       // tap(data => console.log('[검색서비스][환자정보]', data)),
       tap(data => this.patientInfo = data),
+      map((datas: IPatient[]) => datas.map(data => {
+        if (data.recheck !== undefined) {
+          data.loginid = data.recheck.split('_')[0];
+          data.rechecker = data.recheck.split('_')[1];
+        }
+        return data;
+      })),
       shareReplay()
     );
   }

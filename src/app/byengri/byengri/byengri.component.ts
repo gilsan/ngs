@@ -7,7 +7,7 @@ import { StorePathService } from '../store.path.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PwchangeComponent } from '../pwchange/pwchange.component';
 import { ManageUsersService } from 'src/app/home/services/manageUsers.service';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-byengri',
@@ -36,6 +36,7 @@ export class ByengriComponent implements OnInit {
 
     this.service.getManageUsersList('', '', this.userid, '', 'P')
       .pipe(
+        map(data => [data]),
         map(values => values.filter(val => val.user_id === this.userid && val.password === pw)),
         map(datas => datas.map(data => {
           if (data.pickselect === null) {

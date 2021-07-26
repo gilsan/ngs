@@ -4,9 +4,9 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { emrUrl } from 'src/app/config';
 import { IPatient } from '../models/patients';
-import { PathologyService } from '../services/pathology.service';
-import { StorePathService } from '../store.path.service';
-import { SearchService } from '../services/search.service';
+import { PathologyService } from '../mainpa_services/pathology.service';
+import { SearchService } from '../mainpa_services/search.service';
+import { StorePathService } from '../mainpa.store.path.service';
 import { SubSink } from 'subsink';
 import * as moment from 'moment';
 import { filter, first, take, tap } from 'rxjs/operators';
@@ -59,15 +59,13 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
 
     // console.log('[57][main]', this.pathologyno, this.patientid);
     if (this.pathologyno.length === 0 && this.patientid.length === 0) {
-      this.search(this.startToday(), this.endToday(), '', '');
+      this.reSearch(this.startToday(), this.endToday(), '', '');
     }
   }
 
   ngAfterViewInit(): void {
     setTimeout(() => {
       const scrolly = this.store.getScrollyPosition();
-      // const scrolly = 4999;
-      // console.log('[69][main][스크롤위치]: ', scrolly);
       this.pbox100.nativeElement.scrollTop = scrolly;
     }, 300);
 
@@ -79,13 +77,16 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
 
   init(): void {
     // console.log('65 init');
+    // 환자정보 가져오기
     this.lists$ = this.pathologyService.getPatientList();
 
     this.subs.sink = this.lists$.subscribe(data => {
       this.lists = data;
-      // console.log('[병리 출력갯수][84] ', this.lists.length);
+
     });
   }
+
+  // 체크박스 실행
 
   today(): string {
     const today = new Date();
@@ -97,17 +98,17 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
     const newmon = ('0' + month).substr(-2);
     const newday = ('0' + date).substr(-2);
     const now = year + '-' + newmon + '-' + newday;
-    // console.log(date, now);
+
     return now;
   }
 
   startToday(): string {
     const oneMonthsAgo = moment().subtract(3, 'months');
-    // console.log(oneMonthsAgo.format('YYYY-MM-DD'));
+
     const yy = oneMonthsAgo.format('YYYY');
     const mm = oneMonthsAgo.format('MM');
     const dd = oneMonthsAgo.format('DD');
-    // console.log('[115][오늘날자]년[' + yy + ']월[' + mm + ']일[' + dd + ']');
+
     const now1 = yy + '-' + mm + '-' + dd;
     if (this.storeStartDay) {
       return this.storeStartDay;
@@ -125,7 +126,7 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
     const newday = ('0' + date).substr(-2);
 
     const now = year + '-' + newmon + '-' + newday;
-    // console.log(date, now);
+
     if (this.storeEndDay) {
       return this.storeEndDay;
     }
@@ -139,14 +140,14 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   goUploadpage(pathologyNo: string, i: number, type: string): void {
-    // console.log('[125][main][환자검체정보]goUploadpage]', pathologyNo, type, i, this.isSelected);
+
     this.store.setPathologyNo(pathologyNo);
     this.store.setType(type);
     if (this.isSelected) {
       this.pathologyService.setPathologyNo(pathologyNo);
       this.pathologyService.setType(type); // // N:신규입력, R: 재입력
       this.type = type;
-      // console.log('[130][main][goUploadpage]', pathologyNo, type, i);
+
 
       this.pathologyService.setPersonalInfoandPathologyNum(i, pathologyNo);
     } else {
@@ -168,7 +169,6 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
   // 선택된 결과지 보고서
   goReporterClass(idx: number): any {
     const pathNum = this.pathologyService.getPathologyNum();
-    // console.log('[154][main][goReporterClass]', idx, pathNum);
     if (this.lists[idx].pathology_num === pathNum) {
       return { btn_report: true };
     } else {
@@ -177,7 +177,7 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   getDate(event): void {
-    // console.log(event.value);
+
   }
 
   // 환자 정보
@@ -190,8 +190,8 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
     this.pathologyNo = pathologyNo;
   }
 
-  search(start: string, end: string, pathologynum: string = '', patient: string = '', saveStore = 'N'): void {
-    // console.log('[188][main] [찿기]', start, end, pathologynum, patient, saveStore);
+  reSearch(start: string, end: string, pathologynum: string = '', patient: string = '', saveStore = 'N'): void {
+
     this.startday = start;
     this.endday = end;
     this.pathologyNo = pathologynum;
@@ -206,11 +206,11 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
 
-    // console.log('=== [207][검색조건저장] [찿기]', this.startday, this.endday, this.pathologyNo, this.patientid);
+
     this.lists = []; // 리스트 초기화
     const startdate = start.toString().replace(/-/gi, '');
     const enddate = end.toString().replace(/-/gi, '');
-    // console.log('[211][main][search] [찿기]', startdate, enddate, patient, pathologynum);
+
     if (patient !== undefined && patient !== null) {
       patient = patient.trim();
     }
@@ -222,6 +222,7 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
       .pipe(
         take(1),
         filter(data => data.length > 0),
+        // tap(data => console.log(' ********* MAINPA **********> '))
       );
 
     this.subs.sink = this.lists$
@@ -272,13 +273,13 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     // console.log('[257][파일 업로드후 검색조건]', this.startday, this.endday, this.pathologyNo, this.patientid.length);
     if (this.startday.length && this.endday.length && this.pathologyNo && this.patientid) {
-      this.search(this.startday, this.endday, this.pathologyno, this.patientid, 'N');
+      this.reSearch(this.startday, this.endday, this.pathologyno, this.patientid, 'N');
     } else if (this.startday.length && this.endday.length && this.pathologyNo.length && this.patientid.length === 0) {
-      this.search(this.startday, this.endday, this.pathologyNo, '', 'N');
+      this.reSearch(this.startday, this.endday, this.pathologyNo, '', 'N');
     } else if (this.startday.length && this.endday.length && this.pathologyNo.length === 0 && this.patientid.length) {
-      this.search(this.startday, this.endday, '', this.patientid, 'N');
+      this.reSearch(this.startday, this.endday, '', this.patientid, 'N');
     } else if (this.startday.length && this.endday.length && this.pathologyNo.length === 0 && this.patientid.length === 0) {
-      this.search(this.startday, this.endday, '', '', 'N');
+      this.reSearch(this.startday, this.endday, '', '', 'N');
     } else {
       this.init();
     }
@@ -325,7 +326,7 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
 
     // console.log('=== [289][저장된것 불러온값]', this.startday, this.endday, this.pathologyno, this.patientid);
     if (this.storeStartDay && this.storeEndDay) {
-      this.search(this.storeStartDay, this.storeEndDay, this.storePathologyNo, this.storePatientID);
+      this.reSearch(this.storeStartDay, this.storeEndDay, this.storePathologyNo, this.storePatientID);
     }
 
   }
@@ -405,7 +406,7 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.lists$ = this.pathologyService.search(startdate, enddate, patient, pathologynum);
     this.subs.sink = this.lists$.subscribe((data) => {
-      // console.log('[197][병리검색]', data);
+      // console.log('[409][병리검색]', data);
       this.lists = data;
       // console.log('[357][MAIN][SEARCH][리스트]: ', this.lists);
     });

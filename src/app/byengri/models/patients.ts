@@ -160,6 +160,8 @@ export interface IPatient {
   screenstatus?: string;
   msiscore?: string;
   tumorburden?: string;
+  loginid?: string;
+  rechecker?: string;
 }
 
 export interface IFilteredTSV {
