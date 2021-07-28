@@ -48,6 +48,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     console.log(this.userid, pw);
     this.service.getManageUsersList('', '', this.userid, '', 'D')
       .pipe(
+        map(data => [data]),
         map(values => values.filter(val => val.user_id === this.userid && val.password === pw)),
         map(datas => datas.map(data => {
           if (data.pickselect === null) {

@@ -19,8 +19,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private subs = new SubSink();
   lists$: Observable<IPatient[]>;
-  relists$: Observable<IPatient[]>;
-  templists$: Observable<IPatient[]>;
+
   lists: IPatient[] = [];
   listsBck: IPatient[] = [];
   patientInfo: IPatient;
@@ -44,10 +43,10 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   private apiUrl = emrUrl;
 
   loginType: string;
-  myState = true;
-  registerState = true;
-  testingState = true;
-  finishedState = true;
+  myState = false;
+  registerState = false;
+  testingState = false;
+  finishedState = false;
   allStates = true;
   loginID: string;
   myDisabled: boolean;
@@ -73,7 +72,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.pathologyno.length === 0 && this.patientid.length === 0) {
       this.search(this.startToday(), this.endToday(), '', '');
       try {
-        this.templists$.subscribe(data => {
+        this.lists$.subscribe(data => {
           this.lists = data;
         });
       } catch (err) {
@@ -119,39 +118,16 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
 
   init(): void {
     // console.log('65 init');
-    this.templists$ = this.pathologyService.getPatientList()
+    this.lists$ = this.pathologyService.getPatientList()
       .pipe(
         take(1),
         filter(data => data.length > 0),
       );
 
-
-    if (this.loginType === 'T') {
-      this.lists$ = this.templists$;
-      this.subs.sink = this.lists$.subscribe(data => {
+    this.subs.sink = this.lists$
+      .subscribe((data) => {
         this.lists = data;
-        this.myState = false;
       });
-
-      this.subs.sink = this.lists$
-        .subscribe((data) => {
-          this.lists = data;
-        });
-
-    } else if (this.loginType === 'D') {
-      this.lists$ = this.templists$.pipe(
-        switchMap(datas => of(datas)),
-        map(datas => {
-          const result = datas.filter(list => list.loginid === this.loginID);
-          return result;
-        })
-      );
-
-      this.subs.sink = this.lists$
-        .subscribe((data) => {
-          this.lists = data;
-        });
-    }
 
   }
 
@@ -159,19 +135,28 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   my(evt: any): void {
     if (this.loginType === 'D') {
       this.myState = !this.myState;
-      if (!this.myState) { // TRUE => FALSE
+      if (this.myState) { // FALSE => TRUE
         this.allStates = false;
 
-        this.subs.sink = this.templists$
+        this.subs.sink = this.lists$
+          .pipe(
+            switchMap(datas => of(datas)),
+            map(datas => datas.filter(data => data.loginid === this.loginID))
+          )
           .subscribe(data => {
+            this.registerState = false;
+            this.testingState = false;
+            this.finishedState = false;
+            this.allStates = false;
             this.lists = data;
           });
 
-      } else { // FALSE => TRUE
-        if (this.myState && this.registerState && this.testingState && this.finishedState) {
-          this.allStates = true;
-        }
-        // if (this.lists.length > 0) {
+      } else { //  TRUE => FALSE
+        this.registerState = false;
+        this.testingState = false;
+        this.finishedState = false;
+        this.allStates = true;
+
         try {
           this.subs.sink = this.lists$
             .subscribe(data => {
@@ -180,8 +165,6 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
         } catch (error) {
           console.log('my: ', error);
         }
-
-        // }
       }
     }
 
@@ -189,101 +172,36 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
 
   register(evt: any): void {
     this.registerState = !this.registerState;
-    if (!this.registerState) {
-      this.allStates = false;
-      this.listsBck = [];
-      this.listsBck = this.lists;
-      const lists = this.lists.filter(list => list.screenstatus.length !== 0);
-      this.lists = [];
-      this.lists = [...lists];
-    } else {
-      if (this.registerState && this.testingState && this.finishedState ||
-        this.myState && this.registerState && this.testingState && this.finishedState) {
-        this.allStates = true;
-      }
-      // if (this.lists.length > 0) {
-      try {
-        this.stateLists('REG');
-      } catch (error) {
-        console.log('접수 ', error);
-      }
-      //}
-    }
+    this.stateLists('REG');
+    this.allStates = false;
   }
 
   testing(evt: any): void {
     this.testingState = !this.testingState;
-    console.log('검사중 ', this.testingState);
-    if (!this.testingState) { // TRUE => FALSE
-      this.allStates = false;
-      this.listsBck = [];
-      this.listsBck = this.lists;
-      const lists = this.lists.filter(list => parseInt(list.screenstatus, 10) !== 0 && parseInt(list.screenstatus, 10) !== 1 &&
-        parseInt(list.screenstatus, 10) !== 2 && parseInt(list.screenstatus, 10) !== 3);
-      this.lists = [];
-      this.lists = [...lists];
-    } else {  // FALSE ==> TRUE
-      if (this.registerState && this.testingState && this.finishedState ||
-        this.myState && this.registerState && this.testingState && this.finishedState) {
-        this.allStates = true;
-      }
-      console.log('검사중 목록길이: ', this.lists.length);
-      // if (this.lists.length > 0) {
-      try {
-        this.stateLists('TEST');
-      } catch (error) {
-
-      }
-
-      // }
-
-    }
+    this.stateLists('TEST');
+    this.allStates = false;
   }
 
   finished(evt: any): void {
     this.finishedState = !this.finishedState;
-    if (!this.finishedState) { // TRUE => FALSE
-      this.allStates = false;
-      this.listsBck = [];
-      this.listsBck = this.lists;
-      const lists = this.lists.filter(list => parseInt(list.screenstatus, 10) !== (4));
-      this.lists = [];
-      this.lists = [...lists];
-    } else {  //  FALSE => TRUE
-      if (this.registerState && this.testingState && this.finishedState ||
-        this.myState && this.registerState && this.testingState && this.finishedState) {
-        this.allStates = true;
-      }
-
-      // if (this.lists.length > 0) {
-      try {
-        this.stateLists('FINISH');
-      } catch (error) {
-        console.log()
-      }
-      // }
-    }
-
+    this.stateLists('FINISH');
+    this.allStates = false;
   }
 
   allState(evt: any): void {
     this.allStates = !this.allStates;
     if (!this.allStates) { // TRUE => FALSE
-      if (this.loginType === 'D') {
-        this.myState = false;
-      }
 
       this.registerState = false;
       this.testingState = false;
       this.finishedState = false;
       this.lists = [];
     } else { //   FALSE => TRUE
-      if (this.loginType === 'D') {
-        this.myState = true;
-      }
-      this.registerState = true;
-      this.testingState = true;
-      this.finishedState = true;
+
+      this.myState = false;
+      this.registerState = false;
+      this.testingState = false;
+      this.finishedState = false;
       this.stateLists('ALL');
     }
 
@@ -292,24 +210,15 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
 
   stateLists(type: string): void {
     if (this.loginType === 'D') {
-      this.subs.sink = this.templists$
+      this.subs.sink = this.lists$
         .subscribe(data => {
           const tempLists = data;
-          console.log(' 검사자로그인: 환자목록수 ', tempLists.length);
+
           if (type === 'ALL') {
             this.recheckerAll(tempLists);
           } else {
-            this.subtractDtype(tempLists);
+            this.subtractTtype(tempLists);
           }
-          // if (type === 'MY') {
-          //   this.subtractDtype(tempLists);
-          // } else if (type === 'REG') {
-          //   this.subtractDtype(tempLists);
-          // } else if (type === 'TEST') {
-          //   this.subtractDtype(tempLists);
-          // } else if (type === 'FINAL') {
-          //   this.subtractDtype(tempLists);
-          // }
         });
     }
 
@@ -317,42 +226,24 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
       this.subs.sink = this.lists$
         .subscribe((data) => {
           const tempLists = data;
-          // console.log('  확인자로그인: 환자목록수 ', tempLists.length);
           if (type === 'ALL') {
             this.lists = data;
           } else {
             this.subtractTtype(tempLists);
           }
-          // if (type === 'REG') {
-          //   this.subtractTtype(tempLists);
-          // } else if (type === 'TEST') {
-          //   this.subtractTtype(tempLists);
-          // } else if (type === 'FINAL') {
-          //   this.subtractTtype(tempLists);
-          // }
+
         });
     }
 
   }
 
-
   // 확인자 로 로그인시 전체 목록출력
   recheckerAll(listsData: IPatient[]): void {
-    of(listsData).pipe(
-      map(datas => {
-        const result = datas.filter(list => list.loginid === this.loginID);
-        return result;
-      }),
-    ).subscribe(data => {
+    of(listsData).subscribe(data => {
       this.lists = [];
       this.lists = data;
     });
   }
-
-  //
-  // subtractDtype2(listsData): void {
-
-  // }
 
   subtractDtype(listsData: IPatient[]): void {
     console.log('D타입: ', listsData.length);
@@ -395,13 +286,6 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
 
   subtractTtype(listsData: IPatient[]): void {
     of(listsData).pipe(
-      // map(datas => {
-      //   if (this.loginType === 'D' && !this.myState) {
-      //     const result = datas.filter(list => list.loginid !== this.loginID);
-      //     return result;
-      //   }
-      //   return datas;
-      // }),
       map(datas => {
         if (!this.registerState) {
           const result = datas.filter(list => list.screenstatus.length !== 0);
@@ -563,39 +447,17 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
       pathologynum = pathologynum.trim();
     }
     // console.log('[530][main][search] [찿기]', startdate, enddate, patient, pathologynum);
-    this.templists$ = this.pathologyService.search(startdate, enddate, patient, pathologynum)
+    this.lists$ = this.pathologyService.search(startdate, enddate, patient, pathologynum)
       .pipe(
         take(1),
         filter(data => data.length > 0),
       );
 
-    if (this.loginType === 'T') {
-      this.lists$ = this.templists$;
+    this.subs.sink = this.lists$
+      .subscribe((data) => {
 
-      this.subs.sink = this.lists$
-        .subscribe((data) => {
-          this.lists = data;
-        });
-    } else if (this.loginType === 'D') {
-      this.relists$ = this.templists$.pipe(
-        switchMap(datas => of(datas)),
-        map(datas => {
-          const result = datas.filter(list => list.loginid === this.loginID);
-          return result;
-        })
-      );
-      this.lists$ = this.relists$;
-
-      this.subs.sink = this.lists$
-        .subscribe((data) => {
-          this.lists = data;
-        });
-
-      // this.subs.sink = this.relists$
-      //   .subscribe((data) => {
-      //     this.lists = data;
-      //   });
-    }
+        this.lists = data;
+      });
 
   }
 

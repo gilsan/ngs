@@ -49,3 +49,71 @@ table {
 .list-01 {
   width: 100%;
 }
+
+.text-right {
+  text-align: right;
+}
+
+.btn-edit,
+.btn-delete,
+.btn-cancel,
+.btn-save {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  font-size: 0;
+  margin-left: 3px;
+  border-radius: 3px;
+}
+
+.btn-edit {
+  background: url(../images/edit.png);
+  background-size: 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  //    background-color: #2090e9;
+}
+
+.btn-delete {
+  background: url(../images/trash.png);
+  background-size: 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  //    background-color: rgb(141, 141, 141);
+}
+
+.btn-cancel {
+  background: url(../images/cancel.png);
+  background-size: 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  //    background-color: rgb(141, 141, 141);
+}
+
+.btn-save {
+  background: url(../images/save.png);
+  background-size: 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  //    background-color: #2090e9;
+}
+
+.btn-save,
+.btn-edit:hover {
+  cursor: pointer;
+}
+
+
+.clr-input.wid120 {
+  width: 120px !important;
+}
+
+.bdnone {
+  border: none;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+
+}

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit, ViewChildren, QueryList } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -9,7 +9,9 @@ import { SearchService } from '../mainpa_services/search.service';
 import { StorePathService } from '../mainpa.store.path.service';
 import { SubSink } from 'subsink';
 import * as moment from 'moment';
-import { filter, first, take, tap } from 'rxjs/operators';
+import { concatMap, filter, first, map, take, tap } from 'rxjs/operators';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { ITitleList } from './path.interface';
 @Component({
   selector: 'app-mainpa',
   templateUrl: './mainpa.component.html',
@@ -39,26 +41,41 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
   storePathologyNo: string;
 
   private apiUrl = emrUrl;
+  initStatusValue = 'R';
+  // listsForm: FormGroup;
+  // pathList: ITitleList[] = [];
 
   @ViewChild('pbox100', { static: true }) pbox100: ElementRef;
+  @ViewChildren('prescription, name, age, gender, patientid, pathologynum') newPath: QueryList<ElementRef>;
+  // @ViewChild('prescription', { static: false }) prescription: ElementRef;
+  // @ViewChild('name', { static: false }) name: ElementRef;
+  // @ViewChild('age', { static: false }) age: ElementRef;
+  // @ViewChild('gender', { static: false }) gender: ElementRef;
+  // @ViewChild('patientid', { static: false }) patientId: ElementRef;
+  // @ViewChild('pathologynum', { static: false }) pathologynum: ElementRef;
+  // @ViewChild('status', { read: ElementRef }) status: ElementRef;
+
   constructor(
     private pathologyService: PathologyService,
     private serachService: SearchService,
     private router: Router,
     private store: StorePathService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+
   ) { }
 
   ngOnInit(): void {
 
     this.checkStore();
-    // console.log('[init]', this.storeStartDay, this.storeEndDay);
+
     if (this.storeStartDay === null || this.storeEndDay === null) {
+      console.log('[init]', this.storeStartDay, this.storeEndDay);
       this.init();
     }
 
-    // console.log('[57][main]', this.pathologyno, this.patientid);
+
     if (this.pathologyno.length === 0 && this.patientid.length === 0) {
+      console.log('[57][main]', this.pathologyno, this.patientid, this.startToday(), this.endToday());
       this.reSearch(this.startToday(), this.endToday(), '', '');
     }
   }
@@ -85,6 +102,7 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
 
     });
   }
+
 
   // 체크박스 실행
 
@@ -132,7 +150,6 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     return now;
   }
-
 
 
   saveUploadPageInfo(pathologyNum: string, i: number, type: string): void {
@@ -222,13 +239,29 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
       .pipe(
         take(1),
         filter(data => data.length > 0),
-        // tap(data => console.log(' ********* MAINPA **********> '))
+        tap(data => console.log(' ********* [242]reSearch MAINPA **********> ', data)),
       );
 
     this.subs.sink = this.lists$
       .pipe(
         take(1),
         filter(data => data.length > 0),
+        map((datas: IPatient[]) => datas.map(data => {
+          if (data.recheck !== undefined) {
+            data.loginid = data.recheck.split('_')[0];
+            data.rechecker = data.recheck.split('_')[1];
+          }
+          return data;
+        })),
+        map((datas: IPatient[]) => datas.map(data => {
+          const tempDate = data.prescription_date;
+          const tempYear = data.prescription_date.slice(0, 4);
+          const tempMon = data.prescription_date.slice(4, 6);
+          const tempDay = data.prescription_date.slice(6, 8);
+          const newDate = tempYear + '-' + tempMon + '-' + tempDay;
+          data.prescription_date = newDate;
+          return data;
+        })),
         // tap(data => console.log(data)),
       )
       .subscribe((data) => {
@@ -263,7 +296,7 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
     this.lists = []; // 리스트 초기화
 
     const status = this.store.getUseSearch();
-    // console.log('[onSelected][ 상태] ', status);
+    console.log('[299][onSelected][ 상태] ', status);
     if (status === 'N') {
       this.pathologyNo = '';
       this.patientid = '';
@@ -396,7 +429,7 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
     this.lists = []; // 리스트 초기화
     const startdate = start.toString().replace(/-/gi, '');
     const enddate = end.toString().replace(/-/gi, '');
-    // console.log('[345][main][search]', startdate, enddate, patient, pathologynum);
+    console.log('[399][main][search]', startdate, enddate, patient, pathologynum);
     if (patient !== undefined && patient !== null) {
       patient = patient.trim();
     }
@@ -404,11 +437,14 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
     if (pathologynum !== undefined && pathologynum !== null) {
       pathologynum = pathologynum.trim();
     }
-    this.lists$ = this.pathologyService.search(startdate, enddate, patient, pathologynum);
+    this.lists$ = this.pathologyService.search(startdate, enddate, patient, pathologynum)
+      .pipe(
+        tap(data => console.log('data ==> ', data))
+      );
     this.subs.sink = this.lists$.subscribe((data) => {
       // console.log('[409][병리검색]', data);
       this.lists = data;
-      // console.log('[357][MAIN][SEARCH][리스트]: ', this.lists);
+      // console.log('[411][MAIN][SEARCH][리스트]: ', this.lists);
     });
 
   }
@@ -417,4 +453,94 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isVisible = false;
   }
 
+  addPathList(): void {
+    this.lists.push({
+      prescription_date: '',
+      name: '',
+      age: '',
+      gender: '',
+      patientID: '',
+      pathological_dx: '',
+      pathology_num: '',
+      prescription_code: '',
+      prescription_no: '',
+      rel_pathology_num: '',
+    });
+
+    this.initStatusValue = 'U';
+    this.lists[this.lists.length - 1].prescription_date = this.today();
+  }
+
+  addNew(id: number): void {
+    console.log(id);
+    // this.initStatusValue = 'U';
+    // this.lists[id].prescription_date = this.today();
+  }
+
+  //
+  // id
+  // queryList 수: 6
+  updateRow(id: number): void {
+    console.log('시험용', id);
+    const list = [];
+    this.newPath.forEach((data, index) => {
+      if (index > (id * 6)) {
+        console.log(index + ': ' + data.nativeElement.value);
+        list.push(data.nativeElement.value);
+      }
+    });
+    console.log(list);
+    const path: any = new Object();
+    for (let i = 0; i < list.length; i++) {
+      if (i === 0) {
+        this.lists[id].prescription_date = list[i].replace(/-/g, '');
+        path.prescription_date = list[i].replace(/-/g, '');
+      }
+      if (i === 1) {
+        this.lists[id].name = list[i];
+        path.name = list[i];
+      }
+      if (i === 2) {
+        this.lists[id].age = list[i];
+        path.age = list[i];
+      }
+      if (i === 3) {
+        this.lists[id].gender = list[i];
+        path.gender = list[i];
+      }
+      if (i === 4) {
+        this.lists[id].patientID = list[i];
+        path.patientID = list[i];
+      }
+      if (i === 5) {
+        this.lists[id].pathology_num = list[i];
+        path.pathology_num = list[i];
+      }
+
+    }
+
+    console.log(path);
+    console.log(this.lists);
+    this.initStatusValue = 'R';
+
+    const start = this.startday.replace(/-/g, '');
+    const end = this.endday.replace(/-/g, '');
+    this.pathologyService.putNewPatient(path)
+      .pipe(
+        tap(data => console.log(data)),
+        concatMap(() => this.pathologyService.search(start, end)),
+      )
+      .subscribe(data => {
+        console.log(data);
+        this.lists = data;
+
+      });
+  }
+
 }
+
+
+
+
+
+

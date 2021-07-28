@@ -151,7 +151,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 
   mt: IList[]; // 기사
   dt: IList[]; // 의사
-
+  loginID: string; // 병리사 로그인
   generalReport = ``;  // 해석적 보고
   specialment = ``; // genes were not found
   notement = `[NOTE1]
@@ -202,6 +202,9 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     // this.pathologyService.getPatientList().subscribe();
+    // 로그인
+    const user = JSON.parse(localStorage.getItem('pathuser'));
+    this.loginID = user.userid;
 
     this.loadForm();
     this.checker();
@@ -386,6 +389,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     } else if (parseInt(this.patientInfo.screenstatus, 10) === 0) {  // tsv에서 데이타 가져옴
       // this.initByFile();
       // this.reportday = this.today();
+      console.log('[392] 환자정보: ', this.patientInfo);
       const tempReportday = this.patientInfo.report_date.slice(0, 10);
       if (tempReportday === '1900-01-01' || this.patientInfo.report_date === '') {
         this.reportday = this.today();
@@ -441,6 +445,16 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       map(lists => lists.filter(list => list.part === 'T'))
     ).subscribe(mt => {
       this.mt = mt;
+
+      if (Number(this.patientInfo.screenstatus) === 0) {
+
+        this.mt.forEach(data => {
+          if (data.user_id === this.loginID) {
+            // console.log('[447] ===> ', data, this.loginID);
+            this.examedname = data.user_nm;
+          }
+        })
+      }
 
     });
 
