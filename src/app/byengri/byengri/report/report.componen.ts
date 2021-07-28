@@ -389,7 +389,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     } else if (parseInt(this.patientInfo.screenstatus, 10) === 0) {  // tsv에서 데이타 가져옴
       // this.initByFile();
       // this.reportday = this.today();
-      console.log('[392] 환자정보: ', this.patientInfo);
+      // console.log('[392] 환자정보: ', this.patientInfo);
       const tempReportday = this.patientInfo.report_date.slice(0, 10);
       if (tempReportday === '1900-01-01' || this.patientInfo.report_date === '') {
         this.reportday = this.today();
@@ -447,13 +447,11 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       this.mt = mt;
 
       if (Number(this.patientInfo.screenstatus) === 0) {
-
         this.mt.forEach(data => {
           if (data.user_id === this.loginID) {
-            // console.log('[447] ===> ', data, this.loginID);
             this.examedname = data.user_nm;
           }
-        })
+        });
       }
 
     });

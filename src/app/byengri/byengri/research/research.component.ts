@@ -151,7 +151,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
   mt: IList[]; // 기사
   dt: IList[]; // 의사
-
+  loginID: string; // 병리사 로그인
   generalReport = ``;  // 해석적 보고
   specialment = ``; // genes were not found
   notement = `[NOTE1]
@@ -442,6 +442,13 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
     ).subscribe(mt => {
       this.mt = mt;
 
+      if (Number(this.patientInfo.screenstatus) === 0) {
+        this.mt.forEach(data => {
+          if (data.user_id === this.loginID) {
+            this.examedname = data.user_nm;
+          }
+        });
+      }
     });
 
     const dt$ = medi$.pipe(
