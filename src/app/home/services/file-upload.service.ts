@@ -59,6 +59,17 @@ export class FileUploadService {
     );
   }
 
+  pathResearchDataUpload(formData: any): Observable<UploadResponse> {
+    // console.log('[49][file-upload][pathDataUpload]', formData);
+    return this.http.post(`${this.apiUrl}/pathResearchfileUpload/upload`, formData, {
+      reportProgress: true,
+      observe: 'events'
+    }).pipe(
+      map(event => this.getEventMessage(event))
+    );
+  }
+
+
   private getEventMessage(event: HttpEvent<any>): any {
     switch (event.type) {
       case HttpEventType.UploadProgress:

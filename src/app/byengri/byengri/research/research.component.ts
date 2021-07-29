@@ -13,9 +13,9 @@ import {
   IFusion, IGeneTire, IIAmplification, IList, IMent, IMutation, IPatient, Ipolymorphism, IStateControl
 } from '../../models/patients';
 import { FilteredService } from '../../services/filtered.service';
-import { PathologyService } from '../../services/pathology.service';
-import { PathologySaveService } from '../../services/pathologysave.service';
-import { SearchService } from '../../services/search.service';
+import { PathologyService } from '../../mainpa_services/pathology.service';
+import { PathologySaveService } from '../../mainpa_services/pathologysave.service';
+import { SearchService } from '../../mainpa_services/search.service';
 import { StorePathService } from '../../store.path.service';
 import { mentlists } from '../special-ment';
 import { clinically, msiScore, patientInfo, prevalent, tsvData, tumorcellpercentage, tumorMutationalBurden, tumortype } from './mockData';
@@ -237,9 +237,10 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
     ).subscribe(pathologyNum => {
 
       this.pathologyNum = pathologyNum; // 검체번호 저장
-      console.log('[238][검체번호]', this.pathologyNum, this.patientInfo);
+      // console.log('[238][검체번호]', this.pathologyNum, this.patientInfo);
+      // console.log('[241] ===> ', this.pathologyService.researchPatientInfo);
       try {
-        this.patientInfo = this.pathologyService.patientInfo.filter(item => item.pathology_num === pathologyNum)[0];
+        this.patientInfo = this.pathologyService.researchPatientInfo.filter(item => item.pathology_num === pathologyNum)[0];
       } catch (err) {
         console.log(err);
       }

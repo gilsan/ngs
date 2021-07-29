@@ -16,6 +16,8 @@ import { IGeneTire } from './../models/patients';
 })
 export class UploadComponent implements OnInit {
 
+
+  @Input() research = 'none';
   @ViewChild('uploadfile') uploadfile: ElementRef;
   // tslint:disable-next-line: no-output-on-prefix
   @Output() onSelected = new EventEmitter<void>();
@@ -68,7 +70,7 @@ export class UploadComponent implements OnInit {
     this.uploadfileList = [];
     this.tumorType = '';
     this.burden = '';
-    console.log('[55][upload][ngOnInit]', this.uploadfileList);
+    // console.log('[55][upload][ngOnInit]', this.uploadfileList, this.research);
 
   }
 
@@ -131,31 +133,50 @@ export class UploadComponent implements OnInit {
     }
     this.pathologyNum = this.store.getPathologyNo();
     this.inputType = this.store.getType();
-    // console.log('[110][upload][onDroppedFile][pathologyNum]', this.pathologyNum);
+    // console.log('[136][upload][onDroppedFile][pathologyNum] ===>', this.pathologyNum, this.inputType);
     formData.append('pathologyNum', this.pathologyNum);
     formData.append('type', this.inputType);
     formData.append('fileType', this.fileType);
 
-    this.uploadfileService.pathDataUpload(formData)
-      .pipe(
-        filter(item => item.files !== undefined),
-        filter(item => item.files.length > 0)
-      )
-      .subscribe(result => {
-        this.upload = result;
-        this.upload.files.forEach(item => {
-          const { filename } = item;
-          this.uploadfileList.push(filename);
+    if (this.research === 'research') {
+      this.uploadfileService.pathResearchDataUpload(formData)
+        .pipe(
+          filter(item => item.files !== undefined),
+          filter(item => item.files.length > 0)
+        )
+        .subscribe(result => {
+          this.upload = result;
+          this.upload.files.forEach(item => {
+            const { filename } = item;
+            this.uploadfileList.push(filename);
+          });
         });
-      });
+    } else {
+      this.uploadfileService.pathDataUpload(formData)
+        .pipe(
+          filter(item => item.files !== undefined),
+          filter(item => item.files.length > 0)
+        )
+        .subscribe(result => {
+          this.upload = result;
+          this.upload.files.forEach(item => {
+            const { filename } = item;
+            this.uploadfileList.push(filename);
+          });
+        });
+
+    }
+
+
+
   }
 
   onSelectedFile(event: any): void {
 
-    console.log('[130][화일선택]', event.target.fileList);
+    // console.log('[130][화일선택]', event.target.fileList);
     const target = event.target as HTMLInputElement;
     const files = target.files as FileList;
-    console.log(files);
+    // console.log(files);
     if (event.target.files.length > 0) {
       const filename = event.target.files[0].name;
       const file = event.target.files[0];
@@ -169,7 +190,7 @@ export class UploadComponent implements OnInit {
         // console.log('[fileupload][병리 파일분류][159]', diseaseFilename);
         // this.pathologyNum = this.pathologyService.getPathologyNum();
         this.pathologyNum = this.store.getPathologyNo();
-        console.log('[162][pathologyNum]', this.pathologyNum);
+        // console.log('[162][pathologyNum]', this.pathologyNum);
         this.type = this.pathologyService.getType();
 
         if (diseaseFilename.includes('RNA') || diseaseFilename.includes('Non-Filtered')) {
@@ -192,7 +213,7 @@ export class UploadComponent implements OnInit {
 
   onFileSelect(event: Event): any {
 
-    console.log(event);
+    // console.log(event);
     const target = event.target as HTMLInputElement;
     const files = target.files as FileList;
     //  console.log(files, files.length);
@@ -204,13 +225,13 @@ export class UploadComponent implements OnInit {
 
         const diseaseFilename = filename.split('_');
         this.diseaseNumber = diseaseFilename[0];
-        console.log('[fileupload][병리 파일분류][192]', diseaseFilename);
+        // console.log('[fileupload][병리 파일분류][192]', diseaseFilename);
         // this.pathologyNum = this.pathologyService.getPathologyNum();
         this.pathologyNum = this.store.getPathologyNo();
         if (this.pathologyNum === undefined || this.pathologyNum === null) {
           this.pathologyNum = this.store.getPathologyNo();
         }
-        console.log('[181][upload][선택한 환자 병리번호 pathologyNum]', this.pathologyNum);
+        // console.log('[234][upload][선택한 환자 병리번호 pathologyNum]', this.pathologyNum);
         this.type = this.pathologyService.getType();
         if (this.type === undefined) {
           this.type = this.store.getType();
@@ -268,7 +289,7 @@ export class UploadComponent implements OnInit {
                 start = index;
 
                 this.burden = temp2[0];
-                console.log('[193][burden] ', this.burden);
+                // console.log('[193][burden] ', this.burden);
               }
             }
 
@@ -363,7 +384,7 @@ export class UploadComponent implements OnInit {
             if (nextline === index) {
               this.prevalent = list[0].replace(/&gt;/g, '>').split(';').filter(item => {
                 const member = item.trim().split(' ');
-                console.log('[362][prevalent]', this.prevalent);
+                // console.log('[362][prevalent]', this.prevalent);
                 return member[1] !== 'deletion';
 
               });
@@ -573,7 +594,7 @@ export class UploadComponent implements OnInit {
 
   // 갯수확인
   checkListNum(genes: string): number {
-    console.log('[585][genes[ ==> ', genes);
+    // console.log('[585][genes[ ==> ', genes);
     // const re = /[\[\]=]/gi;  // BAP1 p.([V409=;Q410*]) c.1227_1228delGCinsTT 경우
     // // let tempfre  = [];
     // if (re.test(genes)) {

@@ -240,7 +240,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     ).subscribe(pathologyNum => {
 
       this.pathologyNum = pathologyNum; // 검체번호 저장
-
+      console.log('[241] ===> ', this.pathologyService.patientInfo);
       try {
         this.patientInfo = this.pathologyService.patientInfo.filter(item => item.pathology_num === pathologyNum)[0];
       } catch (err) {
@@ -389,7 +389,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     } else if (parseInt(this.patientInfo.screenstatus, 10) === 0) {  // tsv에서 데이타 가져옴
       // this.initByFile();
       // this.reportday = this.today();
-      // console.log('[392] 환자정보: ', this.patientInfo);
+      console.log('[392] 환자정보: ', this.patientInfo);
       const tempReportday = this.patientInfo.report_date.slice(0, 10);
       if (tempReportday === '1900-01-01' || this.patientInfo.report_date === '') {
         this.reportday = this.today();
@@ -445,12 +445,18 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       map(lists => lists.filter(list => list.part === 'T'))
     ).subscribe(mt => {
       this.mt = mt;
+      console.log('[448] 검사자 =====>', mt);
+      console.log('[449], ', this.patientInfo);
 
       if (Number(this.patientInfo.screenstatus) === 0) {
         this.mt.forEach(data => {
           if (data.user_id === this.loginID) {
             this.examedname = data.user_nm;
             this.examedno = data.user_id;
+
+            this.patientInfo.examin = data.user_id + '_' + data.user_nm;
+            this.examin = data.user_id + '_' + data.user_nm;
+
           }
         });
       }
@@ -683,6 +689,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.subs.sink = this.filteredService.getStatecontrol(pathologyNo)
       .subscribe(data => {
+        console.log('[686] 정도관리 ==> ', data);
         if (data.length !== null && data.length !== 0 && data.length !== undefined) {
           this.stateControl = data[0];
         }
@@ -1975,7 +1982,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       this.notement,
       this.stateControl
     ).subscribe(data => {
-      console.log('[1267][tempSave]', data);
+      console.log('[1981][tempSave]  ====> ', data);
       if (data.info === 'SUCCESS') {
         alert('저장 했습니다.');
         this.store.setDBSaved(true);

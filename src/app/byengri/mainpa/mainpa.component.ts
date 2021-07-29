@@ -6,7 +6,7 @@ import { emrUrl } from 'src/app/config';
 import { IPatient } from '../models/patients';
 import { PathologyService } from '../mainpa_services/pathology.service';
 import { SearchService } from '../mainpa_services/search.service';
-import { StorePathService } from '../mainpa.store.path.service';
+import { StorePathService } from '../store.path.service';
 import { SubSink } from 'subsink';
 import * as moment from 'moment';
 import { concatMap, filter, first, map, take, tap } from 'rxjs/operators';
@@ -151,7 +151,7 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   goUploadpage(pathologyNo: string, i: number, type: string): void {
-
+    console.log('[154][goUploadpage] ==> ', pathologyNo, type);
     this.store.setPathologyNo(pathologyNo);
     this.store.setType(type);
     if (this.isSelected) {
@@ -233,7 +233,7 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
       .pipe(
         take(1),
         filter(data => data.length > 0),
-        // tap(data => console.log(' ********* [242]reSearch MAINPA **********> ', data)),
+        tap(data => console.log(' ********* [242]reSearch MAINPA **********> ', data)),
       );
 
     this.subs.sink = this.lists$

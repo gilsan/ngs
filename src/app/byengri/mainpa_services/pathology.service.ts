@@ -14,6 +14,7 @@ import { emrUrl } from './../../config';
 export class PathologyService {
 
   patientInfo: IPatient[];
+  researchPatientInfo: IPatient[];
   pathologyNo: string;
   type: string; // OR or IR
 
@@ -83,7 +84,7 @@ export class PathologyService {
   public getPatientList(): Observable<IPatient[]> {
     return this.http.get<IPatient[]>(`${this.apiUrl}/patients_research/list`).pipe(
       // return this.http.get<IPatient[]>(`${this.apiUrl}/searchpatient_path/list`).pipe(
-      tap(data => this.patientInfo = data)
+      tap(data => this.researchPatientInfo = data)
     );
   }
 
@@ -93,7 +94,7 @@ export class PathologyService {
     // return this.http.post<IPatient[]>(`${this.apiUrl}/searchpatient_path/list`, { start, end, patientID, pathologyNo }).pipe(
     return this.http.post<IPatient[]>(`${this.apiUrl}/patients_research/list`, { start, end, patientID, pathologyNo }).pipe(
       // tap(data => console.log('[검색서비스][환자정보]', data)),
-      tap(data => this.patientInfo = data),
+      tap(data => this.researchPatientInfo = data),
       shareReplay()
     );
   }
