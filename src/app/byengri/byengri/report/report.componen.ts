@@ -450,6 +450,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
         this.mt.forEach(data => {
           if (data.user_id === this.loginID) {
             this.examedname = data.user_nm;
+            this.examedno = data.user_id;
           }
         });
       }
