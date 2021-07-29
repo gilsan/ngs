@@ -27,17 +27,26 @@
           </colgroup>
           <tr>
             <th class="table_result_line fontsize">환자이름</th>
-            <td class="txt_c">{{patientInfo.name}}</td>
+            <td class="txt_c">
+              <input type="text" size="5" [value]="patientInfo.name" class="clr-input">
+            </td>
             <th class="fontsize">등록번호</th>
-            <td class="txt_c ">{{patientInfo.patientID}}</td>
+            <td class="txt_c ">
+               <input type="text" size="10" [value]="patientInfo.patientID" class="clr-input">
+            </td>
           </tr>
           <tbody>
             <tr>
               <th class="table_result_line fontsize">성별/나이
               </th>
-              <td class="txt_c">{{patientInfo.gender}}/{{patientInfo.age}}</td>
+              <td class="txt_c">
+                  <input type="text" size="5" [value]="patientInfo.gender" class="clr-input">
+                  <input type="text" size="5" [value]="patientInfo.age" class="clr-input">
+              </td>
               <th class="txt_c fontsize">분자병리번호</th>
-              <td class="txt_c">{{patientInfo.pathology_num}}</td>
+              <td class="txt_c">
+                  <input type="text" size="10" [value]="patientInfo.pathology_num" class="clr-input">
+              </td>
             </tr>
           </tbody>
         </table>

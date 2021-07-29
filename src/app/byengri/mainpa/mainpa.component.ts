@@ -47,13 +47,7 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild('pbox100', { static: true }) pbox100: ElementRef;
   @ViewChildren('prescription, name, age, gender, patientid, pathologynum') newPath: QueryList<ElementRef>;
-  // @ViewChild('prescription', { static: false }) prescription: ElementRef;
-  // @ViewChild('name', { static: false }) name: ElementRef;
-  // @ViewChild('age', { static: false }) age: ElementRef;
-  // @ViewChild('gender', { static: false }) gender: ElementRef;
-  // @ViewChild('patientid', { static: false }) patientId: ElementRef;
-  // @ViewChild('pathologynum', { static: false }) pathologynum: ElementRef;
-  // @ViewChild('status', { read: ElementRef }) status: ElementRef;
+
 
   constructor(
     private pathologyService: PathologyService,
@@ -239,7 +233,7 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
       .pipe(
         take(1),
         filter(data => data.length > 0),
-        tap(data => console.log(' ********* [242]reSearch MAINPA **********> ', data)),
+        // tap(data => console.log(' ********* [242]reSearch MAINPA **********> ', data)),
       );
 
     this.subs.sink = this.lists$
@@ -467,21 +461,21 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
       rel_pathology_num: '',
     });
 
-    this.initStatusValue = 'U';
-    this.lists[this.lists.length - 1].prescription_date = this.today();
+    // this.initStatusValue = 'U';
+    // this.lists[this.lists.length - 1].prescription_date = this.today();
   }
 
   addNew(id: number): void {
     console.log(id);
-    // this.initStatusValue = 'U';
-    // this.lists[id].prescription_date = this.today();
+    this.initStatusValue = 'U';
+    this.lists[id].prescription_date = this.today();
   }
 
   //
   // id
   // queryList 수: 6
   updateRow(id: number): void {
-    console.log('시험용', id);
+    // console.log('시험용', id);
     const list = [];
     this.newPath.forEach((data, index) => {
       if (index > (id * 6)) {
@@ -489,7 +483,7 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
         list.push(data.nativeElement.value);
       }
     });
-    console.log(list);
+    // console.log(list);
     const path: any = new Object();
     for (let i = 0; i < list.length; i++) {
       if (i === 0) {
@@ -519,8 +513,8 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
 
     }
 
-    console.log(path);
-    console.log(this.lists);
+    // console.log(path);
+    // console.log(this.lists);
     this.initStatusValue = 'R';
 
     const start = this.startday.replace(/-/g, '');

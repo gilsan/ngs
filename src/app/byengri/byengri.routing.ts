@@ -31,7 +31,7 @@ const routes: Routes = [
       { path: 'sheet', component: PathReportComponent },
       { path: 'mainpa', component: MainpaComponent },
       { path: 'research', component: ResearchComponent },
-      { path: 'research/:pathologyNum', component: ResearchComponent },
+      { path: 'research/:id', component: ResearchComponent, resolve: { patientinfo: ReportResolver } },
 
 
     ]

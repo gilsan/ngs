@@ -237,7 +237,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
     ).subscribe(pathologyNum => {
 
       this.pathologyNum = pathologyNum; // 검체번호 저장
-
+      console.log('[238][검체번호]', this.pathologyNum, this.patientInfo);
       try {
         this.patientInfo = this.pathologyService.patientInfo.filter(item => item.pathology_num === pathologyNum)[0];
       } catch (err) {
@@ -283,11 +283,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
       this.status = true;
       // 현재 상태정보 1: 저장, 3:EMR전송, 0: 시작
       this.screenstatus = this.patientInfo.screenstatus;
-      // 시험용 1900-01-01
-      // const tempsendemrdate = this.patientInfo.sendEMRDate.toString().slice(0, 10);
-      // if (tempsendemrdate === '1900-01-01') {
-      //   console.log('===== [273]', tempsendemrdate);
-      // }
+
 
       // 저장일
       const tempReportday = this.patientInfo.report_date.slice(0, 10);
@@ -310,14 +306,14 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
       }
 
       // 검체정보
-      console.log('[216][환자정보], ', this.patientInfo);
+      // console.log('[216][환자정보], ', this.patientInfo);
       this.extraction.dnarna = 'FFPE tissue';
       this.extraction.managementNum = this.patientInfo.rel_pathology_num;
-      // console.log('[216]', this.patientInfo.key_block);
+
       if (this.patientInfo.key_block === undefined || this.patientInfo.key_block === null) {
         this.extraction.keyblock = '';
       } else if (this.patientInfo.key_block.length > 0) {
-        // this.extraction.keyblock = this.patientInfo.key_block;
+
         const firstChar = this.patientInfo.key_block.charAt(0);
         if (firstChar === '#') {
           this.extraction.keyblock = this.patientInfo.key_block;
@@ -464,7 +460,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getDataFromDB(info: IPatient): void {
     const pathologyNo = info.pathology_num;
-    console.log('[272][report][ getDataFromDB][] ', pathologyNo);
+    // console.log('[272][report][ getDataFromDB][] ', pathologyNo);
     this.searchService.getPathmentlist(pathologyNo)
       .subscribe(data => {
         // console.log('[275][멘트리스트][]', data);
