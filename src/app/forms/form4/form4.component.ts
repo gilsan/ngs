@@ -316,7 +316,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     this.store.setPatientInfo(this.patientInfo); // 환자정보 저장
 
     // tsvFilteredFilename 분석
-    this.tsvFileVersion(this.patientInfo.tsvFilteredFilename);
+    this.tsvFileVersion(this.patientInfo.verfile);
 
     this.requestDate = this.patientInfo.accept_date;
     if (this.patientInfo.specimen === '015') {

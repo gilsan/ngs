@@ -202,7 +202,8 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     // this.pathologyService.getPatientList().subscribe();
-
+    const user = JSON.parse(localStorage.getItem('pathuser'));
+    this.loginID = user.userid;
     this.loadForm();
     this.checker();
   }
@@ -237,8 +238,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
     ).subscribe(pathologyNum => {
 
       this.pathologyNum = pathologyNum; // 검체번호 저장
-      // console.log('[238][검체번호]', this.pathologyNum, this.patientInfo);
-      // console.log('[241] ===> ', this.pathologyService.researchPatientInfo);
+
       try {
         this.patientInfo = this.pathologyService.researchPatientInfo.filter(item => item.pathology_num === pathologyNum)[0];
       } catch (err) {
@@ -292,7 +292,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
         if (this.patientInfo.report_date === null || this.patientInfo.report_date === '' ||
           tempReportday === '1900-01-01') {
           this.reportday = this.today();
-          console.log('=== [281][1900-01-01]', tempReportday, this.reportday);
+
         } else {
           this.reportday = this.patientInfo.report_date.replace(/-/g, '.'); // 저장일
         }
@@ -307,7 +307,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
       }
 
       // 검체정보
-      // console.log('[216][환자정보], ', this.patientInfo);
+
       this.extraction.dnarna = 'FFPE tissue';
       this.extraction.managementNum = this.patientInfo.rel_pathology_num;
 
@@ -355,10 +355,10 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.patientInfo.msiscore.split('').includes('(')) {
         this.msiTag = true;
       }
-      // console.log('[345][msi 값]:', this.patientInfo.msiscore.split('').includes('('));
+
       this.msiScore = this.patientInfo.msiscore;
       this.extraction.msiscore = this.msiScore;
-      // console.log('[검체]', this.extraction);
+
       // 검체 검사자,확인자
       this.examin = this.patientInfo.examin; // 기사
       const exam = this.patientInfo.examin.split('_');
@@ -375,23 +375,18 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
       this.basicInfo.pathologyNum = this.patientInfo.pathology_num;
       this.basicInfo.age = this.patientInfo.age;
 
-      // console.log('[기본정보]', this.basicInfo);
-      // console.log('[확인자/검사자]', this.examedno, this.examedname, this.checkeredno, this.checkername);
-      // this.checkingMent(this.patientInfo.tumor_type);
+
       this.getDataFromDB(this.patientInfo);
 
     } else if (parseInt(this.patientInfo.screenstatus, 10) === 0) {  // tsv에서 데이타 가져옴
-      // this.initByFile();
-      // this.reportday = this.today();
+
       const tempReportday = this.patientInfo.report_date.slice(0, 10);
       if (tempReportday === '1900-01-01' || this.patientInfo.report_date === '') {
         this.reportday = this.today();
       }
 
-
-
       this.initByDB(pathologyNum);
-      // this.status = this.store.getDBSaved();
+
     }
   }
 
@@ -423,12 +418,11 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   checker(): void {
-    // this.report.nativeElement.selectionEnd = 5;
-    // this.report.selectionStart += 200;
+
     this.report.selectionEnd = 200;
 
     // 이미지 파일 있는지 확인
-    // const howmanyimages$ = this.searchService.howManyImages(pathologyNo);
+
 
     const medi$ = this.searchService.listPath().pipe(
       shareReplay()
@@ -439,11 +433,16 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
     ).subscribe(mt => {
       this.mt = mt;
 
+
       if (Number(this.patientInfo.screenstatus) === 0) {
         this.mt.forEach(data => {
+
           if (data.user_id === this.loginID) {
             this.examedname = data.user_nm;
             this.examedno = data.user_id;
+
+            this.patientInfo.examin = data.user_id + '_' + data.user_nm;
+            this.examin = data.user_id + '_' + data.user_nm;
           }
         });
       }
@@ -462,10 +461,10 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getDataFromDB(info: IPatient): void {
     const pathologyNo = info.pathology_num;
-    // console.log('[272][report][ getDataFromDB][] ', pathologyNo);
+
     this.searchService.getPathmentlist(pathologyNo)
       .subscribe(data => {
-        // console.log('[275][멘트리스트][]', data);
+
         if (data.message !== 'no data') {
           this.generalReport = data[0].generalReport;
           this.specialment = data[0].specialment;
@@ -653,7 +652,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
             tempifu = data;
           }
           tempifu.forEach((item, index) => {
-            // console.log('[425]', item, item.gene, item.fusion_breakpoint, item.fusion_function, item.tier);
+
             this.ifusion.push({
               gene: item.gene,
               breakpoint: item.fusion_breakpoint,
@@ -688,9 +687,9 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
     this.reportday = this.today();
     const filteredOriginaData$ = this.filteredService.getfilteredOriginDataList(pathologynum)
       .pipe(
-        // tap(itemlists => console.log('[473][tab]', itemlists)),
+
         map((orgitems) => orgitems.filter(item => item.OncomineVariant !== 'Deletion')),
-        // tap(itemlists => console.log('[475][tab]', itemlists))
+
       );
 
     const msiscore$ = this.filteredService.getMsiScroe(pathologynum);
@@ -731,12 +730,12 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
         if (tumortypeVal.length > 0) {
           tumortypes = tumortypeVal[0].tumortype;
-          // this.checkingMent(tumortypeVal[0].tumortype); // 유전자에 따른 멘트 찿음
+
         } else {
           tumortypes = '';
         }
 
-        console.log('[710][tumorcellpercentage]', tumorcellpercentageVal);
+        // console.log('[710][tumorcellpercentage]', tumorcellpercentageVal);
         if (tumorcellpercentageVal.length > 0) {
           this.tumorcellpercentage = tumorcellpercentageVal[0].tumorcellpercentage.trim(); // 공백 없앰
         } else {
@@ -754,12 +753,12 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
         this.basicInfo.pathologyNum = this.patientInfo.pathology_num;
         this.basicInfo.age = this.patientInfo.age;
         // 순번대로 정렬
-        // console.log('[616][tempClinically ]', this.tempClinically);
+
         if (this.tempClinically.length > 1) {
           const tempClinically = this.tempClinically.sort((a, b) => {
             return parseInt(a.seq, 10) - parseInt(b.seq, 10);
           });
-          // console.log('[620][tempClinically ]', tempClinically);
+
           tempClinically.forEach(item => {
             this.clinically.push(item.clinically);
           });
@@ -773,7 +772,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
           const tempPrevalent = this.tempPrevalent.sort((a, b) => {
             return parseInt(a.seq, 10) - parseInt(b.seq, 10);
           });
-          // console.log('[636][tempPrevalent ]', tempPrevalent);
+
           tempPrevalent.forEach(item => {
             this.prevalent.push(item.prevalent);
           });
@@ -802,7 +801,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
         this.extraction.dnarna = 'FFPE tissue';
         this.extraction.managementNum = this.patientInfo.rel_pathology_num;
 
-        console.log('[570]', this.patientInfo.key_block);
+        // console.log('[570]', this.patientInfo.key_block);
         if (this.patientInfo.key_block === undefined || this.patientInfo.key_block === null) {
           this.extraction.keyblock = '';
         } else if (this.patientInfo.key_block.length > 0) {
@@ -837,14 +836,14 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
           this.extraction.diagnosis = this.patientInfo.pathological_dx;
         }
         // OR파일에서 가져온 유전자 정보
-        // tslint:disable-next-line:prefer-const
+
 
         this.clinically.forEach(item => {
           const members = item.trim().split(' ');
           const gene = members[0].trim().replace(/"/g, '');
           const type = members[1].trim().replace(/"/g, '');
           if (type.charAt(0) === 'p' || type === 'exon') {
-            // const indexm = this.findGeneInfo(gene);
+
             let indexm: number;
             let nucleotideChange: string;
             let customid = '';
@@ -855,7 +854,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
             let aminoAcidChange = itemMembers[1];
             const tempAminoAcidChange = itemMembers[1];
-            // console.log('====[849][clinically]: ', gene, tempAminoAcidChange, itemMembers);
+
             if (type === 'exon') {
               nucleotideChange = '';
             } else {
@@ -865,28 +864,26 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
             variantAlleleFrequency = this.findFrequency(gene);
             if (type === 'exon') {
               indexm = this.findGeneInfo(gene);
-              // console.log('=== [841]', indexm, this.filteredOriginData);
+
               if (indexm !== -1) {
                 nucleotideChange = this.filteredOriginData[indexm].coding;
               }
             } else {
               indexm = this.withGeneCoding(gene, nucleotideChange);
             }
-            // console.log('==== [582][indexm]', gene, type, indexm);
+
             if (indexm !== -1) {
               customid = this.filteredOriginData[indexm].variantID;
               if (customid === undefined || customid === null) { customid = ''; }
-              // console.log('==== [850][]', gene, tempAminoAcidChange, type);
+
               if (gene === 'TERT' && tempAminoAcidChange === 'p.(?)') {
                 aminoAcidChange = 'Promotor mutant';
               } else if (gene !== 'TERT' && tempAminoAcidChange === 'p.(?)') {
                 aminoAcidChange = 'Splicing mutant';
               } else {
-                // aminoAcidChange 값이 없으면 원래것을 사용
+
                 aminoAcidChange = this.filteredOriginData[indexm].aminoAcidChange;
-                // if (aminoAcidChange === undefined || aminoAcidChange === null || aminoAcidChange === '') {
-                //   aminoAcidChange = tempAminoAcidChange;
-                // }
+
               }
             } else {
               if (gene === 'TERT' && tempAminoAcidChange === 'p.(?)') {
@@ -896,16 +893,14 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
               }
               customid = '';
             }
-            // console.log('[890][삭제유전자 리스트 ', this.polymorphismList);
-            // console.log('[891][유전자]' + gene, aminoAcidChange, nucleotideChange);
-            // gene, aminoAcidChange, nucleotideChange 조합으로 해당 되는것 삭제
+
             const result = this.removeGeneCheck(gene, aminoAcidChange, nucleotideChange);
             if (result === -1) {
-              //  vc.novel.1169, 계열은 ID 에 빈공간으로 만듬.
+
               if (customid.indexOf('vc.novel') !== -1) {
                 customid = '';
               }
-              // console.log('==== [978][mutation] ', gene);
+
               this.mutation.push({
                 gene,
                 aminoAcidChange,
@@ -922,17 +917,17 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
             const indexa = this.findGeneInfo(gene);
             const atier = this.findTier(gene);
             const geneindexlist = this.findMultiGeneInfo(gene);
-            // console.log(' ####### [895][amplification] ', gene, indexa, atier, type, geneindexlist);
+
             if (indexa !== -1) {
               let cylen;
               const cytobandlen = this.filteredOriginData[indexa].cytoband.length;
               Array.from(geneindexlist, (num: number) => {
-                // console.log('[][]', num);
+
                 cylen = this.filteredOriginData[num].cytoband.length;
                 if (cylen) {
                   const cytoband = this.filteredOriginData[num].cytoband.split(')');
                   this.amplifications.push({
-                    // gene: this.filteredOriginData[num].gene,
+
                     gene,
                     region: cytoband[0] + ')',
                     copynumber: cytoband[1],
@@ -947,13 +942,10 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
             }
           } else if (type === 'fusion') {
             let oncomine;
-            // if (gene === 'PTPRZ1-MET') {
-            //   // gene = 'PTPRZ1(1) - MET(2)';
-            // }
-            // const index = this.findGeneInfo(gene);
+
             const index = this.findFusionInfo(gene);
             const ftier = this.findTier(gene);
-            // console.log('****** [932][FUSION][', type, gene, index);
+
 
             if (index !== -1) {  // 여기주의
               if (this.filteredOriginData[index].oncomine === 'Loss-of-function') {
@@ -970,7 +962,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
                 functions: oncomine,
                 tier: ftier
               });
-              // console.log('=====[645][fusion]', this.fusion);
+
             }
 
           }
@@ -978,14 +970,14 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
         });
 
         if (this.mutation.length) {
-          // console.log('====== [956][mutation]', this.mutation);
+
           this.mutation.forEach((mItem, index) => {
             this.mutationLists().push(this.createMutaion(mItem, index.toString()));
           });
         }
 
         if (this.amplifications.length) {
-          console.log('###### [967][amplifications]', this.amplifications);
+          // console.log('###### [967][amplifications]', this.amplifications);
           this.amplifications.forEach((aItem, index) => {
             this.amplificationsLists().push(this.createAmplifications(aItem, index.toString()));
           });
@@ -993,13 +985,13 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
         if (this.fusion.length) {
-          // console.log('******* [757][fusion]', this.fusion);
+
           this.fusion.forEach((fItem, index) => {
             this.fusionLists().push(this.createFusion(fItem, index.toString()));
           });
         } else {
           this.fusion = [];
-          // console.log('[614][initByFile][fusion]', this.fusion.length);
+
 
         }
 
@@ -1016,7 +1008,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
             const tempaminoAcidchange = items[1];
             const nucleotidechange = items[2];
 
-            // console.log('[546][prevalent]', gene, aminoAcidchange, nucleotidechange);
+
             // 유전자와 nucleotidechange 2개로 찿는다.
             const indexm = this.withGeneCoding(gene, nucleotidechange);
 
@@ -1074,7 +1066,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
           } else if (type === 'amplification') {
             const indexa = this.findGeneInfo(gene);
-            console.log(' ######[840][prevelant][amplification] ', gene);
+            // console.log(' ######[840][prevelant][amplification] ', gene);
             if (indexa !== -1) {
               const cytoband = this.filteredOriginData[indexa].cytoband.split(')');
               this.iamplifications.push({
@@ -1087,9 +1079,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
             }
           } else if (type === 'fusion') {
             let oncomine;
-            // if (gene === 'PTPRZ1-MET') {
-            // gene = 'PTPRZ1(1) - MET(2)';
-            // }
+
             const index = this.findFusionInfo(gene);
 
             // const index = this.findGeneInfo(gene);
@@ -1161,8 +1151,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
   withGeneCoding(gene: string, coding: string): number {
     const idx = this.filteredOriginData.findIndex(item =>
       item.gene.split(';').includes(gene) && item.coding.split(';').toString().trim().includes(coding));
-    // item.gene === gene && item.coding === coding);
-    // item.gene.split(';').includes(gene) && item.coding === coding);
+
     return idx;
   }
   // Fusion 검색은 variant ID 값을 파싱하여 비교한다.
@@ -1182,7 +1171,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
       tempGene = 'KIF5B(18) - RET(12)';
       gene = tempGene;
     }
-    // const idx = this.filteredOriginData.findIndex(item => item.gene === gene);21.01-26 화 수정
+
     const idx = this.filteredOriginData.findIndex(item => item.gene.split(';').includes(gene));
     return idx;
   }
@@ -1191,7 +1180,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
     const len = this.filteredOriginData.length;
     const geneinfo = [];
     for (let i = 0; i < len; i++) {
-      // if (this.filteredOriginData[i].gene === gene) {
+
       if (this.filteredOriginData[i].gene.split(';').includes(gene)) {
         geneinfo.push(i);
       }
@@ -1202,7 +1191,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
   // tslint:disable-next-line:member-ordering
   private visitedGene = [];
   findFrequency(gene): string {
-    // console.log('[1012]', this.visitedGene, gene);
+
     const ix = this.visitedGene.findIndex(name => name === gene);
     if (ix === -1) {
       const idx = this.clinical.findIndex(list => list.gene === gene);
@@ -1219,9 +1208,9 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   findBackFrequency(gene): string {
-    // const idx = this.clinical.lastIndexOf(gene);
+
     const idx = this.clinical.reverse().findIndex(list => list.gene === gene);
-    // console.log('[1027][findBackFrequency]' + idx);
+
     if (idx === -1) {
       return 'none';
     }
@@ -1229,9 +1218,9 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   findTier(gene): string {
-    // console.log('[246][findTier]', this.clinical, gene);
+
     const idx = this.clinical.findIndex(list => list.gene === gene);
-    // console.log('[248][findTier]', this.clinical[idx]);
+
     if (idx === -1) {
       return 'none';
     }
@@ -1241,14 +1230,14 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
   // DNA and RNA extraction
 
   setDNAandRNAextraction(dna: string): void {
-    // console.log('[663][setDNAandRNAextraction]', dna);
+
     this.extraction.dnarna = dna;
   }
 
   // tslint:disable-next-line:variable-name
   setManagementNum(rel_pathology_num: string): void {
     this.extraction.managementNum = rel_pathology_num;
-    // console.log('********* [906][환자병리번호]', this.extraction.managementNum);
+
   }
 
   setKeyblock(keyblock: string): void {
@@ -1256,19 +1245,13 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   setTumorpercentage(percentage): void {
-    // const temp = percentage[percentage.length - 1];
-    // console.log('[909][PERCENTAGE] ', percentage);
-    // if (temp === '%') {
-    //   this.extraction.tumorcellpercentage = percentage.slice(0, -1);
-    // } else {
-    //
-    // }
+
     const per = percentage.replace('/\%/g', '');
     this.extraction.tumorcellpercentage = per;
-    console.log('******* [1245][퍼센티지] ', percentage, per, this.extraction.tumorcellpercentage);
+    // console.log('******* [1245][퍼센티지] ', percentage, per, this.extraction.tumorcellpercentage);
   }
   setOrgan(organ: string): void {
-    // console.log('[672][setDNAandRNAextraction]', organ);
+
     this.extraction.organ = organ;
   }
 
@@ -1277,12 +1260,12 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   setDiagnosis(diagnosis: string): void {
-    // console.log('[901][diagnosis]', diagnosis);
+
     this.extraction.diagnosis = diagnosis;
   }
   diagnosisFocus(): void {
     this.diagnosis.selectionStart += 30;
-    // console.log('======= [diagnosi]', this.extraction.diagnosis);
+
   }
 
   // 정도관리
@@ -1321,7 +1304,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
   convertFormData(): void {
     const mControl = this.mutationForm.get('mutationLists') as FormArray;
-    // this.mutation = mControl.getRawValue();
+
     const tempMu = mControl.getRawValue();
     const tempMuLen = tempMu.length;
     this.mutation = [];
@@ -1333,7 +1316,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     const aControl = this.amplificationsForm.get('amplificationsLists') as FormArray;
-    // this.amplifications = aControl.getRawValue();
+
     const tempAm = aControl.getRawValue();
     const tempAmLen = tempAm.length;
     this.amplifications = [];
@@ -1345,7 +1328,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     const fControl = this.fusionForm.get('fusionLists') as FormArray;
-    // this.fusion = fControl.getRawValue();
+
     const tempFu = fControl.getRawValue();
     const tempFuLen = tempFu.length;
     this.fusion = [];
@@ -1357,7 +1340,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     const imControl = this.imutationForm.get('imutationLists') as FormArray;
-    // this.imutation = imControl.getRawValue();
+
 
     const tempIMu = imControl.getRawValue();
     const tempIMuLen = tempIMu.length;
@@ -1370,7 +1353,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     const iaControl = this.iamplificationsForm.get('iamplificationsLists') as FormArray;
-    // this.iamplifications = iaControl.getRawValue();
+
     const tempIAm = iaControl.getRawValue();
     const tempIAmLen = tempIAm.length;
     this.iamplifications = [];
@@ -1382,7 +1365,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     const ifControl = this.ifusionForm.get('ifusionLists') as FormArray;
-    // this.ifusion = ifControl.getRawValue();
+
     this.ifusion = [];
     const tempIFu = ifControl.getRawValue();
     const tempIFuLen = tempIFu.length;
@@ -1434,19 +1417,15 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
     );
     console.log(form);
 
-    // this.searchService.resetscreenstatus(this.pathologyNum, '3')
-    //   .subscribe(data => {
-    //     this.screenstatus = '3';
-    //   });
+
 
     // NU로 데이터 전송
     this.pathologyService.sendEMR(this.patientInfo, form).subscribe(data => {
-      // const message = data;
-      // const result1 = converter.xml2json( message, { compact: true, spaces: 2 });
+
       console.log('[1121][sendEMR 보낸결과]', data);
       // alert(data);
       alert('EMR로 전송했습니다.');
-      // this.router.navigate(['/pathology']);
+
     });
 
     this.searchService.resetscreenstatus(this.pathologyNum, '3')
@@ -1456,14 +1435,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log('[EMR 전송후 상태]', this.screenstatus);
       });
 
-    // this.subs.sink = this.searchService.finishPathologyEMRScreen(this.patientInfo.pathology_num, userid)
-    //   .subscribe(data => {
-    //     console.log('[1101][][finishPathologyEMRScreen]', data);
-    //     if (data.message === 'SUCCESS') {
-    //       // alert(data);
-    //       // this.router.navigate(['/pathology']);
-    //     }
-    //   });
+
 
   }
 
@@ -1529,8 +1501,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   makeEMRData(info: IPatient): void {
-    // let msg: string;
-    // let result: boolean;
+
     const pathologyNo = info.pathology_num;
 
     const ment$ = this.searchService.getPathmentlist(pathologyNo);
@@ -1541,7 +1512,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
     const amplificationp$ = this.searchService.getAmplificationP(pathologyNo);
     const fusionp$ = this.searchService.getFusionP(pathologyNo);
     const pathologyimage$ = this.searchService.getPathImage(pathologyNo);
-    // const howmanyimages$ = this.searchService.howManyImages(pathologyNo);
+
     combineLatest([ment$, mutationc$, amplificationc$,
       fusionc$, mutationp$, amplificationp$, fusionp$, pathologyimage$])
       .subscribe(([ment, mutationc, amplificationc, fusionc,
@@ -1719,7 +1690,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log('[EMR 멘트]', this.generalReportEMR, this.specialmentEMR, this.notementEMR);
     console.log('[EMR 사진경로]', this.pathimage);
     console.log('[EMR 정도관리', this.stateControl);
-    // const emrDate = this.patientInfo.sendEMRDate.toString().slice(0, 10);
+
     const emrDate = this.today();
     const form = makeReport(
       emrDate,   // EMR 전송일
@@ -1747,23 +1718,21 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
       this.imutationEMR = [];
       this.iamplificationsEMR = [];
       this.ifusionEMR = [];
-      // this.tumorMutationalBurdenEMR = '';
-      // this.msiScoreEMR = '';
+
     });
 
     this.searchService.resetscreenstatus(this.pathologyNum, '3')
       .subscribe(data => {
         this.patientInfo.screenstatus = '3';
         this.screenstatus = '3';
-        console.log('[EMR 전송후 상태]', this.screenstatus);
+        // console.log('[EMR 전송후 상태]', this.screenstatus);
       });
 
     this.searchService.finishPathologyEMRScreen(this.patientInfo.pathology_num, userid)
       .subscribe(data => {
-        console.log('[1101][][finishPathologyEMRScreen]', data);
+        // console.log('[1101][][finishPathologyEMRScreen]', data);
         if (data.message === 'SUCCESS') {
-          // alert(data);
-          // this.router.navigate(['/pathology']);
+
         }
       });
 
@@ -1795,13 +1764,10 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
     this.checkeredno = reck[0];
     this.checkername = reck[1];
 
-    // this.searchService.updatePickselect(this.checkeredno, 'Y', 'D')
-    //   .subscribe(data => {
-    //     console.log('[1150][checked]', data);
-    //   });
+
 
     this.patientInfo.recheck = rechecked;
-    console.log('[1690][Rechecked][의사]', this.checkername, this.checkeredno);
+    // console.log('[1690][Rechecked][의사]', this.checkername, this.checkeredno);
   }
   // 기사
   examimed(examin: string): void {
@@ -1809,14 +1775,11 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
     this.examedno = exam[0];
     this.examedname = exam[1];
 
-    // this.searchService.updatePickselect(this.examedno, 'Y', 'T')
-    //   .subscribe(data => {
-    //     console.log('[1143][Examine]', data);
-    //   });
+
 
     this.patientInfo.examin = examin;
     this.examin = examin;
-    console.log('[1705][Examine][기사]', exam, this.examedname, this.examedno);
+    // console.log('[1705][Examine][기사]', exam, this.examedname, this.examedno);
   }
 
   // tslint:disable-next-line: typedef
@@ -1858,14 +1821,11 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
           alert('저장 했습니다.');
           this.store.setDBSaved(true);
 
-          // this.searchService.resetscreenstatus(this.pathologyNum, '1')
-          //   .subscribe(data => {
-          //     this.screenstatus = '1';
-          //   });
+
 
           this.subs.sink = this.searchService.screenPathologyEmrUpdate(this.basicInfo.pathologyNum)
             .subscribe(datas => {
-              console.log('[1189][savePathologyData][screenPathologyEmrUpdate]', datas);
+              // console.log('[1189][savePathologyData][screenPathologyEmrUpdate]', datas);
               this.router.navigate(['/pathology']);
             });
 
@@ -1903,20 +1863,16 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
       this.specialment,
       this.notement
     ).subscribe(data => {
-      console.log('[1219][savePathologyData]', data);
+      // console.log('[1219][savePathologyData]', data);
       if (data.info === 'SUCCESS') {
         alert('저장 했습니다.');
         this.store.setDBSaved(true);
 
-        // this.searchService.resetscreenstatus(this.pathologyNum, '2')
-        //   .subscribe(msg => {
-        //     this.screenstatus = '2';
-        //     console.log('[]', msg.message);
-        //   });
+
 
         this.subs.sink = this.searchService.screenPathologyUpdate(this.basicInfo.pathologyNum)
           .subscribe(datas => {
-            console.log('[1226][savePathologyData][screenPathologyEmrUpdate]', datas);
+            // console.log('[1226][savePathologyData][screenPathologyEmrUpdate]', datas);
             this.router.navigate(['/pathology']);
           });
       }
@@ -1967,7 +1923,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
       this.notement,
       this.stateControl
     ).subscribe(data => {
-      console.log('[1267][tempSave]', data);
+      // console.log('[1267][tempSave]', data);
       if (data.info === 'SUCCESS') {
         alert('저장 했습니다.');
         this.store.setDBSaved(true);
@@ -1975,7 +1931,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
         this.searchService.resetscreenstatus(this.pathologyNum, '1')
           .subscribe(msg => {
             this.screenstatus = '1';
-            console.log('[]', msg.message);
+            // console.log('[]', msg.message);
           });
       }
     });
@@ -2029,7 +1985,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
       this.noneMu = 'None';
     }
 
-    console.log('[1828][addMutation]', len, this.noneMu);
+    // console.log('[1828][addMutation]', len, this.noneMu);
   }
 
   removeMutation(i: number): void {
@@ -2041,7 +1997,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.noneMu = '';
     }
-    console.log('[1316][removeMutation]', len, this.noneMu);
+    // console.log('[1316][removeMutation]', len, this.noneMu);
   }
   /////////////////////////////////////////////////////////////////////
   // amplificationsForm
@@ -2392,7 +2348,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
     this.searchService.resetscreenstatus(this.pathologyNum, status)
       .subscribe(msg => {
         this.screenstatus = status;
-        console.log('[상태변경]', msg.message, this.screenstatus);
+        // console.log('[상태변경]', msg.message, this.screenstatus);
       });
   }
 
@@ -2402,11 +2358,11 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
     let mentContent;
     const mentLists = Object.values(essentialDNAMentList);
     mentContent = mentLists.filter(mentlist => mentlist.title.toLowerCase() === typetumor.toLowerCase())[0].content;
-    console.log('[2425][] *** ', mentContent, lists);
+    // console.log('[2425][] *** ', mentContent, lists);
     lists.forEach(list => {
       mentContent.forEach(ment => {
         if (ment.type.toLowerCase() === list.type.toLowerCase()) {
-          console.log('[2302][]', ment.type.toLowerCase(), list.type.toLowerCase(), ment.data);
+          // console.log('[2302][]', ment.type.toLowerCase(), list.type.toLowerCase(), ment.data);
           const mentId = ment.data.findIndex(item => item === list.dna);
           if (mentId !== -1) {
             ment.data.splice(mentId, 1);
@@ -2415,7 +2371,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       });
     });
-    console.log('[2438][ment]', mentContent);
+    // console.log('[2438][ment]', mentContent);
     try {
       if (mentContent.length > 0) {
         let muDNA = '';
@@ -2463,6 +2419,30 @@ ${fuDNA}`;
     }
 
 
+  }
+
+  patientnameFun(patientname: string): void {
+    this.patientInfo.name = patientname;
+  }
+
+  patientidFun(patientid: string): void {
+    this.patientInfo.patientID = patientid;
+  }
+
+  genderFun(gender: string): void {
+    if (gender === 'F' || gender === 'M') {
+      this.patientInfo.gender = gender;
+    } else {
+      alert('F/M 중 선택해 주세요.');
+    }
+  }
+
+  ageFun(age: string): void {
+    this.patientInfo.age = age;
+  }
+
+  pathologynumFun(pathology: string): void {
+    this.patientInfo.pathology_num = pathology;
   }
 
 

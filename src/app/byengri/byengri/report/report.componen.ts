@@ -240,7 +240,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     ).subscribe(pathologyNum => {
 
       this.pathologyNum = pathologyNum; // 검체번호 저장
-      console.log('[241] ===> ', this.pathologyService.patientInfo);
+      // console.log('[241] ===> ', this.pathologyService.patientInfo);
       try {
         this.patientInfo = this.pathologyService.patientInfo.filter(item => item.pathology_num === pathologyNum)[0];
       } catch (err) {
@@ -298,7 +298,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
         if (this.patientInfo.report_date === null || this.patientInfo.report_date === '' ||
           tempReportday === '1900-01-01') {
           this.reportday = this.today();
-          console.log('=== [281][1900-01-01]', tempReportday, this.reportday);
+          // console.log('=== [281][1900-01-01]', tempReportday, this.reportday);
         } else {
           this.reportday = this.patientInfo.report_date.replace(/-/g, '.'); // 저장일
         }
@@ -313,7 +313,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       }
 
       // 검체정보
-      console.log('[216][환자정보], ', this.patientInfo);
+      // console.log('[216][환자정보], ', this.patientInfo);
       this.extraction.dnarna = 'FFPE tissue';
       this.extraction.managementNum = this.patientInfo.rel_pathology_num;
       // console.log('[216]', this.patientInfo.key_block);
@@ -389,7 +389,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     } else if (parseInt(this.patientInfo.screenstatus, 10) === 0) {  // tsv에서 데이타 가져옴
       // this.initByFile();
       // this.reportday = this.today();
-      console.log('[392] 환자정보: ', this.patientInfo);
+      // console.log('[392] 환자정보: ', this.patientInfo);
       const tempReportday = this.patientInfo.report_date.slice(0, 10);
       if (tempReportday === '1900-01-01' || this.patientInfo.report_date === '') {
         this.reportday = this.today();
@@ -445,8 +445,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       map(lists => lists.filter(list => list.part === 'T'))
     ).subscribe(mt => {
       this.mt = mt;
-      console.log('[448] 검사자 =====>', mt);
-      console.log('[449], ', this.patientInfo);
+
 
       if (Number(this.patientInfo.screenstatus) === 0) {
         this.mt.forEach(data => {
