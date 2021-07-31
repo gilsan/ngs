@@ -143,6 +143,7 @@ export class MaindiagComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // tslint:disable-next-line: typedef
   goReporter(el: IPatient) {
+    console.log('[146] [maindiag] : ', el);
     // const specimenno = this.store.getSpecimenNo();
     const specimenno = el.specimenNo;
     // this.patientsList.setTestedID(this.lists[i].specimenNo); // 검체번호
@@ -288,6 +289,7 @@ export class MaindiagComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(
         switchMap(item => of(item)),
         switchMap(list => from(list)),
+        tap(list => console.log(list)),
         filter(list => list.test_code === 'LPE545' || list.test_code === 'LPE471' || list.test_code === 'LPE473' || list.test_code === 'LPE474' || list.test_code === 'LPE472'),
         map(list => {
           if (list.test_code === 'LPE545' || list.test_code === 'LPE472') {
@@ -304,7 +306,7 @@ export class MaindiagComponent implements OnInit, AfterViewInit, OnDestroy {
         }),
         // tap(list => console.log(list)),
       ).subscribe((data) => {
-        // console.log('', data);
+        // console.log('[308][maindiag] ', data);
         this.lists.push(data);
         this.isProgress = false;
         this.patientID = '';

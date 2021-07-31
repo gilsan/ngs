@@ -466,10 +466,10 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getDataFromDB(info: IPatient): void {
     const pathologyNo = info.pathology_num;
-    console.log('[272][report][ getDataFromDB][] ', pathologyNo);
+    // console.log('[272][report][ getDataFromDB][] ', pathologyNo);
     this.searchService.getPathmentlist(pathologyNo)
       .subscribe(data => {
-        console.log('[275][멘트리스트][]', data);
+        // console.log('[275][멘트리스트][]', data);
         if (data.message !== 'no data') {
           this.generalReport = data[0].generalReport;
           this.specialment = data[0].specialment;
@@ -679,7 +679,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.subs.sink = this.filteredService.getStatecontrol(pathologyNo)
       .subscribe(data => {
-        console.log('[686] 정도관리 ==> ', data);
+        // console.log('[686] 정도관리 ==> ', data);
         if (data.length !== null && data.length !== 0 && data.length !== undefined) {
           this.stateControl = data[0];
         }
@@ -689,7 +689,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   // tsv 화일에서 분류한 것을 디비에 저장후, 디비에서 불러온것
   initByDB(pathologynum: string): void {
     let tumortypes;
-    console.log('[663][initByDB][tsv화일 올린후]', pathologynum);
+    // console.log('[663][initByDB][tsv화일 올린후]', pathologynum);
     this.reportday = this.today();
     const filteredOriginaData$ = this.filteredService.getfilteredOriginDataList(pathologynum)
       .pipe(

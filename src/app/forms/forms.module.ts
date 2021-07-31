@@ -17,6 +17,9 @@ import { MaterialModule } from '../material.module';
 import { DialogOverviewExampleDialogComponent } from './dialog-overview-example-dialog/dialog-overview-example-dialog.component';
 // import { TestformComponent } from './testform/testform.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { Form5Component } from './form5/form5.component';
+import { Form6Component } from './form6/form6.component';
+import { Form7Component } from './form7/form7.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +32,9 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     AllComponent,
     FilteredComponent,
     DialogOverviewExampleDialogComponent,
+    Form5Component,
+    Form6Component,
+    Form7Component,
     //  TestformComponent
   ],
   imports: [

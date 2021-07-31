@@ -452,7 +452,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
       .pipe(
         take(1),
         filter(data => data.length > 0),
-        tap(data => console.log(data))
+        // tap(data => console.log(data))
       );
 
     this.subs.sink = this.lists$

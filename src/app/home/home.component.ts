@@ -45,7 +45,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.userid = JSON.parse(userinfo).userid;
     const pw = JSON.parse(userinfo).pw;
 
-    console.log(this.userid, pw);
+    // console.log(this.userid, pw);
     this.service.getManageUsersList('', '', this.userid, '', 'D')
       .pipe(
         map(data => [data]),
@@ -76,7 +76,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   logout(): void {
-    console.log('로그아웃');
+    // console.log('로그아웃');
     this.startToday();
     this.endToday();
     localStorage.removeItem('userpart');
@@ -107,7 +107,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     const newday = ('0' + date).substr(-2);
     const now = year + '-' + newmon + '-' + newday;
     this.store.setSearchStartDay(now);
-    console.log('home logout:', this.store.getSearchStartDay());
+    //  console.log('home logout:', this.store.getSearchStartDay());
   }
 
   endToday(): void {
@@ -121,7 +121,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     const now = year + '-' + newmon + '-' + newday;
     // console.log(date, now);
     this.store.setSearchEndDay(now);
-    console.log('home logout:', this.store.getSearchEndDay());
+    // console.log('home logout:', this.store.getSearchEndDay());
   }
 
   link(url: string): void {

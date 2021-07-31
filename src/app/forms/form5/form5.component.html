@@ -1,0 +1,166 @@
+<div id="result">
+  <div id="container" style="position: relative;">
+      <h2 style="margin-top: 5px;">형질세포종NGS</h2>
+      <button type="button" class="preview__button" (click)="previewToggle()">미리보기</button>
+      <button type="button" class="excel" (click)="excelDownload()">Excel</button>
+
+      <div id="content">
+          <div class="box pd_20">
+              <div class="sub_title">Patient: {{patientInfo.name}}, {{patientInfo.patientID}} ({{patientInfo.gender}}/{{patientInfo.age}})</div>
+              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td class="txt_02" ><span class="fb">Result </span>:
+                        <input type="radio" id="vertical-radio2" name="radio-full" [value]="'Detected'" [checked]="radioStatus('Detected')" class="clr-radio"  (change)="result($event)">
+                        <label for="vertical-radio2" class="  clr-col-12 clr-col-md-2">Detected</label>
+                        &nbsp;&nbsp;
+                        <input type="radio" id="vertical-radio1" name="radio-full" [value]="'Not Detected'" class="clr-radio"  (change)="result($event)" [checked]="radioStatus('Not Detected')">
+                        <label for="vertical-radio1" class="clr-col-12 clr-col-md-2">Not Detected</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="txt_02"> Other molecular and cytogenetic profiles</td>
+                </tr>
+            </table>
+            <div style="margin-top:5px;"></div>
+            <table width="100%" cellpadding="0" cellspacing="0" class="table_result">
+                <colgroup>
+                <col style="width:50%;" />
+                <col style="width:50%;" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th class="table_result_line">Bone marrow aspiration analysis</th>
+                        <th>Chromosomal analysis</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="table_result_line"  style="text-align: center;">
+                            <input type="text" class="input_02  textcenter"
+                            [(ngModel)]="profile.flt3itd" [ngModelOptions]="{standalone: true}">
+                        </td>
+                        <td  style="text-align: center;">
+                            <input type="text" class="input_02 textcenter"
+                            [(ngModel)]="profile.chron" [ngModelOptions]="{standalone: true}">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+              <div class="sub_title">Test Information</div>
+              <table cellpadding="0" cellspacing="0" class="table_result02">
+                  <colgroup>
+                  <col style="width:50%;" />
+                  <col style="width:50%;" />
+                  </colgroup>
+                  <tbody>
+                      <tr>
+                          <td>TARGET DISEASE: Lymphoma</td>
+                          <td> METHOD: *Massively parallel sequencing</td>
+                      </tr>
+                      <tr>
+                          <td> SPECIMEN: Genomic DNA isolated from peripheral blood</td>
+                          <td> REQUEST: {{patientInfo.request}}</td>
+                      </tr>
+                  </tbody>
+              </table>
+              <div class="sub_title">Variants of unknown clinical significance</div>
+
+
+<div class="sub_title">*Methods</div>
+
+<div class="pd_r20">
+
+                  <textarea class="textarea_01" *ngIf="tsvVersion === '510'">{{methods}}</textarea>
+                  <textarea class="textarea_01" *ngIf="tsvVersion === '516'">{{methods516}}</textarea>
+</div>
+
+<div class="sub_title">Genernal limitations of the technique</div>
+
+<div class="pd_r20">
+    <textarea class="textarea_01" [(ngModel)]="technique">{{technique}}</textarea>
+</div>
+  <!--  -------------------------------   -->
+  <div class="sub_title">Target genes</div>
+  <table cellpadding="0" cellspacing="0" class="table_result02">
+       <colgroup>
+          <col style="width:10%;"/>
+          <col style="width:10%;"/>
+          <col style="width:10%;"/>
+          <col style="width:10%;"/>
+          <col style="width:10%;"/>
+          <col style="width:10%;"/>
+          <col style="width:10%;"/>
+          <col style="width:10%;"/>
+          <col style="width:10%;"/>
+          <col style="width:10%;"/>
+       </colgroup>
+       <tr  *ngFor="let list of genelists">
+        <td class="txt_c">{{list.g0}}</td>
+        <td class="txt_c">{{list.g1}}</td>
+        <td class="txt_c">{{list.g2}}</td>
+        <td class="txt_c">{{list.g3}}</td>
+        <td class="txt_c">{{list.g4}}</td>
+        <td class="txt_c">{{list.g5}}</td>
+        <td class="txt_c">{{list.g6}}</td>
+        <td class="txt_c">{{list.g7}}</td>
+        <td class="txt_c">{{list.g8}}</td>
+        <td class="txt_c">{{list.g9}}</td>
+      </tr>
+</table>
+
+  <!-- ------------------------------- END -->
+  <hr class="mg_t30 mg_b20"/>
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+          <td class="txt_l font_16 fb">검사의뢰일/검사보고일/수정보고일: {{requestDate | date: 'yyyy.MM.dd'}}/{{firstReportDay}}/{{lastReportDay}}  </td>
+          <td class="txt_1 font_16 fb">검사자:  <input type="text" [(ngModel)]="examin" class="input_02" size="30">
+         </td>
+          <td class="txt_1 font_16 fb">판독의사: <input type="text"   [(ngModel)]="recheck" class="input_02" size="30">
+
+          </td>
+      </tr>
+  </table>
+
+  <!--     -->
+          </div>
+          <br />
+          <div class="foot_btn mg_t30 pd_b30 txt_c main_btn"  *ngIf="preview">
+            <ul>
+
+                <li>
+                    <button type="button" class="btn btn_01" (click)="previewToggle()">미리보기</button>
+                </li>
+
+                <li>
+                    <button class="btn btn_01" (click)="reset()"
+                    [disabled]="getStatus(4)">수정</button>
+                </li>
+                <li>
+                    <button class="btn btn_01" (click)="tempSave()">임시저장</button>
+                </li>
+                <li>
+                    <button class="btn btn_01" (click)="screenRead()" [disabled]="getStatus(1)">스크린완료</button>
+                </li>
+                <li>
+                    <button class="btn btn_01" (click)="screenReadFinish()" [disabled]="getStatus(2)">판독완료</button>
+                </li>
+
+                <li>
+                    <button class="btn btn_01" (click)="gotoEMR()" [disabled]="getStatus(3)">EMR전송</button>
+                </li>
+            </ul>
+        </div>
+      </div>
+  </div>
+  <!-- -----------------------------------------------------------  -->
+   <div class="modal-overlay" *ngIf="isVisible">
+       <div class="modal-body">
+           <app-preview  [result]="resultStatus"  [vusmsg]="vusmsg"
+           (closemodal)="previewToggle()"
+           [type]="reportType"></app-preview>
+       </div>
+   </div>
+</div>
+
