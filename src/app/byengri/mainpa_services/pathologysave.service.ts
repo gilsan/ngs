@@ -32,7 +32,7 @@ export class PathologySaveService {
     stateControl: IStateControl
   ): Observable<any> {
 
-    return this.http.post(`${this.apiUrl}/pathologyReportInsert/insert`, {
+    return this.http.post(`${this.apiUrl}/pathResearchReportInsert/insert`, {
       pathology_num: pathologyNum,
       patientinfo,
       mutation_c: mutationc,
@@ -65,7 +65,7 @@ export class PathologySaveService {
     notement: string
   ): Observable<any> {
 
-    return this.http.post(`${this.apiUrl}/pathologyReportInsert/update`, {
+    return this.http.post(`${this.apiUrl}/pathResearchReportInsert/update`, {
       pathology_num: pathologyNum,
       patientinfo,
       mutation_c: mutationc,

@@ -286,11 +286,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       this.status = true;
       // 현재 상태정보 1: 저장, 3:EMR전송, 0: 시작
       this.screenstatus = this.patientInfo.screenstatus;
-      // 시험용 1900-01-01
-      // const tempsendemrdate = this.patientInfo.sendEMRDate.toString().slice(0, 10);
-      // if (tempsendemrdate === '1900-01-01') {
-      //   console.log('===== [273]', tempsendemrdate);
-      // }
+
 
       // 저장일
       const tempReportday = this.patientInfo.report_date.slice(0, 10);
@@ -381,15 +377,11 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       this.basicInfo.pathologyNum = this.patientInfo.pathology_num;
       this.basicInfo.age = this.patientInfo.age;
 
-      // console.log('[기본정보]', this.basicInfo);
-      // console.log('[확인자/검사자]', this.examedno, this.examedname, this.checkeredno, this.checkername);
-      // this.checkingMent(this.patientInfo.tumor_type);
+
       this.getDataFromDB(this.patientInfo);
 
     } else if (parseInt(this.patientInfo.screenstatus, 10) === 0) {  // tsv에서 데이타 가져옴
-      // this.initByFile();
-      // this.reportday = this.today();
-      // console.log('[392] 환자정보: ', this.patientInfo);
+
       const tempReportday = this.patientInfo.report_date.slice(0, 10);
       if (tempReportday === '1900-01-01' || this.patientInfo.report_date === '') {
         this.reportday = this.today();
@@ -430,8 +422,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   checker(): void {
-    // this.report.nativeElement.selectionEnd = 5;
-    // this.report.selectionStart += 200;
+
     this.report.selectionEnd = 200;
 
     // 이미지 파일 있는지 확인
@@ -1809,13 +1800,8 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     this.checkeredno = reck[0];
     this.checkername = reck[1];
 
-    // this.searchService.updatePickselect(this.checkeredno, 'Y', 'D')
-    //   .subscribe(data => {
-    //     console.log('[1150][checked]', data);
-    //   });
-
     this.patientInfo.recheck = rechecked;
-    console.log('[1690][Rechecked][의사]', this.checkername, this.checkeredno);
+    // console.log('[1690][Rechecked][의사]', this.checkername, this.checkeredno);
   }
   // 기사
   examimed(examin: string): void {
@@ -1823,14 +1809,10 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     this.examedno = exam[0];
     this.examedname = exam[1];
 
-    // this.searchService.updatePickselect(this.examedno, 'Y', 'T')
-    //   .subscribe(data => {
-    //     console.log('[1143][Examine]', data);
-    //   });
 
     this.patientInfo.examin = examin;
     this.examin = examin;
-    console.log('[1705][Examine][기사]', exam, this.examedname, this.examedno);
+    // console.log('[1705][Examine][기사]', exam, this.examedname, this.examedno);
   }
 
   // tslint:disable-next-line: typedef
@@ -1872,10 +1854,6 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
           alert('저장 했습니다.');
           this.store.setDBSaved(true);
 
-          // this.searchService.resetscreenstatus(this.pathologyNum, '1')
-          //   .subscribe(data => {
-          //     this.screenstatus = '1';
-          //   });
 
           this.subs.sink = this.searchService.screenPathologyEmrUpdate(this.basicInfo.pathologyNum)
             .subscribe(datas => {
@@ -1922,11 +1900,6 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
         alert('저장 했습니다.');
         this.store.setDBSaved(true);
 
-        // this.searchService.resetscreenstatus(this.pathologyNum, '2')
-        //   .subscribe(msg => {
-        //     this.screenstatus = '2';
-        //     console.log('[]', msg.message);
-        //   });
 
         this.subs.sink = this.searchService.screenPathologyUpdate(this.basicInfo.pathologyNum)
           .subscribe(datas => {
