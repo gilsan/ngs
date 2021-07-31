@@ -2442,7 +2442,7 @@ ${fuDNA}`;
   }
 
   pathologynumFun(pathology: string): void {
-    this.patientInfo.pathology_num = pathology;
+    // this.patientInfo.pathology_num = pathology;
   }
 
 
