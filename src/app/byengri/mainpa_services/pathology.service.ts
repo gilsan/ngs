@@ -359,7 +359,7 @@ export class PathologyService {
 
 
   public putNewPatient(patient: IPatient): Observable<any> {
-    console.log('putNewPatient: \n', patient);
+    // console.log('putNewPatient: \n', patient);
     return this.http.post(`${this.apiUrl}/patients_research/insert`, { patient });
   }
 

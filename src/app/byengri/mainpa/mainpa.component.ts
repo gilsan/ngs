@@ -42,6 +42,7 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private apiUrl = emrUrl;
   initStatusValue = 'R';
+  isDisabled = false;
   // listsForm: FormGroup;
   // pathList: ITitleList[] = [];
 
@@ -448,6 +449,7 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   addPathList(): void {
+    this.isDisabled = true;
     this.lists.push({
       prescription_date: '',
       name: '',
@@ -466,24 +468,21 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   addNew(id: number): void {
-    console.log(id);
+    // console.log(id);
     this.initStatusValue = 'U';
     this.lists[id].prescription_date = this.today();
   }
 
   //
-  // id
-  // queryList 수: 6
   updateRow(id: number): void {
-    // console.log('시험용', id);
+
     const list = [];
     this.newPath.forEach((data, index) => {
-      if (index > (id * 6)) {
-        console.log(index + ': ' + data.nativeElement.value);
+      if (index > 0) {
         list.push(data.nativeElement.value);
       }
     });
-    // console.log(list);
+
     const path: any = new Object();
     for (let i = 0; i < list.length; i++) {
       if (i === 0) {
@@ -513,8 +512,6 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
 
     }
 
-    // console.log(path);
-    // console.log(this.lists);
     this.initStatusValue = 'R';
 
     const start = this.startday.replace(/-/g, '');
@@ -525,7 +522,8 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
         concatMap(() => this.pathologyService.search(start, end)),
       )
       .subscribe(data => {
-        console.log(data);
+        // console.log(data);
+        this.isDisabled = false;
         this.lists = data;
 
       });
