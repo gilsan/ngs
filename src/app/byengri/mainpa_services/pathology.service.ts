@@ -13,7 +13,6 @@ import { emrUrl } from './../../config';
 })
 export class PathologyService {
 
-  patientInfo: IPatient[];
   researchPatientInfo: IPatient[];
   pathologyNo: string;
   type: string; // OR or IR
@@ -69,8 +68,8 @@ export class PathologyService {
   prevalent$ = new Subject();
   prevalentObservable = this.prevalent$.asObservable();
 
-  patientInfo$ = new Subject();
-  patientInfoObservable = this.patientInfo$.asObservable();
+  researchPatientInfo$ = new Subject();
+  patientInfoObservable = this.researchPatientInfo$.asObservable();
 
 
   // private apiUrl = 'http://160.1.17.79:3000';  // EMR 서버
@@ -143,7 +142,7 @@ export class PathologyService {
   }
 
   public getPatientInfo(): IPatient {
-    return this.patientInfo[this.index];
+    return this.researchPatientInfo[this.index];
   }
 
   // 검체번호 등록
@@ -169,10 +168,10 @@ export class PathologyService {
 
   // EMR 로 보고서 보내기
   // tslint:disable-next-line: typedef
-  public sendEMR(patientInfo: IPatient, xmlData: string) {
-    const patientid = patientInfo.patientID;
-    console.log(patientInfo);
-    const pathologyNum = patientInfo.pathology_num.replace(/-/g, '');
+  public sendEMR(researchPatientInfo: IPatient, xmlData: string) {
+    const patientid = researchPatientInfo.patientID;
+    console.log(researchPatientInfo);
+    const pathologyNum = researchPatientInfo.pathology_num.replace(/-/g, '');
     const submitID = 'TXLII00124';
     const businessID = 'li';
     const instcd = '012';
@@ -282,12 +281,12 @@ export class PathologyService {
     this.pathologyNum = pathologynum;   // 검체번호
     this.patientIndex = i;  // 검사자 인덱스
     this.pathlogyNum$.next(this.pathologyNum);
-    this.patientInfo$.next(this.patientInfo[this.patientIndex]);
+    this.researchPatientInfo$.next(this.researchPatientInfo[this.patientIndex]);
 
   }
 
   public getPersonalInfo(): IPatient {
-    return this.patientInfo[this.patientIndex];
+    return this.researchPatientInfo[this.patientIndex];
   }
   // 검체번호등록
   // public setPathologyNum(pathologyNum): void {

@@ -12,14 +12,14 @@
         <div class="box mg_b20 pd_20 title">
            <div>
            <input type="text" class="input_01"
-            #pathologynum    placeholder="분자병리번호"  [value]="pathologyno"
-            (keyup.enter)="searchData(start.value, end.value, pathologynum.value, patient.value, 'Y')" />&nbsp;&nbsp;
-            <input name="" type="text"   placeholder="환자ID"  #patient  [value]="patientid"
+            #reseachPathologynum    placeholder="분자병리번호"  [value]="pathologyNO"
+            (keyup.enter)="searchData(reseachStart.value, researchEnd.value, reseachPathologynum.value, researchPatient.value, 'Y')" />&nbsp;&nbsp;
+            <input name="" type="text"   placeholder="환자ID"  #researchPatient  [value]="patientid"
             class="input_01" />&nbsp;&nbsp;
-            <input type="date" [value]="startToday()" class="input_01" #start  style="width:150px;"/>
+            <input type="date" [value]="startToday()" class="input_01" #reseachStart  style="width:150px;"/>
             ~
-            <input type="date" [value]="endToday()" class="input_01" #end  style="width:150px;"/> &nbsp;&nbsp;
-            <button type="button" class="btn btn_02" (click)="reSearch(start.value, end.value, pathologynum.value, patient.value, 'Y')"
+            <input type="date" [value]="endToday()" class="input_01" #researchEnd  style="width:150px;"/> &nbsp;&nbsp;
+            <button type="button" class="btn btn_02" (click)="reSearch(reseachStart.value, researchEnd.value, reseachPathologynum.value, researchPatient.value, 'Y')"
              >조회</button>
              </div>
              <div>
