@@ -17,13 +17,7 @@
                         <input type="radio" id="vertical-radio1" name="radio-full" [value]="'Not Detected'" class="clr-radio"  (change)="result($event)" [checked]="radioStatus('Not Detected')">
                         <label for="vertical-radio1" class="clr-col-12 clr-col-md-2">Not Detected</label>
                     </td>
-                    <!-- <td rowspan="2" class="main_btn">
-                        <ul>
-                            <li>
-                                <button type="button" class="preview__button" (click)="previewToggle()">미리보기</button>
-                            </li>
-                        </ul>
-                    </td> -->
+
                 </tr>
                 <tr>
                     <td class="txt_02"> Other molecular and cytogenetic profiles</td>
@@ -50,8 +44,6 @@
                             [(ngModel)]= "profile.leukemia" >
                         </td>
                         <td class="table_result_line"  style="text-align: center;">
-                            <!-- <input type="text" class="input_02  textcenter"
-                            [(ngModel)]="profile.flt3itd" [ngModelOptions]="{standalone: true}"> -->
                             <textarea class="textarea_01 textcenter"
                                [(ngModel)]="profile.flt3itd" row=2
                                style="width: 100%; height: 100%; border: none"></textarea>
@@ -93,8 +85,6 @@
             <col style="width:50px"/>
             <col style="width:80px"/>
             <col style="width:40px"/>  <!--     -->
-          <!--  <col style="width:80px"/>   IGV -->
-          <!--   <col style="width:220px"/>   sanger -->
             <col style="width:60px"/>  <!-- Type    -->
             <col style="width:120px"/>   <!-- Gene   -->
             <col style="width:160px"/>  <!-- Functional Impact    -->
@@ -120,10 +110,6 @@
                 <button class="btn btn_01 btn-s" (click)="addRow()">추가</button>
               </th>
               <th></th>
-              <!--
-              <th>IGV</th>
-              <th>Sanger</th>
-               -->
               <th>Type</th>
               <th>Gene</th>
               <th>Functional Impact</th>
@@ -147,7 +133,6 @@
           <tr  [formGroupName]="i"  cdkDrag>
               <td>
               <button type="button" class="drag-handle"   cdkDragHandle>
-                <!-- <mat-icon>unfold_more</mat-icon> -->
                 <img [src]="'assets/baseline_unfold_more_black_18dp.png'">
               </button>
               </td>
@@ -155,17 +140,6 @@
                  <img [src]="'assets/images/cancel.png'">
             </td>
             <td><input type="checkbox" class="ckbox" formControlName="checked" (change)="boxstatus(i, $event)"></td>
-            <!--
-            <td><input type="text" size="10"  class="clr-input textcenter  tdbox"
-            [matTooltip]="group.get('igv').value"
-            formControlName="igv"></td>
-            <td>
-                <textarea class="textarea_01"  style="width: 100%; height: 100%; border: none"
-                [matTooltip]="group.get('sanger').value"
-                formControlName="sanger"></textarea>
-
-            </td>
-             -->
             <td><input type="text" size="10"  class="clr-input textcenter tdbox"
             [matTooltip]="group.get('type').value"
             formControlName="type"></td>
@@ -225,7 +199,6 @@
                #inhouse>
                 <option value="mutation" selected>Mutation</option>
                 <option value="artifacts">Artifacts</option>
-                <!-- <option value="benign">Benign</option>  -->
               </select>
             </td>
             <td>
@@ -283,7 +256,7 @@
                   </tr>
               </thead>
               <tbody>
-                  <!-- <tr *ngFor="let comment of comments;"> -->
+
                   <ng-container formArrayName="commentsRows" *ngFor="let group of commentsRows().controls; let i=index">
                       <tr  [formGroupName]="i">
                         <td class="table_result_line"  ><input type="text" style="width:88%;display:block;margin:0 auto;" class="input_02  textcenter" size="10" formControlName="gene" ></td>
@@ -304,9 +277,7 @@
   <div class="sub_title">*Methods</div>
 
   <div class="pd_r20">
-   <!--  <textarea class="textarea_01"  [(ngModel)]="methodmsg">{{methodmsg}}</textarea>
-                  <textarea class="textarea_01" *ngIf="tsvVersion === '510'">Total genomic DNA was extracted from the each sample. Template and automated libraries were prepared on the Ion Chef System(Thermo Fisher Scientific) and subsequently sequenced on the Ion S5 system (Thermo Fisher Scientific) with the Ion 530 Chip kit. Alignment of sequences to the reference human genome (GRCh37/hg19) and base calling were performed using the Torrent Suite software version 5.8.0 (Thermo Fisher Scientific). The Torrent Variant Caller v5.8.0.19 (Thermo Fisher Scientific) was used for calling variants from mapped reads and the called variants were annotated by the Ion Reporter software v5.6. </textarea>
-                  <textarea class="textarea_01" *ngIf="tsvVersion === '516'">Total genomic DNA was extracted from the each sample. Template and automated libraries were prepared on the Ion Chef System(Thermo Fisher Scientific) and subsequently sequenced on the Ion S5 system (Thermo Fisher Scientific) with the Ion 530 Chip kit. Alignment of sequences to the reference human genome (GRCh37/hg19) and base calling were performed using the Torrent Suite software version 5.16.0 (Thermo Fisher Scientific). The Torrent Variant Caller v.5.16.0.0 (Thermo Fisher Scientific) was used for calling variants from mapped reads and the called variants were annotated by the Ion Reporter software v5.16.</textarea> -->
+
                   <textarea class="textarea_01" *ngIf="tsvVersion === '510'">{{methods}}</textarea>
                   <textarea class="textarea_01" *ngIf="tsvVersion === '516'">{{methods516}}</textarea>
 </div>
@@ -358,7 +329,7 @@
       </tr>
   </table>
 
-  <!--     -->
+
           </div>
 
 

@@ -45,12 +45,12 @@
 
                 <div class="sub_title">Mulation</div>
                 <div class="box">
-                    <div class="box_100">
+                    <div class="box_1000">
                         <table class="table_list td-fix" style="text-align: center;">
                             <colgroup>
-                                <col style="width:50px"/>
+                             <!--   <col style="width:50px"/>
                                 <col style="width:80px"/>
-                                <col style="width:40px"/>  <!--     -->
+                                <col style="width:40px"/>       -->
                                 <col style="width:60px"/>  <!-- Type   -->
                                 <col style="width:100px"/>  <!-- 현재<br/>(2020.07.08)    -->
                                 <col style="width:100px"/>  <!-- 진단시<br/>(2019.09.04)    -->
@@ -61,13 +61,13 @@
                             </colgroup>
                             <thead>
                                 <tr>
-                                    <th>
-                                        <button class="btn btn_01 btn-x" (click)="dvSort()">정렬</button>
+                                  <!--   <th>
+                                        <button class="btn btn_01 btn-x">정렬</button>
                                     </th>
                                     <th>
-                                        <button class="btn btn_01 btn-s" (click)="addRow()">추가</button>
+                                        <button class="btn btn_01 btn-s">추가</button>
                                     </th>
-                                    <th> </th>
+                                    <th> </th> -->
                                     <th>Type</th>
                                     <th>현재<br/>(2020.07.08)</th>
                                     <th>진단시<br/>(2019.09.04)</th>
@@ -79,7 +79,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>
+                                  <!--  <td>
                                         <button type="button" class="drag-handle">
                                             <img [src]="'assets/baseline_unfold_more_black_18dp.png'">
                                         </button>
@@ -89,7 +89,7 @@
                                     </td>
                                     <td>
                                         <input type="checkbox" class="ckbox">
-                                    </td>
+                                    </td> -->
                                     <td>
                                         <input type="text" size="10" class="clr-input textcenter tdbox">
                                     </td>
@@ -115,9 +115,6 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="font_14 pd_t15">
-                        <textarea class="textarea_01"></textarea>
-                    </div>
                 </div>
 
                 <div class="sub_title">Comment</div>
@@ -130,7 +127,7 @@
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr>
                         <td class="txt_l font_16 fb">
-                            검사의뢰일/검사보고일/수정보고일: 
+                            검사의뢰일/검사보고일/수정보고일:
                         </td>
                         <td class="txt_1 font_16 fb">
                             검사자:  <input type="text" class="input_02" size="30">
