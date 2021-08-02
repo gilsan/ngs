@@ -1,0 +1,235 @@
+:host {
+    --y: 90px;
+  }
+  
+  table {
+    table-layout: fixed;
+  }
+  
+  
+  /*** 테이블 헤더 고정 ***/
+  .fixed_header th {
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+  }
+  
+  /*** /테이블 헤더 고정 ***/
+  
+  
+  .preview__button {
+    color: red;
+    background-color: #f0e5e5;
+    border: 1px solid #e0cccc;
+    position: absolute;
+    top: 5px;
+    right: 30px;
+    border-radius: 3px;
+    z-index: 3;
+    -webkit-box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1);
+    text-align: center;
+    cursor: pointer;
+    box-sizing: border-box;
+    padding: 5px 30px;
+  }
+  
+  .excel {
+    color: red;
+    background-color: #f0e5e5;
+    border: 1px solid #e0cccc;
+    position: absolute;
+    top: 5px;
+    right: 160px;
+    border-radius: 3px;
+    z-index: 3;
+    -webkit-box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1);
+    text-align: center;
+    cursor: pointer;
+    box-sizing: border-box;
+    padding: 5px 30px;
+  }
+  
+  .excel2 {
+    color: red;
+    background-color: #f0e5e5;
+    border: 1px solid #e0cccc;
+    position: absolute;
+    top: 5px;
+    right: 275px;
+    border-radius: 3px;
+    z-index: 3;
+    -webkit-box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1);
+    text-align: center;
+    cursor: pointer;
+    box-sizing: border-box;
+    padding: 5px 30px;
+  }
+  
+  h2 {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .table_list.header-fix>thead th {
+    position: sticky;
+    top: 0;
+  }
+  
+  .save_mute {
+    cursor: pointer;
+    vertical-align: middle;
+    background-color: lightblue;
+  }
+  
+  .btn-s.blue {
+    cursor: pointer;
+    vertical-align: middle;
+    background-color: lightblue;
+    border-radius: 3px;
+  }
+  
+  .modal-overlay {
+    display: inline-block;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: rgba(51, 51, 51, 0.7);
+    z-index: 10;
+  }
+  
+  .modal-body {
+    position: absolute;
+    width: 90vw;
+    max-width: 90vw;
+    max-height: 95vh;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 20;
+    border: 1px solid black;
+    box-shadow: 0 1px 16px 0 rgba(0, 0, 0, 0.2), 0 2px 8px 0 rgba(0, 0, 0, 0.14), 0 4px 8px -1px rgba(0, 0, 0, 0.12);
+  }
+  
+  .textcenter {
+    text-align: center;
+  }
+  
+  .trash:hover {
+    cursor: pointer;
+  }
+  
+  
+  
+  .tdbox {
+  
+    width: 96%;
+  }
+  
+  
+  
+  .btn-s {
+    padding: 0 !important;
+    min-width: 50px !important;
+    min-height: auto !important;
+  }
+  
+  .btn-x {
+    padding: 0 !important;
+    min-width: 30px !important;
+    min-height: auto !important;
+  }
+  
+  .input_02 {
+    width: 80%;
+  }
+  
+  
+  .table_list.padding_0 th {
+    padding: 0px 10px;
+  }
+  
+  .table_list.padding_0 td,
+  .table_list.td_padding_0 td {
+    padding: 5px 10px 0 10px;
+    line-height: 1.4;
+  }
+  
+  .input_100 input[type="text"] {
+    width: 100%;
+  }
+  
+  td.multi_line {
+    word-break: break-word;
+    line-height: 1.4;
+  }
+  
+  .table_list.td-fix tr td:first-child {
+    position: sticky;
+    left: 0;
+    background-color: #fff;
+  }
+  
+  .table_list.td-fix tr td:first-child+td {
+    position: sticky;
+    left: 50px;
+    background-color: #fff;
+  }
+  
+  .table_list.td-fix tr td:first-child+td+td {
+    position: sticky;
+    left: 130px;
+    background-color: #fff;
+  }
+  
+  .table_list.td-fix tr td:first-child+td+td+td {
+    position: sticky;
+    left: 170px;
+    background-color: #fff;
+  }
+  
+  .table_list.td-fix tr td:first-child+td+td+td+td {
+    position: sticky;
+  
+    left: 230px;
+    background-color: #fff;
+  }
+  
+  
+  
+  .table_list.td-fix tr th:first-child {
+    position: sticky;
+    left: 0;
+    background-color: #fafafa;
+  }
+  
+  .table_list.td-fix tr th:first-child+th {
+    position: sticky;
+    left: 50px;
+    background-color: #fafafa;
+  }
+  
+  .table_list.td-fix tr th:first-child+th+th {
+    position: sticky;
+    left: 130px;
+    background-color: #fafafa;
+  }
+  
+  .table_list.td-fix tr th:first-child+th+th+th {
+    position: sticky;
+    left: 170px;
+    background-color: #fafafa;
+  }
+  
+  .table_list.td-fix tr th:first-child+th+th+th+th {
+    position: sticky;
+  
+    left: 230px;
+    background-color: #fafafa;
+  }
+  
