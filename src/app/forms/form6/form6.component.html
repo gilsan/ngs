@@ -5,7 +5,7 @@
         <button type="button" class="excel" (click)="excelDownload()">Excel</button>
         <div id="content">
             <div class="box pd_20">
-                <app-filtered [tsvLists]="tsvLists"></app-filtered>
+
                 <div class="sub_title">Patient: Likely pathogenic variant detected</div>
 
                 <div class="sub_title">Test Information</div>
@@ -21,7 +21,7 @@
                         </tr>
                         <tr>
                             <td> SPECIMEN: Genomic DNA isolated from peripheral blood</td>
-                            <td> REQUEST: {{patientInfo.request}}</td>
+                            <td> REQUEST:  홍길동</td>
                         </tr>
                     </tbody>
                 </table>
@@ -213,7 +213,7 @@
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr>
                         <td class="txt_l font_16 fb">
-                            검사의뢰일/검사보고일/수정보고일: {{requestDate | date: 'yyyy.MM.dd'}}/{{firstReportDay}}/{{lastReportDay}}
+                            검사의뢰일/검사보고일/수정보고일:
                         </td>
                         <td class="txt_1 font_16 fb">
                             검사자:  <input type="text" [(ngModel)]="examin" class="input_02" size="30">
