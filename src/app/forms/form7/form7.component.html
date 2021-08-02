@@ -1,1 +1,171 @@
-<p>form7 works!</p>
+<div id="result">
+    <div id="container" style="position: relative;">
+        <h2 style="margin-top: 5px;">&#60;DNMT3A Targeted Mutation Analysis Report&#62;</h2>
+        <button type="button" class="preview__button">미리보기</button>
+        <button type="button" class="excel">Excel</button>
+
+        <div id="content">
+            <div class="box pd_20">
+                <div class="sub_title">Patient: 26831462(M/6)</div>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td class="txt_02" ><span class="fb">Result </span>:
+                        <label class="">DUMT3A gene Mutation</label>
+                        &nbsp;&nbsp;
+                        <input type="radio" class="clr-radio">
+                        <label for="vertical-radio2" class="clr-col-12 clr-col-md-2">Detected</label>
+                        &nbsp;&nbsp;
+                        <input type="radio" class="clr-radio">
+                        <label for="vertical-radio1" class="clr-col-12 clr-col-md-2">Not Detected</label>
+                    </td>
+                  </tr>
+                </table>
+
+                <div class="sub_title">Test Information</div>
+                <table cellpadding="0" cellspacing="0" class="table_result02">
+                  <colgroup>
+                  <col style="width:50%;" />
+                  <col style="width:50%;" />
+                  </colgroup>
+                  <tbody>
+                      <tr>
+                          <td> TARGET DISEASE: Primary Immunodeficiency (363 genes)</td>
+                          <td> METHOD: *Massively parallel sequencing</td>
+                      </tr>
+                      <tr>
+                        <td> ANALYZED GENE : DUMT3A on 2p23</td>
+                        <td> </td>
+                      </tr>
+                      <tr>
+                          <td> SPECIMEN: Genomic DNA isolated from peripheral blood leukocytes-adequate specimen</td>
+                          <td> REQUEST: 서울성모병원 소아청소년과 이혜진 M.D.</td>
+                      </tr>
+                  </tbody>
+                </table>
+
+                <div class="sub_title">Mulation</div>
+                <div class="box">
+                    <div class="box_100">
+                        <table class="table_list td-fix" style="text-align: center;">
+                            <colgroup>
+                                <col style="width:50px"/>
+                                <col style="width:80px"/>
+                                <col style="width:40px"/>  <!--     -->
+                                <col style="width:60px"/>  <!-- Type   -->
+                                <col style="width:100px"/>  <!-- 현재<br/>(2020.07.08)    -->
+                                <col style="width:100px"/>  <!-- 진단시<br/>(2019.09.04)    -->
+                                <col style="width:60px"/>   <!-- Location    -->
+                                <col style="width:120px"/>  <!-- Nuceleotide change   -->
+                                <col style="width:120px"/>  <!-- Amino acid change    -->
+                                <col style="width:120px"/>  <!-- dbSNP/COSMIC ID    -->
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <button class="btn btn_01 btn-x" (click)="dvSort()">정렬</button>
+                                    </th>
+                                    <th>
+                                        <button class="btn btn_01 btn-s" (click)="addRow()">추가</button>
+                                    </th>
+                                    <th> </th>
+                                    <th>Type</th>
+                                    <th>현재<br/>(2020.07.08)</th>
+                                    <th>진단시<br/>(2019.09.04)</th>
+                                    <th>Location</th>
+                                    <th>Nucleotide change</th>
+                                    <th>Amino acid change</th>
+                                    <th>dbSNP/COSMIC ID</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <button type="button" class="drag-handle">
+                                            <img [src]="'assets/baseline_unfold_more_black_18dp.png'">
+                                        </button>
+                                    </td>
+                                    <td class="trash">
+                                        <img [src]="'assets/images/cancel.png'">
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" class="ckbox">
+                                    </td>
+                                    <td>
+                                        <input type="text" size="10" class="clr-input textcenter tdbox">
+                                    </td>
+                                    <td>
+                                        <input type="text" size="20" class="clr-input textcenter tdbox">
+                                    </td>
+                                    <td>
+                                        <input type="text" size="10" class="clr-input textcenter tdbox">
+                                    </td>
+                                    <td>
+                                        <input type="text" size="20" class="clr-input textcenter tdbox">
+                                    </td>
+                                    <td>
+                                        <input type="text" size="15" class="clr-input textcenter tdbox">
+                                    </td>
+                                    <td>
+                                        <input type="text" size="40" class="clr-input textcenter tdbox">
+                                    </td>
+                                    <td>
+                                        <input type="text" size="40" class="clr-input textcenter tdbox">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="font_14 pd_t15">
+                        <textarea class="textarea_01"></textarea>
+                    </div>
+                </div>
+
+                <div class="sub_title">Comment</div>
+                <div class="pd_r20">
+                    <textarea class="textarea_01"></textarea>
+                    <textarea class="textarea_01"></textarea>
+                </div>
+
+                <hr class="mg_t30 mg_b20"/>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td class="txt_l font_16 fb">
+                            검사의뢰일/검사보고일/수정보고일: 
+                        </td>
+                        <td class="txt_1 font_16 fb">
+                            검사자:  <input type="text" class="input_02" size="30">
+                        </td>
+                        <td class="txt_1 font_16 fb">
+                            판독의사: <input type="text" class="input_02" size="30">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <br />
+            <div class="foot_btn mg_t30 pd_b30 txt_c main_btn">
+                <ul>
+                    <li>
+                        <button type="button" class="btn btn_01">미리보기</button>
+                    </li>
+                    <li>
+                        <button class="btn btn_01">수정</button>
+                    </li>
+                    <li>
+                        <button class="btn btn_01">임시저장</button>
+                    </li>
+                    <li>
+                        <button class="btn btn_01">스크린완료</button>
+                    </li>
+                    <li>
+                        <button class="btn btn_01">판독완료</button>
+                    </li>
+                    <li>
+                        <button class="btn btn_01">EMR전송</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+

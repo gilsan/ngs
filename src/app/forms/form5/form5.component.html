@@ -1,19 +1,19 @@
 <div id="result">
     <div id="container" style="position: relative;">
         <h2 style="margin-top: 5px;">형질세포종NGS</h2>
-        <button type="button" class="preview__button" (click)="previewToggle()">미리보기</button>
-        <button type="button" class="excel" (click)="excelDownload()">Excel</button>
+        <button type="button" class="preview__button">미리보기</button>
+        <button type="button" class="excel">Excel</button>
 
         <div id="content">
             <div class="box pd_20">
-                <div class="sub_title">Patient: {{patientInfo.name}}, {{patientInfo.patientID}} ({{patientInfo.gender}}/{{patientInfo.age}})</div>
+                <div class="sub_title">Patient: </div>
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
                     <td class="txt_02" ><span class="fb">Result </span>:
-                        <input type="radio" id="vertical-radio2" name="radio-full" [value]="'Detected'" [checked]="radioStatus('Detected')" class="clr-radio"  (change)="result($event)">
-                        <label for="vertical-radio2" class="  clr-col-12 clr-col-md-2">Detected</label>
+                        <input type="radio" class="clr-radio">
+                        <label for="vertical-radio2" class="clr-col-12 clr-col-md-2">Detected</label>
                         &nbsp;&nbsp;
-                        <input type="radio" id="vertical-radio1" name="radio-full" [value]="'Not Detected'" class="clr-radio"  (change)="result($event)" [checked]="radioStatus('Not Detected')">
+                        <input type="radio" class="clr-radio">
                         <label for="vertical-radio1" class="clr-col-12 clr-col-md-2">Not Detected</label>
                     </td>
                   </tr>
@@ -37,12 +37,10 @@
                   <tbody>
                       <tr>
                         <td class="table_result_line"  style="text-align: center;">
-                            <input type="text" class="input_02  textcenter"
-                            [(ngModel)]="profile.flt3itd" [ngModelOptions]="{standalone: true}">
+                            <input type="text" class="input_02  textcenter">
                         </td>
                         <td  style="text-align: center;">
-                            <input type="text" class="input_02 textcenter"
-                            [(ngModel)]="profile.chron" [ngModelOptions]="{standalone: true}">
+                            <input type="text" class="input_02 textcenter">
                         </td>
                       </tr>
                   </tbody>
@@ -62,23 +60,139 @@
                       </tr>
                       <tr>
                           <td> SPECIMEN: Genomic DNA isolated from peripheral blood</td>
-                          <td> REQUEST: {{patientInfo.request}}</td>
+                          <td> REQUEST: 서울성모병원 혈액내과 임기성 M.D.</td>
                       </tr>
                   </tbody>
                 </table>
 
                 <div class="sub_title">Variants of unknown clinical significance</div>
-              
+                <div class="box">
+                    <div class="box_100">
+                        <table class="table_list td-fix" style="text-align: center;">
+                            <colgroup>
+                                <col style="width:50px"/>
+                                <col style="width:80px"/>
+                                <col style="width:40px"/>  <!--     -->
+                                <col style="width:60px"/>  <!-- Type    -->
+                                <col style="width:120px"/>   <!-- Gene   -->
+                                <col style="width:200px"/>  <!-- Functional Impact    -->
+                                <col style="width:160px"/>  <!-- Transcript    -->
+                                <col style="width:130px"/>  <!-- Exon/Intron    -->
+                                <col style="width:180px"/>  <!--  Nuceleotide change   -->
+                                <col style="width:200px"/>  <!-- Amino acid change    -->
+                                <col style="width:160px"/>  <!-- Zygosity    -->
+                                <col style="width:120px"/>  <!--  VAF %   -->
+                                <col style="width:180px"/>  <!--   References  -->
+                                <col style="width:180px"/>   <!--  COSMIC ID   -->
+                                <col style="width:80px"/>  <!-- IGV -->
+                                <col style="width:200px"/>  <!--  sanger -->
+                                <col style="width:120px"/>  <!--   Site  -->
+                                <col style="width:80px"/>   <!--  Action -->
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <button class="btn btn_01 btn-x" (click)="dvSort()">정렬</button>
+                                    </th>
+                                    <th>
+                                        <button class="btn btn_01 btn-s" (click)="addRow()">추가</button>
+                                    </th>
+                                    <th> </th>
+                                    <th>Type</th>
+                                    <th>Gene</th>
+                                    <th>Functional Impact</th>
+                                    <th>Transcript</th>
+                                    <th>Exon/Intron</th>
+                                    <th>Nucleotide change</th>
+                                    <th>Amino acid change</th>
+                                    <th>Zygosity</th>
+                                    <th>VAF %</th>
+                                    <th>Reference(s)</th>
+                                    <th>COSMIC ID</th>
+                                    <th>IGV</th>
+                                    <th>Sanger</th>
+                                    <th>Site</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <button type="button" class="drag-handle">
+                                            <img [src]="'assets/baseline_unfold_more_black_18dp.png'">
+                                        </button>
+                                    </td>
+                                    <td class="trash">
+                                        <img [src]="'assets/images/cancel.png'">
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" class="ckbox">
+                                    </td>
+                                    <td>
+                                        <input type="text" size="10" class="clr-input textcenter tdbox">
+                                    </td>
+                                    <td>
+                                        <input type="text" size="10" class="clr-input textcenter tdbox">
+                                    </td>
+                                    <td>
+                                        <input type="text" size="20" class="clr-input textcenter tdbox">
+                                    </td>
+                                    <td>
+                                        <input type="text" size="10" class="clr-input textcenter tdbox">
+                                    </td>
+                                    <td>
+                                        <input type="text" size="20" class="clr-input textcenter tdbox">
+                                    </td>
+                                    <td>
+                                        <input type="text" size="15" class="clr-input textcenter tdbox">
+                                    </td>
+                                    <td>
+                                        <input type="text" size="40" class="clr-input textcenter tdbox">
+                                    </td>
+                                    <td>
+                                        <input type="text" size="40" class="clr-input textcenter tdbox">
+                                    </td>
+                                    <td>
+                                        <input type="text" size="20" class="clr-input textcenter tdbox">
+                                    </td>
+                                    <td>
+                                        <textarea class="textarea_01" style="width: 100%;height: 100%;border: none"></textarea>
+                                    </td>
+                                    <td>
+                                        <input type="text" size="10" class="clr-input textcenter tdbox">
+                                    </td>
+                                    <td>
+                                        <input type="text" size="10" class="clr-input textcenter tdbox">
+                                    </td>
+                                    <td>
+                                        <textarea class="textarea_01" style="width: 100%;height: 100%;border: none"></textarea>
+                                    </td>
+                                    <td class="txt_c">
+                                        <select class="select_01" style="width: 100%;">
+                                            <option value="mutation" selected>Mutation</option>
+                                            <option value="artifacts">Artifacts</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <button class="btn-s blue">저장</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="font_14 pd_t15">
+                        <textarea class="textarea_01"></textarea>
+                    </div>
+                </div>
 
                 <div class="sub_title">*Methods</div>
-                  <div class="pd_r20">
-                    <textarea class="textarea_01" *ngIf="tsvVersion === '510'">{{methods}}</textarea>
-                    <textarea class="textarea_01" *ngIf="tsvVersion === '516'">{{methods516}}</textarea>
+                <div class="pd_r20">
+                    <textarea class="textarea_01"></textarea>
                 </div>
 
                 <div class="sub_title">Genernal limitations of the technique</div>
-                  <div class="pd_r20">
-                    <textarea class="textarea_01" [(ngModel)]="technique">{{technique}}</textarea>
+                <div class="pd_r20">
+                    <textarea class="textarea_01"></textarea>
                 </div>
               
                 <div class="sub_title">Target genes</div>
@@ -95,17 +209,17 @@
                     <col style="width:10%;"/>
                     <col style="width:10%;"/>
                   </colgroup>
-                  <tr  *ngFor="let list of genelists">
-                    <td class="txt_c">{{list.g0}}</td>
-                    <td class="txt_c">{{list.g1}}</td>
-                    <td class="txt_c">{{list.g2}}</td>
-                    <td class="txt_c">{{list.g3}}</td>
-                    <td class="txt_c">{{list.g4}}</td>
-                    <td class="txt_c">{{list.g5}}</td>
-                    <td class="txt_c">{{list.g6}}</td>
-                    <td class="txt_c">{{list.g7}}</td>
-                    <td class="txt_c">{{list.g8}}</td>
-                    <td class="txt_c">{{list.g9}}</td>
+                  <tr>
+                    <td class="txt_c">0</td>
+                    <td class="txt_c">1</td>
+                    <td class="txt_c">2</td>
+                    <td class="txt_c">3</td>
+                    <td class="txt_c">4</td>
+                    <td class="txt_c">5</td>
+                    <td class="txt_c">6</td>
+                    <td class="txt_c">7</td>
+                    <td class="txt_c">8</td>
+                    <td class="txt_c">9</td>
                   </tr>
                 </table>
 
@@ -113,49 +227,41 @@
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr>
                         <td class="txt_l font_16 fb">
-                            검사의뢰일/검사보고일/수정보고일: {{requestDate | date: 'yyyy.MM.dd'}}/{{firstReportDay}}/{{lastReportDay}}
+                            검사의뢰일/검사보고일/수정보고일: 
                         </td>
                         <td class="txt_1 font_16 fb">
-                            검사자:  <input type="text" [(ngModel)]="examin" class="input_02" size="30">
+                            검사자:  <input type="text" class="input_02" size="30">
                         </td>
                         <td class="txt_1 font_16 fb">
-                            판독의사: <input type="text"   [(ngModel)]="recheck" class="input_02" size="30">
+                            판독의사: <input type="text" class="input_02" size="30">
                         </td>
                     </tr>
                 </table>
             </div>
 
             <br />
-            <div class="foot_btn mg_t30 pd_b30 txt_c main_btn"  *ngIf="preview">
+            <div class="foot_btn mg_t30 pd_b30 txt_c main_btn">
                 <ul>
                     <li>
-                        <button type="button" class="btn btn_01" (click)="previewToggle()">미리보기</button>
+                        <button type="button" class="btn btn_01">미리보기</button>
                     </li>
                     <li>
-                        <button class="btn btn_01" (click)="reset()" [disabled]="getStatus(4)">수정</button>
+                        <button class="btn btn_01">수정</button>
                     </li>
                     <li>
-                        <button class="btn btn_01" (click)="tempSave()">임시저장</button>
+                        <button class="btn btn_01">임시저장</button>
                     </li>
                     <li>
-                        <button class="btn btn_01" (click)="screenRead()" [disabled]="getStatus(1)">스크린완료</button>
+                        <button class="btn btn_01">스크린완료</button>
                     </li>
                     <li>
-                        <button class="btn btn_01" (click)="screenReadFinish()" [disabled]="getStatus(2)">판독완료</button>
+                        <button class="btn btn_01">판독완료</button>
                     </li>
                     <li>
-                        <button class="btn btn_01" (click)="gotoEMR()" [disabled]="getStatus(3)">EMR전송</button>
+                        <button class="btn btn_01">EMR전송</button>
                     </li>
                 </ul>
             </div>
-        </div>
-    </div>
-  <!-- -----------------------------------------------------------  -->
-    <div class="modal-overlay" *ngIf="isVisible">
-        <div class="modal-body">
-           <app-preview  [result]="resultStatus"  [vusmsg]="vusmsg"
-           (closemodal)="previewToggle()"
-           [type]="reportType"></app-preview>
         </div>
     </div>
 </div>
