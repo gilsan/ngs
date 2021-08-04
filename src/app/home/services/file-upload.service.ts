@@ -50,7 +50,7 @@ export class FileUploadService {
   }
 
   pathDataUpload(formData: any): Observable<UploadResponse> {
-    // console.log('[49][file-upload][pathDataUpload]', formData);
+    console.log('[49][file-upload][pathfileUpload/upload]', formData);
     return this.http.post(`${this.apiUrl}/pathfileUpload/upload`, formData, {
       reportProgress: true,
       observe: 'events'
@@ -60,7 +60,7 @@ export class FileUploadService {
   }
 
   pathResearchDataUpload(formData: any): Observable<UploadResponse> {
-    // console.log('[49][file-upload][pathDataUpload]', formData);
+    console.log('[63][file-upload][pathResearchDataUpload][연구용]', formData);
     return this.http.post(`${this.apiUrl}/pathResearchfileUpload/upload`, formData, {
       reportProgress: true,
       observe: 'events'

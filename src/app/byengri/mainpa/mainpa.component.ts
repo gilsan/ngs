@@ -6,7 +6,7 @@ import { emrUrl } from 'src/app/config';
 import { IPatient } from '../models/patients';
 import { PathologyService } from '../mainpa_services/pathology.service';
 import { SearchService } from '../mainpa_services/search.service';
-import { StorePathService } from '../mainpa_services/store.path.service';
+import { RearchStorePathService } from '../mainpa_services/store.path.service';
 import { SubSink } from 'subsink';
 import * as moment from 'moment';
 import { concatMap, filter, first, map, take, tap } from 'rxjs/operators';
@@ -54,7 +54,7 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
     private pathologyService: PathologyService,
     private serachService: SearchService,
     private router: Router,
-    private store: StorePathService,
+    private store: RearchStorePathService,
     private sanitizer: DomSanitizer,
 
   ) { }

@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class StorePathService {
+export class RearchStorePathService {
 
   startDay = '';
   endDay = '';

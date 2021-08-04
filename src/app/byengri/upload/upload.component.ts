@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { from, Subject } from 'rxjs';
 import { concatMap, filter, map, tap } from 'rxjs/operators';
 import { FileUploadService } from 'src/app/home/services/file-upload.service';
+import { RearchStorePathService } from '../mainpa_services/store.path.service';
 import { IFilteredOriginData } from '../models/patients';
 import { UploadResponse } from '../models/uploadfile';
 import { PathologyService } from '../services/pathology.service';
@@ -58,12 +59,11 @@ export class UploadComponent implements OnInit {
     private pathologyService: PathologyService,
     private uploadfileService: FileUploadService,
     private store: StorePathService,
+    private researchStore: RearchStorePathService,
     private router: Router,
     private route: ActivatedRoute,
 
-  ) {
-
-  }
+  ) { }
 
 
   ngOnInit(): void {
@@ -131,9 +131,16 @@ export class UploadComponent implements OnInit {
     for (const item of droppedFiles) {
       formData.append('userfiles', item);
     }
-    this.pathologyNum = this.store.getPathologyNo();
-    this.inputType = this.store.getType();
-    // console.log('[136][upload][onDroppedFile][pathologyNum] ===>', this.pathologyNum, this.inputType);
+
+    if (this.research === 'research') {
+      this.pathologyNum = this.researchStore.getPathologyNo();
+      this.inputType = this.researchStore.getType();
+    } else {
+      this.pathologyNum = this.store.getPathologyNo();
+      this.inputType = this.store.getType();
+    }
+
+    console.log('[144][검체번호] formData: ===> ', this.pathologyNum, this.inputType);
     formData.append('pathologyNum', this.pathologyNum);
     formData.append('type', this.inputType);
     formData.append('fileType', this.fileType);
@@ -189,7 +196,13 @@ export class UploadComponent implements OnInit {
         this.diseaseNumber = diseaseFilename[0];
         // console.log('[fileupload][병리 파일분류][159]', diseaseFilename);
         // this.pathologyNum = this.pathologyService.getPathologyNum();
-        this.pathologyNum = this.store.getPathologyNo();
+
+        if (this.research === 'research') {
+          this.pathologyNum = this.researchStore.getPathologyNo();
+        } else {
+          this.pathologyNum = this.store.getPathologyNo();
+        }
+
         // console.log('[162][pathologyNum]', this.pathologyNum);
         this.type = this.pathologyService.getType();
 
@@ -227,15 +240,32 @@ export class UploadComponent implements OnInit {
         this.diseaseNumber = diseaseFilename[0];
         // console.log('[fileupload][병리 파일분류][192]', diseaseFilename);
         // this.pathologyNum = this.pathologyService.getPathologyNum();
-        this.pathologyNum = this.store.getPathologyNo();
-        if (this.pathologyNum === undefined || this.pathologyNum === null) {
+
+        if (this.research === 'research') {
+          this.pathologyNum = this.researchStore.getPathologyNo();
+        } else {
           this.pathologyNum = this.store.getPathologyNo();
+        }
+
+
+        if (this.pathologyNum === undefined || this.pathologyNum === null) {
+          // this.pathologyNum = this.store.getPathologyNo();
+          if (this.research === 'research') {
+            this.pathologyNum = this.researchStore.getPathologyNo();
+          } else {
+            this.pathologyNum = this.store.getPathologyNo();
+          }
         }
         // console.log('[234][upload][선택한 환자 병리번호 pathologyNum]', this.pathologyNum);
         this.type = this.pathologyService.getType();
         if (this.type === undefined) {
-          this.type = this.store.getType();
+          if (this.research === 'research') {
+            this.type = this.researchStore.getType();
+          } else {
+            this.type = this.store.getType();
+          }
         }
+
         if (diseaseFilename.includes('RNA') || diseaseFilename.includes('Non-Filtered')) {
           this.nonefilter(file);
         } else if (diseaseFilename.includes('All') || diseaseFilename.includes('All (1)') || diseaseFilename.includes('OR.tsv')) {
@@ -497,7 +527,7 @@ export class UploadComponent implements OnInit {
           this.fields = list;
         }
         if (index >= 19) {
-          console.log('==== [475][UPLOAD][filteredOriginData] ', list);
+          // console.log('==== [475][UPLOAD][filteredOriginData] ', list);
           this.filteredOriginData.push({
             locus: list[this.findGenePostion('Locus')].trim(),
             readcount: list[this.findGenePostion('Read Counts')].trim(),
@@ -627,7 +657,7 @@ export class UploadComponent implements OnInit {
   *///
   // 유전자의 위치 찿음
   findGenePostion(item: string): number {
-    console.log('[594] findGenePosition: ', this.fields, item);
+    // console.log('[594] findGenePosition: ', this.fields, item);
     return this.fields.findIndex(field => field === item);
   }
 
