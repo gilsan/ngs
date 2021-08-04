@@ -1634,10 +1634,10 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     console.log('[1714][tempSave]');
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
-    console.log('[1717][tableerowForm]', formData);
+    // console.log('[1717][tableerowForm]', formData);
     // console.log('[1335][checkbox]', this.checkboxStatus);
     // const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
-    console.log('[1720][Detected variants]', formData);
+    // console.log('[1720][Detected variants]', formData);
     if (this.comments.length) {
       const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
       this.comments = commentControl.getRawValue();
@@ -1754,6 +1754,16 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     });
     const control = this.tablerowForm.get('tableRows') as FormArray;
     this.moveItemInFormArray(control, from1, to);
+  }
+
+  commentDroped(event: CdkDragDrop<string[]>): void {
+    const from1 = event.previousIndex;
+    const to = event.currentIndex;
+
+    const commentsControl = this.tablerowForm.get('commentsRows') as FormArray;
+    console.log('===> ', commentsControl);
+    this.moveItemInFormArray(commentsControl, from1, to);
+
   }
 
   /**
