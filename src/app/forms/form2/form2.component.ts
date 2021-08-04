@@ -1053,18 +1053,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       return true;
     }
     return false;
-    // const control = this.tablerowForm.get('tableRows') as FormArray;
-    // const row = control.value[index];
-    // if (row.type === 'New' || row.type === null) {
-    //   const idx = this.vd.findIndex(item => item.sequence === index);
-    //   if (idx === -1) {
-    //     this.vd.push({ sequence: index, selectedname: 'mutation' });
-    //     console.log('[876][checkType]', this.vd);
-    //   }
 
-    //   return true;
-    // }
-    // return false;
   }
 
   // 스크린 판독
@@ -1076,10 +1065,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
       this.comments = commentControl.getRawValue();
     }
-    // } else {
-    //   const commentControl = this.singleCommentForm.get('singleComments') as FormArray;
-    //   this.comments = commentControl.getRawValue();
-    // }
+
     this.store.setComments(this.comments);
 
     // console.log('[771][스크린 판독] ', this.form2TestedId, formData, this.comments, this.profile);
@@ -1753,7 +1739,8 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       }
     });
     const control = this.tablerowForm.get('tableRows') as FormArray;
-    this.moveItemInFormArray(control, from1, to);
+    // this.moveItemInFormArray(control, from1, to);
+    this.moveItemInDetectedArray(control, from1, to);
   }
 
   commentDroped(event: CdkDragDrop<string[]>): void {
@@ -1761,9 +1748,95 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     const to = event.currentIndex;
 
     const commentsControl = this.tablerowForm.get('commentsRows') as FormArray;
-    console.log('===> ', commentsControl);
-    this.moveItemInFormArray(commentsControl, from1, to);
+    this.moveItemInCommentArray(commentsControl, from1, to);
+  }
 
+  moveItemInDetectedArray(formArray: FormArray, fromIndex: number, toIndex: number): void {
+    const from2 = this.clamp(fromIndex, formArray.length - 1);
+    const to2 = this.clamp(toIndex, formArray.length - 1);
+    if (from2 === to2) {
+      return;
+    }
+
+    const len = formArray.length;
+
+    const totalFormGroup = [];
+    const newFormGroup = [];
+    const previous = formArray.at(from2);
+    const current = formArray.at(to2);
+    // formArray.setControl(to2, previous);
+    // formArray.setControl(from2, current);
+    for (let i = 0; i < len; i++) {
+      totalFormGroup.push(formArray.at(i));
+    }
+
+    totalFormGroup.forEach((form, index) => {
+      if (from2 > to2) {
+        if (index === to2) {
+          newFormGroup.push(previous);
+          newFormGroup.push(current);
+        } else if (index !== from2 && index !== to2) {
+          newFormGroup.push(form);
+        }
+      } else if (from2 < to2 && (to2 - from2) > 1) {
+
+        if (index === to2) {
+          newFormGroup.push(previous);
+          newFormGroup.push(form);
+        } else if (index !== from2 && index !== to2) {
+          newFormGroup.push(form);
+        }
+      }
+    });
+
+    for (let i = 0; i < len; i++) {
+      formArray.setControl(i, newFormGroup[i]);
+    }
+
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////////////////
+  moveItemInCommentArray(formArray: FormArray, fromIndex: number, toIndex: number): void {
+    const from2 = this.clamp(fromIndex, formArray.length - 1);
+    const to2 = this.clamp(toIndex, formArray.length - 1);
+
+    if (from2 === to2) {
+      return;
+    }
+    const len = formArray.length;
+
+    const totalFormGroup = [];
+    const newFormGroup = [];
+    const previous = formArray.at(from2);
+    const current = formArray.at(to2);
+
+
+    for (let i = 0; i < len; i++) {
+      totalFormGroup.push(formArray.at(i));
+    }
+
+    totalFormGroup.forEach((form, index) => {
+      if (from2 > to2) {
+        if (index === to2) {
+          newFormGroup.push(previous);
+          newFormGroup.push(current);
+        } else if (index !== from2 && index !== to2) {
+          newFormGroup.push(form);
+        }
+      } else if (from2 < to2 && (to2 - from2) > 1) {
+
+        if (index === to2) {
+          newFormGroup.push(previous);
+          newFormGroup.push(form);
+        } else if (index !== from2 && index !== to2) {
+          newFormGroup.push(form);
+        }
+      }
+    });
+
+    for (let i = 0; i < len; i++) {
+      formArray.setControl(i, newFormGroup[i]);
+    }
   }
 
   /**
@@ -1775,7 +1848,6 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
   moveItemInFormArray(formArray: FormArray, fromIndex: number, toIndex: number): void {
     const from2 = this.clamp(fromIndex, formArray.length - 1);
     const to2 = this.clamp(toIndex, formArray.length - 1);
-
     if (from2 === to2) {
       return;
     }
