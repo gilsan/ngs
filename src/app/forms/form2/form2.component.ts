@@ -1758,6 +1758,13 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
 
+    if (from2 < to2) {
+      const diff = to2 - from2;
+      if (diff === 1) {
+        return;
+      }
+    }
+
     const len = formArray.length;
 
     const totalFormGroup = [];
@@ -1803,6 +1810,15 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     if (from2 === to2) {
       return;
     }
+
+    if (from2 < to2) {
+      const diff = to2 - from2;
+      if (diff === 1) {
+        return;
+      }
+    }
+
+
     const len = formArray.length;
 
     const totalFormGroup = [];
