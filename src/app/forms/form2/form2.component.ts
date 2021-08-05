@@ -1047,7 +1047,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
 
       if (idx === -1 && this.deleteRowNumber !== index) {
         this.vd.push({ sequence: index, selectedname: 'mutation', gene: row.gene });
-        // console.log('####[936][checkType]', this.vd);
+
       }
 
       return true;
