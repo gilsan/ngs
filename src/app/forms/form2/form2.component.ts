@@ -1758,6 +1758,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
 
+    // 방향: 위에서 아래로
     if (from2 < to2) {
       const diff = to2 - from2;
       if (diff === 1) {
