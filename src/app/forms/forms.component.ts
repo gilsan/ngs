@@ -60,7 +60,7 @@ export class FormsComponent implements OnInit {
   // tslint:disable-next-line: typedef
   navigateTo(select: string) {
     this.selectedNum = parseInt(select, 10);
-    console.log('[forms component select....]', this.selectedNum);
+    // console.log('[forms component select....]', this.selectedNum);
     if (this.selectedNum === 1) {
       this.router.navigate(['/diag', 'jingum', 'form2', 'ALL']);
     } else if (this.selectedNum === 2) {

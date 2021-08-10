@@ -109,16 +109,16 @@ export class MutationComponent implements OnInit {
     }
 
     if (id !== '') {
-/* 2021.03.02
+      /* 2021.03.02
+            this.mutationService.updateMutationList(id, buccal.value, patientName.value, registerNumber.value, fusion.value, gene.value,
+              functionalImpact.value, transcript.value, exonIntro.value, nucleotideChange.value, aminoAcidChange.value,
+              zygosity.value, vaf.value, reference.value, siftPolyphen.value, buccal2.value, igv.value, sanger.value, cosmicId.value,
+              exac.value, exac_east_asia.value, krgdb.value, etc1.value, etc2.value, etc3.value)
+              */
       this.mutationService.updateMutationList(id, buccal.value, patientName.value, registerNumber.value, fusion.value, gene.value,
         functionalImpact.value, transcript.value, exonIntro.value, nucleotideChange.value, aminoAcidChange.value,
-        zygosity.value, vaf.value, reference.value, siftPolyphen.value, buccal2.value, igv.value, sanger.value, cosmicId.value,
-        exac.value, exac_east_asia.value, krgdb.value, etc1.value, etc2.value, etc3.value)
-        */
-        this.mutationService.updateMutationList(id, buccal.value, patientName.value, registerNumber.value, fusion.value, gene.value,
-          functionalImpact.value, transcript.value, exonIntro.value, nucleotideChange.value, aminoAcidChange.value,
-          zygosity.value, vaf.value, reference.value, siftPolyphen.value, buccal2.value, igv.value, sanger.value, cosmicId.value)
-          .subscribe((data) => {
+        zygosity.value, vaf.value, reference.value, siftPolyphen.value, buccal2.value, igv.value, sanger.value, cosmicId.value)
+        .subscribe((data) => {
           console.log('[170][Mutation 수정]', data);
           alert('수정 되었습니다.');
           this.search(gene.value);
@@ -130,9 +130,9 @@ export class MutationComponent implements OnInit {
         zygosity.value, vaf.value, reference.value, siftPolyphen.value, buccal2.value, igv.value, sanger.value, cosmicId.value,
         exac.value, exac_east_asia.value, krgdb.value, etc1.value, etc2.value, etc3.value)
       */
-        this.mutationService.insertMutationList(id, buccal.value, patientName.value, registerNumber.value, fusion.value, gene.value,
-          functionalImpact.value, transcript.value, exonIntro.value, nucleotideChange.value, aminoAcidChange.value,
-          zygosity.value, vaf.value, reference.value, siftPolyphen.value, buccal2.value, igv.value, sanger.value, cosmicId.value)
+      this.mutationService.insertMutationList(id, buccal.value, patientName.value, registerNumber.value, fusion.value, gene.value,
+        functionalImpact.value, transcript.value, exonIntro.value, nucleotideChange.value, aminoAcidChange.value,
+        zygosity.value, vaf.value, reference.value, siftPolyphen.value, buccal2.value, igv.value, sanger.value, cosmicId.value)
         .subscribe((data) => {
           console.log('[170][Mutation 저장]', data);
           alert('저장 되었습니다.');

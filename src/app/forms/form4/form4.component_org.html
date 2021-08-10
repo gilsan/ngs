@@ -1,6 +1,6 @@
 <div id="result">
   <div id="container">
-     
+
       <h2>MDS/MPN NGS</h2>
       <div id="content">
           <div class="box pd_20">
@@ -33,7 +33,7 @@
             <table width="100%" cellpadding="0" cellspacing="0" class="table_result">
                 <colgroup>
                 <col style="width:20%;"/>
-                <col style="width:30%;"/> 
+                <col style="width:30%;"/>
                 <col style="width:50%;"/>
                 </colgroup>
                 <thead>
@@ -46,22 +46,22 @@
                 <tbody>
                     <tr>
                         <td class="table_result_line" style="text-align: center;">
-                            <input type="text" class="input_02 textcenter"  
+                            <input type="text" class="input_02 textcenter"
                             [(ngModel)]= "profile.leukemia" [ngModelOptions]="{standalone: true}">
                         </td>
                         <td class="table_result_line"  style="text-align: center;">
-                            <input type="text" class="input_02  textcenter"  
+                            <input type="text" class="input_02  textcenter"
                             [(ngModel)]="profile.flt3itd" [ngModelOptions]="{standalone: true}">
                         </td>
                         <td  style="text-align: center;">
-                            <input type="text" class="input_02 textcenter"  
+                            <input type="text" class="input_02 textcenter"
                             [(ngModel)]="profile.chron" [ngModelOptions]="{standalone: true}">
                         </td>
                     </tr>
                 </tbody>
             </table>
 
-               
+
               <div class="sub_title">Test Information</div>
               <table cellpadding="0" cellspacing="0" class="table_result02">
                   <colgroup>
@@ -70,10 +70,10 @@
                   </colgroup>
                   <tbody>
                       <tr>
-                          
+
                           <td>TARGET DISEASE:Acute myeloid leukemia</td>
                           <td> METHOD:*Massively parallel sequencing</td>
-                        
+
                       </tr>
                       <tr>
                           <td> SPECIMEN: Genomic DNA isolated from {{specimenMsg}}</td>
@@ -85,10 +85,10 @@
     <div class="box pd_20">
               <div class="box_100" #box100>
 <!--    -------------------------------------                     -->
-<form [formGroup]="tablerowForm"> 
-     
+<form [formGroup]="tablerowForm">
+
     <table class="table table-margin-top fixed_header"  style="text-align: center;">
-        <colgroup>           
+        <colgroup>
             <col style="width:80px"/>
             <col style="width:80px"/>
             <col style="width:80px"/>
@@ -100,43 +100,43 @@
             <col style="width:300px"/>
             <col style="width:300px"/>
             <col style="width:200px"/>
-            <col style="width:200px"/> 
-            <col style="width:200px"/>    
+            <col style="width:200px"/>
+            <col style="width:200px"/>
             <col style="width:100px"/>
             <col style="width:80px"/>
-            <col style="width:80px"/> 
-            <col style="width:80px"/>                 
+            <col style="width:80px"/>
+            <col style="width:80px"/>
             </colgroup>
       <thead>
           <tr>
               <th>
                 <button class="btn btn_01" (click)="addRow()">추가</button>
-              </th> 
+              </th>
               <th></th>
               <th>IGV</th>
               <th>Sanger</th>
-              <th>Type</th>                  
+              <th>Type</th>
               <th>Gene</th>
               <th>Functional Impact</th>
               <th>Transcript</th>
-              <th>Exon/Intron</th>  
-              <th>Nuceleotide change</th>    
-              <th>Amino acid change</th> 
+              <th>Exon/Intron</th>
+              <th>Nuceleotide change</th>
+              <th>Amino acid change</th>
               <th>Zygosity</th>
-              <th>VAF %</th> 
-              <th>Reference(s)</th>      
-              <th>COSMIC ID</th> 
-              
+              <th>VAF %</th>
+              <th>Reference(s)</th>
+              <th>COSMIC ID</th>
+
               <th>Site</th>
-              <th>Action</th>                        
+              <th>Action</th>
           </tr>
       </thead>
       <tbody>
-         
+
         <ng-container formArrayName="tableRows" *ngFor="let group of getFormControls.controls; let i=index">
           <tr  [formGroupName]="i">
-            <td class="trash"  (click)="deleteRow(i)">&#10006;</td> 
-            <td><input type="checkbox"   checked (change)="boxstatus(i, $event)"></td> 
+            <td class="trash"  (click)="deleteRow(i)">&#10006;</td>
+            <td><input type="checkbox"   checked (change)="boxstatus(i, $event)"></td>
             <td><input type="text" size="10"  class="clr-input textcenter"  formControlName="igv"></td>
             <td><input type="text" size="10"  class="clr-input textcenter"  formControlName="sanger"></td>
             <td><input type="text" size="10"  class="clr-input textcenter"  formControlName="type"></td>
@@ -144,7 +144,7 @@
                 (change)="findMutationBygene(gene.value)"
                  class="clr-input textcenter" formControlName="gene"></td>
             <td><input type="text" size="10"  class="clr-input textcenter" formControlName="functionalImpact"></td>
-            <td><input type="text" size="20"  class="clr-input textcenter" formControlName="transcript"></td> 
+            <td><input type="text" size="20"  class="clr-input textcenter" formControlName="transcript"></td>
             <td><input type="text" size="15"  class="clr-input textcenter" formControlName="exonIntro"></td>
             <td><input type="text" size="40"  class="clr-input textcenter" formControlName="nucleotideChange"></td>
             <td><input type="text" size="40"  class="clr-input textcenter" formControlName="aminoAcidChange"></td>
@@ -152,25 +152,25 @@
             <td><input type="text" size="10"  class="clr-input textcenter" formControlName="vafPercent"></td>
             <td><input type="text" size="10"  class="clr-input textcenter" formControlName="references"></td>
             <td><input type="text" size="20"  class="clr-input textcenter" formControlName="cosmicID"></td>
-            
+
             <td  class="txt_c">
-              <select class="select_01" name="options" (change)="saveInhouse(i, inhouse.value)" 
+              <select class="select_01" name="options" (change)="saveInhouse(i, inhouse.value)"
               *ngIf="checkType(i)" #inhouse>
                 <option value="mutation" selected>Mutation</option>
                 <option value="artifacts">Artifacts</option>
                 <option value="benign">Benign</option>
-              </select>                    
+              </select>
             </td>
-           <td  class="txt_c" (click)="save(i)" *ngIf="checkType(i)"  class="save_mute">저장</td>   
-            
-            </tr>                               
+           <td  class="txt_c" (click)="save(i)" *ngIf="checkType(i)"  class="save_mute">저장</td>
+
+            </tr>
           </ng-container>
-          
+
       </tbody>
     </table>
- 
+
   </form>
- 
+
 <!---  ---------------------------   -->
       </div>
       <div>
@@ -181,7 +181,7 @@
 
       </div>
     <!-- ------------------------------------------------------  -->
- 
+
     <!--  ------------------------------------------------  -->
 <!--     -->
               <div class="sub_title">*Methods</div>
@@ -225,11 +225,11 @@
   <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
           <td class="txt_l font_16 fb">검사의뢰일/검사보고일/수정보고일: {{requestDate | date: 'yyyy.MM.dd'}}/{{firstReportDay}}/{{lastReportDay}}  </td>
-          <td class="txt_1 font_16 fb">검사자:  <input type="text" [(ngModel)]="examin" class="input_02" size="30">                                   
-         </td> 
+          <td class="txt_1 font_16 fb">검사자:  <input type="text" [(ngModel)]="examin" class="input_02" size="30">
+         </td>
           <td class="txt_1 font_16 fb">판독의사: <input type="text"   [(ngModel)]="recheck" class="input_02" size="30">
-            
-              
+
+
           </td>
       </tr>
   </table>
@@ -244,38 +244,38 @@
                 <li>
                     <button class="btn btn_01" (click)="reset()"
                     [disabled]="getStatus(4)">수정</button>
-                   
+
                 </li>
                 <li>
                     <button class="btn btn_01" (click)="tempSave()">임시저장</button>
-                   
+
                 </li>
                 <li>
                     <button class="btn btn_01" (click)="screenRead()" [disabled]="getStatus(1)">스크린완료</button>
-                     
+
                 </li>
                 <li>
                     <button class="btn btn_01" (click)="screenReadFinish()" [disabled]="getStatus(2)">판독완료</button>
-                    
+
                 </li>
- 
+
                 <li>
                     <button class="btn btn_01" (click)="gotoEMR()" [disabled]="getStatus(3)">EMR전송</button>
-                     
-                </li>                
+
+                </li>
             </ul>
         </div>
       </div>
   </div>
   <!-- -----------------------------------------------------------  -->
-   
+
   <!--    -->
    <div class="modal-overlay" *ngIf="isVisible">
        <div class="modal-body">
            <app-preview  [result]="resultStatus"></app-preview>
        </div>
    </div>
- 
-</div> 
+
+</div>
 
 

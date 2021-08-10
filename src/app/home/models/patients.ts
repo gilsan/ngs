@@ -312,4 +312,19 @@ export interface IGeneList {
   g9: string;
 }
 
+export interface Ilymphoma {
+  gene: string;
+  functionalImpact: string;
+  transcript: string;
+  exonIntro: string;
+  nucleotideChange: string;
+  aminoAcidChange: string;
+  zygosity: string;
+  vaf: string;
+  reference: string;
+  cosmicId: string;
+}
+
+
+
 

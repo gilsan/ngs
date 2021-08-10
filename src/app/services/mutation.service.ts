@@ -4,6 +4,7 @@ import { combineLatest, from, Observable, of, Subject, } from 'rxjs';
 import { concatMap, map, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { IMutation } from 'src/app/inhouse/models/mutation';
 import { emrUrl } from 'src/app/config';
+import { Ilymphoma } from '../home/models/patients';
 
 @Injectable({
   providedIn: 'root',
@@ -75,5 +76,14 @@ export class MutationService {
     return this.http.post(`${this.apiUrl}/mutationMapper/delete`, { id });
   }
 
+  // 환자 번호로 검색하기
+  public getLymphoma(registernum: string): Observable<Ilymphoma> {
+    return this.http.post<Ilymphoma>(`${this.apiUrl}/mutationMapper/getinfo`, { registernum });
+  }
+
+  // 환자번호로 정보 갱신하기
+  public updateLymphoma(registernum: string, data: Ilymphoma): Observable<any> {
+    return this.http.post(`${this.apiUrl}/mutationMapper/updateinfo`, { registernum, data });
+  }
 }
 

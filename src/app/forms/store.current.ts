@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IAFormVariant, IComment, IDList, IExamPart, IPatient, IProfile } from '../home/models/patients';
+import { IAFormVariant, IComment, IDList, IExamPart, Ilymphoma, IPatient, IProfile } from '../home/models/patients';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +27,7 @@ export class StoreService {
   ExamPart: IExamPart[];
 
   DLists: IDList[];
+  Lymphoma: Ilymphoma;
 
   screenstatue = 'N';
 
@@ -233,6 +234,14 @@ export class StoreService {
 
   getScrollyPosition(): number {
     return this.scrolly;
+  }
+  // Ilymphoma 값 저장
+  setLymphoma(lymphoma: Ilymphoma): void {
+    this.Lymphoma = lymphoma;
+  }
+
+  getLymphoma(): Ilymphoma {
+    return this.Lymphoma;
   }
 
 

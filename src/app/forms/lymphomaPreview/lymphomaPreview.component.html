@@ -1,0 +1,149 @@
+<div id="result">
+    <div id="container" style="position: relative;">
+        <h2 style="margin-top: 5px;">Lymphoma NGS</h2>
+        <button type="button" class="preview__button">닫기</button>
+        <div id="content">
+            <div class="box pd_20">
+                <div class="sub_title">Patient: {{patientInfo.name}}, {{patientInfo.patientID}} ({{patientInfo.gender}}/{{patientInfo.age}}) </div>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td class="txt_02" ><span class="fb">Result </span>:
+                        <input type="radio" id="vertical-radio2" name="radio-full" [value]="'Detected'"  >
+                        <label for="vertical-radio2" class="clr-col-12 clr-col-md-2">Detected</label>
+                        &nbsp;&nbsp;
+                        <input type="radio" id="vertical-radio1" name="radio-full" [value]="'Not Detected'" class="clr-radio" >
+                        <label for="vertical-radio1" class="clr-col-12 clr-col-md-2">Not Detected</label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="txt_02"> Other molecular and cytogenetic profiles</td>
+                  </tr>
+                </table>
+
+                <div style="margin-top:5px;"></div>
+                <table width="100%" cellpadding="0" cellspacing="0" class="table_result">
+                  <colgroup>
+                    <col style="width:50%;" />
+                    <col style="width:50%;" />
+                  </colgroup>
+                  <thead>
+                      <tr>
+                        <th class="table_result_line">Bone marrow aspiration analysis</th>
+                        <th>Chromosomal analysis</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                        <td class="table_result_line"  style="text-align: center;">
+                            <input type="text" class="input_02  textcenter"
+                             >
+                        </td>
+                        <td  style="text-align: center;">
+                            <input type="text" class="input_02 textcenter"
+                             >
+                        </td>
+                      </tr>
+                  </tbody>
+                </table>
+
+
+                <div class="sub_title">Test Information</div>
+                <table cellpadding="0" cellspacing="0" class="table_result02">
+                  <colgroup>
+                  <col style="width:50%;" />
+                  <col style="width:50%;" />
+                  </colgroup>
+                  <tbody>
+                      <tr>
+                          <td>TARGET DISEASE: Lymphoma</td>
+                          <td> METHOD: *Massively parallel sequencing</td>
+                      </tr>
+                      <tr>
+                          <td> SPECIMEN: Genomic DNA isolated from peripheral blood</td>
+                          <td> REQUEST: </td>
+                      </tr>
+                  </tbody>
+                </table>
+
+                <div class="sub_title">Variants of unknown clinical significance</div>
+                <div class="box">
+                    <div class="box_1000">
+
+                        <table class="table_list" style="text-align: center;">
+                            <colgroup>
+                                <col style="width:5%"/>   <!-- Gene   -->
+                                <col style="width:10%"/>  <!-- Functional Impact    -->
+                                <col style="width:10%"/>  <!-- Transcript    -->
+                                <col style="width:10%"/>  <!-- Exon/Intron    -->
+                                <col style="width:10%"/>  <!--  Nuceleotide change   -->
+                                <col style="width:10%"/>  <!-- Amino acid change    -->
+                                <col style="width:10%"/>  <!-- Zygosity    -->
+                                <col style="width:10%"/>  <!--  VAF %   -->
+                                <col style="width:15%"/>  <!--   References  -->
+                                <col style="width:10%"/>   <!--  COSMIC ID   -->
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>Gene</th>
+                                    <th>Functional Impact</th>
+                                    <th>Transcript</th>
+                                    <th>Exon/Intron</th>
+                                    <th>Nucleotide change</th>
+                                    <th>Amino acid change</th>
+                                    <th>Zygosity</th>
+                                    <th>VAF %</th>
+                                    <th>Reference(s)</th>
+                                    <th>COSMIC ID</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input type="text" size="10" class="clr-input textcenter tdbox" >
+                                    </td>
+                                    <td>
+                                        <input type="text" size="20" class="clr-input textcenter tdbox"  >
+                                    </td>
+                                    <td>
+                                        <input type="text" size="10" class="clr-input textcenter tdbox" >
+                                    </td>
+                                    <td>
+                                        <input type="text" size="20" class="clr-input textcenter tdbox"  >
+                                    </td>
+                                    <td>
+                                        <input type="text" size="15" class="clr-input textcenter tdbox"  >
+                                    </td>
+                                    <td>
+                                        <input type="text" size="40" class="clr-input textcenter tdbox"  >
+                                    </td>
+                                    <td>
+                                        <input type="text" size="40" class="clr-input textcenter tdbox" >
+                                    </td>
+                                    <td>
+                                        <input type="text" size="20" class="clr-input textcenter tdbox" >
+                                    </td>
+                                    <td>
+                                        <textarea class="textarea_01" style="width: 100%;height: 100%;border: none" ></textarea>
+                                    </td>
+                                    <td>
+                                        <input type="text" size="10" class="clr-input textcenter tdbox">
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+
+                <div class="sub_title">*Methods</div>
+                <div class="pd_r20">
+                  <textarea class="textarea_01"></textarea>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
