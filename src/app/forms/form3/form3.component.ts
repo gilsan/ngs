@@ -387,10 +387,8 @@ export class Form3Component implements OnInit, OnDestroy {
       this.profile,
       this.patientInfo.accept_date, // 검사의뢰일
       this.specimenMessage,
-      '',            //          this.ment,  // VUS 멘트
       this.patientInfo,
       formData,
-      [],
       this.firstReportDay,
       this.lastReportDay,
       this.genelists,

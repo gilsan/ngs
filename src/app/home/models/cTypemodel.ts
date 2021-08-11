@@ -15,10 +15,8 @@ export function makeCForm(
   profile: IProfile,
   acceptdate: string,
   specimenMessage: string,
-  ment: string,
   patientInfo: IPatient,
   formData: IAFormVariant[],
-  comment: IComment[],
   firstReportDay: string,
   lastReportDay: string,
   genelist: IGeneList[],
@@ -76,7 +74,6 @@ export function makeCForm(
 				<Col id="testinfo2">METHOD: *Massively parallel sequencing</Col>
 				<Col id="testinfo3">SPECIMEN:  <![CDATA[${specimenMessage}]]></Col>
 				<Col id="testinfo4">REQUEST: ${patientInfo.request}</Col>
-				<Col id="opnion">${ment}</Col>
 				<Col id="title">Lymphoma NGS</Col>
 				<Col id="examdt">${acceptdate}/${firstReportDay}/${lastReportDay} </Col>
 				<Col id="examid">${examin}</Col>
@@ -127,47 +124,6 @@ export function makeCForm(
 </Dataset>
 	`;
 
-  const commentHeader = `
-<Dataset id="ds_3">
-	<ColumnInfo>
-		<Column id="gene" type="STRING" size="256"/>
-		<Column id="variants" type="STRING" size="256"/>
-		<Column id="comments" type="STRING" size="256"/>
-		<Column id="reference" type="STRING" size="256"/>
-	</ColumnInfo>
-`;
-
-  let commentContent = '';
-  if (comment.length > 0) {
-    // tslint:disable-next-line: prefer-for-of
-    for (let i = 0; i < comment.length; i++) {
-      commentContent = commentContent + `
-	<Row>
-	<Col id="gene">${comment[i].gene}</Col>
-	<Col id="variants">${comment[i].variant_id}</Col>
-	<Col id="comments">${comment[i].comment}</Col>
-	<Col id="reference">${comment[i].reference}</Col>
-</Row>`;
-    }
-  } else {
-    commentContent = `
- <Row>
- <Col id="gene"></Col>
- <Col id="variants"></Col>
- <Col id="comments"></Col>
- <Col id="reference"></Col>
-</Row>
- `;
-  }
-
-  commentContent = `<Rows>
-	${commentContent}
-	</Rows>
-`;
-  const commentBottom = `
-</Dataset>
-`;
-  const comments = commentHeader + commentContent + commentBottom;
 
 
   const fixedMent = `
@@ -232,6 +188,6 @@ export function makeCForm(
 	</Dataset>
 </root>`;
 
-  return patient + variantHeader + data + variantBottom + comments + fixedMent + list + rootbottom;
+  return patient + variantHeader + data + variantBottom + fixedMent + list + rootbottom;
 
 }
