@@ -251,6 +251,8 @@ export interface IRecoverVariants {
   checked?: boolean;
 }
 
+
+
 export interface IDetectedVariants {
   gene?: string;
   functional_impact: string;
@@ -323,6 +325,26 @@ export interface Ilymphoma {
   vaf: string;
   reference: string;
   cosmicId: string;
+}
+
+export interface ILymphoma {
+  amino_acid_change: string;
+  cosmic_id: string;
+  type?: string;
+  exon: string;
+  functional_impact: string;
+  gene: string;
+  id?: string;
+  igv?: string;
+  nucleotide_change: string;
+  reference: string;
+  report_date?: string;
+  sanger?: string;
+  specimenNo?: string;
+  transcript: string;
+  vaf: string;
+  zygosity: string;
+  checked?: boolean;
 }
 
 

@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Ilymphoma, IPatient, IProfile } from 'src/app/home/models/patients';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { IAFormVariant, Ilymphoma, IPatient, IProfile } from 'src/app/home/models/patients';
 
 
 
@@ -13,16 +13,26 @@ export class LymphomaPreviewComponent implements OnInit {
   @Input() result: string;
   @Input() patientInfo: IPatient;
   @Input() profile: IProfile;
-  @Input() lymphoma: Ilymphoma;
+  @Input() lymphoma: IAFormVariant;
+  @Input() methods: string;
+  @Output() closemodal = new EventEmitter<void>();
 
-
+  resultStatus: string;
   constructor() { }
 
   ngOnInit(): void {
-    console.log('', this.result);
-    console.log('', this.patientInfo);
-    console.log('', this.profile);
-    console.log('', this.lymphoma);
+    this.resultStatus = this.result;
+  }
+
+  radioStatus(type: string): boolean {
+    if (type === this.resultStatus) {
+      return true;
+    }
+    return false;
+  }
+
+  closeModal(): void {
+    this.closemodal.emit(null);
   }
 
 }

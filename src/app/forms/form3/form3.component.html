@@ -110,7 +110,7 @@
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="transcript">
                                     </td>
                                     <td>
-                                        <input type="text" size="20" class="clr-input textcenter tdbox" formControlName="exonIntron">
+                                        <input type="text" size="20" class="clr-input textcenter tdbox" formControlName="exonIntro">
                                     </td>
                                     <td>
                                         <input type="text" size="15" class="clr-input textcenter tdbox" formControlName="nucleotideChange">
@@ -122,13 +122,13 @@
                                         <input type="text" size="40" class="clr-input textcenter tdbox" formControlName="zygosity">
                                     </td>
                                     <td>
-                                        <input type="text" size="20" class="clr-input textcenter tdbox" formControlName="vaf">
+                                        <input type="text" size="20" class="clr-input textcenter tdbox" formControlName="vafPercent">
                                     </td>
                                     <td>
-                                        <textarea class="textarea_01" style="width: 100%;height: 100%;border: none" formControlName="reference"></textarea>
+                                        <textarea class="textarea_01" style="width: 100%;height: 100%;border: none" formControlName="references"></textarea>
                                     </td>
                                     <td>
-                                        <input type="text" size="10" class="clr-input textcenter tdbox"  formControlName="cosmicId">
+                                        <input type="text" size="10" class="clr-input textcenter tdbox"  formControlName="cosmicID">
                                     </td>
 
                                 </tr>
@@ -194,22 +194,26 @@
             <div class="foot_btn mg_t30 pd_b30 txt_c main_btn">
                 <ul>
                     <li>
-                        <button type="button" class="btn btn_01">미리보기</button>
+                        <button type="button" class="btn btn_01"  (click)="previewToggle()">미리보기</button>
                     </li>
+                    <!--
                     <li>
                         <button class="btn btn_01">수정</button>
                     </li>
+                    -->
                     <li>
-                        <button class="btn btn_01">임시저장</button>
+                        <button class="btn btn_01" (click)="tempSave()">저장</button>
                     </li>
+                    <!--
                     <li>
                         <button class="btn btn_01">스크린완료</button>
                     </li>
                     <li>
                         <button class="btn btn_01">판독완료</button>
                     </li>
+                    -->
                     <li>
-                        <button class="btn btn_01">EMR전송</button>
+                        <button class="btn btn_01" (click)="gotoEMR()">EMR전송</button>
                     </li>
                 </ul>
             </div>
@@ -223,7 +227,9 @@
            [result]="resultStatus"
            [patientInfo]="patientInfo"
            [profile]="profile"
-           [lymphoma]= "lymphoma"></app-lymphomapreview>
+           [lymphoma]= "lymphoma"
+            (closemodal)="closeModal()"
+            [methods]="methods"></app-lymphomapreview>
        </div>
    </div>
 

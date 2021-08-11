@@ -2,7 +2,6 @@
     <div id="container" style="position: relative;">
         <h2 style="margin-top: 5px;">형질세포종NGS</h2>
         <button type="button" class="preview__button">미리보기</button>
-        <button type="button" class="excel">Excel</button>
 
         <div id="content">
             <div class="box pd_20">
@@ -70,10 +69,6 @@
                     <div class="box_1000">
                         <table class="table_list td-fix" style="text-align: center;">
                             <colgroup>
-                             <!--   <col style="width:50px"/>
-                                <col style="width:80px"/>
-                                <col style="width:40px"/>
-                                <col style="width:60px"/>      -->
                                 <col style="width:120px"/>   <!-- Gene   -->
                                 <col style="width:200px"/>  <!-- Functional Impact    -->
                                 <col style="width:160px"/>  <!-- Transcript    -->
@@ -84,21 +79,10 @@
                                 <col style="width:120px"/>  <!--  VAF %   -->
                                 <col style="width:180px"/>  <!--   References  -->
                                 <col style="width:180px"/>   <!--  COSMIC ID   -->
-                               <!--  <col style="width:80px"/>  IGV -->
-                              <!--  <col style="width:200px"/>
-                                <col style="width:120px"/>
-                                <col style="width:80px"/>     -->
+
                             </colgroup>
                             <thead>
                                 <tr>
-                                 <!--    <th>
-                                        <button class="btn btn_01 btn-x" (click)="dvSort()">정렬</button>
-                                    </th>
-                                    <th>
-                                        <button class="btn btn_01 btn-s" (click)="addRow()">추가</button>
-                                    </th>
-                                    <th> </th>
-                                    <th>Type</th> -->
                                     <th>Gene</th>
                                     <th>Functional Impact</th>
                                     <th>Transcript</th>
@@ -109,28 +93,10 @@
                                     <th>VAF %</th>
                                     <th>Reference(s)</th>
                                     <th>COSMIC ID</th>
-                                  <!--  <th>IGV</th>
-                                     <th>Sanger</th>
-                                    <th>Site</th>
-                                    <th>Action</th> -->
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                  <!--  <td>
-                                        <button type="button" class="drag-handle">
-                                            <img [src]="'assets/baseline_unfold_more_black_18dp.png'">
-                                        </button>
-                                    </td>
-                                    <td class="trash">
-                                        <img [src]="'assets/images/cancel.png'">
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" class="ckbox">
-                                    </td>
-                                    <td>
-                                        <input type="text" size="10" class="clr-input textcenter tdbox">
-                                    </td>  -->
                                     <td>
                                         <input type="text" size="10" class="clr-input textcenter tdbox">
                                     </td>
@@ -161,28 +127,11 @@
                                     <td>
                                         <input type="text" size="10" class="clr-input textcenter tdbox">
                                     </td>
-                                  <!--  <td>
-                                        <input type="text" size="10" class="clr-input textcenter tdbox">
-                                    </td>
-                                    <td>
-                                        <textarea class="textarea_01" style="width: 100%;height: 100%;border: none"></textarea>
-                                    </td>
-                                    <td class="txt_c">
-                                        <select class="select_01" style="width: 100%;">
-                                            <option value="mutation" selected>Mutation</option>
-                                            <option value="artifacts">Artifacts</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <button class="btn-s blue">저장</button>
-                                    </td> -->
+
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                  <!--  <div class="font_14 pd_t15">
-                        <textarea class="textarea_01"></textarea>
-                    </div>  -->
                 </div>
 
                 <div class="sub_title">*Methods</div>
@@ -246,16 +195,7 @@
                         <button type="button" class="btn btn_01">미리보기</button>
                     </li>
                     <li>
-                        <button class="btn btn_01">수정</button>
-                    </li>
-                    <li>
-                        <button class="btn btn_01">임시저장</button>
-                    </li>
-                    <li>
-                        <button class="btn btn_01">스크린완료</button>
-                    </li>
-                    <li>
-                        <button class="btn btn_01">판독완료</button>
+                        <button class="btn btn_01">저장</button>
                     </li>
                     <li>
                         <button class="btn btn_01">EMR전송</button>

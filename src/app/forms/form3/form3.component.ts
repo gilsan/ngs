@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { filter, map, shareReplay } from 'rxjs/operators';
+import { concatMap, filter, map, shareReplay } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { SubSink } from 'subsink';
@@ -10,8 +10,10 @@ import { UtilsService } from '../commons/utils.service';
 import { PatientsListService } from 'src/app/home/services/patientslist';
 import { StoreService } from '../store.current';
 import { AnalysisService } from '../commons/analysis.service';
-import { IGeneList, Ilymphoma, IPatient, IProfile } from 'src/app/home/models/patients';
-import { MutationService } from 'src/app/services/mutation.service';
+import { IAFormVariant, IGeneList, IPatient, IProfile } from 'src/app/home/models/patients';
+
+import { DetectedVariantsService } from 'src/app/home/services/detectedVariants';
+import { makeCForm } from 'src/app/home/models/cTypemodel';
 
 /**  profile
  *  ALL/AML   LYM           MDS
@@ -72,7 +74,7 @@ export class Form3Component implements OnInit, OnDestroy {
   };
 
   isVisible = false;
-  lymphoma: Ilymphoma;
+  lymphoma: IAFormVariant;
   examin = ''; // 검사자
   recheck = ''; // 확인자
   requestDate: string; // 검사의뢰일
@@ -101,7 +103,7 @@ export class Form3Component implements OnInit, OnDestroy {
     private store: StoreService,
     private utilsService: UtilsService,
     private analysisService: AnalysisService,
-    private mutationService: MutationService,
+    private variantsService: DetectedVariantsService,
   ) { }
 
   ngOnInit(): void {
@@ -119,13 +121,13 @@ export class Form3Component implements OnInit, OnDestroy {
       gene: [''],
       functionalImpact: [''],
       transcript: [''],
-      exonIntron: [''],
+      exonIntro: [''],
       nucleotideChange: [''],
       aminoAcidChange: [''],
       zygosity: [''],
-      vaf: [''],
-      reference: [''],
-      cosmicId: ['']
+      vafPercent: [''],
+      references: [''],
+      cosmicID: ['']
     });
   }
 
@@ -145,7 +147,7 @@ export class Form3Component implements OnInit, OnDestroy {
     this.resultStatus = event.srcElement.defaultValue;
   }
 
-  //
+  // 검체 체크상태 변경
   radioStatus(type: string): boolean {
     if (type === this.resultStatus) {
       return true;
@@ -164,8 +166,7 @@ export class Form3Component implements OnInit, OnDestroy {
     }
 
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
-    // console.log('[159][환자정보]', this.patientInfo);
-    this.store.setPatientInfo(this.patientInfo); // 환자정보 저장
+    console.log('[167] 환자정보: ', this.patientInfo);
 
     this.requestDate = this.patientInfo.accept_date;
     if (this.patientInfo.specimen === '015') {
@@ -174,7 +175,6 @@ export class Form3Component implements OnInit, OnDestroy {
     } else if (this.patientInfo.specimen === '004') {
       this.specimenMsg = 'EDTA blood';
       this.specimenMessage = 'Genomic DNA isolated from EDTA blood';
-      this.store.setSpecimenMsg(this.specimenMsg);
     }
 
     // 검체 감염유부 확인
@@ -204,15 +204,18 @@ export class Form3Component implements OnInit, OnDestroy {
   previewToggle(): void {
     this.isVisible = !this.isVisible;
     // lymphoma 값을 store에 저장
-    this.lymphoma = this.form.getRawValue() as Ilymphoma;
-    // this.store.setLymphoma(lymphoma);
+    this.lymphoma = this.form.getRawValue() as IAFormVariant;
+  }
+
+  // 미리보기 종료
+  closeModal(): void {
+    this.isVisible = !this.isVisible;
   }
 
   //  bone marrow/chronmosomal 가져오기
   getProfile(): void {
     this.analysisService.getAanlysisLYMInfo(this.form2TestedId)
       .subscribe(data => {
-        //  console.log('[182][profile] ', data);
         if (data.length > 0) {
           this.profile.leukemia = '';
           this.profile.flt3itd = data[0].bonemarrow;
@@ -228,22 +231,25 @@ export class Form3Component implements OnInit, OnDestroy {
 
 
   // Variants of unknown clinical significance 정보 가져오기
-  // InHouse 에 mutation 저장된것 가져오기
   getClinical(): void {
-    this.subs.sink = this.mutationService.getLymphoma(this.patientInfo.patientID)
-      .subscribe(data => {
-        // console.log('[225] ==> ', data);
-        this.form.get('gene').setValue(data.gene);
-        this.form.get('functionalImpact').setValue(data.functionalImpact);
-        this.form.get('transcript').setValue(data.transcript);
-        this.form.get('exonIntron').setValue(data.exonIntro);
-        this.form.get('nucleotideChange').setValue(data.nucleotideChange);
-        this.form.get('aminoAcidChange').setValue(data.aminoAcidChange);
-        this.form.get('zygosity').setValue(data.zygosity);
-        this.form.get('vaf').setValue(data.vaf);
-        this.form.get('reference').setValue(data.reference);
-        this.form.get('cosmicId').setValue(data.cosmicId);
-      });
+
+    // 디비에서 Detected variant_id   가져오기
+    this.subs.sink = this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {
+      if (data.length > 0) {
+
+        this.form.get('gene').setValue(data[0].gene);
+        this.form.get('functionalImpact').setValue(data[0].functional_impact);
+        this.form.get('transcript').setValue(data[0].transcript);
+        this.form.get('exonIntro').setValue(data[0].exon);
+        this.form.get('nucleotideChange').setValue(data[0].nucleotide_change);
+        this.form.get('aminoAcidChange').setValue(data[0].amino_acid_change);
+        this.form.get('zygosity').setValue(data[0].zygosity);
+        this.form.get('vafPercent').setValue(data[0].vaf);
+        this.form.get('references').setValue(data[0].reference);
+        this.form.get('cosmicID').setValue(data[0].cosmic_id);
+      }
+    });
+
   }
 
   //  유전자 목록 가져오기
@@ -265,7 +271,6 @@ export class Form3Component implements OnInit, OnDestroy {
   // 검사일/검사보고일/수정보고일 관리
   setReportdaymgn(patientInfo: IPatient): void {
     // 전송횟수, 검사보고일, 수정보고일  저장
-    // console.log('[187][검사일/검사보고일/수정보고일 관리]', patientInfo);
     this.sendEMR = Number(patientInfo.sendEMR);
     if (patientInfo.sendEMRDate.length) {
       this.firstReportDay = patientInfo.sendEMRDate.replace(/-/g, '.').slice(0, 10);
@@ -319,10 +324,98 @@ export class Form3Component implements OnInit, OnDestroy {
   }
 
 
+  tempSave(): void {
+
+    this.patientInfo.detected = this.resultStatus;
+    this.lymphoma = this.form.getRawValue() as IAFormVariant;
+    const formData: IAFormVariant[] = [];
+    formData.push(this.lymphoma);
+    this.patientInfo.recheck = this.recheck;
+    this.patientInfo.examin = this.examin;
+
+    this.analysisService.putAnalysisLYM(
+      this.form2TestedId,
+      this.profile.flt3itd,
+      this.profile.chron).subscribe(data => console.log('LYM INSERT'));
+
+    // tslint:disable-next-line:max-line-length
+    this.subs.sink = this.variantsService.screenTempSave(this.form2TestedId, formData, [], this.profile, this.resultStatus, this.patientInfo)
+      .subscribe(data => {
+        alert('저장되었습니다.');
+      });
+  }
+
+  today(): string {
+    const today = new Date();
+
+    const year = today.getFullYear(); // 년도
+    const month = today.getMonth() + 1;  // 월
+    const date = today.getDate();  // 날짜
+
+    const newmon = ('0' + month).substr(-2);
+    const newday = ('0' + date).substr(-2);
+    const now = year + '.' + newmon + '.' + newday;
+
+    return now;
+  }
 
 
+  gotoEMR(): void {
+    const userid = localStorage.getItem('diaguser');
+    this.lymphoma = this.form.getRawValue() as IAFormVariant;
+
+    if (this.firstReportDay === '-') {
+      this.firstReportDay = this.today().replace(/-/g, '.');
+    }
+
+    if (this.sendEMR >= 1) {
+      this.lastReportDay = this.today().replace(/-/g, '.');
+    }
 
 
+    let tsvVersionContents;
+    tsvVersionContents = this.methods;
+
+    // console.log('[944][LYM EMR][comments] ', this.comments);
+    const formData: IAFormVariant[] = [];
+    formData.push(this.lymphoma);
+
+    const makeForm = makeCForm(
+      this.resultStatus,
+      this.examin, // 검사자
+      this.recheck, // 확인자
+      this.profile,
+      this.patientInfo.accept_date, // 검사의뢰일
+      this.specimenMessage,
+      '',            //          this.ment,  // VUS 멘트
+      this.patientInfo,
+      formData,
+      [],
+      this.firstReportDay,
+      this.lastReportDay,
+      this.genelists,
+      tsvVersionContents
+    );
+    console.log('[1150][LYM XML] ', makeForm);
+
+    this.patientsListService.sendEMR(
+      this.patientInfo.specimenNo,
+      this.patientInfo.patientID,
+      this.patientInfo.test_code,
+      this.patientInfo.name,
+      makeForm)
+      .pipe(
+        concatMap(() => this.patientsListService.setEMRSendCount(this.form2TestedId, ++this.sendEMR)), // EMR 발송횟수 전송
+      ).subscribe((msg: { screenstatus: string }) => {
+        alert('EMR로 전송했습니다.');
+        this.patientsListService.getPatientInfo(this.form2TestedId)
+          .subscribe(patient => {
+            console.log('[421][ALL EMR][검체정보]', this.sendEMR, patient);
+          });
+      });
+
+
+  }
 
 
 

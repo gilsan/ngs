@@ -1,19 +1,13 @@
 <div id="result">
     <div id="container" style="position: relative;">
         <h2 style="margin-top: 5px;">Lymphoma NGS</h2>
-        <button type="button" class="preview__button">닫기</button>
+        <button type="button" class="preview__button"  (click)="closeModal()">닫기</button>
         <div id="content">
             <div class="box pd_20">
                 <div class="sub_title">Patient: {{patientInfo.name}}, {{patientInfo.patientID}} ({{patientInfo.gender}}/{{patientInfo.age}}) </div>
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
-                    <td class="txt_02" ><span class="fb">Result </span>:
-                        <input type="radio" id="vertical-radio2" name="radio-full" [value]="'Detected'"  >
-                        <label for="vertical-radio2" class="clr-col-12 clr-col-md-2">Detected</label>
-                        &nbsp;&nbsp;
-                        <input type="radio" id="vertical-radio1" name="radio-full" [value]="'Not Detected'" class="clr-radio" >
-                        <label for="vertical-radio1" class="clr-col-12 clr-col-md-2">Not Detected</label>
-                    </td>
+                    <td class="txt_02" ><span class="fb">Result</span>:  {{result}} </td>
                   </tr>
                   <tr>
                     <td class="txt_02"> Other molecular and cytogenetic profiles</td>
@@ -35,11 +29,11 @@
                   <tbody>
                       <tr>
                         <td class="table_result_line"  style="text-align: center;">
-                            <input type="text" class="input_02  textcenter"
+                            <input type="text" class="input_02  textcenter" [value]="profile.flt3itd"
                              >
                         </td>
                         <td  style="text-align: center;">
-                            <input type="text" class="input_02 textcenter"
+                            <input type="text" class="input_02 textcenter" [value]="profile.chron"
                              >
                         </td>
                       </tr>
@@ -60,7 +54,7 @@
                       </tr>
                       <tr>
                           <td> SPECIMEN: Genomic DNA isolated from peripheral blood</td>
-                          <td> REQUEST: </td>
+                          <td> REQUEST: {{patientInfo.request}}</td>
                       </tr>
                   </tbody>
                 </table>
@@ -99,34 +93,43 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" >
+                                        <input type="text" size="10" class="clr-input textcenter tdbox"
+                                        [value]="lymphoma.gene">
                                     </td>
                                     <td>
-                                        <input type="text" size="20" class="clr-input textcenter tdbox"  >
+                                        <input type="text" size="20" class="clr-input textcenter tdbox"
+                                        [value]="lymphoma.functionalImpact" >
                                     </td>
                                     <td>
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" >
+                                        <input type="text" size="10" class="clr-input textcenter tdbox"
+                                        [value]="lymphoma.transcript" >
                                     </td>
                                     <td>
-                                        <input type="text" size="20" class="clr-input textcenter tdbox"  >
+                                        <input type="text" size="20" class="clr-input textcenter tdbox"
+                                        [value]="lymphoma.exonIntro">
                                     </td>
                                     <td>
-                                        <input type="text" size="15" class="clr-input textcenter tdbox"  >
+                                        <input type="text" size="15" class="clr-input textcenter tdbox"
+                                        [value]="lymphoma.nucleotideChange">
                                     </td>
                                     <td>
-                                        <input type="text" size="40" class="clr-input textcenter tdbox"  >
+                                        <input type="text" size="40" class="clr-input textcenter tdbox"
+                                        [value]="lymphoma.aminoAcidChange">
                                     </td>
                                     <td>
-                                        <input type="text" size="40" class="clr-input textcenter tdbox" >
+                                        <input type="text" size="40" class="clr-input textcenter tdbox"
+                                        [value]="lymphoma.zygosity">
                                     </td>
                                     <td>
-                                        <input type="text" size="20" class="clr-input textcenter tdbox" >
+                                        <input type="text" size="20" class="clr-input textcenter tdbox" [value]="lymphoma.vafPercent">
                                     </td>
                                     <td>
-                                        <textarea class="textarea_01" style="width: 100%;height: 100%;border: none" ></textarea>
+                                        <textarea class="textarea_01" style="width: 100%;height: 100%;border: none"
+                                        [value]="lymphoma.references"></textarea>
                                     </td>
                                     <td>
-                                        <input type="text" size="10" class="clr-input textcenter tdbox">
+                                        <input type="text" size="10" class="clr-input textcenter tdbox"
+                                        [value]="lymphoma.cosmicID">
                                     </td>
 
                                 </tr>
@@ -139,7 +142,7 @@
 
                 <div class="sub_title">*Methods</div>
                 <div class="pd_r20">
-                  <textarea class="textarea_01"></textarea>
+                  <textarea class="textarea_01">{{methods}}</textarea>
                 </div>
             </div>
 
