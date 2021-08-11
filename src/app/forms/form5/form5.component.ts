@@ -1214,10 +1214,8 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
       this.profile,
       this.patientInfo.accept_date, // 검사의뢰일
       this.specimenMessage,
-      this.vusmsg,            //          this.ment,  // VUS 멘트
       this.patientInfo,
       reformData,
-      this.comments,
       this.firstReportDay,
       this.lastReportDay,
       this.genelists,
