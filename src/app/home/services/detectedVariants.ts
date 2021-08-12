@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpEvent, HttpEventType, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IAFormVariant, IComment, IPatient, IProfile } from '../models/patients';
+import { IAFormVariant, IComment, IImmundefi, IPatient, IProfile, ISequence } from '../models/patients';
 import { createHostBinding } from '@angular/compiler/src/core';
 import { emrUrl } from 'src/app/config';
 
@@ -175,5 +175,30 @@ export class DetectedVariantsService {
   public getScreenTested(specimenNo: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/screen/find`, { specimenNo });
   }
+
+  // 선천성 면역결핍증 임시저장
+  public saveScreen6(specimenNo: string, immundefi: IImmundefi[], patientInfo: IPatient): Observable<any> {
+    //  screen/tempsave6
+    return this.http.post(`${this.apiUrl}/screen/tempsave6`, { specimenNo, immundefi, patientInfo });
+  }
+
+  // 선천성 면역결핍증 내용 가져오기
+  public contentScreen6(specimenNo: string): Observable<any> {
+    // screen/listScreen6
+    return this.http.post(`${this.apiUrl}/screen/listScreen6`, { specimenNo });
+  }
+
+  // Sequencing 임시저장
+  public saveScreen7(specimenNo: string, sequencing: ISequence[], patientInfo: IPatient): Observable<any> {
+    //  screen/tempsave7
+    return this.http.post(`${this.apiUrl}/screen/tempsave7`, { specimenNo, sequencing, patientInfo });
+  }
+
+  // Sequencing 내용 가져오기
+  public contentScreen7(specimenNo: string): Observable<any> {
+    // screen/listScreen7
+    return this.http.post(`${this.apiUrl}/screen/listScreen7`, { specimenNo });
+  }
+
 
 }

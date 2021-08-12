@@ -1,11 +1,11 @@
 <div id="result">
     <div id="container" style="position: relative;">
         <h2 style="margin-top: 5px;">&#60;DNMT3A Targeted Mutation Analysis Report&#62;</h2>
-        <button type="button" class="preview__button">미리보기</button>
+        <button type="button" class="preview__button"(click)="previewToggle()">미리보기</button>
 
         <div id="content">
             <div class="box pd_20">
-                <div class="sub_title">Patient: 정호진 35440164(M/69)</div>
+                <div class="sub_title">Patient:  {{patientInfo.name}}, {{patientInfo.patientID}} ({{patientInfo.gender}}/{{patientInfo.age}})</div>
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
                     <td class="txt_02" ><span class="fb">Result </span>:
@@ -37,7 +37,7 @@
                       </tr>
                       <tr>
                           <td> SPECIMEN: Genomic DNA isolated from peripheral blood leukocytes-adequate specimen</td>
-                          <td> REQUEST: 서울성모병원 소아청소년과 이혜진 M.D.</td>
+                          <td> REQUEST: {{patientInfo.request}}</td>
                       </tr>
                   </tbody>
                 </table>
@@ -45,6 +45,7 @@
                 <div class="sub_title">Mulation</div>
                 <div class="box">
                     <div class="box_1000">
+                      <form [formGroup]="form">
                         <table class="table_list td-fix" style="text-align: center;">
                             <colgroup>
                                 <col style="width:60px"/>  <!-- Type   -->
@@ -69,29 +70,30 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        <input type="text" size="10" class="clr-input textcenter tdbox">
+                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="type">
                                     </td>
                                     <td>
-                                        <input type="text" size="20" class="clr-input textcenter tdbox">
+                                        <input type="text" size="20" class="clr-input textcenter tdbox" formControlName="current">
                                     </td>
                                     <td>
-                                        <input type="text" size="10" class="clr-input textcenter tdbox">
+                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="diagnosis">
                                     </td>
                                     <td>
-                                        <input type="text" size="20" class="clr-input textcenter tdbox">
+                                        <input type="text" size="20" class="clr-input textcenter tdbox" formControlName="location">
                                     </td>
                                     <td>
-                                        <input type="text" size="15" class="clr-input textcenter tdbox">
+                                        <input type="text" size="15" class="clr-input textcenter tdbox" formControlName="nucleotideChange">
                                     </td>
                                     <td>
-                                        <input type="text" size="40" class="clr-input textcenter tdbox">
+                                        <input type="text" size="40" class="clr-input textcenter tdbox" formControlName="aminoAcidChange">
                                     </td>
                                     <td>
-                                        <input type="text" size="40" class="clr-input textcenter tdbox">
+                                        <input type="text" size="40" class="clr-input textcenter tdbox" formControlName="dbsnpCosmicID">
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
+                        </form>
                     </div>
                 </div>
 
@@ -105,13 +107,13 @@
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr>
                         <td class="txt_l font_16 fb">
-                            검사의뢰일/검사보고일/수정보고일:
+                            검사의뢰일/검사보고일/수정보고일:{{requestDate | date: 'yyyy.MM.dd'}}/{{firstReportDay}}/{{lastReportDay}}
                         </td>
                         <td class="txt_1 font_16 fb">
-                            검사자:  <input type="text" class="input_02" size="30">
+                            검사자:  <input type="text" class="input_02" size="30"  [(ngModel)]="examin">
                         </td>
                         <td class="txt_1 font_16 fb">
-                            판독의사: <input type="text" class="input_02" size="30">
+                            판독의사: <input type="text" class="input_02" size="30" [(ngModel)]="recheck">
                         </td>
                     </tr>
                 </table>
@@ -121,19 +123,11 @@
             <div class="foot_btn mg_t30 pd_b30 txt_c main_btn">
                 <ul>
                     <li>
-                        <button type="button" class="btn btn_01">미리보기</button>
+                        <button type="button" class="btn btn_01" (click)="previewToggle()">미리보기</button>
                     </li>
+
                     <li>
-                        <button class="btn btn_01">수정</button>
-                    </li>
-                    <li>
-                        <button class="btn btn_01">임시저장</button>
-                    </li>
-                    <li>
-                        <button class="btn btn_01">스크린완료</button>
-                    </li>
-                    <li>
-                        <button class="btn btn_01">판독완료</button>
+                        <button class="btn btn_01" (click)="tempSave()">임시저장</button>
                     </li>
                     <li>
                         <button class="btn btn_01">EMR전송</button>

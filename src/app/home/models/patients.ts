@@ -345,7 +345,33 @@ export interface ILymphoma {
   vaf: string;
   zygosity: string;
   checked?: boolean;
+
 }
+
+export interface IImmundefi {
+  gene: string;
+  functionalImpact: string;
+  transcript: string;
+  exonIntro: string;
+  nucleotideChange: string;
+  aminoAcidChange: string;
+  zygosity: string;
+  dbSNPHGMD: string;
+  gnomADEAS: string;
+  OMIM: string;
+}
+
+export interface ISequence {
+  type: string;
+  current: string;
+  decision: string;
+  location: string;
+  nucleotideChange: string;
+  aminoAcidChange: string;
+  dbsnpCosmicID: string;
+}
+
+
 
 
 

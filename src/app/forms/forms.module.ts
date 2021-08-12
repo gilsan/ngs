@@ -20,7 +20,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { Form5Component } from './form5/form5.component';
 import { Form6Component } from './form6/form6.component';
 import { Form7Component } from './form7/form7.component';
-import { LymphomaPreviewComponent } from './lymphomaPreview/lymphomaPreview';
+import { LymphomaPreviewComponent } from './previews/lymphomaPreview/lymphomaPreview';
+import { ImmundefiComponent } from './previews/immundefi/immundefi.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { LymphomaPreviewComponent } from './lymphomaPreview/lymphomaPreview';
     Form5Component,
     Form6Component,
     Form7Component,
-    LymphomaPreviewComponent
+    LymphomaPreviewComponent,
+    ImmundefiComponent
     //  TestformComponent
   ],
   imports: [
