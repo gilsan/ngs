@@ -62,6 +62,8 @@ export class Form7Component implements OnInit, OnDestroy {
   lastReportDay = '-';  // 수정보고일
   reportType: string; //
 
+  resultStatus = 'Detected';
+
   screenstatus: string;
   form: FormGroup;
   private subs = new SubSink();
@@ -75,6 +77,9 @@ export class Form7Component implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.initLoad();
+    this.loadForm();
+    this.getSequencing();
   }
 
   ngOnDestroy(): void {
@@ -84,12 +89,13 @@ export class Form7Component implements OnInit, OnDestroy {
   loadForm(): void {
     this.form = this.fb.group({
       type: [''],
-      current: [''],
+      workNow: [''],
       diagnosis: [''],
       location: [''],
       nucleotideChange: [''],
       aminoAcidChange: [''],
-      dbsnpCosmicID: [''],
+      dbSNP: [''],
+      cosmicID: ['']
     });
   }
 
@@ -105,6 +111,14 @@ export class Form7Component implements OnInit, OnDestroy {
 
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
     console.log('[85] 환자정보: ', this.patientInfo);
+
+    // 검체 감염유부 확인
+    if (parseInt(this.patientInfo.detected, 10) === 0) {
+      this.resultStatus = 'Detected';
+    } else if (parseInt(this.patientInfo.detected, 10) === 1) {
+      this.resultStatus = 'Not Detected';
+    }
+
 
     this.requestDate = this.patientInfo.accept_date;
 
@@ -127,15 +141,16 @@ export class Form7Component implements OnInit, OnDestroy {
   getSequencing(): void {
     this.subs.sink = this.variantsService.contentScreen7(this.form2TestedId)
       .subscribe(data => {
+        console.log('[144]', data[0]);
         if (data.length > 0) {
-
           this.form.get('type').setValue(data[0].type);
-          this.form.get('current').setValue(data[0].current);
+          this.form.get('workNow').setValue(data[0].workNow);
           this.form.get('diagnosis').setValue(data[0].diagnosis);
           this.form.get('location').setValue(data[0].location);
           this.form.get('nucleotideChange').setValue(data[0].nucleotideChange);
           this.form.get('aminoAcidChange').setValue(data[0].aminoAcidChange);
-          this.form.get('dbsnpCosmicID').setValue(data[0].dbsnpCosmicID);
+          this.form.get('dbSNP').setValue(data[0].dbSNP);
+          this.form.get('cosmicID').setValue(data[0].cosmicID);
         }
       });
   }
@@ -210,7 +225,7 @@ export class Form7Component implements OnInit, OnDestroy {
     this.sequence = this.form.getRawValue() as ISequence;
     const formData: ISequence[] = [];
     formData.push(this.sequence);
-    console.log('[186]', this.sequence);
+    console.log('[226]', this.sequence);
     this.subs.sink = this.variantsService.saveScreen7(this.form2TestedId, formData, this.patientInfo)
       .subscribe(data => {
         console.log(data);

@@ -363,12 +363,13 @@ export interface IImmundefi {
 
 export interface ISequence {
   type: string;
-  current: string;
-  decision: string;
+  workNow: string;
+  diagnosis: string;
   location: string;
   nucleotideChange: string;
   aminoAcidChange: string;
-  dbsnpCosmicID: string;
+  dbSNP: string;
+  cosmicID: string;
 }
 
 
