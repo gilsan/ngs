@@ -51,6 +51,8 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   loginID: string;
   myDisabled: boolean;
 
+  totalStatus: boolean[] = [];
+
   @ViewChild('pbox100', { static: true }) pbox100: ElementRef;
   constructor(
     private pathologyService: PathologyService,
@@ -145,6 +147,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
             map(datas => datas.filter(data => data.loginid === this.loginID))
           )
           .subscribe(data => {
+            // console.log('[150][my]', data.length);
             this.registerState = false;
             this.testingState = false;
             this.finishedState = false;
@@ -175,6 +178,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     this.registerState = !this.registerState;
     this.stateLists('REG');
     this.allStates = false;
+
   }
 
   testing(evt: any): void {
@@ -190,6 +194,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   allState(evt: any): void {
+
     this.allStates = !this.allStates;
     if (!this.allStates) { // TRUE => FALSE
 
@@ -211,8 +216,10 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
 
   stateLists(type: string): void {
     if (this.loginType === 'D') {
+      this.myState = false;
       this.subs.sink = this.lists$
         .subscribe(data => {
+          // console.log('[219][전체]', data.length);
           const tempLists = data;
 
           if (type === 'ALL') {
@@ -247,7 +254,6 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   subtractDtype(listsData: IPatient[]): void {
-    console.log('D타입: ', listsData.length);
     of(listsData).pipe(
       map(datas => {
         if (!this.myState) {
@@ -278,7 +284,6 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         return datas;
       }),
-
     ).subscribe(data => {
       this.lists = [];
       this.lists = data;
@@ -457,11 +462,28 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.subs.sink = this.lists$
       .subscribe((data) => {
-
-        this.lists = data;
+        // console.log('[460][검색]', data.length);
+        if (this.allStates) {
+          this.lists = data;
+        } else {
+          this.filteringData(data);
+        }
       });
 
   }
+
+
+  // 체크상태에 따라서
+  filteringData(datas: IPatient[]): void {
+    // console.log('[483][filteringData]', datas);
+    if (this.myState) {
+      const result = datas.filter(data => data.loginid === this.loginID);
+      this.lists = result;
+    } else {
+      this.subtractTtype(datas);
+    }
+  }
+
 
   getFilteredMy(lists: IPatient[], mystate: boolean): IPatient[] {
     return lists.filter(list => mystate ? list.loginid === this.loginID : list);

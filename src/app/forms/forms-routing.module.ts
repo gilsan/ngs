@@ -23,8 +23,6 @@ const routes: Routes = [
       { path: 'form3/:type', component: Form3Component }, // Lymphoma NGS
       { path: 'form4', component: Form4Component },       // MDS/MPN NGS
       { path: 'form4/:type', component: Form4Component },
-      { path: 'form5', component: Form5Component },        // 형질 세포종
-      { path: 'form5/:type', component: Form5Component },
       { path: 'form6', component: Form6Component },        // 선천성 면역결핍증
       { path: 'form6/:type', component: Form6Component },
       { path: 'form7', component: Form7Component },

@@ -41,9 +41,6 @@ export class FormsComponent implements OnInit {
         } else if (type === 'MDS/MPN') {
           this.selectedNum = 4;
           this.navigateTo('4');
-        } else if (type === 'FORM5') {
-          this.selectedNum = 5;
-          this.navigateTo('5');
         } else if (type === 'FORM6') {
           this.selectedNum = 6;
           this.navigateTo('6');
@@ -69,8 +66,8 @@ export class FormsComponent implements OnInit {
       this.router.navigate(['/diag', 'jingum', 'form3', 'LYM']);
     } else if (this.selectedNum === 4) {
       this.router.navigate(['/diag', 'jingum', 'form4', 'MDS']);
-    } else if (this.selectedNum === 5) {
-      this.router.navigate(['/diag', 'jingum', 'form5', 'FORM5']);
+      // } else if (this.selectedNum === 5) {
+      //   this.router.navigate(['/diag', 'jingum', 'form5', 'FORM5']);
     } else if (this.selectedNum === 6) {
       this.router.navigate(['/diag', 'jingum', 'form6', 'FORM6']);
     } else if (this.selectedNum === 7) {
