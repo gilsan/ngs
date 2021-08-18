@@ -7,6 +7,7 @@ import { UtilsService } from '../commons/utils.service';
 import { DetectedVariantsService } from 'src/app/home/services/detectedVariants';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { SubSink } from 'subsink';
+import { geneTitles } from '../commons/geneList';
 
 @Component({
   selector: 'app-form6',
@@ -67,6 +68,9 @@ export class Form6Component implements OnInit, OnDestroy {
 
   technique = `The analysis was optimised to identify base pair substitutions with a high sensitivity. The sensitivity for small insertions and deletions was lower. Deep-intronic mutations, mutations in the promoter region, repeats, large exonic deletions and duplications, and other structural variants were not detected by this test. Evaluation of germline mutation can be performed using buccal swab speciman.`;
 
+  formTitle: string;
+  formGeneLists: string[][10];
+
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -110,8 +114,8 @@ export class Form6Component implements OnInit, OnDestroy {
     }
 
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
-    console.log('[85] 환자정보: ', this.patientInfo);
-
+    console.log('[115] 환자정보: ', this.patientInfo);
+    this.findTitle(this.patientInfo.test_code);
     this.requestDate = this.patientInfo.accept_date;
 
     // 전송횟수, 검사보고일, 수정보고일  저장
@@ -120,6 +124,60 @@ export class Form6Component implements OnInit, OnDestroy {
     this.screenstatus = this.patientInfo.screenstatus;
 
     this.getimmundefi();
+  }
+
+  // test_code로 제목찿기
+  findTitle(testCode: string): void {
+    let geneLists: string[];
+    geneTitles.forEach(item => {
+      if (item.gene === testCode) {
+        this.formTitle = item.title;
+        geneLists = item.lists.split(',');
+      }
+    });
+    this.formGeneLists = this.makeGeneList(geneLists);
+    // console.log(this.makeGeneList(geneLists));
+  }
+
+  makeGeneList(lists: string[]): any {
+    let len: number;
+    let count = 0;
+    const listgenes = [[]];
+    let listgene = [];
+    len = lists.length - 1;
+    for (let index = 0; index < lists.length; index++) {
+      const i = index % 10;
+      if (i === 0) {
+        listgene[i] = lists[index];
+      } else if (i === 1) {
+        listgene[i] = lists[index];
+      } else if (i === 2) {
+        listgene[i] = lists[index];
+      } else if (i === 3) {
+        listgene[i] = lists[index];
+      } else if (i === 4) {
+        listgene[i] = lists[index];
+      } else if (i === 5) {
+        listgene[i] = lists[index];
+      } else if (i === 6) {
+        listgene[i] = lists[index];
+      } else if (i === 7) {
+        listgene[i] = lists[index];
+      } else if (i === 8) {
+        listgene[i] = lists[index];
+      } else if (i === 9) {
+        listgene[i] = lists[index];
+      }
+
+      if (i === 9) {
+        listgenes[count] = listgene;
+        listgene = [];
+        count++;
+      } else if (len === index) {
+        listgenes[count] = listgene;
+      }
+    } // End of for loop
+    return listgenes;
   }
 
   getPatientinfo(testid: string): any {
@@ -149,6 +207,9 @@ export class Form6Component implements OnInit, OnDestroy {
         }
       });
   }
+
+
+
 
   // 미리보기
   previewToggle(): void {

@@ -28,6 +28,7 @@ img.btn-logout {
   line-height: .3;
   width: 52px;
 }
+
 .btn__logout {
   margin-top: 0;
   margin-bottom: 2px;
@@ -43,4 +44,25 @@ img.btn-logout {
   height: 18px;
   line-height: .3;
   width: 60px;
+}
+
+.statistics {
+
+  width: 220px;
+  height: 60px;
+
+  &_btn {
+    color: white;
+    font-size: 16px;
+  }
+
+}
+
+.statistics a {
+  display: inline-block;
+  width: 220px;
+  height: 60px;
+  cursor: pointer;
+  background-color: #fff;
+  color: black;
 }

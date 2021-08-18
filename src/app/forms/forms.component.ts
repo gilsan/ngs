@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, map, take } from 'rxjs/operators';
+import { geneLists } from './commons/geneList';
 
 @Component({
   selector: 'app-forms',
@@ -41,7 +42,7 @@ export class FormsComponent implements OnInit {
         } else if (type === 'MDS/MPN') {
           this.selectedNum = 4;
           this.navigateTo('4');
-        } else if (type === 'FORM6') {
+        } else if (this.geneList(type)) {
           this.selectedNum = 6;
           this.navigateTo('6');
         } else if (type === 'FORM7') {
@@ -50,8 +51,11 @@ export class FormsComponent implements OnInit {
         }
       }
 
-
     });
+  }
+
+  geneList(gene: string): boolean {
+    return geneLists.includes(gene);
   }
 
   // tslint:disable-next-line: typedef

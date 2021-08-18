@@ -1,6 +1,6 @@
 <div id="result">
     <div id="container" style="position: relative;">
-        <h2 style="margin-top: 5px;">선천성 면역결핍증 [NGS]</h2>
+        <h2 style="margin-top: 5px;">{{formTitle}}</h2>
         <button type="button" class="preview__button" (click)="previewToggle()">미리보기</button>
         <!--button type="button" class="excel">Excel</button-->
 
@@ -133,17 +133,8 @@
                       <col style="width:10%;"/>
                       <col style="width:10%;"/>
                     </colgroup>
-                    <tr>
-                      <td class="txt_c">0</td>
-                      <td class="txt_c">1</td>
-                      <td class="txt_c">2</td>
-                      <td class="txt_c">3</td>
-                      <td class="txt_c">4</td>
-                      <td class="txt_c">5</td>
-                      <td class="txt_c">6</td>
-                      <td class="txt_c">7</td>
-                      <td class="txt_c">8</td>
-                      <td class="txt_c">9</td>
+                    <tr  *ngFor="let lists of formGeneLists;">
+                      <td class="txt_c" *ngFor="let gene of lists;">{{gene}}</td>
                     </tr>
                   </table>
 
