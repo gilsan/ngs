@@ -91,7 +91,7 @@
               <td class="txt_c" *ngIf="list.test_code === 'AML' || list.test_code === 'ALL' || list.test_code === 'MDS/MPN' || list.test_code === 'Lymphoma' ||  list.test_code === 'FORM6' ;else status">{{processingStatus(i)}}</td>
               <ng-template #status><td></td></ng-template>
               <td class="txt_c">
-                <button type="button" class="btn btn_03" *ngIf="list.tsvFilteredFilename.trim() || ( list.test_code === 'FORM7') ; else printing"
+                <button type="button" class="btn btn_03" *ngIf="list.tsvFilteredFilename.trim() || ( list.test_code === 'FORM7' || list.test_code === 'MLPA') ; else printing"
                   (click)="goReporter(i)">결과지/보고서</button>
                 <ng-template #printing>
                   <button type="button" class="btn btn_03" (click)="goUploadpage(list.specimenNo, list.patientID)"
