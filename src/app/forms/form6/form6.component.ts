@@ -5,7 +5,7 @@ import { IImmundefi, IPatient } from 'src/app/home/models/patients';
 import { PatientsListService } from 'src/app/home/services/patientslist';
 import { UtilsService } from '../commons/utils.service';
 import { DetectedVariantsService } from 'src/app/home/services/detectedVariants';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { SubSink } from 'subsink';
 import { geneTitles } from '../commons/geneList';
 
@@ -63,6 +63,7 @@ export class Form6Component implements OnInit, OnDestroy {
   reportType: string; //
 
   screenstatus: string;
+  control: FormArray;
   form: FormGroup;
   private subs = new SubSink();
 
@@ -194,6 +195,7 @@ export class Form6Component implements OnInit, OnDestroy {
   getimmundefi(): void {
     this.subs.sink = this.variantsService.contentScreen6(this.form2TestedId)
       .subscribe(data => {
+        console.log('[197];getimmundefi ==>', data);
         if (data.length > 0) {
 
           this.form.get('gene').setValue(data[0].gene);

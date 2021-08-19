@@ -185,7 +185,7 @@ export class DetectedVariantsService {
   // 선천성 면역결핍증 내용 가져오기
   public contentScreen6(specimenNo: string): Observable<any> {
     // screen/listScreen6
-    return this.http.post(`${this.apiUrl}/screen/listScreen6`, { specimenNo });
+    return this.http.post(`${this.apiUrl}/screen/query6`, { specimenNo });
   }
 
   // Sequencing 임시저장

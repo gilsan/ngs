@@ -83,27 +83,28 @@ export class TsvuploadComponent implements OnInit {
 
   onSelectedFile(event: any): void {
     console.log('[82][tsvupload] ', event.target.files[0].name);
+    let patientid;
     if (event.target.files.length > 0) {
-      const patientid = event.target.files[0].name.split('_')[1];
+      patientid = event.target.files[0].name.split('_')[1];
       /*** */
 
       const filenameList = event.target.files[0].name.split('_');
       // const patientIDExist = filenameList;
       console.log('[92]', filenameList);
-      // if (patientIDExist) {
-      //   this.onDroppedFile(event.target.files);
-      // } else {
-      //   alert(' 환자번호 ' + this.patientid + '와 파일명의 환자번호가 일치하지 않습니다.');
-      //   this.uploadfile.nativeElement.value = '';
-      //   return;
-      // }
+
 
       if (this.patientid === patientid) {
         this.onDroppedFile(event.target.files);
       } else {
-        alert(' 환자번호 ' + this.patientid + '와 파일명의 환자번호 ' + patientid + '가 일치하지 않습니다.');
-        this.uploadfile.nativeElement.value = '';
-        return;
+        patientid = event.target.files[0].name.split('-')[1];
+        if (this.patientid === patientid) {
+          this.onDroppedFile(event.target.files);
+        } else {
+          alert(' 환자번호 ' + this.patientid + '와 파일명의 환자번호 ' + patientid + '가 일치하지 않습니다.');
+          this.uploadfile.nativeElement.value = '';
+          return;
+        }
+
       }
     }
   }

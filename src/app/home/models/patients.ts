@@ -350,15 +350,20 @@ export interface ILymphoma {
 
 export interface IImmundefi {
   gene: string;
-  functionalImpact: string;
+  functionalImpact?: string;
   transcript: string;
   exonIntro: string;
   nucleotideChange: string;
   aminoAcidChange: string;
   zygosity: string;
-  dbSNPHGMD: string;
-  gnomADEAS: string;
-  OMIM: string;
+  dbSNPHGMD?: string;
+  gnomADEAS?: string;
+  OMIM?: string;
+  age: string;
+  name: string;
+  patientID: string;
+  gender: string;
+  cosmic_id?: string;
 }
 
 export interface ISequence {
