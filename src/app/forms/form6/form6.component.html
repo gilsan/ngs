@@ -66,7 +66,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                            <ng-container formArrayName="tableRows" *ngFor="let group of getFormControls.controls; let i=index">
+                                <tr [formGroupName]="i">
                                     <td>
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="gene">
                                     </td>
@@ -98,6 +99,7 @@
                                         <textarea class="textarea_01"  style="width: 100%;height: 100%;border: none" formControlName="OMIM"></textarea>
                                     </td>
                                 </tr>
+                                </ng-container>
                             </tbody>
                         </table>
                       </form>

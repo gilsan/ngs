@@ -17,7 +17,7 @@ import { geneTitles } from '../commons/geneList';
 export class Form6Component implements OnInit, OnDestroy {
 
   form2TestedId: string;
-  immundefi: IImmundefi;
+  immundefi: IImmundefi[];
   sendEMR = 0; // EMR 보낸 수
 
   patientInfo: IPatient = {
@@ -63,6 +63,7 @@ export class Form6Component implements OnInit, OnDestroy {
   reportType: string; //
 
   screenstatus: string;
+  mockData: IImmundefi[] = [];
   control: FormArray;
   form: FormGroup;
   private subs = new SubSink();
@@ -80,7 +81,9 @@ export class Form6Component implements OnInit, OnDestroy {
     private patientsListService: PatientsListService,
     private utilsService: UtilsService,
     private variantsService: DetectedVariantsService,
-  ) { }
+  ) {
+
+  }
 
   ngOnInit(): void {
     this.initLoad();
@@ -93,16 +96,7 @@ export class Form6Component implements OnInit, OnDestroy {
 
   loadForm(): void {
     this.form = this.fb.group({
-      gene: [''],
-      functionalImpact: [''],
-      transcript: [''],
-      exonIntro: [''],
-      nucleotideChange: [''],
-      aminoAcidChange: [''],
-      zygosity: [''],
-      dbSNPHGMD: [''],
-      gnomADEAS: [''],
-      OMIM: [''],
+      tableRows: this.fb.array([]),
     });
   }
 
@@ -195,31 +189,74 @@ export class Form6Component implements OnInit, OnDestroy {
   getimmundefi(): void {
     this.subs.sink = this.variantsService.contentScreen6(this.form2TestedId)
       .subscribe(data => {
-        console.log('[197];getimmundefi ==>', data);
+
         if (data.length > 0) {
 
-          this.form.get('gene').setValue(data[0].gene);
-          this.form.get('functionalImpact').setValue(data[0].functionalImpact);
-          this.form.get('transcript').setValue(data[0].transcript);
-          this.form.get('exonIntro').setValue(data[0].exonIntro);
-          this.form.get('nucleotideChange').setValue(data[0].nucleotideChange);
-          this.form.get('aminoAcidChange').setValue(data[0].aminoAcidChange);
-          this.form.get('zygosity').setValue(data[0].zygosity);
-          this.form.get('dbSNPHGMD').setValue(data[0].dbSNPHGMD);
-          this.form.get('gnomADEAS').setValue(data[0].gnomADEAS);
-          this.form.get('OMIM').setValue(data[0].OMIM);
+          data.forEach(item => {
+            let temp: IImmundefi;
+            temp = {
+              gene: item.gene,
+              functionalImpact: '',
+              transcript: item.transcript,
+              exonIntro: item.exon,
+              nucleotideChange: item.nucleotide_change,
+              aminoAcidChange: item.amino_acid_change,
+              zygosity: item.zygosity,
+              dbSNPHGMD: '',
+              gnomADEAS: '',
+              OMIM: '',
+              age: this.patientInfo.age,
+              name: this.patientInfo.name,
+              patientID: this.patientInfo.patientID,
+              gender: this.patientInfo.gender,
+              cosmic_id: '',
+            };
+            this.addNewRow(temp);
+
+          });
         }
       });
   }
 
+  ////
+  createRow(data: IImmundefi): FormGroup {
 
+    return this.fb.group({
+      gene: [data.gene],
+      functionalImpact: [data.functionalImpact],
+      transcript: [data.transcript],
+      exonIntro: [data.exonIntro],
+      nucleotideChange: [data.nucleotideChange],
+      aminoAcidChange: [data.aminoAcidChange],
+      zygosity: [data.zygosity],
+      dbSNPHGMD: [data.dbSNPHGMD],
+      gnomADEAS: [data.gnomADEAS],
+      OMIM: [data.OMIM],
+      age: [data.age],
+      name: [data.name],
+      patientID: [data.patientID],
+      gender: [data.gender],
+      cosmic_id: [data.cosmic_id],
+    });
+  }
+
+  get getFormControls(): any {
+    const control = this.form.get('tableRows') as FormArray;
+    return control;
+  }
+
+  addNewRow(row: IImmundefi): void {
+    const control = this.form.get('tableRows') as FormArray;
+    control.push(this.createRow(row));
+  }
 
 
   // 미리보기
   previewToggle(): void {
     this.isVisible = !this.isVisible;
-    // lymphoma 값을 store에 저장
-    this.immundefi = this.form.getRawValue() as IImmundefi;
+    const control = this.form.get('tableRows') as FormArray;
+    this.immundefi = control.getRawValue() as IImmundefi[];
+
   }
 
   // 미리보기 종료
@@ -284,11 +321,12 @@ export class Form6Component implements OnInit, OnDestroy {
   }
 
   tempSave(): void {
-    this.immundefi = this.form.getRawValue() as IImmundefi;
-    const formData: IImmundefi[] = [];
-    formData.push(this.immundefi);
-    console.log('[186]', this.immundefi);
-    this.subs.sink = this.variantsService.saveScreen6(this.form2TestedId, formData, this.patientInfo)
+    const control = this.form.get('tableRows') as FormArray;
+    this.immundefi = control.getRawValue() as IImmundefi[];
+    // const formData: IImmundefi[] = [];
+    // formData.push(this.immundefi);
+    console.log('[328]', this.immundefi);
+    this.subs.sink = this.variantsService.saveScreen6(this.form2TestedId, this.immundefi, this.patientInfo)
       .subscribe(data => {
         console.log(data);
       });
@@ -310,22 +348,17 @@ export class Form6Component implements OnInit, OnDestroy {
   }
 
   gotoEMR(): void {
+    const control = this.form.get('tableRows') as FormArray;
+    this.immundefi = control.getRawValue() as IImmundefi[];
+    // this.immundefi = this.form.getRawValue() as IImmundefi;
 
-    this.immundefi = this.form.getRawValue() as IImmundefi;
+    // if (this.firstReportDay === '-') {
+    //   this.firstReportDay = this.today().replace(/-/g, '.');
+    // }
 
-    if (this.firstReportDay === '-') {
-      this.firstReportDay = this.today().replace(/-/g, '.');
-    }
-
-    if (this.sendEMR >= 1) {
-      this.lastReportDay = this.today().replace(/-/g, '.');
-    }
-
-
-
-
-
-
+    // if (this.sendEMR >= 1) {
+    //   this.lastReportDay = this.today().replace(/-/g, '.');
+    // }
 
   }
 

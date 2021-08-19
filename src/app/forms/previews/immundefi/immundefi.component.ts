@@ -9,11 +9,12 @@ import { IImmundefi, IPatient } from 'src/app/home/models/patients';
 export class ImmundefiComponent implements OnInit {
 
   @Input() patientInfo: IPatient;
-  @Input() immundefi: IImmundefi;
+  @Input() immundefi: IImmundefi[];
   @Output() closemodal = new EventEmitter<void>();
   constructor() { }
 
   ngOnInit(): void {
+
   }
 
   closeModal(): void {

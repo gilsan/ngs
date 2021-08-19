@@ -66,36 +66,36 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <tr  *ngFor="let item of immundefi">
                                     <td>
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" [value]="immundefi.gene" >
+                                        <input type="text" size="10" class="clr-input textcenter tdbox" [value]="item.gene">
                                     </td>
                                     <td>
-                                        <input type="text" size="20" class="clr-input textcenter tdbox" [value]="immundefi.functionalImpact">
+                                        <input type="text" size="20" class="clr-input textcenter tdbox" [value]="item.functionalImpact">
                                     </td>
                                     <td>
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" [value]="immundefi.transcript">
+                                        <input type="text" size="10" class="clr-input textcenter tdbox" [value]="item.transcript">
                                     </td>
                                     <td>
-                                        <input type="text" size="20" class="clr-input textcenter tdbox"[value]="immundefi.exonIntro" >
+                                        <input type="text" size="20" class="clr-input textcenter tdbox" [value]="item.exonIntro">
                                     </td>
                                     <td>
-                                        <input type="text" size="15" class="clr-input textcenter tdbox" [value]="immundefi.nucleotideChange" >
+                                        <input type="text" size="15" class="clr-input textcenter tdbox" [value]="item.nucleotideChange">
                                     </td>
                                     <td>
-                                        <input type="text" size="40" class="clr-input textcenter tdbox" [value]="immundefi.aminoAcidChange" >
+                                        <input type="text" size="40" class="clr-input textcenter tdbox" [value]="item.aminoAcidChange">
                                     </td>
                                     <td>
-                                        <input type="text" size="40" class="clr-input textcenter tdbox" [value]="immundefi.zygosity">
+                                        <input type="text" size="40" class="clr-input textcenter tdbox" [value]="item.zygosity">
                                     </td>
                                     <td>
-                                        <input type="text" size="20" class="clr-input textcenter tdbox" [value]="immundefi.dbSNPHGMD">
+                                        <input type="text" size="20" class="clr-input textcenter tdbox" [value]="item.dbSNPHGMD">
                                     </td>
                                     <td>
-                                        <input type="text" size="20" class="clr-input textcenter tdbox" [value]="immundefi.gnomADEAS">
+                                        <input type="text" size="20" class="clr-input textcenter tdbox" [value]="item.gnomADEAS">
                                     </td>
                                     <td>
-                                        <textarea class="textarea_01"  style="width: 100%;height: 100%;border: none" [value]="immundefi.OMIM" ></textarea>
+                                        <textarea class="textarea_01"  style="width: 100%;height: 100%;border: none">{{item.OMIM}}</textarea>
                                     </td>
                                 </tr>
                             </tbody>
