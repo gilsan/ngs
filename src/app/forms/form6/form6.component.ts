@@ -189,27 +189,26 @@ export class Form6Component implements OnInit, OnDestroy {
   getimmundefi(): void {
     this.subs.sink = this.variantsService.contentScreen6(this.form2TestedId)
       .subscribe(data => {
-
+        console.log('[192][조회]', data);
         if (data.length > 0) {
 
           data.forEach(item => {
             let temp: IImmundefi;
             temp = {
               gene: item.gene,
-              functionalImpact: '',
+              functionalImpact: item.functional_impact,
               transcript: item.transcript,
               exonIntro: item.exon,
               nucleotideChange: item.nucleotide_change,
               aminoAcidChange: item.amino_acid_change,
               zygosity: item.zygosity,
-              dbSNPHGMD: '',
-              gnomADEAS: '',
-              OMIM: '',
+              dbSNPHGMD: item.dbSNPHGMD,
+              gnomADEAS: item.gnomADEAS,
+              OMIM: item.OMIM,
               age: this.patientInfo.age,
               name: this.patientInfo.name,
               patientID: this.patientInfo.patientID,
               gender: this.patientInfo.gender,
-              cosmic_id: '',
             };
             this.addNewRow(temp);
 
@@ -236,7 +235,6 @@ export class Form6Component implements OnInit, OnDestroy {
       name: [data.name],
       patientID: [data.patientID],
       gender: [data.gender],
-      cosmic_id: [data.cosmic_id],
     });
   }
 

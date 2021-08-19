@@ -363,7 +363,6 @@ export interface IImmundefi {
   name: string;
   patientID: string;
   gender: string;
-  cosmic_id?: string;
 }
 
 export interface ISequence {
