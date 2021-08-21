@@ -112,7 +112,7 @@ export class Form6Component implements OnInit, OnDestroy {
     }
 
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
-    console.log('[115] 환자정보: ', this.patientInfo);
+    // console.log('[115] 환자정보: ', this.patientInfo);
     this.findTitle(this.patientInfo.test_code);
     this.requestDate = this.patientInfo.accept_date;
 
@@ -132,6 +132,7 @@ export class Form6Component implements OnInit, OnDestroy {
         this.formTitle = item.title;
         geneLists = item.lists.split(',');
         this.target = item.target;
+        // console.log('[135][gene 정보]', item);
       }
     });
     this.formGeneLists = this.makeGeneList(geneLists);

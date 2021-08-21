@@ -166,7 +166,7 @@ export class Form3Component implements OnInit, OnDestroy {
     }
 
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
-    console.log('[167] 환자정보: ', this.patientInfo);
+    console.log('[169] 환자정보: ', this.patientInfo);
 
     this.requestDate = this.patientInfo.accept_date;
     if (this.patientInfo.specimen === '015') {
@@ -199,6 +199,8 @@ export class Form3Component implements OnInit, OnDestroy {
     }
     this.getClinical();
   }
+
+
 
   // 미리보기
   previewToggle(): void {
@@ -235,18 +237,19 @@ export class Form3Component implements OnInit, OnDestroy {
 
     // 디비에서 Detected variant_id   가져오기
     this.subs.sink = this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {
+      console.log('[240][Lymphoma][detected variants]', data);
       if (data.length > 0) {
 
-        this.form.get('gene').setValue(data[0].gene);
-        this.form.get('functionalImpact').setValue(data[0].functional_impact);
-        this.form.get('transcript').setValue(data[0].transcript);
-        this.form.get('exonIntro').setValue(data[0].exon);
-        this.form.get('nucleotideChange').setValue(data[0].nucleotide_change);
-        this.form.get('aminoAcidChange').setValue(data[0].amino_acid_change);
-        this.form.get('zygosity').setValue(data[0].zygosity);
-        this.form.get('vafPercent').setValue(data[0].vaf);
-        this.form.get('references').setValue(data[0].reference);
-        this.form.get('cosmicID').setValue(data[0].cosmic_id);
+        // this.form.get('gene').setValue(data[0].gene);
+        // this.form.get('functionalImpact').setValue(data[0].functional_impact);
+        // this.form.get('transcript').setValue(data[0].transcript);
+        // this.form.get('exonIntro').setValue(data[0].exon);
+        // this.form.get('nucleotideChange').setValue(data[0].nucleotide_change);
+        // this.form.get('aminoAcidChange').setValue(data[0].amino_acid_change);
+        // this.form.get('zygosity').setValue(data[0].zygosity);
+        // this.form.get('vafPercent').setValue(data[0].vaf);
+        // this.form.get('references').setValue(data[0].reference);
+        // this.form.get('cosmicID').setValue(data[0].cosmic_id);
       }
     });
 

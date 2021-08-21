@@ -100,9 +100,21 @@ export class TsvuploadComponent implements OnInit {
         if (this.patientid === patientid) {
           this.onDroppedFile(event.target.files);
         } else {
-          alert(' 환자번호 ' + this.patientid + '와 파일명의 환자번호 ' + patientid + '가 일치하지 않습니다.');
-          this.uploadfile.nativeElement.value = '';
-          return;
+
+          patientid = event.target.files[0].name.split('_')[2];
+          if (this.patientid === patientid) {
+            this.onDroppedFile(event.target.files);
+          } else {
+            patientid = event.target.files[0].name.split('-')[2];
+            if (this.patientid === patientid) {
+              this.onDroppedFile(event.target.files);
+            } else {
+              alert(' 환자번호 ' + this.patientid + '와 파일명의 환자번호 ' + patientid + '가 일치하지 않습니다.');
+              this.uploadfile.nativeElement.value = '';
+              return;
+            }
+          }
+
         }
 
       }

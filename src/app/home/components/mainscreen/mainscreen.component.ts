@@ -280,7 +280,7 @@ export class MainscreenComponent implements OnInit, AfterViewInit, OnDestroy {
         switchMap(list => from(list)),
         // filter(list => list.test_code === 'LPE545' || list.test_code === 'LPE471' || list.test_code === 'LPE473' || list.test_code === 'LPE474' || list.test_code === 'LPE472' ||   list.test_code === 'FORM6' || list.test_code === 'FORM7' ),
         map(list => {
-          if (list.test_code === 'LPE471' || list.test_code === 'LPE472') {
+          if (list.test_code === 'LPE545' || list.test_code === 'LPE472') {
             return { ...list, test_code: 'ALL' };
           } else if (list.test_code === 'LPE471') {
             return { ...list, test_code: 'AML' };
