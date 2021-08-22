@@ -456,7 +456,7 @@ export class Form3Component implements OnInit, OnDestroy {
       this.genelists,
       tsvVersionContents
     );
-    // console.log('[393][LYM XML] ', makeForm);
+    console.log('[393][LYM XML] ', makeForm);
 
     this.patientsListService.sendEMR(
       this.patientInfo.specimenNo,
