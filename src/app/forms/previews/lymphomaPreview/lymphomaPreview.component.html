@@ -91,7 +91,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <tr *ngFor="let lymphoma of lymphomas">
                                     <td>
                                         <input type="text" size="10" class="clr-input textcenter tdbox"
                                         [value]="lymphoma.gene">

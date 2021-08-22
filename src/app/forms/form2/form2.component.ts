@@ -417,15 +417,15 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
 
   init(form2TestedId: string): void {
     if (this.form2TestedId) {
-
+      console.log('[420] ', this.screenstatus);
       // VUS 메제시 확인 2021.4.7 추가
       if (this.patientInfo.vusmsg.length) {
         this.vusmsg = this.patientInfo.vusmsg;
-        console.log('[507][init][VUS메세지]', this.vusmsg);
+        console.log('[424][init][VUS메세지]', this.vusmsg);
       }
 
       this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {
-        console.log('==== [511][detected variants]', data);
+        console.log('==== [428][detected variants]', data);
         if (data.length > 0) {
           this.recoverVariants = data;
 

@@ -13,7 +13,7 @@ export class LymphomaPreviewComponent implements OnInit {
   @Input() result: string;
   @Input() patientInfo: IPatient;
   @Input() profile: IProfile;
-  @Input() lymphoma: IAFormVariant;
+  @Input() lymphomas: IAFormVariant[];
   @Input() methods: string;
   @Output() closemodal = new EventEmitter<void>();
 
@@ -21,15 +21,10 @@ export class LymphomaPreviewComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.resultStatus = this.result;
+
   }
 
-  radioStatus(type: string): boolean {
-    if (type === this.resultStatus) {
-      return true;
-    }
-    return false;
-  }
+
 
   closeModal(): void {
     this.closemodal.emit(null);

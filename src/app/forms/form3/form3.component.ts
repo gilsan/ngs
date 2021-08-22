@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { concatMap, filter, map, shareReplay } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -10,7 +10,7 @@ import { UtilsService } from '../commons/utils.service';
 import { PatientsListService } from 'src/app/home/services/patientslist';
 import { StoreService } from '../store.current';
 import { AnalysisService } from '../commons/analysis.service';
-import { IAFormVariant, IGeneList, IPatient, IProfile } from 'src/app/home/models/patients';
+import { IAFormVariant, IFilteredTSV, IGeneList, Ilymphoma, IPatient, IProfile } from 'src/app/home/models/patients';
 
 import { DetectedVariantsService } from 'src/app/home/services/detectedVariants';
 import { makeCForm } from 'src/app/home/models/cTypemodel';
@@ -74,7 +74,7 @@ export class Form3Component implements OnInit, OnDestroy {
   };
 
   isVisible = false;
-  lymphoma: IAFormVariant;
+  lymphoma: IAFormVariant[];
   examin = ''; // 검사자
   recheck = ''; // 확인자
   requestDate: string; // 검사의뢰일
@@ -92,6 +92,7 @@ export class Form3Component implements OnInit, OnDestroy {
 
   technique = `The analysis was optimised to identify base pair substitutions with a high sensitivity. The sensitivity for small insertions and deletions was lower. Deep-intronic mutations, mutations in the promoter region, repeats, large exonic deletions and duplications, and other structural variants were not detected by this test. Evaluation of germline mutation can be performed using buccal swab speciman.`;
 
+  control: FormArray;
   form: FormGroup;
   private subs = new SubSink();
 
@@ -118,16 +119,7 @@ export class Form3Component implements OnInit, OnDestroy {
 
   loadForm(): void {
     this.form = this.fb.group({
-      gene: [''],
-      functionalImpact: [''],
-      transcript: [''],
-      exonIntro: [''],
-      nucleotideChange: [''],
-      aminoAcidChange: [''],
-      zygosity: [''],
-      vafPercent: [''],
-      references: [''],
-      cosmicID: ['']
+      tableRows: this.fb.array([]),
     });
   }
 
@@ -197,7 +189,12 @@ export class Form3Component implements OnInit, OnDestroy {
       this.specimenMessage = 'Genomic DNA isolated from Bone marrow';
       this.store.setSpecimenMsg(this.specimenMsg);
     }
-    this.getClinical();
+    if (this.patientInfo.screenstatus === '0') {
+      this.getClinical();
+    } else {
+      this.getClinicalFromDB();
+    }
+
   }
 
 
@@ -205,8 +202,8 @@ export class Form3Component implements OnInit, OnDestroy {
   // 미리보기
   previewToggle(): void {
     this.isVisible = !this.isVisible;
-    // lymphoma 값을 store에 저장
-    this.lymphoma = this.form.getRawValue() as IAFormVariant;
+    const control = this.form.get('tableRows') as FormArray;
+    this.lymphoma = control.getRawValue() as IAFormVariant[];
   }
 
   // 미리보기 종료
@@ -235,25 +232,69 @@ export class Form3Component implements OnInit, OnDestroy {
   // Variants of unknown clinical significance 정보 가져오기
   getClinical(): void {
 
-    // 디비에서 Detected variant_id   가져오기
-    this.subs.sink = this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {
-      console.log('[240][Lymphoma][detected variants]', data);
-      if (data.length > 0) {
+    this.subs.sink = this.patientsListService.filtering(this.form2TestedId, 'LYM').subscribe(data => {
+      let gene: string;
+      let dvariable: IAFormVariant;
 
-        // this.form.get('gene').setValue(data[0].gene);
-        // this.form.get('functionalImpact').setValue(data[0].functional_impact);
-        // this.form.get('transcript').setValue(data[0].transcript);
-        // this.form.get('exonIntro').setValue(data[0].exon);
-        // this.form.get('nucleotideChange').setValue(data[0].nucleotide_change);
-        // this.form.get('aminoAcidChange').setValue(data[0].amino_acid_change);
-        // this.form.get('zygosity').setValue(data[0].zygosity);
-        // this.form.get('vafPercent').setValue(data[0].vaf);
-        // this.form.get('references').setValue(data[0].reference);
-        // this.form.get('cosmicID').setValue(data[0].cosmic_id);
+      if (data.mutationList1.exonIntro !== 'none') {
+        dvariable = data.mutationList1;
+      } else {
+        dvariable = {
+          aminoAcidChange: '',
+          cosmicID: '',
+          exonIntro: '',
+          functionalImpact: '',
+          gene: '',
+          nucleotideChange: '',
+          references: '',
+          transcript: '',
+          vafPercent: '',
+          zygosity: ''
+        };
       }
+
+      // // 유전자명
+      if (data.gene1 !== 'none' && data.gene2 !== 'none') {
+        gene = data.gene1 + ',' + data.gene2;
+      } else if (data.gene1 !== 'none' && data.gene2 === 'none') {
+        gene = data.gene1;
+      } else if (data.gene1 === 'none' && data.gene2 === 'none') {
+        gene = data.gene2;
+      }
+
+      this.addVarient(dvariable, gene, data.coding, data.tsv);
     });
 
   }
+
+  // db 에서 Variants of unknown clinical significance 정보 가져오기
+  getClinicalFromDB(): void {
+    this.subs.sink = this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {
+      // console.log('[273][form3][getClinicalFromDB]', data);
+      data.forEach(item => {
+        let tempvalue;
+
+        tempvalue = {
+          gene: item.gene,
+          functionalImpact: item.functional_impact,
+          transcript: item.transcript,
+          exonIntro: item.exon,
+          nucleotideChange: item.nucleotide_change,
+          aminoAcidChange: item.amino_acid_change,
+          zygosity: item.zygosity,
+          vaf: item.vaf,
+          reference: item.reference,
+          cosmicId: item.cosmic_id,
+        };
+
+        this.addNewRow(tempvalue);
+
+      });
+    });
+  }
+
+
+
 
   //  유전자 목록 가져오기
   getGeneList(type: string): any {
@@ -330,9 +371,11 @@ export class Form3Component implements OnInit, OnDestroy {
   tempSave(): void {
 
     this.patientInfo.detected = this.resultStatus;
-    this.lymphoma = this.form.getRawValue() as IAFormVariant;
-    const formData: IAFormVariant[] = [];
-    formData.push(this.lymphoma);
+    this.patientInfo.screenstatus = '1';
+    const control = this.form.get('tableRows') as FormArray;
+    this.lymphoma = control.getRawValue() as IAFormVariant[];
+    let formData: IAFormVariant[] = [];
+    formData = this.lymphoma;
     this.patientInfo.recheck = this.recheck;
     this.patientInfo.examin = this.examin;
 
@@ -341,10 +384,24 @@ export class Form3Component implements OnInit, OnDestroy {
       this.profile.flt3itd,
       this.profile.chron).subscribe(data => console.log('LYM INSERT'));
 
+    console.log('[368][tempSave] ', this.form2TestedId, formData, this.profile, this.resultStatus, this.patientInfo);
+
     // tslint:disable-next-line:max-line-length
     this.subs.sink = this.variantsService.screenTempSave(this.form2TestedId, formData, [], this.profile, this.resultStatus, this.patientInfo)
       .subscribe(data => {
-        alert('저장되었습니다.');
+
+        const tempUserid: any = localStorage.getItem('diaguser');
+        const tempuser: any = JSON.parse(tempUserid);
+        const userid = tempuser.userid;
+
+        this.patientsListService.resetscreenstatus(this.form2TestedId, '1', userid, this.reportType)
+          .subscribe(data => {
+            this.screenstatus = '1';
+            this.patientInfo.screenstatus = '1';
+            // console.log('[1810]', this.screenstatus);
+            alert('저장되었습니다.');
+          });
+
       });
   }
 
@@ -365,7 +422,8 @@ export class Form3Component implements OnInit, OnDestroy {
 
   gotoEMR(): void {
     const userid = localStorage.getItem('diaguser');
-    this.lymphoma = this.form.getRawValue() as IAFormVariant;
+    const control = this.form.get('tableRows') as FormArray;
+    this.lymphoma = control.getRawValue() as IAFormVariant[];
 
     if (this.firstReportDay === '-') {
       this.firstReportDay = this.today().replace(/-/g, '.');
@@ -380,8 +438,9 @@ export class Form3Component implements OnInit, OnDestroy {
     tsvVersionContents = this.methods;
 
     // console.log('[944][LYM EMR][comments] ', this.comments);
-    const formData: IAFormVariant[] = [];
-    formData.push(this.lymphoma);
+
+    let formData: IAFormVariant[] = [];
+    formData = this.lymphoma;
 
     const makeForm = makeCForm(
       this.resultStatus,
@@ -397,7 +456,7 @@ export class Form3Component implements OnInit, OnDestroy {
       this.genelists,
       tsvVersionContents
     );
-    console.log('[1150][LYM XML] ', makeForm);
+    // console.log('[393][LYM XML] ', makeForm);
 
     this.patientsListService.sendEMR(
       this.patientInfo.specimenNo,
@@ -414,13 +473,55 @@ export class Form3Component implements OnInit, OnDestroy {
             console.log('[421][ALL EMR][검체정보]', this.sendEMR, patient);
           });
       });
+  }
 
 
+  addVarient(item: IAFormVariant, gene: string, coding: string, tsv: IFilteredTSV): void {
+    let tempvalue;
+
+    tempvalue = {
+      gene,
+      functionalImpact: item.functionalImpact,
+      transcript: tsv.transcript,
+      exonIntro: 'E' + tsv.exon,
+      nucleotideChange: coding,
+      aminoAcidChange: tsv.amino_acid_change,
+      zygosity: 'Heterozygous',
+      vafPercent: tsv.frequency,
+      references: item.references,
+      cosmicID: item.cosmicID,
+    };
+
+    this.addNewRow(tempvalue);
   }
 
 
 
+  createRow(data: Ilymphoma): FormGroup {
+    return this.fb.group({
+      gene: [data.gene],
+      functionalImpact: [data.functionalImpact],
+      transcript: [data.transcript],
+      exonIntro: [data.exonIntro],
+      nucleotideChange: [data.nucleotideChange],
+      aminoAcidChange: [data.aminoAcidChange],
+      zygosity: [data.zygosity],
+      vafPercent: [data.vaf],
+      references: [data.reference],
+      cosmicID: [data.cosmicId]
+    });
+  }
 
+
+  get getFormControls(): any {
+    const control = this.form.get('tableRows') as FormArray;
+    return control;
+  }
+
+  addNewRow(row: Ilymphoma): void {
+    const control = this.form.get('tableRows') as FormArray;
+    control.push(this.createRow(row));
+  }
 
 
 

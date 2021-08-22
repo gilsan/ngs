@@ -101,7 +101,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <ng-container formArrayName="tableRows" *ngFor="let group of getFormControls.controls; let i=index">
+                                <tr [formGroupName]="i">
                                     <td>
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="gene">
                                     </td>
@@ -134,6 +135,7 @@
                                     </td>
 
                                 </tr>
+                                </ng-container>
                             </tbody>
                         </table>
                      </form>
@@ -229,7 +231,7 @@
            [result]="resultStatus"
            [patientInfo]="patientInfo"
            [profile]="profile"
-           [lymphoma]= "lymphoma"
+           [lymphomas]= "lymphoma"
             (closemodal)="closeModal()"
             [methods]="methods"></app-lymphomapreview>
        </div>
