@@ -41,7 +41,7 @@ export class FormsComponent implements OnInit {
           this.navigateTo('3');
         } else if (type === 'MDS/MPN') {
           this.selectedNum = 4;
-          this.navigateTo('5');
+          this.navigateTo('4');
         } else if (type === 'MLPA') {
           this.selectedNum = 5;
           this.navigateTo('5');
