@@ -1208,6 +1208,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
 
     // console.log('[944][LYM EMR][comments] ', this.comments);
     const makeForm = makeCForm(
+      'MLPA',
       this.resultStatus,
       this.examin, // 검사자
       this.recheck, // 확인자

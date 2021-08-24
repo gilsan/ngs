@@ -87,6 +87,7 @@ export class Form3Component implements OnInit, OnDestroy {
   specimenMessage = 'Genomic DNA isolated from peripheral blood';
   resultStatus = 'Detected';
 
+  method: string;
   genelists: IGeneList[] = [];
   tsvVersion = '510'; // v5.16 버전확인
 
@@ -159,7 +160,7 @@ export class Form3Component implements OnInit, OnDestroy {
 
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
     console.log('[169] 환자정보: ', this.patientInfo);
-
+    this.method = this.patientInfo.method.replace(/"/g, '');
     this.requestDate = this.patientInfo.accept_date;
     if (this.patientInfo.specimen === '015') {
       this.specimenMsg = 'Bone marrow';
@@ -443,6 +444,7 @@ export class Form3Component implements OnInit, OnDestroy {
     formData = this.lymphoma;
 
     const makeForm = makeCForm(
+      this.method,
       this.resultStatus,
       this.examin, // 검사자
       this.recheck, // 확인자

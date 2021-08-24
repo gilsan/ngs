@@ -97,6 +97,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
   flt3itd = '';
   chronmosomal = '';
   methods = METHODS;
+  method: string;
   methods516 = METHODS516;
   general = GENERAL;
   indexNum = 0;
@@ -313,6 +314,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
 
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
     console.log('[259][환자정보]', this.patientInfo);
+    this.method = this.patientInfo.method.replace(/"/g, '');
     this.store.setPatientInfo(this.patientInfo); // 환자정보 저장
 
     // tsvFilteredFilename 분석
@@ -1403,6 +1405,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     }
 
     const makeForm = makeDForm(
+      this.method,
       this.resultStatus,
       this.examin, // 검사자
       this.recheck, // 확인자

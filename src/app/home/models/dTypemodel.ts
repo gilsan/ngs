@@ -9,6 +9,7 @@ export const GENERAL = 'The analysis was optimised to identify base pair substit
 
 
 export function makeDForm(
+  method,
   resultStatus: string, // detected, not detected
   examin: string, // 검사자
   recheck: string, // 확인자
@@ -84,7 +85,7 @@ export function makeDForm(
 				<Col id="testinfo3">SPECIMEN:  <![CDATA[${specimenMessage}]]></Col>
 				<Col id="testinfo4">REQUEST: ${patientInfo.request}</Col>
 				<Col id="opnion">${ment}</Col>
-				<Col id="title">MDS/MPN NGS</Col>
+				<Col id="title">${method}</Col>
 				<Col id="examdt">${acceptdate}/${firstReportDay}/${lastReportDay} </Col>
 				<Col id="examid">${examin}</Col>
 				<Col id="signid">${recheck}</Col>
