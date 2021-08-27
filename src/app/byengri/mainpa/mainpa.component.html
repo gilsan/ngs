@@ -31,8 +31,8 @@
             <table border="0" cellpadding="0" cellspacing="0" class="table_list  fixed_header table_resul_x">
                 <colgroup>
                     <col width="40px">
-                    <col width="12%">
                     <col width="8%">
+                    <col width="7%">
                     <col width="5%">
                     <col width="5%">
                     <col width="9%">
@@ -43,7 +43,7 @@
                     <col width="8%">
                     <col width="9%">
                     <col width="7%">
-                    <col width="5%">
+                    <col width="10%">
                 </colgroup>
                 <thead class="fixheader">
                     <tr>
@@ -60,7 +60,7 @@
                         <th>&nbsp;</th>
                         <th>&nbsp;</th>
                         <th>진단의</th>
-                        <th>저장</th>
+                        <th>저장/삭제</th>
                     </tr>
                 </thead>
                 <tbody class="bodytable" [ngStyle]="adjustBodyTable()">
@@ -128,12 +128,15 @@
                         <td *ngIf="status.value === 'U'"></td>
 
                         <td class="txt_c">{{list.rechecker}}</td>
-                        <td  class="text-right">
+                        <td  class="text-right icon">
                           <span class="wid120 bdnone" *ngIf="'R'">
                                <a class="btn-edit" (click)="status.value = 'U'">편집</a>
                             </span>
                             <span  class="wid120 bdnone">
                                <a class="btn-save" (click)="updateRow(i)">저장</a>
+                            </span>
+                            <span  class="wid120 bdnone">
+                               <a class="btn-delete" (click)="deleteRow(i)">삭제</a>
                             </span>
                         </td>
                     </tr>

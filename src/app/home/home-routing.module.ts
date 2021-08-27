@@ -18,6 +18,7 @@ import { ManageStatisticsComponent } from './components/manage-statistics/manage
 import { ManageUsersComponent } from './components/manage-users/manage-users.component';
 import { HomeComponent } from './home.component';
 import { MaindiagComponent } from './components/maindiag/maindiag.component';
+import { TypestaticsComponent } from '../inhouse/statistics/typestatics/typestatics.component';
 
 const routes: Routes = [
   {
@@ -44,6 +45,7 @@ const routes: Routes = [
       { path: 'manageusers', component: ManageUsersComponent },
       { path: 'disease_test', component: DiseaseformComponent },
       { path: 'maindiag', component: MaindiagComponent },
+      { path: 'typestatics', component: TypestaticsComponent },
       { path: '**', component: MainscreenComponent },
 
     ]

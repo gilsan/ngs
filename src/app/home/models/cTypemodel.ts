@@ -49,10 +49,12 @@ export function makeCForm(
 	    <ColumnInfo>
 			<Column id="patient" type="STRING" size="256"/>
 			<Column id="result" type="STRING" size="256"/>
-			<Column id="rsltleft1" type="STRING" size="256"/>
-			<Column id="rsltleft2" type="STRING" size="256"/>
 			<Column id="rsltright1" type="STRING" size="256"/>
 			<Column id="rsltright2" type="STRING" size="256"/>
+			<Column id="rsltleft1" type="STRING" size="256"/>
+			<Column id="rsltleft2" type="STRING" size="256"/>
+      <Column id="rsltcenter1" type="STRING" size="256"/>
+      <Column id="rsltcenter2" type="STRING" size="256"/>
 			<Column id="testinfo1" type="STRING" size="256"/>
 			<Column id="testinfo2" type="STRING" size="256"/>
 			<Column id="testinfo3" type="STRING" size="256"/>
@@ -67,10 +69,12 @@ export function makeCForm(
 			<Row>
 				<Col id="patient">${patientInfo.name}, ${patientInfo.patientID} (${patientInfo.gender}/${patientInfo.age})</Col>
 				<Col id="result">${resultStatus}</Col>
-				<Col id="rsltleft1">Bone marrow aspiralion analysis</Col>
+				<Col id="rsltright1"></Col>
+				<Col id="rsltright2"></Col>
+				<Col id="rsltleft1">diagnosis</Col>
 				<Col id="rsltleft2">${profile.flt3itd}</Col>
-				<Col id="rsltright1">Chromosomal analysis</Col>
-				<Col id="rsltright2"><![CDATA[${profile.chron}]]></Col>
+        <Col id="rsltcenter1" type="STRING" size="256"/>Chromosomal analysis</Col>
+        <Col id="rsltcenter2" type="STRING" size="256"/><![CDATA[${profile.chron}]]></Col>
 				<Col id="testinfo1">TARGET DISEASE: Lymphoma</Col>
 				<Col id="testinfo2">METHOD: *Massively parallel sequencing</Col>
 				<Col id="testinfo3">SPECIMEN:  <![CDATA[${specimenMessage}]]></Col>

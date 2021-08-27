@@ -11,7 +11,7 @@ import { ClarityModule } from '@clr/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthGuard } from './services/authguard.service';
 import { PathAuthGuard } from './services/pathguard.service';
-
+import { NgxEchartsModule } from 'ngx-echarts';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,7 +25,11 @@ import { PathAuthGuard } from './services/pathguard.service';
     ReactiveFormsModule,
     AppRoutingModule,
     ClarityModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgxEchartsModule.forRoot({
+
+      echarts: () => import('echarts'),
+    }),
   ],
   providers: [
     AuthGuard, PathAuthGuard

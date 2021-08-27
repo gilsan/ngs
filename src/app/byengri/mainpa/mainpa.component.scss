@@ -99,6 +99,7 @@ table {
 }
 
 .btn-save,
+.btn-delete,
 .btn-edit:hover {
   cursor: pointer;
 }
@@ -116,4 +117,9 @@ table {
   display: flex;
   justify-content: space-between;
 
+}
+
+.icon {
+  display: flex;
+  justify-content: center;
 }

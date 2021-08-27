@@ -31,6 +31,24 @@ export class PatientsListService {
   public getPatientList(): Observable<IPatient[]> {
 
     return this.http.get<IPatient[]>(`${this.apiUrl}/patients_diag/list`).pipe(
+      map((items: any) => {
+        return items.map(item => {
+          let genetictest = '';
+          if (item.genetic1.length > 0) {
+            genetictest = 'JAK2 V617F:' + item.genetic1 + '\n';
+          }
+          if (item.genetic2.length > 0) {
+            genetictest += 'MPL:' + item.genetic2 + '\n';
+          }
+          if (item.genetic3.length > 0) {
+            genetictest += 'CALR:' + item.genetic3 + '\n';
+          }
+          if (item.genetic4.length > 0) {
+            genetictest += 'JAK2 exon 12:' + item.genetic4;
+          }
+          return { ...item, genetictest };
+        });
+      }),
       tap(data => {
         // console.log('[29][getPatientList]', data);
         this.patientInfo = data;
@@ -293,6 +311,24 @@ export class PatientsListService {
     specimenNo: string = '', status: string = '', sheet: string = ''): Observable<IPatient[]> {
     // console.log('[265][searchService][진검검색]:', start, end, patientID, specimenNo);
     return this.http.post<IPatient[]>(`${this.apiUrl}/searchpatient_diag/list`, { start, end, patientID, specimenNo, status, sheet }).pipe(
+      map((items: any) => {
+        return items.map(item => {
+          let genetictest = '';
+          if (item.genetic1.length > 0) {
+            genetictest = 'JAK2 V617F:' + item.genetic1 + '\n';
+          }
+          if (item.genetic2.length > 0) {
+            genetictest += 'MPL:' + item.genetic2 + '\n';
+          }
+          if (item.genetic3.length > 0) {
+            genetictest += 'CALR:' + item.genetic3 + '\n';
+          }
+          if (item.genetic4.length > 0) {
+            genetictest += 'JAK2 exon 12:' + item.genetic4;
+          }
+          return { ...item, genetictest };
+        });
+      }),
       tap(data => this.patientInfo = data),
       shareReplay()
     );

@@ -438,11 +438,9 @@ export class Form3Component implements OnInit, OnDestroy {
     let tsvVersionContents;
     tsvVersionContents = this.methods;
 
-    // console.log('[944][LYM EMR][comments] ', this.comments);
-
     let formData: IAFormVariant[] = [];
     formData = this.lymphoma;
-
+    // console.log('[944][LYM EMR][comments] ', formData)
     const makeForm = makeCForm(
       this.method,
       this.resultStatus,
@@ -475,6 +473,7 @@ export class Form3Component implements OnInit, OnDestroy {
             console.log('[421][ALL EMR][검체정보]', this.sendEMR, patient);
           });
       });
+
   }
 
 

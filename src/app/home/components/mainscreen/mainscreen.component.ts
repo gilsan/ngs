@@ -272,7 +272,7 @@ export class MainscreenComponent implements OnInit, AfterViewInit, OnDestroy {
     if (specimenNo !== undefined) {
       specimenNo = specimenNo.trim();
     }
-    // console.log('[275][검색]' + '[' + startdate + '][' + enddate + '][' + patientId + '][' + specimenNo + '][' + status + '][' + sheet + ']');
+
     // MDS/MPN [NGS]  : LPE473 (골수형성이상, 골수증식종양)
     // Lymphoma [NGS] : LPE474-악성림프종, LPE475-형질세포종
 
@@ -281,7 +281,9 @@ export class MainscreenComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(
         switchMap(item => of(item)),
         switchMap(list => from(list)),
-        // filter(list => list.test_code === 'LPE545' || list.test_code === 'LPE471' || list.test_code === 'LPE473' || list.test_code === 'LPE474' || list.test_code === 'LPE472' ||   list.test_code === 'FORM6' || list.test_code === 'FORM7' ),
+        // filter(list => list.test_code === 'LPE545' || list.test_code === 'LPE471' ||
+        // list.test_code === 'LPE473' || list.test_code === 'LPE474' || list.test_code === 'LPE472' ||
+        //  list.test_code === 'FORM6' || list.test_code === 'FORM7' ),
         map(list => {
           if (list.test_code === 'LPE545' || list.test_code === 'LPE472') {
             return { ...list, test_code: 'ALL' };
@@ -296,16 +298,10 @@ export class MainscreenComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         }),
         // tap(list => console.log(list)),
-      ).subscribe((data) => {
-        // console.log('[297][mainscreen][search][검색]', data);
-        // this.lists = data;
-
+      ).subscribe((data: any) => {
         this.lists.push(data);
         this.patientID = '';
         this.specimenNo = '';
-
-        // const scrolly = this.store.getScrollyPosition();
-        // console.log('[304][스크롤][검색]', scrolly);
       });
 
   }

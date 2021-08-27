@@ -20,7 +20,7 @@ export function makeDForm(
   ment: string,
   patientInfo: IPatient,
   formData: IAFormVariant[],
-  comment: IComment[],
+  // comment: IComment[],
   firstReportDay: string,
   lastReportDay: string,
   genelist: IGeneList[],
@@ -77,7 +77,7 @@ export function makeDForm(
 				<Col id="rsltleft1">Diagosis</Col>
 				<Col id="rsltleft2"><![CDATA[${profile.leukemia}]]></Col>
 				<Col id="rsltcenter1">Genetic test</Col>
-				<Col id="rsltcenter2">${profile.flt3itd}</Col>
+				<Col id="rsltcenter2">${profile.genetictest}</Col>
 				<Col id="rsltright1">Chromosomal analysis</Col>
 				<Col id="rsltright2"><![CDATA[${profile.chron}]]></Col>
 				<Col id="testinfo1">TARGET DISEASE: MDS/MPN</Col>
@@ -136,50 +136,50 @@ export function makeDForm(
 </Dataset>
 	`;
 
+  /*
+    const commentHeader = `
+  <Dataset id="ds_3">
+    <ColumnInfo>
+      <Column id="gene" type="STRING" size="256"/>
+      <Column id="variants" type="STRING" size="256"/>
+      <Column id="comments" type="STRING" size="256"/>
+      <Column id="reference" type="STRING" size="256"/>
+    </ColumnInfo>
+  `;
 
-  const commentHeader = `
-<Dataset id="ds_3">
-	<ColumnInfo>
-		<Column id="gene" type="STRING" size="256"/>
-		<Column id="variants" type="STRING" size="256"/>
-		<Column id="comments" type="STRING" size="256"/>
-		<Column id="reference" type="STRING" size="256"/>
-	</ColumnInfo>
-`;
-
-  let commentContent = '';
-  if (comment.length > 0) {
-    // tslint:disable-next-line: prefer-for-of
-    for (let i = 0; i < comment.length; i++) {
-      commentContent = commentContent + `
-<Row>
-<Col id="gene">${comment[i].gene}</Col>
-<Col id="variants">${comment[i].variant_id}</Col>
-<Col id="comments">${comment[i].comment}</Col>
-<Col id="reference">${comment[i].reference}</Col>
-</Row>`;
+    let commentContent = '';
+    if (comment.length > 0) {
+      // tslint:disable-next-line: prefer-for-of
+      for (let i = 0; i < comment.length; i++) {
+        commentContent = commentContent + `
+  <Row>
+  <Col id="gene">${comment[i].gene}</Col>
+  <Col id="variants">${comment[i].variant_id}</Col>
+  <Col id="comments">${comment[i].comment}</Col>
+  <Col id="reference">${comment[i].reference}</Col>
+  </Row>`;
+      }
+    } else {
+      commentContent = `
+  <Row>
+  <Col id="gene"></Col>
+  <Col id="variants"></Col>
+  <Col id="comments"></Col>
+  <Col id="reference"></Col>
+  </Row>
+  `;
     }
-  } else {
-    commentContent = `
-<Row>
-<Col id="gene"></Col>
-<Col id="variants"></Col>
-<Col id="comments"></Col>
-<Col id="reference"></Col>
-</Row>
-`;
-  }
 
-  commentContent = `<Rows>
-${commentContent}
-</Rows>
-`;
-  const commentBottom = `
-</Dataset>
-`;
-  const comments = commentHeader + commentContent + commentBottom;
+    commentContent = `<Rows>
+  ${commentContent}
+  </Rows>
+  `;
+    const commentBottom = `
+  </Dataset>
+  `;
+    const comments = commentHeader + commentContent + commentBottom;
 
-
+  */
 
 
 
@@ -246,6 +246,6 @@ ${commentContent}
 </root>`;
 
 
-  return patient + variantHeader + data + variantBottom + comments + fixedMent + list + rootbottom;
+  return patient + variantHeader + data + variantBottom + fixedMent + list + rootbottom;
 
 }

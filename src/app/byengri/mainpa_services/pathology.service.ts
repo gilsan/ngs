@@ -362,5 +362,10 @@ export class PathologyService {
     return this.http.post(`${this.apiUrl}/patients_research/insert`, { patient });
   }
 
+  // 연구용 item 삭제
+  public deletePatient(patient: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/patients_research/delete`, { patient });
+  }
+
 }
 

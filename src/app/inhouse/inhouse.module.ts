@@ -15,7 +15,9 @@ import { DeletegeneComponent } from './genemgn/deletegene/deletegene.component';
 // import { MatDialogModule } from '@angular/material/dialog';
 import { MgngeneComponent } from './mgngene/mgngene.component';
 import { MaterialModule } from '../material.module';
+import { TypestaticsComponent } from './statistics/typestatics/typestatics.component';
 // import { MaterialModule } from '../material.module';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 
 @NgModule({
@@ -30,12 +32,14 @@ import { MaterialModule } from '../material.module';
     UpdategeneComponent,
     DeletegeneComponent,
     MgngeneComponent,
+    TypestaticsComponent,
   ],
   imports: [
 
     CommonModule,
     InhouseRoutingModule,
-    MaterialModule
+    MaterialModule,
+    NgxEchartsModule
 
   ]
 })

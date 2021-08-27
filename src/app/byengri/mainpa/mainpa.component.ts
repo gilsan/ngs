@@ -64,13 +64,13 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
     this.checkStore();
 
     if (this.storeStartDay === null || this.storeEndDay === null) {
-      console.log('[init]', this.storeStartDay, this.storeEndDay);
+      // console.log('[init]', this.storeStartDay, this.storeEndDay);
       this.init();
     }
 
 
     if (this.pathologyNO.length === 0 && this.patientid.length === 0) {
-      console.log('[57][main]', this.pathologyNO, this.patientid, this.startToday(), this.endToday());
+      // console.log('[57][main]', this.pathologyNO, this.patientid, this.startToday(), this.endToday());
       this.reSearch(this.startToday(), this.endToday(), '', '');
     }
   }
@@ -237,7 +237,7 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
       .pipe(
         take(1),
         filter(data => data.length > 0),
-        tap(data => console.log(' ********* [242]reSearch MAINPA **********> ', data)),
+        // tap(data => console.log(' ********* [242]reSearch MAINPA **********> ', data)),
       );
 
     this.subs.sink = this.lists$
@@ -294,7 +294,7 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
     this.lists = []; // 리스트 초기화
 
     const status = this.store.getUseSearch();
-    console.log('[299][onSelected][ 상태] ', status);
+    // console.log('[299][onSelected][ 상태] ', status);
     if (status === 'N') {
       this.pathologyNo = '';
       this.patientid = '';
@@ -527,10 +527,20 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
         concatMap(() => this.pathologyService.search(start, end)),
       )
       .subscribe(data => {
-        console.log('[528][받은데이터] ', data);
+        // console.log('[528][받은데이터] ', data);
         this.isDisabled = false;
         this.lists = data;
 
+      });
+  }
+
+  deleteRow(i: number): void {
+    const patientid = this.lists[i].patientID;
+    this.pathologyService.deletePatient(patientid)
+      .subscribe(data => {
+        if (data.result === 'OK') {
+          this.lists.splice(i, 1);
+        }
       });
   }
 
