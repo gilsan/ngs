@@ -2317,6 +2317,8 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   // polymorphismList에 3개가 동일하면 삭제
   removeGeneCheck(gene: string, amino: string, nucleotide: string): number {
+    // console.log(gene, amino, nucleotide);
+    // console.log(this.polymorphismList);
     const result = this.polymorphismList.findIndex(item =>
       item.gene === gene && item.amino_acid_change === amino && item.nucleotide_change === nucleotide
     );

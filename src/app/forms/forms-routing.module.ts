@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AllComponent } from './all/all.component';
-import { Form1Component } from './form1/form1.component';
+// import { Form1Component } from './form1/form1.component';
 import { Form2Component } from './form2/form2.component';
-import { Form3Component } from './form3/form3.component';
-import { Form4Component } from './form4/form4.component';
-import { Form5Component } from './form5/form5.component';
-import { Form6Component } from './form6/form6.component';
-import { Form7Component } from './form7/form7.component';
+import { Form3Component } from './lymphoma/form3.component';
+import { Form4Component } from './mdsmpn/form4.component';
+import { Form5Component } from './mlpa/form5.component';
+import { Form6Component } from './immuno/form6.component';
+import { Form7Component } from './sequencing/form7.component';
 import { FormsComponent } from './forms.component';
 
 
