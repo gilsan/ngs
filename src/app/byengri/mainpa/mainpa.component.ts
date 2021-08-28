@@ -536,12 +536,18 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
 
   deleteRow(i: number): void {
     const patientid = this.lists[i].patientID;
-    this.pathologyService.deletePatient(patientid)
-      .subscribe(data => {
-        if (data.result === 'OK') {
-          this.lists.splice(i, 1);
-        }
-      });
+    const result = confirm('삭제 하시겠습니까?');
+    if (result) {
+      this.pathologyService.deletePatient(patientid)
+        .subscribe(data => {
+
+          if (data.message === 'OK') {
+            this.lists.splice(i, 1);
+          }
+        });
+    }
+
+
   }
 
 }
