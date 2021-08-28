@@ -1294,8 +1294,11 @@
               (click)="updatePathologyData()">2차저장</button>
           </li>
           <li>
-            <button type="button" class="btn btn_01" [disabled]="getStatus(3)" (click)="sendEMR()">EMR전송</button>
+            <button type="button" class="btn btn_01" " (click)="goBack()">HOME</button>
           </li> -->
+          <li>
+             <button type="button" class="btn btn_01" (click)="goBack()">HOME</button>
+          </li>
           <li>
             <input type="text" [value]="imagemsg" class="input_02"  readonly />
           </li>
