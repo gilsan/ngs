@@ -1288,12 +1288,13 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     console.log('[1295] ', makeForm);
 
     //  실전사용시 사용
-
+    const examcode = this.patientInfo.test_code;
     this.patientsListService.sendEMR(
       this.patientInfo.specimenNo,
       this.patientInfo.patientID,
       this.patientInfo.test_code,
       this.patientInfo.name,
+      examcode,
       makeForm)
       .pipe(
         concatMap(() => this.patientsListService.resetscreenstatus(this.form2TestedId, '3', userid, 'AML')),
@@ -1386,12 +1387,13 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       tsvVersionContents
     );
     console.log('[1150][ALL XML] ', makeForm);
-
+    const examcode = this.patientInfo.test_code;
     this.patientsListService.sendEMR(
       this.patientInfo.specimenNo,
       this.patientInfo.patientID,
       this.patientInfo.test_code,
       this.patientInfo.name,
+      examcode,
       makeForm)
       .pipe(
         concatMap(() => this.patientsListService.resetscreenstatus(this.form2TestedId, '3', userid, 'ALL')),

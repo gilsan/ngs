@@ -45,6 +45,7 @@ export function makeDForm(
     return [year, month, day].join('.');
   }
 
+  const comment = [];
   const today = formatDate(new Date());
   ///////////////////////////////////////////////
 
@@ -136,8 +137,8 @@ export function makeDForm(
 </Dataset>
 	`;
 
-  /*
-    const commentHeader = `
+
+  const commentHeader = `
   <Dataset id="ds_3">
     <ColumnInfo>
       <Column id="gene" type="STRING" size="256"/>
@@ -147,20 +148,20 @@ export function makeDForm(
     </ColumnInfo>
   `;
 
-    let commentContent = '';
-    if (comment.length > 0) {
-      // tslint:disable-next-line: prefer-for-of
-      for (let i = 0; i < comment.length; i++) {
-        commentContent = commentContent + `
+  let commentContent = '';
+  if (comment.length > 0) {
+    // tslint:disable-next-line: prefer-for-of
+    for (let i = 0; i < comment.length; i++) {
+      commentContent = commentContent + `
   <Row>
   <Col id="gene">${comment[i].gene}</Col>
   <Col id="variants">${comment[i].variant_id}</Col>
   <Col id="comments">${comment[i].comment}</Col>
   <Col id="reference">${comment[i].reference}</Col>
   </Row>`;
-      }
-    } else {
-      commentContent = `
+    }
+  } else {
+    commentContent = `
   <Row>
   <Col id="gene"></Col>
   <Col id="variants"></Col>
@@ -168,19 +169,16 @@ export function makeDForm(
   <Col id="reference"></Col>
   </Row>
   `;
-    }
+  }
 
-    commentContent = `<Rows>
+  commentContent = `<Rows>
   ${commentContent}
   </Rows>
   `;
-    const commentBottom = `
+  const commentBottom = `
   </Dataset>
   `;
-    const comments = commentHeader + commentContent + commentBottom;
-
-  */
-
+  const comments = commentHeader + commentContent + commentBottom;
 
 
   const fixedMent = `
@@ -246,6 +244,6 @@ export function makeDForm(
 </root>`;
 
 
-  return patient + variantHeader + data + variantBottom + fixedMent + list + rootbottom;
+  return patient + variantHeader + data + variantBottom + comments + fixedMent + list + rootbottom;
 
 }

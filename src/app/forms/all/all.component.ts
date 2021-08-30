@@ -964,11 +964,13 @@ export class AllComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
     // EMR 로 데이타 전송하기
+    const examcode = this.patientInfo.test_code;
     this.patientsListService.sendEMR(
       this.patientInfo.specimenNo,
       this.patientInfo.patientID,
       this.patientInfo.test_code,
       this.patientInfo.name,
+      examcode,
       makeForm).subscribe((data) => {
         console.log('[응답]', data);
         alert(data);

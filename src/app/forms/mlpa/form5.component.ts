@@ -1223,15 +1223,16 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
       tsvVersionContents
     );
     console.log('[1150][LYM XML] ', makeForm);
-
+    const examcode = this.patientInfo.test_code;
     this.patientsListService.sendEMR(
       this.patientInfo.specimenNo,
       this.patientInfo.patientID,
       this.patientInfo.test_code,
       this.patientInfo.name,
+      examcode,
       makeForm)
       .pipe(
-        concatMap(() => this.patientsListService.resetscreenstatus(this.form2TestedId, '3', userid, 'LYM')),
+        concatMap(() => this.patientsListService.resetscreenstatus(this.form2TestedId, '3', userid, 'MLPA')),
         concatMap(() => this.patientsListService.setEMRSendCount(this.form2TestedId, ++this.sendEMR)), // EMR 발송횟수 전송
 
       ).subscribe((msg: { screenstatus: string }) => {

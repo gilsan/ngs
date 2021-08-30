@@ -1218,12 +1218,13 @@ export class Form3Component implements OnInit, OnDestroy {
       tsvVersionContents
     );
     console.log('[1214][LYM XML] ', makeForm);
-
+    const examcode = this.patientInfo.test_code;
     this.patientsListService.sendEMR(
       this.patientInfo.specimenNo,
       this.patientInfo.patientID,
       this.patientInfo.test_code,
       this.patientInfo.name,
+      examcode,
       makeForm)
       .pipe(
         concatMap(() => this.patientsListService.resetscreenstatus(this.form2TestedId, '3', userid, 'Lymphoma')),

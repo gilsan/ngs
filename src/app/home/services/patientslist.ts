@@ -243,6 +243,7 @@ export class PatientsListService {
     patientid: string,
     examcdata: string,
     userID: string,
+    examcode: string,
     xmlData: string) {
 
     const url = 'http://emr012edu.cmcnu.or.kr/cmcnu/.live';
@@ -254,7 +255,7 @@ export class PatientsListService {
     const formcd = '-';
     const rsltflag = 'O';
     const pid = patientid;
-    const examcd = 'LPE471';
+    const examcd = examcode;
     // const examcd = 'PMO12072';
     const examflag = 'L';
     // const examflag = 'P';

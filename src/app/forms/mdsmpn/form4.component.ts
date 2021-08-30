@@ -1220,12 +1220,13 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       tsvVersionContents
     );
     console.log('[979][MDS XML] ', makeForm);
-
+    const examcode = this.patientInfo.test_code;
     this.patientsListService.sendEMR(
       this.patientInfo.specimenNo,
       this.patientInfo.patientID,
       this.patientInfo.test_code,
       this.patientInfo.name,
+      examcode,
       makeForm)
       .pipe(
         concatMap(() => this.patientsListService.resetscreenstatus(this.form2TestedId, '3', userid, 'MDS/MPN')),
