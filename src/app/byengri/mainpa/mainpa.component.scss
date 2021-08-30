@@ -54,6 +54,20 @@ table {
   text-align: right;
 }
 
+.btn-gp {
+  padding: 10px 8px;
+  text-align: center;
+}
+
+.btn-gp span {
+  display: inline-block;
+  margin-left: 3px;
+}
+
+.btn-gp span:first-child {
+  margin-left: 0;
+}
+
 .btn-edit,
 .btn-delete,
 .btn-cancel,
@@ -62,7 +76,6 @@ table {
   width: 24px;
   height: 24px;
   font-size: 0;
-  margin-left: 3px;
   border-radius: 3px;
 }
 
@@ -122,4 +135,9 @@ table {
 .icon {
   display: flex;
   justify-content: center;
+}
+
+.box_100.fill {
+  min-height: 500px;
+  height: calc(100vh - 300px);
 }

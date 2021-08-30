@@ -84,3 +84,8 @@ table {
   border: 1px solid #2196f3;
 
 }
+
+.box_100.fill {
+  min-height: 500px;
+  height: calc(100vh - 300px);
+}
