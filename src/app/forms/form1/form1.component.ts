@@ -1,38 +1,32 @@
-/*
-   1) Variants Detect   
-      - Functional Impact : 사이즈 좀 크게
-     - COSMIC ID         : 사이즈 좀 크게
-      - VAF               : 사이즈 좀 작게   
-   
-   2) 미리보기
-   
-      - Variants Detect : 화면 좌우사이즈가 너무 커서 보기 불편
+import { Component, OnInit, OnDestroy, ViewChild, TemplateRef, ElementRef, AfterViewInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { combineLatest, from, Observable, of } from 'rxjs';
 
-   3) Comments 관리
-
-      - AML 뿐만 아니라, ALL, 기타 결과지 모두에서 필요하다.
-
-      - Comments에서 입력, 수정된 내용은 화면을 다시 읽으면 변경된 내용이 표시되어야 한다.
-
-      - Comments 자체가 화면에서 사라지는 경우가 있다.
-        (미리보기에서는 보임)
-
-
-*/
-
-
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
-import { combineLatest, from, Observable } from 'rxjs';
-
-import { IFilteredTSV, IGeneCoding, IMutation, IPatient } from 'src/app/home/models/patients';
+import {
+  IComment, IDList, IExcelData, IFilteredTSV, IGeneCoding,
+  IGeneList,
+  IPatient, IProfile, IRecoverVariants
+} from 'src/app/home/models/patients';
 import { PatientsListService } from 'src/app/home/services/patientslist';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { IAFormVariant } from 'src/app/home/models/patients';
-import { shareReplay, switchMap, tap, concatMap, map } from 'rxjs/operators';
+import { shareReplay, switchMap, tap, concatMap, map, filter, last } from 'rxjs/operators';
 
 import { SubSink } from 'subsink';
-import { GENERAL, makeAForm, METHODS } from 'src/app/home/models/aTypemodel';
+import { GENERAL, makeBForm, METHODS, METHODS516 } from 'src/app/home/models/bTypemodel';
+import { DetectedVariantsService } from 'src/app/home/services/detectedVariants';
+import { StoreService } from '../store.current';
+import { ExcelService } from 'src/app/home/services/excelservice';
+
+import { MatDialog } from '@angular/material/dialog';
+import { DialogOverviewExampleDialogComponent } from '../dialog-overview-example-dialog/dialog-overview-example-dialog.component';
+import { UtilsService } from '../commons/utils.service';
+// import { CommentsService } from 'src/app/services/comments.service';
+import { makeCForm } from 'src/app/home/models/cTypemodel';
+import { moveItemInArray, CdkDragDrop } from '@angular/cdk/drag-drop';
+import { AnalysisService } from '../commons/analysis.service';
+import { ExcelAddListService } from 'src/app/home/services/excelAddList';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-form1',
@@ -41,299 +35,416 @@ import { GENERAL, makeAForm, METHODS } from 'src/app/home/models/aTypemodel';
 })
 export class Form1Component implements OnInit, OnDestroy {
 
-  form1TestedId: string;
+  @ViewChild('examine', { static: true }) examine: ElementRef;
+  @ViewChild('rechecked', { static: true }) rechecked: ElementRef;
+
+  requestDate: string; // 검사의뢰일
+  form2TestedId: string;
   filteredTSV$: Observable<IFilteredTSV[]>;
-  detectedVariant$: Observable<IAFormVariant[]>;
-
-  artifacts1$: Observable<any>;
-  artifacts2$: Observable<any>;
-
-  benign1$: Observable<any>;
-  benign2$: Observable<any>;
-
-  mutation1$: Observable<any>;
-  mutation2$: Observable<any>;
-
-  comment1$: Observable<any>;
-  comment2$: Observable<any>;
 
   tsvLists: IFilteredTSV[] = [];
-  patientInfo: IPatient;
+  patientInfo: IPatient = {
+    name: '',
+    patientID: '',
+    age: '',
+    gender: '',
+    testedNum: '',
+    leukemiaAssociatedFusion: '',
+    leukemiaassociatedfusion: '',
+    IKZK1Deletion: '',
+    FLT3ITD: '',
+    bonemarrow: '',
+    diagnosis: '',
+    genetictest: '',
+    chromosomalAnalysis: '',
+    chromosomalanalysis: '',
+    targetDisease: '',
+    method: '',
+    accept_date: '',
+    specimen: '',
+    detected: '',
+    request: '',
+    tsvFilteredFilename: '',
+    path: '',
+    //  createDate:  0000-00-00,
+    tsvFilteredStatus: '',
+    //  tsvFilteredDate: 0000-00-00,
+    bamFilename: '',
+    sendEMRDate: '',
+    report_date: '',
+    specimenNo: '',
+    test_code: '',
+    screenstatus: '',
+    recheck: '',
+    examin: '',
+  };
   geneCoding: IGeneCoding[];
   detactedVariants: IAFormVariant[] = [];
-
+  recoverVariants: IRecoverVariants[] = [];
+  checkboxStatus = []; // 체크박스 on 인것
   ngsData = [];
   private subs = new SubSink();
 
-  resultStatus = 'detected';
+  resultStatus = 'Detected';
   fusion = '';
+  chronmosomal = '';
   methods = METHODS;
+  method: string;
+  methods516 = METHODS516;
   general = GENERAL;
   indexNum = 0;
-  selectedItem = '';
-
-  ment = 'VUS는 ExAC, KRGDB등의 Population database에서 관철되지 않았거나, 임상적 의의가 불분명합니다. 해당변이의 의의를 명확히 하기 위하여 환자의 buccal swab 검체로 germline variant 여부에 대한 확인이 필요 합니다.';
-
-  commentGene = 'KRAS';
-  commentVariants = 'p.Ala146Val';
-  commentReference = `
-  Blood 2013;122:3616-27
-  Pediatr Blood Cancer.2015;62:2157-61,
-  Nature 2012;481:157-63.
-  J Clin OnCol.2010;28:3858-65`;
-  comment = ' TP53 유전자의 돌연변이는 ALL (16%), AML (12%), CLL (7%), MDS (6%), t-MN (37%) 등에서 관찰됩니다. 항암치료에 대한 순응도가 낮으며 예후가 좋지 않은 것으로 알려져 있습니다.  complex karyotype, monosomal karyotype와 유의하게 연관되어 발생되며, missense mutation이 가장 빈번하며, frameshift, nonsense mutation 순입니다. Li–Fraumeni syndrome 환자에서도 germline 변이가 관찰 될 수 있으므로, 가족력 확인 및 buccal swab 검체로 germline 변이 여부 확인 검사가 필요합니다. ';
+  selectedItem = 'mutation';
+  tsvInfo: IFilteredTSV;
+  profile: IProfile = {
+    leukemia: '', genetictest: '', chron: ''
+  };
+  // tslint:disable-next-line:variable-name
+  variant_id: string;
+  tempid: string;
+  ment = '';
 
   mockData: IAFormVariant[] = [];
 
   tablerowForm: FormGroup;
+  // singleCommentForm: FormGroup;
   control: FormArray;
+  listForm: FormGroup;
+
+  lists: IDList[];
+
   spcno = '';
   pid = '';
   examcd = '';
   userid = '';
   rsltdesc = '';
+  screenstatus: string;
+  specimenMsg: string;
+  specimenMessage = 'Genomic DNA isolated from peripheral blood';
 
+  comments: IComment[] = [];
+  tempCommentGene = '';
+  tempCommentVariants = '';
+  tempCommentreference = '';
+  tempCommentComment = '';
+  vusstatus = true;
+  preview = true;
+  isVisible = false;
+
+  examin = ''; // 검사자
+  recheck = ''; // 확인자
+
+  animal: string;
+  name: string;
+  sendEMR = 0; // EMR 보낸 수
+  firstReportDay = '-'; // 검사보고일
+  lastReportDay = '-';  // 수정보고일
+  reportType: string; //
+
+  genelists: IGeneList[] = [];
+
+  deleteRowNumber: number;
+  // variant detect 선택값 저장소
+  vdcount = 0;
+  vd: { sequence: number, selectedname: string, gene: string }[] = [];
+
+  lastScrollTop = 0;
+  lastScrollLeft = 0;
+  topScroll = false;
+  leftScroll = true;
+  tsvVersion = '510'; // v5.16 버전확인
+  // tslint:disable-next-line:max-line-length
+  vusmsg = `VUS는 ExAC, KRGDB등의 Population database에서 관찰되지 않았거나, 임상적 의의가 불분명합니다. 해당변이의 의의를 명확히 하기 위하여 환자의 buccal swab 검체로 germline variant 여부에 대한 확인이 필요 합니다.`;
+
+  functionalimpact: string[] = ['Pathogenic', 'Likely Pathogenic', 'VUS'];
+
+  methodmsg = `Total genomic DNA was extracted from the each sample.  The TruSeq DNA Sample Preparation kit of Illumina was used to make the library. The Agilent SureSelect Target enrichment kit was used for in-solution enrichment of target regions. The enriched fragments were then amplified and sequenced on the MiSeqDx system (illumina). After demultiplexing, the reads were aligned to the human reference genome hg19 (GRCh37) using BWA (0.7.12) and duplicate reads were removed with Picard MarkDuplicates (1.98). Local realignment, score recalibiration and filtering sequence data were performed with GATK (2.3-9). Variants were annotated using SnpEff (4.2).`;
+
+  technique = `The analysis was optimised to identify base pair substitutions with a high sensitivity. The sensitivity for small insertions and deletions was lower. Deep-intronic mutations, mutations in the promoter region, repeats, large exonic deletions and duplications, and other structural variants were not detected by this test.`;
+
+  maxHeight = 500;
+  genetictest = `  LPC139
+  LPC174
+  LPC188
+  LPE405`;
+
+  @ViewChild('commentbox') private commentbox: TemplateRef<any>;
+  @ViewChild('box100', { static: true }) box100: ElementRef;
+  @ViewChild('table', { static: true }) table: ElementRef;
   constructor(
     private patientsListService: PatientsListService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private variantsService: DetectedVariantsService,
+    private store: StoreService,
+    private excel: ExcelService,
+    public dialog: MatDialog,
+    private route: ActivatedRoute,
+    private utilsService: UtilsService,
+    private analysisService: AnalysisService,
+    private excelService: ExcelAddListService,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
-    // 검체번호
-    this.form1TestedId = this.patientsListService.getTestedID();
-    if (this.form1TestedId) {
-      // 필터링된 tsv 파일 가져오기
-      this.filteredTSV$ = this.patientsListService.getFilteredTSVtList(this.form1TestedId)
-        .pipe(
-          shareReplay()
-        );
-      this.filteredTSV$.subscribe(data => {
-        this.tsvLists = data;
+    this.findType();
+    // this.box100.nativeElement.scrollLeft = 250;
+
+    this.initLoad();
+    if (parseInt(this.screenstatus, 10) >= 1 || parseInt(this.screenstatus, 10) === 2) {
+      this.recoverDetected();
+    } else if (parseInt(this.screenstatus, 10) === 0) {
+      this.init(this.form2TestedId);
+    } else {
+      this.firstReportDay = '-';
+      this.lastReportDay = '-';
+    }
+
+    this.loadForm();
+
+  } // End of ngOninit
+
+  ngAfterViewInit(): void {
+    // this.checker();
+  }
+
+
+  resizeHeight() {
+    return { height: `${this.maxHeight}px` };
+  }
+
+
+  tableScroll(evt: Event): void {
+    const target = evt.target as Element;
+    const lastScrollTop = target.scrollTop;
+    const lastScrollLeft = target.scrollLeft;
+
+    if (this.lastScrollTop > lastScrollTop || this.lastScrollTop < lastScrollTop) {
+      this.topScroll = true;
+      this.leftScroll = false;
+    } else {
+      this.topScroll = false;
+    }
+
+    if (this.lastScrollLeft > lastScrollLeft || this.lastScrollLeft < lastScrollLeft) {
+      this.topScroll = false;
+      this.leftScroll = true;
+    } else {
+      this.leftScroll = false;
+    }
+
+    this.lastScrollTop = lastScrollTop <= 0 ? 0 : lastScrollTop;
+    this.lastScrollLeft = lastScrollLeft <= 0 ? 0 : lastScrollLeft;
+  }
+
+  tableHeader(): {} {
+    if (this.topScroll) {
+      return { 'header-fix': true, 'td-fix': false };
+    }
+    return { 'header-fix': false, 'td-fix': true };
+  }
+
+
+
+  findType(): void {
+    this.route.paramMap.pipe(
+      filter(data => data !== null || data !== undefined),
+      map(route => route.get('type'))
+    ).subscribe(data => {
+      // console.log('[138][findType]', data);
+      this.reportType = data;
+      this.getGeneList('LYM'); // 진검 유전자 목록 가져옴.
+    });
+  }
+
+  loadForm(): void {
+    this.tablerowForm = this.fb.group({
+      tableRows: this.fb.array(this.mockData.map(list => this.createRow(list))),
+      commentsRows: this.fb.array([])
+    });
+  }
+
+  initLoad(): void {
+    this.form2TestedId = this.patientsListService.getTestedID();
+
+    // 검사자 정보 가져오기
+    if (this.form2TestedId === null || this.form2TestedId === undefined) {
+      this.router.navigate(['/diag']);
+      return;
+    }
+
+    this.patientInfo = this.getPatientinfo(this.form2TestedId);
+    console.log('[276][환자정보]', this.patientInfo);
+    this.method = this.patientInfo.method.replace(/"/g, '');
+    this.store.setPatientInfo(this.patientInfo); // 환자정보 저장
+
+    // tsvFilteredFilename 분석
+    this.tsvFileVersion(this.patientInfo.verfile);
+
+    this.requestDate = this.patientInfo.accept_date;
+    if (this.patientInfo.specimen === '015') {
+      this.specimenMsg = 'Bone marrow';
+      this.specimenMessage = 'Genomic DNA isolated from Bone marrow';
+    } else if (this.patientInfo.specimen === '004') {
+      this.specimenMsg = 'EDTA blood';
+      this.specimenMessage = 'Genomic DNA isolated from EDTA blood';
+      this.store.setSpecimenMsg(this.specimenMsg);
+    }
+
+    // 검체 감염유부 확인
+    if (parseInt(this.patientInfo.detected, 10) === 0) {
+      this.resultStatus = 'Detected';
+    } else if (parseInt(this.patientInfo.detected, 10) === 1) {
+      this.resultStatus = 'Not Detected';
+    }
+
+    // 전송횟수, 검사보고일, 수정보고일  저장
+    this.setReportdaymgn(this.patientInfo);
+
+    this.screenstatus = this.patientInfo.screenstatus;
+    // specimen 015 인경우 Bon marrow
+    if (this.patientInfo.specimen === '015') {
+      this.specimenMsg = 'Bone marrow';
+      this.specimenMessage = 'Genomic DNA isolated from Bone marrow';
+      this.store.setSpecimenMsg(this.specimenMsg);
+    }
+    // 필터링된 tsv 파일 가져오기
+    this.filteredTSV$ = this.patientsListService.getFilteredTSVtList(this.form2TestedId)
+      .pipe(
+        shareReplay()
+      );
+    this.subs.sink = this.filteredTSV$.subscribe(data => {
+      // console.log('[168][form2][fileredTSVFile]', data);
+      this.tsvLists = data;
+    });
+
+  }
+
+  //  유전자 목록 가져오기
+  getGeneList(type: string): any {
+    this.utilsService.getGeneList('LYM').subscribe(data => {
+      this.genelists = data;
+    });
+  }
+  ////////////////////////////////////////
+  recoverDetected(): void {
+    // 디비에서 Detected variant_id 가져오기
+    this.subs.sink = this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {
+      this.recoverVariants = data;
+      this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
+      console.log('[334][Lymphoma][Detected variant_id]', this.recoverVariants);
+      this.store.setDetactedVariants(data); // Detected variant 저장
+
+      // VUS 메제시 확인
+      this.vusmsg = this.patientInfo.vusmsg;
+      console.log('[369][recoverDetected][VUS메세지]', this.patientInfo.vusmsg, this.vusmsg);
+
+      this.recoverVariants.forEach(item => {
+        this.recoverVariant(item);  // 354
+
+        // VUS 메제시 확인
+        this.vusmsg = this.patientInfo.vusmsg;
+        if (item.functional_impact === 'VUS') {
+          this.vusstatus = true;
+          this.store.setVUSStatus(this.vusstatus);
+        } else {
+          this.store.setVUSStatus(this.vusstatus);
+          this.vusstatus = false;
+        }
+      });
+      this.putCheckboxInit(); // 체크박스 초기화
+    });
+
+
+    // 코멘트 가져오기
+    // this.subs.sink = this.variantsService.screenComment(this.form2TestedId)
+    //   .subscribe(dbComments => {
+    //     if (dbComments !== undefined && dbComments !== null && dbComments.length > 0) {
+    //       console.log('[247][COMMENT 가져오기]', dbComments);
+    //       dbComments.forEach(comment => {
+
+    //         this.comments.push(
+    //           {
+    //             gene: comment.gene, comment: comment.comment, reference: comment.reference,
+    //             variant_id: comment.variants
+    //           }
+    //         );
+    //         this.commentsRows().push(this.createCommentRow(
+    //           {
+    //             gene: comment.gene, comment: comment.comment, reference: comment.reference,
+    //             variant_id: comment.variants
+    //           }
+    //         ));
+    //       });
+    //       this.store.setComments(this.comments); // comments 저장
+    //     }
+    //   });
+
+    // profile 가져오기
+    this.subs.sink = this.analysisService.getAanlysisMDSInfo(this.form2TestedId)
+      .subscribe(data => {
+        if (data.length > 0) {
+          this.profile.leukemia = data[0].diagnosis;
+          this.profile.genetictest = data[0].genetictest;
+          this.profile.chron = data[0].chromosomalanalysis;
+        } else {
+          this.profile.leukemia = '';
+          this.profile.genetictest = '';
+          this.profile.chron = '';
+        }
+        this.store.setProfile(this.profile); // profile 저장
       });
 
-      this.filteredTSV$.pipe(
-        tap(data => {
-          // gene 와 coding 값 분리
-          this.geneCoding = data.map(item => {
-            let coding: string;
-            let gene1: string;
-            let gene2: string;
-            let tsv: IFilteredTSV;
-            tsv = item;
-            if (item.genes || item.coding) {
-              // const genes = item.genes;  // genes: "CSDE1;NRAS"
-              const genesemi = item.genes.indexOf(';');
-              if (genesemi !== -1) {  // 있는경우
-                gene1 = item.genes.split(';')[0];
-                gene2 = item.genes.split(';')[1];
-              } else {
-                gene1 = item.genes;
-                gene2 = 'none';
-              }
 
-              const semi = item.coding.indexOf(';');
-              if (semi !== -1) {
-                coding = item.coding.split(';')[0];
-              } else {
-                coding = item.coding;
-              }
-              const id = item.id;
-              return { id, gene1, gene2, coding, tsv };
+  }
+
+  init(form2TestedId: string): void {
+
+    // VUS 메제시 확인 2021.4.7 추가
+    if (this.patientInfo.vusmsg.length) {
+      this.vusmsg = this.patientInfo.vusmsg;
+      console.log('[469][init][VUS메세지]', this.vusmsg);
+    }
+
+    if (this.form2TestedId) {
+      this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {
+        if (data.length > 0) {
+          this.recoverVariants = data;
+          this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
+          this.store.setDetactedVariants(data); // Detected variant 저장
+          this.recoverVariants.forEach(item => {
+            this.recoverVariant(item);  // 354
+            // VUS 메제시 확인
+            this.vusmsg = this.patientInfo.vusmsg;
+            if (item.functional_impact === 'VUS') {
+              this.vusstatus = true;
+              this.store.setVUSStatus(this.vusstatus);
             }
           });
-        }),
-        switchMap(() => from(this.geneCoding)),
-        concatMap(item => {
-          if (item.gene2 === 'none') {
-            return this.patientsListService.getArtifactsInfoCount(item.gene1, item.coding).pipe(
-              map(gene1Count => {
-                return { ...item, artifacts1Count: gene1Count[0][0], artifacts2Count: 0 };
-              })
-            );
-          } else {
-            const gene1$ = this.patientsListService.getArtifactsInfoCount(item.gene1, item.coding);
-            const gene2$ = this.patientsListService.getArtifactsInfoCount(item.gene2, item.coding);
-            return combineLatest([gene1$, gene2$]).pipe(
-              map(data => {
-                return { ...item, artifacts1Count: data[0][0][0], artifacts2Count: data[1][0][0] };
-              })
-            );
-          }
+          this.putCheckboxInit(); // 체크박스 초기화
 
-        }),
-        concatMap(item => {
-          if (item.gene2 === 'none') {
-            return this.patientsListService.benignInfoCount(item.gene1, item.coding).pipe(
-              map(benign1Count => {
-                return { ...item, benign1Count: benign1Count[0][0], benign2Count: 0 };
-              })
-            );
-          } else {
-            const gene1$ = this.patientsListService.benignInfoCount(item.gene1, item.coding);
-            const gene2$ = this.patientsListService.benignInfoCount(item.gene2, item.coding);
-            return combineLatest([gene1$, gene2$]).pipe(
-              map(data => {
-                return { ...item, benign1Count: data[0][0][0], benign2Count: data[1][0][0] };
-              })
-            );
-          }
-        }),
-        concatMap(item => {
-          if (item.gene2 === 'none') {
-            return this.patientsListService.getMutationInfoLists(item.gene1, item.coding).pipe(
-              map(lists => {
-                // console.log('[157]  Mutation List :', lists);
-                if (lists.length) {
-                  return { ...item, mutationList1: lists[0], mutationList2: 'none' };
-                } else {
-                  return { ...item, mutationList1: 'none', mutationList2: 'none' };
-                }
-              })
-            );
-          } else {
-            const gene1$ = this.patientsListService.getMutationInfoLists(item.gene1, item.coding);
-            const gene2$ = this.patientsListService.getMutationInfoLists(item.gene2, item.coding);
-            return combineLatest([gene1$, gene2$]).pipe(
-              // tap((data) => console.log('[159] combineLatest: ', data)),
-              map(data => {
-                //   console.log('[158] ', data);
-                if (data[0].length && data[1].length) {
-                  return { ...item, mutationList1: data[0][0], mutationList2: data[1][0] };
-                } else if (data[0].length && data[1].length === 0) {
-                  return { ...item, mutationList1: data[0][0], mutationList2: 'none' };
-                } else if (data[0].length === 0 && data[1].length) {
-                  return { ...item, mutationList1: 'none', mutationList2: data[1][0] };
-                } else if (data[0].length === 0 && data[1].length === 0) {
-                  return { ...item, mutationList1: 'none', mutationList2: 'none' };
-                }
+        } else {
+          this.addDetectedVariant();
+        }
+      });
 
-              })
-            );
-          }
-        }),
-        concatMap(item => {
-          if (item.gene2 === 'none') {
-            return this.patientsListService.getCommentInfoCount(item.gene1, 'ALL').pipe(
-              map(comments1Count => {
-                // console.log('[176]Comments:  ', comments1Count);
-                return { ...item, comments1Count: comments1Count[0][0], comments2Count: 0 };
-              })
-            );
-          } else {
-            const gene1$ = this.patientsListService.getCommentInfoCount(item.gene1, 'ALL');
-            const gene2$ = this.patientsListService.getCommentInfoCount(item.gene2, 'ALL');
-            return combineLatest([gene1$, gene2$]).pipe(
-              map(data => {
-                // console.log('[185]Comments:  ', data);
-                return { ...item, comments1Count: data[0][0][0], comments2Count: data[1][0][0] };
-              })
-            );
-          }
-        }),
-        concatMap(item => {  // Comments
-          if (item.gene2 === 'none') {
-            return this.patientsListService.getCommentInfoLists(item.gene1, 'ALL').pipe(
-              map(comment => {
-                //  console.log('[195]  Comment List :', comment);
-                if (comment[0] !== undefined) {
-                  return { ...item, commentList1: comment[0], commentList2: 'none' };
-                } else {
-                  return { ...item, commentList1: 'none', commentList2: 'none' };
-                }
-              })
-            );
-          } else {
-            const gene1$ = this.patientsListService.getCommentInfoLists(item.gene1, 'ALL');
-            const gene2$ = this.patientsListService.getCommentInfoLists(item.gene2, 'ALL');
-            return combineLatest([gene1$, gene2$]).pipe(
-              //  tap((data) => console.log('[207] combineLatest: ', data)),
-              map(comment => {
-                // console.log('[209] ', comment[0], comment[1]);
-                if (comment[0][0] !== undefined && comment[1][0] !== undefined) {
-                  return { ...item, commentList1: comment[0][0], commentList2: comment[1][0] };
-                } else if (comment[0][0] !== undefined && comment[1][0] === undefined) {
-                  return { ...item, commentList1: comment[0][0], commentList2: 'none' };
-                } else if (comment[0][0] === undefined && comment[1][0] !== undefined) {
-                  return { ...item, commentList1: 'none', commentList2: comment[1][0] };
-                } else if (comment[0][0] === undefined && comment[1][0] === undefined) {
-                  return { ...item, commentList1: 'none', commentList2: 'none' };
-                }
-              })
-            );
-          }
-        })
-      )
-        // this.patientsListService.filtering(this.form1TestedId)
-        .subscribe(data => {
-          // gene, coding 으로 artifacts, benign, comments, mutation 을 가져온다.
-          // artifacts, benign 에 있는 항목은 mutaion에서 가져오기 않는다.
-          // gene 가 2개인 경우 2개중 1개가 있어면 있는것 가져온다 .
-          // console.log('[242] concatMap', data);
-          let type;
-          let gene;
-          if ((data.mutationList1 !== 'none' && data.mutationList1 === 'none') ||
-            (data.mutationList1 === 'none' && data.mutationList1 !== 'none')) {
-            type = 'M';
-          } else if (parseInt(data.artifacts1Count, 10) > 0 ||
-            parseInt(data.artifacts2Count, 10) > 0) {
-            type = 'A';
-          }
-          /*  else if (parseInt(data.benign1Count, 10) > 0 ||
-              parseInt(data.benign2Count, 10) > 0) {
-              type = 'B';
-            }  */
-          let item;
-          if (data.mutationList1 !== 'none') {
-            item = data.mutationList1;
-            type = 'M';
-          } else if (data.mutationList2 !== 'none') {
-            item = data.mutationList2;
-            type = 'M';
-          } else if (
-            parseInt(data.artifacts1Count, 10) === 0 &&
-            parseInt(data.artifacts2Count, 10) === 0 &&
-            parseInt(data.benign1Count, 10) === 0 &&
-            parseInt(data.benign2Count, 10) === 0 &&
-            data.mutationList1 === 'none' &&
-            data.mutationList2 === 'none'
-          ) {
-            type = 'New';
-
-          } else {
-            item = {
-              igv: '',
-              sanger: '',
-              type: '',
-              gene: '',
-              functionalImpact: '',
-              transcript: '',
-              exonIntro: '',
-              nucleotideChange: '',
-              aminoAcidChange: '',
-              zygosity: '',
-              vafPercent: '',
-              references: '',
-              cosmicID: ''
-            };
-          }
-
-          if (data.gene1 !== 'none' && data.gene2 !== 'none') {
-            gene = data.gene1 + ',' + data.gene2;
-          } else if (data.gene1 !== 'none' && data.gene2 === 'none') {
-            gene = data.gene1;
-          } else if (data.gene1 === 'none' && data.gene2 === 'none') {
-            gene = data.gene2;
-          }
-          // console.log('[248]', type, item);
-          this.addVarient(type, item, gene, data.coding);
-
-        });  // End of Subscribe
 
       // 검사자 정보 가져오기
-      this.patientInfo = this.getPatientinfo(this.form1TestedId);
+      // 저장된 검사자의 값이 있으면 표시
+      this.analysisService.getAanlysisMDSInfo(this.form2TestedId)
+        .subscribe(data => {
+          if (data.length > 0) {
+            this.profile.leukemia = data[0].diagnosis;
+            this.profile.genetictest = data[0].genetictest;
+            this.profile.chron = data[0].chromosomalanalysis;
+          } else {
+            this.profile.leukemia = this.patientInfo.leukemiaassociatedfusion;
+            this.profile.genetictest = this.patientInfo.genetictest;
+            this.profile.chron = this.patientInfo.chromosomalanalysis;
+          }
+          this.store.setProfile(this.profile); // profile 저장
+        });
 
-    } else {
+    } else {   // End of form2TestedId loop
       this.patientInfo = {
         id: 0,
         name: '',
@@ -343,6 +454,8 @@ export class Form1Component implements OnInit, OnDestroy {
         testedNum: '',
         leukemiaAssociatedFusion: '',
         IKZK1Deletion: '',
+        diagnosis: '',
+        genetictest: '',
         chromosomalAnalysis: '',
         targetDisease: '',
         method: '',
@@ -352,13 +465,154 @@ export class Form1Component implements OnInit, OnDestroy {
         tsvFilteredFilename: '',
         FLT3ITD: '',
         specimenNo: '',
-        screenstatus: ''
+        screenstatus: '',
+        examin: '',
+        recheck: ''
       };
     }
+  }
 
-    this.tablerowForm = this.fb.group({
-      tableRows: this.fb.array(this.mockData.map(item => this.createRow(item)))
-    });
+
+  addDetectedVariant(): void {
+    this.subs.sink = this.patientsListService.filtering(this.form2TestedId, this.reportType)
+      .subscribe(data => {
+
+        let type: string;
+        let gene: string;
+        let dvariable: IAFormVariant;
+        // console.log('********** [필터링원시자료][377]', data);
+
+        // 타입 분류
+        if (data.mtype === 'M') {  // mutation
+          type = 'M';
+          if (data.mutationList1.exonIntro !== 'none') {
+            dvariable = data.mutationList1;
+
+          }
+          // dvariable = data.mutationList1;
+        } else if (parseInt(data.artifacts1Count, 10) > 0 ||
+          parseInt(data.artifacts2Count, 10) > 0) {
+          type = 'A';
+
+        }
+        else {
+          type = 'New';
+        }
+        if (dvariable) {
+          // console.log('[247][form2][dvariable]', dvariable.functional_impact);
+          if (dvariable.functional_impact === 'VUS') {
+            this.vusstatus = true;
+            this.store.setVUSStatus(this.vusstatus); // VUS 상태정보 저장
+          }
+
+        }
+
+        // 유전자명
+        if (data.gene1 !== 'none' && data.gene2 !== 'none') {
+          gene = data.gene1 + ',' + data.gene2;
+        } else if (data.gene1 !== 'none' && data.gene2 === 'none') {
+          gene = data.gene1;
+        } else if (data.gene1 === 'none' && data.gene2 === 'none') {
+          gene = data.gene2;
+        }
+
+        // comments 분류
+        // if (parseInt(data.comments1Count, 10) > 0) {
+        //   if (typeof data.commentList1 !== 'undefined' && data.commentList1 !== 'none') {
+        //     if (parseInt(data.comments1Count, 10) > 0) {
+
+        //       const variant_id = data.tsv.amino_acid_change;
+        //       const comment = { ...data.commentList1, variant_id, type: this.reportType };
+        //       // console.log('[429][코멘트]', comment);
+        //       this.comments.push(comment);
+        //       this.store.setComments(this.comments); // 멘트 저장
+        //       let tempArray = new Array();
+        //       tempArray.push(comment);
+        //       tempArray.forEach(ment => {
+        //         this.commentsRows().push(this.createCommentRow(ment));
+        //       });
+        //       tempArray = [];
+        //     }
+        //   } else if (typeof data.commentList2 !== 'undefined' && data.commentList2 !== 'none') {
+        //     if (data.comments2Count > 0) {
+        //       const comment = { ...data.commentList2 as any, variant_id: '' };
+        //       this.comments.push(comment);
+        //       this.store.setComments(this.comments); // 멘트 저장
+        //       let tempArray = new Array();
+        //       tempArray.push(comment);
+        //       tempArray.forEach(ment => {
+        //         this.commentsRows().push(this.createCommentRow(ment));
+        //       });
+        //       tempArray = [];
+        //     }
+        //   }
+
+        // }
+
+
+        this.vd.push({ sequence: this.vdcount, selectedname: 'mutation', gene });
+        this.vdcount++;
+        this.addVarient(type, dvariable, gene, data.coding, data.tsv);
+
+      }); // End of Subscribe
+
+  }
+
+
+  // 검사일/검사보고일/수정보고일 관리
+  setReportdaymgn(patientInfo: IPatient): void {
+    // 전송횟수, 검사보고일, 수정보고일  저장
+    // console.log('[487][검사일/검사보고일/수정보고일 관리]', patientInfo);
+    this.sendEMR = Number(patientInfo.sendEMR);
+    if (patientInfo.sendEMRDate.length) {
+      this.firstReportDay = patientInfo.sendEMRDate.replace(/-/g, '.').slice(0, 10);
+    }
+    if (this.sendEMR > 1) {
+      this.lastReportDay = patientInfo.report_date.replace(/-/g, '.').slice(0, 10);
+    } else if (this.sendEMR === 0) {
+      this.firstReportDay = '-';
+    }
+
+    // 판독자 , 검사자
+    if (patientInfo.examin.length) {
+      this.examin = patientInfo.examin;
+    }
+
+    if (patientInfo.recheck.length) {
+      this.recheck = patientInfo.recheck;
+    }
+    if (patientInfo.examin.length === 0 && patientInfo.recheck.length === 0) {
+
+      const lists$ = this.utilsService.getDiagList()
+        .pipe(shareReplay());
+
+      lists$.pipe(
+        map(lists => lists.filter(list => list.part === 'D'))
+      ).subscribe(data => {
+        const len = data.length - 1;
+        data.forEach((list, index) => {
+          if (index === len) {
+            this.recheck = this.recheck + list.user_nm + ' M.D.';
+          } else {
+            this.recheck = this.recheck + list.user_nm + ' M.D./';
+          }
+        });
+      });
+
+      lists$.pipe(
+        map(lists => lists.filter(list => list.part === 'T'))
+      ).subscribe(data => {
+        const len = data.length - 1;
+        data.forEach((list, index) => {
+          if (index === len) {
+            this.examin = this.examin + list.user_nm + ' M.T.';
+          } else {
+            this.examin = this.examin + list.user_nm + ' M.T./';
+          }
+        });
+      });
+    }
+
   }
 
   // tslint:disable-next-line: typedef
@@ -366,39 +620,44 @@ export class Form1Component implements OnInit, OnDestroy {
     this.subs.unsubscribe();
   }
 
-  // tslint:disable-next-line: typedef
+  // VUS 검사
+  checkVue(): boolean {
+
+    const idx = this.tsvLists.findIndex(item => item.loc1 === 'VUS');
+    // console.log('[306][checkVue]', this.tsvLists, idx);
+    if (idx === -1) {
+      this.ment = '';
+      return false;
+    }
+    return true;
+  }
+
+  // tslint:disable-next-line:typedef
   result(event) {
+    console.log(event);
     this.resultStatus = event.srcElement.defaultValue;
+    console.log('[556][라디오 검체]', this.resultStatus);
   }
 
-  // tslint:disable-next-line: typedef
-  sendEMR() {
-    const control = this.tablerowForm.get('tableRows') as FormArray;
-    const formData = control.getRawValue();
-
-    /*
-    const makeForm = makeAForm(this.resultStatus, this.fusion, this.ment, this.patientInfo, formData);
-    this.patientsListService.sendEMR(
-      this.patientInfo.specimenNo,
-      this.patientInfo.patientID,
-      this.patientInfo.test_code,
-      this.patientInfo.name,
-      makeForm).subscribe((data) => {
-        // console.log(data);
-        this.router.navigate(['/diag']);
-      });
-    */
+  radioStatus(type: string): boolean {
+    if (type === this.resultStatus) {
+      return true;
+    }
+    return false;
   }
+
 
   // 필터링된 tsv 파일 가져오기
+  // tslint:disable-next-line: typedef
   getfiteredTSVlist(testedID: string) {
     this.filteredTSV$ = this.patientsListService.getFilteredTSVtList(testedID);
-    this.filteredTSV$.subscribe(data => {
+    this.subs.sink = this.filteredTSV$.subscribe(data => {
       this.tsvLists = data;
     });
   }
 
-  addVarient(type: string, item: IAFormVariant, gene: string, coding: string) {
+  // tslint:disable-next-line: typedef
+  addVarient(type: string, item: IAFormVariant, gene: string, coding: string, tsv: IFilteredTSV) {
     let tempvalue;
 
     if (type === 'M') {
@@ -407,16 +666,18 @@ export class Form1Component implements OnInit, OnDestroy {
         sanger: '',
         type,
         gene,
-        functionalImpact: item[0],
-        transcript: item[1],
-        exonIntro: item[2],
+        functionalImpact: item.functional_impact,
+        transcript: tsv.transcript,
+        exonIntro: 'E' + tsv.exon,
         nucleotideChange: coding,
-        aminoAcidChange: item[3],
-        zygosity: item[4],
-        vafPercent: item[5],
-        references: item[6],
-        cosmicID: item[7]
+        aminoAcidChange: tsv.amino_acid_change,
+        // zygosity: item.zygosity,
+        zygosity: 'Heterozygous',
+        vafPercent: tsv.frequency,
+        references: item.reference,
+        cosmicID: item.cosmic_id,
       };
+
     } else {
       tempvalue = {
         igv: '',
@@ -424,35 +685,97 @@ export class Form1Component implements OnInit, OnDestroy {
         type,
         gene,
         functionalImpact: '',
-        transcript: '',
-        exonIntro: '',
+        transcript: tsv.transcript,
+        exonIntro: 'E' + tsv.exon,
         nucleotideChange: coding,
-        aminoAcidChange: '',
-        zygosity: '',
-        vafPercent: '',
+        aminoAcidChange: tsv.amino_acid_change,
+        zygosity: 'Heterozygous',
+        vafPercent: tsv.frequency,
         references: '',
         cosmicID: ''
       };
     }
+    //
+    this.detactedVariants = [...this.detactedVariants, tempvalue];
+    this.mockData = this.detactedVariants;
+    this.store.setDetactedVariants(this.detactedVariants);
+    this.addNewRow(tempvalue);
+
+    this.checkboxStatus = [];
+    for (let i = 0; i < this.detactedVariants.length; i++) {
+      this.checkboxStatus.push(i);
+    }
+    // this.putCheckboxInit(); // 체크박스 초기화
+  }
+
+  recoverVariant(item: IRecoverVariants): void {
+    let tempvalue;
+
+    tempvalue = {
+      igv: item.igv,
+      sanger: item.sanger,
+      type: item.type,
+      gene: item.gene,
+      functionalImpact: item.functional_impact,
+      transcript: item.transcript,
+      exonIntro: item.exon,
+      nucleotideChange: item.nucleotide_change,
+      aminoAcidChange: item.amino_acid_change,
+      zygosity: item.zygosity,
+      vafPercent: item.vaf,
+      references: item.reference,
+      cosmicID: item.cosmic_id,
+      checked: item.checked,
+      id: item.id
+    };
 
     this.detactedVariants = [...this.detactedVariants, tempvalue];
     this.mockData = this.detactedVariants;
     this.addNewRow(tempvalue);
+
   }
 
   // 검사자 정보 가져오기
+  // tslint:disable-next-line: typedef
   getPatientinfo(testid: string) {
     const tempInfo = this.patientsListService.patientInfo;
     if (tempInfo) {
-      return tempInfo.filter(data => data.testedNum === testid)[0];
+      return tempInfo.filter(data => data.specimenNo === testid)[0];
     }
     return;
   }
-
+  /////////////////////////////////////////////////////////////
+  //
   createRow(item: IAFormVariant): FormGroup {
+    let checktype: boolean;
+    if (String(item.checked) === 'false') {
+      checktype = false;
+    } else {
+      checktype = true;
+    }
+    if (item.type === 'New') {
+      return this.fb.group({
+        igv: [item.igv],
+        sanger: [item.sanger],
+        type: [item.type],
+        gene: [item.gene],
+        functionalImpact: [item.functionalImpact],
+        transcript: [item.transcript],
+        exonIntro: [item.exonIntro],
+        nucleotideChange: [item.nucleotideChange],
+        aminoAcidChange: [item.aminoAcidChange],
+        zygosity: [item.zygosity],
+        vafPercent: [item.vafPercent],
+        references: [item.references],
+        cosmicID: [item.cosmicID],
+        id: [item.id],
+        checked: [checktype],
+        status: ['NEW']
+      });
+    }
     return this.fb.group({
-      igv: '',
-      sanger: '',
+      igv: [item.igv],
+      sanger: [item.sanger],
       type: [item.type],
       gene: [item.gene],
       functionalImpact: [item.functionalImpact],
@@ -463,86 +786,162 @@ export class Form1Component implements OnInit, OnDestroy {
       zygosity: [item.zygosity],
       vafPercent: [item.vafPercent],
       references: [item.references],
-      cosmicID: [item.cosmicID]
+      cosmicID: [item.cosmicID],
+      id: [item.id],
+      checked: [checktype],
+      status: ['OLD']
     });
   }
 
-  addNewRow(row: IAFormVariant) {
+  addNewRow(row: IAFormVariant): void {
+    // console.log('[544][addNewRow]', row);
     const control = this.tablerowForm.get('tableRows') as FormArray;
     control.push(this.createRow(row));
   }
+  //////////////////////////////////////////
+  // commentsForm
+  ////////////////////////////////////////////
+  createCommentRow(comment: IComment): FormGroup {
+    return this.fb.group({
+      gene: comment.gene,
+      comment: comment.comment,
+      reference: comment.reference,
+      variant_id: comment.variant_id,
+      type: this.reportType
+    });
+  }
 
-  get getFormControls() {
+  newCommentRow(): FormGroup {
+    return this.fb.group({
+      gene: '',
+      comment: '',
+      reference: '',
+      variant_id: '',
+      type: this.reportType
+    });
+  }
+
+  commentsRows(): FormArray {
+    return this.tablerowForm.get('commentsRows') as FormArray;
+  }
+
+  addNewCommentRow(): void {
+    this.commentsRows().push(this.newCommentRow());
+  }
+
+  removeCommentRow(i: number): void {
+    this.commentsRows().removeAt(i);
+  }
+  //////////////////////////////////////////////////////////////
+  get getFormControls(): any {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     return control;
   }
 
+  // tslint:disable-next-line: typedef
   putTableRowGroup() {
     return this.fb.group({
       id: [],
-      igv: [],
-      sanger: [],
-      type: [],
-      gene: [],
-      functionalImpact: [],
-      transcript: [],
-      exonIntro: [],
-      nucleotideChange: [],
-      aminoAcidChange: [],
-      zygosity: [],
-      vafPercent: [],
-      references: [],
-      cosmicID: []
+      igv: [''],
+      sanger: [''],
+      type: [''],
+      gene: [''],
+      functionalImpact: [''],
+      transcript: [''],
+      exonIntro: [''],
+      nucleotideChange: [''],
+      aminoAcidChange: [''],
+      zygosity: [''],
+      vafPercent: [''],
+      references: [''],
+      cosmicID: [''],
+      checked: [true]
     });
   }
 
+  // tslint:disable-next-line: typedef
   addTableRowGroup() {
     return this.fb.group({
       id: [],
-      igv: [],
-      sanger: [],
-      type: [],
-      gene: [],
-      functionalImpact: [],
-      transcript: [],
-      exonIntro: [],
-      nucleotideChange: [],
-      aminoAcidChange: [],
-      zygosity: [],
-      vafPercent: [],
-      references: [],
-      cosmicID: []
+      igv: [''],
+      sanger: [''],
+      type: [''],
+      gene: [''],
+      functionalImpact: [''],
+      transcript: [''],
+      exonIntro: [''],
+      nucleotideChange: [''],
+      aminoAcidChange: [''],
+      zygosity: [''],
+      vafPercent: [''],
+      references: [''],
+      cosmicID: [''],
+      checked: [true],
+      status: ['NEW']
     });
   }
 
+  // tslint:disable-next-line: typedef
   addRow() {
+    const rect = this.table.nativeElement.getBoundingClientRect();
+    this.maxHeight = rect.height + 120;
+
     const control = this.tablerowForm.get('tableRows') as FormArray;
     control.push(this.addTableRowGroup());
+    this.addBoxStatus(control.length - 1); // 체크박스 추가
+
   }
 
+  // tslint:disable-next-line: typedef
   deleteRow(index: number) {
+    this.deleteRowNumber = index;
     const control = this.tablerowForm.get('tableRows') as FormArray;
-    control.removeAt(index);
-  }
+    const controlLen = control.length - 1;
 
+    const tempvd = [...this.vd];
+    const idx = tempvd.findIndex(item => item.sequence === index);
+    if (idx !== -1) {
+      this.vd.splice(idx, 1);
+    }
+    // console.log(this.vd);
+    control.removeAt(index);
+    if (controlLen !== index) {
+      if (this.vd.length > 0) {
+        this.vd.forEach(item => item.sequence = item.sequence - 1);
+      }
+    }
+    this.removeBoxStatus(index); // 체크박스 아이템 삭제
+
+    const rect = this.table.nativeElement.getBoundingClientRect();
+    this.maxHeight = rect.height - 60;
+  }
+  /////////////////////////////////////////////////////////////////////////////////
+  // tslint:disable-next-line: typedef
   submit() {
     console.log(this.tablerowForm.value.tableRows);
   }
 
+  // tslint:disable-next-line: typedef
   test() {
     console.log(this.ment);
   }
 
+
+
+  // tslint:disable-next-line: typedef
   save(index: number) {
+    const selected = this.vd.find(item => item.sequence === index);
+    this.selectedItem = selected.selectedname;
+    console.log('[754][저장] ', index, this.vd, selected);
+
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const row = control.value[index];
-    // console.log('[549] ', row, this.patientInfo);
-
+    // console.log('[691][mutation/artifacts] ', row, this.patientInfo);
     if (this.selectedItem === 'mutation') {
       this.subs.sink = this.patientsListService.saveMutation(
         row.igv,
         row.sanger,
-        'L' + this.patientInfo.name,
+        'M' + this.patientInfo.name,
         this.patientInfo.patientID,
         row.gene,
         row.functionalImpact,
@@ -555,62 +954,748 @@ export class Form1Component implements OnInit, OnDestroy {
         row.references,
         row.cosmicID
       ).subscribe((data: any) => {
-        if (data.insertId) {
-          alert('mutation에 추가 했습니다.');
-          // const mutationControl = this.tablerowForm.get('tableRows') as FormArray;
-          // mutationControl.removeAt(index);
-        }
+        alert('mutation에 추가 했습니다.');
       });
     } else if (this.selectedItem === 'artifacts') {
+      // console.log('[715][save][artifacts] ', row);
       this.subs.sink = this.patientsListService.insertArtifacts(
-        row.gene, row.item.loc2, row.item.exon, row.item.transcript, row.coding, row.item.amino_acid_change
+        row.gene, '', '', row.transcript, row.nucleotideChange, row.aminoAcidChange
       ).subscribe((data: any) => {
-        if (data.insertId) {
-          alert('mutation에 추가 했습니다.');
-        }
-      });
+        // console.log('[719][result][artifacts] ', data);
+        alert('artifacts에 추가 했습니다.');
 
-    } else if (this.selectedItem === 'benign') {
-      this.subs.sink = this.patientsListService.insertBenign(
-        row.gene, row.item.loc2, row.item.exon, row.item.transcript, row.coding, row.item.amino_acid_change
-      ).subscribe((data: any) => {
-        if (data.insertId) {
-          alert('mutation에 추가 했습니다.');
-        }
       });
     }
 
+
   }
 
+  // tslint:disable-next-line: typedef
   saveInhouse(i: number, selecteditem: string) {
     this.indexNum = i;
     this.selectedItem = selecteditem;
-    // console.log('[524] ', this.indexNum, this.selectedItem);
+    this.vd.forEach(item => {
+      if (item.sequence === i) {
+        item.selectedname = selecteditem;
+      }
+    });
+
   }
 
+  // tslint:disable-next-line: typedef
   checkType(index: number) {
+    // console.log('[821][checkType][deleteRowStatus]', this.deleteRowStatus);
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const row = control.value[index];
-    if (row.type === 'New') {
+
+    const tempVD = [...this.vd];
+    if (row.status === 'NEW') {
+      // console.log('[840][checkType][row]', row);
+      const idx = tempVD.findIndex(item => item.sequence === index && item.gene === row.gene);
+      // console.log('===[826][checkType][type]', type, index, idx, row, this.vd, this.deleteRowNumber);
+      if (idx === -1 && this.deleteRowNumber !== index) {
+        this.vd.push({ sequence: index, selectedname: 'mutation', gene: row.gene });
+        // console.log('####[842][checkType]', this.vd);
+      }
+
       return true;
     }
     return false;
   }
 
+  // 스크린 판독
+  screenRead(): void {
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    const formData = control.getRawValue();
+    // const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
+    // if (this.comments.length) {
+    //   const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
+    //   this.comments = commentControl.getRawValue();
+    // }
+
+    // this.store.setComments(this.comments);
+
+    // console.log('[771][스크린 판독] ', this.form2TestedId, formData, this.comments, this.profile);
+    const result = confirm('스크린 판독 전송하시겠습니까?');
+    if (result) {
+      this.store.setRechecker(this.patientInfo.recheck);
+      this.store.setExamin(this.patientInfo.examin);
+      this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimen);
+      this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimen);
+
+      // console.log('[840][screenRead][profile] ', this.profile);
+      this.analysisService.putAnalysisMDS(
+        this.form2TestedId,
+        this.profile.leukemia,
+        this.profile.genetictest,
+        this.profile.chron).subscribe(data => console.log('LYM INSERT'));
+
+      this.patientInfo.vusmsg = this.vusmsg;
+      this.subs.sink = this.variantsService.screenInsert(this.form2TestedId, formData,
+        this.comments, this.profile, this.resultStatus, this.patientInfo)
+        .pipe(
+          tap(data => {
+            // console.log('[843][screenRead] ', data);
+            alert('저장되었습니다.');
+          }),
+          concatMap(() => this.patientsListService.getScreenStatus(this.form2TestedId))
+        ).subscribe(msg => {
+          // console.log('[845][sendscreen]', msg[0].screenstatus);
+          this.screenstatus = msg[0].screenstatus;
+        });
+    }
+
+  }
+
+  // 판독완료
+  screenReadFinish(): void {
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    const formData = control.getRawValue();
+    // const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
+    // if (this.comments.length) {
+    //   const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
+    //   this.comments = commentControl.getRawValue();
+    // }
+
+    // this.store.setComments(this.comments);
+    // console.log('[812][스크린판독완료] ', this.form2TestedId, formData, this.comments, this.profile);
+    const result = confirm('판독완료 전송하시겠습니까?');
+    if (result) {
+      this.store.setRechecker(this.patientInfo.recheck);
+      this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimen);
+      this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimen);
+
+      this.analysisService.putAnalysisMDS(
+        this.form2TestedId,
+        this.profile.leukemia,
+        this.profile.genetictest,
+        this.profile.chron).subscribe(data => console.log('LYM INSERT'));
+
+      this.patientInfo.vusmsg = this.vusmsg;
+      this.subs.sink = this.variantsService.screenUpdate(this.form2TestedId, formData, this.comments, this.profile, this.patientInfo)
+        .subscribe(data => {
+          // console.log('[판독완료] screen Updated ....[566]', data);
+          alert('저장되었습니다.');
+          this.patientsListService.getScreenStatus(this.form2TestedId)
+            .subscribe(msg => {
+              this.screenstatus = msg[0].screenstatus;
+            });
+        });
+    }
+
+  }
+
+  getStatus(index): boolean {
+    // console.log('[834][getStatus]', index, this.screenstatus);
+    if (index === 1) {
+      if (parseInt(this.screenstatus, 10) === 0) {
+        return false;
+      } else if (parseInt(this.screenstatus, 10) === 1) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 2) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 3) {
+        return true;
+      }
+
+    } else if (index === 2) {
+      if (parseInt(this.screenstatus, 10) === 0) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 1) {
+        return false;
+      } else if (parseInt(this.screenstatus, 10) === 2) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 3) {
+        return true;
+      }
+    } else if (index === 3) {
+      if (parseInt(this.screenstatus, 10) === 0) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 1) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 2) {
+        return false;
+      } else if (parseInt(this.screenstatus, 10) === 3) {
+        return true;
+      }
+    } else if (index === 4) {
+      if (parseInt(this.screenstatus, 10) === 0) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 1) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 2) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 3) {
+        return false;
+      }
+    }
+
+  }
+
+  boxstatus(i, event): void {
+    if (event.target.checked) {
+      this.checkboxStatus.push(i);
+    } else {
+      const index = this.checkboxStatus.findIndex(idx => idx === i);
+      this.checkboxStatus.splice(index, 1);
+    }
+    // console.log('[887][boxstatus][박스 상태]', this.checkboxStatus.sort());
+  }
+
+  checkboxRefill(): void {
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    const temp = control.getRawValue();
+    this.checkboxStatus = [];
+    for (let i = 0; i < temp.length; i++) {
+      if (String(temp[i].checked) === 'true') {
+        this.checkboxStatus.push(i);
+      }
+    }
+  }
+
+  gotoEMR(): void {
+    const userid = localStorage.getItem('diaguser');
+
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    const formData = control.getRawValue();
+
+    if (this.checkboxStatus.length === 0) {
+      this.checkboxRefill();
+    }
+
+    const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
+    // console.log('=== [1243][LYM][EMR로 보내기, 체크박스]', this.checkboxStatus);
+    // console.log('=== [1244][LYM][EMR로 보내기 DV]', reformData);
+    // 코멘트가 있는경우
+    // if (this.comments.length) {
+    //   const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
+    //   this.comments = commentControl.getRawValue();
+    // } else {  // 코멘트가 신규인 경우
+    //   this.comments = [];
+    // }
+
+    // if (this.vusmsg.length === 0) {
+    //   this.vusmsg = '';
+    // }
+
+    if (this.firstReportDay === '-') {
+      this.firstReportDay = this.today().replace(/-/g, '.');
+    }
+
+    if (this.sendEMR >= 1) {
+      this.lastReportDay = this.today().replace(/-/g, '.');
+    }
+
+    // console.log('[904][form2][comments] ', this.comments);
+
+    let tsvVersionContents;
+    if (this.tsvVersion === '510') {
+      tsvVersionContents = this.methods;
+    } else if (this.tsvVersion === '516') {
+      tsvVersionContents = this.methods516;
+    }
+
+    const makeForm = makeCForm(
+      this.method,
+      this.resultStatus,
+      this.examin, // 검사자
+      this.recheck, // 확인자
+      this.profile,
+      this.patientInfo.accept_date, // 검사의뢰일
+      this.specimenMessage,
+      this.patientInfo,
+      formData,
+      this.firstReportDay,
+      this.lastReportDay,
+      this.genelists,
+      tsvVersionContents
+    );
+    console.log('[1214][LYM XML] ', makeForm);
+
+    this.patientsListService.sendEMR(
+      this.patientInfo.specimenNo,
+      this.patientInfo.patientID,
+      this.patientInfo.test_code,
+      this.patientInfo.name,
+      makeForm)
+      .pipe(
+        concatMap(() => this.patientsListService.resetscreenstatus(this.form2TestedId, '3', userid, 'Lymphoma')),
+        concatMap(() => this.patientsListService.setEMRSendCount(this.form2TestedId, ++this.sendEMR)), // EMR 발송횟수 전송
+        // concatMap(() => this.patientsListService.getScreenStatus(this.form2TestedId))
+      ).subscribe((msg: { screenstatus: string }) => {
+        this.screenstatus = '3';
+        alert('EMR로 전송했습니다.');
+        this.excelDV();
+        // 환자정보 가져오기
+        this.patientsListService.getPatientInfo(this.form2TestedId)
+          .subscribe(patient => {
+            // console.log('[999][LYM EMR][검체정보]', this.sendEMR, patient);
+            // this.setReportdaymgn(patient);
+          });
+      });
+
+  }
+
+  putCheckboxInit(): void {
+    // tslint:disable-next-line: prefer-for-of
+    for (let i = 0; i < this.detactedVariants.length; i++) {
+      if (String(this.detactedVariants[i].checked) === 'true') {
+        this.checkboxStatus.push(i);
+      }
+    }
+    // console.log('[1316][putCheckboxInit]', this.detactedVariants);
+    // console.log('[1317][putCheckboxInit]', this.checkboxStatus);
+  }
+
+  // detected varient 줄이 증가/삭제 시 체크상태 길이 변경
+  addBoxStatus(idx: number): void {
+    // this.checkboxStatus
+    this.checkboxStatus.push(idx);
+    // console.log('[1261] [행추가시 체크박스]', this.checkboxStatus, idx);
+  }
+  removeBoxStatus(i: number): void {
+    // console.log('[1264]', this.checkboxStatus, i);
+    const temp: number[] = [];
+    this.checkboxStatus.forEach(val => {
+      if (val > i) {
+        temp.push(val - 1);
+      } else if (val < i) {
+        temp.push(val);
+      }
+    });
+    this.checkboxStatus = temp;
+    // console.log('[1273][삭제시 변경한 값]', this.checkboxStatus);
+  }
+
+  getCommentGene(gene): void {
+    this.tempCommentGene = gene;
+  }
+
+  getCommentComment(comment): void {
+    this.tempCommentComment = comment;
+  }
+  // tslint:disable-next-line:variable-name
+  getCommentVariants(variant_id: string): void {
+    this.tempCommentVariants = variant_id;
+  }
+
+  getCommentRef(ref): void {
+    this.tempCommentreference = ref;
+  }
+
+  previewToggle(): void {
+    this.isVisible = !this.isVisible;
+    // Detected variants 값을 store에 저장
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    const formData = control.getRawValue() as IAFormVariant[];
+    // console.log('[1129][form2][previewToggle][] ', formData);
+    this.store.setDetactedVariants(formData);
+
+    // const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
+    // this.comments = commentControl.getRawValue();
+    // if (this.comments.length > 0) {
+    //   this.store.setComments(this.comments);
+    // }
+
+  }
+
+  excelDownload(): void {
+    console.log('excel', this.tsvLists);
+    this.excel.exportAsExcelFile(this.tsvLists, 'sample');
+  }
+  ///////////////////////////////////////////////////////////
+  excelDV(): void {
+    const excelData: IExcelData[] = [];
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    const formData = control.getRawValue();
+
+    if (formData.length === 0) {
+      excelData.push({
+        tsvname: this.patientInfo.tsvFilteredFilename,
+        name: this.patientInfo.name,
+        gender: this.patientInfo.gender,
+        age: this.patientInfo.age,
+        patientID: this.patientInfo.patientID,
+        acceptdate: this.patientInfo.accept_date,
+        reportdate: this.today2(),
+        testcode: this.reportType,
+        gene: '',
+        functionalImpact: '',
+        transcript: '',
+        exonIntro: '',
+        nucleotideChange: '',
+        aminoAcidChange: '',
+        zygosity: '',
+        vafPercent: '',
+        references: '',
+        cosmicID: ''
+      });
+    } else {
+
+      formData.forEach(item => {
+        excelData.push({
+          name: this.patientInfo.name,
+          gender: this.patientInfo.gender,
+          age: this.patientInfo.age,
+          acceptdate: this.patientInfo.accept_date,
+          reportdate: this.today2(),
+          testcode: 'Lymphoma',
+          patientID: this.patientInfo.patientID,
+          gene: item.gene,
+          functionalImpact: item.functionalImpact,
+          transcript: item.transcript,
+          exonIntro: item.exonIntro,
+          nucleotideChange: item.nucleotideChange,
+          aminoAcidChange: item.aminoAcidChange,
+          zygosity: item.zygosity,
+          vafPercent: item.vafPercent,
+          reference: item.references,
+          cosmicID: item.cosmicID,
+          tsvname: this.patientInfo.tsvFilteredFilename
+
+        });
+      });
+    }
+
+    this.subs.sink = this.excelService.excelInsert(excelData, this.patientInfo.specimenNo)
+      .subscribe((data: { message: string }) => {
+        // console.log('입력요청에 대한 응답: ', data.message);
+        if (data.message === 'SUCCESS') {
+          this.snackBar.open('저장 했습니다.', '닫기', { duration: 3000 });
+        } else {
+          this.snackBar.open('저장하지 못했습니다.', '닫기', { duration: 3000 });
+        }
+      });
+
+  }
+  ////////////////////////////////////////////////////////////
+  today(): string {
+    const today = new Date();
+
+    const year = today.getFullYear(); // 년도
+    const month = today.getMonth() + 1;  // 월
+    const date = today.getDate();  // 날짜
+
+    const newmon = ('0' + month).substr(-2);
+    const newday = ('0' + date).substr(-2);
+    const now = year + '.' + newmon + '.' + newday;
+
+    return now;
+  }
+  today2(): string {
+    const today = new Date();
+
+    const year = today.getFullYear(); // 년도
+    const month = today.getMonth() + 1;  // 월
+    const date = today.getDate();  // 날짜
+    const hour = today.getHours();
+    const min = today.getMinutes();
+    const sec = today.getSeconds();
+
+    const newmon = ('0' + month).substr(-2);
+    const newday = ('0' + date).substr(-2);
+    const now = year + '-' + newmon + '-' + newday + ' ' + hour + ':' + min + ':' + sec;
+
+    return now;
+  }
+  //////////////////////////////////////////////////////////
+
+  exammatch(type: string, value: string): boolean {
+    if (type === 'exam') {
+      if (this.examin === value) {
+        return true;
+      }
+      return false;
+    } else if (type === 'recheck') {
+      if (this.recheck === value) {
+        return true;
+      }
+      return false;
+    }
+  }
+
+
+  checked(rechecked: string): void {
+    this.patientInfo.recheck = rechecked; // 확인자
+  }
+
+  examimed(examin: string): void {
+    this.patientInfo.examin = examin; // 검사자
+  }
+
+  examselected(value: string, type: number): boolean {
+    if (type === 1) {
+      return this.exammatch('exam', value);
+    } else if (type === 2) {
+      return this.exammatch('exam', value);
+    }
+  }
+
+  recheckselected(value: string, type: number): boolean {
+    if (type === 1) {
+      return this.exammatch('recheck', value);
+    } else if (type === 2) {
+      return this.exammatch('recheck', value);
+    } else if (type === 3) {
+      return this.exammatch('recheck', value);
+    } else if (type === 4) {
+      return this.exammatch('recheck', value);
+    } else if (type === 5) {
+      return this.exammatch('recheck', value);
+    }
+
+  }
+
+
+  tempSave(): void {
+    // console.log('[1037][tempSave]');
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    const formData = control.getRawValue();
+    // console.log('[1040][tableerowForm]', formData);
+    // console.log('[1041][checkbox]', this.checkboxStatus);
+    // const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
+    console.log('[1043][Detected variants]', formData);
+    // if (this.comments.length) {
+    //   const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
+    //   this.comments = commentControl.getRawValue();
+    // }
+    // this.store.setComments(this.comments);
+
+    this.patientInfo.recheck = this.recheck;
+    this.patientInfo.examin = this.examin;
+    this.patientInfo.vusmsg = this.vusmsg;
+    console.log('[1054][tempSave]patient,reform,comment]', this.patientInfo, formData, this.comments);
+
+    this.store.setRechecker(this.patientInfo.recheck);
+    this.store.setExamin(this.patientInfo.examin);
+    this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimen);
+    this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimen);
+    // LYM 분석 보내기
+    // diagnosis: string,
+    // genetictest: string,
+    // chromosomalanalysis: string
+    this.analysisService.putAnalysisLYM(
+      this.form2TestedId,
+      this.profile.leukemia,
+      this.profile.chron).subscribe(data => console.log('LYM INSERT'));
+    // tslint:disable-next-line:max-line-length
+    this.subs.sink = this.variantsService.screenTempSave(this.form2TestedId, formData, this.comments, this.profile, this.resultStatus, this.patientInfo)
+      .subscribe(data => {
+        // console.log('[1065]', data);
+        alert('저장되었습니다.');
+      });
+  }
+
+  reset(): void {
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    const temp = control.getRawValue();
+    this.checkboxStatus = [];
+    for (let i = 0; i < temp.length; i++) {
+      if (String(temp[i].checked) === 'true') {
+        this.checkboxStatus.push(i);
+      }
+    }
+
+    const tempUserid: any = localStorage.getItem('diaguser');
+    const tempuser: any = JSON.parse(tempUserid);
+    const userid = tempuser.userid;
+
+    this.patientsListService.resetscreenstatus(this.form2TestedId, '2', userid, this.reportType)
+      .subscribe(data => {
+        this.screenstatus = '2';
+        this.patientInfo.screenstatus = '2';
+
+      });
+  }
+
+
+  //
+  findMutationBygene(gene: string): void {
+    // console.log('[1146][findMutationBygene]', this.resultStatus);
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    const formData = control.getRawValue();
+    // console.log('[1150][tableerowForm]', formData);
+    this.patientsListService.findMutationBygene(gene)
+      .subscribe(data => {
+        console.log('[1148][findMutationBygene]', data);
+        if (data === 0) {
+          this.resultStatus = 'Not Detected';
+        } else {
+          this.resultStatus = 'Detected';
+        }
+      });
+  }
+  /////////////////////////////////////////////////////////////////////
+  onDrop(event: CdkDragDrop<string[]>): void {
+    moveItemInArray(this.getFormControls(), event.previousIndex, event.currentIndex);
+    this.getFormControls().forEach((user, idx) => {
+      user.order = idx + 1;
+    });
+  }
+  ////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////
+  droped(event: CdkDragDrop<string[]>): void {
+    // this.formArray = this.ifusionLists()
+    const from1 = event.previousIndex;
+    const to = event.currentIndex;
+    // console.log(event);
+    //  console.log('[1246][droped]', from1, to);
+    this.vd.forEach(item => {
+      if (item.sequence === from1) {
+        item.sequence = to;
+      }
+    });
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    // this.moveItemInFormArray(control, from1, to);
+    this.moveItemInDetectedArray(control, from1, to);
+  }
+  ////////////////////////////////////////////////////////////////////////
+  moveItemInDetectedArray(formArray: FormArray, fromIndex: number, toIndex: number): void {
+    const from2 = this.clamp(fromIndex, formArray.length - 1);
+    const to2 = this.clamp(toIndex, formArray.length - 1);
+    if (from2 === to2) {
+      return;
+    }
+
+    // 방향: 위에서 아래로
+    if (from2 < to2) {
+      const diff = to2 - from2;
+      if (diff === 1) {
+        return;
+      }
+    }
+
+    const len = formArray.length;
+
+    const totalFormGroup = [];
+    const newFormGroup = [];
+    const previous = formArray.at(from2);
+    const current = formArray.at(to2);
+
+    for (let i = 0; i < len; i++) {
+      totalFormGroup.push(formArray.at(i));
+    }
+
+    totalFormGroup.forEach((form, index) => {
+      if (from2 > to2) {
+        if (index === to2) {
+          newFormGroup.push(previous);
+          newFormGroup.push(current);
+        } else if (index !== from2 && index !== to2) {
+          newFormGroup.push(form);
+        }
+      } else if (from2 < to2 && (to2 - from2) > 1) {
+
+        if (index === to2) {
+          newFormGroup.push(previous);
+          newFormGroup.push(form);
+        } else if (index !== from2 && index !== to2) {
+          newFormGroup.push(form);
+        }
+      }
+    });
+
+    for (let i = 0; i < len; i++) {
+      formArray.setControl(i, newFormGroup[i]);
+    }
+
+  }
+
+
+  ///////////////////////////////////////////////////////////////////////////
+  /**
+   * Moves an item in a FormArray to another position.
+   * @param formArray FormArray instance in which to move the item.
+   * @param fromIndex Starting index of the item.
+   * @param toIndex Index to which he item should be moved.
+   */
+  moveItemInFormArray(formArray: FormArray, fromIndex: number, toIndex: number): void {
+    const from2 = this.clamp(fromIndex, formArray.length - 1);
+    const to2 = this.clamp(toIndex, formArray.length - 1);
+
+    if (from2 === to2) {
+      return;
+    }
+
+    const previous = formArray.at(from2);
+    const current = formArray.at(to2);
+    formArray.setControl(to2, previous);
+    formArray.setControl(from2, current);
+  }
+
+  /** Clamps a number between zero and a maximum. */
+  clamp(value: number, max: number): number {
+    return Math.max(0, Math.min(max, value));
+  }
+  ////////////////////////////////////////////////////////////
+
+
+
+  //////////////////////////////////////////////////////////////////////
+  // detected variant 정렬
+  dvSort(): void {
+
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    const formData = control.getRawValue();
+
+    // if (this.comments.length) {
+    //   const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
+    //   this.comments = commentControl.getRawValue();
+    // }
+    // this.store.setComments(this.comments);
+
+    this.patientInfo.recheck = this.recheck;
+    this.patientInfo.examin = this.examin;
+    this.patientInfo.vusmsg = this.vusmsg;
+
+    this.store.setRechecker(this.patientInfo.recheck);
+    this.store.setExamin(this.patientInfo.examin);
+    this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimen);
+    this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimen);
+
+    if (this.reportType === 'LYM') {
+      this.analysisService.putAnalysisLYM(
+        this.form2TestedId,
+        this.profile.leukemia,
+        this.profile.chron).subscribe(data => console.log('LYM INSERT'));
+    }
+
+
+    // tslint:disable-next-line:max-line-length
+    this.variantsService.screenTempSave2(this.form2TestedId, formData, this.comments, this.profile, this.resultStatus, this.patientInfo)
+      .pipe(
+        concatMap(() => this.variantsService.screenSelect(this.form2TestedId))
+      ).subscribe(data => {
+        this.vd = [];
+        this.checkboxStatus = [];
+        this.detactedVariants = [];
+        // tslint:disable-next-line:prefer-for-of
+        for (let i = 0; i < formData.length; i++) {
+          this.deleteRow(0);
+        }
+
+        this.recoverVariants = data;
+        this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
+        // console.log('[1925][form2][Detected variant_id]', this.recoverVariants);
+        this.store.setDetactedVariants(data); // Detected variant 저장
+        this.recoverVariants.forEach(item => {
+          this.recoverVariant(item);
+        });
+        this.putCheckboxInit(); // 체크박스 초기화
+      });
+
+  }
+
+  tsvFileVersion(tsvfile: string): void {
+
+    if (tsvfile === '5.16') {
+      this.tsvVersion = '516';
+    } else if (tsvfile === '5.10') {
+      this.tsvVersion = '510';
+    }
+  }
 
 
 }
 
-/***
- * select * from mutation where gene='SETD2' and nucleotide_change = 'c.1138delT' order by id limit 1
- *
- * Observable
-  .combineLatest(this.fooService.model, this.barService.model)
-  .switchMap(([foo, bar]) => {
-    return bazService
-      .anotherObservable(foo.someProperty)
-      .map((baz) => [foo, bar, baz]);
-  })
-  .subscribe(([foo, bar, baz]) => console.log(foo, bar, baz));
- *
- */
+

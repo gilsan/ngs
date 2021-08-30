@@ -23,6 +23,7 @@ import { Form7Component } from './sequencing/form7.component';
 import { LymphomaPreviewComponent } from './previews/lymphomaPreview/lymphomaPreview';
 import { ImmundefiComponent } from './previews/immundefi/immundefi.component';
 import { SequencingComponent } from './previews/sequencing/sequencing.component';
+import { Form1Component } from './form1/form1.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { SequencingComponent } from './previews/sequencing/sequencing.component'
     Form7Component,
     LymphomaPreviewComponent,
     ImmundefiComponent,
-    SequencingComponent
+    SequencingComponent,
+    Form1Component
     //  TestformComponent
   ],
   imports: [

@@ -72,7 +72,7 @@ export function makeCForm(
 				<Col id="rsltright1"></Col>
 				<Col id="rsltright2"></Col>
 				<Col id="rsltleft1">diagnosis</Col>
-				<Col id="rsltleft2">${profile.flt3itd}</Col>
+				<Col id="rsltleft2">${profile.leukemia}</Col>
         <Col id="rsltcenter1" type="STRING" size="256"/>Chromosomal analysis</Col>
         <Col id="rsltcenter2" type="STRING" size="256"/><![CDATA[${profile.chron}]]></Col>
 				<Col id="testinfo1">TARGET DISEASE: Lymphoma</Col>
