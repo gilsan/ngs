@@ -78,7 +78,7 @@ export function makeDForm(
 				<Col id="rsltleft1">Diagosis</Col>
 				<Col id="rsltleft2"><![CDATA[${profile.leukemia}]]></Col>
 				<Col id="rsltcenter1">Genetic test</Col>
-				<Col id="rsltcenter2">${profile.genetictest}</Col>
+				<Col id="rsltcenter2"><![CDATA[${profile.genetictest}]]</Col>
 				<Col id="rsltright1">Chromosomal analysis</Col>
 				<Col id="rsltright2"><![CDATA[${profile.chron}]]></Col>
 				<Col id="testinfo1">TARGET DISEASE: MDS/MPN</Col>
