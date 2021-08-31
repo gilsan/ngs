@@ -51,6 +51,9 @@ export class FormsComponent implements OnInit {
         } else if (type === 'FORM7') {
           this.selectedNum = 7;
           this.navigateTo('7');
+        } else if (type === 'LPE474' || type === 'LPE475') {
+          this.selectedNum = 3;
+          this.navigateTo('3');
         }
       }
 

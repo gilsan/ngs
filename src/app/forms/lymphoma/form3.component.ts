@@ -329,7 +329,7 @@ export class Form3Component implements OnInit, OnDestroy {
   //  유전자 목록 가져오기
   getGeneList(type: string): any {
     this.utilsService.getGeneList('LYM').subscribe(data => {
-      console.log('[332][유전자목록', data);
+      // console.log('[332][유전자목록', data);
       this.genelists = data;
     });
   }

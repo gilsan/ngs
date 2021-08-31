@@ -292,7 +292,8 @@ export class MainscreenComponent implements OnInit, AfterViewInit, OnDestroy {
           } else if (list.test_code === 'LPE473') {
             return { ...list, test_code: 'MDS/MPN' };
           } else if (list.test_code === 'LPE474' || list.test_code === 'LPE475') {
-            return { ...list, test_code: 'Lymphoma' };
+            return { ...list };
+            // return { ...list, test_code: 'Lymphoma' };
           } else {
             return { ...list };
           }
