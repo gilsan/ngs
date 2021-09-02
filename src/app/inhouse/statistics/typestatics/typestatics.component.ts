@@ -26,7 +26,7 @@ export class TypestaticsComponent implements OnInit, OnDestroy {
       }
     },
     series: [{
-      symbolSize: 20,
+      symbolSize: 10,
       data: [
         [10.0, 8.04],
         [8.07, 6.95],
@@ -72,10 +72,10 @@ export class TypestaticsComponent implements OnInit, OnDestroy {
   }
 
   getPatientsList(): void {
-    this.subs.sink = this.patientsList.search('20210527', '20210827', '', '', '', '')
-      .subscribe(data => {
-        console.log(data);
-      });
+    const patientslist = this.patientsList.patientInfo;
+    console.log(patientslist);
+
+
   }
 
 

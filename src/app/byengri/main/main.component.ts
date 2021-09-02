@@ -614,6 +614,8 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
         return 'EMR전송완료';
       } else if (parseInt(status, 10) === 4) {
         return '최종승인완료';
+      } else if (parseInt(status, 10) === 5) {
+        return '접수취소';
       } else {
         return '';
       }

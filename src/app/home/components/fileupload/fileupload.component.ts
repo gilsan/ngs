@@ -4,6 +4,11 @@ import { concatMap, map } from 'rxjs/operators';
 import { UploadResponse } from '../../models/uploadfile';
 import { FileUploadService } from '../../services/file-upload.service';
 
+import * as XLSX from 'xlsx';
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
+
+
 @Component({
   selector: 'app-fileupload',
   templateUrl: './fileupload.component.html',
@@ -65,14 +70,63 @@ export class FileuploadComponent implements OnInit {
       });
   }
 
-  onSelectedFile(event: any) {
+  onSelectedFile(event: any): any {
     if (event.target.files.length > 0) {
-      this.onDroppedFile(event.target.files);
+      console.log('[70][onSelectedFile]', event.target.files[0].name);
+      // this.onDroppedFile(event.target.files);
+      const file = event.target.files[0];
+      this.excelfile(file);
+
+
     }
   }
 
-  goHome() {
+  goHome(): void {
     this.router.navigate(['/diag']);
   }
+
+
+  excelfile(file: File): void {
+    let data;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const lists = [];
+      data = this.loadData(reader.result);
+      console.log(data);
+    };
+
+    data = [];
+    reader.readAsText(file);
+
+  }
+
+  loadData(file: ArrayBuffer | string): any {
+
+    let rowCount = 0;
+    const scenarios = [];
+    this.parse_tsv(file, (row) => {
+      rowCount++;
+      if (rowCount >= 0) {
+        scenarios.push(row);
+      }
+    });
+    console.log('=================\n, scenarios', scenarios);
+    console.log('===================\n');
+    return scenarios;
+  }
+
+  parse_tsv(s, f): void {
+    s = s.replace(/,/g, ';');
+    let ixEnd = 0;
+    for (let ix = 0; ix < s.length; ix = ixEnd + 1) {
+      ixEnd = s.indexOf('\n', ix);
+      if (ixEnd === -1) {
+        ixEnd = s.length;
+      }
+      const row = s.substring(ix, ixEnd).split('\t');
+      f(row);
+    }
+  }
+
 
 }

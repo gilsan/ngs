@@ -9,6 +9,7 @@ import { IPatient } from '../../models/patients';
 import { PatientsListService } from '../../services/patientslist';
 import { SubSink } from 'subsink';
 import * as moment from 'moment';
+import { geneTitles } from 'src/app/forms/commons/geneList';
 @Component({
   selector: 'app-mainscreen',
   templateUrl: './mainscreen.component.html',
@@ -79,8 +80,9 @@ export class MainscreenComponent implements OnInit, AfterViewInit, OnDestroy {
             return { ...list, test_code: 'AML' };
           } else if (list.test_code === 'LPE473') {
             return { ...list, test_code: 'MDS/MPN' };
-          } else if (list.test_code === 'LPE474') {
-            return { ...list, test_code: 'Lymphoma' };
+          } else if (list.test_code === 'LPE474' || list.test_code === 'LPE475') {
+            return { ...list };
+            // return { ...list, test_code: 'Lymphoma' };
           } else {
             return { ...list };
           }
@@ -349,6 +351,28 @@ export class MainscreenComponent implements OnInit, AfterViewInit, OnDestroy {
       return { table_bg: true };
     }
     return { table_bg: false };
+  }
+
+  showReport(testCode: string): boolean {
+    if (testCode === 'AML' || testCode === 'ALL' || testCode === 'MDS/MPN' ||
+      testCode === 'Lymphoma' || testCode === 'LPE474' ||
+      testCode === 'LPE475') {
+      return false;
+    }
+    return true;
+  }
+
+  processingSatus(testCode: string): boolean {
+    if (testCode === 'AML' || testCode === 'ALL' || testCode === 'MDS/MPN' ||
+      testCode === 'Lymphoma' || testCode === 'LPE474' || testCode === 'FORM6' ||
+      testCode === 'LPE475') {
+      return true;
+    }
+    const result = geneTitles.findIndex(item => item.gene === testCode);
+    if (result !== -1) {
+      return true;
+    }
+    return false;
   }
 
 

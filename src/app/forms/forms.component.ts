@@ -29,7 +29,7 @@ export class FormsComponent implements OnInit {
     ).subscribe(data => {
       if (data !== null) {
         const type = data;
-        // console.log('============= [forms component][24] ', type);
+        // console.log('============= [forms component][32] ', type);
         if (type === 'ALL') {
           this.selectedNum = 1;
           this.navigateTo('1');

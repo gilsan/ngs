@@ -136,7 +136,7 @@ export class Form6Component implements OnInit, OnDestroy {
       }
     });
     this.formGeneLists = this.makeGeneList(geneLists);
-    // console.log(this.makeGeneList(geneLists));
+    // console.log(this.makeGeneList( geneLists));
   }
 
   makeGeneList(lists: string[]): any {
