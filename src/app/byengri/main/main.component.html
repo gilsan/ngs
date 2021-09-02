@@ -119,7 +119,7 @@
                                <button class="btn btn_03"  style="font-size: 14px;" [matTooltip]="list.tsvorfilename">OR파일</button>
                            </a></td>
                         <td class="txt_c">{{processingStatus(i)}}</td>
-                        <td class="txt_c">
+                        <td class="txt_c"  *ngIf="list.screenstatus !== '5'; else result ">
                             <button type="button" class="btn btn_03 "
                             *ngIf="list.tsvirfilename  && list.tsvorfilename ; else printing"
                             (click)="goReporter(i)"
@@ -129,12 +129,19 @@
                                   (click)="goUploadpage(list.pathology_num, i, 'N')">파일등록/변환</button>
                            </ng-template>
                         </td>
-                        <td class="txt_c">
+                        <ng-template #result>
+                            <td class="txt_c"></td>
+                        </ng-template>
+
+                        <td class="txt_c" *ngIf="list.screenstatus !== '5'; else noregister ">
                           <button type="button" class="btn btn_03"
                           *ngIf="list.tsvirfilename  && list.tsvorfilename;"
                           (click)="goUploadpage(list.pathology_num,i, 'R')"
                           >재등록</button>
                         </td>
+                        <ng-template #noregister>
+                            <td class="txt_c"></td>
+                        </ng-template>
                         <td class="txt_c">{{list.rechecker}}</td>  <!-- 진단의 항목     -->
                     </tr>
                 </tbody>
