@@ -4,6 +4,25 @@ export const geneLists = ['LPE439', 'LPE532', 'LPE454', 'LPE541', 'LPE542', 'LPE
   'LPE540', 'LPE490', 'LPE539', 'LPE543', 'LPE523', 'LPE531', 'LPE521', 'LPE517', 'LPE518', 'LPE497',
   'LPE529', 'LPE534', 'LPE524', 'LPE519', 'LPE537', 'LPE538', 'LPE453', 'LPE498', 'LPE548'];
 
+export const sequencingLists = [
+  'LPC100', 'LPC101', 'LPC117', 'LPC118', 'LPC160', 'LPC161', 'LPC178', 'LPC194', 'LPE115', 'LPE141',
+  'LPE156', 'LPE194', 'LPE221', 'LPE227', 'LPE229', 'LPE230', 'LPE231', 'LPE233', 'LPE236',
+  'LPE237', 'LPE238', 'LPE241', 'LPE243', 'LPE244', 'LPE245', 'LPE246', 'LPE247', 'LPE249', 'LPE251',
+  'LPE253', 'LPE255', 'LPE258', 'LPE262', 'LPE267', 'LPE272', 'LPE275', 'LPE276', 'LPE277', 'LPE278',
+  'LPE279', 'LPE280', 'LPE282', 'LPE283', 'LPE284', 'LPE285', 'LPE286', 'LPE287', 'LPE289', 'LPE290',
+  'LPE295', 'LPE296', 'LPE297', 'LPE302', 'LPE306', 'LPE308', 'LPE310', 'LPE313', 'LPE314',
+  'LPE316', 'LPE318', 'LPE319', 'LPE320', 'LPE321', 'LPE325', 'LPE328', 'LPE330', 'LPE331',
+  'LPE334', 'LPE337', 'LPE338', 'LPE340', 'LPE341', 'LPE342', 'LPE343', 'LPE349', 'LPE350',
+  'LPE352', 'LPE353', 'LPE354', 'LPE356', 'LPE358', 'LPE360', 'LPE361', 'LPE362', 'LPE364', 'LPE366',
+  'LPE368', 'LPE371', 'LPE374', 'LPE375', 'LPE376', 'LPE378', 'LPE379', 'LPE384', 'LPE391', 'LPE392',
+  'LPE410', 'LPE412', 'LPE413', 'LPE414', 'LPE418', 'LPE420', 'LPE428', 'LPE431', 'LPE433',
+  'LPE435', 'LPE436', 'LPE457', 'LPE460', 'LPE462', 'LPE469', 'LPE477', 'LPE481', 'LPE482', 'LPE494',
+  'LPE495'];
+
+export const mlpaLists = [
+  'LPE232', 'LPE294', 'LPE322', 'LPE332', 'LPE351', 'LPE369', 'LPE377', 'LPE464'
+];
+// 유전성 유전질환
 export const geneTitles = [
   { gene: 'LPE439', title: 'Long QT Syndrome [NGS]', lists: 'AARS2, ABCC9, ACAD9, ACADVL, ACTA1, ACTC1, ACTN2, AGK, AGL, AGPAT2, AKAP9, ALMS1, ANK2, ANK3, ANKRD1, ANO5, ATPAF2, BAG3, BRAF, BSCL2, CACNA1C, CACNA1D, CACNA2D1, CACNB2, CALM1, CALM3, CALR3, CAPN3, CASQ2, CAV3, CHRM2, COA5, COL7A1, COQ2, COX15, COX6B1, CRYAB, CSRP3, CTNNA3, CTNNB1, DES, DLD, DMD, DNAJC19, DNM1L, DOLK, DSC2, DSG2, DSP, DTNA, ELAC2, EMD, EYA4, FAH, FHL1, FHL2, FKRP, FKTN, FLNC, FOXRED1, FXN, GAA, GATA4, GATA6, GATAD1, GFM1, GJA1, GJA5, GLA, GLB1, GNPTAB, GPD1L, GUSB, HCN4, HFE, HRAS, IDH2, ILK, JPH2, JUP, KCNA5, KCND2, KCND3, KCNE1, KCNE2, KCNE3, KCNH2, KCNJ2, KCNJ5, KCNJ8, KCNQ1, KLF10, KRAS, LAMA2, LAMA4, LAMP2, LDB3, LDLR, LIAS, LMNA, MAP2K1, MAP2K2, MLYCD, MRPL3, MRPS22, MTO1, MYBPC3, MYH11, MYH6, MYH7, MYL2, MYL3, MYLK2, MYOM1, MYOT, MYOZ2, MYPN, NEBL, NEXN, NF1, NKX2-5, NKX2-6, NOS1AP, NOTCH1, NPPA, NRAS, OBSCN, OBSL1, OPA3, PDHA1, PDLIM3, PHKA1, PITX2, PKP2, PLN, PMM2, PRKAG2, PSEN1, PSEN2, PTPN11, RAF1, RANGRF, RBM20, RYR2, SCN10A, SCN1B, SCN2B, SCN3B, SCN4B, SCN5A, SCO2, SDHA, SGCA, SGCB, SGCD, SHOC2, SLC22A5, SLC25A3, SLC25A4, SNTA1, SOS1, SPRED1, SURF1, SYNE1, SYNE2, TAZ, TBX20, TBX5, TCAP, TGFB3, TMEM43, TMEM70, TMPO, TNNC1, TNNI3, TNNI3K, TNNT2, TPM1, TRDN, TRPM4, TSFM, TTN, TTR, TXNRD2, VCL, XK, ZFHX3', target: 'Long QT syndrome (30 genes)' },
   { gene: 'LPE532', title: 'Ras질병(Rasopathy) [NGS]', lists: 'BRAF, CBL, HRAS, KRAS, MAP2K1, MAP2K2, NF1, NRAS, PTPN11, RAF1, RASA1, SHOC2, SOS1, SPRED1, ACTB, ACTG1, FGD1, KAT6B, CABIN1, NF2, NSUN2', target: 'Rasopathy (13 genes)' },
@@ -45,7 +64,7 @@ export const geneTitles = [
   { gene: 'LPE548', title: '근긴장이상질환 [NGS]', lists: 'ACAT1, ACTB, ADCY5, ARSA, ATM, ATP1A3, ATP7B, ATXN3, C19orf12, COL6A3, CP, DCAF17, DDC, DRD2, FA2H, FTL, GCDH, GCH1, GLB1, GNAL, HPRT1, KCNMA1, KIF1C, MUT, PANK2, PCCA, PCCB, PDHA1, PLA2G6, PNKD, PRKN, PRKRA, PRRT2, PTS, QDPR, RELN, SGCE, SLC19A3, SLC2A1, SLC30A10, SLC6A3, SPR, SUCLA2, TAF1, TBCE, TH, THAP1, TIMM8A, TOR1A, TUBB4A, WDR45', target: 'Disease: Dystonia (51 genes)' },
 ];
 
-export const testCodeList = [
+export const testCodeLists = [
   { ngstype: 'Acute Leukemia NGS', title: 'Acute Myeloid Leukemia NGS', code: 'LPE471', testname: '급성골수성백혈병 [NGS]' },
   { ngstype: 'Acute Leukemia NGS', title: 'Acute Lymphoblastic Leukemia NGS', code: 'LPE472', testname: '급성림프구성백혈병 [NGS]' },
   { ngstype: 'MDS/MPN NGS', title: 'MDS/MPN NGS', code: 'LPE473', testname: '골수형성이상, 골수증식종양 [NGS]' },
@@ -103,7 +122,7 @@ export const testCodeList = [
   { ngstype: 'Sequencing', title: 'Marfan syndrome gene test (FBN1)', code: 'LPE141', testname: 'Marfan syndrome gene test (FBN1)' },
   { ngstype: 'Sequencing', title: 'MYD88 gene, Mutation [sequencing]', code: 'LPE156', testname: 'MYD88 gene, Mutation [sequencing]' },
   { ngstype: 'Sequencing', title: 'VHL Gene Mutation ', code: 'LPE194', testname: 'VHL Gene Mutation ' },
-  { ngstype: 'Sequencing', title: 'MELAS, MT-TL1 gene [sequencing]', code: 'LPE196', testname: 'MELAS, MT-TL1 gene [sequencing]' },
+  // { ngstype: 'Sequencing', title: 'MELAS, MT-TL1 gene [sequencing]', code: 'LPE196', testname: 'MELAS, MT-TL1 gene [sequencing]' },
   { ngstype: 'Sequencing', title: 'PARK2 gene, Mutation[sequencing]', code: 'LPE221', testname: 'PARK2 gene, Mutation[sequencing]' },
   { ngstype: 'Sequencing', title: 'Congenital adrenal hyperplasia gene test (CYP21A2) ', code: 'LPE227', testname: 'Congenital adrenal hyperplasia gene test (CYP21A2) ' },
   { ngstype: 'Sequencing', title: 'patient-Corneal dystrophy gene test (TGFBI)', code: 'LPE229', testname: 'patient-Corneal dystrophy gene test (TGFBI)' },
@@ -145,7 +164,7 @@ export const testCodeList = [
   { ngstype: 'Sequencing', title: 'TP53, family (부분)', code: 'LPE296', testname: '' },
   { ngstype: 'Sequencing', title: 'PTPN11, family (부분)  ', code: 'LPE297', testname: '' },
   { ngstype: 'Sequencing', title: 'LHON gene test (sequencing)', code: 'LPE302', testname: '' },
-  { ngstype: 'Sequencing', title: 'DYT1 (TOR1A) gene test', code: 'LPE303', testname: '' },
+  // { ngstype: 'Sequencing', title: 'DYT1 (TOR1A) gene test', code: 'LPE303', testname: '' },
   { ngstype: 'Sequencing', title: 'HNF1A gene (MODY3) test ', code: 'LPE306', testname: '' },
   { ngstype: 'Sequencing', title: 'PTEN gene (hamartoma tumor syndrome) test ', code: 'LPE308', testname: '' },
   { ngstype: 'Sequencing', title: 'MEN1 gene test  ', code: 'LPE310', testname: '' },
@@ -156,13 +175,13 @@ export const testCodeList = [
   { ngstype: 'Sequencing', title: 'FANCA, family (부분)', code: 'LPE319', testname: '' },
   { ngstype: 'Sequencing', title: 'Wilson disease (ATP7B Whole Sequencing)', code: 'LPE320', testname: '' },
   { ngstype: 'Sequencing', title: 'ATP7B, family (부분)', code: 'LPE321', testname: '' },
-  { ngstype: 'Sequencing', title: 'Achondroplasia (FGFR3 G380R)', code: 'LPE323', testname: '' },
+  // { ngstype: 'Sequencing', title: 'Achondroplasia (FGFR3 G380R)', code: 'LPE323', testname: '' },
   { ngstype: 'Sequencing', title: 'MEN1, family (부분)', code: 'LPE325', testname: '' },
   { ngstype: 'Sequencing', title: 'β-Thalassemia(HBB), family (부분)', code: 'LPE328', testname: '' },
   { ngstype: 'Sequencing', title: 'OPA1 (optic atrophy 1) gene test ', code: 'LPE330', testname: '' },
   { ngstype: 'Sequencing', title: 'OPA1, family (부분)', code: 'LPE331', testname: '' },
   { ngstype: 'Sequencing', title: 'MAPT (Frontotemporal dementia) gene test', code: 'LPE334', testname: '' },
-  { ngstype: 'Sequencing', title: 'TPMT genotyping', code: 'LPE336', testname: '' },
+  // { ngstype: 'Sequencing', title: 'TPMT genotyping', code: 'LPE336', testname: '' },
   { ngstype: 'Sequencing', title: 'RPS19 gene test', code: 'LPE337', testname: '' },
   { ngstype: 'Sequencing', title: 'RPS19, family (부분)', code: 'LPE338', testname: '' },
   { ngstype: 'Sequencing', title: 'CFTR gene mutation', code: 'LPE340', testname: '' },
@@ -198,7 +217,6 @@ export const testCodeList = [
   { ngstype: 'Sequencing', title: 'HAX1 gene, Mutation [Sequencing]', code: 'LPE418', testname: '' },
   { ngstype: 'Sequencing', title: 'DMD gene, Mutation [sequencing]', code: 'LPE420', testname: '' },
   { ngstype: 'Sequencing', title: 'MLL2 gene, Mutation [sequencing]', code: 'LPE428', testname: '' },
-  { ngstype: 'Sequencing', title: '(국제진료용) Inherited Disease Panel', code: 'LPE430', testname: '' },
   { ngstype: 'Sequencing', title: 'IKBKG gene, Mutation [sequencing]', code: 'LPE431', testname: '' },
   { ngstype: 'Sequencing', title: 'PRRT2, gene test [Sequencing]', code: 'LPE433', testname: '' },
   { ngstype: 'Sequencing', title: 'DMD, family (부분)', code: 'LPE435', testname: '' },

@@ -10,6 +10,8 @@ export class SequencingComponent implements OnInit {
 
   @Input() patientInfo: IPatient;
   @Input() sequence: ISequence;
+  @Input() result: string;
+  @Input() title: string;
   @Output() closemodal = new EventEmitter<void>();
   constructor() { }
 

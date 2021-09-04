@@ -10,6 +10,8 @@ export class ImmundefiComponent implements OnInit {
 
   @Input() patientInfo: IPatient;
   @Input() immundefi: IImmundefi[];
+  @Input() result: string;
+  @Input() title: string;
   @Output() closemodal = new EventEmitter<void>();
   constructor() { }
 

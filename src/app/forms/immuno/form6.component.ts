@@ -68,6 +68,7 @@ export class Form6Component implements OnInit, OnDestroy {
   form: FormGroup;
   private subs = new SubSink();
   target: string;
+  resultStatus = 'Detected';
 
   technique = `본 검사는 massively parallel sequencing 방법을 이용하여 연관된 유전자의 모든 coding exon과 인접 intron 부위를 분석하는 검사법입니다.  본 검사실은 2015 ACMG 지침의 분류에 따른  Pathogenic, Likely Pathogenic, Uncertain significance  변이에 대하여 Sanger sequencing으로 확인 후 보고하며 Likely benign, Benign 변이는 보고하지 않습니다(Genet Med. 2015 May;17(5):405-24.). `;
   methods = `Total genomic DNA was extracted from the each sample.  The TruSeq DNA Sample Preparation kit of Illumina was used to make the library. The Agilent SureSelect Target enrichment kit was used for in-solution enrichment of target regions. The enriched fragments were then amplified and sequenced on the HiSeq2000 system (illumina). After demultiplexing, the reads were aligned to the human reference genome hg19 (GRCh37) using BWA (0.7.12). Duplicate reads were removed with Picard MarkDuplicates (1.130), local realignment around indels was performed with GATK RealignerTargetCreator (3.4.0), base scores were recalibrated with GATK BaseRecalibrator (3.4.0), and then variants were called with GATK HaplotypeCaller (3.4.0). Variants were annotated using SnpEff (4.1g).`;
@@ -361,6 +362,22 @@ export class Form6Component implements OnInit, OnDestroy {
     //   this.lastReportDay = this.today().replace(/-/g, '.');
     // }
 
+
+  }
+
+  // tslint:disable-next-line:typedef
+  result(event) {
+    console.log(event);
+    this.resultStatus = event.srcElement.defaultValue;
+    // console.log('[556][라디오 검체]', this.resultStatus);
+  }
+
+
+  radioStatus(type: string): boolean {
+    if (type === this.resultStatus) {
+      return true;
+    }
+    return false;
   }
 
 

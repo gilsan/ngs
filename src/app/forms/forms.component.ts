@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, map, take } from 'rxjs/operators';
-import { geneLists } from './commons/geneList';
+import { geneLists, mlpaLists, sequencingLists } from './commons/geneList';
 
 @Component({
   selector: 'app-forms',
@@ -42,13 +42,13 @@ export class FormsComponent implements OnInit {
         } else if (type === 'MDS/MPN') {
           this.selectedNum = 4;
           this.navigateTo('4');
-        } else if (type === 'MLPA') {
+        } else if (this.mlpaList(type)) {
           this.selectedNum = 5;
           this.navigateTo('5');
-        } else if (this.geneList(type)) {
+        } else if (this.geneList(type)) {  // 유전성 유전자
           this.selectedNum = 6;
           this.navigateTo('6');
-        } else if (type === 'FORM7') {
+        } else if (this.sequencingList(type)) {
           this.selectedNum = 7;
           this.navigateTo('7');
         } else if (type === 'LPE474' || type === 'LPE475') {
@@ -60,8 +60,17 @@ export class FormsComponent implements OnInit {
     });
   }
 
+  // 유전성 유전자
   geneList(gene: string): boolean {
     return geneLists.includes(gene);
+  }
+
+  mlpaList(gene: string): boolean {
+    return mlpaLists.includes(gene);
+  }
+
+  sequencingList(gene: string): boolean {
+    return sequencingLists.includes(gene);
   }
 
   // tslint:disable-next-line: typedef
@@ -81,7 +90,7 @@ export class FormsComponent implements OnInit {
     } else if (this.selectedNum === 6) {
       this.router.navigate(['/diag', 'jingum', 'form6', 'FORM6']);
     } else if (this.selectedNum === 7) {
-      this.router.navigate(['/diag', 'jingum', 'form7', 'FORM7']);
+      this.router.navigate(['/diag', 'jingum', 'form7', 'Sequencing']);
     }
   }
 

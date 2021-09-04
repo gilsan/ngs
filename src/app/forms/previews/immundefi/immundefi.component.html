@@ -1,6 +1,6 @@
 <div id="result">
     <div id="container" style="position: relative;">
-        <h2 style="margin-top: 5px;">선천성 면역결핍증 [NGS]</h2>
+        <h2 style="margin-top: 5px;">{{title}}</h2>
         <button type="button" class="preview__button"  (click)="closeModal()" >닫기</button>
 
 
@@ -10,7 +10,7 @@
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
                     <td class="txt_02" ><span class="fb">Result </span>:
-                        <label for="vertical-radio2" class="clr-col-12 clr-col-md-2">Likely pathogenic variant detected</label>
+                        <label for="vertical-radio2" class="clr-col-12 clr-col-md-2">Likely pathogenic variant {{result}}</label>
                         &nbsp;&nbsp;
                     </td>
                   </tr>

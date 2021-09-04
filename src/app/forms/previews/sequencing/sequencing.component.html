@@ -1,6 +1,6 @@
 <div id="result">
     <div id="container" style="position: relative;">
-        <h2 style="margin-top: 5px;">&#60;DNMT3A Targeted Mutation Analysis Report&#62;</h2>
+        <h2 style="margin-top: 5px;">&#60;{{title}}&#62;</h2>
         <button type="button" class="preview__button" (click)="closeModal()">닫기</button>
 
         <div id="content">
@@ -10,12 +10,7 @@
                   <tr>
                     <td class="txt_02" ><span class="fb">Result </span>:
                         <label class="">DUMT3A gene Mutation</label>
-                        &nbsp;&nbsp;
-                        <input type="radio" class="clr-radio">
-                        <label for="vertical-radio2" class="clr-col-12 clr-col-md-2">Detected</label>
-                        &nbsp;&nbsp;
-                        <input type="radio" class="clr-radio">
-                        <label for="vertical-radio1" class="clr-col-12 clr-col-md-2">Not Detected</label>
+                        &nbsp;&nbsp;{{result}}
                     </td>
                   </tr>
                 </table>

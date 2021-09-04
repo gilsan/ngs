@@ -7,6 +7,7 @@ import { IPatient, ISequence } from 'src/app/home/models/patients';
 import { SubSink } from 'subsink';
 import { Router } from '@angular/router';
 import { map, shareReplay } from 'rxjs/operators';
+import { FindNgsTitleService } from '../commons/findngstitle.service';
 
 
 @Component({
@@ -66,6 +67,7 @@ export class Form7Component implements OnInit, OnDestroy {
 
   screenstatus: string;
   form: FormGroup;
+  ngsTitle: string;
   private subs = new SubSink();
 
   constructor(
@@ -74,6 +76,7 @@ export class Form7Component implements OnInit, OnDestroy {
     private patientsListService: PatientsListService,
     private utilsService: UtilsService,
     private variantsService: DetectedVariantsService,
+    private titleService: FindNgsTitleService,
   ) { }
 
   ngOnInit(): void {
@@ -139,6 +142,7 @@ export class Form7Component implements OnInit, OnDestroy {
 
   // 내역 가져오기
   getSequencing(): void {
+    this.ngsTitle = this.titleService.findSequencingTitle(this.patientInfo.test_code);
     this.subs.sink = this.variantsService.contentScreen7(this.form2TestedId)
       .subscribe(data => {
         console.log('[144]', data[0]);
@@ -230,6 +234,21 @@ export class Form7Component implements OnInit, OnDestroy {
       .subscribe(data => {
         console.log(data);
       });
+  }
+
+  // tslint:disable-next-line:typedef
+  result(event) {
+    console.log(event);
+    this.resultStatus = event.srcElement.defaultValue;
+    // console.log('[556][라디오 검체]', this.resultStatus);
+  }
+
+
+  radioStatus(type: string): boolean {
+    if (type === this.resultStatus) {
+      return true;
+    }
+    return false;
   }
 
 
