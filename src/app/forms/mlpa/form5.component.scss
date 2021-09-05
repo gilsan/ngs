@@ -149,6 +149,38 @@ h2 {
   width: 80%;
 }
 
+.table_list {
+  min-width: 500px;
+  padding: 0;
+  margin-bottom: 0;
+}
+
+.table_list th:first-child, 
+.table_list td:first-child {
+  border-left: 1px solid #e0e0e0;
+}
+
+.table_list.text-center td {
+  text-align: center;
+}
+
+.table_list th {
+  padding: 5px;
+}
+
+.table_list td {
+  padding: 0 10px;
+}
+
+.table_list td.bold {
+  font-weight: bold;
+}
+.table_list.text-center td.left {
+  text-align: left;
+}
+.table_list td.red {
+  color: red;
+}
 
 .table_list.padding_0 th {
   padding: 0px 10px;
@@ -231,4 +263,28 @@ td.multi_line {
 
   left: 230px;
   background-color: #fafafa;
+}
+
+// .discription {
+//   border-top: 1px dashed #e0e0e0;
+//   box-sizing: border-box;
+//   padding-top: 10px;
+//   margin-top: 10px;
+// }
+
+.box-wrap {
+  display: block;
+  font-size: 0;
+}
+.col2 {
+  display: inline-block;
+  width: 50%;
+  box-sizing: border-box;
+  overflow-x: auto;
+}
+.col2.left {
+  padding-right: 10px;
+}
+.col2.right {
+  padding-left: 10px;
 }
