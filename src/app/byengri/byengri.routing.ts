@@ -8,6 +8,7 @@ import { ReportResolver } from './byengri/report/report.resolver';
 import { ResearchComponent } from './byengri/research/research.component';
 
 import { FileuploadComponent } from './fileupload/fileupload.component';
+import { BlacklistComponent } from './inhouse/blacklist/blacklist.component';
 import { MainComponent } from './main/main.component';
 import { MainpaComponent } from './mainpa/mainpa.component';
 import { PathReportComponent } from './path-report/path-report.component';
@@ -28,7 +29,7 @@ const routes: Routes = [
       { path: 'managestatistics', component: ManageStatisticsComponent },
       { path: 'manageusers', component: ManageUsersComponent },
       { path: 'report/:pathologyNum', component: ReportComponent },
-      { path: 'sheet', component: PathReportComponent },
+      { path: 'blacklist', component: BlacklistComponent },
       { path: 'mainpa', component: MainpaComponent },
       { path: 'research', component: ResearchComponent },
       { path: 'research/:id', component: ResearchComponent, resolve: { patientinfo: ReportResolver } },

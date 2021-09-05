@@ -147,6 +147,10 @@ export class ByengriComponent implements OnInit {
     });
   }
 
+  link(url: string): void {
+    this.router.navigate(['pathology', 'blacklist']);
+  }
+
 
 
 }

@@ -20,6 +20,7 @@ import { MainpaComponent } from './mainpa/mainpa.component';
 import { PwchangeComponent } from './pwchange/pwchange.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ResearchComponent } from './byengri/research/research.component';
+import { BlacklistComponent } from './inhouse/blacklist/blacklist.component';
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import { ResearchComponent } from './byengri/research/research.component';
     MainpaComponent,
     PwchangeComponent,
     ResearchComponent,
+    BlacklistComponent,
   ],
   imports: [
 
