@@ -15,9 +15,7 @@ export class BlacklistComponent implements OnInit {
   listIpolymorphism: Ipolymorphism[];
   ipolymorphism: Ipolymorphism;
 
-  lists2 = [
-    { gene: 'AURKA', amino_acid_change: 'p.lle57Val', nucleotide_change: 'c.169A>G', reason: 'UCSC common SNP' }
-  ];
+
   genes: string;
   curPage: number;
   totPage: number;
