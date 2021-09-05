@@ -238,9 +238,9 @@ export interface IFilteredTSV {
 export interface Ipolymorphism {
   id?: string;
   gene: string;
-  aminoAcidChange: string;
+  aminoAcidChange?: string;
   amino_acid_change?: string;
-  necleotideChange: string;
+  necleotideChange?: string;
   nucleotide_change?: string;
   reason?: string;
 }

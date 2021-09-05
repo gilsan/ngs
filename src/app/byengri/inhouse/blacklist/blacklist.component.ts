@@ -35,7 +35,11 @@ export class BlacklistComponent implements OnInit {
 
   excelDownload(): void { }
 
-  insertRow(): void { }
+  insertRow(): void {
+    this.lists.push({ gene: '', amino_acid_change: '', nucleotide_change: '', reason: '' });
+  }
+
+
 
   search(genes: string = '', coding: string = ''): void {
     this.totRecords = 0;

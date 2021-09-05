@@ -226,7 +226,6 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
     this.filteredService.getPolymorphism()
       .subscribe(data => {
         this.polymorphismList = data;
-
       });
 
     // tslint:disable-next-line:no-string-literal
