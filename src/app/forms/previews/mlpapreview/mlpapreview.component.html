@@ -1,0 +1,165 @@
+<div id="result">
+    <div id="container" style="position: relative;">
+        <!-- <h2 style="margin-top: 5px;">MLPA</h2> -->
+        <button type="button" class="preview__button" (click)="closeModal()">닫기</button>
+        <div id="content">
+            <div class="box pd_20">
+                <div class="sub_title">Patient: {{patientInfo.name}}, {{patientInfo.patientID}} ({{patientInfo.gender}}/{{patientInfo.age}})</div>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td class="txt_02" ><span class="fb">Result </span>:
+                         {{result}} {{resultStatus}}
+                    </td>
+                  </tr>
+                </table>
+
+                <div style="margin-top:5px;"></div>
+                <div class="sub_title">Test Information</div>
+                <table cellpadding="0" cellspacing="0" class="table_result02">
+                  <colgroup>
+                  <col style="width:50%;" />
+                  <col style="width:50%;" />
+                  </colgroup>
+                  <tbody>
+                      <tr>
+                          <td> TARGET DISEASE: Acute lymphoblastic leukemia</td>
+                          <td> METHOD: *Massively parallel sequencing</td>
+                      </tr>
+                      <tr>
+                          <td> SPECIMEN: Genomic DNA isolated from Bone marrow</td>
+                          <td> REQUEST:  {{request}}</td>
+                      </tr>
+                      <tr>
+                        <td colspan="2"> Analyzed gene : DMD on Xp21</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <div class="sub_title"></div>
+                <div class="box_wrap" *ngIf="showTable3">
+                    <div class="col2 left">
+                        <table class="table_list text-center">
+                            <caption>MLAP-1</caption>
+                            <colgroup>
+                                <col width="30%">
+                                <col width="40%">
+                                <col width="30%">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>Prode #</th>
+                                    <th>Site</th>
+                                    <th>Result</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let list of mlpaData1;">
+                                    <td>{{list.id}}</td>
+                                    <td>{{list.site}}</td>
+                                    <td>{{list.result}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col2 right"  *ngIf="showTable3">
+                        <table class="table_list text-center">
+                            <caption>MLAP-1</caption>
+                            <colgroup>
+                                <col width="30%">
+                                <col width="40%">
+                                <col width="30%">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>Prode #</th>
+                                    <th>Site</th>
+                                    <th>Result</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let list of mlpaData2;">
+                                    <td>{{list.id}}</td>
+                                    <td>{{list.site}}</td>
+                                    <td>{{list.result}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="sub_title"></div>
+                <div class="box_wrap"  *ngIf="showTable4">
+                    <div class="col2 left">
+                        <table class="table_list text-center">
+                            <caption>MLAP-2</caption>
+                            <colgroup>
+                                <col width="70px">
+                                <col width="39%">
+                                <col width="20%">
+                                <col width="29%">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>Prode #</th>
+                                    <th>Site</th>
+                                    <th>Deletion</th>
+                                    <th>Methylation</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let list of mlpaData1;">
+                                    <th>{{list.id}}</th>
+                                    <th>{{list.site}}</th>
+                                    <th>{{list.deletion}}</th>
+                                    <th>{{list.methylation}}</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col2 right" *ngIf="showTable4">
+                        <table class="table_list text-center">
+                            <caption>MLAP-2</caption>
+                            <colgroup>
+                                <col width="70px">
+                                <col width="39%">
+                                <col width="20%">
+                                <col width="29%">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>Prode #</th>
+                                    <th>Site</th>
+                                    <th>Deletion</th>
+                                    <th>Methylation</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let list of mlpaData2;">
+                                    <th>{{list.id}}</th>
+                                    <th>{{list.site}}</th>
+                                    <th>{{list.deletion}}</th>
+                                    <th>{{list.methylation}}</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="sub_title">결론 및 의견</div>
+                <div class="pd_r20">
+                    <textarea class="textarea_01">{{conclusion}}</textarea>
+                </div>
+
+                <div class="sub_title">Comment</div>
+                <div class="pd_r20">
+                    <textarea class="textarea_01">{{comment}}</textarea>
+                </div>
+
+
+            </div>
+
+
+
+        </div>
+    </div>
+</div>

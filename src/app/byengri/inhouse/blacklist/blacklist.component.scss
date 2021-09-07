@@ -60,6 +60,13 @@ caption {
   border-radius: 3px;
 }
 
+.btn-edit:hover,
+.btn-delete:hover,
+.btn-cancel:hover,
+.btn-save:hover {
+  cursor: pointer;
+}
+
 .btn-edit {
   background: url(../images/edit.png);
   background-size: 20px;

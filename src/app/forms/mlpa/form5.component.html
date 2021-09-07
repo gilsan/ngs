@@ -1,19 +1,19 @@
 <div id="result">
     <div id="container" style="position: relative;">
-        <h2 style="margin-top: 5px;">MLPA</h2>
-        <button type="button" class="preview__button">미리보기</button>
+        <h2 style="margin-top: 5px;">{{method}}</h2>
+        <button type="button" class="preview__button" (click)="previewToggle()">미리보기</button>
         <!--button type="button" class="excel">Excel</button-->
 
         <div id="content">
             <div class="box pd_20">
-                <div class="sub_title">Patient: 성민모 35319601(M/51)</div>
+                <div class="sub_title">Patient:{{patientInfo.name}}, {{patientInfo.patientID}} ({{patientInfo.gender}}/{{patientInfo.age}})</div>
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
-                    <td class="txt_02" ><span class="fb">Result </span>:
-                        <input type="radio" class="clr-radio">
-                        <label for="vertical-radio2" class="clr-col-12 clr-col-md-2">Detected</label>
+                    <td class="txt_02" ><span class="fb">Result </span>: {{mlpaData.result}}
+                        <input type="radio" id="vertical-radio2" name="radio-full" [value]="'Detected'" [checked]="radioStatus('Detected')" class="clr-radio"  (change)="result($event)">
+                        <label for="vertical-radio2" class="  clr-col-12 clr-col-md-2">Detected</label>
                         &nbsp;&nbsp;
-                        <input type="radio" class="clr-radio">
+                        <input type="radio" id="vertical-radio1" name="radio-full" [value]="'Not Detected'" class="clr-radio"  (change)="result($event)" [checked]="radioStatus('Not Detected')">
                         <label for="vertical-radio1" class="clr-col-12 clr-col-md-2">Not Detected</label>
                     </td>
                   </tr>
@@ -33,7 +33,7 @@
                       </tr>
                       <tr>
                           <td> SPECIMEN: Genomic DNA isolated from Bone marrow</td>
-                          <td> REQUEST: 윤재호/혈액내과</td>
+                          <td> REQUEST: {{patientInfo.request}}</td>
                       </tr>
                       <tr>
                         <td colspan="2"> Analyzed gene : DMD on Xp21</td>
@@ -41,8 +41,8 @@
                   </tbody>
                 </table>
 
-                <div class="sub_title">MLAP-1</div>
-                <div class="box_wrap">
+                <div class="sub_title"></div>
+                <div class="box_wrap"  *ngIf="showtable3">
                     <div class="col2 left">
                         <table class="table_list text-center">
                             <caption>MLAP-1</caption>
@@ -59,25 +59,14 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Q-fragments</td>
-                                    <td>Normal</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>X-fragments</td>
-                                    <td>Normal</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Y-fragments</td>
-                                    <td>Normal</td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>exon1</td>
-                                    <td>Normal</td>
+                                <tr *ngFor="let list of mlpaData1; let i= index">
+                                    <td>{{list.id}}</td>
+                                    <td>
+                                      <input type="text" #site1 class="input_02 textcenter" (change)="mlpa1Site(i, site1.value, 'L')" [value]="list.site">
+                                    </td>
+                                    <td>
+                                      <input type="text" #result1 class="input_02 textcenter" (change)="mlpa1Result(i, result1.value, 'L')" [value]="list.result">
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -98,33 +87,22 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Q-fragments</td>
-                                    <td>Normal</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>X-fragments</td>
-                                    <td>Normal</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Y-fragments</td>
-                                    <td>Normal</td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>exon1</td>
-                                    <td>Normal</td>
+                                <tr *ngFor="let list of mlpaData2; let i=index">
+                                    <td>{{list.id}}</td>
+                                    <td>
+                                      <input type="text" class="input_02 textcenter" #site2 (change)="mlpa1Site(i, site2.value, 'R')" [value]="list.site">
+                                    </td>
+                                    <td>
+                                      <input type="text" class="input_02 textcenter"#result2 (change)="mlpa1Result(i, result2.value, 'R')" [value]="list.result">
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
 
-                <div class="sub_title">MLAP-2</div>
-                <div class="box_wrap">
+                <div class="sub_title"></div>
+                <div class="box_wrap" *ngIf="showtable4">
                     <div class="col2 left">
                         <table class="table_list text-center">
                             <caption>MLAP-2</caption>
@@ -143,29 +121,17 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Q-fragments</td>
-                                    <td>Normal</td>
-                                    <td>Normal</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>X-fragments</td>
-                                    <td>Normal</td>
-                                    <td>Normal</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Y-fragments</td>
-                                    <td>Normal</td>
-                                    <td>Normal</td>
-                                </tr>
-                                <tr>
-                                    <td>8</td>
-                                    <td class="bold left">exon1</td>
-                                    <td>Normal</td>
-                                    <td class="bold red">GOM</td>
+                                <tr *ngFor="let list of mlpaData1; let i = index;">
+                                    <td>{{list.id}}</td>
+                                    <td>
+                                      <input type="text" class="input_02 textcenter" #site3 (change)="mlpa2Site(iist, site3.value, 'L')" [value]="list.site">
+                                    </td>
+                                    <td>
+                                      <input type="text" class="input_02 textcenter" #deletion1 (change)="mlpa2Deletion(iist, deletion1.value, 'L')" [value]="list.deletion">
+                                    </td>
+                                    <td>
+                                      <input type="text" class="input_02 textcenter" #meth1 (change)="mlpa2Methylation(iist, meth.value, 'L')" [value]="list.methylation">
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -188,29 +154,17 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Q-fragments</td>
-                                    <td>Normal</td>
-                                    <td>Normal</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>X-fragments</td>
-                                    <td>Normal</td>
-                                    <td>Normal</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Y-fragments</td>
-                                    <td>Normal</td>
-                                    <td>Normal</td>
-                                </tr>
-                                <tr>
-                                    <td>8</td>
-                                    <td class="bold left">exon1</td>
-                                    <td>Normal</td>
-                                    <td class="bold red">GOM</td>
+                                <tr *ngFor="let list of mlpaData2">
+                                    <td>{{list.id}}</td>
+                                    <td>
+                                      <input type="text" class="input_02 textcenter" #site4 (change)="mlpa2Site(iist, site4.value, 'R')" [value]="list.site">
+                                    </td>
+                                    <td>
+                                      <input type="text" class="input_02 textcenter" #deletion2 (change)="mlpa2Deletion(iist, deletion2.value, 'R')" [value]="list.deletion">
+                                    </td>
+                                    <td>
+                                      <input type="text" class="input_02 textcenter" #meth2 (change)="mlpa2Methylation(iist, meth2.value, 'R')" [value]="list.methylation">
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -219,29 +173,29 @@
 
                 <div class="sub_title">결론 및 의견</div>
                 <div class="pd_r20">
-                    <textarea class="textarea_01"></textarea>
+                    <textarea class="textarea_01" #conclusion (change)="conclusion(conclusion.value)">{{mlpaData.conclusion}}</textarea>
                 </div>
 
                 <div class="sub_title">Comment</div>
                 <div class="pd_r20">
-                    <textarea class="textarea_01"></textarea>
+                    <textarea class="textarea_01" #comment (change)="comment(comment.value)">{{mlpaData.comment}}</textarea>
                 </div>
 
                 <div class="discription">
-                    * MLPA is designed to detect deletions/duplications of one or more sequences in the DMD gene in a DNA sample. Deletions of a probe’s recognition sequence on the X-chromosome will lead to a complete absence of the corresponding probe amplification product in males, whereas female heterozygotes are recognizable by a 35-50% reduction in relative peak area. Note that a mutation or polymorphism in the sequence detected by a probe can also cause a reduction in relative peak area, even when not located exactly on the ligation site! In addition, some probe signals are more sensitive to sample purity and small changes in experimental conditions. Therefore, deletions and duplications detected by MLPA should always be confirmed by other methods. Not all deletions and duplications detected by MLPA will be pathogenic; users should always verify the latest scientific literature when interpreting their findings. Note that other defects such as small point mutations will not be detected by this  MLPA test
+                     {{mlpaData.technique}}
                 </div>
 
                 <hr class="mg_t30 mg_b20"/>
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr>
                         <td class="txt_l font_16 fb">
-                            검사의뢰일/검사보고일/수정보고일:
+                            검사의뢰일/검사보고일/수정보고일: {{requestDate | date: 'yyyy.MM.dd'}}/{{firstReportDay}}/{{lastReportDay}}
                         </td>
                         <td class="txt_1 font_16 fb">
-                            검사자:  <input type="text" class="input_02" size="30">
+                            검사자:  <input type="text"  [(ngModel)]="examin" class="input_02" size="30">
                         </td>
                         <td class="txt_1 font_16 fb">
-                            판독의사: <input type="text" class="input_02" size="30">
+                            판독의사: <input type="text"  [(ngModel)]="recheck"  class="input_02" size="30">
                         </td>
                     </tr>
                 </table>
@@ -251,13 +205,13 @@
             <div class="foot_btn mg_t30 pd_b30 txt_c main_btn">
                 <ul>
                     <li>
-                        <button type="button" class="btn btn_01">미리보기</button>
+                        <button type="button" class="btn btn_01" (click)="previewToggle()">미리보기</button>
                     </li>
                     <li>
                         <button type="button" class="btn btn_01">수정</button>
                     </li>
                     <li>
-                        <button class="btn btn_01">임시저장</button>
+                        <button class="btn btn_01"  (click)="save()">임시저장</button>
                     </li>
                     <li>
                         <button class="btn btn_01">EMR전송</button>
@@ -266,5 +220,25 @@
             </div>
         </div>
     </div>
+
+   <div class="modal-overlay" *ngIf="isVisible">
+       <div class="modal-body">
+         <app-mlpapreview
+         (closemodal)="closeModal()"
+         [type]="type"
+         [title]="method"
+         [patientInfo]= "patientInfo"
+         [request]="patientInfo.request"
+         [result] = "mlpaData.result"
+         [resultStatus]= "resultStatus"
+         [mlpaData1]="mlpaData1"
+         [mlpaData2]="mlpaData2"
+         [conclusion]="mlpaData.conclusion"
+         [comment]="mlpaData.comment"></app-mlpapreview>
+
+
+       </div>
+   </div>
+
 </div>
 

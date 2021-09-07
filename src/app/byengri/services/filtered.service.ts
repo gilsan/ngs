@@ -73,6 +73,31 @@ export class FilteredService {
     return this.http.get<Ipolymorphism[]>(`${this.apiUrl}/polymorphism/list`);
   }
 
+  // 검색
+  searchPolymorphism(gene: string = '', amino: string = '', nucleotide: string = ''): Observable<Ipolymorphism[]> {
+    return this.http.post<Ipolymorphism[]>(`${this.apiUrl}/polymorphism/search`,
+      { gene, amino_acid_change: amino, nucleotide_change: nucleotide });
+  }
+
+  // polymorphism 신규입력
+  insertPolymorphism(data: Ipolymorphism): Observable<any> {
+    return this.http.post(`${this.apiUrl}/polymorphism/insert`,
+      { gene: data.gene, amino_acid_change: data.amino_acid_change, nucleotide_change: data.nucleotide_change, reason: data.reason });
+  }
+
+  // polymorphism 갱신
+  updatePolymorphism(data: Ipolymorphism): Observable<any> {
+    return this.http.post(`${this.apiUrl}/polymorphism/update`,
+      // tslint:disable-next-line:max-line-length
+      { id: data.id, gene: data.gene, amino_acid_change: data.amino_acid_change, nucleotide_change: data.nucleotide_change, reason: data.reason });
+  }
+
+  // polymorphism 삭제
+  deletePolymorphism(id: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/polymorphism/delete`, { id });
+  }
+
+
   // 정도관리 리스트 요청
   getStatecontrol(pathologyNum: string): Observable<IStateControl[]> {
     return this.http.post<IStateControl[]>(`${this.apiUrl}/statecontrol/list`, { pathologyNum });

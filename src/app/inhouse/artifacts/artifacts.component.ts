@@ -51,7 +51,7 @@ export class ArtifactsComponent implements OnInit {
       if (result) {
         this.artifactsService.deleteArtifactsList(id, genes)
           .subscribe((data) => {
-            console.log('[170][benign 삭제]', data);
+            // console.log('[170][benign 삭제]', data);
             alert("삭제 되었습니다.");
             this.search(genes);
           });
@@ -116,18 +116,21 @@ export class ArtifactsComponent implements OnInit {
   }
 
   goPage(page: string): void {
-    if (page === "<" && this.pageLine > 0) {
+
+    if (page === '<' && this.pageLine > 0) {
       this.pageLine--;
       this.curPage = this.pageLine * 10 - 1;
-      if (this.curPage < 1) this.curPage = 1;
-    } else if (page === ">" && this.pageLine < Math.ceil(this.totPage / 10) - 1) {
+      if (this.curPage < 1) { this.curPage = 1; }
+    } else if (page === '>' && this.pageLine < Math.ceil(this.totPage / 10) - 1) {
       this.pageLine++;
       this.curPage = this.pageLine * 10 + 1;
     } else {
-      if (page != "<" && page != ">")
+      if (page !== '<' && page !== '>') {
         this.curPage = Number(page);
+      }
+
     }
-    page = this.curPage + "";
+    page = this.curPage + '';
     this.lists = this.listArtfacts.slice((Number(page) - 1) * 10, (Number(page)) * 10);
   }
 

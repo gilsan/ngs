@@ -24,6 +24,7 @@ import { LymphomaPreviewComponent } from './previews/lymphomaPreview/lymphomaPre
 import { ImmundefiComponent } from './previews/immundefi/immundefi.component';
 import { SequencingComponent } from './previews/sequencing/sequencing.component';
 import { Form1Component } from './form1/form1.component';
+import { MlpapreviewComponent } from './previews/mlpapreview/mlpapreview.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { Form1Component } from './form1/form1.component';
     LymphomaPreviewComponent,
     ImmundefiComponent,
     SequencingComponent,
-    Form1Component
+    Form1Component,
+    MlpapreviewComponent
     //  TestformComponent
   ],
   imports: [
