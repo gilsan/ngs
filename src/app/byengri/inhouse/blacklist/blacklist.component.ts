@@ -37,7 +37,7 @@ export class BlacklistComponent implements OnInit {
 
 
   excelDownload(): void {
-    console.log('excel', this.polymorphismList);
+    // console.log('excel', this.polymorphismList);
     this.excel.exportAsExcelFile(this.polymorphismList, 'polymorphism');
   }
 
