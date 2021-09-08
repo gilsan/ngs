@@ -18,6 +18,7 @@ export interface IPatient {
   chromosomalanalysis?: string;
   targetDisease: string;
   method: string;
+  reportTitle?: string;
   accept_date: string;
   specimen: string;
   detected?: string;

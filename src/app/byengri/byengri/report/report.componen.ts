@@ -262,7 +262,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getUrl(): SafeResourceUrl {
-    const url = 'http://10.10.56.106:3729/';
+    const url = 'http://10.10.55.140:3729/';
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 

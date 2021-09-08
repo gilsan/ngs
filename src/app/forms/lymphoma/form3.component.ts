@@ -281,7 +281,7 @@ export class Form3Component implements OnInit, OnDestroy {
 
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
     console.log('[276][환자정보]', this.patientInfo);
-    this.method = this.patientInfo.method.replace(/"/g, '');
+    this.method = this.patientInfo.reportTitle.replace(/"/g, '');
     this.store.setPatientInfo(this.patientInfo); // 환자정보 저장
 
     // tsvFilteredFilename 분석
@@ -1310,7 +1310,7 @@ export class Form3Component implements OnInit, OnDestroy {
 
   excelDownload(): void {
     console.log('excel', this.tsvLists);
-    this.excel.exportAsExcelFile(this.tsvLists, 'sample');
+    this.excel.exportAsExcelFile(this.tsvLists, 'lymphoma');
   }
   ///////////////////////////////////////////////////////////
   excelDV(): void {
