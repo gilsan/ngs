@@ -96,7 +96,7 @@ export class Form3Component implements OnInit, OnDestroy {
   fusion = '';
   chronmosomal = '';
   methods = METHODS;
-  method: string;
+  method: string = '';
   methods516 = METHODS516;
   general = GENERAL;
   indexNum = 0;
