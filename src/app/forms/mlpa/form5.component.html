@@ -60,7 +60,7 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let list of mlpaData1; let i= index">
-                                    <td>{{list.id}}</td>
+                                    <td>{{list.idx}}</td>
                                     <td>
                                       <input type="text" #site1 class="input_02 textcenter" (change)="mlpa1Site(i, site1.value, 'L')" [value]="list.site">
                                     </td>
@@ -88,7 +88,7 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let list of mlpaData2; let i=index">
-                                    <td>{{list.id}}</td>
+                                    <td>{{list.idx}}</td>
                                     <td>
                                       <input type="text" class="input_02 textcenter" #site2 (change)="mlpa1Site(i, site2.value, 'R')" [value]="list.site">
                                     </td>
@@ -155,7 +155,7 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let list of mlpaData2">
-                                    <td>{{list.id}}</td>
+                                    <td>{{list.idx}}</td>
                                     <td>
                                       <input type="text" class="input_02 textcenter" #site4 (change)="mlpa2Site(iist, site4.value, 'R')" [value]="list.site">
                                     </td>

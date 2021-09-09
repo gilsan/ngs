@@ -9,7 +9,7 @@ import { MLPATLIST } from '../commons/mlpa.data';
 import { UtilsService } from '../commons/utils.service';
 
 export interface IData {
-  id: string;
+  idx: string;
   site: string;
   result?: string;
   deletion?: string;
@@ -149,8 +149,8 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
       this.mlpaLists.push(item as IMlpa);
     });
 
-    const idx = this.mlpaLists.findIndex(item => item.type === testcode);
-    this.mlpaData = this.mlpaLists[idx];
+    const index = this.mlpaLists.findIndex(item => item.type === testcode);
+    this.mlpaData = this.mlpaLists[index];
     const len = this.mlpaData.data.length; // 데이터 길이
     const firstHalf = Math.floor(this.mlpaData.data.length / 2);
     this.method = this.mlpaData.title;
