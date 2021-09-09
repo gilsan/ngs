@@ -126,7 +126,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
     console.log('[76][환자정보]', this.patientInfo);
     this.testcode = this.patientInfo.test_code;
     this.getTitle(this.testcode);
-    this.showTable(this.testcode);
+    // this.showTable(this.testcode);
     // this.method = this.patientInfo.method.replace(/"/g, '');
 
     this.requestDate = this.patientInfo.accept_date;
