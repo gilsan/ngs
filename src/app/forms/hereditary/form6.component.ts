@@ -136,8 +136,7 @@ export class Form6Component implements OnInit, OnDestroy {
         // console.log('[135][gene 정보]', item);
       }
     });
-    // this.formGeneLists = this.makeGeneList(geneLists);
-    // console.log(this.makeGeneList( geneLists));
+
     this.getGeneList();
   }
 
@@ -145,51 +144,10 @@ export class Form6Component implements OnInit, OnDestroy {
   getGeneList(): void {
     console.log('[115] 환자정보: ', this.patientInfo);
     this.utilsService.getGeneTestCodeList(this.patientInfo.test_code).subscribe(data => {
-      console.log('[148] ', data);
       this.genelists = data;
     });
   }
 
-  makeGeneList(lists: string[]): any {
-    let len: number;
-    let count = 0;
-    const listgenes = [[]];
-    let listgene = [];
-    len = lists.length - 1;
-    for (let index = 0; index < lists.length; index++) {
-      const i = index % 10;
-      if (i === 0) {
-        listgene[i] = lists[index];
-      } else if (i === 1) {
-        listgene[i] = lists[index];
-      } else if (i === 2) {
-        listgene[i] = lists[index];
-      } else if (i === 3) {
-        listgene[i] = lists[index];
-      } else if (i === 4) {
-        listgene[i] = lists[index];
-      } else if (i === 5) {
-        listgene[i] = lists[index];
-      } else if (i === 6) {
-        listgene[i] = lists[index];
-      } else if (i === 7) {
-        listgene[i] = lists[index];
-      } else if (i === 8) {
-        listgene[i] = lists[index];
-      } else if (i === 9) {
-        listgene[i] = lists[index];
-      }
-
-      if (i === 9) {
-        listgenes[count] = listgene;
-        listgene = [];
-        count++;
-      } else if (len === index) {
-        listgenes[count] = listgene;
-      }
-    } // End of for loop
-    return listgenes;
-  }
 
   getPatientinfo(testid: string): any {
     const tempInfo = this.patientsListService.patientInfo;
@@ -203,7 +161,6 @@ export class Form6Component implements OnInit, OnDestroy {
   getimmundefi(): void {
     this.subs.sink = this.variantsService.contentScreen6(this.form2TestedId)
       .subscribe(data => {
-        console.log('[192][조회]', data);
         if (data.length > 0) {
 
           data.forEach(item => {
