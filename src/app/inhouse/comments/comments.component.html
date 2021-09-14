@@ -1,10 +1,10 @@
 <div id="container">
     <div id="content">
-        
+
         <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mg_b10">
             <tr>
                 <td  class="mail_title">InHouse Comments</td>
-                
+
                 <td class="main_btn">
                     <ul>
                         <!--
@@ -19,10 +19,22 @@
                 </td>
             </tr>
         </table>
-        
+
         <div class="box mg_b20 pd_20 search">
             <input type="text" class="input_01" placeholder="Genes" #genes>
-            <button type="button" class="btn btn_02" (click)="search(genes.value)" style="margin-left: 10px;">조회</button>
+            <button type="button" class="btn btn_02" (click)="search(genes.value, type.value)" style="margin-left: 10px;">조회</button>
+
+            &nbsp;&nbsp;
+            <select class="select_01 select_001" #type (change)="findComments(type.value)">
+               <option value="AMLALL">AML/ALL</option>
+               <option value="MDSMPN">MDS/MPN</option>
+               <option value="LPE474">악성림프종</option>
+               <option value="LPE475">형질세포종</option>
+               <option value="Genetic">유전성 유전질환</option>
+               <option value="Sequencing">Sequencing</option>
+               <option value="MLPA">MLPA</option>
+           </select>&nbsp;&nbsp;
+
             <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mg_b10">
                 <tr>
                     <td class="main_btn">
@@ -33,7 +45,7 @@
 
                             <li>
                                 <button type="button" class="btn btn_01" (click)="excelDownload()">Excel</button>
-                            </li>                            
+                            </li>
                             <!--
                             <li>
                                 <button type="button" class="btn btn_01">저장</button>
@@ -46,10 +58,10 @@
         </div>
     <div class="total">
          <span>Total: {{totRecords}} Records  ({{curPage}} / {{totPage}}) Pages  </span>
-    </div>     
+    </div>
     <div class="table-box-wrap">
         <div class="table-box box" style="overflow-x: auto;">
-    
+
             <table border="0" cellpadding="0" cellspacing="0" class="table_list header-fix">
                 <colgroup>
                     <col width="3%" />
@@ -66,18 +78,18 @@
                         <th class="txt_c">Type</th>
                         <th class="txt_c">Gene</th>
                         <th class="txt_c">Variant Id</th>
-                        <th class="txt_c">Comments</th> 
+                        <th class="txt_c">Comments</th>
                         <th class="txt_c">Reference(s)</th>
-                        <th class="txt_c">수정/삭제</th> 
+                        <th class="txt_c">수정/삭제</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr class="table_bg" *ngFor="let list of lists; let i = index">
-                            <input type="hidden" value="R" #status >   
-                            <td><span>{{i + 1}}</span></td> 
+                            <input type="hidden" value="R" #status >
+                            <td><span>{{i + 1}}</span></td>
                             <td>
                                 <span class="bdnone" *ngIf="status.value === 'R'">{{list.type}}</span>
-                                <span class="bdnone" *ngIf="status.value === 'U'"><input type="text"  class="clr-input wid120" value="{{list.type}}" id="type{{list.id}}"  ></span> 
+                                <span class="bdnone" *ngIf="status.value === 'U'"><input type="text"  class="clr-input wid120" value="{{list.type}}" id="type{{list.id}}"  ></span>
                             </td>
                             <td>
                                 <span class="bdnone" *ngIf="status.value === 'R'">{{list.gene}}</span>
@@ -86,7 +98,7 @@
                             <td>
                                 <span class="bdnone" *ngIf="status.value === 'R'">{{list.variant_id}}</span>
                                 <span class="bdnone" *ngIf="status.value === 'U'"><input type="text"  class="clr-input wid120" value="{{list.variant_id}}" id="variant_id{{list.id}}"   ></span>
-                            </td>  
+                            </td>
                             <td class="txt_l">
                                 <span class="bdnone pre-box" *ngIf="status.value === 'R'">{{list.comment}}</span>
                                 <span class="bdnone" *ngIf="status.value === 'U'"><textarea rows="10"  cols="70" class="wid500 padding-5" id="comment{{list.id}}"  >{{list.comment}}</textarea></span>
@@ -101,27 +113,27 @@
                                     <a class="btn-delete" (click)="deleteRow(list.id, list.type, list.gene )">삭제</a>
                                 </span>
                                 <span class="bdnone" *ngIf="status.value === 'U'">
-                                    <a class="btn-cancel" (click)="status.value='R'">취소</a> 
-                                    <a class="btn-save" (click)="updateRow(list.id)">저장</a>  
-                                </span> 
+                                    <a class="btn-cancel" (click)="status.value='R'">취소</a>
+                                    <a class="btn-save" (click)="updateRow(list.id)">저장</a>
+                                </span>
                             </td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <div class="txt_c pd_t20 btn_num">
-            <a class="ico_pre" (click)="goPage('<')" >이전</a>   
-            <span *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]">  
-                <span   *ngIf="i + (pageLine*10) <= totPage">   
+            <a class="ico_pre" (click)="goPage('<')" >이전</a>
+            <span *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]">
+                <span   *ngIf="i + (pageLine*10) <= totPage">
                     <span *ngIf="i + (pageLine*10) == curPage">
                         <a  (click)="goPage(i + (pageLine*10))"><span class="btn_select">{{i + (pageLine*10)}}</span></a>
                     </span>
                     <span *ngIf="i + (pageLine*10) != curPage">
                         <a  (click)="goPage(i + (pageLine*10))"><span>{{i + (pageLine*10)}}</span></a>
-                    </span> 
-                </span>    
-            </span> 
-            <a class="ico_next" (click)="goPage('>')" >다음</a> 
+                    </span>
+                </span>
+            </span>
+            <a class="ico_next" (click)="goPage('>')" >다음</a>
         </div>
         </div>
     </div>

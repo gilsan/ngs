@@ -53,7 +53,7 @@ export class PatientsListService {
         // console.log('[29][getPatientList]', data);
         this.patientInfo = data;
       }),
-      tap(data => console.log('[28][patientslist][getPatientList]', this.patientInfo))
+      tap(data => console.log('[56][patientslist][getPatientList]', this.patientInfo))
 
     );
   }
@@ -778,6 +778,75 @@ export class PatientsListService {
     exon = '',
   ): Observable<any> {
     return this.http.post(`${this.apiUrl}/ngsartifacts/insert`, { gene, transcript, coding, aminoAcidChange, loc2, exon });
+  }
+
+  // AML/ALL
+  // 날자별 환자ID, 검사ID 검사인 찿기
+  public amlallSearch(start: string, end: string, patientID: string = '',
+    specimenNo: string = '',
+    status: string = '', sheet: string = ''): Observable<IPatient[]> {
+    return this.http.post<IPatient[]>(`${this.apiUrl}/searchpatient_diag/listAml`,
+      { start, end, patientID, specimenNo, status, sheet }).pipe(
+        tap(data => this.patientInfo = data),
+        shareReplay()
+      );
+  }
+
+  // lymphoma: http
+  public lymphomaSearch(start: string, end: string, patientID: string = '',
+    specimenNo: string = '',
+    status: string = '', sheet: string = ''): Observable<IPatient[]> {
+    return this.http.post<IPatient[]>(`${this.apiUrl}/searchpatient_diag/listLymphoma`,
+      { start, end, patientID, specimenNo, status, sheet }).pipe(
+        tap(data => this.patientInfo = data),
+        shareReplay()
+      );
+  }
+
+  // MDS/MPN
+  public mdsmpnSearch(start: string, end: string, patientID: string = '',
+    specimenNo: string = '',
+    status: string = '', sheet: string = ''): Observable<IPatient[]> {
+    return this.http.post<IPatient[]>(`${this.apiUrl}/searchpatient_diag/listMdsMpn`,
+      { start, end, patientID, specimenNo, status, sheet }).pipe(
+        tap(data => this.patientInfo = data),
+        shareReplay()
+      );
+  }
+
+
+
+  // genetic 유전성 유전성
+  public hereditarySearch(start: string, end: string, patientID: string = '',
+    specimenNo: string = '',
+    status: string = '', sheet: string = ''): Observable<IPatient[]> {
+    return this.http.post<IPatient[]>(`${this.apiUrl}/searchpatient_diag/listGenetic`,
+      { start, end, patientID, specimenNo, status, sheet }).pipe(
+        tap(data => this.patientInfo = data),
+        shareReplay()
+      );
+  }
+
+  // sequencing
+  public sequencingSearch(start: string, end: string, patientID: string = '',
+    specimenNo: string = '',
+    status: string = '', sheet: string = ''): Observable<IPatient[]> {
+    return this.http.post<IPatient[]>(`${this.apiUrl}/searchpatient_diag/listSequencing`,
+      { start, end, patientID, specimenNo, status, sheet }).pipe(
+        tap(data => this.patientInfo = data),
+        shareReplay()
+      );
+  }
+
+  // mlpa
+  public mlpaSearch(start: string, end: string, patientID: string = '',
+    specimenNo: string = '',
+    status: string = '', sheet: string = ''): Observable<IPatient[]> {
+    return this.http.post<IPatient[]>(`${this.apiUrl}/searchpatient_diag/listMlpa`,
+      { start, end, patientID, specimenNo, status, sheet }).pipe(
+        tap(data => this.patientInfo = data),
+        shareReplay()
+      );
   }
 
 

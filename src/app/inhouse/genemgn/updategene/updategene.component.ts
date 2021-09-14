@@ -36,7 +36,16 @@ export class UpdategeneComponent implements OnInit {
   }
 
   save(gene: string): void {
-    this.geneService.geneDuplicate(this.type, gene)
+    let tempType = '';
+    let tempLPE = '';
+    if (this.type !== 'ALL' || 'AML' || 'LYM' || 'MDS') {
+      tempType = 'genetic';
+      tempLPE = this.type;
+    } else {
+      tempType = this.type;
+      tempLPE = '';
+    }
+    this.geneService.geneDuplicate(tempType, gene, tempLPE)
       .subscribe((data: { count: number }[]) => {
         console.log(data);
         if (data[0].count === 1) {

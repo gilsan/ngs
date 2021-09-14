@@ -20,10 +20,25 @@
       <div id="menu">
           <table border="0" cellspacing="0" cellpadding="0">
               <tr>
+                  <!--
                   <td class="menu01">
                     <a routerLink="/diag" class="active nav-link" ><span
                       class="nav-text"></span></a>
                   </td>
+                  -->
+                  <td class="menu01">
+                    <a routerLink="/diag"><span class="nav-text"></span></a>
+
+                     <ul class="sub-menu">
+                      <li><span (click)="url('amlall')">ALL/AML</span></li>
+                      <li><span (click)="url('lymphoma')">악성림프종,형질세포종</span></li>
+                      <li><span (click)="url('mdsmpn')">MDS/MPN</span></li>
+                      <li><span (click)="url('hereditary')">유전성유전질환</span></li>
+                      <li><span (click)="url('sequencing')">Sequencing</span></li>
+                      <li><span (click)="url('mlpa')">MLPA</span></li>
+                    </ul>
+                  </td>
+
                   <td class="menu03">
                     <a routerLink="/diag/artifactsComponent"><span class="nav-text"></span></a>
 
@@ -35,7 +50,6 @@
                       <li><span (click)="link('genemgn')">유전자관리</span></li>
                       <li><span (click)="excelDownload()">환자정보다운로드</span></li>
                     </ul>
-
                   </td>
 
                   <td class="menu04">

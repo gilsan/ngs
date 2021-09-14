@@ -20,8 +20,8 @@ export class MutationService {
     private http: HttpClient
   ) { }
 
-  public getMutationList(genes: string, coding: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/mutation/list`, { genes, coding });
+  public getMutationList(genes: string, coding: string, type: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/mutation/list`, { genes, coding, type });
   }
 
   /* 2021.03.02
@@ -41,11 +41,11 @@ export class MutationService {
   public insertMutationList(id: string, buccal: string, name: string, registerNumber: string, fusion: string,
     gene: string, functionalImpact: string, transcript: string, exonIntro: string, nucleotideChange: string,
     aminoAcidChange: string, zygosity: string, vaf: string, reference: string,
-    siftPolyphenMutationTaster: string, buccal2: string, igv: string, sanger: string, cosmicId: string): Observable<any> {
+    siftPolyphenMutationTaster: string, buccal2: string, igv: string, sanger: string, cosmicId: string, type: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/mutationMapper/insert`, {
       id, buccal, name, registerNumber, fusion, gene,
       functionalImpact, transcript, exonIntro, nucleotideChange, aminoAcidChange, zygosity, vaf, reference,
-      siftPolyphenMutationTaster, buccal2, igv, sanger, cosmicId
+      siftPolyphenMutationTaster, buccal2, igv, sanger, cosmicId, type
     });
   }
 
@@ -64,11 +64,11 @@ export class MutationService {
   public updateMutationList(id: string, buccal: string, name: string, registerNumber: string, fusion: string,
     gene: string, functionalImpact: string, transcript: string, exonIntro: string, nucleotideChange: string,
     aminoAcidChange: string, zygosity: string, vaf: string, reference: string,
-    siftPolyphenMutationTaster: string, buccal2: string, igv: string, sanger: string, cosmicId: string): Observable<any> {
+    siftPolyphenMutationTaster: string, buccal2: string, igv: string, sanger: string, cosmicId: string, type: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/mutationMapper/update`, {
       id, buccal, name, registerNumber, fusion, gene,
       functionalImpact, transcript, exonIntro, nucleotideChange, aminoAcidChange, zygosity, vaf, reference,
-      siftPolyphenMutationTaster, buccal2, igv, sanger, cosmicId
+      siftPolyphenMutationTaster, buccal2, igv, sanger, cosmicId, type
     });
   }
 

@@ -124,6 +124,24 @@ export class HomeComponent implements OnInit, OnDestroy {
     // console.log('home logout:', this.store.getSearchEndDay());
   }
 
+
+  url(type: string): void {
+    if (type === 'amlall') {
+      this.router.navigate(['/diag', 'amlall']);
+    } else if (type === 'lymphoma') {
+      this.router.navigate(['/diag', 'lymphoma']);
+    } else if (type === 'mdsmpn') {
+      this.router.navigate(['/diag', 'mdsmpn']);
+    } else if (type === 'hereditary') {
+      this.router.navigate(['/diag', 'hereditary']);
+    } else if (type === 'sequencing') {
+      this.router.navigate(['/diag', 'sequencing']);
+    } else if (type === 'mlpa') {
+      this.router.navigate(['/diag', 'mlpa']);
+    }
+
+  }
+
   link(url: string): void {
     let item = {
       url: '/diag/' + url + 'Component'

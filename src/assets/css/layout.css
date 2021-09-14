@@ -890,6 +890,26 @@
   position: relative;
 }
 
+.menu01:hover .sub-menu {
+  display: inline-block;
+  width: 800px !important;
+  left: 10% !important;
+  top: 120px !important;
+}
+
+.sub-menu2 {
+  display: none;
+  position: absolute;
+  border: 3px solid #2196f3;
+  /* width: 475px;  */
+  width: 800px;
+  top: 65px;
+  left: 20%;
+  padding: 10px 0;
+  background-color: #fff;
+  z-index: 5;
+}
+
 .menu03:hover .sub-menu {
   display: inline-block;
 }

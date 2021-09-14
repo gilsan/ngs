@@ -272,7 +272,7 @@ export class Form3Component implements OnInit, OnDestroy {
 
   initLoad(): void {
     this.form2TestedId = this.patientsListService.getTestedID();
-
+    console.log('[275][검체정보]', this.form2TestedId);
     // 검사자 정보 가져오기
     if (this.form2TestedId === null || this.form2TestedId === undefined) {
       this.router.navigate(['/diag']);
@@ -280,7 +280,7 @@ export class Form3Component implements OnInit, OnDestroy {
     }
 
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
-    console.log('[276][환자정보]', this.patientInfo);
+    console.log('[283][환자정보]', this.patientInfo);
     this.method = this.patientInfo.reportTitle.replace(/"/g, '');
     this.store.setPatientInfo(this.patientInfo); // 환자정보 저장
 

@@ -19,18 +19,18 @@ export class CommentsService {
     private http: HttpClient
   ) { }
 
-  public getCommentsList(genes: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/comments/list`, { genes });
+  public getCommentsList(genes: string, sheet: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/comments/list`, { genes, sheet });
   }
 
   public insertCommentsList(id: string, commentsType: string, gene: string, variant_id: string = '',
-    comment: string, reference: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/comments/insert`, { id, commentsType, gene, variant_id, comment, reference });
+    comment: string, reference: string, sheet: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/comments/insert`, { id, commentsType, gene, variant_id, comment, reference, sheet });
   }
 
   public updateCommentsList(id: string, commentsType: string, gene: string, variant_id: string,
-    comment: string, reference: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/comments/update`, { id, commentsType, gene, variant_id, comment, reference });
+    comment: string, reference: string, sheet: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/comments/update`, { id, commentsType, gene, variant_id, comment, reference, sheet });
   }
 
   public deleteCommentsList(id: string, genes: string): Observable<any> {

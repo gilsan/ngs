@@ -5,7 +5,7 @@ import { DiseaseToDbComponent } from './components/disease-to-db/disease-to-db.c
 import { FileuploadComponent } from './components/fileupload/fileupload.component';
 import { InhouseToDbComponent } from './components/inhouse-to-db/inhouse-to-db.component';
 import { MainComponent } from './components/main/main.component';
-import { MainscreenComponent } from './components/mainscreen/mainscreen.component';
+// import { MainscreenComponent } from './components/mainscreen/mainscreen.component';
 import { BenignComponent } from '../inhouse/benign/benign.component';
 import { ArtifactsComponent } from '../inhouse/artifacts/artifacts.component';
 import { MutationComponent } from '../inhouse/mutation/mutation.component';
@@ -20,15 +20,30 @@ import { HomeComponent } from './home.component';
 import { MaindiagComponent } from './components/maindiag/maindiag.component';
 import { TypestaticsComponent } from '../inhouse/statistics/typestatics/typestatics.component';
 
+import { AmlallComponent } from './components/amlall/amlall.component';
+import { LymphomaComponent } from './components/lymphoma/lymphoma.component';
+import { MlpaComponent } from './components/mlpa/mlpa.component';
+import { SequencingComponent } from './components/sequencing/sequencing.component';
+import { HereditaryComponent } from './components/hereditary/hereditary.component';
+import { MdsmpnComponent } from './components/mdsmpn/mdsmpn.component';
+
+
 const routes: Routes = [
   {
     path: '', component: HomeComponent, children: [
-      { path: '', component: MainscreenComponent },
+      // { path: '', component: MainscreenComponent },
+      { path: '', component: AmlallComponent },
+      { path: 'amlall', component: AmlallComponent },
+      { path: 'lymphoma', component: LymphomaComponent },
+      { path: 'mdsmpn', component: MdsmpnComponent },
+      { path: 'hereditary', component: HereditaryComponent },
+      { path: 'sequencing', component: SequencingComponent },
+      { path: 'mlpa', component: MlpaComponent },
       { path: 'fileupload', component: FileuploadComponent },
       { path: 'fileupload/:id', component: FileuploadComponent },
       { path: 'inhouse_to_db', component: InhouseToDbComponent },
       // { path: 'disease_to_db', component: DiseaseToDbComponent },
-      { path: 'main', component: MainscreenComponent },
+      // { path: 'main', component: MainscreenComponent },
       {
         path: 'jingum', loadChildren: () => import('../forms/forms.module').then((m) => m.SaintFormsModule)
       },
@@ -46,7 +61,7 @@ const routes: Routes = [
       { path: 'disease_test', component: DiseaseformComponent },
       { path: 'maindiag', component: MaindiagComponent },
       { path: 'typestatics', component: TypestaticsComponent },
-      { path: '**', component: MainscreenComponent },
+      { path: '**', component: AmlallComponent },
 
     ]
   },

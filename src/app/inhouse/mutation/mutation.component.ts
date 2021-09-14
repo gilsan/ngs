@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -14,6 +14,7 @@ import { ExcelService } from 'src/app/home/services/excelservice';
 })
 export class MutationComponent implements OnInit {
 
+  @ViewChild('type') type: ElementRef;
   constructor(
     private mutationService: MutationService,
     private excel: ExcelService,
@@ -37,7 +38,7 @@ export class MutationComponent implements OnInit {
   }
 
   init(): void {
-    this.search('');
+    this.search('', '', 'AMLALL');
   }
 
   deleteRow(id: string, genes: string, patientName: string): void {
@@ -54,7 +55,8 @@ export class MutationComponent implements OnInit {
           .subscribe((data) => {
             console.log('[170][mutation 삭제]', data);
             alert("삭제 되었습니다.");
-            this.search(genes);
+            const type = this.type.nativeElement.value;
+            this.search(genes, '', type);
           });
       }
     }
@@ -108,6 +110,8 @@ export class MutationComponent implements OnInit {
       return;
     }
 
+    const type = this.type.nativeElement.value;
+    console.log('[114][update] ', type);
     if (id !== '') {
       /* 2021.03.02
             this.mutationService.updateMutationList(id, buccal.value, patientName.value, registerNumber.value, fusion.value, gene.value,
@@ -117,11 +121,11 @@ export class MutationComponent implements OnInit {
               */
       this.mutationService.updateMutationList(id, buccal.value, patientName.value, registerNumber.value, fusion.value, gene.value,
         functionalImpact.value, transcript.value, exonIntro.value, nucleotideChange.value, aminoAcidChange.value,
-        zygosity.value, vaf.value, reference.value, siftPolyphen.value, buccal2.value, igv.value, sanger.value, cosmicId.value)
+        zygosity.value, vaf.value, reference.value, siftPolyphen.value, buccal2.value, igv.value, sanger.value, cosmicId.value, type)
         .subscribe((data) => {
           console.log('[170][Mutation 수정]', data);
           alert('수정 되었습니다.');
-          this.search(gene.value);
+          this.search(gene.value, '', type);
         });
     } else {
       /* 2021.03.02
@@ -130,13 +134,14 @@ export class MutationComponent implements OnInit {
         zygosity.value, vaf.value, reference.value, siftPolyphen.value, buccal2.value, igv.value, sanger.value, cosmicId.value,
         exac.value, exac_east_asia.value, krgdb.value, etc1.value, etc2.value, etc3.value)
       */
+
       this.mutationService.insertMutationList(id, buccal.value, patientName.value, registerNumber.value, fusion.value, gene.value,
         functionalImpact.value, transcript.value, exonIntro.value, nucleotideChange.value, aminoAcidChange.value,
-        zygosity.value, vaf.value, reference.value, siftPolyphen.value, buccal2.value, igv.value, sanger.value, cosmicId.value)
+        zygosity.value, vaf.value, reference.value, siftPolyphen.value, buccal2.value, igv.value, sanger.value, cosmicId.value, type)
         .subscribe((data) => {
           console.log('[170][Mutation 저장]', data);
           alert('저장 되었습니다.');
-          this.search(gene.value);
+          this.search(gene.value, '', type);
         });
     }
   }
@@ -189,9 +194,9 @@ export class MutationComponent implements OnInit {
     page = this.curPage + "";
     this.lists = this.listMutations.slice((Number(page) - 1) * 10, (Number(page)) * 10);
   }
-  search(genes: string, coding: string = ''): void {
+  search(genes: string, coding: string = '', type: string): void {
     this.totRecords = 0;
-    this.lists$ = this.mutationService.getMutationList(genes, coding);
+    this.lists$ = this.mutationService.getMutationList(genes, coding, type);
     this.lists$.subscribe((data) => {
       // console.log('[170][Mutation 검색]', data);
       this.lists = data;
@@ -208,6 +213,21 @@ export class MutationComponent implements OnInit {
   excelDownload(): void {
     // console.log('excel', this.listMutations);
     this.excel.exportAsExcelFile(this.listMutations, 'mutation');
+  }
+
+  findMutation(type): void {
+    this.totRecords = 0;
+    this.lists$ = this.mutationService.getMutationList('', '', type);
+    this.lists$.subscribe((data) => {
+      // console.log('[170][Mutation 검색]', data);
+      this.lists = data;
+      this.listMutations = data;
+      this.lists = data.slice(0, 10);
+      this.curPage = 1;
+      this.totPage = Math.ceil(this.listMutations.length / 10);
+      this.pageLine = 0;
+      this.totRecords = this.listMutations.length;
+    });
   }
 
 }

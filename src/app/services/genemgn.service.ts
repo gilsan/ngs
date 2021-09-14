@@ -7,6 +7,7 @@ import { filter, shareReplay, switchMap } from 'rxjs/operators';
 export interface IGene {
   type: string;
   gene: string;
+  test_code: string;
 }
 
 @Injectable({
@@ -27,20 +28,24 @@ export class GeneService {
       );
   }
 
-  geneInsert(type: string, gene: string): any {
-    return this.http.post(`${this.apiUrl}/diagGene/insert`, { type, gene });
+  // tslint:disable-next-line:variable-name
+  geneInsert(type: string, gene: string, test_code: string): any {
+    return this.http.post(`${this.apiUrl}/diagGene/insert`, { type, gene, test_code });
   }
 
-  geneUpdate(type: string, gene: string, newgene: string): any {
-    return this.http.post(`${this.apiUrl}/diagGene/update`, { type, gene, newgene });
+  // tslint:disable-next-line:variable-name
+  geneUpdate(type: string, gene: string, newgene: string, test_code: string): any {
+    return this.http.post(`${this.apiUrl}/diagGene/update`, { type, gene, newgene, test_code });
   }
 
-  geneDelete(type: string, gene: string): any {
-    return this.http.post(`${this.apiUrl}/diagGene/delete`, { type, gene });
+  // tslint:disable-next-line:variable-name
+  geneDelete(type: string, gene: string, test_code: string): any {
+    return this.http.post(`${this.apiUrl}/diagGene/delete`, { type, gene, test_code });
   }
 
-  geneDuplicate(type: string, gene: string): any {
-    return this.http.post(`${this.apiUrl}/diagGene/duplicate`, { type, gene });
+  // tslint:disable-next-line:variable-name
+  geneDuplicate(type: string, gene: string, test_code: string): any {
+    return this.http.post(`${this.apiUrl}/diagGene/duplicate`, { type, gene, test_code });
   }
 
 

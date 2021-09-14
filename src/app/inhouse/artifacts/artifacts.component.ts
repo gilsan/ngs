@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -13,6 +13,9 @@ import { ExcelService } from 'src/app/home/services/excelservice';
   styleUrls: ['./artifacts.component.scss']
 })
 export class ArtifactsComponent implements OnInit {
+
+
+  @ViewChild('type') type: ElementRef;
 
   constructor(
     private artifactsService: ArtifactsService,
@@ -31,12 +34,13 @@ export class ArtifactsComponent implements OnInit {
 
   private apiUrl = emrUrl;
 
+
   ngOnInit(): void {
     this.init();
   }
 
   init(): void {
-    this.search('');
+    this.search('', '', 'AMLALL');
   }
 
   deleteRow(id: string, genes: string): void {
@@ -52,7 +56,7 @@ export class ArtifactsComponent implements OnInit {
         this.artifactsService.deleteArtifactsList(id, genes)
           .subscribe((data) => {
             // console.log('[170][benign 삭제]', data);
-            alert("삭제 되었습니다.");
+            alert('삭제 되었습니다.');
             this.search(genes);
           });
       }
@@ -68,50 +72,51 @@ export class ArtifactsComponent implements OnInit {
     const coding: HTMLInputElement = document.getElementById("coding" + id) as HTMLInputElement;
     const aminoAcidChange: HTMLInputElement = document.getElementById("aminoAcidChange" + id) as HTMLInputElement;
 
-    if (genes.value == "") {
-      alert("genes 값은 필수 입니다.");
+    if (genes.value === '') {
+      alert('genes 값은 필수 입니다.');
       return;
     }
 
-    if (location.value == "") {
-      alert("location 값은 필수 입니다.");
+    if (location.value === '') {
+      alert('location 값은 필수 입니다.');
       return;
     }
-    if (exon.value == "") {
-      alert("exon 값은 필수 입니다.");
+    if (exon.value === '') {
+      alert('exon 값은 필수 입니다.');
       return;
     }
-    if (coding.value == "") {
-      alert("coding 값은 필수 입니다.");
+    if (coding.value === '') {
+      alert('coding 값은 필수 입니다.');
       return;
     }
-    if (aminoAcidChange.value == "") {
-      alert("Amino Acid Change 값은 필수 입니다.");
+    if (aminoAcidChange.value === '') {
+      alert('Amino Acid Change 값은 필수 입니다.');
       return;
     }
 
-
-    if (id !== "") {
+    const typeVal = this.type.nativeElement.value;
+    if (id !== '') {
       this.artifactsService.updateArtifactsList(id, genes.value, location.value, exon.value, transcript.value,
-        coding.value, aminoAcidChange.value)
+        coding.value, aminoAcidChange.value, typeVal)
         .subscribe((data) => {
           console.log('[170][benign 수정]', data);
-          alert("수정 되었습니다.");
+          alert('수정 되었습니다.');
           this.search(genes.value);
         });
     } else {
+
       this.artifactsService.insertArtifactsList(id, genes.value, location.value, exon.value, transcript.value,
-        coding.value, aminoAcidChange.value)
+        coding.value, aminoAcidChange.value, typeVal)
         .subscribe((data) => {
           console.log('[170][benign 저장]', data);
-          alert("저장 되었습니다.");
+          alert('저장 되었습니다.');
           this.search(genes.value);
         });
     }
   }
 
 
-  insertRow() {
+  insertRow(): void {
     this.lists.push({ 'id': '', 'genes': '', 'location': '', 'exon': '', 'transcript': '', 'coding': '', 'amino_acid_change': '' });
   }
 
@@ -134,10 +139,10 @@ export class ArtifactsComponent implements OnInit {
     this.lists = this.listArtfacts.slice((Number(page) - 1) * 10, (Number(page)) * 10);
   }
 
-  search(genes: string, coding: string = ''): void {
+  search(genes: string, coding: string = '', type: string = ''): void {
 
     this.totRecords = 0;
-    this.lists$ = this.artifactsService.getArtifactsList(genes, coding);
+    this.lists$ = this.artifactsService.getArtifactsList(genes, coding, type);
     this.lists$.subscribe((data) => {
       // console.log('[170][benign 검색]', data);
       this.listArtfacts = data;
@@ -152,6 +157,19 @@ export class ArtifactsComponent implements OnInit {
   excelDownload(): void {
     console.log('excel', this.listArtfacts);
     this.excel.exportAsExcelFile(this.listArtfacts, 'artfacts');
+  }
+
+  findArtifacts(type: string): void {
+    this.totRecords = 0;
+    this.lists$ = this.artifactsService.getArtifactsList('', '', type);
+    this.lists$.subscribe((data) => {
+      this.listArtfacts = data;
+      this.lists = data.slice(0, 10);
+      this.curPage = 1;
+      this.totPage = Math.ceil(this.listArtfacts.length / 10);
+      this.pageLine = 0;
+      this.totRecords = this.listArtfacts.length;
+    });
   }
 
 }

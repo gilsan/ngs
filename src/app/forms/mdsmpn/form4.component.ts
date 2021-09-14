@@ -169,10 +169,10 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
   technique = `The analysis was optimised to identify base pair substitutions with a high sensitivity. The sensitivity for small insertions and deletions was lower. Deep-intronic mutations, mutations in the promoter region, repeats, large exonic deletions and duplications, and other structural variants were not detected by this test.`;
 
   maxHeight = 500;
-  genetictest = `  LPC139
-  LPC174
-  LPC188
-  LPE405`;
+  // genetictest = `  LPC139
+  // LPC174
+  // LPC188
+  // LPE405`;
 
   @ViewChild('commentbox') private commentbox: TemplateRef<any>;
   @ViewChild('box100', { static: true }) box100: ElementRef;
@@ -362,33 +362,11 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     });
 
 
-    // 코멘트 가져오기
-    // this.subs.sink = this.variantsService.screenComment(this.form2TestedId)
-    //   .subscribe(dbComments => {
-    //     if (dbComments !== undefined && dbComments !== null && dbComments.length > 0) {
-    //       console.log('[247][COMMENT 가져오기]', dbComments);
-    //       dbComments.forEach(comment => {
-
-    //         this.comments.push(
-    //           {
-    //             gene: comment.gene, comment: comment.comment, reference: comment.reference,
-    //             variant_id: comment.variants
-    //           }
-    //         );
-    //         this.commentsRows().push(this.createCommentRow(
-    //           {
-    //             gene: comment.gene, comment: comment.comment, reference: comment.reference,
-    //             variant_id: comment.variants
-    //           }
-    //         ));
-    //       });
-    //       this.store.setComments(this.comments); // comments 저장
-    //     }
-    //   });
 
     // profile 가져오기
     this.subs.sink = this.analysisService.getAanlysisMDSInfo(this.form2TestedId)
       .subscribe(data => {
+        console.log('[369][profile]==> ', data[0]);
         if (data.length > 0) {
           this.profile.leukemia = data[0].diagnosis;
           this.profile.genetictest = data[0].genetictest;

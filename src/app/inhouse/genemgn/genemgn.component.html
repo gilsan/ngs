@@ -8,13 +8,14 @@
        </table>
 
 
-       
+
        <div class="box mg_b20 pd_20 search">
          <select class="select_01 select_001" #gene (change)="genelists(gene.value)">
            <option value="AML">AML</option>
            <option value="ALL">ALL</option>
            <option value="LYM">Lymphoma</option>
            <option value="MDS">MDS/MPN</option>
+           <option *ngFor="let list of geneLists;" [value]="list.gene">{{list.gene}}</option>
          </select>&nbsp;&nbsp;
          <!-- <input type="text" class="input_01" placeholder="" />
          <button type="button" class="btn btn_02" style="margin-left: 10px;">조회</button> -->
@@ -56,14 +57,14 @@
              <tbody>
                <tr *ngFor="let list2 of lists2; let i =index;">
                  <td class="txt_c" (click)="genename(cell, i, j)"
-                 [class.selected]="selectedgene === cell ? true : false" 
+                 [class.selected]="selectedgene === cell ? true : false"
                   *ngFor="let cell of list2; let j = index">{{cell}}
                  </td>
                </tr>
              </tbody>
            </table>
          </div>
-       </div>   
+       </div>
      </div>
    </div>
  </div>

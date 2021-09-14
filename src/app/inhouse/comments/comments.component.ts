@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -13,6 +13,7 @@ import { ExcelService } from 'src/app/home/services/excelservice';
 })
 export class CommentsComponent implements OnInit {
 
+  @ViewChild('type') type: ElementRef;
   constructor(
     private commentsService: CommentsService,
     private excel: ExcelService,
@@ -35,7 +36,7 @@ export class CommentsComponent implements OnInit {
   }
 
   init(): void {
-    this.search('');
+    this.search('', 'AMLALL');
   }
 
   deleteRow(id: string, type: string, gene: string): void {
@@ -51,7 +52,8 @@ export class CommentsComponent implements OnInit {
           .subscribe((data) => {
             console.log('[170][benign 삭제]', data);
             alert("삭제 되었습니다.");
-            this.search('');
+            const typeVal = this.type.nativeElement.value;
+            this.search('', typeVal);
           });
       }
     }
@@ -59,48 +61,49 @@ export class CommentsComponent implements OnInit {
 
   updateRow(id: string): void {
 
-    const commentsType: HTMLInputElement = document.getElementById("type" + id) as HTMLInputElement;
-    const gene: HTMLInputElement = document.getElementById("gene" + id) as HTMLInputElement;
-    const comment: HTMLInputElement = document.getElementById("comment" + id) as HTMLInputElement;
-    const reference: HTMLInputElement = document.getElementById("reference" + id) as HTMLInputElement;
-    const variant_id: HTMLInputElement = document.getElementById("variant_id" + id) as HTMLInputElement;
+    const commentsType: HTMLInputElement = document.getElementById('type' + id) as HTMLInputElement;
+    const gene: HTMLInputElement = document.getElementById('gene' + id) as HTMLInputElement;
+    const comment: HTMLInputElement = document.getElementById('comment' + id) as HTMLInputElement;
+    const reference: HTMLInputElement = document.getElementById('reference' + id) as HTMLInputElement;
+    // tslint:disable-next-line:variable-name
+    const variant_id: HTMLInputElement = document.getElementById('variant_id' + id) as HTMLInputElement;
 
-    if (commentsType.value == "") {
-      alert("Type 값은 필수 입니다.");
-      return;
-    }
-
-    if (gene.value == "") {
-      alert("gene 값은 필수 입니다.");
-      return;
-    }
-    if (comment.value == "") {
-      alert("comment 값은 필수 입니다.");
-      return;
-    }
-    if (reference.value == "") {
-      alert("reference 값은 필수 입니다.");
+    if (commentsType.value === '') {
+      alert('Type 값은 필수 입니다.');
       return;
     }
 
-    if (id !== "") {
-      this.commentsService.updateCommentsList(id, commentsType.value, gene.value, variant_id.value, comment.value, reference.value)
+    if (gene.value === '') {
+      alert('gene 값은 필수 입니다.');
+      return;
+    }
+    if (comment.value === '') {
+      alert('comment 값은 필수 입니다.');
+      return;
+    }
+    if (reference.value === '') {
+      alert('reference 값은 필수 입니다.');
+      return;
+    }
+    const typeVal = this.type.nativeElement.value;
+    if (id !== '') {
+      this.commentsService.updateCommentsList(id, commentsType.value, gene.value, variant_id.value, comment.value, reference.value, typeVal)
         .subscribe((data) => {
           console.log('[170][benign 수정]', data);
-          alert("수정 되었습니다.");
-          this.search(gene.value);
+          alert('수정 되었습니다.');
+          this.search(gene.value, typeVal);
         });
     } else {
-      this.commentsService.insertCommentsList(id, commentsType.value, gene.value, variant_id.value, comment.value, reference.value)
+      this.commentsService.insertCommentsList(id, commentsType.value, gene.value, variant_id.value, comment.value, reference.value, typeVal)
         .subscribe((data) => {
           console.log('[170][benign 저장]', data);
-          alert("저장 되었습니다.");
-          this.search(gene.value);
+          alert('저장 되었습니다.');
+          this.search(gene.value, typeVal);
         });
     }
   }
 
-  insertRow() {
+  insertRow(): void {
     this.lists.push({ 'id': '', 'type': '', 'gene': '', 'variant_id': '', 'comment': '', 'reference': '' });
   }
 
@@ -120,9 +123,9 @@ export class CommentsComponent implements OnInit {
     this.lists = this.listComments.slice((Number(page) - 1) * 10, (Number(page)) * 10);
   }
 
-  search(genes: string): void {
+  search(genes: string, type: string): void {
     this.totRecords = 0;
-    this.lists$ = this.commentsService.getCommentsList(genes);
+    this.lists$ = this.commentsService.getCommentsList(genes, type);
     this.lists$.subscribe((data) => {
       //   console.log('[170][benign 검색]', data);
       this.lists = data;
@@ -139,6 +142,21 @@ export class CommentsComponent implements OnInit {
   excelDownload(): void {
     // console.log('excel', this.listMutations);
     this.excel.exportAsExcelFile(this.listComments, 'comments');
+  }
+
+  findComments(type: string): void {
+    this.totRecords = 0;
+    this.lists$ = this.commentsService.getCommentsList('', type);
+    this.lists$.subscribe((data) => {
+      //   console.log('[170][benign 검색]', data);
+      this.lists = data;
+      this.listComments = data;
+      this.lists = data.slice(0, 10);
+      this.curPage = 1;
+      this.totPage = Math.ceil(this.listComments.length / 10);
+      this.pageLine = 0;
+      this.totRecords = this.listComments.length;
+    });
   }
 
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, map, take } from 'rxjs/operators';
-import { geneLists, mlpaLists, sequencingLists } from './commons/geneList';
+import { geneLists, mlpaLists, sequencingLists, lymphomaLists } from './commons/geneList';
 
 @Component({
   selector: 'app-forms',
@@ -36,7 +36,7 @@ export class FormsComponent implements OnInit {
         } else if (type === 'AML') {
           this.selectedNum = 2;
           this.navigateTo('2');
-        } else if (type === 'Lymphoma') {
+        } else if (this.lymphomaList(type)) {
           this.selectedNum = 3;
           this.navigateTo('3');
         } else if (type === 'MDS/MPN') {
@@ -51,14 +51,18 @@ export class FormsComponent implements OnInit {
         } else if (this.sequencingList(type)) {
           this.selectedNum = 7;
           this.navigateTo('7');
-        } else if (type === 'LPE474' || type === 'LPE475') {
-          this.selectedNum = 3;
-          this.navigateTo('3');
         }
       }
 
     });
   }
+
+  // Lymphoma [NGS] : LPE474-악성림프종, LPE475-형질세포종
+  lymphomaList(gene: string): boolean {
+    // console.log(lymphomaLists);
+    return lymphomaLists.includes(gene);
+  }
+
 
   // 유전성 유전자
   geneList(gene: string): boolean {
@@ -72,6 +76,7 @@ export class FormsComponent implements OnInit {
   sequencingList(gene: string): boolean {
     return sequencingLists.includes(gene);
   }
+
 
   // tslint:disable-next-line: typedef
   navigateTo(select: string) {
@@ -88,7 +93,7 @@ export class FormsComponent implements OnInit {
     } else if (this.selectedNum === 5) {
       this.router.navigate(['/diag', 'jingum', 'form5', 'MLPA']);
     } else if (this.selectedNum === 6) {
-      this.router.navigate(['/diag', 'jingum', 'form6', 'FORM6']);
+      this.router.navigate(['/diag', 'jingum', 'form6', 'HRDT']);
     } else if (this.selectedNum === 7) {
       this.router.navigate(['/diag', 'jingum', 'form7', 'Sequencing']);
     }

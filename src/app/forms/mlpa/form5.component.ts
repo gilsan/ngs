@@ -163,8 +163,6 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
       this.mlpaData2.push(this.mlpaData.data[i] as IData);
     }
 
-    // console.log(this.mlpaData1);
-    // console.log(this.mlpaData2);
   }
 
   // 검사자 정보 가져오기

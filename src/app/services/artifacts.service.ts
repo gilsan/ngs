@@ -19,23 +19,23 @@ export class ArtifactsService {
     private http: HttpClient
   ) { }
 
-  public getArtifactsList(genes: string, coding: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/artifacts/list`, { genes, coding });
+  public getArtifactsList(genes: string, coding: string, type: string = ''): Observable<any> {
+    return this.http.post(`${this.apiUrl}/artifacts/list`, { genes, coding, type });
   }
 
   public insertArtifactsList(id: string, genes: string, locat: string, exon: string, transcript:
-    string, coding: string, aminoAcidChange: string): Observable<any> {
+    string, coding: string, aminoAcidChange: string, type: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/artifacts/insert`, {
       id, genes, locat, exon, transcript,
-      coding, aminoAcidChange
+      coding, aminoAcidChange, type
     });
   }
 
   public updateArtifactsList(id: string, genes: string, locat: string, exon: string, transcript:
-    string, coding: string, aminoAcidChange: string): Observable<any> {
+    string, coding: string, aminoAcidChange: string, type: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/artifacts/update`, {
       id, genes, locat, exon, transcript,
-      coding, aminoAcidChange
+      coding, aminoAcidChange, type
     });
   }
 

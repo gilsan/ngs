@@ -17,7 +17,7 @@ import { Form2Component } from './form2/form2.component';
 import { Form3Component } from './lymphoma/form3.component';
 import { Form4Component } from './mdsmpn/form4.component';
 import { Form5Component } from './mlpa/form5.component';
-import { Form6Component } from './immuno/form6.component';
+import { Form6Component } from './hereditary/form6.component';
 import { Form7Component } from './sequencing/form7.component';
 
 import { LymphomaPreviewComponent } from './previews/lymphomaPreview/lymphomaPreview';

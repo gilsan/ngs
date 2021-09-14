@@ -973,7 +973,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     from(this.comments)
       .pipe(
         concatMap(ment => this.commentsService.insertCommentsList(
-          '', ment.type, ment.gene, ment.variant_id, ment.comment, ment.reference
+          '', ment.type, ment.gene, ment.variant_id, ment.comment, ment.reference, 'AMLALL'
         )),
         last()
       ).subscribe(data => {

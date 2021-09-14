@@ -139,8 +139,22 @@
                       <col style="width:10%;"/>
                       <col style="width:10%;"/>
                     </colgroup>
+                    <!--
                     <tr  *ngFor="let lists of formGeneLists;">
                       <td class="txt_c" *ngFor="let gene of lists;">{{gene}}</td>
+                    </tr>
+                        -->
+                      <tr  *ngFor="let list of genelists">
+                      <td class="txt_c">{{list.g0}}</td>
+                      <td class="txt_c">{{list.g1}}</td>
+                      <td class="txt_c">{{list.g2}}</td>
+                      <td class="txt_c">{{list.g3}}</td>
+                      <td class="txt_c">{{list.g4}}</td>
+                      <td class="txt_c">{{list.g5}}</td>
+                      <td class="txt_c">{{list.g6}}</td>
+                      <td class="txt_c">{{list.g7}}</td>
+                      <td class="txt_c">{{list.g8}}</td>
+                      <td class="txt_c">{{list.g9}}</td>
                     </tr>
                   </table>
 

@@ -24,6 +24,12 @@ import { MaterialModule } from '../material.module';
 import { DiagScrollMonitorDirective } from './components/directive/diag-scroll-monitor.directive';
 import { MaindiagComponent } from './components/maindiag/maindiag.component';
 import { DiagpasswdchangeComponent } from './diagpasswdchange/diagpasswdchange.component';
+import { AmlallComponent } from './components/amlall/amlall.component';
+import { LymphomaComponent } from './components/lymphoma/lymphoma.component';
+import { MdsmpnComponent } from './components/mdsmpn/mdsmpn.component';
+import { HereditaryComponent } from './components/hereditary/hereditary.component';
+import { SequencingComponent } from './components/sequencing/sequencing.component';
+import { MlpaComponent } from './components/mlpa/mlpa.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +43,13 @@ import { DiagpasswdchangeComponent } from './diagpasswdchange/diagpasswdchange.c
     ManageUsersComponent,
     DiagScrollMonitorDirective,
     MaindiagComponent,
-    DiagpasswdchangeComponent
+    DiagpasswdchangeComponent,
+    AmlallComponent,
+    LymphomaComponent,
+    MdsmpnComponent,
+    HereditaryComponent,
+    SequencingComponent,
+    MlpaComponent
   ],
   imports: [
     CommonModule,
