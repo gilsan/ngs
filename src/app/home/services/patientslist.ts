@@ -336,8 +336,8 @@ export class PatientsListService {
   }
 
   // muation, gene , amino-acid-change 숫자
-  getMutaionGeneAminoacid(gene: string, aminoacid: string, specimenNo): Observable<any> {
-    return this.http.post(`${this.apiUrl}/diaggene/count`, { gene, aminoacid, specimenNo })
+  getMutaionGeneAminoacid(gene: string, coding: string, specimenNo): Observable<any> {
+    return this.http.post(`${this.apiUrl}/diaggene/count`, { gene, coding, specimenNo })
       .pipe(
         shareReplay()
       );
@@ -563,8 +563,8 @@ export class PatientsListService {
         if (item.mtype === 'M') {
           const tempGene = item.tsv.genes;
           const tempSpecimenNo = item.tsv.testedID;
-          const tempAminoAcidChange = item.tsv.amino_acid_change;
-          return this.getMutaionGeneAminoacid(tempGene, tempAminoAcidChange, tempSpecimenNo)
+          const tempCoding = item.tsv.coding;
+          return this.getMutaionGeneAminoacid(tempGene, tempCoding, tempSpecimenNo)
             .pipe(
               map(result => {
                 return { ...item, cnt: result.count };
