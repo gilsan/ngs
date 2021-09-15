@@ -127,6 +127,13 @@ export class UtilsService {
       );
   }
 
+  // muation, gene , amino-acid-change 숫자
+  getMutaionGeneAminoacid(gene: string, aminoacid: string, specimenNo: string = ''): Observable<any> {
+    return this.http.post(`${this.apiUrl}/diaggene/count`, { gene, aminoacid, specimenNo })
+      .pipe(
+        shareReplay()
+      );
+  }
 
 
 

@@ -160,7 +160,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     'KMT2A-AFF1', 'KMT2A-MLLT1', 'KMT2A-MLLT3', 'ETV6-RUNX1', 'IGH-IL3', 'TCF3-PBX1'];
 
   functionalimpact: string[] = ['Pathogenic', 'Likely Pathogenic', 'VUS'];
-
+  tempCount: string;
   maxHeight = 500;
   @ViewChild('commentbox') private commentbox: TemplateRef<any>;
   @ViewChild('box100', { static: true }) box100: ElementRef;
@@ -306,7 +306,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       this.specimenMessage = 'Genomic DNA isolated from Bone marrow';
       this.store.setSpecimenMsg(this.specimenMsg);
     }
-    console.log('=====[305][환자정보]', this.patientInfo, this.specimenMessage);
+    // console.log('=====[305][환자정보]', this.patientInfo, this.specimenMessage);
     // 필터링된 tsv 파일 가져오기
     this.filteredTSV$ = this.patientsListService.getFilteredTSVtList(this.form2TestedId)
       .pipe(
@@ -329,22 +329,22 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
   recoverDetected(): void {
     // 디비에서 Detected variant_id 와 comments 가져오기
     this.subs.sink = this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {
-      console.log('[375][form2][recoverDetected][screen/query]', data);
+      console.log('[332][form2][recoverDetected][screen/query]', data);
       this.recoverVariants = data;
       this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
-      console.log('[377][form2][Detected variant_id]', this.recoverVariants);
+      // console.log('[335][form2][Detected variant_id]', this.recoverVariants);
       this.store.setDetactedVariants(data); // Detected variant 저장
 
       // VUS 메제시 확인 2021.4.7 추가
       this.vusmsg = this.patientInfo.vusmsg;
-      console.log('[383][recoverDetected][VUS메세지]', this.patientInfo.vusmsg, this.vusmsg);
+      // console.log('[383][recoverDetected][VUS메세지]', this.patientInfo.vusmsg, this.vusmsg);
 
       this.recoverVariants.forEach(item => {
         this.recoverVariant(item);  // 354
 
         // VUS 메제시 확인
         this.vusmsg = this.patientInfo.vusmsg;
-        console.log('[391][recoverDetected][VUS메세지]', this.patientInfo.vusmsg, this.vusmsg);
+        // console.log('[391][recoverDetected][VUS메세지]', this.patientInfo.vusmsg, this.vusmsg);
         if (item.functional_impact === 'VUS') {
           this.vusstatus = true;
           this.store.setVUSStatus(this.vusstatus);
@@ -417,38 +417,38 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
 
   init(form2TestedId: string): void {
     if (this.form2TestedId) {
-      console.log('[420] ', this.screenstatus);
+      // console.log('[420][screen 번호] ', this.screenstatus);
       // VUS 메제시 확인 2021.4.7 추가
       if (this.patientInfo.vusmsg.length) {
         this.vusmsg = this.patientInfo.vusmsg;
-        console.log('[424][init][VUS메세지]', this.vusmsg);
+        // console.log('[424][init][VUS메세지]', this.vusmsg);
       }
 
-      this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {
-        console.log('==== [428][detected variants]', data);
-        if (data.length > 0) {
-          this.recoverVariants = data;
+      this.variantsService.screenSelect(this.form2TestedId)
+        .subscribe(data => {
+          // console.log('[429]', data);
+          if (data.length > 0) {
+            this.recoverVariants = data;
 
+            this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
+            this.store.setDetactedVariants(data); // Detected variant 저장
+            this.recoverVariants.forEach(item => {
 
+              this.recoverVariant(item);  // 354
+              // VUS 메제시 확인
+              this.vusmsg = this.patientInfo.vusmsg;
 
-          this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
-          this.store.setDetactedVariants(data); // Detected variant 저장
-          this.recoverVariants.forEach(item => {
-            this.recoverVariant(item);  // 354
-            // VUS 메제시 확인
-            this.vusmsg = this.patientInfo.vusmsg;
-            console.log('[511][init][VUS 메세지] ', this.vusmsg, this.patientInfo.vusmsg);
-            if (item.functional_impact === 'VUS') {
-              this.vusstatus = true;
-              this.store.setVUSStatus(this.vusstatus);
-            }
-          });
-          this.putCheckboxInit(); // 체크박스 초기화
+              if (item.functional_impact === 'VUS') {
+                this.vusstatus = true;
+                this.store.setVUSStatus(this.vusstatus);
+              }
+            });
+            this.putCheckboxInit(); // 체크박스 초기화
 
-        } else {
-          this.addDetectedVariant();
-        }
-      });
+          } else {
+            this.addDetectedVariant();
+          }
+        });
 
       /*
          */
@@ -456,7 +456,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       if (this.reportType === 'AML') {
         this.analysisService.getAanlysisAMLInfo(this.form2TestedId)
           .subscribe(data => {
-            console.log('========[568][AML]', data);
+            // console.log('========[568][AML]', data);
             if (data.length > 0) {
               this.profile.leukemia = data[0].leukemiaassociatedfusion;
               this.profile.flt3itd = data[0].FLT3ITD;
@@ -473,7 +473,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       if (this.reportType === 'ALL') {
         this.analysisService.getAanlysisALLInfo(this.form2TestedId)
           .subscribe(data => {
-            console.log('========[585][ALL]', data);
+            // console.log('========[585][ALL]', data);
             if (data.length > 0) {
               this.profile.leukemia = data[0].leukemiaassociatedfusion;
               this.profile.flt3itd = data[0].IKZK1Deletion;
@@ -523,7 +523,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
         let type: string;
         let gene: string;
         let dvariable: IAFormVariant;
-        // console.log('********** [필터링원시자료][643]', data);
+        // console.log('********** [필터링원시자료][526]', data);
 
         // 타입 분류
         if (data.mtype === 'M') {  // mutation
@@ -532,8 +532,9 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
             dvariable = data.mutationList1;
             // mutaion에 있으면 detected로 표시
             // this.resultStatus = 'Detected';
+
           }
-          // dvariable = data.mutationList1;
+
         } else if (parseInt(data.artifacts1Count, 10) > 0 ||
           parseInt(data.artifacts2Count, 10) > 0) {
           type = 'A';
@@ -600,7 +601,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
         }
         this.vd.push({ sequence: this.vdcount, selectedname: 'mutation', gene });
         this.vdcount++;
-        this.addVarient(type, dvariable, gene, data.coding, data.tsv);
+        this.addVarient(type, dvariable, gene, data.coding, data.tsv, data.cnt);
 
       }); // End of Subscribe
 
@@ -695,13 +696,21 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
   }
 
   // tslint:disable-next-line: typedef
-  addVarient(type: string, item: IAFormVariant, gene: string, coding: string, tsv: IFilteredTSV) {
+  addVarient(type: string, item: IAFormVariant, gene: string, coding: string, tsv: IFilteredTSV, count: string) {
     let tempvalue;
+    let tempCount;
+    if (count !== '0') {
+      tempCount = count;
+    } else {
+      tempCount = '';
+    }
+
     if (type === 'M') {
       tempvalue = {
         igv: '',
         sanger: '',
         type,
+        cnt: tempCount,
         gene,
         functionalImpact: item.functional_impact,
         transcript: tsv.transcript,
@@ -719,6 +728,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
         igv: '',
         sanger: '',
         type,
+        cnt: '',
         gene,
         functionalImpact: '',
         transcript: tsv.transcript,
@@ -746,11 +756,11 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
 
   recoverVariant(item: IRecoverVariants): void {
     let tempvalue;
-
     tempvalue = {
       igv: item.igv,
       sanger: item.sanger,
       type: item.type,
+      cnt: item.cnt,
       gene: item.gene,
       functionalImpact: item.functional_impact,
       transcript: item.transcript,
@@ -798,6 +808,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
         igv: [item.igv],
         sanger: [item.sanger],
         type: [item.type],
+        cnt: [item.cnt],
         gene: [item.gene],
         functionalImpact: [item.functionalImpact],
         transcript: [item.transcript],
@@ -817,6 +828,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       igv: [item.igv],
       sanger: [item.sanger],
       type: [item.type],
+      cnt: [item.cnt],
       gene: [item.gene],
       functionalImpact: [item.functionalImpact],
       transcript: [item.transcript],
@@ -886,6 +898,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       igv: [''],
       sanger: [''],
       type: [''],
+      cnt: [''],
       gene: [''],
       functionalImpact: [''],
       transcript: [''],
@@ -907,6 +920,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       igv: [''],
       sanger: [''],
       type: [''],
+      cnt: [''],
       gene: [''],
       functionalImpact: [''],
       transcript: [''],
@@ -1619,10 +1633,9 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
 
 
   tempSave(): void {
-    console.log('[1714][tempSave]');
+
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
-    // console.log('[1717][tableerowForm]', formData);
     // console.log('[1335][checkbox]', this.checkboxStatus);
     // const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
     // console.log('[1720][Detected variants]', formData);
@@ -1957,13 +1970,23 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
   }
 
   tsvFileVersion(tsvfile: string): void {
-    console.log('=========> tsvfile: ', tsvfile);
+    // console.log('=========> tsvfile: ', tsvfile);
     if (tsvfile === '5.16') {
       this.tsvVersion = '516';
     } else if (tsvfile === '5.10') {
       this.tsvVersion = '510';
     }
   }
+
+  // getMutationCount(data: any): string {
+  //   const tempGene = data.gene;
+  //   const tempAminoAcidChange = data.amino_acid_change;
+
+  //   const result = this.utilsService.getMutaionGeneAminoacid(tempGene, tempAminoAcidChange);
+
+  //   console.log('[1991] ', result);
+  //   return result;
+  // }
 
 
 }

@@ -335,9 +335,18 @@ export class PatientsListService {
     );
   }
 
+  // muation, gene , amino-acid-change 숫자
+  getMutaionGeneAminoacid(gene: string, aminoacid: string, specimenNo): Observable<any> {
+    return this.http.post(`${this.apiUrl}/diaggene/count`, { gene, aminoacid, specimenNo })
+      .pipe(
+        shareReplay()
+      );
+  }
+
+
   // 검색순서 mutation artifacts benign
   // tslint:disable-next-line:typedef
-  filtering(testedID: string, testType: string) {
+  filtering(testedID: string, testType: string): Observable<any> {
     return this.getFilteredTSVtList(testedID).pipe(
       tap(data => {
         // gene 와 coding 값 분리
@@ -548,6 +557,21 @@ export class PatientsListService {
             })
           );
 
+        }
+      }),
+      concatMap(item => {
+        if (item.mtype === 'M') {
+          const tempGene = item.tsv.genes;
+          const tempSpecimenNo = item.tsv.testedID;
+          const tempAminoAcidChange = item.tsv.amino_acid_change;
+          return this.getMutaionGeneAminoacid(tempGene, tempAminoAcidChange, tempSpecimenNo)
+            .pipe(
+              map(result => {
+                return { ...item, cnt: result.count };
+              })
+            )
+        } else {
+          return of({ ...item, cnt: 0 });
         }
       }),
       concatMap(item => {

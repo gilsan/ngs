@@ -174,6 +174,7 @@ export interface IFilteredTSV {
   filename: string;
   testedID: string;
   createdate?: string;
+  specimenNo?: string;
 }
 
 export interface IAFormVariant {
@@ -181,6 +182,7 @@ export interface IAFormVariant {
   igv?: string;
   sanger?: string;
   type?: string;
+  cnt?: string;
   name?: string;
   patientID?: string;
   gene: string;
@@ -236,6 +238,7 @@ export interface IRecoverVariants {
   amino_acid_change: string;
   cosmic_id: string;
   type: string;
+  cnt?: string;
   exon: string;
   functional_impact: string;
   gene: string;
