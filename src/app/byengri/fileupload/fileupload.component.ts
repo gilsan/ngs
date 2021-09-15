@@ -51,7 +51,7 @@ export class FileuploadComponent implements OnInit {
     ).subscribe(data => {
       const temp = data.split('_');
       this.pathologyNum = temp[0];  // 검체번호
-      this.inputType = temp[1];   // 입력형식 
+      this.inputType = temp[1];   // 입력형식
     });
 
   }

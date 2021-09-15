@@ -5,6 +5,7 @@ import { UploadResponse } from '../../models/uploadfile';
 import { FileUploadService } from '../../services/file-upload.service';
 
 import * as XLSX from 'xlsx';
+import { constants } from 'zlib';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 
@@ -76,15 +77,50 @@ export class FileuploadComponent implements OnInit {
 
   onSelectedFile(event: any): any {
     if (event.target.files.length > 0) {
-      console.log('[70][onSelectedFile]', event.target.files[0].name);
+      // console.log('[70][onSelectedFile]', event.target.files[0].name);
       // this.onDroppedFile(event.target.files);
       const file = event.target.files[0];
-      console.log(file);
       // this.excelfile(file);
-
+      this.readExcelfile(file);
 
     }
   }
+
+  readExcelfile(file: File): void {
+    let data;
+    let cleanData = [];
+    const newDatas = [];
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const fileData = reader.result;
+      const wb = XLSX.read(fileData, { type: 'binary' });
+      const sheet = wb.SheetNames[0];
+
+      const rowObj = XLSX.utils.sheet_to_csv(wb.Sheets[sheet]);
+      // console.log(rowObj);
+      console.log(rowObj.replace(/\r/g, ''));
+
+      //const datas = this.loadData(rowObj);
+
+      // for (const element of datas) {
+      //   for (const el of element) {
+      //     if (el !== '') {
+      //       cleanData.push(el);
+      //     }
+      //   }
+      //   if (cleanData.length > 0) {
+      //     newDatas.push(cleanData);
+      //   }
+      //   cleanData = [];
+      // }
+      // console.log(newDatas);
+
+    };
+
+    data = [];
+    reader.readAsBinaryString(file);
+  }
+
 
   goHome(): void {
     this.router.navigate(['/diag']);
@@ -115,21 +151,37 @@ export class FileuploadComponent implements OnInit {
         scenarios.push(row);
       }
     });
-    console.log('[117]=================\n, scenarios', scenarios);
-    console.log('===================\n');
     return scenarios;
   }
 
   parse_tsv(s, f): void {
-    s = s.replace(/,/g, ';');
+    // s = s.replace(/,/g, ';');
+    let tempIndex = 0;
+    let count = 0;
+    let state = false;
     let ixEnd = 0;
+
     for (let ix = 0; ix < s.length; ix = ixEnd + 1) {
       ixEnd = s.indexOf('\n', ix);
       if (ixEnd === -1) {
         ixEnd = s.length;
       }
-      const row = s.substring(ix, ixEnd).split('\t');
+      const row = s.substring(ix, ixEnd).split(',');
+      // console.log(row);
       f(row);
+      // if (row[0] === 'Gene') {
+      //   tempIndex = ix + 1;
+      //   count++;
+      // }
+      // if (ix >= tempIndex) {
+      //   state = true;
+      // }
+
+      // if (count > 0 && state) {
+      //   f(row);
+      // }
+
+
     }
   }
 
