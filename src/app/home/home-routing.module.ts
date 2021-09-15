@@ -5,7 +5,7 @@ import { DiseaseToDbComponent } from './components/disease-to-db/disease-to-db.c
 import { FileuploadComponent } from './components/fileupload/fileupload.component';
 import { InhouseToDbComponent } from './components/inhouse-to-db/inhouse-to-db.component';
 import { MainComponent } from './components/main/main.component';
-// import { MainscreenComponent } from './components/mainscreen/mainscreen.component';
+import { MainscreenComponent } from './components/mainscreen/mainscreen.component';
 import { BenignComponent } from '../inhouse/benign/benign.component';
 import { ArtifactsComponent } from '../inhouse/artifacts/artifacts.component';
 import { MutationComponent } from '../inhouse/mutation/mutation.component';
@@ -31,7 +31,7 @@ import { MdsmpnComponent } from './components/mdsmpn/mdsmpn.component';
 const routes: Routes = [
   {
     path: '', component: HomeComponent, children: [
-      // { path: '', component: MainscreenComponent },
+      { path: 'main', component: MainscreenComponent },
       { path: '', component: AmlallComponent },
       { path: 'amlall', component: AmlallComponent },
       { path: 'lymphoma', component: LymphomaComponent },
