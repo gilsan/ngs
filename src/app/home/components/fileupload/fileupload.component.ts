@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { concatMap, map } from 'rxjs/operators';
 import { UploadResponse } from '../../models/uploadfile';
@@ -20,6 +20,10 @@ export class FileuploadComponent implements OnInit {
   isActive: boolean;
   testedid: string;
 
+  @Input() patientid: string;
+  @Input() specimenNo: string;
+
+
   constructor(
     private fileUploadService: FileUploadService,
     private router: Router,
@@ -40,14 +44,14 @@ export class FileuploadComponent implements OnInit {
     this.isActive = true;
   }
 
-  onDragLeave(event: any) {
+  onDragLeave(event: any): void {
     event.preventDefault();
     event.stopPropagation();
     this.isActive = false;
     // console.log('Drag leave');
   }
 
-  onDrop(event: any) {
+  onDrop(event: any): void {
     event.preventDefault();
     event.stopPropagation();
     const droppedFiles = event.dataTransfer.files;
@@ -57,7 +61,7 @@ export class FileuploadComponent implements OnInit {
     this.isActive = false;
   }
 
-  onDroppedFile(droppedFiles: any) {
+  onDroppedFile(droppedFiles: any): void {
     const formData = new FormData();
     for (const item of droppedFiles) {
       formData.append('userfiles', item);
@@ -75,7 +79,8 @@ export class FileuploadComponent implements OnInit {
       console.log('[70][onSelectedFile]', event.target.files[0].name);
       // this.onDroppedFile(event.target.files);
       const file = event.target.files[0];
-      this.excelfile(file);
+      console.log(file);
+      // this.excelfile(file);
 
 
     }
@@ -110,7 +115,7 @@ export class FileuploadComponent implements OnInit {
         scenarios.push(row);
       }
     });
-    console.log('=================\n, scenarios', scenarios);
+    console.log('[117]=================\n, scenarios', scenarios);
     console.log('===================\n');
     return scenarios;
   }

@@ -363,8 +363,8 @@ export class PathologyService {
   }
 
   // 연구용 item 삭제
-  public deletePatient(patient: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/patients_research/delete`, { patient });
+  public deletePatient(patient: string, pathologyNum: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/patients_research/delete`, { patient, Pathology_num: pathologyNum });
   }
 
 }

@@ -440,7 +440,7 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
         tap(data => console.log('data ==> ', data))
       );
     this.subs.sink = this.lists$.subscribe((data) => {
-      // console.log('[409][병리검색]', data);
+      // console.log('[443][병리검색]', data);
       this.lists = data;
       // console.log('[411][MAIN][SEARCH][리스트]: ', this.lists);
     });
@@ -536,9 +536,10 @@ export class MainpaComponent implements OnInit, OnDestroy, AfterViewInit {
 
   deleteRow(i: number): void {
     const patientid = this.lists[i].patientID;
+    const pathologyNum = this.lists[i].pathology_num;
     const result = confirm('삭제 하시겠습니까?');
     if (result) {
-      this.pathologyService.deletePatient(patientid)
+      this.pathologyService.deletePatient(patientid, pathologyNum)
         .subscribe(data => {
 
           if (data.message === 'OK') {
