@@ -69,7 +69,9 @@ export class Form7Component implements OnInit, OnDestroy {
   screenstatus: string;
   form: FormGroup;
   ngsTitle: string;
-
+  comment = '';
+  comment1 = '';
+  comment2 = '';
   private subs = new SubSink();
 
   constructor(
@@ -253,9 +255,10 @@ export class Form7Component implements OnInit, OnDestroy {
   }
 
   gotoEMR(): void {
-    // const control = this.form.get('tableRows');
-    // this.immundefi = control.getRawValue();
-
+    this.sequence = this.form.getRawValue() as ISequence;
+    const formData: ISequence[] = [];
+    formData.push(this.sequence);
+    console.log(formData);
 
     if (this.firstReportDay === '-') {
       this.firstReportDay = this.today().replace(/-/g, '.');
@@ -275,14 +278,13 @@ export class Form7Component implements OnInit, OnDestroy {
       this.firstReportDay,
       this.lastReportDay,
       this.patientInfo,
-      // this.immundefi,
-      // this.comments,
-      // this.methods,
-      // this.technique,
-      // this.genelists
+      formData,
+      this.comment,
+      this.comment1,
+      this.comment2
     );
 
-    console.log('[335] ', makeForm);
+    console.log('[287] ', makeForm);
 
 
   }

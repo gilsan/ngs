@@ -1,4 +1,4 @@
-import { IPatient } from './patients';
+import { IPatient, ISequence } from './patients';
 
 
 export function sequencingForm(
@@ -10,6 +10,11 @@ export function sequencingForm(
   firstReportDay: string,
   lastReportDay: string,
   patientInfo: IPatient,
+  formData: ISequence[],
+  commentMsg: string,
+  comment1Msg: string,
+  comment2Msg: string
+
 ): string {
 
   const patient = `<root>
@@ -46,11 +51,91 @@ export function sequencingForm(
 	`;
 
 
+  const variantHeader = `
+	<Dataset id="ds_2">
+	<ColumnInfo>
+		<Column id="type" type="STRING" size="256"/>
+		<Column id="rpre" type="STRING" size="256"/>
+		<Column id="rdiag" type="STRING" size="256"/>
+		<Column id="location" type="STRING" size="256"/>
+		<Column id="nuclchange" type="STRING" size="256"/>
+		<Column id="aminochange" type="STRING" size="256"/>
+		<Column id="dbsnp" type="STRING" size="256"/>
+		<Column id="cosmicid" type="STRING" size="256"/>
+	</ColumnInfo>
+	<Rows>
+	`;
+
+  let data = '';
+  // tslint:disable-next-line: prefer-for-of
+  for (let i = 0; i < formData.length; i++) {
+    data = data + `
+			<Row>
+			 <Col id="type">${formData[i].type}</Col>
+			 <Col id="rpre">${formData[i].workNow}</Col>
+			 <Col id="rdiag">${formData[i].diagnosis}</Col>
+			 <Col id="location">${formData[i].location}</Col>
+			 <Col id="nuclchange">${formData[i].nucleotideChange}</Col>
+			 <Col id="aminochange">${formData[i].aminoAcidChange}</Col>
+			 <Col id="dbsnp">${formData[i].dbSNP}</Col>
+			 <Col id="cosmicid">${formData[i].cosmicID}</Col>
+		 </Row>
+			`;
+  }
+
+  const comment = `
+  <Dataset id="ds_3">
+    <ColumnInfo>
+      <Column id="comments" type="STRING" size="256"/>
+    </ColumnInfo>
+    <Rows>
+       <Row>
+       <Col id="comments">${commentMsg}</Col>
+       </Row>
+    </Rows>
+    </Dataset>
+  `;
+
+  const comment1 = `
+  <Dataset id="ds_4">
+    <ColumnInfo>
+      <Column id="comment1" type="STRING" size="256"/>
+    </ColumnInfo>
+    <Rows>
+       <Row>
+       <Col id="comment1">${comment1Msg}</Col>
+       </Row>
+    </Rows>
+    </Dataset>
+  `;
+
+  const comment2 = `
+  <Dataset id="ds_4">
+    <ColumnInfo>
+      <Column id="comment2" type="STRING" size="256"/>
+    </ColumnInfo>
+    <Rows>
+       <Row>
+       <Col id="comment2">${comment2Msg}</Col>
+       </Row>
+    </Rows>
+    </Dataset>
+  `;
+
+
+  const variantBottom = `
+		</Rows>
+</Dataset>
+	`;
+
+
+
+
   const rootbottom = `</Rows>
 	</Dataset>
 </root>`;
 
-  return patient + rootbottom;
+  return patient + variantHeader + data + comment + comment1 + comment2 + rootbottom;
 
 
 

@@ -79,7 +79,7 @@ export function makeCForm(
         <Col id="rsltcenter2"><![CDATA[${profile.chron}]]></Col>
 				<Col id="testinfo1">TARGET DISEASE: Lymphoma</Col>
 				<Col id="testinfo2">METHOD: *Massively parallel sequencing</Col>
-				<Col id="testinfo3">SPECIMEN:  <![CDATA[${specimenMessage}]]></Col>
+				<Col id="testinfo3"><![CDATA[SPECIMEN:  ${specimenMessage}]]></Col>
 				<Col id="testinfo4">REQUEST: ${patientInfo.request}</Col>
         <Col id="opnion">${vusmsg}</Col>
 				<Col id="title">${method}</Col>
