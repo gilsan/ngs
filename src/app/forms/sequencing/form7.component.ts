@@ -8,6 +8,7 @@ import { SubSink } from 'subsink';
 import { Router } from '@angular/router';
 import { map, shareReplay } from 'rxjs/operators';
 import { FindNgsTitleService } from '../commons/findngstitle.service';
+import { sequencingForm } from 'src/app/home/models/sequencing.model';
 
 
 @Component({
@@ -68,6 +69,7 @@ export class Form7Component implements OnInit, OnDestroy {
   screenstatus: string;
   form: FormGroup;
   ngsTitle: string;
+
   private subs = new SubSink();
 
   constructor(
@@ -234,6 +236,55 @@ export class Form7Component implements OnInit, OnDestroy {
       .subscribe(data => {
         console.log(data);
       });
+  }
+
+  today(): string {
+    const today = new Date();
+
+    const year = today.getFullYear(); // 년도
+    const month = today.getMonth() + 1;  // 월
+    const date = today.getDate();  // 날짜
+
+    const newmon = ('0' + month).substr(-2);
+    const newday = ('0' + date).substr(-2);
+    const now = year + '.' + newmon + '.' + newday;
+
+    return now;
+  }
+
+  gotoEMR(): void {
+    // const control = this.form.get('tableRows');
+    // this.immundefi = control.getRawValue();
+
+
+    if (this.firstReportDay === '-') {
+      this.firstReportDay = this.today().replace(/-/g, '.');
+    }
+
+    if (this.sendEMR >= 1) {
+      this.lastReportDay = this.today().replace(/-/g, '.');
+    }
+
+    // console.log('[EMR]', this.target, this.formTitle);
+    const makeForm = sequencingForm(
+      this.resultStatus,
+      this.examin, // 검사자
+      this.recheck, // 확인자
+      this.ngsTitle, // 제목,
+      this.patientInfo.accept_date, // 검사의뢰일
+      this.firstReportDay,
+      this.lastReportDay,
+      this.patientInfo,
+      // this.immundefi,
+      // this.comments,
+      // this.methods,
+      // this.technique,
+      // this.genelists
+    );
+
+    console.log('[335] ', makeForm);
+
+
   }
 
   // tslint:disable-next-line:typedef

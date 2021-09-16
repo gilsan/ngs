@@ -42,6 +42,7 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
 
   sequencingLists = sequencingLists;
 
+
   @ViewChild('dbox100', { static: true }) dbox100: ElementRef;
 
   constructor(

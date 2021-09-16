@@ -8,6 +8,7 @@ import { DetectedVariantsService } from 'src/app/home/services/detectedVariants'
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { SubSink } from 'subsink';
 import { geneTitles } from '../commons/geneList';
+import { hereditaryForm } from 'src/app/home/models/hereditary';
 
 @Component({
   selector: 'app-form6',
@@ -69,7 +70,8 @@ export class Form6Component implements OnInit, OnDestroy {
   private subs = new SubSink();
   target: string;
   resultStatus = 'Detected';
-
+  vusmsg = '';
+  comments = '';
   technique = `본 검사는 massively parallel sequencing 방법을 이용하여 연관된 유전자의 모든 coding exon과 인접 intron 부위를 분석하는 검사법입니다.  본 검사실은 2015 ACMG 지침의 분류에 따른  Pathogenic, Likely Pathogenic, Uncertain significance  변이에 대하여 Sanger sequencing으로 확인 후 보고하며 Likely benign, Benign 변이는 보고하지 않습니다(Genet Med. 2015 May;17(5):405-24.). `;
   methods = `Total genomic DNA was extracted from the each sample.  The TruSeq DNA Sample Preparation kit of Illumina was used to make the library. The Agilent SureSelect Target enrichment kit was used for in-solution enrichment of target regions. The enriched fragments were then amplified and sequenced on the HiSeq2000 system (illumina). After demultiplexing, the reads were aligned to the human reference genome hg19 (GRCh37) using BWA (0.7.12). Duplicate reads were removed with Picard MarkDuplicates (1.130), local realignment around indels was performed with GATK RealignerTargetCreator (3.4.0), base scores were recalibrated with GATK BaseRecalibrator (3.4.0), and then variants were called with GATK HaplotypeCaller (3.4.0). Variants were annotated using SnpEff (4.1g).`;
 
@@ -161,6 +163,7 @@ export class Form6Component implements OnInit, OnDestroy {
   getimmundefi(): void {
     this.subs.sink = this.variantsService.contentScreen6(this.form2TestedId)
       .subscribe(data => {
+        console.log('[164][내역 가져오기]', data);
         if (data.length > 0) {
 
           data.forEach(item => {
@@ -319,15 +322,36 @@ export class Form6Component implements OnInit, OnDestroy {
   gotoEMR(): void {
     const control = this.form.get('tableRows') as FormArray;
     this.immundefi = control.getRawValue() as IImmundefi[];
-    // this.immundefi = this.form.getRawValue() as IImmundefi;
+    console.log(this.immundefi);
 
-    // if (this.firstReportDay === '-') {
-    //   this.firstReportDay = this.today().replace(/-/g, '.');
-    // }
+    if (this.firstReportDay === '-') {
+      this.firstReportDay = this.today().replace(/-/g, '.');
+    }
 
-    // if (this.sendEMR >= 1) {
-    //   this.lastReportDay = this.today().replace(/-/g, '.');
-    // }
+    if (this.sendEMR >= 1) {
+      this.lastReportDay = this.today().replace(/-/g, '.');
+    }
+
+    console.log('[EMR]', this.target, this.formTitle);
+    const makeForm = hereditaryForm(
+      this.resultStatus,
+      this.examin, // 검사자
+      this.recheck, // 확인자
+      this.target,
+      this.vusmsg,
+      this.formTitle, // 제목,
+      this.patientInfo.accept_date, // 검사의뢰일
+      this.firstReportDay,
+      this.lastReportDay,
+      this.patientInfo,
+      this.immundefi,
+      this.comments,
+      this.methods,
+      this.technique,
+      this.genelists
+    );
+
+    console.log('[335] ', makeForm);
 
 
   }

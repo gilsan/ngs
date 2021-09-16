@@ -31,6 +31,7 @@ import { HereditaryComponent } from './components/hereditary/hereditary.componen
 import { SequencingComponent } from './components/sequencing/sequencing.component';
 import { MlpaComponent } from './components/mlpa/mlpa.component';
 import { XlxsuploadComponent } from './components/xlxsupload/xlxsupload.component';
+import { TxtuploadComponent } from './components/txtupload/txtupload.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { XlxsuploadComponent } from './components/xlxsupload/xlxsupload.componen
     HereditaryComponent,
     SequencingComponent,
     MlpaComponent,
-    XlxsuploadComponent
+    XlxsuploadComponent,
+    TxtuploadComponent
   ],
   imports: [
     CommonModule,

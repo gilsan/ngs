@@ -204,6 +204,23 @@ export interface IAFormVariant {
   checked?: boolean;
 }
 
+export interface IHereditary {
+  gene: string;
+  functionalImpact: string;
+  transcript: string;
+  exonIntro: string;
+  nucleotideChange: string;
+  aminoAcidChange: string;
+  zygosity: string;
+  dbSNPHGMD: string;
+  gnomADEAS: string;
+  OMIM: string;
+  age: string;
+  name: string;
+  patientID: string;
+  gender: string;
+}
+
 export interface IFitering {
   id: string;
   gene1: string;
