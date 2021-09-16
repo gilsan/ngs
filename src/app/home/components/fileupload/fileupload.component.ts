@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { concatMap, map } from 'rxjs/operators';
 import { UploadResponse } from '../../models/uploadfile';
@@ -6,6 +6,7 @@ import { FileUploadService } from '../../services/file-upload.service';
 
 import * as XLSX from 'xlsx';
 import { constants } from 'zlib';
+import { IAFormVariant } from '../../models/patients';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 
@@ -23,7 +24,11 @@ export class FileuploadComponent implements OnInit {
 
   @Input() patientid: string;
   @Input() specimenNo: string;
-
+  // tslint:disable-next-line:no-output-on-prefix
+  @Output() onSelected = new EventEmitter<void>();
+  // tslint:disable-next-line: no-output-on-prefix
+  @Output() onCanceled = new EventEmitter<void>();
+  detactedVariants: IAFormVariant[] = [];
 
   constructor(
     private fileUploadService: FileUploadService,
@@ -98,6 +103,7 @@ export class FileuploadComponent implements OnInit {
 
       const datas = this.loadData(this.removeBackslach(rowObj));
       console.log(rowObj);
+
     };
 
     data = [];
@@ -108,7 +114,6 @@ export class FileuploadComponent implements OnInit {
     const arr = data.split('\r');
     const newArr = [];
     let newel: string;
-
     for (const el of arr) {
       if (el.charAt(0) === '\n') {
         newel = el.substring(1);

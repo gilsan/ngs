@@ -1208,7 +1208,8 @@ export class Form1Component implements OnInit, OnDestroy {
       this.firstReportDay,
       this.lastReportDay,
       this.genelists,
-      tsvVersionContents
+      tsvVersionContents,
+      this.vusmsg
     );
     console.log('[1214][LYM XML] ', makeForm);
     const examcode = this.patientInfo.test_code;
