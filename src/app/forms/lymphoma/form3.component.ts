@@ -126,7 +126,7 @@ export class Form3Component implements OnInit, OnDestroy {
   rsltdesc = '';
   screenstatus: string;
   specimenMsg: string;
-  specimenMessage = 'Genomic DNA isolated from peripheral blood';
+  specimenMessage = 'Genomic DNA isolated from Bone marrow';
 
   comments: IComment[] = [];
   tempCommentGene = '';
@@ -288,14 +288,14 @@ export class Form3Component implements OnInit, OnDestroy {
     this.tsvFileVersion(this.patientInfo.verfile);
 
     this.requestDate = this.patientInfo.accept_date;
-    if (this.patientInfo.specimen === '015') {
-      this.specimenMsg = 'Bone marrow';
-      this.specimenMessage = 'Genomic DNA isolated from Bone marrow';
-    } else if (this.patientInfo.specimen === '004') {
-      this.specimenMsg = 'EDTA blood';
-      this.specimenMessage = 'Genomic DNA isolated from EDTA blood';
-      this.store.setSpecimenMsg(this.specimenMsg);
-    }
+    // if (this.patientInfo.specimen === '015') {
+    //   this.specimenMsg = 'Bone marrow';
+    //   this.specimenMessage = 'Genomic DNA isolated from Bone marrow';
+    // } else if (this.patientInfo.specimen === '004') {
+    //   this.specimenMsg = 'EDTA blood';
+    //   this.specimenMessage = 'Genomic DNA isolated from EDTA blood';
+    //   this.store.setSpecimenMsg(this.specimenMsg);
+    // }
 
     // 검체 감염유부 확인
     if (parseInt(this.patientInfo.detected, 10) === 0) {
@@ -320,7 +320,7 @@ export class Form3Component implements OnInit, OnDestroy {
         shareReplay()
       );
     this.subs.sink = this.filteredTSV$.subscribe(data => {
-      // console.log('[168][form2][fileredTSVFile]', data);
+
       this.tsvLists = data;
     });
 

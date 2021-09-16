@@ -30,6 +30,7 @@ import { MdsmpnComponent } from './components/mdsmpn/mdsmpn.component';
 import { HereditaryComponent } from './components/hereditary/hereditary.component';
 import { SequencingComponent } from './components/sequencing/sequencing.component';
 import { MlpaComponent } from './components/mlpa/mlpa.component';
+import { XlxsuploadComponent } from './components/xlxsupload/xlxsupload.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { MlpaComponent } from './components/mlpa/mlpa.component';
     MdsmpnComponent,
     HereditaryComponent,
     SequencingComponent,
-    MlpaComponent
+    MlpaComponent,
+    XlxsuploadComponent
   ],
   imports: [
     CommonModule,

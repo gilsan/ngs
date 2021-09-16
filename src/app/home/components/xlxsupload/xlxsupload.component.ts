@@ -1,28 +1,49 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { concatMap, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { UploadResponse } from '../../models/uploadfile';
 import { FileUploadService } from '../../services/file-upload.service';
 
 import * as XLSX from 'xlsx';
-import { constants } from 'zlib';
+import { IAFormVariant } from '../../models/patients';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 
+export interface Idv {
+  type: string;
+  gene: string;
+  functionalImpact: string;
+  transcript: string;
+  exonIntro: string;
+  nucleotideChang: string;
+  aminoAcidChange: string;
+  zygosity: string;
+  vafPercent: string;
+  references: string;
+  cosmicID: string;
+}
+
 
 @Component({
-  selector: 'app-fileupload',
-  templateUrl: './fileupload.component.html',
-  styleUrls: ['./fileupload.component.scss']
+  selector: 'app-xlxsupload',
+  templateUrl: './xlxsupload.component.html',
+  styleUrls: ['./xlxsupload.component.scss']
 })
-export class FileuploadComponent implements OnInit {
+export class XlxsuploadComponent implements OnInit {
 
   upload: UploadResponse = new UploadResponse();
   isActive: boolean;
   testedid: string;
 
+  @ViewChild('uploadfile') uploadfile: ElementRef;
+
   @Input() patientid: string;
   @Input() specimenNo: string;
+  // tslint:disable-next-line:no-output-on-prefix
+  @Output() onSelected = new EventEmitter<void>();
+  // tslint:disable-next-line: no-output-on-prefix
+  @Output() onCanceled = new EventEmitter<void>();
+  detactedVariants: IAFormVariant[] = [];
 
 
   constructor(
@@ -49,7 +70,6 @@ export class FileuploadComponent implements OnInit {
     event.preventDefault();
     event.stopPropagation();
     this.isActive = false;
-    // console.log('Drag leave');
   }
 
   onDrop(event: any): void {
@@ -77,13 +97,25 @@ export class FileuploadComponent implements OnInit {
 
   onSelectedFile(event: any): any {
     if (event.target.files.length > 0) {
-      // console.log('[70][onSelectedFile]', event.target.files[0].name);
       // this.onDroppedFile(event.target.files);
       const file = event.target.files[0];
-      // this.excelfile(file);
       this.readExcelfile(file);
 
     }
+  }
+
+  onCancel(): void {
+    this.onCanceled.emit(null);
+    // // 파일 취소후 초기화
+    this.upload.files = [];
+    this.uploadfile.nativeElement.value = '';
+  }
+
+  onConfirm(): void {
+    this.onSelected.emit(null);
+    // // 파일 업로드후 초기화
+    this.upload.files = [];
+    this.uploadfile.nativeElement.value = '';
   }
 
   readExcelfile(file: File): void {
@@ -97,7 +129,7 @@ export class FileuploadComponent implements OnInit {
       const rowObj = XLSX.utils.sheet_to_csv(wb.Sheets[sheet]);
 
       const datas = this.loadData(this.removeBackslach(rowObj));
-      console.log(rowObj);
+      console.log(datas);
     };
 
     data = [];
@@ -127,19 +159,6 @@ export class FileuploadComponent implements OnInit {
   }
 
 
-  excelfile(file: File): void {
-    let data;
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const lists = [];
-      data = this.loadData(reader.result);
-    };
-
-    data = [];
-    reader.readAsText(file);
-
-  }
-
   loadData(file: ArrayBuffer | string): any {
 
     let rowCount = 0;
@@ -165,7 +184,6 @@ export class FileuploadComponent implements OnInit {
   }
 
   parse_tsv(s, f): void {
-    // s = s.replace(/,/g, ';');
     let tempIndex = 10000;
     let count = 0;
     let state = false;
@@ -177,7 +195,6 @@ export class FileuploadComponent implements OnInit {
         ixEnd = s.length;
       }
       const row = s.substring(ix, ixEnd).split(',');
-
       if (row[0] === 'Gene') {
         tempIndex = ix + 1;
         count++;
