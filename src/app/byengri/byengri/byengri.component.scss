@@ -64,3 +64,17 @@ img.btn-logout {
 .sub-menu {
   width: 185px;
 }
+
+
+
+.menu01:hover .sub-menu.type2 {
+  display: inline-block;
+  width: 350px !important;
+  top: 135px !important;
+  left: 20% !important;
+}
+
+.sub-menu.type2 {
+  width: 350px;
+  top: 135px;
+}
