@@ -1638,7 +1638,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     const formData = control.getRawValue();
     // console.log('[1335][checkbox]', this.checkboxStatus);
     // const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
-    // console.log('[1720][Detected variants]', formData);
+    console.log('[1641][Detected variants]', formData);
     if (this.comments.length) {
       const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
       this.comments = commentControl.getRawValue();

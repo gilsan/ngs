@@ -1,11 +1,13 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { UploadResponse } from '../../models/uploadfile';
 import { FileUploadService } from '../../services/file-upload.service';
 
 import * as XLSX from 'xlsx';
-import { IAFormVariant } from '../../models/patients';
+import { IAFormVariant, IComment, IPatient, IProfile } from '../../models/patients';
+import { DetectedVariantsService } from '../../services/detectedVariants';
+import { SubSink } from 'subsink';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 
@@ -29,8 +31,9 @@ export interface Idv {
   templateUrl: './xlxsupload.component.html',
   styleUrls: ['./xlxsupload.component.scss']
 })
-export class XlxsuploadComponent implements OnInit {
+export class XlxsuploadComponent implements OnInit, OnDestroy {
 
+  private subs = new SubSink();
   upload: UploadResponse = new UploadResponse();
   isActive: boolean;
   testedid: string;
@@ -43,13 +46,53 @@ export class XlxsuploadComponent implements OnInit {
   @Output() onSelected = new EventEmitter<void>();
   // tslint:disable-next-line: no-output-on-prefix
   @Output() onCanceled = new EventEmitter<void>();
-  detactedVariants: IAFormVariant[] = [];
 
+
+  profile: IProfile = { leukemia: '', flt3itd: '', chron: '' };
+  patientInfo: IPatient = {
+    name: '',
+    patientID: '',
+    age: '',
+    gender: '',
+    testedNum: '',
+    leukemiaAssociatedFusion: '',
+    leukemiaassociatedfusion: '',
+    IKZK1Deletion: '',
+    FLT3ITD: '',
+    bonemarrow: '',
+    diagnosis: '',
+    genetictest: '',
+    chromosomalAnalysis: '',
+    chromosomalanalysis: '',
+    targetDisease: '',
+    method: '',
+    accept_date: '',
+    specimen: '',
+    detected: '',
+    request: '',
+    tsvFilteredFilename: '',
+    path: '',
+    //  createDate:  0000-00-00,
+    tsvFilteredStatus: '',
+    //  tsvFilteredDate: 0000-00-00,
+    bamFilename: '',
+    sendEMRDate: '',
+    report_date: '',
+    specimenNo: '',
+    test_code: '',
+    screenstatus: '',
+    recheck: '',
+    examin: '',
+  };
+
+  comments: IComment[] = [];
+  formData: IAFormVariant[] = [];
 
   constructor(
     private fileUploadService: FileUploadService,
     private router: Router,
     private route: ActivatedRoute,
+    private variantsService: DetectedVariantsService,
   ) { }
 
   ngOnInit(): void {
@@ -59,6 +102,12 @@ export class XlxsuploadComponent implements OnInit {
       this.testedid = data;
     });
   }
+
+  // tslint:disable-next-line: typedef
+  ngOnDestroy() {
+    this.subs.unsubscribe();
+  }
+
 
   onDragOver(event: any): void {
     event.preventDefault();
@@ -127,9 +176,37 @@ export class XlxsuploadComponent implements OnInit {
       const sheet = wb.SheetNames[0];
 
       const rowObj = XLSX.utils.sheet_to_csv(wb.Sheets[sheet]);
-
       const datas = this.loadData(this.removeBackslach(rowObj));
-      console.log(datas);
+      // tslint:disable-next-line:prefer-for-of
+      for (let i = 0; i < datas.length; i++) {
+        this.formData.push({
+          gene: datas[i][0],
+          functionalImpact: datas[i][1],
+          transcript: datas[i][2],
+          exonIntro: datas[i][3],
+          nucleotideChange: datas[i][4],
+          aminoAcidChange: datas[i][5],
+          zygosity: datas[i][6],
+          vafPercent: datas[i][7],
+          references: datas[i][8],
+          cosmicID: datas[i][9],
+          checked: false,
+          cnt: '',
+          id: '',
+          igv: '',
+          sanger: '',
+          type: '',
+        });
+      }
+
+
+      this.subs.sink = this.variantsService.screenTempSave(this.specimenNo, this.formData,
+        this.comments, this.profile, '', this.patientInfo)
+        .subscribe(data => {
+          console.log(data);
+          console.log(this.formData);
+          console.log(this.specimenNo);
+        });
     };
 
     data = [];
@@ -143,13 +220,14 @@ export class XlxsuploadComponent implements OnInit {
 
     for (const el of arr) {
       if (el.charAt(0) === '\n') {
-        newel = el.substring(1);
+        // newel = el.substring(1);
+        // \n 을 한칸 공백으로
+        newel = el.substring(0, 0) + ' ' + el.substring(1);
         newArr.push(newel);
       } else {
         newArr.push(el);
       }
     }
-
     return newArr.join('');
   }
 
@@ -165,6 +243,7 @@ export class XlxsuploadComponent implements OnInit {
     let tempCount = 0;
     let state = true;
     const scenarios = [];
+    let cleanData = [];
     this.parse_tsv(file, (row) => {
       rowCount++;
       if (rowCount >= 0) {
@@ -175,13 +254,39 @@ export class XlxsuploadComponent implements OnInit {
         }
 
         if (tempCount === rowCount && state) {
-          scenarios.push(row);
+          for (const el of row) {
+            cleanData.push(el.replace(/\"/g, ''));
+          }
+          scenarios.push(cleanData);
+          cleanData = [];
         }
 
       }
     });
     return scenarios;
   }
+  /* ----------------------------------------------------------------
+  gene: "JAK2"
+  functionalImpact: "Pathogenic"
+  transcript: "NM_004972.4"
+  exonIntro: "E14"
+  nucleotideChange: "c.1849G>T"
+  aminoAcidChange: "p.Val617Phe"
+  zygosity:
+  vafPercent: "43.40"
+  references: "rs77375493"
+  cosmicID: "COSM12600"
+  checked: true
+  cnt: "1"
+  id: null
+  igv: ""
+  sanger: ""
+  status: "OLD"
+  type: "M"
+
+
+
+  */
 
   parse_tsv(s, f): void {
     let tempIndex = 10000;
