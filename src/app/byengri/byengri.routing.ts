@@ -6,17 +6,23 @@ import { ManageUsersComponent } from './byengri/manage-users/manage-users.compon
 import { ReportComponent } from './byengri/report/report.componen';
 import { ReportResolver } from './byengri/report/report.resolver';
 import { ResearchComponent } from './byengri/research/research.component';
+import { SequencingreportComponent } from './byengri/sequencingreport/sequencingreport.component';
 
 import { FileuploadComponent } from './fileupload/fileupload.component';
 import { BlacklistComponent } from './inhouse/blacklist/blacklist.component';
 import { MainComponent } from './main/main.component';
 import { MainpaComponent } from './mainpa/mainpa.component';
 import { PathReportComponent } from './path-report/path-report.component';
+import { SequencingComponent } from './sequencing/sequencing.component';
 
 const routes: Routes = [
   {
     path: '', component: ByengriComponent, children: [
       { path: '', component: MainComponent },
+      { path: 'orir', component: MainComponent },
+      { path: 'sequencing', component: SequencingComponent },
+      { path: 'sequencingReport', component: SequencingreportComponent },
+      { path: 'sequencingReport/:id', component: SequencingreportComponent },
       { path: 'fileupload', component: FileuploadComponent },
       {
         path: 'fileupload/:id', component: FileuploadComponent

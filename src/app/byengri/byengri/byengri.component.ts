@@ -148,7 +148,13 @@ export class ByengriComponent implements OnInit {
   }
 
   link(url: string): void {
-    this.router.navigate(['pathology', 'blacklist']);
+    if (url === 'blacklist') {
+      this.router.navigate(['pathology', 'blacklist']);
+    } else if (url === 'orir') {
+      this.router.navigate(['pathology', 'orir']);
+    } else if (url === 'sequencing') {
+      this.router.navigate(['pathology', 'sequencing']);
+    }
   }
 
 

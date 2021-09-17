@@ -21,6 +21,8 @@ import { PwchangeComponent } from './pwchange/pwchange.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ResearchComponent } from './byengri/research/research.component';
 import { BlacklistComponent } from './inhouse/blacklist/blacklist.component';
+import { SequencingComponent } from './sequencing/sequencing.component';
+import { SequencingreportComponent } from './byengri/sequencingreport/sequencingreport.component';
 
 
 @NgModule({
@@ -39,6 +41,8 @@ import { BlacklistComponent } from './inhouse/blacklist/blacklist.component';
     PwchangeComponent,
     ResearchComponent,
     BlacklistComponent,
+    SequencingComponent,
+    SequencingreportComponent,
   ],
   imports: [
 

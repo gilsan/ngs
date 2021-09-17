@@ -1,0 +1,163 @@
+
+<div id="wrap111">
+<!--
+    <app-upload [hidden]="!isVisible"    (onSelected)="onSelected()" (onCanceled)="onCanceled()"
+      (onWrongFile)="onWrongFile()"
+    ></app-upload>
+    -->
+  <app-upload *ngIf="isVisible"    (onSelected)="onSelected()" (onCanceled)="onCanceled()"  (onWrongFile)="onWrongFile()"></app-upload>
+  <div id="container" style="margin-top: 0px;">
+    <div id="content" >
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mg_b10">
+            <tr>
+                <td  class="mail_title">WorkList</td>
+                <td class="main_btn"></td>
+            </tr>
+        </table>
+        <div class="box mg_b20 pd_20">
+            <!-- <input type="text" class="input_01"
+            #pathologyNo  (click)="setPathologyNo(pathologyNo.value)" placeholder="검체번호" />&nbsp;&nbsp;
+            <input name="" type="text"  #patient placeholder="환자ID" (change)="setPatientID(patient.value)"
+            class="input_01" />&nbsp;&nbsp; -->
+           <input type="text" class="input_01"
+            #pathologynum    placeholder="분자병리번호"  [value]="pathologyno"
+            (keyup.enter)="searchData(start.value, end.value, pathologynum.value, patient.value, 'Y')" />&nbsp;&nbsp;
+            <input name="" type="text"   placeholder="환자ID"  #patient  [value]="patientid"
+            class="input_01" />&nbsp;&nbsp;
+            <input type="date" [value]="startToday()" class="input_01" #start  style="width:150px;"/>
+            ~
+            <input type="date" [value]="endToday()" class="input_01" #end  style="width:150px;"/> &nbsp;&nbsp;
+            <button type="button" class="btn btn_02" (click)="search(start.value, end.value, pathologynum.value, patient.value, 'Y')"
+             style="margin-right: 15px;">조회</button>
+             <div class="da-checkbox">
+                <label>
+                    <input type="checkbox" [checked]="myState" (change)="my($event)" [disabled]="myDisabled">
+                    <span>
+                       <i></i>
+                       <em>My</em>
+                    </span>
+                </label>
+                <label>
+                   <input type="checkbox" [checked]="registerState" (change)="register($event)">
+                    <span>
+                       <i></i>
+                       <em>접수</em>
+                    </span>
+               </label>
+               <label>
+                   <input type="checkbox" [checked]="testingState" (change)="testing($event)">
+                   <span>
+                       <i></i>
+                       <em>검사중</em>
+                    </span>
+               </label>
+               <label>
+                   <input type="checkbox"  [checked]="finishedState" (change)="finished($event)">
+                   <span>
+                       <i></i>
+                       <em>최종진단</em>
+                    </span>
+               </label>
+               <label>
+                   <input type="checkbox" [checked]="allStates" (change)="allState($event)">
+                   <span>
+                       <i></i>
+                       <em>전체</em>
+                    </span>
+               </label>
+            </div>
+        </div>
+        <div class="box">
+            <div class="box_100 fill"  appScrollMonitor  #pbox100>
+            <table border="0" cellpadding="0" cellspacing="0" class="table_list  fixed_header table_resul_x">
+                <colgroup>
+                    <col width="40px">
+                    <col width="8%">
+                    <col width="8%">
+                    <col width="5%">
+                    <col width="5%">
+                    <col width="9%">
+                    <col width="10%">
+                    <col width="9%">
+                    <col width="9%">
+                    <col width="10%">
+                    <col width="11%">
+                    <col width="9%">
+                    <col width="8%">
+                </colgroup>
+                <thead class="fixheader">
+                    <tr>
+                        <th>No.</th>
+                        <th>접수일</th>
+                        <th>환자이름</th>
+                        <th>나이</th>
+                        <th>성별</th>
+                        <th>환자ID</th>
+                        <th>분자병리번호</th>
+                        <th>IR TSV</th>
+                        <th>OR TSV</th>
+                        <th>진행상태</th>
+                        <th>파일변환/결과지</th>
+                        <th>재등록</th>
+                        <th>진단의</th>
+                    </tr>
+                </thead>
+                <tbody class="bodytable" [ngStyle]="adjustBodyTable()">
+                    <tr [ngClass]="toggle(i)"  *ngFor="let list of  lists; let i = index">
+                        <td class="txt_c">{{i + 1}}</td>
+                        <td class="txt_c">{{list.prescription_date}}</td>
+                        <td class="txt_c">{{list.name}}</td>
+                        <td class="txt_c">{{list.age}}</td>
+                        <td class="txt_c">{{list.gender}}</td>
+                        <td class="txt_c">{{list.patientID}}</td>
+                        <td class="txt_c">{{list.pathology_num}}</td>
+                        <td class="txt_c"><a  [href]="getUrl(list, 'IR')" [download]="list.tsvirfilename" *ngIf="list.tsvirfilename">
+                            <button class="btn btn_03" style="font-size: 14px;" [matTooltip]="list.tsvirfilename">IR파일</button>
+                        </a></td>
+                        <td class="txt_c">
+                            <a  [href]="getUrl(list, 'OR')" [download]="list.tsvorfilename" *ngIf="list.tsvorfilename">
+                               <button class="btn btn_03"  style="font-size: 14px;" [matTooltip]="list.tsvorfilename">OR파일</button>
+                           </a></td>
+                        <td class="txt_c">{{processingStatus(i)}}</td>
+                        <td class="txt_c"  *ngIf="list.screenstatus !== '5'; else result ">
+                            <button type="button" class="btn btn_03 "
+                            *ngIf="list.tsvirfilename  && list.tsvorfilename ; else printing"
+                            (click)="goReporter(i)"
+                            >결과지/보고서</button>
+                            <ng-template  #printing>
+                              <button type="button" class="btn btn_03"
+                                  (click)="goUploadpage(list.pathology_num, i, 'N')">파일등록/변환</button>
+                           </ng-template>
+                        </td>
+                        <ng-template #result>
+                            <td class="txt_c"></td>
+                        </ng-template>
+
+                        <td class="txt_c" *ngIf="list.screenstatus !== '5'; else noregister ">
+                          <button type="button" class="btn btn_03"
+                          *ngIf="list.tsvirfilename  && list.tsvorfilename;"
+                          (click)="goUploadpage(list.pathology_num,i, 'R')"
+                          >재등록</button>
+                        </td>
+                        <ng-template #noregister>
+                            <td class="txt_c"></td>
+                        </ng-template>
+                        <td class="txt_c">{{list.rechecker}}</td>  <!-- 진단의 항목     -->
+                    </tr>
+                </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!--div class="foot_btn mg_t30 pd_b30 txt_c main_btn">
+            <ul>
+              <li>
+                <button type="button" class="btn btn_01">저장</button>
+              </li>
+            </ul>
+          </div-->
+
+    </div>
+</div>
+ </div>
+
