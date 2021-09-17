@@ -76,7 +76,7 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
         switchMap(item => of(item)),
         switchMap(list => from(list)),
         map(list => {
-          if (list.test_code === 'LPE545') {
+          if (list.test_code === 'LPE545' || list.test_code === 'LPE472') {
             return { ...list, test_code: 'ALL' };
           } else if (list.test_code === 'LPE471') {
             return { ...list, test_code: 'AML' };
