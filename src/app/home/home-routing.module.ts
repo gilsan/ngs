@@ -31,8 +31,8 @@ import { MdsmpnComponent } from './components/mdsmpn/mdsmpn.component';
 const routes: Routes = [
   {
     path: '', component: HomeComponent, children: [
-      { path: 'main', component: MainscreenComponent },
-      { path: '', component: AmlallComponent },
+      { path: '', component: MainscreenComponent },
+      { path: 'amlall2', component: AmlallComponent },
       { path: 'amlall', component: AmlallComponent },
       { path: 'lymphoma', component: LymphomaComponent },
       { path: 'mdsmpn', component: MdsmpnComponent },
