@@ -56,7 +56,9 @@ export class SequencingreportComponent implements OnInit {
           const tempArr = this.patientInfo.img3.split('/');
           this.img3 = tempArr[4];
         }
-
+        // console.log(this.patientInfo);
+        // console.log(this.path);
+        // console.log(this.img1);
 
       } catch (err) {
         console.log(err);
@@ -69,8 +71,6 @@ export class SequencingreportComponent implements OnInit {
 
   getUrl(type: string): SafeResourceUrl {
     let url = '';
-    // const orurl = this.apiUrl + '/showImage?path=' + this.path + '&filename=' + this.img1;
-    // return this.sanitizer.bypassSecurityTrustResourceUrl(orurl);
     if (type === 'img1') {
       url = this.apiUrl + '/showImage?path=' + this.path + '&filename=' + this.img1;
     } else if (type === 'img2') {
