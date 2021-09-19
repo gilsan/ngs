@@ -59,6 +59,16 @@ export class FileUploadService {
     );
   }
 
+  pathImageUpload(formData: any): Observable<UploadResponse> {
+    console.log('[49][file-upload][pathfileUpload/upload]', formData);
+    return this.http.post(`${this.apiUrl}/pathimageUpload/imagefileupload`, formData, {
+      reportProgress: true,
+      observe: 'events'
+    }).pipe(
+      map(event => this.getEventMessage(event))
+    );
+  }
+
   pathResearchDataUpload(formData: any): Observable<UploadResponse> {
     console.log('[63][file-upload][pathResearchDataUpload][연구용]', formData);
     return this.http.post(`${this.apiUrl}/pathResearchfileUpload/upload`, formData, {

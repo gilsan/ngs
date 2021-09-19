@@ -29,6 +29,7 @@ export class SequencingComponent implements OnInit, OnDestroy, AfterViewInit {
   pathologyNo = '';
   type = '';  // N:신규입력, R: 재입력
 
+  isImageUploadVisible = false;
   isVisible = false;
   isSelected = false; // 화일등록이 되었는지 확인하는 플래그
   startday: string;
@@ -394,6 +395,11 @@ export class SequencingComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isVisible = !this.isVisible; // 신규
   }
 
+  goImageUpload(pathologyNo: string): void {
+    this.isImageUploadVisible = !this.isImageUploadVisible;
+    this.setPathologyNo(pathologyNo);
+  }
+
   goReporter(idx: number): void {
 
     // 검체번호를 확인한다.
@@ -551,6 +557,15 @@ export class SequencingComponent implements OnInit, OnDestroy, AfterViewInit {
   onCanceled(): void {
     this.isVisible = false;
     this.isSelected = false;
+  }
+
+  onImageSelected(): void {
+    this.isImageUploadVisible = false;
+    this.onSelected();
+  }
+
+  onImageCanceled(): void {
+    this.isImageUploadVisible = false;
   }
 
   checkStore(): void {

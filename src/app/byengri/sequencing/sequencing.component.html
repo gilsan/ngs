@@ -1,10 +1,9 @@
 
 <div id="wrap111">
-<!--
-    <app-upload [hidden]="!isVisible"    (onSelected)="onSelected()" (onCanceled)="onCanceled()"
-      (onWrongFile)="onWrongFile()"
-    ></app-upload>
-    -->
+    <app-imageupload *ngIf="isImageUploadVisible"  [pathologyNo]="pathologyNo"
+      (onSelected)="onImageSelected()" (onCanceled)="onImageCanceled()"
+    ></app-imageupload>
+
   <app-upload *ngIf="isVisible"    (onSelected)="onSelected()" (onCanceled)="onCanceled()"  (onWrongFile)="onWrongFile()"></app-upload>
   <div id="container" style="margin-top: 0px;">
     <div id="content" >
@@ -15,10 +14,6 @@
             </tr>
         </table>
         <div class="box mg_b20 pd_20">
-            <!-- <input type="text" class="input_01"
-            #pathologyNo  (click)="setPathologyNo(pathologyNo.value)" placeholder="검체번호" />&nbsp;&nbsp;
-            <input name="" type="text"  #patient placeholder="환자ID" (change)="setPatientID(patient.value)"
-            class="input_01" />&nbsp;&nbsp; -->
            <input type="text" class="input_01"
             #pathologynum    placeholder="분자병리번호"  [value]="pathologyno"
             (keyup.enter)="searchData(start.value, end.value, pathologynum.value, patient.value, 'Y')" />&nbsp;&nbsp;
@@ -73,13 +68,14 @@
                 <colgroup>
                     <col width="40px">
                     <col width="8%">
-                    <col width="8%">
+                    <col width="6%">
                     <col width="5%">
-                    <col width="5%">
+                    <col width="4%">
                     <col width="9%">
                     <col width="10%">
-                    <col width="18%">     
-                    <col width="10%">
+                    <col width="18%">
+                    <col width="8%">
+                    <col width="5%">
                     <col width="11%">
                     <col width="9%">
                     <col width="8%">
@@ -94,6 +90,7 @@
                         <th>환자ID</th>
                         <th>분자병리번호</th>
                         <th>이미지 파일</th>
+                        <th>이미지 올리기</th>
                         <th>진행상태</th>
                         <th>파일변환/결과지</th>
                         <th>재등록</th>
@@ -109,7 +106,16 @@
                         <td class="txt_c">{{list.gender}}</td>
                         <td class="txt_c">{{list.patientID}}</td>
                         <td class="txt_c">{{list.pathology_num}}</td>
-                        <td class="txt_c"></td>
+                        <td class="txt_c">
+                              {{list.img1}}<br>
+                              {{list.img2}}<br>
+                              {{list.img3}}
+                        </td>
+                        <td class="txt_c">
+                          <button type="button" class="btn btn_03"
+                            (click)="goImageUpload(list.pathology_num)"
+                          >그림등록</button>
+                        </td>
                         <td class="txt_c">{{processingStatus(i)}}</td>
                         <td class="txt_c"  *ngIf="list.screenstatus !== '5'; else result ">
                             <button type="button" class="btn btn_03 "

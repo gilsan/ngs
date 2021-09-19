@@ -23,6 +23,7 @@ import { ResearchComponent } from './byengri/research/research.component';
 import { BlacklistComponent } from './inhouse/blacklist/blacklist.component';
 import { SequencingComponent } from './sequencing/sequencing.component';
 import { SequencingreportComponent } from './byengri/sequencingreport/sequencingreport.component';
+import { ImageuploadComponent } from './imageupload/imageupload.component';
 
 
 @NgModule({
@@ -43,6 +44,7 @@ import { SequencingreportComponent } from './byengri/sequencingreport/sequencing
     BlacklistComponent,
     SequencingComponent,
     SequencingreportComponent,
+    ImageuploadComponent,
   ],
   imports: [
 

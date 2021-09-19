@@ -162,6 +162,9 @@ export interface IPatient {
   tumorburden?: string;
   loginid?: string;
   rechecker?: string;
+  img1?: string;
+  img2?: string;
+  img3?: string;
 }
 
 export interface IFilteredTSV {
