@@ -258,7 +258,6 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
       specimenNo = specimenNo.trim();
     }
 
-
     this.lists$ = this.patientsList.sequencingSearch(startdate, enddate, patientId, specimenNo, status, sheet);
     this.subs.sink = this.lists$
       .pipe(
