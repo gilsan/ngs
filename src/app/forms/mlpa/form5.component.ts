@@ -1,19 +1,18 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map, shareReplay } from 'rxjs/operators';
+import { concatMap, map, shareReplay, take, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 
 import { IPatient } from 'src/app/home/models/patients';
 import { PatientsListService } from 'src/app/home/services/patientslist';
 import { MLPATLIST } from '../commons/mlpa.data';
 import { UtilsService } from '../commons/utils.service';
+import { MlpaService } from 'src/app/services/mlpa.service';
 
 export interface IData {
-  idx: string;
+  seq: string;
   site: string;
   result?: string;
-  deletion?: string;
-  methylation?: string;
 }
 export interface IMlpa {
   type: string;
@@ -102,10 +101,12 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
     private router: Router,
     private utilsService: UtilsService,
     public dialog: MatDialog,
+    public mlpaService: MlpaService
   ) { }
 
   ngOnInit(): void {
     this.initLoad();
+    this.getMLPAData();
 
   }
 
@@ -125,7 +126,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
     console.log('[76][환자정보]', this.patientInfo);
     this.testcode = this.patientInfo.test_code;
-    this.getTitle(this.testcode);
+    // this.getTitle(this.testcode);
     // this.showTable(this.testcode);
     // this.method = this.patientInfo.method.replace(/"/g, '');
 
@@ -163,6 +164,30 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
       this.mlpaData2.push(this.mlpaData.data[i] as IData);
     }
 
+  }
+
+  // DB에서 MLPA 데이터 가져오기
+  getMLPAData(): void {
+    const testCode = this.patientInfo.test_code;
+
+    this.mlpaService.getMlpaList(testCode)
+      .pipe(
+        tap(data => console.log(data)),
+        tap(data => {
+          this.mlpaData.title = data[0].title;
+          this.mlpaData.result = data[0].result;
+          this.mlpaData.comment = data[0].comment;
+          this.mlpaData.technique = data[0].technique;
+          this.mlpaData.conclusion = data[0].conclusion;
+        }),
+        concatMap(() => this.mlpaService.getMlpaData(testCode)),
+        tap(data => {
+          this.mlpaData.data = data;
+        })
+      )
+      .subscribe(data => {
+        console.log(data);
+      });
   }
 
   // 검사자 정보 가져오기
@@ -293,21 +318,21 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  mlpa2Deletion(i: number, val: string, side: string): void {
-    if (side === 'L') {
-      this.mlpaData1[i].deletion = val;
-    } else if (side === 'R') {
-      this.mlpaData2[i].deletion = val;
-    }
-  }
+  // mlpa2Deletion(i: number, val: string, side: string): void {
+  //   if (side === 'L') {
+  //     this.mlpaData1[i].deletion = val;
+  //   } else if (side === 'R') {
+  //     this.mlpaData2[i].deletion = val;
+  //   }
+  // }
 
-  mlpa2Methylation(i: number, val: string, side: string): void {
-    if (side === 'L') {
-      this.mlpaData1[i].methylation = val;
-    } else if (side === 'R') {
-      this.mlpaData2[i].methylation = val;
-    }
-  }
+  // mlpa2Methylation(i: number, val: string, side: string): void {
+  //   if (side === 'L') {
+  //     this.mlpaData1[i].methylation = val;
+  //   } else if (side === 'R') {
+  //     this.mlpaData2[i].methylation = val;
+  //   }
+  // }
 
   conclusion(conclusion: string): void {
     this.mlpaData.conclusion = conclusion;
@@ -315,10 +340,44 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
 
   comment(comment: string): void { }
 
+  today(): string {
+    const today = new Date();
+
+    const year = today.getFullYear(); // 년도
+    const month = today.getMonth() + 1;  // 월
+    const date = today.getDate();  // 날짜
+
+    const newmon = ('0' + month).substr(-2);
+    const newday = ('0' + date).substr(-2);
+    const now = year + '.' + newmon + '.' + newday;
+
+    return now;
+  }
+
+
   save(): void {
     const data = [...this.mlpaData1, ...this.mlpaData2];
+    // this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimen);
+    // this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimen);
+    if (this.firstReportDay === '-') {
+      this.firstReportDay = this.today().replace(/-/g, '.');
+      this.lastReportDay = this.today().replace(/-/g, '.');
+    }
+
+    // specimenNo, comment, data, result, technique, title, type
     this.mlpaData.data = data;
-    console.log(this.mlpaData);
+
+    this.mlpaService.mlpaTempSave(
+      this.patientInfo.specimenNo,
+      this.mlpaData.comment,
+      this.mlpaData.data,
+      this.mlpaData.result,
+      this.mlpaData.technique,
+      this.mlpaData.title,
+      this.mlpaData.type
+    ).subscribe(result => {
+      console.log(result);
+    });
   }
 
 }

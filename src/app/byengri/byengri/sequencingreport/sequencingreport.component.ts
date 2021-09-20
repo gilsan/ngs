@@ -56,9 +56,7 @@ export class SequencingreportComponent implements OnInit {
           const tempArr = this.patientInfo.img3.split('/');
           this.img3 = tempArr[4];
         }
-        // console.log(this.patientInfo);
-        // console.log(this.path);
-        // console.log(this.img1);
+
 
       } catch (err) {
         console.log(err);
