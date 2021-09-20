@@ -11,7 +11,7 @@ import { SubSink } from 'subsink';
 import * as moment from 'moment';
 import { geneTitles, geneLists } from 'src/app/forms/commons/geneList';
 
-
+import { TestCodeTitleService } from 'src/app/home/services/testCodeTitle.service';
 
 @Component({
   selector: 'app-hereditary',
@@ -50,6 +50,7 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router,
     private store: StoreService,
     private sanitizer: DomSanitizer,
+    private titleService: TestCodeTitleService
 
   ) { }
 
@@ -268,6 +269,13 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
         filter(list => this.hereditaryLists.includes(list.test_code)),
         // tap(list => console.log(list)),
       ).subscribe((data: any) => {
+        if (data.reportTitle === '') {
+          const title = this.titleService.getMltaTitle(data.test_code);
+          if (title !== 'None') {
+            data.reportTitle = title;
+          }
+
+        }
         this.lists.push(data);
         this.patientID = '';
         this.specimenNo = '';

@@ -11,6 +11,7 @@ import { SubSink } from 'subsink';
 import * as moment from 'moment';
 import { geneTitles } from 'src/app/forms/commons/geneList';
 
+import { TestCodeTitleService } from 'src/app/home/services/testCodeTitle.service';
 @Component({
   selector: 'app-mdsmpn',
   templateUrl: './mdsmpn.component.html',
@@ -46,6 +47,7 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router,
     private store: StoreService,
     private sanitizer: DomSanitizer,
+    private titleService: TestCodeTitleService
   ) { }
 
   ngOnInit(): void {
@@ -270,6 +272,9 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
         }),
         // tap(list => console.log(list)),
       ).subscribe((data: any) => {
+        if (data.reportTitle === '') {
+          data.reportTitle = this.titleService.getMltaTitle('LPE473');
+        }
         this.lists.push(data);
         this.patientID = '';
         this.specimenNo = '';

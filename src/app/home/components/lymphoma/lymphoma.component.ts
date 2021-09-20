@@ -11,6 +11,7 @@ import { SubSink } from 'subsink';
 import * as moment from 'moment';
 import { geneTitles } from 'src/app/forms/commons/geneList';
 
+import { TestCodeTitleService } from 'src/app/home/services/testCodeTitle.service';
 
 export const lymphomaLists = [
   'LPE474', 'LPE475'
@@ -51,7 +52,7 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router,
     private store: StoreService,
     private sanitizer: DomSanitizer,
-
+    private titleService: TestCodeTitleService
   ) { }
 
   ngOnInit(): void {
@@ -265,6 +266,13 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
         switchMap(list => from(list)),
         filter(list => lymphomaLists.includes(list.test_code)),
       ).subscribe((data: any) => {
+        if (data.reportTitle === '') {
+          const title = this.titleService.getMltaTitle(data.test_code);
+          if (title !== 'None') {
+            data.reportTitle = title;
+          }
+
+        }
         this.lists.push(data);
         this.patientID = '';
         this.specimenNo = '';

@@ -10,6 +10,7 @@ import { SubSink } from 'subsink';
 import { geneTitles } from '../commons/geneList';
 import { hereditaryForm } from 'src/app/home/models/hereditary';
 
+
 @Component({
   selector: 'app-form6',
   templateUrl: './form6.component.html',
@@ -85,6 +86,7 @@ export class Form6Component implements OnInit, OnDestroy {
     private patientsListService: PatientsListService,
     private utilsService: UtilsService,
     private variantsService: DetectedVariantsService,
+
   ) {
 
   }

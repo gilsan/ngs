@@ -10,9 +10,9 @@ import { PatientsListService } from '../../services/patientslist';
 import { SubSink } from 'subsink';
 import * as moment from 'moment';
 import { geneTitles, mlpaLists } from 'src/app/forms/commons/geneList';
-
-
-
+import { MLPATLIST } from 'src/app/forms/commons/mlpa.data';
+import { MlpaService } from 'src/app/services/mlpa.service';
+import { TestCodeTitleService } from '../../services/testCodeTitle.service';
 
 @Component({
   selector: 'app-mlpa',
@@ -43,7 +43,6 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
   private apiUrl = emrUrl;
   mlpaLists = mlpaLists;
 
-
   @ViewChild('dbox100', { static: true }) dbox100: ElementRef;
 
   constructor(
@@ -51,7 +50,8 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router,
     private store: StoreService,
     private sanitizer: DomSanitizer,
-
+    public mlpaService: MlpaService,
+    private titleService: TestCodeTitleService
   ) { }
 
   ngOnInit(): void {
@@ -80,7 +80,7 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
         switchMap(item => of(item)),
         switchMap(list => from(list)),
         filter(list => this.mlpaLists.includes(list.test_code)),
-        tap(list => console.log(list)),
+        // tap(list => console.log(list)),
       )
       .subscribe((data) => {
         this.lists.push(data);
@@ -265,12 +265,22 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
         switchMap(list => from(list)),
         filter(list => this.mlpaLists.includes(list.test_code)),
       ).subscribe((data: any) => {
+        if (data.reportTitle === '') {
+          const title = this.titleService.getMltaTitle(data.test_code);
+          if (title !== 'None') {
+            data.reportTitle = title;
+          }
+
+        }
         this.lists.push(data);
         this.patientID = '';
         this.specimenNo = '';
       });
 
   }
+
+
+
   // 환자ID
   getPatientID(id: string): void {
     this.patientID = id;
