@@ -10,7 +10,7 @@ import { PatientsListService } from '../../services/patientslist';
 import { SubSink } from 'subsink';
 import * as moment from 'moment';
 import { geneTitles } from 'src/app/forms/commons/geneList';
-
+import { TestCodeTitleService } from 'src/app/home/services/testCodeTitle.service';
 @Component({
   selector: 'app-amlall',
   templateUrl: './amlall.component.html',
@@ -46,7 +46,8 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
     private patientsList: PatientsListService,
     private router: Router,
     private store: StoreService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private titleService: TestCodeTitleService
   ) { }
 
   ngOnInit(): void {
@@ -77,9 +78,9 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
         switchMap(list => from(list)),
         map(list => {
           if (list.test_code === 'LPE545' || list.test_code === 'LPE472') {
-            return { ...list, test_code: 'ALL' };
+            return { ...list, test_code: 'ALL', original_code: list.test_code };
           } else if (list.test_code === 'LPE471') {
-            return { ...list, test_code: 'AML' };
+            return { ...list, test_code: 'AML', original_code: list.test_code };
           } else if (list.test_code === 'LPE473') {
             return { ...list, test_code: 'MDS/MPN' };
           } else if (list.test_code === 'LPE474' || list.test_code === 'LPE475') {
@@ -288,13 +289,19 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
         filter(list => list.test_code === 'LPE545' || list.test_code === 'LPE472' || list.test_code === 'LPE471'),
         map(list => {
           if (list.test_code === 'LPE545' || list.test_code === 'LPE472') {
-            return { ...list, test_code: 'ALL' };
+            return { ...list, test_code: 'ALL', original_code: list.test_code };
           } else if (list.test_code === 'LPE471') {
-            return { ...list, test_code: 'AML' };
+            return { ...list, test_code: 'AML', original_code: list.test_code };
           }
         }),
       ).subscribe((data: any) => {
-        // console.log('[311][sheet]', sheet);
+        if (data.reportTitle === '') {
+          const title = this.titleService.getMltaTitle(data.original_code);
+          if (title !== 'None') {
+            data.reportTitle = title;
+          }
+        }
+        // console.log('[297][sheet]', data);
         if (sheet === 'TOTAL' || sheet.length === 0) {
           this.lists.push(data);
         } else if (sheet === 'AMLALL') {

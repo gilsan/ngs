@@ -10,6 +10,7 @@ import { PatientsListService } from '../../services/patientslist';
 import { SubSink } from 'subsink';
 import * as moment from 'moment';
 import { geneTitles, sequencingLists } from 'src/app/forms/commons/geneList';
+import { TestCodeTitleService } from '../../services/testCodeTitle.service';
 
 
 @Component({
@@ -50,6 +51,7 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router,
     private store: StoreService,
     private sanitizer: DomSanitizer,
+    private titleService: TestCodeTitleService
   ) { }
 
   ngOnInit(): void {
@@ -80,9 +82,7 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
         tap(list => console.log(list)),
       )
       .subscribe((data) => {
-        // console.log(data);
         this.lists.push(data);
-        // console.log('[sequencing][환자정보]', this.lists);
       });
   }
 
@@ -267,6 +267,13 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
         // tap(list => console.log(list)),
         filter(list => this.sequencingLists.includes(list.test_code)),
       ).subscribe((data: any) => {
+        if (data.reportTitle === '') {
+          const title = this.titleService.getMltaTitle(data.test_code);
+          if (title !== 'None') {
+            data.reportTitle = title;
+          }
+
+        }
         this.lists.push(data);
         this.patientID = '';
         this.specimenNo = '';

@@ -106,7 +106,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.initLoad();
-    this.getMLPAData();
+
 
   }
 
@@ -127,6 +127,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
     console.log('[76][환자정보]', this.patientInfo);
     this.testcode = this.patientInfo.test_code;
     // this.getTitle(this.testcode);
+    this.getMLPAData();
     // this.showTable(this.testcode);
     // this.method = this.patientInfo.method.replace(/"/g, '');
 
@@ -172,21 +173,38 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
 
     this.mlpaService.getMlpaList(testCode)
       .pipe(
-        tap(data => console.log(data)),
         tap(data => {
-          this.mlpaData.title = data[0].title;
-          this.mlpaData.result = data[0].result;
-          this.mlpaData.comment = data[0].comment;
-          this.mlpaData.technique = data[0].technique;
-          this.mlpaData.conclusion = data[0].conclusion;
+          if (data.length > 0) {
+            this.mlpaData.title = data[0].title;
+            this.mlpaData.result = data[0].result;
+            this.mlpaData.comment = data[0].comment;
+            this.mlpaData.technique = data[0].technique;
+            this.mlpaData.conclusion = data[0].conclusion;
+            this.mlpaData.type = testCode;
+          }
         }),
         concatMap(() => this.mlpaService.getMlpaData(testCode)),
         tap(data => {
-          this.mlpaData.data = data;
+          if (data.length > 0) {
+            this.mlpaData.data = data;
+          } else {
+            this.getTitle(this.testcode);
+          }
+
         })
       )
       .subscribe(data => {
-        console.log(data);
+        const len = this.mlpaData.data.length; // 데이터 길이
+        const firstHalf = Math.floor(this.mlpaData.data.length / 2);
+        this.method = this.mlpaData.title;
+        // MLPA 데이터 2개로 나누기
+        for (let i = 0; i < firstHalf; i++) {
+          this.mlpaData1.push(this.mlpaData.data[i] as IData);
+        }
+
+        for (let i = firstHalf; i < len; i++) {
+          this.mlpaData2.push(this.mlpaData.data[i] as IData);
+        }
       });
   }
 
