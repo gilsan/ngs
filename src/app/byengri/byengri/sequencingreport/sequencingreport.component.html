@@ -35,21 +35,40 @@
 
 
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <!--
                     <tr>
                         <td class="txt_l font_16 fb">검사의뢰일/검사보고일/수정보고일: </td>
                         <td class="txt_1 font_16 fb">검사자:  <input type="text" class="input_02" size="30">
                       </td>
                         <td class="txt_1 font_16 fb">판독의사: <input type="text" class="input_02" size="30">
-
                         </td>
                     </tr>
+                    -->
+                    <tr>
+                        <td class="txt_l font_16 fb">Date of report : {{reportday}} </td>
+                        <td class="txt_c font_16 fb">Examined by :
+                          <select #examine class="select_01" (change)="examimed(examine.value)" >
+                           <option [value]="'none'">선택</option>
+                            <option [value]="part.user_id + '_' + part.user_nm"  [selected]="part.user_nm === this.examedname"
+                              *ngFor="let part of mt;let i = index;">{{part.user_nm}}</option>
+                          </select>
+                        </td>
+                        <td class="txt_r font_16 fb">Rechecked by :
+                          <select #rechecked class="select_01" (change)="checked(rechecked.value)">
+                            <option [value]="'none'">선택</option>
+                            <option [value]="part.user_id + '_' + part.user_nm"  [selected]="part.user_nm === this.checkername"
+                              *ngFor="let part of dt;let i = index;">{{part.user_nm}}</option>
+                          </select>
+                        </td>
+                    </tr>
+
                 </table>
             </div>
             <br />
             <div class="foot_btn mg_t30 pd_b30 txt_c main_btn">
               <ul>
                   <li>
-                      <button type="button" class="btn btn_01">HOME</button>
+                      <button type="button" class="btn btn_01" (click)="goBack()">HOME</button>
                   </li>
                   <li>
                       <button class="btn btn_01">출력</button>
