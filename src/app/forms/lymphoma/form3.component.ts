@@ -210,12 +210,12 @@ export class Form3Component implements OnInit, OnDestroy {
 
   } // End of ngOninit
 
-  ngAfterViewInit(): void {
-    // this.checker();
-  }
+  // ngAfterViewInit(): void {
+  //   // this.checker();
+  // }
 
 
-  resizeHeight() {
+  resizeHeight(): any {
     return { height: `${this.maxHeight}px` };
   }
 
@@ -257,7 +257,7 @@ export class Form3Component implements OnInit, OnDestroy {
       filter(data => data !== null || data !== undefined),
       map(route => route.get('type'))
     ).subscribe(data => {
-      // console.log('[138][findType]', data);
+
       this.reportType = data;
       this.getGeneList('LYM'); // 진검 유전자 목록 가져옴.
     });
@@ -272,7 +272,7 @@ export class Form3Component implements OnInit, OnDestroy {
 
   initLoad(): void {
     this.form2TestedId = this.patientsListService.getTestedID();
-    console.log('[275][검체정보]', this.form2TestedId);
+    // console.log('[275][검체정보]', this.form2TestedId);
     // 검사자 정보 가져오기
     if (this.form2TestedId === null || this.form2TestedId === undefined) {
       this.router.navigate(['/diag']);
@@ -329,7 +329,7 @@ export class Form3Component implements OnInit, OnDestroy {
   //  유전자 목록 가져오기
   getGeneList(type: string): any {
     this.utilsService.getGeneList('LYM').subscribe(data => {
-      // console.log('[332][유전자목록', data);
+
       this.genelists = data;
     });
   }
@@ -344,7 +344,7 @@ export class Form3Component implements OnInit, OnDestroy {
 
       // VUS 메제시 확인
       this.vusmsg = this.patientInfo.vusmsg;
-      console.log('[369][recoverDetected][VUS메세지]', this.patientInfo.vusmsg, this.vusmsg);
+      // console.log('[369][recoverDetected][VUS메세지]', this.patientInfo.vusmsg, this.vusmsg);
 
       this.recoverVariants.forEach(item => {
         this.recoverVariant(item);  // 354
@@ -488,7 +488,7 @@ export class Form3Component implements OnInit, OnDestroy {
         let type: string;
         let gene: string;
         let dvariable: IAFormVariant;
-        // console.log('********** [필터링원시자료][377]', data);
+
 
         // 타입 분류
         if (data.mtype === 'M') {  // mutation
@@ -507,7 +507,7 @@ export class Form3Component implements OnInit, OnDestroy {
           type = 'New';
         }
         if (dvariable) {
-          // console.log('[247][form2][dvariable]', dvariable.functional_impact);
+
           if (dvariable.functional_impact === 'VUS') {
             this.vusstatus = true;
             this.store.setVUSStatus(this.vusstatus); // VUS 상태정보 저장
@@ -570,7 +570,7 @@ export class Form3Component implements OnInit, OnDestroy {
   // 검사일/검사보고일/수정보고일 관리
   setReportdaymgn(patientInfo: IPatient): void {
     // 전송횟수, 검사보고일, 수정보고일  저장
-    // console.log('[487][검사일/검사보고일/수정보고일 관리]', patientInfo);
+
     this.sendEMR = Number(patientInfo.sendEMR);
     if (patientInfo.sendEMRDate.length) {
       this.firstReportDay = patientInfo.sendEMRDate.replace(/-/g, '.').slice(0, 10);
@@ -632,7 +632,7 @@ export class Form3Component implements OnInit, OnDestroy {
   checkVue(): boolean {
 
     const idx = this.tsvLists.findIndex(item => item.loc1 === 'VUS');
-    // console.log('[306][checkVue]', this.tsvLists, idx);
+
     if (idx === -1) {
       this.ment = '';
       return false;
@@ -644,7 +644,7 @@ export class Form3Component implements OnInit, OnDestroy {
   result(event) {
     console.log(event);
     this.resultStatus = event.srcElement.defaultValue;
-    console.log('[556][라디오 검체]', this.resultStatus);
+
   }
 
   radioStatus(type: string): boolean {
@@ -679,7 +679,7 @@ export class Form3Component implements OnInit, OnDestroy {
         exonIntro: 'E' + tsv.exon,
         nucleotideChange: coding,
         aminoAcidChange: tsv.amino_acid_change,
-        // zygosity: item.zygosity,
+
         zygosity: 'Heterozygous',
         vafPercent: tsv.frequency,
         references: item.reference,
@@ -713,7 +713,7 @@ export class Form3Component implements OnInit, OnDestroy {
     for (let i = 0; i < this.detactedVariants.length; i++) {
       this.checkboxStatus.push(i);
     }
-    // this.putCheckboxInit(); // 체크박스 초기화
+
   }
 
   recoverVariant(item: IRecoverVariants): void {
@@ -802,7 +802,7 @@ export class Form3Component implements OnInit, OnDestroy {
   }
 
   addNewRow(row: IAFormVariant): void {
-    // console.log('[544][addNewRow]', row);
+
     const control = this.tablerowForm.get('tableRows') as FormArray;
     control.push(this.createRow(row));
   }
@@ -911,7 +911,7 @@ export class Form3Component implements OnInit, OnDestroy {
     if (idx !== -1) {
       this.vd.splice(idx, 1);
     }
-    // console.log(this.vd);
+
     control.removeAt(index);
     if (controlLen !== index) {
       if (this.vd.length > 0) {
@@ -940,11 +940,10 @@ export class Form3Component implements OnInit, OnDestroy {
   save(index: number) {
     const selected = this.vd.find(item => item.sequence === index);
     this.selectedItem = selected.selectedname;
-    console.log('[754][저장] ', index, this.vd, selected);
 
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const row = control.value[index];
-    // console.log('[691][mutation/artifacts] ', row, this.patientInfo);
+
     if (this.selectedItem === 'mutation') {
       this.subs.sink = this.patientsListService.saveMutation(
         row.igv,
@@ -965,11 +964,9 @@ export class Form3Component implements OnInit, OnDestroy {
         alert('mutation에 추가 했습니다.');
       });
     } else if (this.selectedItem === 'artifacts') {
-      // console.log('[715][save][artifacts] ', row);
       this.subs.sink = this.patientsListService.insertArtifacts(
         row.gene, '', '', row.transcript, row.nucleotideChange, row.aminoAcidChange
       ).subscribe((data: any) => {
-        // console.log('[719][result][artifacts] ', data);
         alert('artifacts에 추가 했습니다.');
 
       });
@@ -992,18 +989,14 @@ export class Form3Component implements OnInit, OnDestroy {
 
   // tslint:disable-next-line: typedef
   checkType(index: number) {
-    // console.log('[821][checkType][deleteRowStatus]', this.deleteRowStatus);
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const row = control.value[index];
 
     const tempVD = [...this.vd];
     if (row.status === 'NEW') {
-      // console.log('[840][checkType][row]', row);
       const idx = tempVD.findIndex(item => item.sequence === index && item.gene === row.gene);
-      // console.log('===[826][checkType][type]', type, index, idx, row, this.vd, this.deleteRowNumber);
       if (idx === -1 && this.deleteRowNumber !== index) {
         this.vd.push({ sequence: index, selectedname: 'mutation', gene: row.gene });
-        // console.log('####[842][checkType]', this.vd);
       }
 
       return true;
@@ -1031,7 +1024,6 @@ export class Form3Component implements OnInit, OnDestroy {
       this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimen);
       this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimen);
 
-      // console.log('[840][screenRead][profile] ', this.profile);
       this.analysisService.putAnalysisMDS(
         this.form2TestedId,
         this.profile.leukemia,
@@ -1043,12 +1035,10 @@ export class Form3Component implements OnInit, OnDestroy {
         this.comments, this.profile, this.resultStatus, this.patientInfo)
         .pipe(
           tap(data => {
-            // console.log('[843][screenRead] ', data);
             alert('저장되었습니다.');
           }),
           concatMap(() => this.patientsListService.getScreenStatus(this.form2TestedId))
         ).subscribe(msg => {
-          // console.log('[845][sendscreen]', msg[0].screenstatus);
           this.screenstatus = msg[0].screenstatus;
         });
     }

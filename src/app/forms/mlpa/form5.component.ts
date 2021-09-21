@@ -8,6 +8,7 @@ import { PatientsListService } from 'src/app/home/services/patientslist';
 import { MLPATLIST } from '../commons/mlpa.data';
 import { UtilsService } from '../commons/utils.service';
 import { MlpaService } from 'src/app/services/mlpa.service';
+import { mlpaForm } from 'src/app/home/models/mlpa';
 
 export interface IData {
   seq: string;
@@ -95,6 +96,8 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
   sendEMR = 0; // EMR 보낸 수
 
   isVisible = false;
+  screenstatus: string;
+
 
   constructor(
     private patientsListService: PatientsListService,
@@ -143,6 +146,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
 
     // 전송횟수, 검사보고일, 수정보고일  저장
     this.setReportdaymgn(this.patientInfo);
+    this.screenstatus = this.patientInfo.screenstatus;
   }
 
   // test code 로 제목 찿기
@@ -314,16 +318,20 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
 
   mlpa1Site(i: number, val: string, side: string): void {
     if (side === 'L') {
-      this.mlpaData1[0].site = val;
+      this.mlpaData.data[i].site = val;
+      this.mlpaData1[i].site = val;
     } else if (side === 'R') {
-      this.mlpaData2[0].site = val;
+      this.mlpaData.data[i].site = val;
+      this.mlpaData2[i].site = val;
     }
   }
 
   mlpa1Result(i: number, val: string, side: string): void {
     if (side === 'L') {
+      this.mlpaData.data[i].result = val;
       this.mlpaData1[i].result = val;
     } else if (side === 'R') {
+      this.mlpaData.data[i].result = val;
       this.mlpaData2[i].result = val;
     }
   }
@@ -373,7 +381,8 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
   }
 
 
-  save(): void {
+  tempSave(): void {
+    const userid = localStorage.getItem('diaguser');
     const data = [...this.mlpaData1, ...this.mlpaData2];
     // this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimen);
     // this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimen);
@@ -395,7 +404,57 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
       this.mlpaData.type
     ).subscribe(result => {
       console.log(result);
+      this.patientsListService.resetscreenstatus(this.form2TestedId, '2', userid, 'SEQN').subscribe();
     });
+  }
+
+  gotoEMR(): void {
+    const userid = localStorage.getItem('diaguser');
+
+    if (this.firstReportDay === '-') {
+      this.firstReportDay = this.today().replace(/-/g, '.');
+    }
+
+    if (this.sendEMR >= 1) {
+      this.lastReportDay = this.today().replace(/-/g, '.');
+    }
+
+    // console.log('[EMR]', this.target, this.formTitle);
+    const makeForm = mlpaForm(
+      this.resultStatus,
+      this.examin, // 검사자
+      this.recheck, // 확인자
+      this.method, // 제목,
+      this.patientInfo.accept_date, // 검사의뢰일
+      this.firstReportDay,
+      this.lastReportDay,
+      this.patientInfo,
+      this.mlpaData
+    );
+
+    console.log('[437] ', makeForm);
+    const examcode = this.patientInfo.test_code;
+    this.patientsListService.sendEMR(
+      this.patientInfo.specimenNo,
+      this.patientInfo.patientID,
+      this.patientInfo.test_code,
+      this.patientInfo.name,
+      examcode,
+      makeForm)
+      .pipe(
+        concatMap(() => this.patientsListService.resetscreenstatus(this.form2TestedId, '3', userid, 'SEQN')),
+        concatMap(() => this.patientsListService.setEMRSendCount(this.form2TestedId, ++this.sendEMR)), // EMR 발송횟수 전송
+      ).subscribe((msg: { screenstatus: string }) => {
+        this.screenstatus = '3';
+        alert('EMR로 전송했습니다.');
+        // 환자정보 가져오기
+        this.patientsListService.getPatientInfo(this.form2TestedId)
+          .subscribe(patient => {
+            // console.log('[307][Sequencing EMR][검체정보]', this.sendEMR, patient);
+            // this.setReportdaymgn(patient);
+          });
+      });
+
   }
 
 }
