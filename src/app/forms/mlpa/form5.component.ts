@@ -404,7 +404,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
       this.mlpaData.type
     ).subscribe(result => {
       console.log(result);
-      this.patientsListService.resetscreenstatus(this.form2TestedId, '2', userid, 'SEQN').subscribe();
+      this.patientsListService.resetscreenstatus(this.form2TestedId, '2', userid, 'MLPA').subscribe();
     });
   }
 
@@ -442,7 +442,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
       examcode,
       makeForm)
       .pipe(
-        concatMap(() => this.patientsListService.resetscreenstatus(this.form2TestedId, '3', userid, 'SEQN')),
+        concatMap(() => this.patientsListService.resetscreenstatus(this.form2TestedId, '3', userid, 'MLPA')),
         concatMap(() => this.patientsListService.setEMRSendCount(this.form2TestedId, ++this.sendEMR)), // EMR 발송횟수 전송
       ).subscribe((msg: { screenstatus: string }) => {
         this.screenstatus = '3';

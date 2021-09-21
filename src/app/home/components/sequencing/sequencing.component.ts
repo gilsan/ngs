@@ -130,15 +130,6 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
-  // goReporterClass(idx: number): any {
-  //   const specimenno = this.store.getSpecimenNo();
-  //   // console.log('[154][main][goReporterClass]', idx, pathNum);
-  //   if (this.lists[idx].specimenNo === specimenno) {
-  //     return { btn_report: true };
-  //   } else {
-  //     return { btn_report: false };
-  //   }
-  // }
 
   // tslint:disable-next-line: typedef
   getDate(event) {
@@ -194,14 +185,6 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
     return now;
   }
 
-  // getUrl(list: IPatient, type: string): SafeResourceUrl {
-
-  //   const irpath = list.path;
-  //   const irfilename = list.tsvFilteredFilename;
-  //   const irurl = this.apiUrl + '/download?path=' + irpath + '&filename=' + irfilename;
-  //   return this.sanitizer.bypassSecurityTrustResourceUrl(irurl);
-
-  // }
 
   checkStore(): void {
     this.storeStartDay = this.store.getSearchStartDay();
@@ -279,14 +262,7 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
   }
-  // 환자ID
-  getPatientID(id: string): void {
-    this.patientID = id;
-  }
-  // 검체 ID
-  getTestedID(id: string): void {
-    this.specimenNo = id;
-  }
+
 
   processingStatus(i: number): string {
     const status = this.lists[i].screenstatus;
@@ -311,23 +287,7 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
     return { table_bg: false };
   }
 
-  // showReport(testCode: string): boolean {
-  //   if (this.sequencingLists.includes(testCode)) {
-  //     return false;
-  //   }
-  //   return true;
-  // }
 
-  // processingSatus(testCode: string): boolean {
-  //   if (this.sequencingLists.includes(testCode)) {
-  //     return true;
-  //   }
-  //   const result = geneTitles.findIndex(item => item.gene === testCode);
-  //   if (result !== -1) {
-  //     return true;
-  //   }
-  //   return false;
-  // }
 
 
 
