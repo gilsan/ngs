@@ -1713,19 +1713,18 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
 
   ///////////////////////////////////////////////////////////////////////
   // commentsRows()
-  saveComments(): any {
-    // console.log('saveComments');
-    this.comments.forEach(item => {
-      this.commentsRows().push(this.createCommentRow(item));
-    });
+  // saveComments(): any {
 
-    // this.createCommentRow(this.comments[0]);
-    this.patientsListService.insertComments(this.comments)
-      .subscribe(data => {
-        // console.log('[1776][saveComments]', this.comments);
-        console.log(data);
-      });
-  }
+  //   this.comments.forEach(item => {
+  //     this.commentsRows().push(this.createCommentRow(item));
+  //   });
+
+  //   // this.createCommentRow(this.comments[0]);
+  //   this.patientsListService.insertComments(this.comments)
+  //     .subscribe(data => {
+  //       console.log(data);
+  //     });
+  // }
 
 
   //////////////////////////////////////////////////////////////////////

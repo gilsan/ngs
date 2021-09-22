@@ -273,6 +273,7 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
           }
 
         }
+
         this.lists.push(data);
         this.patientID = '';
         this.specimenNo = '';
