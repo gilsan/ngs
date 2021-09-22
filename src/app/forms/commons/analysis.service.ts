@@ -64,7 +64,7 @@ export class AnalysisService {
     bonemarrow: string,
     chromosomalanalysis: string
   ): Observable<any> {
-
+    // console.log('[67 putAnalysisLYM]', bonemarrow, chromosomalanalysis);
     return this.http.post(`${this.apiUrl}/report_patient/insert`, {
       specimenNo, type: 'LYM', bonemarrow, chromosomalanalysis
     });

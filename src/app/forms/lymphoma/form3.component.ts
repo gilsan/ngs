@@ -997,7 +997,7 @@ export class Form3Component implements OnInit, OnDestroy {
       .pipe(
         concatMap(ment => this.commentsService.insertCommentsList(
           this.patientInfo.test_code,
-          '', ment.type, ment.gene, ment.variant_id, ment.comment, ment.reference, 'AMLALL'
+          '', ment.type, ment.gene, ment.variant_id, ment.comment, ment.reference, this.patientInfo.test_code
         )),
         last()
       ).subscribe(data => {
@@ -1697,7 +1697,7 @@ export class Form3Component implements OnInit, OnDestroy {
     // tslint:disable-next-line:max-line-length
     this.variantsService.screenTempSave2(this.form2TestedId, formData, this.comments, this.profile, this.resultStatus, this.patientInfo)
       .pipe(
-        concatMap(() => this.variantsService.screenSelect(this.form2TestedId))
+        concatMap(() => this.variantsService.screenSelect(this.form2TestedId)),
       ).subscribe(data => {
         this.vd = [];
         this.checkboxStatus = [];
