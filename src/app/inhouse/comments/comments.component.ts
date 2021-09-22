@@ -29,6 +29,8 @@ export class CommentsComponent implements OnInit {
   pageLine: number;
   totRecords: number;
 
+  selectType = '';
+
   private apiUrl = emrUrl;
 
   ngOnInit(): void {
@@ -94,7 +96,8 @@ export class CommentsComponent implements OnInit {
           this.search(gene.value, typeVal);
         });
     } else {
-      this.commentsService.insertCommentsList(id, commentsType.value, gene.value, variant_id.value, comment.value, reference.value, typeVal)
+      this.commentsService.insertCommentsList(this.selectType, id, commentsType.value,
+        gene.value, variant_id.value, comment.value, reference.value, typeVal)
         .subscribe((data) => {
           console.log('[170][benign 저장]', data);
           alert('저장 되었습니다.');
@@ -145,6 +148,7 @@ export class CommentsComponent implements OnInit {
   }
 
   findComments(type: string): void {
+    this.selectType = type;
     this.totRecords = 0;
     this.lists$ = this.commentsService.getCommentsList('', type);
     this.lists$.subscribe((data) => {

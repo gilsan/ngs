@@ -23,9 +23,9 @@ export class CommentsService {
     return this.http.post(`${this.apiUrl}/comments/list`, { genes, sheet });
   }
 
-  public insertCommentsList(id: string, commentsType: string, gene: string, variant_id: string = '',
+  public insertCommentsList(type: string, id: string, commentsType: string, gene: string, variant_id: string = '',
     comment: string, reference: string, sheet: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/comments/insert`, { id, commentsType, gene, variant_id, comment, reference, sheet });
+    return this.http.post(`${this.apiUrl}/comments/insert`, { type, id, commentsType, gene, variant_id, comment, reference, sheet });
   }
 
   public updateCommentsList(id: string, commentsType: string, gene: string, variant_id: string,

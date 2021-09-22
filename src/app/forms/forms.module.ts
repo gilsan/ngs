@@ -7,7 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ClarityModule } from '@clr/angular';
 import { PreviewComponent } from './preview/preview.component';
-import { AllComponent } from './all/all.component';
+// import { AllComponent } from './all/all.component';
 import { FilteredComponent } from './commons/filtered/filtered.component';
 import { MaterialModule } from '../material.module';
 import { DialogOverviewExampleDialogComponent } from './dialog-overview-example-dialog/dialog-overview-example-dialog.component';
@@ -23,7 +23,7 @@ import { Form7Component } from './sequencing/form7.component';
 import { LymphomaPreviewComponent } from './previews/lymphomaPreview/lymphomaPreview';
 import { ImmundefiComponent } from './previews/immundefi/immundefi.component';
 import { SequencingComponent } from './previews/sequencing/sequencing.component';
-import { Form1Component } from './form1/form1.component';
+// import { Form1Component } from './form1/form1.component';
 import { MlpapreviewComponent } from './previews/mlpapreview/mlpapreview.component';
 
 @NgModule({
@@ -33,7 +33,7 @@ import { MlpapreviewComponent } from './previews/mlpapreview/mlpapreview.compone
     Form3Component,
     Form4Component,
     PreviewComponent,
-    AllComponent,
+    // AllComponent,
     FilteredComponent,
     DialogOverviewExampleDialogComponent,
     Form5Component,
@@ -42,7 +42,7 @@ import { MlpapreviewComponent } from './previews/mlpapreview/mlpapreview.compone
     LymphomaPreviewComponent,
     ImmundefiComponent,
     SequencingComponent,
-    Form1Component,
+    // Form1Component,
     MlpapreviewComponent
     //  TestformComponent
   ],

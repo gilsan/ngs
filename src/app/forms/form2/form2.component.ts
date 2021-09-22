@@ -988,6 +988,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     from(this.comments)
       .pipe(
         concatMap(ment => this.commentsService.insertCommentsList(
+          'AMLALL',
           '', ment.type, ment.gene, ment.variant_id, ment.comment, ment.reference, 'AMLALL'
         )),
         last()
@@ -1009,6 +1010,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     // console.log('[1104][저장][mutation/artifacts] ', row, this.patientInfo);
     if (this.selectedItem === 'mutation') {
       this.subs.sink = this.patientsListService.saveMutation(
+        'AMLALL',
         row.igv,
         row.sanger,
         'M' + this.patientInfo.name,
@@ -1030,6 +1032,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       });
     } else if (this.selectedItem === 'artifacts') {
       this.subs.sink = this.patientsListService.insertArtifacts(
+        'AMLALL',
         row.gene, '', '', row.transcript, row.nucleotideChange, row.aminoAcidChange
       ).subscribe((data: any) => {
         alert('artifacts에 추가 했습니다.');
