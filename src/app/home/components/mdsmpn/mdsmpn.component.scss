@@ -68,3 +68,8 @@ label {
   color: #666666;
   display: inline-block;
 }
+
+.box_100.fill {
+  min-height: 500px;
+  height: calc(100vh - 300px);
+}
