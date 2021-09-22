@@ -203,6 +203,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       this.recoverDetected();
     } else if (parseInt(this.screenstatus, 10) === 0) {
       this.init(this.form2TestedId);
+      // this.addDetectedVariant();
     } else {
       this.firstReportDay = '-';
       this.lastReportDay = '-';
@@ -419,8 +420,9 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     }
 
     if (this.form2TestedId) {
-      this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {
-        console.log('[395]', data);
+      // this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {
+      this.patientsListService.mlpafiltering(this.form2TestedId, this.reportType, this.patientInfo.specimenNo).subscribe(data => {
+
         if (data.length > 0) {
           this.recoverVariants = data;
           this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
@@ -440,11 +442,6 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
           // this.addDetectedVariant();
         }
       });
-
-
-
-
-
 
       // 검사자 정보 가져오기
       // 저장된 검사자의 값이 있으면 표시
@@ -492,54 +489,11 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
 
 
   addDetectedVariant(): void {
-    this.subs.sink = this.patientsListService.filtering(this.form2TestedId, this.reportType)
+    this.subs.sink = this.patientsListService.mlpafiltering(this.form2TestedId, this.reportType, this.patientInfo.specimenNo)
       .subscribe(data => {
-        console.log('[464]', this.reportType);
+        console.log('[498]', this.reportType);
         console.log(data);
-        let type: string;
-        let gene: string;
-        let dvariable: IAFormVariant;
-        // console.log('********** [필터링원시자료][377]', data);
-
-        // 타입 분류
-        if (data.mtype === 'M') {  // mutation
-          type = 'M';
-          if (data.mutationList1.exonIntro !== 'none') {
-            dvariable = data.mutationList1;
-
-          }
-          // dvariable = data.mutationList1;
-        } else if (parseInt(data.artifacts1Count, 10) > 0 ||
-          parseInt(data.artifacts2Count, 10) > 0) {
-          type = 'A';
-
-        }
-        else {
-          type = 'New';
-        }
-        if (dvariable) {
-          // console.log('[247][form2][dvariable]', dvariable.functional_impact);
-          if (dvariable.functional_impact === 'VUS') {
-            this.vusstatus = true;
-            this.store.setVUSStatus(this.vusstatus); // VUS 상태정보 저장
-          }
-
-        }
-
-        // 유전자명
-        if (data.gene1 !== 'none' && data.gene2 !== 'none') {
-          gene = data.gene1 + ',' + data.gene2;
-        } else if (data.gene1 !== 'none' && data.gene2 === 'none') {
-          gene = data.gene1;
-        } else if (data.gene1 === 'none' && data.gene2 === 'none') {
-          gene = data.gene2;
-        }
-
-        this.vd.push({ sequence: this.vdcount, selectedname: 'mutation', gene });
-        this.vdcount++;
-        this.addVarient(type, dvariable, gene, data.coding, data.tsv, data.cnt);
-
-      }); // End of Subscribe
+      });
 
   }
 
@@ -704,6 +658,9 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
 
   recoverVariant(item: IRecoverVariants): void {
     let tempvalue;
+    if (parseInt(item.cnt, 10) < 2) {
+      item.cnt = '';
+    }
 
     tempvalue = {
       igv: item.igv,
@@ -727,6 +684,11 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     this.detactedVariants = [...this.detactedVariants, tempvalue];
     this.mockData = this.detactedVariants;
     this.addNewRow(tempvalue);
+
+    this.checkboxStatus = [];
+    for (let i = 0; i < this.detactedVariants.length; i++) {
+      this.checkboxStatus.push(i);
+    }
 
   }
 
@@ -1681,7 +1643,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
         this.form2TestedId,
         this.profile.leukemia,
         this.profile.genetictest,
-        this.profile.chron).subscribe(data => console.log('AML INSERT'));
+        this.profile.chron).subscribe(data => console.log('MDS INSERT'));
     }
 
 
