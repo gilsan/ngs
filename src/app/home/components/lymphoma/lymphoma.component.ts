@@ -82,7 +82,7 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
         filter(list => lymphomaLists.includes(list.test_code)),
       )
       .subscribe((data) => {
-        console.log(data);
+        // console.log(data);
         this.lists.push(data);
         console.log('[mainscreen][환자정보]', this.lists);
       });

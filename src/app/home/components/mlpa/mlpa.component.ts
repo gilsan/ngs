@@ -130,15 +130,6 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
-  goReporterClass(idx: number): any {
-    const specimenno = this.store.getSpecimenNo();
-    // console.log('[154][main][goReporterClass]', idx, pathNum);
-    if (this.lists[idx].specimenNo === specimenno) {
-      return { btn_report: true };
-    } else {
-      return { btn_report: false };
-    }
-  }
 
   // tslint:disable-next-line: typedef
   getDate(event) {
@@ -194,14 +185,6 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
     return now;
   }
 
-  getUrl(list: IPatient, type: string): SafeResourceUrl {
-
-    const irpath = list.path;
-    const irfilename = list.tsvFilteredFilename;
-    const irurl = this.apiUrl + '/download?path=' + irpath + '&filename=' + irfilename;
-    return this.sanitizer.bypassSecurityTrustResourceUrl(irurl);
-
-  }
 
   checkStore(): void {
     this.storeStartDay = this.store.getSearchStartDay();
@@ -264,6 +247,7 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
         switchMap(item => of(item)),
         switchMap(list => from(list)),
         filter(list => this.mlpaLists.includes(list.test_code)),
+        // tap(data => console.log('[MLPA][267]', data))
       ).subscribe((data: any) => {
         if (data.reportTitle === '') {
           const title = this.titleService.getMltaTitle(data.test_code);
@@ -280,43 +264,21 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
 
-
-  // 환자ID
-  getPatientID(id: string): void {
-    this.patientID = id;
-  }
-  // 검체 ID
-  getTestedID(id: string): void {
-    this.specimenNo = id;
-  }
-
   processingStatus(i: number): string {
     const status = this.lists[i].screenstatus;
-    const filename = this.lists[i].tsvFilteredFilename;
-    if (parseInt(status, 10) === 0 && filename.length) {
+    // const filename = this.lists[i].tsvFilteredFilename;
+    if (parseInt(status, 10) === 0) {
       return '시작';
     } else if (parseInt(status, 10) === 1) {
       return '스크린완료';
     } else if (parseInt(status, 10) === 2) {
-      return '판독완료';
+      return '저장';
     } else if (parseInt(status, 10) === 3) {
       return '전송완료';
     }
   }
 
-  isDisabled(i: number): boolean {
-    const status = this.lists[i].screenstatus;
-    const filename = this.lists[i].tsvFilteredFilename;
-    if (parseInt(status, 10) === 0 && filename.length) {
-      return false;
-    } else if (parseInt(status, 10) === 1) {
-      return false;
-    } else if (parseInt(status, 10) === 2) {
-      return false;
-    } else if (parseInt(status, 10) === 3) {
-      return true;
-    }
-  }
+
 
   toggle(i: number): any {
 
@@ -326,23 +288,6 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
     return { table_bg: false };
   }
 
-  showReport(testCode: string): boolean {
-    if (this.mlpaLists.includes(testCode)) {
-      return false;
-    }
-    return true;
-  }
-
-  processingSatus(testCode: string): boolean {
-    if (this.mlpaLists.includes(testCode)) {
-      return true;
-    }
-    const result = geneTitles.findIndex(item => item.gene === testCode);
-    if (result !== -1) {
-      return true;
-    }
-    return false;
-  }
 
 
 

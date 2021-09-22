@@ -6,7 +6,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { IPatient, ISequence } from 'src/app/home/models/patients';
 import { SubSink } from 'subsink';
 import { Router } from '@angular/router';
-import { map, shareReplay } from 'rxjs/operators';
+import { concatMap, map, shareReplay } from 'rxjs/operators';
 import { FindNgsTitleService } from '../commons/findngstitle.service';
 import { sequencingForm } from 'src/app/home/models/sequencing.model';
 
@@ -230,13 +230,15 @@ export class Form7Component implements OnInit, OnDestroy {
   }
 
   tempSave(): void {
+    const userid = localStorage.getItem('diaguser');
     this.sequence = this.form.getRawValue() as ISequence;
     const formData: ISequence[] = [];
     formData.push(this.sequence);
-    console.log('[226]', this.sequence);
+    console.log('[236]', this.sequence);
     this.subs.sink = this.variantsService.saveScreen7(this.form2TestedId, formData, this.patientInfo)
       .subscribe(data => {
         console.log(data);
+        this.patientsListService.resetscreenstatus(this.form2TestedId, '2', userid, 'SEQN').subscribe();
       });
   }
 
@@ -255,6 +257,7 @@ export class Form7Component implements OnInit, OnDestroy {
   }
 
   gotoEMR(): void {
+    const userid = localStorage.getItem('diaguser');
     this.sequence = this.form.getRawValue() as ISequence;
     const formData: ISequence[] = [];
     formData.push(this.sequence);
@@ -285,7 +288,27 @@ export class Form7Component implements OnInit, OnDestroy {
     );
 
     console.log('[287] ', makeForm);
-
+    const examcode = this.patientInfo.test_code;
+    this.patientsListService.sendEMR(
+      this.patientInfo.specimenNo,
+      this.patientInfo.patientID,
+      this.patientInfo.test_code,
+      this.patientInfo.name,
+      examcode,
+      makeForm)
+      .pipe(
+        concatMap(() => this.patientsListService.resetscreenstatus(this.form2TestedId, '3', userid, 'SEQN')),
+        concatMap(() => this.patientsListService.setEMRSendCount(this.form2TestedId, ++this.sendEMR)), // EMR 발송횟수 전송
+      ).subscribe((msg: { screenstatus: string }) => {
+        this.screenstatus = '3';
+        alert('EMR로 전송했습니다.');
+        // 환자정보 가져오기
+        this.patientsListService.getPatientInfo(this.form2TestedId)
+          .subscribe(patient => {
+            // console.log('[307][Sequencing EMR][검체정보]', this.sendEMR, patient);
+            // this.setReportdaymgn(patient);
+          });
+      });
 
   }
 

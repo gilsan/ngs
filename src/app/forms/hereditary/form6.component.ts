@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { map, shareReplay } from 'rxjs/operators';
-import { IGeneList, IImmundefi, IPatient } from 'src/app/home/models/patients';
+import { concatMap, map, shareReplay, take, tap } from 'rxjs/operators';
+import { IComment, IGeneList, IImmundefi, IPatient, IProfile } from 'src/app/home/models/patients';
 import { PatientsListService } from 'src/app/home/services/patientslist';
 import { UtilsService } from '../commons/utils.service';
 import { DetectedVariantsService } from 'src/app/home/services/detectedVariants';
@@ -63,6 +63,8 @@ export class Form6Component implements OnInit, OnDestroy {
   firstReportDay = '-'; // 검사보고일
   lastReportDay = '-';  // 수정보고일
   reportType: string; //
+
+  checkboxStatus = []; // 체크박스 on 인것
 
   screenstatus: string;
   mockData: IImmundefi[] = [];
@@ -294,18 +296,6 @@ export class Form6Component implements OnInit, OnDestroy {
 
   }
 
-  tempSave(): void {
-    const control = this.form.get('tableRows') as FormArray;
-    this.immundefi = control.getRawValue() as IImmundefi[];
-    // const formData: IImmundefi[] = [];
-    // formData.push(this.immundefi);
-    console.log('[328]', this.immundefi);
-    this.subs.sink = this.variantsService.saveScreen6(this.form2TestedId, this.immundefi, this.patientInfo)
-      .subscribe(data => {
-        console.log(data);
-      });
-  }
-
 
   today(): string {
     const today = new Date();
@@ -321,7 +311,156 @@ export class Form6Component implements OnInit, OnDestroy {
     return now;
   }
 
+
+
+
+  tempSave(): void {
+    const control = this.form.get('tableRows') as FormArray;
+    this.immundefi = control.getRawValue() as IImmundefi[];
+    // const formData: IImmundefi[] = [];
+    // formData.push(this.immundefi);
+    console.log('[328]', this.immundefi);
+    this.subs.sink = this.variantsService.saveScreen6(this.form2TestedId, this.immundefi, this.patientInfo)
+      .subscribe(data => {
+        console.log(data);
+      });
+  }
+
+  reset(): void {
+    const control = this.form.get('tableRows') as FormArray;
+    const temp = control.getRawValue();
+    this.checkboxStatus = [];
+    for (let i = 0; i < temp.length; i++) {
+      if (String(temp[i].checked) === 'true') {
+        this.checkboxStatus.push(i);
+      }
+    }
+
+    const tempUserid: any = localStorage.getItem('diaguser');
+    const tempuser: any = JSON.parse(tempUserid);
+    const userid = tempuser.userid;
+
+    this.patientsListService.resetscreenstatus(this.form2TestedId, '2', userid, this.reportType)
+      .subscribe(data => {
+        this.screenstatus = '2';
+        this.patientInfo.screenstatus = '2';
+
+      });
+  }
+
+
+
+  // 스크린 판독
+  screenRead(): void {
+    const userid = localStorage.getItem('diaguser');
+    const control = this.form.get('tableRows') as FormArray;
+    this.immundefi = control.getRawValue() as IImmundefi[];
+
+    const result = confirm('스크린 판독 전송하시겠습니까?');
+    if (result) {
+      const profile: IProfile = { chron: '', };
+      const comments: IComment[] = [];
+      this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimen);
+      this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimen);
+
+      this.patientInfo.vusmsg = this.vusmsg;
+
+      this.subs.sink = this.variantsService.saveScreen6(this.form2TestedId, this.immundefi, this.patientInfo)
+        .pipe(
+          tap(data => {
+            alert('저장되었습니다.');
+          }),
+          concatMap(() => this.patientsListService.resetscreenstatus(this.form2TestedId, '1', userid, 'HRDT')),
+        )
+        .subscribe(msg => {
+          this.screenstatus = '1';
+        });
+
+    }
+
+  }
+
+
+  screenReadFinish(): void {
+    const userid = localStorage.getItem('diaguser');
+    const control = this.form.get('tableRows') as FormArray;
+    this.immundefi = control.getRawValue() as IImmundefi[];
+
+    const result = confirm('판독완료 전송하시겠습니까?');
+    if (result) {
+      const profile: IProfile = { chron: '', };
+      const comments: IComment[] = [];
+      this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimen);
+      this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimen);
+
+      this.patientInfo.vusmsg = this.vusmsg;
+
+      this.subs.sink = this.variantsService.saveScreen6(this.form2TestedId, this.immundefi, this.patientInfo)
+        .pipe(
+          tap(data => {
+            alert('저장되었습니다.');
+          }),
+          concatMap(() => this.patientsListService.resetscreenstatus(this.form2TestedId, '3', userid, 'HRDT')),
+        )
+        .subscribe(msg => {
+          this.screenstatus = '3';
+        });
+
+    }
+
+  }
+
+  getStatus(index): boolean {
+    // console.log('[834][getStatus]', index, this.screenstatus);
+    if (index === 1) {
+      if (parseInt(this.screenstatus, 10) === 0) {
+        return false;
+      } else if (parseInt(this.screenstatus, 10) === 1) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 2) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 3) {
+        return true;
+      }
+
+    } else if (index === 2) {
+      if (parseInt(this.screenstatus, 10) === 0) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 1) {
+        return false;
+      } else if (parseInt(this.screenstatus, 10) === 2) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 3) {
+        return true;
+      }
+    } else if (index === 3) {
+      if (parseInt(this.screenstatus, 10) === 0) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 1) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 2) {
+        return false;
+      } else if (parseInt(this.screenstatus, 10) === 3) {
+        return true;
+      }
+    } else if (index === 4) {
+      if (parseInt(this.screenstatus, 10) === 0) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 1) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 2) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 3) {
+        return false;
+      }
+    }
+
+  }
+
+
+
   gotoEMR(): void {
+    const userid = localStorage.getItem('diaguser');
     const control = this.form.get('tableRows') as FormArray;
     this.immundefi = control.getRawValue() as IImmundefi[];
     console.log(this.immundefi);
@@ -354,6 +493,29 @@ export class Form6Component implements OnInit, OnDestroy {
     );
 
     console.log('[335] ', makeForm);
+
+    const examcode = this.patientInfo.test_code;
+    this.patientsListService.sendEMR(
+      this.patientInfo.specimenNo,
+      this.patientInfo.patientID,
+      this.patientInfo.test_code,
+      this.patientInfo.name,
+      examcode,
+      makeForm)
+      .pipe(
+        concatMap(() => this.patientsListService.resetscreenstatus(this.form2TestedId, '3', userid, 'HRDT')),
+        concatMap(() => this.patientsListService.setEMRSendCount(this.form2TestedId, ++this.sendEMR)), // EMR 발송횟수 전송
+        concatMap(() => this.patientsListService.getScreenStatus(this.form2TestedId))
+      ).subscribe((msg: { screenstatus: string }) => {
+        this.screenstatus = '3';
+        alert('EMR로 전송했습니다.');
+        // 환자정보 가져오기
+        this.patientsListService.getPatientInfo(this.form2TestedId)
+          .subscribe(patient => {
+            console.log('[515][유전성유전][검체정보]', this.sendEMR, patient);
+            // this.setReportdaymgn(patient);
+          });
+      });
 
 
   }
