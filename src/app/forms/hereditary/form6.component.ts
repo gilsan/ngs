@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { concatMap, map, shareReplay, take, tap } from 'rxjs/operators';
+import { ActivatedRoute, Router } from '@angular/router';
+import { concatMap, filter, map, shareReplay, take, tap } from 'rxjs/operators';
 import { IComment, IGeneList, IImmundefi, IPatient, IProfile } from 'src/app/home/models/patients';
 import { PatientsListService } from 'src/app/home/services/patientslist';
 import { UtilsService } from '../commons/utils.service';
@@ -88,12 +88,13 @@ export class Form6Component implements OnInit, OnDestroy {
     private patientsListService: PatientsListService,
     private utilsService: UtilsService,
     private variantsService: DetectedVariantsService,
-
+    private route: ActivatedRoute,
   ) {
 
   }
 
   ngOnInit(): void {
+    this.findType();
     this.initLoad();
     this.loadForm();
   }
@@ -105,6 +106,16 @@ export class Form6Component implements OnInit, OnDestroy {
   loadForm(): void {
     this.form = this.fb.group({
       tableRows: this.fb.array([]),
+    });
+  }
+
+  findType(): void {
+    this.route.paramMap.pipe(
+      filter(data => data !== null || data !== undefined),
+      map(route => route.get('type'))
+    ).subscribe(data => {
+      console.log('[117][findType]', data);
+      this.reportType = data;
     });
   }
 

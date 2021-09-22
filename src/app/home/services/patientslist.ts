@@ -73,9 +73,9 @@ export class PatientsListService {
   }
 
   // 유전체 와 coding 로 mutation 레코드에서 정보 가져오기
-  public getMutationInfoLists(gene: string, coding: string): Observable<IAFormVariant[]> {
+  public getMutationInfoLists(gene: string, coding: string, type: string): Observable<IAFormVariant[]> {
     // console.log('[44][patientslist][getMutationInfoLists]', gene, coding);
-    return this.http.post<IAFormVariant[]>(`${this.apiUrl}/mutationInfo/list`, { gene, coding }).pipe(
+    return this.http.post<IAFormVariant[]>(`${this.apiUrl}/mutationInfo/list`, { gene, coding, type }).pipe(
       shareReplay()
     );
   }
@@ -97,9 +97,9 @@ export class PatientsListService {
   }
 
   // 유전체 와 coding 로 Artifacts 레코드에서 존재 유무 정보 가져오기
-  public getArtifactsInfoCount(gene: string, coding: string) {
+  public getArtifactsInfoCount(gene: string, coding: string, type: string): Observable<any> {
 
-    return this.http.post(`${this.apiUrl}/artifactsCount/count`, { gene, coding }).pipe(
+    return this.http.post(`${this.apiUrl}/artifactsCount/count`, { gene, coding, type }).pipe(
       shareReplay()
     );
   }
@@ -336,8 +336,8 @@ export class PatientsListService {
   }
 
   // muation, gene , amino-acid-change 숫자
-  getMutaionGeneAminoacid(gene: string, coding: string, specimenNo): Observable<any> {
-    return this.http.post(`${this.apiUrl}/diaggene/count`, { gene, coding, specimenNo })
+  getMutaionGeneAminoacid(gene: string, coding: string, specimenNo, type: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/diaggene/count`, { gene, coding, specimenNo, type })
       .pipe(
         shareReplay()
       );
@@ -393,7 +393,7 @@ export class PatientsListService {
       concatMap(item => {
         // console.log('[341][geneCoding]', item);
         if (item.gene2 === 'none') {
-          return this.getArtifactsInfoCount(item.gene1, item.coding).pipe(
+          return this.getArtifactsInfoCount(item.gene1, item.coding, testType).pipe(
             map(gene1Count => {
               if (gene1Count[0] !== null) {
                 return { ...item, artifacts1Count: gene1Count[0].count, artifacts2Count: 0 };
@@ -402,8 +402,8 @@ export class PatientsListService {
             })
           );
         } else {
-          const gene1$ = this.getArtifactsInfoCount(item.gene1, item.coding);
-          const gene2$ = this.getArtifactsInfoCount(item.gene2, item.coding);
+          const gene1$ = this.getArtifactsInfoCount(item.gene1, item.coding, testType);
+          const gene2$ = this.getArtifactsInfoCount(item.gene2, item.coding, testType);
 
           return combineLatest([gene1$, gene2$]).pipe(
             map(data => {
@@ -443,7 +443,7 @@ export class PatientsListService {
           const cnt = item.gene1.split(',').length;
           // console.log('====[395][patientslists][뮤테이션길이] getMutationInfoLists', item, cnt);
           if (cnt === 1) {
-            return this.getMutationInfoLists(item.gene1, item.coding).pipe(
+            return this.getMutationInfoLists(item.gene1, item.coding, testType).pipe(
               map(lists => {
                 // console.log('========[396][patientslist][뮤테이션]', lists, item.gene1, item.coding);
                 if (Array.isArray(lists) && lists.length) {
@@ -477,7 +477,7 @@ export class PatientsListService {
               tempGene = item.gene1.split(',')[1];
             }
             // console.log('[420][뮤테이션]', item, tempGene, tempCoding);
-            return this.getMutationInfoLists(tempGene, tempCoding).pipe(
+            return this.getMutationInfoLists(tempGene, tempCoding, testType).pipe(
               tap(data => console.log('[patientslist][429][뮤테이션]', data)),
               map(lists => {
                 if (Array.isArray(lists) && lists.length) {
@@ -534,7 +534,7 @@ export class PatientsListService {
           } else if (item.gene1.split(',')[1] === 'NRAS') {
             tempGene = item.gene1.split(',')[1];
           }
-          return this.getMutationInfoLists(tempGene, tempCoding).pipe(
+          return this.getMutationInfoLists(tempGene, tempCoding, testType).pipe(
             map(lists => {
               if (Array.isArray(lists) && lists.length) {
                 return { ...item, mutationList1: lists[0], mutationList2: 'none', mtype: 'M' };
@@ -564,7 +564,7 @@ export class PatientsListService {
           const tempGene = item.tsv.genes;
           const tempSpecimenNo = item.tsv.testedID;
           const tempCoding = item.tsv.coding;
-          return this.getMutaionGeneAminoacid(tempGene, tempCoding, tempSpecimenNo)
+          return this.getMutaionGeneAminoacid(tempGene, tempCoding, tempSpecimenNo, testType)
             .pipe(
               map(result => {
                 return { ...item, cnt: result.count };

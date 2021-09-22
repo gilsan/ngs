@@ -484,7 +484,7 @@ export class Form3Component implements OnInit, OnDestroy {
   addDetectedVariant(): void {
     this.subs.sink = this.patientsListService.filtering(this.form2TestedId, this.reportType)
       .subscribe(data => {
-
+        console.log('[487]', data);
         let type: string;
         let gene: string;
         let dvariable: IAFormVariant;
@@ -560,7 +560,7 @@ export class Form3Component implements OnInit, OnDestroy {
 
         this.vd.push({ sequence: this.vdcount, selectedname: 'mutation', gene });
         this.vdcount++;
-        this.addVarient(type, dvariable, gene, data.coding, data.tsv);
+        this.addVarient(type, dvariable, gene, data.coding, data.tsv, data.cnt);
 
       }); // End of Subscribe
 
@@ -665,14 +665,21 @@ export class Form3Component implements OnInit, OnDestroy {
   }
 
   // tslint:disable-next-line: typedef
-  addVarient(type: string, item: IAFormVariant, gene: string, coding: string, tsv: IFilteredTSV) {
+  addVarient(type: string, item: IAFormVariant, gene: string, coding: string, tsv: IFilteredTSV, count: string) {
     let tempvalue;
-
+    let tempCount;
+    if (parseInt(count, 10) > 1) {
+      tempCount = count;
+    } else {
+      tempCount = '';
+    }
+    console.log('[676]', count, tempCount);
     if (type === 'M') {
       tempvalue = {
         igv: '',
         sanger: '',
         type,
+        cnt: tempCount,
         gene,
         functionalImpact: item.functional_impact,
         transcript: tsv.transcript,
@@ -691,6 +698,7 @@ export class Form3Component implements OnInit, OnDestroy {
         igv: '',
         sanger: '',
         type,
+        cnt: '',
         gene,
         functionalImpact: '',
         transcript: tsv.transcript,
@@ -723,6 +731,7 @@ export class Form3Component implements OnInit, OnDestroy {
       igv: item.igv,
       sanger: item.sanger,
       type: item.type,
+      cnt: item.cnt,
       gene: item.gene,
       functionalImpact: item.functional_impact,
       transcript: item.transcript,
@@ -766,6 +775,7 @@ export class Form3Component implements OnInit, OnDestroy {
         igv: [item.igv],
         sanger: [item.sanger],
         type: [item.type],
+        cnt: [item.cnt],
         gene: [item.gene],
         functionalImpact: [item.functionalImpact],
         transcript: [item.transcript],
@@ -785,6 +795,7 @@ export class Form3Component implements OnInit, OnDestroy {
       igv: [item.igv],
       sanger: [item.sanger],
       type: [item.type],
+      cnt: [item.cnt],
       gene: [item.gene],
       functionalImpact: [item.functionalImpact],
       transcript: [item.transcript],
@@ -853,6 +864,7 @@ export class Form3Component implements OnInit, OnDestroy {
       igv: [''],
       sanger: [''],
       type: [''],
+      cnt: [''],
       gene: [''],
       functionalImpact: [''],
       transcript: [''],
@@ -874,6 +886,7 @@ export class Form3Component implements OnInit, OnDestroy {
       igv: [''],
       sanger: [''],
       type: [''],
+      cnt: [''],
       gene: [''],
       functionalImpact: [''],
       transcript: [''],

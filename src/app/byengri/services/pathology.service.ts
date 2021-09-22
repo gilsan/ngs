@@ -149,7 +149,7 @@ export class PathologyService {
   public setPatientIndex(i: number) {
 
     this.index = i;
-    console.log('[136][pathologyservice][]', this.index);
+    // console.log('[136][pathologyservice][]', this.index);
   }
 
   public getPatientInfo(): IPatient {
