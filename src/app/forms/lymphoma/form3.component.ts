@@ -21,7 +21,7 @@ import { ExcelService } from 'src/app/home/services/excelservice';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogOverviewExampleDialogComponent } from '../dialog-overview-example-dialog/dialog-overview-example-dialog.component';
 import { UtilsService } from '../commons/utils.service';
-// import { CommentsService } from 'src/app/services/comments.service';
+import { CommentsService } from 'src/app/services/comments.service';
 import { makeCForm } from 'src/app/home/models/cTypemodel';
 import { moveItemInArray, CdkDragDrop } from '@angular/cdk/drag-drop';
 import { AnalysisService } from '../commons/analysis.service';
@@ -190,6 +190,7 @@ export class Form3Component implements OnInit, OnDestroy {
     private analysisService: AnalysisService,
     private excelService: ExcelAddListService,
     private snackBar: MatSnackBar,
+    private commentsService: CommentsService,
   ) { }
 
   ngOnInit(): void {
@@ -364,28 +365,28 @@ export class Form3Component implements OnInit, OnDestroy {
 
 
     // 코멘트 가져오기
-    // this.subs.sink = this.variantsService.screenComment(this.form2TestedId)
-    //   .subscribe(dbComments => {
-    //     if (dbComments !== undefined && dbComments !== null && dbComments.length > 0) {
-    //       console.log('[247][COMMENT 가져오기]', dbComments);
-    //       dbComments.forEach(comment => {
+    this.subs.sink = this.variantsService.screenComment(this.form2TestedId)
+      .subscribe(dbComments => {
+        if (dbComments !== undefined && dbComments !== null && dbComments.length > 0) {
+          console.log('[247][COMMENT 가져오기]', dbComments);
+          dbComments.forEach(comment => {
 
-    //         this.comments.push(
-    //           {
-    //             gene: comment.gene, comment: comment.comment, reference: comment.reference,
-    //             variant_id: comment.variants
-    //           }
-    //         );
-    //         this.commentsRows().push(this.createCommentRow(
-    //           {
-    //             gene: comment.gene, comment: comment.comment, reference: comment.reference,
-    //             variant_id: comment.variants
-    //           }
-    //         ));
-    //       });
-    //       this.store.setComments(this.comments); // comments 저장
-    //     }
-    //   });
+            this.comments.push(
+              {
+                gene: comment.gene, comment: comment.comment, reference: comment.reference,
+                variant_id: comment.variants
+              }
+            );
+            this.commentsRows().push(this.createCommentRow(
+              {
+                gene: comment.gene, comment: comment.comment, reference: comment.reference,
+                variant_id: comment.variants
+              }
+            ));
+          });
+          this.store.setComments(this.comments); // comments 저장
+        }
+      });
 
     // profile 가져오기
     this.subs.sink = this.analysisService.getAanlysisMDSInfo(this.form2TestedId)
@@ -484,7 +485,7 @@ export class Form3Component implements OnInit, OnDestroy {
   addDetectedVariant(): void {
     this.subs.sink = this.patientsListService.filtering(this.form2TestedId, this.reportType)
       .subscribe(data => {
-        console.log('[487]', data);
+        // console.log('[487]', data);
         let type: string;
         let gene: string;
         let dvariable: IAFormVariant;
@@ -959,6 +960,7 @@ export class Form3Component implements OnInit, OnDestroy {
 
     if (this.selectedItem === 'mutation') {
       this.subs.sink = this.patientsListService.saveMutation(
+        this.patientInfo.test_code,
         row.igv,
         row.sanger,
         'M' + this.patientInfo.name,
@@ -977,7 +979,7 @@ export class Form3Component implements OnInit, OnDestroy {
         alert('mutation에 추가 했습니다.');
       });
     } else if (this.selectedItem === 'artifacts') {
-      this.subs.sink = this.patientsListService.insertArtifacts(
+      this.subs.sink = this.patientsListService.insertArtifacts(this.patientInfo.test_code,
         row.gene, '', '', row.transcript, row.nucleotideChange, row.aminoAcidChange
       ).subscribe((data: any) => {
         alert('artifacts에 추가 했습니다.');
@@ -987,6 +989,24 @@ export class Form3Component implements OnInit, OnDestroy {
 
 
   }
+
+  addComments(type: string): void {
+    const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
+    this.comments = commentControl.getRawValue();
+    from(this.comments)
+      .pipe(
+        concatMap(ment => this.commentsService.insertCommentsList(
+          this.patientInfo.test_code,
+          '', ment.type, ment.gene, ment.variant_id, ment.comment, ment.reference, 'AMLALL'
+        )),
+        last()
+      ).subscribe(data => {
+        if (data) {
+          alert('등록 되었습니다.');
+        }
+      });
+  }
+
 
   // tslint:disable-next-line: typedef
   saveInhouse(i: number, selecteditem: string) {

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AllComponent } from './all/all.component';
+// import { AllComponent } from './all/all.component';
 // import { Form1Component } from './form1/form1.component';
 import { Form2Component } from './form2/form2.component';
 import { Form3Component } from './lymphoma/form3.component';
@@ -9,7 +9,7 @@ import { Form5Component } from './mlpa/form5.component';
 import { Form6Component } from './hereditary/form6.component';
 import { Form7Component } from './sequencing/form7.component';
 import { FormsComponent } from './forms.component';
-import { Form1Component } from './form1/form1.component';
+// import { Form1Component } from './form1/form1.component';
 
 
 
@@ -18,8 +18,8 @@ const routes: Routes = [
     path: '', component: FormsComponent, children: [
       // { path: 'all', component: AllComponent },
       // { path: 'all/:type', component: AllComponent },
-      { path: 'form1', component: Form1Component },
-      { path: 'form1/:type', component: Form1Component },
+      // { path: 'form1', component: Form1Component },
+      // { path: 'form1/:type', component: Form1Component },
       { path: 'form2', component: Form2Component },
       { path: 'form2/:type', component: Form2Component },
       { path: 'form3', component: Form3Component },

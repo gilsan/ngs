@@ -733,6 +733,7 @@ export class AllComponent implements OnInit, OnDestroy, AfterViewInit {
 
     if (this.selectedItem === 'mutation') {
       this.subs.sink = this.patientsListService.saveMutation(
+        'AML',
         row.igv,
         row.sanger,
         'M' + this.patientInfo.name,
@@ -755,7 +756,7 @@ export class AllComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       });
     } else if (this.selectedItem === 'artifacts') {
-      this.subs.sink = this.patientsListService.insertArtifacts(
+      this.subs.sink = this.patientsListService.insertArtifacts('AML',
         row.gene, row.item.loc2, row.item.exon, row.item.transcript, row.coding, row.item.amino_acid_change
       ).subscribe((data: any) => {
         if (data.insertId) {

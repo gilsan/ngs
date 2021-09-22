@@ -22,7 +22,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogOverviewExampleDialogComponent } from '../dialog-overview-example-dialog/dialog-overview-example-dialog.component';
 import { makeAForm } from 'src/app/home/models/aTypemodel';
 import { UtilsService } from '../commons/utils.service';
-// import { CommentsService } from 'src/app/services/comments.service';
+import { CommentsService } from 'src/app/services/comments.service';
 import { makeDForm } from 'src/app/home/models/dTypemodel';
 import { moveItemInArray, CdkDragDrop } from '@angular/cdk/drag-drop';
 import { AnalysisService } from '../commons/analysis.service';
@@ -191,6 +191,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     private analysisService: AnalysisService,
     private excelService: ExcelAddListService,
     private snackBar: MatSnackBar,
+    private commentsService: CommentsService,
   ) { }
 
   ngOnInit(): void {
@@ -362,6 +363,32 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       this.putCheckboxInit(); // 체크박스 초기화
     });
 
+    // 코멘트 가져오기
+    this.subs.sink = this.variantsService.screenComment(this.form2TestedId)
+      .subscribe(dbComments => {
+        if (dbComments !== undefined && dbComments !== null && dbComments.length > 0) {
+          console.log('[247][COMMENT 가져오기]', dbComments);
+          dbComments.forEach(comment => {
+
+            this.comments.push(
+              {
+                gene: comment.gene, comment: comment.comment, reference: comment.reference,
+                variant_id: comment.variants
+              }
+            );
+            this.commentsRows().push(this.createCommentRow(
+              {
+                gene: comment.gene, comment: comment.comment, reference: comment.reference,
+                variant_id: comment.variants
+              }
+            ));
+          });
+          this.store.setComments(this.comments); // comments 저장
+        }
+      });
+
+
+
 
 
     // profile 가져오기
@@ -413,6 +440,10 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
           // this.addDetectedVariant();
         }
       });
+
+
+
+
 
 
       // 검사자 정보 가져오기
@@ -907,6 +938,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     // console.log('[691][mutation/artifacts] ', row, this.patientInfo);
     if (this.selectedItem === 'mutation') {
       this.subs.sink = this.patientsListService.saveMutation(
+        'MDSMPN',
         row.igv,
         row.sanger,
         'M' + this.patientInfo.name,
@@ -927,6 +959,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     } else if (this.selectedItem === 'artifacts') {
       // console.log('[715][save][artifacts] ', row);
       this.subs.sink = this.patientsListService.insertArtifacts(
+        'MDSMPN',
         row.gene, '', '', row.transcript, row.nucleotideChange, row.aminoAcidChange
       ).subscribe((data: any) => {
         // console.log('[719][result][artifacts] ', data);
@@ -935,8 +968,26 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       });
     }
 
-
   }
+
+  //////////////////////////////////////////////////////////////////////////////////////
+  addComments(type: string): void {
+    const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
+    this.comments = commentControl.getRawValue();
+    from(this.comments)
+      .pipe(
+        concatMap(ment => this.commentsService.insertCommentsList(
+          'MDSMPN',
+          '', ment.type, ment.gene, ment.variant_id, ment.comment, ment.reference, 'MDSMPN'
+        )),
+        last()
+      ).subscribe(data => {
+        if (data) {
+          alert('등록 되었습니다.');
+        }
+      });
+  }
+
 
   // tslint:disable-next-line: typedef
   saveInhouse(i: number, selecteditem: string) {
