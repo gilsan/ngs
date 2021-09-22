@@ -4,6 +4,12 @@
   </app-tsvupload>
   <div id="container">
     <div id="content">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mg_b10">
+        <tr>
+            <td  class="mail_title">WorkList (MDS/MPN)</td>
+            <td class="main_btn"></td>
+        </tr>
+    </table>
 
       <div class="box mg_b20 pd_20">
         <input type="text" class="input_01" #testedID placeholder="검체번호" />&nbsp;&nbsp;
@@ -28,7 +34,7 @@
           (click)="search(start.value, end.value, testedID.value, patient.value, status.value, sheet.value)">조 회</button>
       </div>
       <div class="box">
-        <div class="box_100" appDiagScrollMonitor #dbox100>
+        <div class="box_100 fill" appDiagScrollMonitor #dbox100>
         <table border="0" cellpadding="0" cellspacing="0" class="table_list  fixed_header table_resul_x">
           <colgroup>
             <col width="40px">
