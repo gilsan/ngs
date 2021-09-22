@@ -169,6 +169,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
   technique = `The analysis was optimised to identify base pair substitutions with a high sensitivity. The sensitivity for small insertions and deletions was lower. Deep-intronic mutations, mutations in the promoter region, repeats, large exonic deletions and duplications, and other structural variants were not detected by this test.`;
 
   maxHeight = 500;
+  totalCount = 0; // 유전자와 nucleotidde change 을 가진 환자수
   // genetictest = `  LPC139
   // LPC174
   // LPC188
@@ -257,7 +258,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       filter(data => data !== null || data !== undefined),
       map(route => route.get('type'))
     ).subscribe(data => {
-      // console.log('[138][findType]', data);
+      // console.log('[260][findType]', data);
       this.reportType = data;
       this.getGeneList('MDS'); // 진검 유전자 목록 가져옴.
     });
@@ -392,6 +393,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
 
     if (this.form2TestedId) {
       this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {
+        console.log('[395]', data);
         if (data.length > 0) {
           this.recoverVariants = data;
           this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
@@ -408,7 +410,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
           this.putCheckboxInit(); // 체크박스 초기화
 
         } else {
-          this.addDetectedVariant();
+          // this.addDetectedVariant();
         }
       });
 
@@ -461,7 +463,8 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
   addDetectedVariant(): void {
     this.subs.sink = this.patientsListService.filtering(this.form2TestedId, this.reportType)
       .subscribe(data => {
-
+        console.log('[464]', this.reportType);
+        console.log(data);
         let type: string;
         let gene: string;
         let dvariable: IAFormVariant;
@@ -501,43 +504,9 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
           gene = data.gene2;
         }
 
-        // comments 분류
-        // if (parseInt(data.comments1Count, 10) > 0) {
-        //   if (typeof data.commentList1 !== 'undefined' && data.commentList1 !== 'none') {
-        //     if (parseInt(data.comments1Count, 10) > 0) {
-
-        //       const variant_id = data.tsv.amino_acid_change;
-        //       const comment = { ...data.commentList1, variant_id, type: this.reportType };
-        //       // console.log('[429][코멘트]', comment);
-        //       this.comments.push(comment);
-        //       this.store.setComments(this.comments); // 멘트 저장
-        //       let tempArray = new Array();
-        //       tempArray.push(comment);
-        //       tempArray.forEach(ment => {
-        //         this.commentsRows().push(this.createCommentRow(ment));
-        //       });
-        //       tempArray = [];
-        //     }
-        //   } else if (typeof data.commentList2 !== 'undefined' && data.commentList2 !== 'none') {
-        //     if (data.comments2Count > 0) {
-        //       const comment = { ...data.commentList2 as any, variant_id: '' };
-        //       this.comments.push(comment);
-        //       this.store.setComments(this.comments); // 멘트 저장
-        //       let tempArray = new Array();
-        //       tempArray.push(comment);
-        //       tempArray.forEach(ment => {
-        //         this.commentsRows().push(this.createCommentRow(ment));
-        //       });
-        //       tempArray = [];
-        //     }
-        //   }
-
-        // }
-
-
         this.vd.push({ sequence: this.vdcount, selectedname: 'mutation', gene });
         this.vdcount++;
-        this.addVarient(type, dvariable, gene, data.coding, data.tsv);
+        this.addVarient(type, dvariable, gene, data.coding, data.tsv, data.cnt);
 
       }); // End of Subscribe
 
@@ -642,14 +611,22 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
   }
 
   // tslint:disable-next-line: typedef
-  addVarient(type: string, item: IAFormVariant, gene: string, coding: string, tsv: IFilteredTSV) {
+  addVarient(type: string, item: IAFormVariant, gene: string, coding: string, tsv: IFilteredTSV, count: string) {
     let tempvalue;
+    let tempCount;
+    if (parseInt(count, 10) > 1) {
+      tempCount = count;
+    } else {
+      tempCount = '';
+    }
+    console.log('[653]', count, tempCount);
 
     if (type === 'M') {
       tempvalue = {
         igv: '',
         sanger: '',
         type,
+        cnt: tempCount,
         gene,
         functionalImpact: item.functional_impact,
         transcript: tsv.transcript,
@@ -668,6 +645,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
         igv: '',
         sanger: '',
         type,
+        cnt: '',
         gene,
         functionalImpact: '',
         transcript: tsv.transcript,
@@ -700,6 +678,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       igv: item.igv,
       sanger: item.sanger,
       type: item.type,
+      cnt: item.cnt,
       gene: item.gene,
       functionalImpact: item.functional_impact,
       transcript: item.transcript,
@@ -743,6 +722,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
         igv: [item.igv],
         sanger: [item.sanger],
         type: [item.type],
+        cnt: [item.cnt],
         gene: [item.gene],
         functionalImpact: [item.functionalImpact],
         transcript: [item.transcript],
@@ -762,6 +742,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       igv: [item.igv],
       sanger: [item.sanger],
       type: [item.type],
+      cnt: [item.cnt],
       gene: [item.gene],
       functionalImpact: [item.functionalImpact],
       transcript: [item.transcript],
@@ -830,6 +811,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       igv: [''],
       sanger: [''],
       type: [''],
+      cnt: [''],
       gene: [''],
       functionalImpact: [''],
       transcript: [''],
@@ -851,6 +833,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       igv: [''],
       sanger: [''],
       type: [''],
+      cnt: [''],
       gene: [''],
       functionalImpact: [''],
       transcript: [''],

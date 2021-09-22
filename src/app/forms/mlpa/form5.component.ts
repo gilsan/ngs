@@ -129,10 +129,8 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
     console.log('[76][환자정보]', this.patientInfo);
     this.testcode = this.patientInfo.test_code;
-    // this.getTitle(this.testcode);
+
     this.getMLPAData();
-    // this.showTable(this.testcode);
-    // this.method = this.patientInfo.method.replace(/"/g, '');
 
     this.requestDate = this.patientInfo.accept_date;
 
@@ -344,21 +342,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  // mlpa2Deletion(i: number, val: string, side: string): void {
-  //   if (side === 'L') {
-  //     this.mlpaData1[i].deletion = val;
-  //   } else if (side === 'R') {
-  //     this.mlpaData2[i].deletion = val;
-  //   }
-  // }
 
-  // mlpa2Methylation(i: number, val: string, side: string): void {
-  //   if (side === 'L') {
-  //     this.mlpaData1[i].methylation = val;
-  //   } else if (side === 'R') {
-  //     this.mlpaData2[i].methylation = val;
-  //   }
-  // }
 
   conclusion(conclusion: string): void {
     this.mlpaData.conclusion = conclusion;
@@ -393,7 +377,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
 
     // specimenNo, comment, data, result, technique, title, type
     this.mlpaData.data = data;
-
+    // console.log('[396][저장]', this.mlpaData);
     this.mlpaService.mlpaTempSave(
       this.patientInfo.specimenNo,
       this.mlpaData.comment,

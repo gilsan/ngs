@@ -699,12 +699,13 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
   addVarient(type: string, item: IAFormVariant, gene: string, coding: string, tsv: IFilteredTSV, count: string) {
     let tempvalue;
     let tempCount;
-    if (count !== '0') {
+
+    if (parseInt(count, 10) > 1) {
       tempCount = count;
     } else {
       tempCount = '';
     }
-
+    // console.log('[708]', count, tempCount);
     if (type === 'M') {
       tempvalue = {
         igv: '',

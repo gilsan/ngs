@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { PathologyService } from '../../services/pathology.service';
 
-import { map, shareReplay, take } from 'rxjs/operators';
+import { map, shareReplay, take, tap } from 'rxjs/operators';
 import { IPatient } from '../../models/patients';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { emrUrl } from 'src/app/config';
@@ -163,6 +163,7 @@ export class SequencingreportComponent implements OnInit {
 
   checker(): void {
     const medi$ = this.searchService.listPath().pipe(
+      tap(data => console.log(data)),
       shareReplay()
     );
 
@@ -211,6 +212,11 @@ export class SequencingreportComponent implements OnInit {
 
   goBack(): void {
     this.router.navigate(['/pathology', 'sequencing']);
+  }
+
+  printScreen(): void {
+    window.print();
+
   }
 
 
