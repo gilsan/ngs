@@ -9,7 +9,7 @@
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
                     <td class="txt_02" ><span class="fb">Result </span>:
-                        <label class="">DNMT3A gene Mutation</label>&nbsp;&nbsp;
+                      <!--   <label class="">DUMT3A gene Mutation: {{resultStatus}}</label> -->
                         <input type="radio" id="vertical-radio2" name="radio-full" [value]="'Detected'" [checked]="radioStatus('Detected')" class="clr-radio"  (change)="result($event)">
                         <label for="vertical-radio2" class="  clr-col-12 clr-col-md-2">Detected</label>
                         &nbsp;&nbsp;
@@ -31,7 +31,7 @@
                           <td> METHOD: *Massively parallel sequencing</td>
                       </tr>
                       <tr>
-                        <td> ANALYZED GENE : DNMT3A on 2p23</td>
+                        <td> ANALYZED GENE : DUMT3A on 2p23</td>
                         <td> </td>
                       </tr>
                       <tr>
@@ -48,8 +48,9 @@
                         <table class="table_list td-fix" style="text-align: center;">
                             <colgroup>
                                 <col style="width:60px"/>  <!-- Type   -->
-                                <col style="width:100px"/>  <!-- Exon/Intron #    -->
+                                <col style="width:100px"/>  <!-- 현재<br/>(2020.07.08)    -->
                                 <col style="width:100px"/>  <!-- 진단시<br/>(2019.09.04)    -->
+                                <col style="width:60px"/>   <!-- Location    -->
                                 <col style="width:120px"/>  <!-- Nuceleotide change   -->
                                 <col style="width:120px"/>  <!-- Amino acid change    -->
                                 <col style="width:120px"/>  <!-- dbSNP/COSMIC ID    -->
@@ -58,18 +59,22 @@
                             <thead>
                                 <tr>
                                     <th>Type</th>
-                                    <th>Exon/Intron #</th>
+                                    <th>현재<br/>(2020.07.08)</th>
+                                    <th>진단시<br/>(2019.09.04)</th>
+                                    <th>Location</th>
                                     <th>Nucleotide change</th>
                                     <th>Amino acid change</th>
-                                    <th>Zygosity</th>
-                                    <th>rs ID</th>
-                                    <th>GeneBank accesion no.</th>
+                                    <th>dbSNP</th>
+                                    <th>COSMIC ID</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="type">
+                                    </td>
+                                    <td>
+                                        <input type="text" size="20" class="clr-input textcenter tdbox" formControlName="workNow">
                                     </td>
                                     <td>
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="diagnosis">
@@ -99,19 +104,10 @@
 
                 </div>
 
-                <div class="sub_title">판독 코멘트</div>
+                <div class="sub_title">Comment</div>
                 <div class="pd_r20">
                     <textarea class="textarea_01"></textarea>
-                </div>
 
-                <div class="sub_title">일반코멘트1</div>
-                <div class="pd_r20">
-                    <textarea class="textarea_01"></textarea>
-                </div>
-
-                <div class="sub_title">일반코멘트2</div>
-                <div class="pd_r20">
-                    <textarea class="textarea_01"></textarea>
                 </div>
 
                 <hr class="mg_t30 mg_b20"/>
@@ -160,3 +156,4 @@
           </app-sequencing>
        </div>
    </div>
+
