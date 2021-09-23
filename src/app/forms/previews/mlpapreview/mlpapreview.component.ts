@@ -26,8 +26,7 @@ export class MlpapreviewComponent implements OnInit {
   showTable3: boolean;
   showTable4: boolean;
   ngOnInit(): void {
-    console.log(this.mlpaData1, this.mlpaData2);
-    console.log(this.request, this.result, this.resultStatus);
+
     if (this.type === 'type3') {
       this.showTable3 = true;
       this.showTable4 = false;
