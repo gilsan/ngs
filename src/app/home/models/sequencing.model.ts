@@ -22,6 +22,12 @@ export function sequencingForm(
 	    <ColumnInfo>
 			<Column id="patient" type="STRING" size="256"/>
 			<Column id="result" type="STRING" size="256"/>
+      <Column id="rsltright1" type="STRING" size="256"/>
+			<Column id="rsltright2" type="STRING" size="256"/>
+			<Column id="rsltleft1" type="STRING" size="256"/>
+			<Column id="rsltleft2" type="STRING" size="256"/>
+      <Column id="rsltcenter1" type="STRING" size="256"/>
+      <Column id="rsltcenter2" type="STRING" size="256"/>
 			<Column id="testinfo1" type="STRING" size="256"/>
 			<Column id="testinfo2" type="STRING" size="256"/>
 			<Column id="testinfo3" type="STRING" size="256"/>
@@ -36,6 +42,12 @@ export function sequencingForm(
 			<Row>
 				<Col id="patient">${patientInfo.name}, ${patientInfo.patientID} (${patientInfo.gender}/${patientInfo.age})</Col>
 				<Col id="result">${resultStatus}</Col>
+        <Col id="rsltright1"></Col>
+				<Col id="rsltright2"></Col>
+				<Col id="rsltleft1"></Col>
+				<Col id="rsltleft2"></Col>
+        <Col id="rsltcenter1"></Col>
+        <Col id="rsltcenter2"></Col>
 				<Col id="testinfo1">TARGET DISEASE: Primary Immunodeficiency (363 genes)</Col>
 				<Col id="testinfo2">METHOD: *Massively parallel sequencing</Col>
 				<Col id="testinfo3">SPECIMEN: Genomic DNA isolated from peripheral blood leukocytes-adequate specimen</Col>
