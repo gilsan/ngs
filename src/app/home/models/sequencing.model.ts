@@ -11,6 +11,7 @@ export function sequencingForm(
   lastReportDay: string,
   patientInfo: IPatient,
   formData: ISequence[],
+  genbankaccesion: string,
   commentMsg: string,
   comment1Msg: string,
   comment2Msg: string
@@ -33,6 +34,7 @@ export function sequencingForm(
 			<Column id="testinfo3" type="STRING" size="256"/>
 			<Column id="testinfo4" type="STRING" size="256"/>
       <Column id="testinfo5" type="STRING" size="256"/>
+      <Column id="opnion" type="STRING" size="256"/>
 			<Column id="title" type="STRING" size="256"/>
 			<Column id="examdt" type="STRING" size="256"/>
 			<Column id="examid" type="STRING" size="256"/>
@@ -53,6 +55,7 @@ export function sequencingForm(
 				<Col id="testinfo3">SPECIMEN: Genomic DNA isolated from peripheral blood leukocytes-adequate specimen</Col>
 				<Col id="testinfo4">REQUEST: ${patientInfo.request}</Col>
         <Col id="testinfo5">REQUEST: ANALYZED GENE : DUMT3A on 2p23</Col>
+        <Col id="opnion">${genbankaccesion}</Col>
 				<Col id="title">${title}</Col>
 				<Col id="examdt">${acceptdate}/${firstReportDay}/${lastReportDay} </Col>
 				<Col id="examid">${examin}</Col>
@@ -67,13 +70,11 @@ export function sequencingForm(
 	<Dataset id="ds_2">
 	<ColumnInfo>
 		<Column id="type" type="STRING" size="256"/>
-		<Column id="rpre" type="STRING" size="256"/>
-		<Column id="rdiag" type="STRING" size="256"/>
-		<Column id="location" type="STRING" size="256"/>
+		<Column id="exonintron" type="STRING" size="256"/>
 		<Column id="nuclchange" type="STRING" size="256"/>
 		<Column id="aminochange" type="STRING" size="256"/>
-		<Column id="dbsnp" type="STRING" size="256"/>
-		<Column id="cosmicid" type="STRING" size="256"/>
+		<Column id="zygosity" type="STRING" size="256"/>
+		<Column id="rsid" type="STRING" size="256"/>
 	</ColumnInfo>
 	<Rows>
 	`;
@@ -84,13 +85,11 @@ export function sequencingForm(
     data = data + `
 			<Row>
 			 <Col id="type">${formData[i].type}</Col>
-			 <Col id="rpre">${formData[i].workNow}</Col>
-			 <Col id="rdiag">${formData[i].diagnosis}</Col>
-			 <Col id="location">${formData[i].location}</Col>
+			 <Col id="exonintron">${formData[i].exonintron}</Col>
 			 <Col id="nuclchange">${formData[i].nucleotideChange}</Col>
 			 <Col id="aminochange">${formData[i].aminoAcidChange}</Col>
-			 <Col id="dbsnp">${formData[i].dbSNP}</Col>
-			 <Col id="cosmicid">${formData[i].cosmicID}</Col>
+			 <Col id="zygosity">${formData[i].zygosity}</Col>
+			 <Col id="rsid">${formData[i].rsid}</Col>
 		 </Row>
 			`;
   }
@@ -122,7 +121,7 @@ export function sequencingForm(
   `;
 
   const comment2 = `
-  <Dataset id="ds_4">
+  <Dataset id="ds_5">
     <ColumnInfo>
       <Column id="comment2" type="STRING" size="256"/>
     </ColumnInfo>

@@ -72,6 +72,7 @@ export class Form7Component implements OnInit, OnDestroy {
   comment = '';
   comment1 = '';
   comment2 = '';
+  genbankaccesion = '';
   private subs = new SubSink();
 
   constructor(
@@ -278,6 +279,7 @@ export class Form7Component implements OnInit, OnDestroy {
       this.lastReportDay,
       this.patientInfo,
       formData,
+      this.genbankaccesion,
       this.comment,
       this.comment1,
       this.comment2

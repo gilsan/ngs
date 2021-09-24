@@ -44,9 +44,8 @@
                         <table class="table_list td-fix" style="text-align: center;">
                             <colgroup>
                                 <col style="width:60px"/>  <!-- Type   -->
-                                <col style="width:100px"/>  <!-- 현재<br/>(2020.07.08)    -->
+                                <col style="width:100px"/>  <!-- Exon/Intron #    -->
                                 <col style="width:100px"/>  <!-- 진단시<br/>(2019.09.04)    -->
-                                <col style="width:60px"/>   <!-- Location    -->
                                 <col style="width:120px"/>  <!-- Nuceleotide change   -->
                                 <col style="width:120px"/>  <!-- Amino acid change    -->
                                 <col style="width:120px"/>  <!-- dbSNP/COSMIC ID    -->
@@ -54,36 +53,32 @@
                             <thead>
                                 <tr>
                                     <th>Type</th>
-                                    <th>현재<br/>(2020.07.08)</th>
-                                    <th>진단시<br/>(2019.09.04)</th>
-                                    <th>Location</th>
+                                    <th>Exon/Intron #</th>
                                     <th>Nucleotide change</th>
                                     <th>Amino acid change</th>
-                                    <th>dbSNP/COSMIC ID</th>
+                                    <th>Zygosity</th>
+                                    <th>rs ID</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" [value]="sequence.type">
+                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="type">
                                     </td>
                                     <td>
-                                        <input type="text" size="20" class="clr-input textcenter tdbox" [value]="sequence.workNow">
+                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="exonintro">
                                     </td>
                                     <td>
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" [value]="sequence.diagnosis">
+                                        <input type="text" size="20" class="clr-input textcenter tdbox" formControlName="nucleotideChange">
                                     </td>
                                     <td>
-                                        <input type="text" size="20" class="clr-input textcenter tdbox" [value]="sequence.location">
+                                        <input type="text" size="15" class="clr-input textcenter tdbox" formControlName="aminoAcidChange">
                                     </td>
                                     <td>
-                                        <input type="text" size="15" class="clr-input textcenter tdbox" [value]="sequence.nucleotideChange">
+                                        <input type="text" size="40" class="clr-input textcenter tdbox" formControlName="zygosity">
                                     </td>
                                     <td>
-                                        <input type="text" size="40" class="clr-input textcenter tdbox" [value]="sequence.aminoAcidChange">
-                                    </td>
-                                    <td>
-                                        <input type="text" size="40" class="clr-input textcenter tdbox" [value]="sequence.cosmicID">
+                                        <input type="text" size="40" class="clr-input textcenter tdbox" formControlName="rsid">
                                     </td>
                                 </tr>
                             </tbody>

@@ -44,6 +44,7 @@ export function mlpaForm(
 			<Column id="testinfo3" type="STRING" size="256"/>
 			<Column id="testinfo4" type="STRING" size="256"/>
       <Column id="testinfo5" type="STRING" size="256"/>
+      <Column id="opnion" type="STRING" size="256"/>
 			<Column id="title" type="STRING" size="256"/>
 			<Column id="examdt" type="STRING" size="256"/>
 			<Column id="examid" type="STRING" size="256"/>
@@ -64,6 +65,7 @@ export function mlpaForm(
 				<Col id="testinfo3">SPECIMEN: Genomic DNA isolated from Bone marrow</Col>
 				<Col id="testinfo4">REQUEST: ${patientInfo.request}</Col>
         <Col id="testinfo5"> Analyzed gene : DMD on Xp21</Col>
+        <Col id="opnion"></Col>
 				<Col id="title">${title}</Col>
 				<Col id="examdt">${acceptdate}/${firstReportDay}/${lastReportDay} </Col>
 				<Col id="examid">${examin}</Col>
@@ -90,7 +92,7 @@ export function mlpaForm(
     data = data + `
 			<Row>
 			 <Col id="probe">${mlpaData.data[i].seq}</Col>
-			 <Col id="sitet">${mlpaData.data[i].site}</Col>
+			 <Col id="site">${mlpaData.data[i].site}</Col>
 			 <Col id="result">${mlpaData.data[i].result}</Col>
 		 </Row>
 			`;
@@ -107,7 +109,7 @@ export function mlpaForm(
     </ColumnInfo>
     <Rows>
       <Row>
-         <Col id="comments">${mlpaData.technique}</Col>
+         <Col id="comments"><![CDATA[${mlpaData.technique}]]></Col>
       </Row>
     </Rows>
 </Dataset>
@@ -119,7 +121,7 @@ export function mlpaForm(
      </ColumnInfo>
      <Rows>
        <Row>
-        <Col id="comment1">${mlpaData.conclusion}</Col>
+        <Col id="comment1"><![CDATA[${mlpaData.conclusion}]]</Col>
        </Row>
      </Rows>
 </Dataset>
@@ -131,7 +133,7 @@ export function mlpaForm(
       </ColumnInfo>
       <Rows>
          <Row>
-            <Col id="comment2">${mlpaData.comment}</Col>
+            <Col id="comment2"><![CDATA[${mlpaData.comment}]]</Col>
          </Row>
       </Rows>
 </Dataset>
