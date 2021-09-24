@@ -96,13 +96,11 @@ export class Form7Component implements OnInit, OnDestroy {
   loadForm(): void {
     this.form = this.fb.group({
       type: [''],
-      workNow: [''],
-      diagnosis: [''],
-      location: [''],
+      exonintro: [''],
       nucleotideChange: [''],
       aminoAcidChange: [''],
-      dbSNP: [''],
-      cosmicID: ['']
+      zygosity: [''],
+      rsid: [''],
     });
   }
 
@@ -149,16 +147,14 @@ export class Form7Component implements OnInit, OnDestroy {
     this.ngsTitle = this.titleService.findSequencingTitle(this.patientInfo.test_code);
     this.subs.sink = this.variantsService.contentScreen7(this.form2TestedId)
       .subscribe(data => {
-        console.log('[144]', data[0]);
+        // console.log('[144]', data[0]);
         if (data.length > 0) {
           this.form.get('type').setValue(data[0].type);
-          this.form.get('workNow').setValue(data[0].workNow);
-          this.form.get('diagnosis').setValue(data[0].diagnosis);
-          this.form.get('location').setValue(data[0].location);
+          this.form.get('exonintro').setValue(data[0].exonintro);
           this.form.get('nucleotideChange').setValue(data[0].nucleotideChange);
           this.form.get('aminoAcidChange').setValue(data[0].aminoAcidChange);
-          this.form.get('dbSNP').setValue(data[0].dbSNP);
-          this.form.get('cosmicID').setValue(data[0].cosmicID);
+          this.form.get('zygosity').setValue(data[0].zygosity);
+          this.form.get('rsid').setValue(data[0].rsid);
         }
       });
   }
