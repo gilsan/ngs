@@ -155,7 +155,7 @@ h2 {
   margin-bottom: 0;
 }
 
-.table_list th:first-child, 
+.table_list th:first-child,
 .table_list td:first-child {
   border-left: 1px solid #e0e0e0;
 }
@@ -175,9 +175,11 @@ h2 {
 .table_list td.bold {
   font-weight: bold;
 }
+
 .table_list.text-center td.left {
   text-align: left;
 }
+
 .table_list td.red {
   color: red;
 }
@@ -276,15 +278,24 @@ td.multi_line {
   display: block;
   font-size: 0;
 }
+
 .col2 {
   display: inline-block;
   width: 50%;
   box-sizing: border-box;
   overflow-x: auto;
 }
+
 .col2.left {
   padding-right: 10px;
 }
+
 .col2.right {
   padding-left: 10px;
+}
+
+.box_wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 }

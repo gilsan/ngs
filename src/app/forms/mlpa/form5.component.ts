@@ -109,8 +109,6 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.initLoad();
-
-
   }
 
   ngOnDestroy(): void { }
@@ -156,16 +154,17 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
     const index = this.mlpaLists.findIndex(item => item.type === testcode);
     this.mlpaData = this.mlpaLists[index];
     const len = this.mlpaData.data.length; // 데이터 길이
-    const firstHalf = Math.floor(this.mlpaData.data.length / 2);
+    const firstHalf = Math.round(this.mlpaData.data.length / 2);
     this.method = this.mlpaData.title;
     // MLPA 데이터 2개로 나누기
-    for (let i = 0; i < firstHalf; i++) {
-      this.mlpaData1.push(this.mlpaData.data[i] as IData);
-    }
+    const mlpa1 = this.mlpaData.data.slice(0, firstHalf);
+    const mlpa2 = this.mlpaData.data.slice(firstHalf);
 
-    for (let i = firstHalf; i < len; i++) {
-      this.mlpaData2.push(this.mlpaData.data[i] as IData);
-    }
+    this.mlpaData1 = mlpa1;
+    this.mlpaData2 = mlpa2;
+    // if (mlpa1.length !== mlpa2.length) {
+    //   this.mlpaData2.push({});
+    // }
 
   }
 
@@ -186,27 +185,22 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
           }
         }),
         concatMap(() => this.mlpaService.getMlpaData(testCode)),
-        tap(data => {
-          if (data.length > 0) {
-            this.mlpaData.data = data;
-          } else {
-            this.getTitle(this.testcode);
-          }
-
-        })
       )
       .subscribe(data => {
-        const len = this.mlpaData.data.length; // 데이터 길이
-        const firstHalf = Math.floor(this.mlpaData.data.length / 2);
-        this.method = this.mlpaData.title;
-        // MLPA 데이터 2개로 나누기
-        for (let i = 0; i < firstHalf; i++) {
-          this.mlpaData1.push(this.mlpaData.data[i] as IData);
+        const length = data.length;
+        if (length > 0) {
+          const len = this.mlpaData.data.length; // 데이터 길이
+          const firstHalf = Math.round(this.mlpaData.data.length / 2);
+          this.method = this.mlpaData.title;
+          // MLPA 데이터 2개로 나누기
+          const mlpa1 = this.mlpaData.data.slice(0, firstHalf);
+          const mlpa2 = this.mlpaData.data.slice(firstHalf);
+          this.mlpaData1 = mlpa1;
+          this.mlpaData2 = mlpa2;
+        } else {
+          this.getTitle(this.testcode);
         }
 
-        for (let i = firstHalf; i < len; i++) {
-          this.mlpaData2.push(this.mlpaData.data[i] as IData);
-        }
       });
   }
 

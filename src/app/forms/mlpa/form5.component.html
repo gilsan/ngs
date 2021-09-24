@@ -42,7 +42,7 @@
                 </table>
 
                 <div class="sub_title"></div>
-                <div class="box_wrap"  *ngIf="showtable3">
+                <div class="box_wrap">
                     <div class="col2 left">
                         <table class="table_list text-center">
                             <caption>MLAP-1</caption>
@@ -158,7 +158,6 @@
        <div class="modal-body">
          <app-mlpapreview
          (closemodal)="closeModal()"
-         [type]="type"
          [title]="method"
          [patientInfo]= "patientInfo"
          [request]="patientInfo.request"
