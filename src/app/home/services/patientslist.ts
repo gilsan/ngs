@@ -74,7 +74,7 @@ export class PatientsListService {
 
   // 유전체 와 coding 로 mutation 레코드에서 정보 가져오기
   public getMutationInfoLists(gene: string, coding: string, type: string): Observable<IAFormVariant[]> {
-    // console.log('[44][patientslist][getMutationInfoLists]', gene, coding);
+    // console.log('[77][patientslist SERVICE][getMutationInfoLists]', gene, coding, type);
     return this.http.post<IAFormVariant[]>(`${this.apiUrl}/mutationInfo/list`, { gene, coding, type }).pipe(
       shareReplay()
     );
@@ -349,11 +349,14 @@ export class PatientsListService {
   // 검색순서 mutation artifacts benign
   // tslint:disable-next-line:typedef
   filtering(testedID: string, testType: string): Observable<any> {
+    if (testType === 'AML' || testType === 'ALL') {
+      testType = 'AMLALL';
+    }
     return this.getFilteredTSVtList(testedID).pipe(
       tap(data => {
         // gene 와 coding 값 분리
         this.geneCoding = data.map(item => {
-          // console.log('****[306][patientslist][item]', item);
+          // console.log('****[356][patientslist][item] ****', item);
           let coding: string;
           let gene1: string;
           let gene2: string;
@@ -362,38 +365,37 @@ export class PatientsListService {
 
           tsv = item;
           item.genes = item.genes.replace(/;/g, ',');
-          // item.coding = item.coding.replace(/;/g, ',');
+          item.coding = item.coding.replace(/;/g, ',');
           if (item.genes || item.coding) {
             // console.log('[315][유전체]', item.genes, item.coding);
             // const genes = item.genes;  // genes: "CSDE1;NRAS" => "CSDE1,NRAS"
             const genesemi = item.genes.indexOf(',');
-            // if (genesemi !== -1) {  // ,있는경우
-            //   gene1 = item.genes.split(',')[0];
-            //   gene2 = item.genes.split(',')[1];
-            // } else {
-            //   gene1 = item.genes;
-            //   gene2 = 'none';
-            // }
+            if (genesemi !== -1) {  // ,있는경우
+              gene1 = item.genes.split(',')[0];
+              gene2 = item.genes.split(',')[1];
+            } else {
+              gene1 = item.genes;
+              gene2 = 'none';
+            }
             // 유전자가 2개인 경우도 2개의 유전자로 검색
-            gene1 = item.genes;
-            gene2 = 'none';
+
             clinVar = item.clinvar;
-            // const semi = item.coding.indexOf(',');
-            // if (semi !== -1) {
-            //   coding = item.coding.split(',')[0];
-            // } else {
-            //   coding = item.coding;
-            // }
-            coding = item.coding.replace(/;/g, ',');
+            const semi = item.coding.indexOf(',');
+            if (semi !== -1) {
+              coding = item.coding.split(',')[0];
+            } else {
+              coding = item.coding;
+            }
+            // coding = item.coding.replace(/;/g, ',');
             const id = item.id;
-            // console.log('===== [335][gene1/coding]', gene1, coding);
+            // console.log('===== [388][gene1/gene2/coding]====\n', gene1, gene2, coding);
             return { id, gene1, gene2, coding, tsv, clinVar };
           }
         });
       }), // End of tap
       switchMap(() => from(this.geneCoding)),
       concatMap(item => {
-        // console.log('[341][geneCoding]', item);
+        // console.log('[395][geneCoding]==> ', item);
         if (item.gene2 === 'none') {
           return this.getArtifactsInfoCount(item.gene1, item.coding, testType).pipe(
             map(gene1Count => {
@@ -440,7 +442,7 @@ export class PatientsListService {
       }),
       */
       concatMap(item => {
-        // console.log('===[392][patientslists][뮤테이션] getMutationInfoLists', item);
+        // console.log('===[443][patientslists][뮤테이션] getMutationInfoLists', item);
         if (item.gene2 === 'none') {
           const cnt = item.gene1.split(',').length;
           // console.log('====[395][patientslists][뮤테이션길이] getMutationInfoLists', item, cnt);
@@ -736,6 +738,12 @@ export class PatientsListService {
   // 검진 수정버튼 누를때 screenstatus 1번으로 리셋
   resetscreenstatus(specimenNo: string, num, userid: string, type: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/patients_diag/reset`, { specimenNo, num, userid, type });
+  }
+
+  // changestatus
+  // patient screenstatus 만 변경
+  changescreenstatus(specimenNo: string, num, userid: string, type: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/patients_diag/changestatus`, { specimenNo, num, userid, type });
   }
 
   // 현재 설정된 screenstatus 가져오기

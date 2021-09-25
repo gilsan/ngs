@@ -351,7 +351,7 @@ export class Form6Component implements OnInit, OnDestroy {
     const tempuser: any = JSON.parse(tempUserid);
     const userid = tempuser.userid;
 
-    this.patientsListService.resetscreenstatus(this.form2TestedId, '2', userid, this.reportType)
+    this.patientsListService.changescreenstatus(this.form2TestedId, '2', userid, this.reportType)
       .subscribe(data => {
         this.screenstatus = '2';
         this.patientInfo.screenstatus = '2';
@@ -381,7 +381,7 @@ export class Form6Component implements OnInit, OnDestroy {
           tap(data => {
             alert('저장되었습니다.');
           }),
-          concatMap(() => this.patientsListService.resetscreenstatus(this.form2TestedId, '1', userid, 'HRDT')),
+          concatMap(() => this.patientsListService.changescreenstatus(this.form2TestedId, '1', userid, 'HRDT')),
         )
         .subscribe(msg => {
           this.screenstatus = '1';
@@ -411,7 +411,7 @@ export class Form6Component implements OnInit, OnDestroy {
           tap(data => {
             alert('저장되었습니다.');
           }),
-          concatMap(() => this.patientsListService.resetscreenstatus(this.form2TestedId, '3', userid, 'HRDT')),
+          concatMap(() => this.patientsListService.changescreenstatus(this.form2TestedId, '3', userid, 'HRDT')),
         )
         .subscribe(msg => {
           this.screenstatus = '3';
@@ -514,7 +514,7 @@ export class Form6Component implements OnInit, OnDestroy {
       examcode,
       makeForm)
       .pipe(
-        concatMap(() => this.patientsListService.resetscreenstatus(this.form2TestedId, '3', userid, 'HRDT')),
+        concatMap(() => this.patientsListService.changescreenstatus(this.form2TestedId, '3', userid, 'HRDT')),
         concatMap(() => this.patientsListService.setEMRSendCount(this.form2TestedId, ++this.sendEMR)), // EMR 발송횟수 전송
         concatMap(() => this.patientsListService.getScreenStatus(this.form2TestedId))
       ).subscribe((msg: { screenstatus: string }) => {

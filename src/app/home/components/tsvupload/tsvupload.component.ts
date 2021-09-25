@@ -83,42 +83,56 @@ export class TsvuploadComponent implements OnInit {
 
   onSelectedFile(event: any): void {
     console.log('[82][tsvupload] ', event.target.files[0].name);
-    let patientid;
+    let patientid = '';
+    let extension = '';
     if (event.target.files.length > 0) {
-      patientid = event.target.files[0].name.split('_')[1];
-      /*** */
+      extension = event.target.files[0].name.split('.')[1];
+      if (extension === 'xlsx') {
+        patientid = event.target.files[0].name.split('_')[4].split('.')[0];
+      } else if (extension === 'tsv') {
+        patientid = event.target.files[0].name.split('_')[1];
+      }
 
-      const filenameList = event.target.files[0].name.split('_');
-      // const patientIDExist = filenameList;
-      console.log('[92]', filenameList);
 
-
-      if (this.patientid === patientid) {
+      const filenameList = event.target.files[0].name.split('.')[0].split('_');
+      if (filenameList.includes(this.patientid)) {
         this.onDroppedFile(event.target.files);
       } else {
-        patientid = event.target.files[0].name.split('-')[1];
-        if (this.patientid === patientid) {
-          this.onDroppedFile(event.target.files);
-        } else {
-
-          patientid = event.target.files[0].name.split('_')[2];
-          if (this.patientid === patientid) {
-            this.onDroppedFile(event.target.files);
-          } else {
-            patientid = event.target.files[0].name.split('-')[2];
-            if (this.patientid === patientid) {
-              this.onDroppedFile(event.target.files);
-            } else {
-              alert(' 환자번호 ' + this.patientid + '와 파일명의 환자번호 ' + patientid + '가 일치하지 않습니다.');
-              this.uploadfile.nativeElement.value = '';
-              return;
-            }
-          }
-
-        }
-
+        alert(' 환자번호 ' + this.patientid + '와 파일명의 환자번호 ' + patientid + '가 일치하지 않습니다.');
+        this.uploadfile.nativeElement.value = '';
+        return;
       }
+
+      /*
+       if (this.patientid === patientid) {
+         this.onDroppedFile(event.target.files);
+       } else {
+         patientid = event.target.files[0].name.split('-')[1];
+         if (this.patientid === patientid) {
+           this.onDroppedFile(event.target.files);
+         } else {
+
+           patientid = event.target.files[0].name.split('_')[2];
+           if (this.patientid === patientid) {
+             this.onDroppedFile(event.target.files);
+           } else {
+             patientid = event.target.files[0].name.split('-')[2];
+             console.log( '[109]', patientid);
+             if (this.patientid === patientid) {
+               this.onDroppedFile(event.target.files);
+             } else {
+               alert(' 환자번호 ' + this.patientid + '와 파일명의 환자번호 ' + patientid + '가 일치하지 않습니다.');
+               this.uploadfile.nativeElement.value = '';
+               return;
+             }
+           }
+
+         }
+
+       }
+       */
     }
+
   }
 
 

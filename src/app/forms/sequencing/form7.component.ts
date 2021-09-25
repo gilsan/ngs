@@ -235,7 +235,7 @@ export class Form7Component implements OnInit, OnDestroy {
     this.subs.sink = this.variantsService.saveScreen7(this.form2TestedId, formData, this.patientInfo)
       .subscribe(data => {
         console.log(data);
-        this.patientsListService.resetscreenstatus(this.form2TestedId, '2', userid, 'SEQN').subscribe();
+        this.patientsListService.changescreenstatus(this.form2TestedId, '2', userid, 'SEQN').subscribe();
       });
   }
 
@@ -295,7 +295,7 @@ export class Form7Component implements OnInit, OnDestroy {
       examcode,
       makeForm)
       .pipe(
-        concatMap(() => this.patientsListService.resetscreenstatus(this.form2TestedId, '3', userid, 'SEQN')),
+        concatMap(() => this.patientsListService.changescreenstatus(this.form2TestedId, '3', userid, 'SEQN')),
         concatMap(() => this.patientsListService.setEMRSendCount(this.form2TestedId, ++this.sendEMR)), // EMR 발송횟수 전송
       ).subscribe((msg: { screenstatus: string }) => {
         this.screenstatus = '3';

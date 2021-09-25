@@ -162,6 +162,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
 
     this.mlpaData1 = mlpa1;
     this.mlpaData2 = mlpa2;
+    console.log('[165]', this.mlpaData);
     // if (mlpa1.length !== mlpa2.length) {
     //   this.mlpaData2.push({});
     // }
@@ -174,6 +175,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
 
     this.mlpaService.getMlpaList(testCode)
       .pipe(
+        tap(data => console.log('[177]', data)),
         tap(data => {
           if (data.length > 0) {
             this.mlpaData.title = data[0].title;
@@ -187,9 +189,12 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
         concatMap(() => this.mlpaService.getMlpaData(testCode)),
       )
       .subscribe(data => {
+        console.log('[192][MLPA DATA]', data);
+        console.log('[193][MLPA DATA]', data.length);
         const length = data.length;
         if (length > 0) {
-          const len = this.mlpaData.data.length; // 데이터 길이
+          // const len = this.mlpaData.data.length; // 데이터 길이
+          this.mlpaData.data = data;
           const firstHalf = Math.round(this.mlpaData.data.length / 2);
           this.method = this.mlpaData.title;
           // MLPA 데이터 2개로 나누기
@@ -197,6 +202,8 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
           const mlpa2 = this.mlpaData.data.slice(firstHalf);
           this.mlpaData1 = mlpa1;
           this.mlpaData2 = mlpa2;
+          console.log('[202][MLPA DATA]', this.mlpaData);
+
         } else {
           this.getTitle(this.testcode);
         }
@@ -371,7 +378,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
 
     // specimenNo, comment, data, result, technique, title, type
     this.mlpaData.data = data;
-    // console.log('[396][저장]', this.mlpaData);
+    console.log('[376][임시 저장]', this.mlpaData);
     this.mlpaService.mlpaTempSave(
       this.patientInfo.specimenNo,
       this.mlpaData.comment,
@@ -382,7 +389,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
       this.mlpaData.type
     ).subscribe(result => {
       console.log(result);
-      this.patientsListService.resetscreenstatus(this.form2TestedId, '2', userid, 'MLPA').subscribe();
+      this.patientsListService.changescreenstatus(this.form2TestedId, '2', userid, 'MLPA').subscribe();
     });
   }
 
@@ -420,7 +427,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
       examcode,
       makeForm)
       .pipe(
-        concatMap(() => this.patientsListService.resetscreenstatus(this.form2TestedId, '3', userid, 'MLPA')),
+        concatMap(() => this.patientsListService.changescreenstatus(this.form2TestedId, '3', userid, 'MLPA')),
         concatMap(() => this.patientsListService.setEMRSendCount(this.form2TestedId, ++this.sendEMR)), // EMR 발송횟수 전송
       ).subscribe((msg: { screenstatus: string }) => {
         this.screenstatus = '3';

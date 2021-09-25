@@ -674,7 +674,7 @@ export class Form3Component implements OnInit, OnDestroy {
     } else {
       tempCount = '';
     }
-    console.log('[676]', count, tempCount);
+    // console.log('[676]', count, tempCount);
     if (type === 'M') {
       tempvalue = {
         igv: '',
