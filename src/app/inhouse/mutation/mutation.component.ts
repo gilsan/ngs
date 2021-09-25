@@ -198,7 +198,7 @@ export class MutationComponent implements OnInit {
     this.totRecords = 0;
     this.lists$ = this.mutationService.getMutationList(genes, coding, type);
     this.lists$.subscribe((data) => {
-      // console.log('[170][Mutation 검색]', data);
+      // console.log('[210][Mutation 검색]', data);
       this.lists = data;
       this.listMutations = data;
       this.lists = data.slice(0, 10);
@@ -217,9 +217,14 @@ export class MutationComponent implements OnInit {
 
   findMutation(type): void {
     this.totRecords = 0;
-    this.lists$ = this.mutationService.getMutationList('', '', type);
+    if (type === 'ALL') {
+      this.lists$ = this.mutationService.getMutationList('', '', '');
+    } else {
+      this.lists$ = this.mutationService.getMutationList('', '', type);
+    }
+
     this.lists$.subscribe((data) => {
-      // console.log('[170][Mutation 검색]', data);
+      console.log('[277][Mutation 검색]', data);
       this.lists = data;
       this.listMutations = data;
       this.lists = data.slice(0, 10);

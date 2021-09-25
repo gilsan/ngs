@@ -32,6 +32,7 @@ export class ArtifactsComponent implements OnInit {
   pageLine: number;
   totRecords: number;
 
+  selectedType = 'AMLALL';
   private apiUrl = emrUrl;
 
 
@@ -40,7 +41,7 @@ export class ArtifactsComponent implements OnInit {
   }
 
   init(): void {
-    this.search('', '', 'AMLALL');
+    this.search('', '', this.selectedType);
   }
 
   deleteRow(id: string, genes: string): void {
@@ -144,7 +145,7 @@ export class ArtifactsComponent implements OnInit {
     this.totRecords = 0;
     this.lists$ = this.artifactsService.getArtifactsList(genes, coding, type);
     this.lists$.subscribe((data) => {
-      // console.log('[170][benign 검색]', data);
+      // console.log('[147][artifacts 검색]', data);
       this.listArtfacts = data;
       this.lists = data.slice(0, 10);
       this.curPage = 1;
@@ -160,8 +161,14 @@ export class ArtifactsComponent implements OnInit {
   }
 
   findArtifacts(type: string): void {
+    this.selectedType = type;
     this.totRecords = 0;
-    this.lists$ = this.artifactsService.getArtifactsList('', '', type);
+    if (type === 'ALL') {
+      this.lists$ = this.artifactsService.getArtifactsList('', '', '');
+    } else {
+      this.lists$ = this.artifactsService.getArtifactsList('', '', type);
+    }
+
     this.lists$.subscribe((data) => {
       this.listArtfacts = data;
       this.lists = data.slice(0, 10);
@@ -171,5 +178,7 @@ export class ArtifactsComponent implements OnInit {
       this.totRecords = this.listArtfacts.length;
     });
   }
+
+
 
 }

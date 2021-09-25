@@ -29,6 +29,7 @@
 
             &nbsp;&nbsp;
             <select class="select_01 select_001" #type (change)="findMutation(type.value)">
+               <option value="ALL">전체</option>
                <option value="AMLALL">AML/ALL</option>
                <option value="MDSMPN">MDS/MPN</option>
                <option value="LPE474">악성림프종</option>
@@ -82,6 +83,7 @@
                     <col width="5%" />
                     <col width="5%" />
                     <col width="5%" />
+                    <col width="5%" />
                     <!--col width="5%" />
                     col width="5%" />
                     <col width="5%" />
@@ -101,6 +103,7 @@
                         <th >Register No.</th>
                         <th >Fusion</th>
                         <th >Gene</th>
+                        <th>Type</th>
                         <th >Functional Impact</th>
                         <th >Transcript</th>
                         <th >Exion/Intron #</th>
@@ -150,6 +153,11 @@
                             <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.gene}}</span>
                                 <span class="clr-input" *ngIf="status.value === 'U'">
                                     <input type="text"  class="clr-input" value="{{list.gene}}" id="gene{{list.id}}" >
+                                </span>
+                            </td>
+                            <td><span *ngIf="status.value === 'R'">{{list.type}}</span>
+                                <span class="clr-input" *ngIf="status.value === 'U'">
+                                    <input type="text"  class="clr-input" value="{{list.type}}" id="gene{{list.id}}" >
                                 </span>
                             </td>
                             <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.functional_impact}}</span>

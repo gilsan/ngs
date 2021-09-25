@@ -54,7 +54,7 @@ export function sequencingForm(
 				<Col id="testinfo2">METHOD: *Massively parallel sequencing</Col>
 				<Col id="testinfo3">SPECIMEN: Genomic DNA isolated from peripheral blood leukocytes-adequate specimen</Col>
 				<Col id="testinfo4">REQUEST: ${patientInfo.request}</Col>
-        <Col id="testinfo5">REQUEST: ANALYZED GENE : DUMT3A on 2p23</Col>
+        <Col id="testinfo5">ANALYZED GENE : APC on 5q21-q22</Col>
         <Col id="opnion">${genbankaccesion}</Col>
 				<Col id="title">${title}</Col>
 				<Col id="examdt">${acceptdate}/${firstReportDay}/${lastReportDay} </Col>
@@ -101,7 +101,7 @@ export function sequencingForm(
     </ColumnInfo>
     <Rows>
        <Row>
-       <Col id="comments">${commentMsg}</Col>
+       <Col id="comments"><![CDATA[${commentMsg}]]</Col>
        </Row>
     </Rows>
     </Dataset>
@@ -114,7 +114,7 @@ export function sequencingForm(
     </ColumnInfo>
     <Rows>
        <Row>
-       <Col id="comment1">${comment1Msg}</Col>
+       <Col id="comment1"><![CDATA[${comment1Msg}]]</Col>
        </Row>
     </Rows>
     </Dataset>
@@ -127,7 +127,7 @@ export function sequencingForm(
     </ColumnInfo>
     <Rows>
        <Row>
-       <Col id="comment2">${comment2Msg}</Col>
+       <Col id="comment2"><![CDATA[${comment2Msg}]]</Col>
        </Row>
     </Rows>
     </Dataset>

@@ -150,7 +150,12 @@ export class CommentsComponent implements OnInit {
   findComments(type: string): void {
     this.selectType = type;
     this.totRecords = 0;
-    this.lists$ = this.commentsService.getCommentsList('', type);
+    if (type === 'ALL') {
+      this.lists$ = this.commentsService.getCommentsList('', '');
+    } else {
+      this.lists$ = this.commentsService.getCommentsList('', type);
+    }
+
     this.lists$.subscribe((data) => {
       //   console.log('[170][benign 검색]', data);
       this.lists = data;
