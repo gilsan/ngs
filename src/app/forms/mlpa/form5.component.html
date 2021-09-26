@@ -62,10 +62,10 @@
                                 <tr *ngFor="let list of mlpaData1; let i= index">
                                     <td>{{list.seq}}</td>
                                     <td>
-                                      <input type="text" #site1 class="input_02 textcenter" (change)="mlpa1Site(i, site1.value, 'L')" [value]="list.site">
+                                      <input type="text" #site1 class="input_02 textcenter" (change)="mlpa1Site(i, site1.value, 'L', list)" [value]="list.site">
                                     </td>
                                     <td>
-                                      <input type="text" #result1 class="input_02 textcenter" (change)="mlpa1Result(i, result1.value, 'L')" [value]="list.result">
+                                      <input type="text" #result1 class="input_02 textcenter" (change)="mlpa1Result(i, result1.value, 'L', list)" [value]="list.result">
                                     </td>
                                 </tr>
                             </tbody>

@@ -313,7 +313,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
 
 
   mlpa1Site(i: number, val: string, side: string, list: IData): void {
-
+    console.log('[316][site]', list);
     if (side === 'L') {
       this.mlpaData1[i].site = val;
     } else if (side === 'R') {
