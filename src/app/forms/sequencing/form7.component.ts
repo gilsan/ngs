@@ -231,11 +231,12 @@ export class Form7Component implements OnInit, OnDestroy {
     this.sequence = this.form.getRawValue() as ISequence;
     const formData: ISequence[] = [];
     formData.push(this.sequence);
-    console.log('[236]', this.sequence);
+    // console.log('[236]', this.sequence);
     this.subs.sink = this.variantsService.saveScreen7(this.form2TestedId, formData, this.patientInfo)
       .subscribe(data => {
-        console.log(data);
+        // console.log(data);
         this.patientsListService.changescreenstatus(this.form2TestedId, '2', userid, 'SEQN').subscribe();
+        alert('저장되었습니다.');
       });
   }
 

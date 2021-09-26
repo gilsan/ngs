@@ -390,6 +390,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
     ).subscribe(result => {
       console.log(result);
       this.patientsListService.changescreenstatus(this.form2TestedId, '2', userid, 'MLPA').subscribe();
+      alert('저장되었습니다.');
     });
   }
 
