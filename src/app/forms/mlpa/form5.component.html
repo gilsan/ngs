@@ -9,7 +9,7 @@
                 <div class="sub_title">Patient:{{patientInfo.name}}, {{patientInfo.patientID}} ({{patientInfo.gender}}/{{patientInfo.age}})</div>
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
-                    <td class="txt_02" ><span class="fb">Result </span>: {{mlpaData.result}}
+                    <td class="txt_02" ><span class="fb">Result </span>: {{mlpaData.result}}&nbsp;&nbsp;&nbsp;&nbsp;
                         <input type="radio" id="vertical-radio2" name="radio-full" [value]="'Detected'" [checked]="radioStatus('Detected')" class="clr-radio"  (change)="result($event)">
                         <label for="vertical-radio2" class="  clr-col-12 clr-col-md-2">Detected</label>
                         &nbsp;&nbsp;
@@ -28,15 +28,15 @@
                   </colgroup>
                   <tbody>
                       <tr>
-                          <td> TARGET DISEASE: Acute lymphoblastic leukemia</td>
-                          <td> METHOD: *Massively parallel sequencing</td>
+                          <td> TARGET DISEASE: {{target}}</td>
+                          <td> METHOD:  {{testmethod}}</td>
                       </tr>
                       <tr>
-                          <td> SPECIMEN: Genomic DNA isolated from Bone marrow</td>
+                          <td> SPECIMEN: Genomic DNA isolated from peripheral blood leukocytes-adequate specimen</td>
                           <td> REQUEST: {{patientInfo.request}}</td>
                       </tr>
                       <tr>
-                        <td colspan="2"> Analyzed gene : DMD on Xp21</td>
+                        <td colspan="2">ANALYZED GENE: {{analyzedgene}}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -90,10 +90,10 @@
                                 <tr *ngFor="let list of mlpaData2; let i=index">
                                     <td>{{list.seq}}</td>
                                     <td>
-                                      <input type="text" class="input_02 textcenter" #site2 (change)="mlpa1Site(i, site2.value, 'R')" [value]="list.site">
+                                      <input type="text" class="input_02 textcenter" #site2 (change)="mlpa1Site(i, site2.value, 'R', list)" [value]="list.site">
                                     </td>
                                     <td>
-                                      <input type="text" class="input_02 textcenter"#result2 (change)="mlpa1Result(i, result2.value, 'R')" [value]="list.result">
+                                      <input type="text" class="input_02 textcenter"#result2 (change)="mlpa1Result(i, result2.value, 'R', list)" [value]="list.result">
                                     </td>
                                 </tr>
                             </tbody>
@@ -104,7 +104,7 @@
                 -->
                 <div class="sub_title">결론 및 의견</div>
                 <div class="pd_r20">
-                    <textarea class="textarea_01" #conclu (change)="conclusion(conclu.value)"></textarea>
+                    <textarea class="textarea_01" #conclu (change)="conclusion(conclu.value)">{{mlpaData.conclusion}}</textarea>
                 </div>
 
                 <div class="sub_title">Comment</div>

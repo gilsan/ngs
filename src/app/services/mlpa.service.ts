@@ -20,10 +20,11 @@ export class MlpaService {
     private http: HttpClient
   ) { }
 
-  public mlpaTempSave(specimenNo: string, comment: string, data: IData[],
+  public mlpaTempSave(specimenNo: string, conclusion: string, comment: string, data: IData[],
     result: string, technique: string, title: string, type: string): Observable<any> {
 
-    return this.http.post(`${this.apiUrl}/mlpa/saveScreenMlpa`, { specimenNo, comment, data, result, technique, title, type });
+    return this.http.post(`${this.apiUrl}/mlpa/saveScreenMlpa`,
+      { specimenNo, conclusion, comment, data, result, technique, title, type });
   }
 
   public getMlpaData(type: string): Observable<any> {

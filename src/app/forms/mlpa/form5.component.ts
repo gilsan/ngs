@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { IPatient } from 'src/app/home/models/patients';
 import { PatientsListService } from 'src/app/home/services/patientslist';
-import { MLPATLIST } from '../commons/mlpa.data';
+import { MLPATLIST, HEADER } from '../commons/mlpa.data';
 import { UtilsService } from '../commons/utils.service';
 import { MlpaService } from 'src/app/services/mlpa.service';
 import { mlpaForm } from 'src/app/home/models/mlpa';
@@ -24,6 +24,8 @@ export interface IMlpa {
   technique: string;
   comment?: string;
 }
+
+
 
 
 @Component({
@@ -84,8 +86,6 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
   method: string;
   testcode: string;
   resultStatus = 'Detected';
-  showtable3 = true;
-  showtable4 = false;
   type: string;
 
   examin = ''; // 검사자
@@ -98,6 +98,9 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
   isVisible = false;
   screenstatus: string;
 
+  target: string;
+  testmethod: string;
+  analyzedgene: string;
 
   constructor(
     private patientsListService: PatientsListService,
@@ -129,7 +132,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
     this.testcode = this.patientInfo.test_code;
 
     this.getMLPAData();
-
+    this.getTestInformation();
     this.requestDate = this.patientInfo.accept_date;
 
 
@@ -144,6 +147,19 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
     this.setReportdaymgn(this.patientInfo);
     this.screenstatus = this.patientInfo.screenstatus;
   }
+
+  // test code 로 test information 찿기
+  getTestInformation(): void {
+    HEADER.forEach(list => {
+      if (list.type === this.patientInfo.test_code) {
+        this.target = list.target;
+        this.testmethod = list.method;
+        this.analyzedgene = list.analyzedGene;
+      }
+    });
+
+  }
+
 
   // test code 로 제목 찿기
   getTitle(testcode: string): void {
@@ -162,20 +178,16 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
 
     this.mlpaData1 = mlpa1;
     this.mlpaData2 = mlpa2;
-    console.log('[165]', this.mlpaData);
-    // if (mlpa1.length !== mlpa2.length) {
-    //   this.mlpaData2.push({});
-    // }
 
   }
 
   // DB에서 MLPA 데이터 가져오기
   getMLPAData(): void {
     const testCode = this.patientInfo.test_code;
-
+    console.log('[189]', testCode);
     this.mlpaService.getMlpaList(testCode)
       .pipe(
-        tap(data => console.log('[177]', data)),
+        tap(data => console.log(data)),
         tap(data => {
           if (data.length > 0) {
             this.mlpaData.title = data[0].title;
@@ -189,11 +201,8 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
         concatMap(() => this.mlpaService.getMlpaData(testCode)),
       )
       .subscribe(data => {
-        console.log('[192][MLPA DATA]', data);
-        console.log('[193][MLPA DATA]', data.length);
         const length = data.length;
         if (length > 0) {
-          // const len = this.mlpaData.data.length; // 데이터 길이
           this.mlpaData.data = data;
           const firstHalf = Math.round(this.mlpaData.data.length / 2);
           this.method = this.mlpaData.title;
@@ -202,7 +211,6 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
           const mlpa2 = this.mlpaData.data.slice(firstHalf);
           this.mlpaData1 = mlpa1;
           this.mlpaData2 = mlpa2;
-          console.log('[202][MLPA DATA]', this.mlpaData);
 
         } else {
           this.getTitle(this.testcode);
@@ -292,18 +300,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
     return false;
   }
 
-  showTable(type: string): void {
-    if (this.testcode === 'LPE294') {
-      this.showtable3 = false;
-      this.showtable4 = true;
-      this.type = 'type4';
-    } else {
-      this.showtable3 = true;
-      this.showtable4 = false;
-      this.type = 'type3';
-    }
 
-  }
 
   previewToggle(): void {
     this.isVisible = !this.isVisible;
@@ -315,41 +312,36 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
   }
 
 
-  mlpa1Site(i: number, val: string, side: string): void {
+  mlpa1Site(i: number, val: string, side: string, list: IData): void {
+
     if (side === 'L') {
-      this.mlpaData.data[i].site = val;
       this.mlpaData1[i].site = val;
     } else if (side === 'R') {
-      this.mlpaData.data[i].site = val;
       this.mlpaData2[i].site = val;
     }
+    // this.mlpaData.data[i].site = val;
+    const idx = this.mlpaData.data.findIndex(item => item.seq === list.seq);
+    this.mlpaData.data[idx].site = val;
   }
 
-  mlpa1Result(i: number, val: string, side: string): void {
+  mlpa1Result(i: number, val: string, side: string, list: IData): void {
     if (side === 'L') {
-      this.mlpaData.data[i].result = val;
       this.mlpaData1[i].result = val;
     } else if (side === 'R') {
-      this.mlpaData.data[i].result = val;
       this.mlpaData2[i].result = val;
     }
+    const idx = this.mlpaData.data.findIndex(item => item.seq === list.seq);
+    this.mlpaData.data[idx].result = val;
   }
-
-  mlpa2Site(i: number, val: string, side: string): void {
-    if (side === 'L') {
-      this.mlpaData1[i].site = val;
-    } else if (side === 'R') {
-      this.mlpaData2[i].site = val;
-    }
-  }
-
 
 
   conclusion(conclusion: string): void {
     this.mlpaData.conclusion = conclusion;
   }
 
-  comment(comment: string): void { }
+  comment(comment: string): void {
+    this.mlpaData.comment = comment;
+  }
 
   today(): string {
     const today = new Date();
@@ -378,15 +370,17 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
 
     // specimenNo, comment, data, result, technique, title, type
     this.mlpaData.data = data;
-    console.log('[376][임시 저장]', this.mlpaData);
+
+    console.log('[390][임시 저장]', this.mlpaData);
     this.mlpaService.mlpaTempSave(
       this.patientInfo.specimenNo,
+      this.mlpaData.conclusion,
       this.mlpaData.comment,
       this.mlpaData.data,
       this.mlpaData.result,
       this.mlpaData.technique,
       this.mlpaData.title,
-      this.mlpaData.type
+      this.mlpaData.type,
     ).subscribe(result => {
       console.log(result);
       this.patientsListService.changescreenstatus(this.form2TestedId, '2', userid, 'MLPA').subscribe();
@@ -411,6 +405,9 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
       this.examin, // 검사자
       this.recheck, // 확인자
       this.method, // 제목,
+      this.target,
+      this.testmethod,
+      this.analyzedgene,
       this.patientInfo.accept_date, // 검사의뢰일
       this.firstReportDay,
       this.lastReportDay,

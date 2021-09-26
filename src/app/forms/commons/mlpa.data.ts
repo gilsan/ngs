@@ -34,13 +34,13 @@ export const MLPATLIST = [
     ],
     result: 'DMD deletion / duplication',
     comment: `1. DMD 유전자에 대한 MLPA 분석결과, 질환과 관련된 DMD 유전자 결실/중복은 관찰되지 않습니다.
-      2. 듀센형 근이영양증은 X 성염색체 열성으로 유전되는 가장 흔한 신경근육계 유전질환으로 남아의 경우 3,500명 중 1명의 빈도로 발병하며 30%는 가족력이 없는 가계에서 발생할 수도 있습니다. 환자 중 70%는 DMD 유전자의 결실, 중복으로 질환이 발병하며, 30%는 단일염기치환에 의한 돌연변이가 원인인 것으로 알려져 있습니다. 임상적으로 듀센형 근이영양증이 강하게 의심되나 본 검사에서 음성인 경우, DMD 직접염기서열검사 [LPE420]을 처방해서 확인하시기 바랍니다.`,
+2. 듀센형 근이영양증은 X 성염색체 열성으로 유전되는 가장 흔한 신경근육계 유전질환으로 남아의 경우 3,500명 중 1명의 빈도로 발병하며 30%는 가족력이 없는 가계에서 발생할 수도 있습니다. 환자 중 70%는 DMD 유전자의 결실, 중복으로 질환이 발병하며, 30%는 단일염기치환에 의한 돌연변이가 원인인 것으로 알려져 있습니다. 임상적으로 듀센형 근이영양증이 강하게 의심되나 본 검사에서 음성인 경우, DMD 직접염기서열검사 [LPE420]을 처방해서 확인하시기 바랍니다.`,
     technique: `* MLPA is designed to detect deletions/duplications of one or more sequences in the DMD gene in a DNA sample. Deletions of a probe’s recognition sequence on the X-chromosome will lead to a complete absence of the corresponding probe amplification product in males, whereas female heterozygotes are recognizable by a 35-50% reduction in relative peak area. Note that a mutation or polymorphism in the sequence detected by a probe can also cause a reduction in relative peak area, even when not located exactly on the ligation site! In addition, some probe signals are more sensitive to sample purity and small changes in experimental conditions. Therefore, deletions and duplications detected by MLPA should always be confirmed by other methods. Not all deletions and duplications detected by MLPA will be pathogenic; users should always verify the latest scientific literature when interpreting their findings. Note that other defects such as small point mutations will not be detected by this  MLPA test`,
     conclusion: ''
   },
   {
     type: 'LPE294',
-    result: 'BWS: Patermal UPD',
+    result: 'BWS : Paternal UPD ',
     title: 'Beckwith-Wiedemann/Russell-Silver syndrome Gene Analysis Report',
 
     data: [{ seq: '1', site: 'Q-fragments', result: 'Normal/Normal' },
@@ -77,11 +77,11 @@ export const MLPATLIST = [
     { seq: '32', site: 'NSD1 Exon23', result: 'Normal/Normal' }],
     comment: `환자에서 질환과 관련된 SMN1 유전자의 exon7과 exon 8의 결실은 관찰되지 않습니다.
 
-      Spinal muscular atrophy (SMA)는 척수와 뇌간의 anterior horn cell (lower motor neuron)의 변성과 소실로 인해 진행성 근쇠약을 유발하는 질환군으로 상염색체 열성 유전 양상을 보입니다. SMA와 관련된 유전자에는 SMN1, SMN2 두 유전자가 있으며 이 중 SMN1 유전자가 질환을 결정하는 유전자입니다.
+Spinal muscular atrophy (SMA)는 척수와 뇌간의 anterior horn cell (lower motor neuron)의 변성과 소실로 인해 진행성 근쇠약을 유발하는 질환군으로 상염색체 열성 유전 양상을 보입니다. SMA와 관련된 유전자에는 SMN1, SMN2 두 유전자가 있으며 이 중 SMN1 유전자가 질환을 결정하는 유전자입니다.
 
-      SMA환자의 95-98%에서 SMN1 유전자의 결실 혹은 절단이 동형접합의 형태로 관찰되며, 2-5%에서는 SMN1유전자의 결실 혹은 절단과, SMN1 유전자의 돌연변이가 복합 이형접합(compound heterozygote)의 형태로 관찰됩니다.
+SMA환자의 95-98%에서 SMN1 유전자의 결실 혹은 절단이 동형접합의 형태로 관찰되며, 2-5%에서는 SMN1유전자의 결실 혹은 절단과, SMN1 유전자의 돌연변이가 복합 이형접합(compound heterozygote)의 형태로 관찰됩니다.
 
-      본 검사는 매우 유사한 염기서열을 가지고 있는 SMN1과 SMN2 유전자에서, 서로 차이를 보이는 exon7, exon8에 대한 각각의 probe를 이용하여 두 유전자의 copy number를 확인하는 검사법이며, SMN1 유전자의 돌연변이는 본 검사법으로는 검출할 수 없습니다.`,
+본 검사는 매우 유사한 염기서열을 가지고 있는 SMN1과 SMN2 유전자에서, 서로 차이를 보이는 exon7, exon8에 대한 각각의 probe를 이용하여 두 유전자의 copy number를 확인하는 검사법이며, SMN1 유전자의 돌연변이는 본 검사법으로는 검출할 수 없습니다.`,
     technique: `* MLPA is designed to detect deletions/duplications of one or more sequences in the DMD gene in a DNA sample. Deletions of a probe’s recognition sequence on the X-chromosome will lead to a complete absence of the corresponding probe amplification product in males, whereas female heterozygotes are recognizable by a 35-50% reduction in relative peak area. Note that a mutation or polymorphism in the sequence detected by a probe can also cause a reduction in relative peak area, even when not located exactly on the ligation site! In addition, some probe signals are more sensitive to sample purity and small changes in experimental conditions. Therefore, deletions and duplications detected by MLPA should always be confirmed by other methods. Not all deletions and duplications detected by MLPA will be pathogenic; users should always verify the latest scientific literature when interpreting their findings. Note that other defects such as small point mutations will not be detected by this  MLPA test`,
     conclusion: ''
   },
@@ -100,11 +100,11 @@ export const MLPATLIST = [
     ],
     comment: `환자에서 질환과 관련된 SMN1 유전자의 exon7과 exon 8의 결실은 관찰되지 않습니다.
 
-      Spinal muscular atrophy (SMA)는 척수와 뇌간의 anterior horn cell (lower motor neuron)의 변성과 소실로 인해 진행성 근쇠약을 유발하는 질환군으로 상염색체 열성 유전 양상을 보입니다. SMA와 관련된 유전자에는 SMN1, SMN2 두 유전자가 있으며 이 중 SMN1 유전자가 질환을 결정하는 유전자입니다.
+Spinal muscular atrophy (SMA)는 척수와 뇌간의 anterior horn cell (lower motor neuron)의 변성과 소실로 인해 진행성 근쇠약을 유발하는 질환군으로 상염색체 열성 유전 양상을 보입니다. SMA와 관련된 유전자에는 SMN1, SMN2 두 유전자가 있으며 이 중 SMN1 유전자가 질환을 결정하는 유전자입니다.
 
-      SMA환자의 95-98%에서 SMN1 유전자의 결실 혹은 절단이 동형접합의 형태로 관찰되며, 2-5%에서는 SMN1유전자의 결실 혹은 절단과, SMN1 유전자의 돌연변이가 복합 이형접합(compound heterozygote)의 형태로 관찰됩니다.
+SMA환자의 95-98%에서 SMN1 유전자의 결실 혹은 절단이 동형접합의 형태로 관찰되며, 2-5%에서는 SMN1유전자의 결실 혹은 절단과, SMN1 유전자의 돌연변이가 복합 이형접합(compound heterozygote)의 형태로 관찰됩니다.
 
-      본 검사는 매우 유사한 염기서열을 가지고 있는 SMN1과 SMN2 유전자에서, 서로 차이를 보이는 exon7, exon8에 대한 각각의 probe를 이용하여 두 유전자의 copy number를 확인하는 검사법이며, SMN1 유전자의 돌연변이는 본 검사법으로는 검출할 수 없습니다.`,
+본 검사는 매우 유사한 염기서열을 가지고 있는 SMN1과 SMN2 유전자에서, 서로 차이를 보이는 exon7, exon8에 대한 각각의 probe를 이용하여 두 유전자의 copy number를 확인하는 검사법이며, SMN1 유전자의 돌연변이는 본 검사법으로는 검출할 수 없습니다.`,
     technique: `*MLPA is designed to detect the copy number of the SMN1 and SMN2 genes. The close sequence similarity between these genes complicates the analysis. Heterozygous deletions of probe recognition sequences should give a 35-50% reduced relative peak area of the amplification product of that probe. Note that other defects such as SMAll point mutations will not be detected by this MLPA test.`,
     conclusion: ''
   },
@@ -133,11 +133,11 @@ export const MLPATLIST = [
     result: 'CYP21A2 deletion : Heterozygous large gene deletion',
     comment: `1. CYP21A2 유전자에 대한 MLPA 분석결과, exon 1, exon 3, exon 4, exon 8 번의 이형접합 결실이 관찰됩니다. 선천성부신증식증은 상염색체 열성 유전질환이므로 본 환자에서 관찰되는 CYP21A2 유전자의 copy number 감소 소견은 선천성부신증식증의 보인자에 해당하는 소견입니다. 이전 CYP21A2 유전자에 대한 염기 서열 분석에서 21-hydroxylase 결핍으로 인한 선천성부식증식증의 원인 돌연변이인 p.Ile173Asn 이 관찰되어 이를 종합하여 볼 때, 21-hydroxylase 결핍으로 인한 선천성부식증식증 환자에 해당하는 소견입니다.
 
-      2. 이외의 CYP21P 유전자 (CYP21A2 유전자의 가성유전자) exon 1, intron 2, exon 10 및 C4A, C4B 유전자 (CYP21A2 유전자의 가성유전자)의 copy number가 감소되어 있으나 이러한 유전자의 copy number 이상은 pathogenic 하지 않다고 알려져 있습니다.
+2. 이외의 CYP21P 유전자 (CYP21A2 유전자의 가성유전자) exon 1, intron 2, exon 10 및 C4A, C4B 유전자 (CYP21A2 유전자의 가성유전자)의 copy number가 감소되어 있으나 이러한 유전자의 copy number 이상은 pathogenic 하지 않다고 알려져 있습니다.
 
-      3. 선천성부신증식증은 95%이상이 21-hydroxylase(수산화효소)의 결핍으로 인해 야기되며 21-hydroxylase deficiency(21-OHD)의 원인 유전자는 CYP21A2으로 CYP21A2 유전자의 10개 exon에 걸쳐 돌연변이가 발견됩니다. 또한 pseudogene인 CYP21A1P와 active gene인 CYP21A2 간의 재조합에 의해 active gene의 결실이 발생하는 돌연변이가(deletion/large gene conversion) 전체돌연변이의 약 20-30% 정도를 차지합니다.
+3. 선천성부신증식증은 95%이상이 21-hydroxylase(수산화효소)의 결핍으로 인해 야기되며 21-hydroxylase deficiency(21-OHD)의 원인 유전자는 CYP21A2으로 CYP21A2 유전자의 10개 exon에 걸쳐 돌연변이가 발견됩니다. 또한 pseudogene인 CYP21A1P와 active gene인 CYP21A2 간의 재조합에 의해 active gene의 결실이 발생하는 돌연변이가(deletion/large gene conversion) 전체돌연변이의 약 20-30% 정도를 차지합니다.
 
-      본 검사는 CYP21A2 유전자의deletion/large gene conversion과 duplication을 검출하기 위한 MLPA검사로 21-hydroxylase deficiency원인 돌연변이의 약 20-30%를 본 검사법으로 검출할 수 있습니다.`,
+본 검사는 CYP21A2 유전자의deletion/large gene conversion과 duplication을 검출하기 위한 MLPA검사로 21-hydroxylase deficiency원인 돌연변이의 약 20-30%를 본 검사법으로 검출할 수 있습니다.`,
     technique: `*MLPA P050-B2 CAH probemix is designed to detect large deletions and large gene conversion in the CYP21, C4 and TNXB genes on 6p21.3. This P050-B2 CAH probemix contains 5 probes for CYP21A2 (exons 1, 3, 4, 6 and 8); among these are 8bp deletion, I172, Cluster E6 and A318 mutation. Please note that some defects in these genes is caused by deletions/duplications of complete exons. Please note that some defects in these genes are expected to be small (point) mutations, most of which will not be detected by this MLPA test.`,
     conclusion: ''
   },
@@ -168,7 +168,7 @@ export const MLPATLIST = [
     ],
     result: 'HBA1, HBA2 deletion',
     comment: `1.  HBA1, 2유전자에 대한 MLPA 결과, HBA2 유전자의 heterozygous 3.7-kb deletion(-α3.7)이 관찰됩니다.
-    2.  3개의 functional copies가 남아있으므로 “α+-thalassemia (α-thalassemia silent carrier)”로 판단됩니다.
+2.  3개의 functional copies가 남아있으므로 “α+-thalassemia (α-thalassemia silent carrier)”로 판단됩니다.
     Alpha-thalassemia는 α1-globin을 합성하는 HBA1 유전자 또는 α2-globin을 합성하는 HBA2 유전자의 돌연변이에 의해 발생하는 혈색소질환으로 상염색체 열성 유전 양상을 보입니다. HBA1과 HBA2 유전자는 동일한 coding exon을 가지는데, 이 유전자의 결실이 α-thalassemia 가장 흔한 원인으로 알려져 있으며(90%), 10%에서는 점돌연변이가 보고되고 있습니다.
 
     정상적으로 4개의 a-globin allele이 존재하며, 4개 α-globin allele의 결실 및 이상은 Hb Bart syndrome, 3개의 allele의 결실 및 이상은 HbH disease의 임상 양상을 보입니다. Alpha-globin allele 결실 및 이상이 2개, 1개의 allele에서 관찰된 경우는 각각 α0-thalassemia (α-thalassemia trait), α+-thalassemia (α-thalassemia silent carrier)로 이들은 보인자(carrier)로 분류됩니다.
@@ -199,7 +199,7 @@ export const MLPATLIST = [
     result: 'VHL deletion / duplication',
     comment: `1. VHL 유전자에 대한 MLPA 분석결과, 질환과 관련된 VHL 유전자 결실/중복은 관찰되지 않습니다.
 
-    2. 폰 히펠-린다우증후군은 중추 신경계 혈관모세포종, 망막 혈관모세포종, 신세포암, 췌장낭, 부신수질의 갈색세포종(pheochromocytoma), 부고환의 낭선종 및 내이의 내림프낭 종양등 여러 장기에 발생하는 악성 및 양성 종양을 특징으로 하는 질환으로 상염색체 우성 유전양상의 단일 유전자 질환입니다. 염색체 3p25에 위치한 종양 억제 유전자인 VHL 유전자가 알려진 유일한 원인 유전자이며 환자의 약 90-100%에서 VHL 유전자에 대한 분자유전학적검사로 돌연변이가 검출되는 것으로 알려져 있습니다. VHL 돌연변이의 28%를 차지하는 VHL 유전자의 large (partial or whole) deletion은 본 MLPA검사를 통해 확인할 수 있습니다.`,
+2. 폰 히펠-린다우증후군은 중추 신경계 혈관모세포종, 망막 혈관모세포종, 신세포암, 췌장낭, 부신수질의 갈색세포종(pheochromocytoma), 부고환의 낭선종 및 내이의 내림프낭 종양등 여러 장기에 발생하는 악성 및 양성 종양을 특징으로 하는 질환으로 상염색체 우성 유전양상의 단일 유전자 질환입니다. 염색체 3p25에 위치한 종양 억제 유전자인 VHL 유전자가 알려진 유일한 원인 유전자이며 환자의 약 90-100%에서 VHL 유전자에 대한 분자유전학적검사로 돌연변이가 검출되는 것으로 알려져 있습니다. VHL 돌연변이의 28%를 차지하는 VHL 유전자의 large (partial or whole) deletion은 본 MLPA검사를 통해 확인할 수 있습니다.`,
     technique: `* MLPA is designed to detect deletions/duplications of one or more sequences in the DMD gene in a DNA sample. Deletions of a probe’s recognition sequence on the X-chromosome will lead to a complete absence of the corresponding probe amplification product in males, whereas female heterozygotes are recognizable by a 35-50% reduction in relative peak area. Note that a mutation or polymorphism in the sequence detected by a probe can also cause a reduction in relative peak area, even when not located exactly on the ligation site! In addition, some probe signals are more sensitive to sample purity and small changes in experimental conditions. Therefore, deletions and duplications detected by MLPA should always be confirmed by other methods. Not all deletions and duplications detected by MLPA will be pathogenic; users should always verify the latest scientific literature when interpreting their findings. Note that other defects such as small point mutations will not be detected by this  MLPA test`,
     conclusion: ''
   },
@@ -222,29 +222,62 @@ export const MLPATLIST = [
       neuropathy with liability to pressure palsies; HNPP) 및 샤르코-마리-투스병 1A 형(Charcot-
       Marie-Tooth disease, type 1A )과 관련된 PMP22 유전자의 결실 및 중복은 관찰되지 않습니다.
       HNPP 는 말초 신경병증으로 압박마비가 주 소견이며 이외에도 tingling sensation, 저림, 통증, 쇠약,
-  근위축 등을 유발할 수 있습니다. HNPP 의 증상은 주로 십대 후반에서 이십대 초반에 나타나기
-  시작하며 비골신경, 척골신경, 정중신경을 주로 침범합니다.
-  Charcot-Marie-Tooth neuropathy type 1 (CMT1)은 탈수초 말초 신경병증으로 원위 근육 쇠약 및
-  위축, 감각 손실, 느린 신경 전도 속도를 특징으로 합니다. 환자들은 5-25 세 사이에 증상이 발견되며,
-  상염색체 우성 유전양상을 보입니다.
+      근위축 등을 유발할 수 있습니다. HNPP 의 증상은 주로 십대 후반에서 이십대 초반에 나타나기
+      시작하며 비골신경, 척골신경, 정중신경을 주로 침범합니다.
+      Charcot-Marie-Tooth neuropathy type 1 (CMT1)은 탈수초 말초 신경병증으로 원위 근육 쇠약 및
+      위축, 감각 손실, 느린 신경 전도 속도를 특징으로 합니다. 환자들은 5-25 세 사이에 증상이 발견되며,
+      상염색체 우성 유전양상을 보입니다.
 
-  PMP22 유전자는 유전성 압박마비편향 신경병증 및 샤르코-마리-투스병 1A 형의 단일 원인
-  유전자로서 유전성 압박마비편향 신경병증에서는 PMP22 유전자의 결실 소견이 관찰되며 샤르코-
-  마리-투스병 1A 형의 경우 PMP22 유전자의 중복 소견이 관찰됩니다.
+      PMP22 유전자는 유전성 압박마비편향 신경병증 및 샤르코-마리-투스병 1A 형의 단일 원인
+      유전자로서 유전성 압박마비편향 신경병증에서는 PMP22 유전자의 결실 소견이 관찰되며 샤르코-
+      마리-투스병 1A 형의 경우 PMP22 유전자의 중복 소견이 관찰됩니다.
 
-  본 검사는 PMP22 유전자의 결실/중복을 검사하는 방법으로, 전체 유전성 압박마비편향 신경병증
-  환자의 약 85%에서 본 검사법으로 PMP22 유전자의 결실 소견을 보이며, 샤르코-마리-투스병 1A 형
-  환자의 경우 70-80%에서 본 검사법으로 중복 소견을 보입니다.
+      본 검사는 PMP22 유전자의 결실/중복을 검사하는 방법으로, 전체 유전성 압박마비편향 신경병증
+      환자의 약 85%에서 본 검사법으로 PMP22 유전자의 결실 소견을 보이며, 샤르코-마리-투스병 1A 형
+      환자의 경우 70-80%에서 본 검사법으로 중복 소견을 보입니다.
 
-  HNPP 환자의 약 15%에서 관찰되는 PMP22 유전자의 점 돌연변이는 본 검사법으로는 확인할 수
-  없습니다. CMT1 에는 여러 아형이 있으며 본 검사는 전체 CMT1 의 70-80%에 해당하는 가장 빈도가
-  높은 아형인 CMT1A 의 원인 유전자인 PMP22 유전자의 중복을 검사하는 방법이며 CMT1 의 다른
-  아형인 CMT1B, CMT1C, CMT1D, CMT1E, CMT2E/1F 의 원인 유전자의 변이는 본 검사로는 확인할 수 없습니다.`,
+      HNPP 환자의 약 15%에서 관찰되는 PMP22 유전자의 점 돌연변이는 본 검사법으로는 확인할 수
+      없습니다. CMT1 에는 여러 아형이 있으며 본 검사는 전체 CMT1 의 70-80%에 해당하는 가장 빈도가
+      높은 아형인 CMT1A 의 원인 유전자인 PMP22 유전자의 중복을 검사하는 방법이며 CMT1 의 다른
+      아형인 CMT1B, CMT1C, CMT1D, CMT1E, CMT2E/1F 의 원인 유전자의 변이는 본 검사로는 확인할 수 없습니다.`,
     technique: `* The P033-B3 CMT1 probemix contains probes for the PMP22, COX10, & TEKT3 genes located in the
   CMT/HNPP region at 17p12. Probes for each of the five PMP22 exons are present in this probemix. In addition, this probemix contains several probes just outside the CMT/HNPP region for reference. Finally, 2 probes for KIF1B are included. Defects in the KIF1B gene have been implicated in Charcot Marie disease type 2A1.`,
     conclusion: ''
   }
 
+];
+
+export const HEADER = [
+  {
+    type: 'LPE232', target: 'Duchene Muscular Dystrophy', analyzedGene: 'DMD on Xp21',
+    method: '*MLPA (Multiplex Ligation-dependent Probe Amplification)'
+  },
+  {
+    type: 'LPE351', target: 'Alpha-Thalassemia', analyzedGene: 'HBA1, HBA2 on 16p13.3',
+    method: '* Multiplex Ligation-dependent Probe Amplification (MLPA)'
+  },
+  {
+    type: 'LPE322', target: 'Spinal Muscular Atrophy', analyzedGene: 'SMN1, SMN2',
+    method: '* Multiplex Ligation-dependent Probe Amplification (MLPA)'
+  },
+  {
+    type: 'LPE332', target: '21-hydroxylase deficiency', analyzedGene: 'CYP21A2 on 1p34.3-p32',
+    method: '* Multiplex Ligation-dependent Probe Amplification (MLPA)'
+  },
+  {
+    type: 'LPE294', target: 'Prader-Willi/Angelman syndrome (PWS/AS)', analyzedGene: ': chromosome 15q11',
+    method: '* Methylation-specific Multiplex Ligation-dependent Probe Amplification (MS-MLPA)'
+  },
+  {
+    type: 'LPE369', target: 'von Hippel-Lindau disease (VHL) (MM #19330)', analyzedGene: 'VHL on 3p25',
+    method: '*MLPA (Multiplex Ligation-dependent Probe Amplification)'
+  },
+  {
+    type: 'LPE377',
+    target: 'Hereditary neuropathy with liability to pressure palsies; MM #162500,Charcot-Marie-Tooth disease, type 1A, MIM#118220',
+    analyzedGene: 'PMP22 on 17p11.2',
+    method: '*MLPA (Multiplex Ligation-dependent Probe Amplification'
+  },
 ];
 
 

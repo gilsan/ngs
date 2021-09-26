@@ -21,6 +21,9 @@ export function mlpaForm(
   examin: string, // 검사자
   recheck: string, // 확인자
   title: string,
+  target: string,
+  testmethod: string,
+  analyzedgene: string,
   acceptdate: string,
   firstReportDay: string,
   lastReportDay: string,
@@ -60,11 +63,11 @@ export function mlpaForm(
 				<Col id="rsltleft2"></Col>
         <Col id="rsltcenter1"></Col>
         <Col id="rsltcenter2"></Col>
-				<Col id="testinfo1">TARGET DISEASE: Acute lymphoblastic leukemia</Col>
-				<Col id="testinfo2">METHOD: *Massively parallel sequencing</Col>
+				<Col id="testinfo1">TARGET DISEASE: ${target}</Col>
+				<Col id="testinfo2">METHOD:  ${testmethod}</Col>
 				<Col id="testinfo3">SPECIMEN: Genomic DNA isolated from Bone marrow</Col>
 				<Col id="testinfo4">REQUEST: ${patientInfo.request}</Col>
-        <Col id="testinfo5"> Analyzed gene : DMD on Xp21</Col>
+        <Col id="testinfo5"> Analyzed gene : ${analyzedgene}</Col>
         <Col id="opnion"></Col>
 				<Col id="title">${title}</Col>
 				<Col id="examdt">${acceptdate}/${firstReportDay}/${lastReportDay} </Col>
