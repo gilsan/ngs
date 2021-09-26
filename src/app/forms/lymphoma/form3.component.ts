@@ -30,10 +30,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 /**  profile
  *  ALL/AML   LYM           MDS
- * leukemia                 diagnosis
+ * diagnosis                 diagnosis
  * flt3itd    bonemarrow    genetictest
  * chron      chron         chron
  */
+
 
 @Component({
   selector: 'app-form3',
@@ -103,7 +104,7 @@ export class Form3Component implements OnInit, OnDestroy {
   selectedItem = 'mutation';
   tsvInfo: IFilteredTSV;
   profile: IProfile = {
-    leukemia: '', genetictest: '', chron: ''
+    leukemia: '', chron: ''
   };
   // tslint:disable-next-line:variable-name
   variant_id: string;
@@ -169,10 +170,7 @@ export class Form3Component implements OnInit, OnDestroy {
   technique = `The analysis was optimised to identify base pair substitutions with a high sensitivity. The sensitivity for small insertions and deletions was lower. Deep-intronic mutations, mutations in the promoter region, repeats, large exonic deletions and duplications, and other structural variants were not detected by this test.`;
 
   maxHeight = 500;
-  genetictest = `  LPC139
-  LPC174
-  LPC188
-  LPE405`;
+
 
   @ViewChild('commentbox') private commentbox: TemplateRef<any>;
   @ViewChild('box100', { static: true }) box100: ElementRef;
@@ -389,15 +387,13 @@ export class Form3Component implements OnInit, OnDestroy {
       });
 
     // profile 가져오기
-    this.subs.sink = this.analysisService.getAanlysisMDSInfo(this.form2TestedId)
+    this.subs.sink = this.analysisService.getAanlysisLYMInfo(this.form2TestedId)
       .subscribe(data => {
         if (data.length > 0) {
-          this.profile.leukemia = data[0].diagnosis;
-          this.profile.genetictest = data[0].genetictest;
+          this.profile.leukemia = data[0].bonemarrow;
           this.profile.chron = data[0].chromosomalanalysis;
         } else {
           this.profile.leukemia = '';
-          this.profile.genetictest = '';
           this.profile.chron = '';
         }
         this.store.setProfile(this.profile); // profile 저장
@@ -439,15 +435,13 @@ export class Form3Component implements OnInit, OnDestroy {
 
       // 검사자 정보 가져오기
       // 저장된 검사자의 값이 있으면 표시
-      this.analysisService.getAanlysisMDSInfo(this.form2TestedId)
+      this.analysisService.getAanlysisLYMInfo(this.form2TestedId)
         .subscribe(data => {
           if (data.length > 0) {
-            this.profile.leukemia = data[0].diagnosis;
-            this.profile.genetictest = data[0].genetictest;
+            this.profile.leukemia = data[0].bonemarrow;
             this.profile.chron = data[0].chromosomalanalysis;
           } else {
             this.profile.leukemia = this.patientInfo.leukemiaassociatedfusion;
-            this.profile.genetictest = this.patientInfo.genetictest;
             this.profile.chron = this.patientInfo.chromosomalanalysis;
           }
           this.store.setProfile(this.profile); // profile 저장
@@ -1057,10 +1051,9 @@ export class Form3Component implements OnInit, OnDestroy {
       this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimen);
       this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimen);
 
-      this.analysisService.putAnalysisMDS(
+      this.analysisService.putAnalysisLYM(
         this.form2TestedId,
         this.profile.leukemia,
-        this.profile.genetictest,
         this.profile.chron).subscribe(data => console.log('LYM INSERT'));
 
       this.patientInfo.vusmsg = this.vusmsg;
@@ -1096,10 +1089,10 @@ export class Form3Component implements OnInit, OnDestroy {
       this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimen);
       this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimen);
 
-      this.analysisService.putAnalysisMDS(
+      this.analysisService.putAnalysisLYM(
         this.form2TestedId,
         this.profile.leukemia,
-        this.profile.genetictest,
+        // this.profile.genetictest,
         this.profile.chron).subscribe(data => console.log('LYM INSERT'));
 
       this.patientInfo.vusmsg = this.vusmsg;
@@ -1504,9 +1497,10 @@ export class Form3Component implements OnInit, OnDestroy {
     this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimen);
     this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimen);
     // LYM 분석 보내기
-    // diagnosis: string,
+    // leukemia: string,
     // genetictest: string,
     // chromosomalanalysis: string
+    console.log('[1510][임시저장]', this.profile);
     this.analysisService.putAnalysisLYM(
       this.form2TestedId,
       this.profile.leukemia,
