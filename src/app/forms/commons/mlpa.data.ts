@@ -75,14 +75,48 @@ export const MLPATLIST = [
     { seq: '30', site: 'KCNQ1 Exon17', result: 'Normal/Normal' },
     { seq: '31', site: 'NSD1 Exon21', result: 'Normal/Normal' },
     { seq: '32', site: 'NSD1 Exon23', result: 'Normal/Normal' }],
-    comment: `환자에서 질환과 관련된 SMN1 유전자의 exon7과 exon 8의 결실은 관찰되지 않습니다.
+    comment: `1.	환아에서 Beckwith-Wiedemann/Russell-Silver syndrome 대한 methylation specific-MLPA분석결과, H19DMR 부위의 Gain of Methylation
+    (GOM) 및 KCNQ1OT1 Exon1부위의 Loss of Methylation (LOM)이 관찰되어 paternal UPD mosaicism (약 50%) 소견으로 Beckwith-Wiedemann syndrome으로 판단됩니다.
 
-Spinal muscular atrophy (SMA)는 척수와 뇌간의 anterior horn cell (lower motor neuron)의 변성과 소실로 인해 진행성 근쇠약을 유발하는 질환군으로 상염색체 열성 유전 양상을 보입니다. SMA와 관련된 유전자에는 SMN1, SMN2 두 유전자가 있으며 이 중 SMN1 유전자가 질환을 결정하는 유전자입니다.
+2.	Beckwith-Wiedemann syndrome(BWS)와 Russell-Silver syndrome (RSS)은 모두 11번 염색체 단완 (11p15)의 분자유전학적 결함에 의해 발생하는 질환입니다. BWS의 원인으로는 각인센터2 (ICR2)의 메틸화 저하 (hypomethylation)가 가장 흔하며 (50-60%), 아버지 유래의 uniparental disomy (UPD) 가 20-27%, CDKN1C유전자의 기능소실이 8-10%, 각인센터 1 (ICR1)의 과메틸화 (hypermethylation)가 5-10%를 차지합니다. 그 외에도 미세결실이나 미세중복에 의해 발병할 수 있으며, 13-15%의 환자의 경우는 병인이 밝혀지지 않았습니다. 출생아 약 14,000명중 1명의 빈도로 발생하며, 임상증상은 다양하여, 신생아 저혈당증, 제탈장 (omphalocele), 대설증 (macroglossia), 거대발육 (신장이나 체중이 97% 이상), 거대 내장증, 위의 이상, 신장반측의 발육부전, 신장이상, 배아종 등의 증상을 보일 수 있습니다. RRS는 각인센터 1 (ICR1)의 메틸화 저하(hypomethylation)가 주된 원인이며 (37-63%), 30-40%의 환자에서는 유전학적인 원인이 밝혀지지 않았습니다. 그 외에도 maternal UPD (5-10%)나, 어머니 유래의 유전자 중복 (1-2%) 등  다양한 유전적 결함들이 보고되었습니다. 발병빈도는 정확하게 알려져 있지 않으며, 자궁내 성장지연, 출생 시 저체중, 저신장, 성장지연, 식욕저하, 다섯 번째 손가락이 안으로 굽은 만지증, 사지의 비대칭, 세모형의 얼굴모양과 출생 시 주상두 등의 임상증상을 보입니다. (GeneReviews; Mol Syndromol 2016;7:110–121.)
 
-SMA환자의 95-98%에서 SMN1 유전자의 결실 혹은 절단이 동형접합의 형태로 관찰되며, 2-5%에서는 SMN1유전자의 결실 혹은 절단과, SMN1 유전자의 돌연변이가 복합 이형접합(compound heterozygote)의 형태로 관찰됩니다.
-
-본 검사는 매우 유사한 염기서열을 가지고 있는 SMN1과 SMN2 유전자에서, 서로 차이를 보이는 exon7, exon8에 대한 각각의 probe를 이용하여 두 유전자의 copy number를 확인하는 검사법이며, SMN1 유전자의 돌연변이는 본 검사법으로는 검출할 수 없습니다.`,
+MS-MLPA 검사법은 환자가 불완전 메틸화 (partial methylation) 또는 모자이크 양상의 메틸화 이상 (mosaic methylation defect)을 갖는 경우  판독이 부정확 할 수 있습니다.`,
     technique: `* MLPA is designed to detect deletions/duplications of one or more sequences in the DMD gene in a DNA sample. Deletions of a probe’s recognition sequence on the X-chromosome will lead to a complete absence of the corresponding probe amplification product in males, whereas female heterozygotes are recognizable by a 35-50% reduction in relative peak area. Note that a mutation or polymorphism in the sequence detected by a probe can also cause a reduction in relative peak area, even when not located exactly on the ligation site! In addition, some probe signals are more sensitive to sample purity and small changes in experimental conditions. Therefore, deletions and duplications detected by MLPA should always be confirmed by other methods. Not all deletions and duplications detected by MLPA will be pathogenic; users should always verify the latest scientific literature when interpreting their findings. Note that other defects such as small point mutations will not be detected by this  MLPA test`,
+    conclusion: ``
+  },
+  {
+    type: 'LPE294_2',
+    result: 'PWS/AS deletion and disomy: Maternal Uniparental Disomy',
+    title: 'Prader-Willi/Angelman syndrome Gene Analysis Report',
+    data: [{ seq: '1', site: 'Q-fragments', result: 'Normal/Normal' }, { seq: '2', site: 'X-fragments', result: 'Normal/Normal' },
+    { seq: '3', site: 'Y-fragments', result: 'Normal/Normal' }, { seq: '4', site: 'TUBGCP5', result: 'Normal/Normal' },
+    { seq: '5', site: 'NIPA1', result: 'Normal/Normal' }, { seq: '6', site: 'MKRN3 Exon 1', result: 'Normal/Normal' },
+    { seq: '7', site: 'MAGEL2 15q11.2a', result: 'Normal/Maternal UPD' }, { seq: '8', site: 'MAGEL2 15q11.2b', result: 'Normal/Normal' },
+    { seq: '9', site: 'NDN Exon 1 (A)', result: 'Normal/Normal' }, { seq: '10', site: 'NDN Exon 1 (B)', result: 'Normal/Normal' },
+    { seq: '11', site: 'SNRPN Exon u1B(A)', result: 'Normal/Normal' }, { seq: '12', site: 'SNRPN Exon u1B(B', result: 'Normal/Normal' },
+    { seq: '13', site: 'SNRPN Intron u2 (A)', result: 'Normal/Normal' },
+    { seq: '14', site: 'SNRPN Intron u2 (B)', result: 'Normal/Normal' },
+    { seq: '15', site: 'SNRPN Exon u5 (A)', result: 'Normal/Normal' }, { seq: '16', site: 'SNRPN Exon u5 (B)', result: 'Normal/Normal' },
+    { seq: '17', site: 'SNRPN CpG island (A)', result: 'Normal/Maternal UPD' },
+    { seq: '18', site: 'SNRPN CpG island (B)', result: 'Normal/Maternal UPD' },
+    { seq: '19', site: 'SNRPN CpG island (C)', result: 'Normal/Maternal UPD' },
+    { seq: '20', site: 'SNRPN CpG island (D)', result: 'Normal/Maternal UPD' },
+    { seq: '21', site: 'SNRPN Exon 3', result: 'Normal/Normal' }, { seq: '22', site: 'SNRPN Exon 7', result: 'Normal/Normal' },
+    { seq: '23', site: 'SNORD116 (A)', result: 'Normal/Normal' }, { seq: '24', site: 'SNORD116 (B)', result: 'Normal/Normal' },
+    { seq: '25', site: 'SNORD116 (C)', result: 'Normal/Normal' }, { seq: '26', site: 'UBE3A Exon 9', result: 'Normal/Normal' },
+    { seq: '27', site: 'UBE3A Exon 4', result: 'Normal/Normal' }, { seq: '28', site: 'UBE3A Exon 3', result: 'Normal/Normal' },
+    { seq: '29', site: 'UBE3A Exon 2', result: 'Normal/Normal' }, { seq: '30', site: 'UBE3A Exon 1 (A)', result: 'Normal/Normal' },
+    { seq: '31', site: 'UBE3A Exon 1 (B)', result: 'Normal/Normal' }, { seq: '32', site: 'ATP10A Exon 5', result: 'Normal/Normal' },
+    { seq: '33', site: 'ATP10A Exon 1', result: 'Normal/Normal' }, { seq: '34', site: 'GABRB3 Exon 12', result: 'Normal/Normal' },
+    { seq: '35', site: 'GABRB3 Exon 10', result: 'Normal/Normal' }, { seq: '', site: 'APBA2 Exon 14', result: 'Normal/Normal' },
+    ],
+    comment: `1.	환아에서Prader-Willi/Angelman syndrome에 대한 methylation specific-MLPA분석결과, 15번 염색체를 어머니로부터만 물려받은 maternal uniparental disomy (UPD)가 관찰되어 프라더-윌리 증후군(Prader-Willi syndrome)으로 판단됩니다.
+
+2.	Prader-Willi syndrome (PWS)과 Angelman syndrome (AS) 은 모두 15번 염색체 장완 근위부(q11.2-13)의 imprinting 유전자 결함에 의해 발생하는 질환입니다. 미세결실(deletion), 한쪽 부모로부터만 두 개의 염색체를 물려받은 uniparental disomy (UPD), imprinting defect (ID), chromosomal rearrangement 등이 원인으로 알려져 있습니다. PWS의 경우, 아버지 유래의 염색체 15q11.2-q13 미세 결실이 가장 흔하며 (65-75%), 어머니 유래의 15q11.2-q13 만 존재하는 maternal UPD는 20-30% 에서, imprinting defect (ID)는 2-3% 에서, chromosomal rearrangement 는 1% 미만의 환자에서 보고되고 있습니다. 출생아 10,000-15,000명중 1명의 빈도로 발생하며, 신생아기에 근긴장 저하, 아동기에 식욕증가, 비만, 행동장애, 지능저하 등의 증상을 보입니다. AS는 어머니 유래의 염색체 결실, paternal UPD, ID가 주된 원인으로 드물게 UBE3A 유전자의 돌연변이, 염색체 재배열도 관찰됩니다. 약 10% 환자에서는 유전학적 원인이 밝혀지지 않았습니다. 출생아 12,000-20,000명중 1명의 빈도로 발생하며, 발달 지연, 보행 장애, 빈번한 웃음, 행복해 보이는 태도, 주의집중기간이 짧은 독특한 임상 증상을 보입니다 (GeneReviews; BMC Medical Genetics201011:70.)
+
+MS-MLPA 검사법은 PWS환자의 99% 이상, AS 환자의 약 80%에서 세가지 기전(deletion, UPD, ID)에 의한 이상을 검출할 수 있습니다.
+    `,
+    technique: `* MLPA is designed to detect aberrant methylation of one or more sequences of the Prader-Willi/Angelman region. This kit can also be used to detect deletions and duplications of one or more sequences of the 15q11 region in a DNA sample. Heterozygous deletions of probe recognition sequences should give a 35-50% reduced relative peak height of the amplification product of that probe. Note that a mutation or polymorphism in the sequence detected by a probe can also cause a reduction in relative peak area, even when not located exactly on the ligation site! In addition, some probe signals are more sensitive to sample purity and small changes in experimental conditions. Therefore, deletions and duplications detected by MLPA should always be confirmed by other methods. Note that several copy number changes affecting only a part of the 15q11 PWS/AS region have been described in healthy persons. In some cases, analysis of parental DNA samples may therefore be required for correct interpretation of results`,
     conclusion: ''
   },
   {
@@ -266,6 +300,10 @@ export const HEADER = [
   },
   {
     type: 'LPE294', target: 'Prader-Willi/Angelman syndrome (PWS/AS)', analyzedGene: ': chromosome 15q11',
+    method: '* Methylation-specific Multiplex Ligation-dependent Probe Amplification (MS-MLPA)'
+  },
+  {
+    type: 'LPE294_2', target: 'Beckwith-Wiedemann/Russell-Silver syndrome (BWS/RSS)', analyzedGene: 'chromosome 11p15',
     method: '* Methylation-specific Multiplex Ligation-dependent Probe Amplification (MS-MLPA)'
   },
   {

@@ -440,5 +440,17 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
 
   }
 
+  saveTarget(target: string): void {
+    this.target = target;
+  }
+
+  saveMethod(method: string): void {
+    this.testmethod = method;
+  }
+
+  saveAnalyzedgene(analyzedgene: string): void {
+    this.analyzedgene = analyzedgene;
+  }
+
 }
 

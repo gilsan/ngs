@@ -124,7 +124,7 @@ export function mlpaForm(
      </ColumnInfo>
      <Rows>
        <Row>
-        <Col id="comment1"><![CDATA[${mlpaData.conclusion}]]</Col>
+        <Col id="comment1"><![CDATA[${mlpaData.conclusion}]]></Col>
        </Row>
      </Rows>
 </Dataset>
@@ -136,7 +136,7 @@ export function mlpaForm(
       </ColumnInfo>
       <Rows>
          <Row>
-            <Col id="comment2"><![CDATA[${mlpaData.comment}]]</Col>
+            <Col id="comment2"><![CDATA[${mlpaData.comment}]]></Col>
          </Row>
       </Rows>
 </Dataset>

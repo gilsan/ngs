@@ -101,7 +101,7 @@ export function sequencingForm(
     </ColumnInfo>
     <Rows>
        <Row>
-       <Col id="comments"><![CDATA[${commentMsg}]]</Col>
+       <Col id="comments"><![CDATA[${commentMsg}]]></Col>
        </Row>
     </Rows>
     </Dataset>
@@ -114,7 +114,7 @@ export function sequencingForm(
     </ColumnInfo>
     <Rows>
        <Row>
-       <Col id="comment1"><![CDATA[${comment1Msg}]]</Col>
+       <Col id="comment1"><![CDATA[${comment1Msg}]]></Col>
        </Row>
     </Rows>
     </Dataset>
@@ -127,7 +127,7 @@ export function sequencingForm(
     </ColumnInfo>
     <Rows>
        <Row>
-       <Col id="comment2"><![CDATA[${comment2Msg}]]</Col>
+       <Col id="comment2"><![CDATA[${comment2Msg}]]></Col>
        </Row>
     </Rows>
     </Dataset>
