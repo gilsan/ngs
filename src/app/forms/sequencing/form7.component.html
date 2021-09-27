@@ -98,17 +98,17 @@
                           </div>
                 </div>
 
-                <div class="sub_title">판독 코멘트</div>
+                <div class="sub_title"  #comment (change)="comment(comment.value)">판독 코멘트</div>
                 <div class="pd_r20">
                     <textarea class="textarea_01"></textarea>
                 </div>
 
-                <div class="sub_title">일반코멘트1</div>
+                <div class="sub_title" #comment1 (change)="comment1(comment1.value)">일반코멘트1</div>
                 <div class="pd_r20">
                     <textarea class="textarea_01"></textarea>
                 </div>
 
-                <div class="sub_title">일반코멘트2</div>
+                <div class="sub_title" #comment2 (change)="comment2(comment2.value)">일반코멘트2</div>
                 <div class="pd_r20">
                     <textarea class="textarea_01"></textarea>
                 </div>

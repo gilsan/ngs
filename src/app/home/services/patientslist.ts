@@ -349,9 +349,9 @@ export class PatientsListService {
   // 검색순서 mutation artifacts benign
   // tslint:disable-next-line:typedef
   filtering(testedID: string, testType: string): Observable<any> {
-    if (testType === 'AML' || testType === 'ALL') {
-      testType = 'AMLALL';
-    }
+    // if (testType === 'AML' || testType === 'ALL') {
+    //   testType = 'AMLALL';
+    // }
     return this.getFilteredTSVtList(testedID).pipe(
       tap(data => {
         // gene 와 coding 값 분리
