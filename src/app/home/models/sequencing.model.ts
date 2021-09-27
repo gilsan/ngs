@@ -94,6 +94,11 @@ export function sequencingForm(
 			`;
   }
 
+  const variantBottom = `
+  </Rows>
+</Dataset>
+`;
+
   const comment = `
   <Dataset id="ds_3">
     <ColumnInfo>
@@ -134,19 +139,10 @@ export function sequencingForm(
   `;
 
 
-  const variantBottom = `
-		</Rows>
-</Dataset>
-	`;
 
+  const rootbottom = `</root>`;
 
-
-
-  const rootbottom = `</Rows>
-	</Dataset>
-</root>`;
-
-  return patient + variantHeader + data + comment + comment1 + comment2 + rootbottom;
+  return patient + variantHeader + data + variantBottom + comment + comment1 + comment2 + rootbottom;
 
 
 
