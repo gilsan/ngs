@@ -18,7 +18,9 @@ export class LymphomaPreviewComponent implements OnInit {
   @Output() closemodal = new EventEmitter<void>();
 
   resultStatus: string;
-  constructor() { }
+  constructor() {
+    console.log('profile', this.profile);
+  }
 
   ngOnInit(): void {
 

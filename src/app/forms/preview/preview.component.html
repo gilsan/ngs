@@ -7,16 +7,16 @@
                     <div class="sub_title_01">Patient: {{patientInfo.name}}, {{patientInfo.patientID}} ({{patientInfo.gender}}/{{patientInfo.age}})</div>
                     <div><button class="btn-close" (click)="closeModal()">닫기</button></div>
                 </div>
-                
+
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr>
-                        <td class="txt_02" ><span class="fb">Result</span>:  {{result}} </td>                 
+                        <td class="txt_02" ><span class="fb">Result</span>:  {{result}} </td>
                     </tr>
                     <tr>
                         <td class="txt_02"> Other molecular and cytogenetic profiles</td>
                     </tr>
                 </table>
-                <table width="100%" cellpadding="0" cellspacing="0" class="table_result">                  
+                <table width="100%" cellpadding="0" cellspacing="0" class="table_result">
                         <colgroup *ngIf="type === 'AML' || type === 'ALL' || type === 'MDS'; else rest">
                             <col style="width:30%;" />
                             <col style="width:20%;" />
@@ -41,19 +41,26 @@
                             <th>Chromosomal analysis</th>
                         </tr>
                     </thead>
-                    <tbody *ngIf="type === 'AML' || type === 'ALL' || type === 'MDS'">
+                    <tbody *ngIf="type === 'AML' || type === 'ALL'">
                         <tr>
                             <td class="table_result_line txt_c"> {{profile.leukemia}} </td>
                             <td class="txt_c">{{profile.flt3itd}}</td>
                             <td class="txt_c">{{profile.chron}}</td>
                         </tr>
                     </tbody>
-                    <tbody *ngIf="type === 'LYM'">
+                     <tbody *ngIf="type === 'MDS'">
                         <tr>
-                            <td class="table_result_line txt_c">{{profile.flt3itd}}</td>
+                            <td class="table_result_line txt_c"> {{profile.leukemia}} </td>
+                            <td class="txt_c">{{profile.genetictest}}</td>
                             <td class="txt_c">{{profile.chron}}</td>
                         </tr>
-                    </tbody>                    
+                    </tbody>
+                    <tbody *ngIf="type === 'LYM'">
+                        <tr>
+                            <td class="table_result_line txt_c">{{profile.leukemia}}</td>
+                            <td class="txt_c">{{profile.chron}}</td>
+                        </tr>
+                    </tbody>
                 </table>
                 <div class="sub_title">Test Information</div>
                 <table cellpadding="0" cellspacing="0" class="table_result02">
@@ -93,13 +100,13 @@
                                   <th>VAF %</th>
                                   <th>Reference(s)</th>
                                   <th>COSMIC ID</th>
-                                   
+
                               </tr>
                           </thead>
                           <tbody>
                               <ng-container   *ngFor="let dt of dts">
                               <tr>
-                                  
+
                                   <td class="table_result_line txt_c">{{dt.gene}}</td>
                                   <td class="txt_c">{{dt.type}}</td>
                                   <td class="txt_c">{{dt.functionalImpact}}</td>
@@ -127,9 +134,9 @@
                           </div>
                       </div>
                 </div>
-                              
-                <div class="sub_title" >Comments</div> 
-                <div  class="comment_box_50">             
+
+                <div class="sub_title" >Comments</div>
+                <div  class="comment_box_50">
                             <table width="100%" cellpadding="0" cellspacing="0" class="table_result">
                                <colgroup>
                                       <col style="width:10%;" />
@@ -143,7 +150,7 @@
                                         <th >Variants</th>
                                         <th> Comments</th>
                                         <th >Reference</th>
-                                       
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -161,9 +168,9 @@
                                     </ng-container>
                                 </tbody>
                             </table>
-                </div>  
+                </div>
             </div>
     </div>
- </div> 
-  
+ </div>
+
 </div>
