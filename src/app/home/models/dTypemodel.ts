@@ -20,7 +20,7 @@ export function makeDForm(
   ment: string,
   patientInfo: IPatient,
   formData: IAFormVariant[],
-  // comment: IComment[],
+  comment: IComment[],
   firstReportDay: string,
   lastReportDay: string,
   genelist: IGeneList[],
@@ -45,7 +45,7 @@ export function makeDForm(
     return [year, month, day].join('.');
   }
 
-  const comment = [];
+
   const today = formatDate(new Date());
   ///////////////////////////////////////////////
 

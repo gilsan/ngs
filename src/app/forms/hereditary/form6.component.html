@@ -114,11 +114,67 @@
                          </div>
                      </div>
                 </div>
-
+                <!--
                 <div class="sub_title">Comments</div>
                 <div class="pd_r20">
                     <textarea class="textarea_01"></textarea>
                 </div>
+
+
+      <div  style="overflow: scroll-y">
+        <div style="margin-bottom: 10px;margin-top: 25px;">
+            <ul style="display:flex;justify-content:flex-start; align-items: center;">
+                <li>
+                    <span class="sub_title">Comments</span>
+                </li>
+                <li>&nbsp;&nbsp;</li>
+                <li>
+                    <button type="button" class="btn btn_01" (click)="addComments(reportType)">저장</button>
+                </li>
+            </ul>
+            </div>
+        <div  class="comment_box_50">
+        <form [formGroup]="tablerowForm">
+            <table width="100%" cellpadding="0" cellspacing="0" class="table_result">
+               <colgroup>
+                <col style="width:7%;" />
+                <col style="width:25%;" />
+                <col style="width:30%;" />
+                <col style="width:30%;" />
+                <col style="width:8%;" />
+               </colgroup>
+              <thead>
+                  <tr>
+                      <th class="table_result_line">Gene</th>
+                      <th >Variants</th>
+                      <th> Comments</th>
+                      <th >Reference</th>
+
+                      <th><button class="btn btn_01" (click)="addNewCommentRow()">추가</button></th>
+                  </tr>
+              </thead>
+              <tbody>
+
+                  <ng-container formArrayName="commentsRows" *ngFor="let group of commentsRows().controls; let i=index">
+                      <tr  [formGroupName]="i">
+                        <td class="table_result_line"  ><input type="text" style="width:88%;display:block;margin:0 auto;" class="input_02  textcenter" size="10" formControlName="gene" ></td>
+                        <td><input type="text" style="width:88%;display:block;margin:0 auto;" class="input_02  textcenter" size="10" formControlName="variant_id"></td>
+                        <td class="textarea01"><textarea style="width:96%;display:block;margin:0 auto;" class="textarea_01" formControlName="comment"></textarea></td>
+                        <td class="textarea01"><textarea style="width:96%;display:block;margin:0 auto;" class="textarea_01" formControlName="reference"></textarea></td>
+                        <td  align="center">
+                            <img [src]="'assets/images/cancel.png'" (click)="removeCommentRow(i)">
+                        </td>
+                      </tr>
+                 </ng-container>
+              </tbody>
+            </table>
+        </form>
+        </div>
+      </div>
+   -->
+-
+
+
 
                 <div class="sub_title">*Methods</div>
                 <div class="pd_r20">

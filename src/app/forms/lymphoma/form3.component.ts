@@ -1191,12 +1191,12 @@ export class Form3Component implements OnInit, OnDestroy {
     // console.log('=== [1243][LYM][EMR로 보내기, 체크박스]', this.checkboxStatus);
     // console.log('=== [1244][LYM][EMR로 보내기 DV]', reformData);
     // 코멘트가 있는경우
-    // if (this.comments.length) {
-    //   const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
-    //   this.comments = commentControl.getRawValue();
-    // } else {  // 코멘트가 신규인 경우
-    //   this.comments = [];
-    // }
+    if (this.comments.length) {
+      const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
+      this.comments = commentControl.getRawValue();
+    } else {  // 코멘트가 신규인 경우
+      this.comments = [];
+    }
 
     // if (this.vusmsg.length === 0) {
     //   this.vusmsg = '';
@@ -1229,6 +1229,7 @@ export class Form3Component implements OnInit, OnDestroy {
       this.specimenMessage,
       this.patientInfo,
       formData,
+      this.comments,
       this.firstReportDay,
       this.lastReportDay,
       this.genelists,

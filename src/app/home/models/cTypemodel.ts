@@ -18,6 +18,7 @@ export function makeCForm(
   specimenMessage: string,
   patientInfo: IPatient,
   formData: IAFormVariant[],
+  comment: IComment[],
   firstReportDay: string,
   lastReportDay: string,
   genelist: IGeneList[],
@@ -43,7 +44,7 @@ export function makeCForm(
     return [year, month, day].join('.');
   }
 
-  const comment = [];
+
   const today = formatDate(new Date());
   /////////////////////////////////////////////////////
   const patient = `<root>
