@@ -1,4 +1,4 @@
-import { IGeneList, IImmundefi, IPatient } from './patients';
+import { IAFormVariant, IComment, IGeneList, IImmundefi, IPatient } from './patients';
 
 
 export function hereditaryForm(
@@ -12,8 +12,8 @@ export function hereditaryForm(
   firstReportDay: string,
   lastReportDay: string,
   patientInfo: IPatient,
-  formData: IImmundefi[],
-  commentMsg: string,
+  formData: IAFormVariant[],
+  comment: IComment[],
   method: string,
   technique: string,
   genelist: IGeneList[],
@@ -109,18 +109,63 @@ export function hereditaryForm(
 </Dataset>
 	`;
 
-  const comment = `
-  <Dataset id="ds_3">
-    <ColumnInfo>
-      <Column id="comments" type="STRING" size="256"/>
-    </ColumnInfo>
-    <Rows>
-       <Row>
-       <Col id="comments">${commentMsg}</Col>
-       </Row>
-    </Rows>
-    </Dataset>
-  `;
+  // const comment = `
+  // <Dataset id="ds_3">
+  //   <ColumnInfo>
+  //     <Column id="comments" type="STRING" size="256"/>
+  //   </ColumnInfo>
+  //   <Rows>
+  //      <Row>
+  //      <Col id="comments">${commentMsg}</Col>
+  //      </Row>
+  //   </Rows>
+  //   </Dataset>
+  // `;
+
+  const commentHeader = `
+<Dataset id="ds_3">
+	<ColumnInfo>
+		<Column id="gene" type="STRING" size="256"/>
+		<Column id="variants" type="STRING" size="256"/>
+		<Column id="comments" type="STRING" size="256"/>
+		<Column id="reference" type="STRING" size="256"/>
+	</ColumnInfo>
+`;
+
+  let commentContent = '';
+  if (comment.length > 0) {
+    // tslint:disable-next-line: prefer-for-of
+    for (let i = 0; i < comment.length; i++) {
+      commentContent = commentContent + `
+		<Row>
+		<Col id="gene">${comment[i].gene}</Col>
+		<Col id="variants"><![CDATA[${comment[i].variant_id}]]></Col>
+		<Col id="comments"><![CDATA[${comment[i].comment}]]></Col>
+		<Col id="reference"><![CDATA[${comment[i].reference}]]></Col>
+	</Row>`;
+    }
+  } else {
+    commentContent = `
+	 <Row>
+	 <Col id="gene"></Col>
+	 <Col id="variants"></Col>
+	 <Col id="comments"></Col>
+	 <Col id="reference"></Col>
+ </Row>
+	 `;
+  }
+
+  commentContent = `<Rows>
+		${commentContent}
+		</Rows>
+	`;
+  const commentBottom = `
+	</Dataset>
+	`;
+  const comments = commentHeader + commentContent + commentBottom;
+
+
+
 
   const methods = `
   <Dataset id="ds_4">
@@ -190,6 +235,6 @@ export function hereditaryForm(
 	</Dataset>
 </root>`;
 
-  return patient + variantHeader + data + variantBottom + comment + methods + techniqueMsg + geneList + list + rootbottom;
+  return patient + variantHeader + data + variantBottom + comments + methods + techniqueMsg + geneList + list + rootbottom;
 
 }

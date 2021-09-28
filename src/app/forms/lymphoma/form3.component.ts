@@ -520,37 +520,38 @@ export class Form3Component implements OnInit, OnDestroy {
         }
 
         // comments 분류
-        // if (parseInt(data.comments1Count, 10) > 0) {
-        //   if (typeof data.commentList1 !== 'undefined' && data.commentList1 !== 'none') {
-        //     if (parseInt(data.comments1Count, 10) > 0) {
+        if (parseInt(data.comments1Count, 10) > 0) {
+          if (typeof data.commentList1 !== 'undefined' && data.commentList1 !== 'none') {
+            if (parseInt(data.comments1Count, 10) > 0) {
 
-        //       const variant_id = data.tsv.amino_acid_change;
-        //       const comment = { ...data.commentList1, variant_id, type: this.reportType };
-        //       // console.log('[429][코멘트]', comment);
-        //       this.comments.push(comment);
-        //       this.store.setComments(this.comments); // 멘트 저장
-        //       let tempArray = new Array();
-        //       tempArray.push(comment);
-        //       tempArray.forEach(ment => {
-        //         this.commentsRows().push(this.createCommentRow(ment));
-        //       });
-        //       tempArray = [];
-        //     }
-        //   } else if (typeof data.commentList2 !== 'undefined' && data.commentList2 !== 'none') {
-        //     if (data.comments2Count > 0) {
-        //       const comment = { ...data.commentList2 as any, variant_id: '' };
-        //       this.comments.push(comment);
-        //       this.store.setComments(this.comments); // 멘트 저장
-        //       let tempArray = new Array();
-        //       tempArray.push(comment);
-        //       tempArray.forEach(ment => {
-        //         this.commentsRows().push(this.createCommentRow(ment));
-        //       });
-        //       tempArray = [];
-        //     }
-        //   }
+              // tslint:disable-next-line:variable-name
+              const variant_id = data.tsv.amino_acid_change;
+              const comment = { ...data.commentList1, variant_id, type: this.reportType };
+              // console.log('[429][코멘트]', comment);
+              this.comments.push(comment);
+              this.store.setComments(this.comments); // 멘트 저장
+              let tempArray = new Array();
+              tempArray.push(comment);
+              tempArray.forEach(ment => {
+                this.commentsRows().push(this.createCommentRow(ment));
+              });
+              tempArray = [];
+            }
+          } else if (typeof data.commentList2 !== 'undefined' && data.commentList2 !== 'none') {
+            if (data.comments2Count > 0) {
+              const comment = { ...data.commentList2 as any, variant_id: '' };
+              this.comments.push(comment);
+              this.store.setComments(this.comments); // 멘트 저장
+              let tempArray = new Array();
+              tempArray.push(comment);
+              tempArray.forEach(ment => {
+                this.commentsRows().push(this.createCommentRow(ment));
+              });
+              tempArray = [];
+            }
+          }
 
-        // }
+        }
 
 
         this.vd.push({ sequence: this.vdcount, selectedname: 'mutation', gene });
@@ -1036,10 +1037,10 @@ export class Form3Component implements OnInit, OnDestroy {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
     // const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
-    // if (this.comments.length) {
-    //   const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
-    //   this.comments = commentControl.getRawValue();
-    // }
+    if (this.comments.length) {
+      const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
+      this.comments = commentControl.getRawValue();
+    }
 
     // this.store.setComments(this.comments);
 
@@ -1076,10 +1077,10 @@ export class Form3Component implements OnInit, OnDestroy {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
     // const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
-    // if (this.comments.length) {
-    //   const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
-    //   this.comments = commentControl.getRawValue();
-    // }
+    if (this.comments.length) {
+      const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
+      this.comments = commentControl.getRawValue();
+    }
 
     // this.store.setComments(this.comments);
     // console.log('[812][스크린판독완료] ', this.form2TestedId, formData, this.comments, this.profile);
@@ -1318,11 +1319,11 @@ export class Form3Component implements OnInit, OnDestroy {
     // console.log('[1129][form2][previewToggle][] ', formData);
     this.store.setDetactedVariants(formData);
 
-    // const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
-    // this.comments = commentControl.getRawValue();
-    // if (this.comments.length > 0) {
-    //   this.store.setComments(this.comments);
-    // }
+    const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
+    this.comments = commentControl.getRawValue();
+    if (this.comments.length > 0) {
+      this.store.setComments(this.comments);
+    }
 
   }
 
@@ -1482,10 +1483,10 @@ export class Form3Component implements OnInit, OnDestroy {
     // console.log('[1041][checkbox]', this.checkboxStatus);
     // const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
     console.log('[1043][Detected variants]', formData);
-    // if (this.comments.length) {
-    //   const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
-    //   this.comments = commentControl.getRawValue();
-    // }
+    if (this.comments.length) {
+      const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
+      this.comments = commentControl.getRawValue();
+    }
     // this.store.setComments(this.comments);
 
     this.patientInfo.recheck = this.recheck;

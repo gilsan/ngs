@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { IAFormVariant, Ilymphoma, IPatient, IProfile } from 'src/app/home/models/patients';
+import { IAFormVariant, IComment, Ilymphoma, IPatient, IProfile } from 'src/app/home/models/patients';
 
 
 
@@ -14,6 +14,7 @@ export class LymphomaPreviewComponent implements OnInit {
   @Input() patientInfo: IPatient;
   @Input() profile: IProfile;
   @Input() lymphomas: IAFormVariant[];
+  @Input() comments: IComment[];
   @Input() methods: string;
   @Output() closemodal = new EventEmitter<void>();
 

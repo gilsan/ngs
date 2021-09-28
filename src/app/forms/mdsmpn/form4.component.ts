@@ -422,10 +422,10 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     if (this.form2TestedId) {
       // this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {
       this.patientsListService.mlpafiltering(this.form2TestedId, this.reportType, this.patientInfo.specimenNo).subscribe(data => {
-
         if (data.length > 0) {
           this.recoverVariants = data;
-          this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
+          this.vd.push({ sequence: this.vd.length, selectedname: 'mutation', gene: data[0].gene });
+          // this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
           this.store.setDetactedVariants(data); // Detected variant 저장
           this.recoverVariants.forEach(item => {
             this.recoverVariant(item);  // 354
@@ -891,13 +891,14 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
 
   // tslint:disable-next-line: typedef
   save(index: number) {
+    console.log('[894][inhousee]', index, this.vd);
+
     const selected = this.vd.find(item => item.sequence === index);
     this.selectedItem = selected.selectedname;
     console.log('[754][저장] ', index, this.vd, selected);
 
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const row = control.value[index];
-    // console.log('[691][mutation/artifacts] ', row, this.patientInfo);
     if (this.selectedItem === 'mutation') {
       this.subs.sink = this.patientsListService.saveMutation(
         'MDSMPN',
@@ -989,10 +990,10 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
     // const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
-    // if (this.comments.length) {
-    //   const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
-    //   this.comments = commentControl.getRawValue();
-    // }
+    if (this.comments.length) {
+      const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
+      this.comments = commentControl.getRawValue();
+    }
 
     // this.store.setComments(this.comments);
 
@@ -1033,10 +1034,10 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
     // const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
-    // if (this.comments.length) {
-    //   const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
-    //   this.comments = commentControl.getRawValue();
-    // }
+    if (this.comments.length) {
+      const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
+      this.comments = commentControl.getRawValue();
+    }
 
     // this.store.setComments(this.comments);
     // console.log('[812][스크린판독완료] ', this.form2TestedId, formData, this.comments, this.profile);
@@ -1169,12 +1170,12 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
 
     // console.log('[904][form2][comments] ', this.comments);
 
-    let tsvVersionContents;
-    if (this.tsvVersion === '510') {
-      tsvVersionContents = this.methods;
-    } else if (this.tsvVersion === '516') {
-      tsvVersionContents = this.methods516;
-    }
+    // let tsvVersionContents;
+    // if (this.tsvVersion === '510') {
+    //   tsvVersionContents = this.methods;
+    // } else if (this.tsvVersion === '516') {
+    //   tsvVersionContents = this.methods516;
+    // }
 
     const makeForm = makeDForm(
       this.method,
@@ -1192,7 +1193,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       this.firstReportDay,
       this.lastReportDay,
       this.genelists,
-      tsvVersionContents
+      this.methodmsg
     );
     console.log('[979][MDS XML] ', makeForm);
     const examcode = this.patientInfo.test_code;
@@ -1276,11 +1277,11 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     // console.log('[1129][form2][previewToggle][] ', formData);
     this.store.setDetactedVariants(formData);
 
-    // const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
-    // this.comments = commentControl.getRawValue();
-    // if (this.comments.length > 0) {
-    //   this.store.setComments(this.comments);
-    // }
+    const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
+    this.comments = commentControl.getRawValue();
+    if (this.comments.length > 0) {
+      this.store.setComments(this.comments);
+    }
 
   }
 
@@ -1440,10 +1441,10 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     // console.log('[1041][checkbox]', this.checkboxStatus);
     // const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
     console.log('[1043][Detected variants]', formData);
-    // if (this.comments.length) {
-    //   const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
-    //   this.comments = commentControl.getRawValue();
-    // }
+    if (this.comments.length) {
+      const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
+      this.comments = commentControl.getRawValue();
+    }
     // this.store.setComments(this.comments);
 
     this.patientInfo.recheck = this.recheck;
@@ -1624,10 +1625,10 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
 
-    // if (this.comments.length) {
-    //   const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
-    //   this.comments = commentControl.getRawValue();
-    // }
+    if (this.comments.length) {
+      const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
+      this.comments = commentControl.getRawValue();
+    }
     // this.store.setComments(this.comments);
 
     this.patientInfo.recheck = this.recheck;

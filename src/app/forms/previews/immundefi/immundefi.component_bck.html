@@ -34,7 +34,7 @@
                   </tbody>
                 </table>
 
-                <div class="sub_title">Mutation</div>
+                <div class="sub_title">Mulation</div>
                 <div class="box">
                     <div class="box_1000">
 
@@ -104,41 +104,6 @@
                     </div>
                 </div>
 
-                                <div class="sub_title" >Comments</div>
-                <div  class="comment_box_50">
-                            <table width="100%" cellpadding="0" cellspacing="0" class="table_result">
-                               <colgroup>
-                                      <col style="width:10%;" />
-                                      <col style="width:10%;" />
-                                      <col style="width:40%;" />
-                                      <col style="width:40%;" />
-                                </colgroup>
-                                <thead>
-                                    <tr>
-                                        <th class="table_result_line">Gene</th>
-                                        <th >Variants</th>
-                                        <th> Comments</th>
-                                        <th >Reference</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <ng-container  *ngFor="let comment of comments;">
-                                        <tr>
-                                            <td class="table_result_line">{{comment.gene}}</td>
-                                            <td>{{comment.variant_id}}</td>
-                                            <td class="textarea01">
-                                                <textarea style="width:96%" class="textarea_01">{{comment.comment}}</textarea>
-                                            </td>
-                                            <td class="textarea01">
-                                                <textarea style="width:96%" class="textarea_01">{{comment.reference}}</textarea>
-                                            </td>
-                                        </tr>
-                                    </ng-container>
-                                </tbody>
-                            </table>
-                </div>
-
 
             </div>
 
@@ -147,5 +112,4 @@
         </div>
     </div>
 </div>
-
 

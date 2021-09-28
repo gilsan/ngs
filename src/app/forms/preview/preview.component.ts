@@ -11,6 +11,7 @@ export class PreviewComponent implements OnInit {
 
   @Input() vusmsg: string;
   @Input() result: string;
+  @Input() comments: IComment[];
   @Input() type: string;
   @Output() closemodal = new EventEmitter<void>();
   patientInfo: IPatient;
@@ -18,7 +19,7 @@ export class PreviewComponent implements OnInit {
   dts: IAFormVariant[];
   specimenMsg: string;
   vusstatus: boolean;
-  comments: IComment[];
+  // comments: IComment[];
   vusMsg: string;
   constructor(
     private store: StoreService
@@ -31,7 +32,7 @@ export class PreviewComponent implements OnInit {
     this.dts = this.store.getDetactedVariants(); // 스토어에 detected variants 저장
     this.specimenMsg = this.store.getSpecimenMsg();
     // this.vusstatus = this.store.getVUSstatus();
-    this.comments = this.store.getComments();
+    // this.comments = this.store.getComments();
     this.vusMsg = this.vusmsg;
     console.log('[30][preview]', this.dts);
     console.log('[30][preview][프로파일]', this.profile);

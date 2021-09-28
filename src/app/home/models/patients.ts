@@ -184,6 +184,7 @@ export interface IAFormVariant {
   type?: string;
   cnt?: string;
   name?: string;
+  age?: string;
   patientID?: string;
   gene: string;
   functionalImpact: string;
@@ -192,9 +193,9 @@ export interface IAFormVariant {
   nucleotideChange: string;
   aminoAcidChange: string;
   zygosity: string;
-  vafPercent: string;
-  references: string;
-  cosmicID: string;
+  vafPercent?: string;
+  references?: string;
+  cosmicID?: string;
   functional_impact?: string;
   exon_intro?: string;
   amino_acid_change?: string;
@@ -202,6 +203,9 @@ export interface IAFormVariant {
   reference?: string;
   cosmic_id?: string;
   checked?: boolean;
+  dbSNPHGMD?: string;
+  gnomADEAS?: string;
+  OMIM?: string;
 }
 
 export interface IHereditary {
@@ -270,6 +274,9 @@ export interface IRecoverVariants {
   vaf: string;
   zygosity: string;
   checked?: boolean;
+  dbSNPHGMD?: string;
+  gnomADEAS?: string;
+  OMIM?: string;
 }
 
 
