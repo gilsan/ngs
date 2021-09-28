@@ -85,7 +85,7 @@ export function makeDForm(
 				<Col id="testinfo2">METHOD: *Massively parallel sequencing</Col>
 				<Col id="testinfo3">SPECIMEN:  <![CDATA[${specimenMessage}]]></Col>
 				<Col id="testinfo4">REQUEST: ${patientInfo.request}</Col>
-				<Col id="opnion">${ment}</Col>
+				<Col id="opnion"><![CDATA[${ment}]]></Col>
 				<Col id="title">${method}</Col>
 				<Col id="examdt">${acceptdate}/${firstReportDay}/${lastReportDay} </Col>
 				<Col id="examid">${examin}</Col>

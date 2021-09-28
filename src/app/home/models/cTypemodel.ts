@@ -82,7 +82,7 @@ export function makeCForm(
 				<Col id="testinfo2">METHOD: *Massively parallel sequencing</Col>
 				<Col id="testinfo3"><![CDATA[SPECIMEN:  ${specimenMessage}]]></Col>
 				<Col id="testinfo4">REQUEST: ${patientInfo.request}</Col>
-        <Col id="opnion">${vusmsg}</Col>
+        <Col id="opnion"><![CDATA[${vusmsg}]]></Col>
 				<Col id="title">${method}</Col>
 				<Col id="examdt">${acceptdate}/${firstReportDay}/${lastReportDay} </Col>
 				<Col id="examid">${examin}</Col>
