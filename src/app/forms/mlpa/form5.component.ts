@@ -311,9 +311,22 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
     this.isVisible = !this.isVisible;
   }
 
+  mlpa1Prode(i: number, val: string, side: string, list: IData): void {
+    let tempSeq: string;
+    if (side === 'L') {
+      this.mlpaData1[i].seq = val;
+      tempSeq = this.mlpaData[i].seq;
+    } else if (side === 'R') {
+      this.mlpaData2[i].seq = val;
+      tempSeq = this.mlpaData[i].seq;
+    }
+    // this.mlpaData.data[i].site = val;
+    const idx = this.mlpaData.data.findIndex(item => item.seq === tempSeq);
+    this.mlpaData.data[idx].seq = val;
+  }
 
   mlpa1Site(i: number, val: string, side: string, list: IData): void {
-    console.log('[316][site]', list);
+    // console.log('[316][site]', list);
     if (side === 'L') {
       this.mlpaData1[i].site = val;
     } else if (side === 'R') {

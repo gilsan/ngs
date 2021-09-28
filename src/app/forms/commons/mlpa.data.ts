@@ -39,7 +39,7 @@ export const MLPATLIST = [
     conclusion: ''
   },
   {
-    type: 'LPE294',
+    type: 'LPE294_2',
     result: 'BWS : Paternal UPD ',
     title: 'Beckwith-Wiedemann/Russell-Silver syndrome Gene Analysis Report',
 
@@ -85,7 +85,7 @@ MS-MLPA 검사법은 환자가 불완전 메틸화 (partial methylation) 또는 
     conclusion: ``
   },
   {
-    type: 'LPE294_2',
+    type: 'LPE294',
     result: 'PWS/AS deletion and disomy: Maternal Uniparental Disomy',
     title: 'Prader-Willi/Angelman syndrome Gene Analysis Report',
     data: [{ seq: '1', site: 'Q-fragments', result: 'Normal/Normal' }, { seq: '2', site: 'X-fragments', result: 'Normal/Normal' },
