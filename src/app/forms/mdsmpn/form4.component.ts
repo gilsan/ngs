@@ -291,14 +291,14 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     this.tsvFileVersion(this.patientInfo.verfile);
 
     this.requestDate = this.patientInfo.accept_date;
-    if (this.patientInfo.specimen === '015') {
-      this.specimenMsg = 'Bone marrow';
-      this.specimenMessage = 'Genomic DNA isolated from Bone marrow';
-    } else if (this.patientInfo.specimen === '004') {
-      this.specimenMsg = 'EDTA blood';
-      this.specimenMessage = 'Genomic DNA isolated from EDTA blood';
-      this.store.setSpecimenMsg(this.specimenMsg);
-    }
+    // if (this.patientInfo.specimen === '015') {
+    //   this.specimenMsg = 'Bone marrow';
+    //   this.specimenMessage = 'Genomic DNA isolated from Bone marrow';
+    // } else if (this.patientInfo.specimen === '004') {
+    //   this.specimenMsg = 'EDTA blood';
+    //   this.specimenMessage = 'Genomic DNA isolated from EDTA blood';
+    //   this.store.setSpecimenMsg(this.specimenMsg);
+    // }
 
     // 검체 감염유부 확인
     if (parseInt(this.patientInfo.detected, 10) === 0) {
@@ -312,11 +312,11 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
 
     this.screenstatus = this.patientInfo.screenstatus;
     // specimen 015 인경우 Bon marrow
-    if (this.patientInfo.specimen === '015') {
-      this.specimenMsg = 'Bone marrow';
-      this.specimenMessage = 'Genomic DNA isolated from Bone marrow';
-      this.store.setSpecimenMsg(this.specimenMsg);
-    }
+    // if (this.patientInfo.specimen === '015') {
+    //   this.specimenMsg = 'Bone marrow';
+    //   this.specimenMessage = 'Genomic DNA isolated from Bone marrow';
+    //   this.store.setSpecimenMsg(this.specimenMsg);
+    // }
     // 필터링된 tsv 파일 가져오기
     this.filteredTSV$ = this.patientsListService.getFilteredTSVtList(this.form2TestedId)
       .pipe(
