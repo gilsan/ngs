@@ -120,6 +120,7 @@ export class Form6Component implements OnInit, OnDestroy {
   specimenMsg: string;
   specimenMessage = 'Genomic DNA isolated from peripheral blood leukocytes-adequate specimen ';
 
+  comment: string;
   comments: IComment[] = [];
   tempCommentGene = '';
   tempCommentVariants = '';
@@ -1153,18 +1154,6 @@ export class Form6Component implements OnInit, OnDestroy {
 
     const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
 
-    // 코멘트가 있는경우
-    if (this.comments.length) {
-      const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
-      this.comments = commentControl.getRawValue();
-    } else {  // 코멘트가 신규인 경우
-      this.comments = [];
-    }
-
-    // if (this.vusmsg.length === 0) {
-    //   this.vusmsg = '';
-    // }
-
     if (this.firstReportDay === '-') {
       this.firstReportDay = this.today().replace(/-/g, '.');
     }
@@ -1174,7 +1163,6 @@ export class Form6Component implements OnInit, OnDestroy {
     }
 
     const makeForm = hereditaryForm(
-      this.resultStatus,
       this.resultname,
       this.examin, // 검사자
       this.recheck, // 확인자
@@ -1187,7 +1175,7 @@ export class Form6Component implements OnInit, OnDestroy {
       this.lastReportDay,
       this.patientInfo,
       formData,
-      this.comments,
+      this.comment,
       this.methods,
       this.technique,
       this.genelists
