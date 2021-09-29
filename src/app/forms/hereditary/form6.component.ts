@@ -357,7 +357,7 @@ export class Form6Component implements OnInit, OnDestroy {
       });
   }
   ////////////////////////////////////////
-  // HRDT
+  // Genetic
   recoverDetected(): void {
     // 디비에서 Detected variant_id 가져오기
     this.subs.sink = this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {
@@ -968,8 +968,8 @@ export class Form6Component implements OnInit, OnDestroy {
     from(this.comments)
       .pipe(
         concatMap(ment => this.commentsService.insertCommentsList(
-          'HRDT',
-          '', ment.type, ment.gene, ment.variant_id, ment.comment, ment.reference, 'HRDT'
+          'Genetic',
+          '', ment.type, ment.gene, ment.variant_id, ment.comment, ment.reference, 'Genetic'
         )),
         last()
       ).subscribe(data => {
@@ -1193,7 +1193,7 @@ export class Form6Component implements OnInit, OnDestroy {
       this.genelists
     );
 
-    console.log('[979][HRDT XML] ', makeForm);
+    console.log('[1196][Genetic XML]\n ', makeForm);
     const examcode = this.patientInfo.test_code;
     this.patientsListService.sendEMR(
       this.patientInfo.specimenNo,
@@ -1203,7 +1203,7 @@ export class Form6Component implements OnInit, OnDestroy {
       examcode,
       makeForm)
       .pipe(
-        concatMap(() => this.patientsListService.resetscreenstatus(this.form2TestedId, '3', userid, 'HRDT')),
+        concatMap(() => this.patientsListService.resetscreenstatus(this.form2TestedId, '3', userid, 'Genetic')),
         concatMap(() => this.patientsListService.setEMRSendCount(this.form2TestedId, ++this.sendEMR)), // EMR 발송횟수 전송
         // concatMap(() => this.patientsListService.getScreenStatus(this.form2TestedId))
       ).subscribe((msg: { screenstatus: string }) => {
@@ -1317,7 +1317,7 @@ export class Form6Component implements OnInit, OnDestroy {
           age: this.patientInfo.age,
           acceptdate: this.patientInfo.accept_date,
           reportdate: this.today2(),
-          testcode: 'HRDT',
+          testcode: 'Genetic',
           patientID: this.patientInfo.patientID,
           gene: item.gene,
           functionalImpact: item.functionalImpact,

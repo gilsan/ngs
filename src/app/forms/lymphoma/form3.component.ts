@@ -170,7 +170,7 @@ export class Form3Component implements OnInit, OnDestroy {
   technique = `The analysis was optimised to identify base pair substitutions with a high sensitivity. The sensitivity for small insertions and deletions was lower. Deep-intronic mutations, mutations in the promoter region, repeats, large exonic deletions and duplications, and other structural variants were not detected by this test.`;
 
   maxHeight = 500;
-
+  target: string;
 
   @ViewChild('commentbox') private commentbox: TemplateRef<any>;
   @ViewChild('box100', { static: true }) box100: ElementRef;
@@ -279,7 +279,12 @@ export class Form3Component implements OnInit, OnDestroy {
     }
 
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
-    console.log('[283][환자정보]', this.patientInfo);
+    if (this.patientInfo.test_code === 'LPE474') {
+      this.target = 'Lymphoma';
+    } else if (this.patientInfo.test_code === 'LPE475') {
+      this.target = 'Myeloma';
+    }
+    console.log('[288][환자정보]', this.patientInfo, this.target);
     this.method = this.patientInfo.reportTitle.replace(/"/g, '');
     this.store.setPatientInfo(this.patientInfo); // 환자정보 저장
 
@@ -1223,6 +1228,7 @@ export class Form3Component implements OnInit, OnDestroy {
     const makeForm = makeCForm(
       this.method,
       this.resultStatus,
+      this.target,
       this.examin, // 검사자
       this.recheck, // 확인자
       this.profile,

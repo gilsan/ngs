@@ -11,6 +11,7 @@ export const GENERAL = 'The analysis was optimised to identify base pair substit
 export function makeCForm(
   method,
   resultStatus: string, // detected, not detected
+  target: string,
   examin: string, // 검사자
   recheck: string, // 확인자
   profile: IProfile,
@@ -78,7 +79,7 @@ export function makeCForm(
 				<Col id="rsltleft2"><![CDATA[${profile.leukemia}]]></Col>
         <Col id="rsltcenter1">Chromosomal analysis</Col>
         <Col id="rsltcenter2"><![CDATA[${profile.chron}]]></Col>
-				<Col id="testinfo1">TARGET DISEASE: Lymphoma</Col>
+				<Col id="testinfo1">TARGET DISEASE: ${target}</Col>
 				<Col id="testinfo2">METHOD: *Massively parallel sequencing</Col>
 				<Col id="testinfo3"><![CDATA[SPECIMEN:  ${specimenMessage}]]></Col>
 				<Col id="testinfo4">REQUEST: ${patientInfo.request}</Col>
