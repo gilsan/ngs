@@ -14,6 +14,7 @@ import { ExcelService } from 'src/app/home/services/excelservice';
 export class CommentsComponent implements OnInit {
 
   @ViewChild('type') type: ElementRef;
+  @ViewChild('selectedtype') selectedtype: ElementRef;
   constructor(
     private commentsService: CommentsService,
     private excel: ExcelService,
@@ -87,7 +88,14 @@ export class CommentsComponent implements OnInit {
       alert('reference 값은 필수 입니다.');
       return;
     }
-    const typeVal = this.type.nativeElement.value;
+    // const typeVal = this.type.nativeElement.value;
+    const typeVal = this.selectedtype.nativeElement.value;
+    if (typeVal === '') {
+      alert('Type 값은 필수 입니다.');
+      return;
+    }
+
+
     if (id !== '') {
       this.commentsService.updateCommentsList(id, commentsType.value, gene.value, variant_id.value, comment.value, reference.value, typeVal)
         .subscribe((data) => {

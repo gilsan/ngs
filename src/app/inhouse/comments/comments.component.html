@@ -89,7 +89,22 @@
                             <td><span>{{i + 1}}</span></td>
                             <td>
                                 <span class="bdnone" *ngIf="status.value === 'R'">{{list.type}}</span>
-                                <span class="bdnone" *ngIf="status.value === 'U'"><input type="text"  class="clr-input wid120" value="{{list.type}}" id="type{{list.id}}"  ></span>
+                                <span class="bdnone" *ngIf="status.value === 'U'">
+                                     <select class="select_01 select_001" #selectedtype>
+                                        <option value=''>선택</option>
+                                        <option value="AMLALL">AML/ALL</option>
+                                        <option value="MDSMPN">MDS/MPN</option>
+                                        <option value="LPE474">악성림프종</option>
+                                        <option value="LPE475">형질세포종</option>
+                                        <option value="Genetic">유전성 유전질환</option>
+                                        <option value="Sequencing">Sequencing</option>
+                                        <option value="MLPA">MLPA</option>
+                                    </select>
+
+                                <!--
+                                  <input type="text"  class="clr-input wid120" value="{{list.type}}" id="type{{list.id}}"  >
+                                -->
+                                </span>
                             </td>
                             <td>
                                 <span class="bdnone" *ngIf="status.value === 'R'">{{list.gene}}</span>
