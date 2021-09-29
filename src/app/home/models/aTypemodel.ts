@@ -76,7 +76,7 @@ export function makeAForm(
 				<Col id="patient">${patientInfo.name}, ${patientInfo.patientID} (${patientInfo.gender}/${patientInfo.age})</Col>
 				<Col id="result">${resultStatus}</Col>
 				<Col id="rsltleft1">Leukemia associated fusion</Col>
-				<Col id="rsltleft2">${profile.leukemia}</Col>
+				<Col id="rsltleft2"><![CDATA[${profile.leukemia}]]></Col>
 				<Col id="rsltcenter1">IKZF1 deletion</Col>
 				<Col id="rsltcenter2"> <![CDATA[${profile.flt3itd}]]> </Col>
 				<Col id="rsltright1">Chromosomal analysis</Col>
