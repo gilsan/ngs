@@ -3,9 +3,11 @@ import { IAFormVariant, IComment, IGeneList, IImmundefi, IPatient } from './pati
 
 export function hereditaryForm(
   resultStatus: string, // detected, not detected
+	resultname: string,
   examin: string, // 검사자
   recheck: string, // 확인자
   target: string,
+	specimenMessage: string,
   vusmsg: string,
   title: string,
   acceptdate: string,
@@ -45,7 +47,7 @@ export function hereditaryForm(
 		<Rows>
 			<Row>
 				<Col id="patient">${patientInfo.name}, ${patientInfo.patientID} (${patientInfo.gender}/${patientInfo.age})</Col>
-				<Col id="result">${resultStatus}</Col>
+				<Col id="result">${resultname} ${resultStatus}</Col>
         <Col id="rsltright1"></Col>
 				<Col id="rsltright2"></Col>
 				<Col id="rsltleft1"></Col>
@@ -54,7 +56,7 @@ export function hereditaryForm(
         <Col id="rsltcenter2"></Col>
 				<Col id="testinfo1">TARGET DISEASE: ${target}</Col>
 				<Col id="testinfo2">METHOD: *Massively parallel sequencing</Col>
-				<Col id="testinfo3">SPECIMEN: Genomic DNA isolated from peripheral blood leukocytes-adequate specimen</Col>
+				<Col id="testinfo3">SPECIMEN: ${specimenMessage}</Col>
 				<Col id="testinfo4">REQUEST: ${patientInfo.request}</Col>
 				<Col id="opnion"><![CDATA[${vusmsg}]]></Col>
 				<Col id="title">${title}</Col>

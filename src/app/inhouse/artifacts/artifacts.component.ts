@@ -16,7 +16,7 @@ export class ArtifactsComponent implements OnInit {
 
 
   @ViewChild('type') type: ElementRef;
-
+  @ViewChild('selectedtype') selectedtype: ElementRef;
   constructor(
     private artifactsService: ArtifactsService,
     private excel: ExcelService,
@@ -95,7 +95,13 @@ export class ArtifactsComponent implements OnInit {
       return;
     }
 
-    const typeVal = this.type.nativeElement.value;
+    // const typeVal = this.type.nativeElement.value;
+    const typeVal = this.selectedtype.nativeElement.value;
+    if (typeVal === '') {
+      alert('Type 값은 필수 입니다.');
+      return;
+    }
+    
     if (id !== '') {
       this.artifactsService.updateArtifactsList(id, genes.value, location.value, exon.value, transcript.value,
         coding.value, aminoAcidChange.value, typeVal)
@@ -114,6 +120,7 @@ export class ArtifactsComponent implements OnInit {
           this.search(genes.value);
         });
     }
+  
   }
 
 
@@ -145,7 +152,6 @@ export class ArtifactsComponent implements OnInit {
     this.totRecords = 0;
     this.lists$ = this.artifactsService.getArtifactsList(genes, coding, type);
     this.lists$.subscribe((data) => {
-      // console.log('[147][artifacts 검색]', data);
       this.listArtfacts = data;
       this.lists = data.slice(0, 10);
       this.curPage = 1;

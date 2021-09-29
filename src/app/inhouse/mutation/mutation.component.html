@@ -157,7 +157,20 @@
                             </td>
                             <td><span *ngIf="status.value === 'R'">{{list.type}}</span>
                                 <span class="clr-input" *ngIf="status.value === 'U'">
-                                    <input type="text"  class="clr-input" value="{{list.type}}" id="gene{{list.id}}" >
+                                <select class="select_01 select_001"  #selectedtype>
+                                    <option value=''>선택</option>
+                                    <option value="AMLALL">AML/ALL</option>
+                                    <option value="MDSMPN">MDS/MPN</option>
+                                    <option value="LPE474">악성림프종</option>
+                                    <option value="LPE475">형질세포종</option>
+                                    <option value="Genetic">유전성 유전질환</option>
+                                    <option value="Sequencing">Sequencing</option>
+                                    <option value="MLPA">MLPA</option>
+                                </select>
+                                    <!-- 
+                                      <input type="text"  class="clr-input" value="{{list.type}}" id="gene{{list.id}}" >
+                                    -->
+                                    
                                 </span>
                             </td>
                             <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.functional_impact}}</span>

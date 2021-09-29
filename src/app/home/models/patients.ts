@@ -70,10 +70,13 @@ export interface IExcelData {
   nucleotideChange: string;
   aminoAcidChange: string;
   zygosity: string;
-  vafPercent: string;
+  vafPercent?: string;
   reference?: string;
   references?: string;
-  cosmicID: string;
+  cosmicID?: string;
+  dbSNPHGMD?: string,
+  gnomADEAS?: string,
+  OMIM?: string,
   acceptdate: string;
   reportdate: string;
   testcode: string;

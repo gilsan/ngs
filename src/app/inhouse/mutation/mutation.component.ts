@@ -15,6 +15,7 @@ import { ExcelService } from 'src/app/home/services/excelservice';
 export class MutationComponent implements OnInit {
 
   @ViewChild('type') type: ElementRef;
+  @ViewChild('selectedtype') selectedtype: ElementRef;
   constructor(
     private mutationService: MutationService,
     private excel: ExcelService,
@@ -110,7 +111,13 @@ export class MutationComponent implements OnInit {
       return;
     }
 
-    const type = this.type.nativeElement.value;
+    // const type = this.type.nativeElement.value;
+    const type = this.selectedtype.nativeElement.value;
+    if (type === '') {
+      alert('Type 값은 필수 입니다.');
+      return;
+    }
+
     console.log('[114][update] ', type);
     if (id !== '') {
       /* 2021.03.02

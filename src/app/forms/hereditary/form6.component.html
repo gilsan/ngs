@@ -8,7 +8,7 @@
               <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
                     <td class="txt_02" ><span class="fb">Result </span>:
-                        <label for="vertical-radio2" class="clr-col-12 clr-col-md-2">Likely pathogenic variant</label>
+                        <input type="test"   #results [value]="resultname" class="clr-input textcenter "  (change)="resultName(results.value)">
                         &nbsp;&nbsp;
                         <input type="radio" id="vertical-radio2" name="radio-full" [value]="'Detected'" [checked]="radioStatus('Detected')" class="clr-radio"  (change)="result($event)">
                         <label for="vertical-radio2" class="  clr-col-12 clr-col-md-2">Detected</label>
@@ -32,7 +32,7 @@
                           <td> METHOD: *Massively parallel sequencing</td>
                       </tr>
                       <tr>
-                          <td> SPECIMEN: Genomic DNA isolated from peripheral blood leukocytes-adequate specimen</td>
+                          <td> SPECIMEN: {{specimenMessage}}</td>
                           <td> REQUEST: {{patientInfo.request}}</td>
                       </tr>
                   </tbody>

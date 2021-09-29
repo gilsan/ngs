@@ -118,7 +118,7 @@ export class Form6Component implements OnInit, OnDestroy {
   rsltdesc = '';
   screenstatus: string;
   specimenMsg: string;
-  specimenMessage = 'Genomic DNA isolated from peripheral blood';
+  specimenMessage = 'Genomic DNA isolated from peripheral blood leukocytes-adequate specimen ';
 
   comments: IComment[] = [];
   tempCommentGene = '';
@@ -164,6 +164,7 @@ export class Form6Component implements OnInit, OnDestroy {
 
   formTitle: string;
   target: string;
+  resultname = '(  )';
 
   @ViewChild('commentbox') private commentbox: TemplateRef<any>;
   @ViewChild('box100', { static: true }) box100: ElementRef;
@@ -598,6 +599,10 @@ export class Form6Component implements OnInit, OnDestroy {
     console.log('[556][라디오 검체]', this.resultStatus);
   }
 
+  resultName(result: string): void {
+      this.resultname = result;
+  }
+
   radioStatus(type: string): boolean {
     if (type === this.resultStatus) {
       return true;
@@ -916,17 +921,17 @@ export class Form6Component implements OnInit, OnDestroy {
 
   // tslint:disable-next-line: typedef
   save(index: number) {
-    console.log('[894][inhousee]', index, this.vd);
+    console.log('[924][inhousee]', index, this.vd);
 
     const selected = this.vd.find(item => item.sequence === index);
     this.selectedItem = selected.selectedname;
-    console.log('[754][저장] ', index, this.vd, selected);
+    console.log('[928][저장] ', index, this.vd, selected);
 
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const row = control.value[index];
     if (this.selectedItem === 'mutation') {
       this.subs.sink = this.patientsListService.saveMutation(
-        'MDSMPN',
+        'HRDT',
         row.igv,
         row.sanger,
         'M' + this.patientInfo.name,
@@ -940,20 +945,15 @@ export class Form6Component implements OnInit, OnDestroy {
         row.zygosity,
         row.dbSNPHGMD,
         row.gnomADEAS,
-        row.OMIM,
-        // row.vafPercent,
-        // row.references,
-        // row.cosmicID
+        row.OMIM
       ).subscribe((data: any) => {
         alert('mutation에 추가 했습니다.');
       });
     } else if (this.selectedItem === 'artifacts') {
-      // console.log('[715][save][artifacts] ', row);
       this.subs.sink = this.patientsListService.insertArtifacts(
-        'MDSMPN',
+        'HRDT',
         row.gene, '', '', row.transcript, row.nucleotideChange, row.aminoAcidChange
       ).subscribe((data: any) => {
-        // console.log('[719][result][artifacts] ', data);
         alert('artifacts에 추가 했습니다.');
 
       });
@@ -969,7 +969,7 @@ export class Form6Component implements OnInit, OnDestroy {
       .pipe(
         concatMap(ment => this.commentsService.insertCommentsList(
           'HRDT',
-          '', ment.type, ment.gene, ment.variant_id, ment.comment, ment.reference, 'MDSMPN'
+          '', ment.type, ment.gene, ment.variant_id, ment.comment, ment.reference, 'HRDT'
         )),
         last()
       ).subscribe(data => {
@@ -1000,12 +1000,9 @@ export class Form6Component implements OnInit, OnDestroy {
 
     const tempVD = [...this.vd];
     if (row.status === 'NEW') {
-      // console.log('[840][checkType][row]', row);
       const idx = tempVD.findIndex(item => item.sequence === index && item.gene === row.gene);
-      // console.log('===[826][checkType][type]', type, index, idx, row, this.vd, this.deleteRowNumber);
       if (idx === -1 && this.deleteRowNumber !== index) {
         this.vd.push({ sequence: index, selectedname: 'mutation', gene: row.gene });
-        // console.log('####[842][checkType]', this.vd);
       }
 
       return true;
@@ -1017,7 +1014,6 @@ export class Form6Component implements OnInit, OnDestroy {
   screenRead(): void {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
-    // const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
     if (this.comments.length) {
       const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
       this.comments = commentControl.getRawValue();
@@ -1029,8 +1025,6 @@ export class Form6Component implements OnInit, OnDestroy {
       this.store.setExamin(this.patientInfo.examin);
       this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimen);
       this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimen);
-
-
 
       this.patientInfo.vusmsg = this.vusmsg;
       this.subs.sink = this.variantsService.screenInsert(this.form2TestedId, formData,
@@ -1053,7 +1047,6 @@ export class Form6Component implements OnInit, OnDestroy {
   screenReadFinish(): void {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
-    // const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
     if (this.comments.length) {
       const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
       this.comments = commentControl.getRawValue();
@@ -1182,9 +1175,11 @@ export class Form6Component implements OnInit, OnDestroy {
 
     const makeForm = hereditaryForm(
       this.resultStatus,
+      this.resultname,
       this.examin, // 검사자
       this.recheck, // 확인자
       this.target,
+      this.specimenMessage,
       this.vusmsg,
       this.formTitle, // 제목,
       this.patientInfo.accept_date, // 검사의뢰일
@@ -1198,26 +1193,7 @@ export class Form6Component implements OnInit, OnDestroy {
       this.genelists
     );
 
-
-    // const makeForm = makeDForm(
-    //   this.method,
-    //   this.resultStatus,
-    //   this.examin, // 검사자
-    //   this.recheck, // 확인자
-    //   this.profile,
-    //   this.patientInfo.accept_date, // 검사의뢰일
-    //   this.specimenMessage,
-    //   this.fusion,
-    //   this.vusmsg,   // this.ment,
-    //   this.patientInfo,
-    //   reformData,
-    //   this.comments,
-    //   this.firstReportDay,
-    //   this.lastReportDay,
-    //   this.genelists,
-    //   tsvVersionContents
-    // );
-    console.log('[979][MDS XML] ', makeForm);
+    console.log('[979][HRDT XML] ', makeForm);
     const examcode = this.patientInfo.test_code;
     this.patientsListService.sendEMR(
       this.patientInfo.specimenNo,
@@ -1227,7 +1203,7 @@ export class Form6Component implements OnInit, OnDestroy {
       examcode,
       makeForm)
       .pipe(
-        concatMap(() => this.patientsListService.resetscreenstatus(this.form2TestedId, '3', userid, 'MDS/MPN')),
+        concatMap(() => this.patientsListService.resetscreenstatus(this.form2TestedId, '3', userid, 'HRDT')),
         concatMap(() => this.patientsListService.setEMRSendCount(this.form2TestedId, ++this.sendEMR)), // EMR 발송횟수 전송
         // concatMap(() => this.patientsListService.getScreenStatus(this.form2TestedId))
       ).subscribe((msg: { screenstatus: string }) => {
@@ -1255,7 +1231,6 @@ export class Form6Component implements OnInit, OnDestroy {
 
   // detected varient 줄이 증가/삭제 시 체크상태 길이 변경
   addBoxStatus(idx: number): void {
-    // this.checkboxStatus
     this.checkboxStatus.push(idx);
     // console.log('[1261] [행추가시 체크박스]', this.checkboxStatus, idx);
   }
@@ -1299,9 +1274,6 @@ export class Form6Component implements OnInit, OnDestroy {
 
     const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
     this.comments = commentControl.getRawValue();
-    // if (this.comments.length > 0) {
-    //   this.store.setComments(this.comments);
-    // }
 
   }
 
@@ -1332,9 +1304,9 @@ export class Form6Component implements OnInit, OnDestroy {
         nucleotideChange: '',
         aminoAcidChange: '',
         zygosity: '',
-        vafPercent: '',
-        references: '',
-        cosmicID: ''
+        dbSNPHGMD: '',
+        gnomADEAS: '',
+        OMIM: ''
       });
     } else {
 
@@ -1345,7 +1317,7 @@ export class Form6Component implements OnInit, OnDestroy {
           age: this.patientInfo.age,
           acceptdate: this.patientInfo.accept_date,
           reportdate: this.today2(),
-          testcode: 'MDS/MPN',
+          testcode: 'HRDT',
           patientID: this.patientInfo.patientID,
           gene: item.gene,
           functionalImpact: item.functionalImpact,
@@ -1354,10 +1326,10 @@ export class Form6Component implements OnInit, OnDestroy {
           nucleotideChange: item.nucleotideChange,
           aminoAcidChange: item.aminoAcidChange,
           zygosity: item.zygosity,
-          vafPercent: item.vafPercent,
-          reference: item.references,
-          cosmicID: item.cosmicID,
-          tsvname: this.patientInfo.tsvFilteredFilename
+          dbSNPHGMD: item.dbSNPHGMD,
+          gnomADEAS: item.gnomADEAS,
+          OMIM: item.OMIM
+          // tsvname: this.patientInfo.tsvFilteredFilename
 
         });
       });
@@ -1623,10 +1595,6 @@ export class Form6Component implements OnInit, OnDestroy {
     return Math.max(0, Math.min(max, value));
   }
   ////////////////////////////////////////////////////////////
-
-
-
-  //////////////////////////////////////////////////////////////////////
   // detected variant 정렬
   dvSort(): void {
 
@@ -1641,15 +1609,6 @@ export class Form6Component implements OnInit, OnDestroy {
     this.store.setExamin(this.patientInfo.examin);
     this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimen);
     this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimen);
-
-    // if (this.reportType === 'MDS') {
-    //   this.analysisService.putAnalysisAML(
-    //     this.form2TestedId,
-    //     this.profile.leukemia,
-    //     this.profile.genetictest,
-    //     this.profile.chron).subscribe(data => console.log('MDS INSERT'));
-    // }
-
 
     // tslint:disable-next-line:max-line-length
     this.variantsService.screenTempSave2(this.form2TestedId, formData, this.comments, this.profile, this.resultStatus, this.patientInfo)
