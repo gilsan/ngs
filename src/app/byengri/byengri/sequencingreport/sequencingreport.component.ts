@@ -8,6 +8,7 @@ import { IPatient } from '../../models/patients';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { emrUrl } from 'src/app/config';
 import { SearchService } from '../../services/search.service';
+import { SequencingService } from '../../services/sequencing.service';
 import { IList } from '../../models/patients';
 
 @Component({
@@ -44,6 +45,12 @@ export class SequencingreportComponent implements OnInit {
 
   reportday: string;
   screenstatus: string;
+  mutation = 'negative';
+
+  title = 'TERT 프로모터 돌연변이 염기서열';
+  descriptionCode = '';
+  testCode = '';
+  comments = '';
 
   // @ViewChild('examine', { static: true }) examine: ElementRef;
   // @ViewChild('rechecked', { static: true }) rechecked: ElementRef;
@@ -54,6 +61,7 @@ export class SequencingreportComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private searchService: SearchService,
     private router: Router,
+    private sequencingService: SequencingService
   ) { }
 
   ngOnInit(): void {
@@ -216,6 +224,24 @@ export class SequencingreportComponent implements OnInit {
 
   printScreen(): void {
     window.print();
+
+  }
+
+  save(): void {
+    this.sequencingService.insertSequencing(
+      this.mutation,
+      this.reportday,
+      this.examin,
+      this.recheck,
+      this.patientInfo.patientID,
+      this.title,
+      this.descriptionCode,
+      this.testCode,
+      this.comments
+    )
+      .subscribe(data => {
+        console.log(data);
+      });
 
   }
 

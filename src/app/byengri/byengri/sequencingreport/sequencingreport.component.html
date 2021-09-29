@@ -33,7 +33,9 @@
                 <div>
                     <table width="100%" border="0" cellspacing="0" cellpadding="0">
                      <tr>
-                        <td class="txt_1 font_16 fb"><input type="text" class="input_02" size="200">
+                        <td class="txt_1 font_16 fb">
+                        <textarea class="textarea_01" [(ngModel)]="comments">{{comments}}</textarea>
+                       <!--  <input type="text" class="input_02" size="200">  -->
                       </td>
                     </tr>
                     </table>
@@ -80,7 +82,7 @@
                       <button class="btn btn_01"  (click)="printScreen()">출력</button>
                   </li>
                   <li>
-                      <button class="btn btn_01">저장</button>
+                      <button class="btn btn_01" (click)="save()">저장</button>
                   </li>
               </ul>
             </div>

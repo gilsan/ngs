@@ -118,7 +118,7 @@ export function hereditaryForm(
 	</ColumnInfo>
   <Rows>
      <Row>
-      <Col id="comments">${comment}</Col>
+      <Col id="comments"><![CDATA[${comment}]]></Col>
      </Row>
   </Rows>
 </Dataset>`;
@@ -131,7 +131,7 @@ export function hereditaryForm(
     </ColumnInfo>
     <Rows>
        <Row>
-       <Col id="methods">${method}</Col>
+       <Col id="methods"><![CDATA[${method}]]></Col>
        </Row>
     </Rows>
     </Dataset>
@@ -144,7 +144,7 @@ export function hereditaryForm(
     </ColumnInfo>
     <Rows>
        <Row>
-       <Col id="technique">${technique}</Col>
+       <Col id="technique"><![CDATA[${technique}]]></Col>
        </Row>
     </Rows>
     </Dataset>
