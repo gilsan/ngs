@@ -156,26 +156,124 @@
                                 </span>
                             </td>
                             <td><span *ngIf="status.value === 'R'">{{list.type}}</span>
-                                <span class="clr-input" *ngIf="status.value === 'U'">
-                                <select class="select_01 select_001"  #selectedtype>
-                                    <option value=''>선택</option>
-                                    <option value="AMLALL">AML/ALL</option>
-                                    <option value="MDSMPN">MDS/MPN</option>
-                                    <option value="LPE474">악성림프종</option>
-                                    <option value="LPE475">형질세포종</option>
-                                    <option value="Genetic">유전성 유전질환</option>
-                                    <option value="Sequencing">Sequencing</option>
-                                    <option value="MLPA">MLPA</option>
-                                </select>
-                                    <!-- 
+                             <span class="bdnone" *ngIf="status.value === 'U'" [ngSwitch]="list.type">
+                                       <select class="select_01 select_001"  *ngSwitchCase="'AMLALL'" #selectedtype>
+                                          <option value=''>선택</option>
+                                          <option value="AMLALL" selected>AML/ALL</option>
+                                          <option value="MDSMPN">MDS/MPN</option>
+                                          <option value="LPE474">악성림프종</option>
+                                          <option value="LPE475">형질세포종</option>
+                                          <option value="Genetic">유전성 유전질환</option>
+                                          <option value="Sequencing">Sequencing</option>
+                                          <option value="MLPA" >MLPA</option>
+                                       </select>
+                                       <select class="select_01 select_001"  *ngSwitchCase="'MDSMPN'" #selectedtype>
+                                          <option value=''>선택</option>
+                                          <option value="AMLALL">AML/ALL</option>
+                                          <option value="MDSMPN" selected>MDS/MPN</option>
+                                          <option value="LPE474">악성림프종</option>
+                                          <option value="LPE475">형질세포종</option>
+                                          <option value="Genetic">유전성 유전질환</option>
+                                          <option value="Sequencing">Sequencing</option>
+                                          <option value="MLPA" >MLPA</option>
+                                       </select>
+                                       <select class="select_01 select_001"  *ngSwitchCase="'LPE474'" #selectedtype>
+                                          <option value=''>선택</option>
+                                          <option value="AMLALL">AML/ALL</option>
+                                          <option value="MDSMPN">MDS/MPN</option>
+                                          <option value="LPE474" selected>악성림프종</option>
+                                          <option value="LPE475">형질세포종</option>
+                                          <option value="Genetic">유전성 유전질환</option>
+                                          <option value="Sequencing">Sequencing</option>
+                                          <option value="MLPA" >MLPA</option>
+                                       </select>
+                                       <select class="select_01 select_001"  *ngSwitchCase="'LPE475'" #selectedtype>
+                                          <option value=''>선택</option>
+                                          <option value="AMLALL">AML/ALL</option>
+                                          <option value="MDSMPN">MDS/MPN</option>
+                                          <option value="LPE474">악성림프종</option>
+                                          <option value="LPE475" selected>형질세포종</option>
+                                          <option value="Genetic">유전성 유전질환</option>
+                                          <option value="Sequencing">Sequencing</option>
+                                          <option value="MLPA" >MLPA</option>
+                                       </select>
+                                       <select class="select_01 select_001"  *ngSwitchCase="'Genetic'" #selectedtype>
+                                          <option value=''>선택</option>
+                                          <option value="AMLALL">AML/ALL</option>
+                                          <option value="MDSMPN">MDS/MPN</option>
+                                          <option value="LPE474">악성림프종</option>
+                                          <option value="LPE475">형질세포종</option>
+                                          <option value="Genetic" selected>유전성 유전질환</option>
+                                          <option value="Sequencing">Sequencing</option>
+                                          <option value="MLPA" >MLPA</option>
+                                       </select>
+                                       <select class="select_01 select_001"  *ngSwitchCase="'Sequencing'" #selectedtype>
+                                          <option value=''>선택</option>
+                                          <option value="AMLALL">AML/ALL</option>
+                                          <option value="MDSMPN">MDS/MPN</option>
+                                          <option value="LPE474">악성림프종</option>
+                                          <option value="LPE475">형질세포종</option>
+                                          <option value="Genetic">유전성 유전질환</option>
+                                          <option value="Sequencing" selected>Sequencing</option>
+                                          <option value="MLPA" >MLPA</option>
+                                       </select>
+                                       <select class="select_01 select_001"  *ngSwitchCase="'MLPA'" #selectedtype>
+                                          <option value=''>선택</option>
+                                          <option value="AMLALL">AML/ALL</option>
+                                          <option value="MDSMPN">MDS/MPN</option>
+                                          <option value="LPE474">악성림프종</option>
+                                          <option value="LPE475">형질세포종</option>
+                                          <option value="Genetic">유전성 유전질환</option>
+                                          <option value="Sequencing">Sequencing</option>
+                                          <option value="MLPA"  selected>MLPA</option>
+                                       </select>
+                                       <select class="select_01 select_001" *ngSwitchDefault #selectedtype>
+                                          <option value=''>선택</option>
+                                          <option value="AMLALL">AML/ALL</option>
+                                          <option value="MDSMPN">MDS/MPN</option>
+                                          <option value="LPE474">악성림프종</option>
+                                          <option value="LPE475">형질세포종</option>
+                                          <option value="Genetic">유전성 유전질환</option>
+                                          <option value="Sequencing">Sequencing</option>
+                                          <option value="MLPA" >MLPA</option>
+                                       </select>
+                                    <!--
                                       <input type="text"  class="clr-input" value="{{list.type}}" id="gene{{list.id}}" >
                                     -->
-                                    
+
                                 </span>
                             </td>
                             <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.functional_impact}}</span>
-                                <span class="clr-input" *ngIf="status.value === 'U'">
-                                    <input type="text"  class="clr-input" value="{{list.functional_impact}}" id="functionalImpact{{list.id}}" >
+                                <span class="clr-input" *ngIf="status.value === 'U'" [ngSwitch]="list.functional_impact">
+                                    <select class="select_01 select_001"  #functionalimpact  *ngSwitchCase="'Pathogenic'">
+                                        <option value=''>선택</option>
+                                        <option value="Pathogenic" selected>Pathogenic</option>
+                                        <option value="Likely Pathogenic">Likely Pathogenic</option>
+                                        <option value="VUS">VUS</option>
+                                    </select>
+                                    <select class="select_01 select_001"  #functionalimpact  *ngSwitchCase="'Likely Pathogenic'">
+                                        <option value=''>선택</option>
+                                        <option value="Pathogenic">Pathogenic</option>
+                                        <option value="Likely Pathogenic" selected>Likely Pathogenic</option>
+                                        <option value="VUS">VUS</option>
+                                    </select>
+                                    <select class="select_01 select_001"  #functionalimpact  *ngSwitchCase="'VUS'">
+                                        <option value=''>선택</option>
+                                        <option value="Pathogenic">Pathogenic</option>
+                                        <option value="Likely Pathogenic">Likely Pathogenic</option>
+                                        <option value="VUS" selected>VUS</option>
+                                    </select>
+                                    <select class="select_01 select_001"  #functionalimpact *ngSwitchDefault>
+                                        <option value=''>선택</option>
+                                        <option value="Pathogenic">Pathogenic</option>
+                                        <option value="Likely Pathogenic">Likely Pathogenic</option>
+                                        <option value="VUS">VUS</option>
+                                    </select>
+
+                                    <!--
+                                       <input type="text"  class="clr-input" value="{{list.functional_impact}}" id="functionalImpact{{list.id}}" >
+                                    -->
+
                                 </span>
                             </td>
                             <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.transcript}}</span>

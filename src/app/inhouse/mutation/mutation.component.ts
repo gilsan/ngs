@@ -16,6 +16,7 @@ export class MutationComponent implements OnInit {
 
   @ViewChild('type') type: ElementRef;
   @ViewChild('selectedtype') selectedtype: ElementRef;
+  @ViewChild('functionalimpact') functionalimpact: ElementRef;
   constructor(
     private mutationService: MutationService,
     private excel: ExcelService,
@@ -98,16 +99,16 @@ export class MutationComponent implements OnInit {
           return;
         }
     */
-    if (patientName.value == "") {
-      alert("patient Name 값은 필수 입니다.");
+    if (patientName.value === '') {
+      alert('patient Name 값은 필수 입니다.');
       return;
     }
-    if (gene.value == "") {
-      alert("gene 값은 필수 입니다.");
+    if (gene.value === '') {
+      alert('gene 값은 필수 입니다.');
       return;
     }
-    if (transcript.value == "") {
-      alert("transcript 값은 필수 입니다.");
+    if (transcript.value === '') {
+      alert('transcript 값은 필수 입니다.');
       return;
     }
 
@@ -118,6 +119,8 @@ export class MutationComponent implements OnInit {
       return;
     }
 
+    const functional = this.functionalimpact.nativeElement.value;
+
     console.log('[114][update] ', type);
     if (id !== '') {
       /* 2021.03.02
@@ -127,7 +130,7 @@ export class MutationComponent implements OnInit {
               exac.value, exac_east_asia.value, krgdb.value, etc1.value, etc2.value, etc3.value)
               */
       this.mutationService.updateMutationList(id, buccal.value, patientName.value, registerNumber.value, fusion.value, gene.value,
-        functionalImpact.value, transcript.value, exonIntro.value, nucleotideChange.value, aminoAcidChange.value,
+        functional, transcript.value, exonIntro.value, nucleotideChange.value, aminoAcidChange.value,
         zygosity.value, vaf.value, reference.value, siftPolyphen.value, buccal2.value, igv.value, sanger.value, cosmicId.value, type)
         .subscribe((data) => {
           console.log('[170][Mutation 수정]', data);
@@ -143,7 +146,7 @@ export class MutationComponent implements OnInit {
       */
 
       this.mutationService.insertMutationList(id, buccal.value, patientName.value, registerNumber.value, fusion.value, gene.value,
-        functionalImpact.value, transcript.value, exonIntro.value, nucleotideChange.value, aminoAcidChange.value,
+        functional, transcript.value, exonIntro.value, nucleotideChange.value, aminoAcidChange.value,
         zygosity.value, vaf.value, reference.value, siftPolyphen.value, buccal2.value, igv.value, sanger.value, cosmicId.value, type)
         .subscribe((data) => {
           console.log('[170][Mutation 저장]', data);
