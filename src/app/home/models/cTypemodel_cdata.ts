@@ -66,7 +66,7 @@ export function makeCForm(
 			<Row>
 				<Col id="patient">${patientInfo.name}, ${patientInfo.patientID} (${patientInfo.gender}/${patientInfo.age})</Col>
 				<Col id="result">${resultStatus}</Col>
-				<Col id="rsltleft1">Bone marrow aspiralion analysis</Col>
+				<Col id="rsltleft1">diagnosis</Col>
 				<Col id="rsltleft2">><![CDATA[${profile.flt3itd}]]></Col>
 				<Col id="rsltright1">Chromosomal analysis</Col>
 				<Col id="rsltright2"><![CDATA[${profile.chron}]]></Col>
