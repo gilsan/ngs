@@ -363,7 +363,7 @@ export class Form6Component implements OnInit, OnDestroy {
     this.subs.sink = this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {
       this.recoverVariants = data;
       this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
-      console.log('[204][form2][Detected variant_id]', this.recoverVariants);
+      console.log('[366][hereditary][Detected variant_id]', this.recoverVariants);
       this.store.setDetactedVariants(data); // Detected variant 저장
 
       // VUS 메제시 확인
@@ -600,7 +600,7 @@ export class Form6Component implements OnInit, OnDestroy {
   }
 
   resultName(result: string): void {
-      this.resultname = result;
+    this.resultname = result;
   }
 
   radioStatus(type: string): boolean {
@@ -931,7 +931,7 @@ export class Form6Component implements OnInit, OnDestroy {
     const row = control.value[index];
     if (this.selectedItem === 'mutation') {
       this.subs.sink = this.patientsListService.saveMutation(
-        'HRDT',
+        'Genetic',
         row.igv,
         row.sanger,
         'M' + this.patientInfo.name,
@@ -951,7 +951,7 @@ export class Form6Component implements OnInit, OnDestroy {
       });
     } else if (this.selectedItem === 'artifacts') {
       this.subs.sink = this.patientsListService.insertArtifacts(
-        'HRDT',
+        'Genetic',
         row.gene, '', '', row.transcript, row.nucleotideChange, row.aminoAcidChange
       ).subscribe((data: any) => {
         alert('artifacts에 추가 했습니다.');
