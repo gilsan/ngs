@@ -17,23 +17,28 @@
                         </td>
                     </tr>
                 </table>
-
-
-
-                        <img [src]="getUrl('img1')" *ngIf="img1.length > 0" />
-
-
-                        <img [src]="getUrl('img2')" *ngIf="img2.length > 0" />
-
-
-                        <img [src]="getUrl('img3')"  *ngIf="img3.length > 0"/>
+                        <div style="text-align : center;">
+                            <img [src]="getUrl('img1')" *ngIf="img1.length > 0" />
+                        </div>
+                        <div style="text-align : center;">
+                            <img [src]="getUrl('img2')" *ngIf="img2.length > 0" />
+                        </div>
+                        <div style="text-align : center;">
+                            <img [src]="getUrl('img3')"  *ngIf="img3.length > 0"/>
+                        </div>
 
 
 
                    <hr class="mg_t30 mg_b20"/>
-
-
-
+                <div>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                     <tr>
+                        <td class="txt_1 font_16 fb"><input type="text" class="input_02" size="200">
+                      </td>
+                    </tr>
+                    </table>
+                </div>
+                <hr class="mg_t30 mg_b20"/>
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                     <!--
                     <tr>
@@ -44,6 +49,7 @@
                         </td>
                     </tr>
                     -->
+
                     <tr>
                         <td class="txt_l font_16 fb">Date of report : {{reportday}} </td>
                         <td class="txt_c font_16 fb">Examined by :
