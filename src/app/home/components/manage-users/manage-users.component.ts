@@ -6,6 +6,7 @@ import { emrUrl } from 'src/app/config';
 import { IManageUsers } from 'src/app/home/models/manageUsers';
 import { ManageUsersService } from 'src/app/home/services/manageUsers.service';
 import * as moment from 'moment';
+import { tap } from 'rxjs/operators';
 @Component({
   selector: 'app-manage-users',
   templateUrl: './manage-users.component.html',
@@ -36,7 +37,7 @@ export class ManageUsersComponent implements OnInit {
   ngOnInit(): void {
     // if (this.storeStartDay === null || this.storeEndDay === null) {
     this.init();
-    // } 
+    // }
     console.log(' ngOnInit');
   }
 
@@ -69,7 +70,7 @@ export class ManageUsersComponent implements OnInit {
   startToday(): string {
     const today = new Date();
 
-    const oneMonthAgo = new Date(today.setMonth(today.getMonth() - 1));	// 한달 전  
+    const oneMonthAgo = new Date(today.setMonth(today.getMonth() - 1));	// 한달 전
 
     const year = oneMonthAgo.getFullYear(); // 년도
     const month = oneMonthAgo.getMonth() + 1;  // 월
@@ -127,15 +128,16 @@ export class ManageUsersComponent implements OnInit {
   search(startDay: string, endDay: string, userId: string, userNm: string): void {
     this.totRecords = 0;
     this.lists$ = this.manageUsersService.getManageUsersList(startDay, endDay, userId, userNm, 'D');
-    this.lists$.subscribe((data) => {
-      console.log('[170][Users 검색]', data);
-      this.listManageUsers = data;
-      this.lists = data.slice(0, 10);
-      this.curPage = 1;
-      this.totPage = Math.ceil(this.listManageUsers.length / 10);
-      this.pageLine = 0;
-      this.totRecords = this.listManageUsers.length;
-    });
+    this.lists$
+      .subscribe((data) => {
+        console.log('[170][Users 검색]', data);
+        this.listManageUsers = data;
+        this.lists = data.slice(0, 10);
+        this.curPage = 1;
+        this.totPage = Math.ceil(this.listManageUsers.length / 10);
+        this.pageLine = 0;
+        this.totRecords = this.listManageUsers.length;
+      });
   }
 
   confirm(id: string, approved: string): void {
