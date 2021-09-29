@@ -71,10 +71,10 @@ export class CommentsComponent implements OnInit {
     // tslint:disable-next-line:variable-name
     const variant_id: HTMLInputElement = document.getElementById('variant_id' + id) as HTMLInputElement;
 
-    if (commentsType.value === '') {
-      alert('Type 값은 필수 입니다.');
-      return;
-    }
+    // if (commentsType.value === '') {
+    //   alert('Type 값은 필수 입니다.');
+    //   return;
+    // }
 
     if (gene.value === '') {
       alert('gene 값은 필수 입니다.');
@@ -112,6 +112,7 @@ export class CommentsComponent implements OnInit {
           this.search(gene.value, typeVal);
         });
     }
+
   }
 
   insertRow(): void {
