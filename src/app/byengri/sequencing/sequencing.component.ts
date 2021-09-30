@@ -64,14 +64,12 @@ export class SequencingComponent implements OnInit, OnDestroy, AfterViewInit {
     private router: Router,
     private store: StorePathService,
     private sanitizer: DomSanitizer,
-    private sequencingService: SequencingService
+
   ) { }
 
   ngOnInit(): void {
 
-    this.sequencingService.listSequencing().subscribe(data => {
-      console.log(data);
-    });
+
 
     this.checkStore();
     // console.log('[67][init]', this.storeStartDay, this.storeEndDay);

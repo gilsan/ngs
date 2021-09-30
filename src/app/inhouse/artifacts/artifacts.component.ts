@@ -154,8 +154,9 @@ export class ArtifactsComponent implements OnInit {
     this.lists$ = this.artifactsService.getArtifactsList(genes, coding, type);
     this.lists$
       .subscribe((data) => {
+        // console.log(data);
         this.listArtfacts = data;
-
+        this.mapping();
         this.lists = data.slice(0, 10);
         this.curPage = 1;
         this.totPage = Math.ceil(this.listArtfacts.length / 10);
@@ -180,12 +181,28 @@ export class ArtifactsComponent implements OnInit {
 
     this.lists$.subscribe((data) => {
       this.listArtfacts = data;
+      this.mapping();
       this.lists = data.slice(0, 10);
       this.curPage = 1;
       this.totPage = Math.ceil(this.listArtfacts.length / 10);
       this.pageLine = 0;
       this.totRecords = this.listArtfacts.length;
     });
+  }
+
+  mapping(): void {
+    this.listArtfacts.forEach(item => {
+      if (item.type === 'AMLALL') {
+        item.display = 'AMLALL';
+      } else if (item.type === 'MDSMPN') {
+        item.display = 'MDSMPN';
+      } else if (item.type === 'LYM') {
+        item.display = '악성림프종/형질세포종';
+      } else if (item.type === 'Genetic') {
+        item.display = '유전성 유전질환';
+      }
+    });
+    // console.log('[206]', this.listArtfacts);
   }
 
 

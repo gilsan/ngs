@@ -24,4 +24,6 @@ export interface IMutation {
   etc1?: string;
   etc2?: string;
   etc3?: string;
+  display?: string;
+  type?: string;
 }

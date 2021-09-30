@@ -145,6 +145,7 @@ export class CommentsComponent implements OnInit {
     this.lists$.subscribe((data) => {
       // console.log('[146][benign 검색]', data);
       this.lists = data;
+      this.mapping();
       this.listComments = data;
       this.lists = data.slice(0, 10);
       this.curPage = 1;
@@ -172,12 +173,29 @@ export class CommentsComponent implements OnInit {
     this.lists$.subscribe((data) => {
       //   console.log('[170][benign 검색]', data);
       this.lists = data;
+      this.mapping();
       this.listComments = data;
       this.lists = data.slice(0, 10);
       this.curPage = 1;
       this.totPage = Math.ceil(this.listComments.length / 10);
       this.pageLine = 0;
       this.totRecords = this.listComments.length;
+    });
+  }
+
+  mapping(): void {
+    this.lists.forEach(item => {
+      if (item.type === 'AML') {
+        item.display = 'AML';
+      } else if (item.type === 'MDSMPN') {
+        item.display = 'MDSMPN';
+      } else if (item.type === 'LYM') {
+        item.display = '악성림프종/형질세포종';
+      } else if (item.type === 'Genetic') {
+        item.display = '유전성 유전질환';
+      } else if (item.type === 'ALL') {
+        item.display = 'ALL';
+      }
     });
   }
 

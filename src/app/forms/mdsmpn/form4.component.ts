@@ -940,7 +940,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     from(this.comments)
       .pipe(
         concatMap(ment => this.commentsService.insertCommentsList(
-          'MDSMPN',
+          'MDS',
           '', ment.type, ment.gene, ment.variant_id, ment.comment, ment.reference, 'MDSMPN'
         )),
         last()

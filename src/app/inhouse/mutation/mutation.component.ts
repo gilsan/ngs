@@ -208,8 +208,9 @@ export class MutationComponent implements OnInit {
     this.totRecords = 0;
     this.lists$ = this.mutationService.getMutationList(genes, coding, type);
     this.lists$.subscribe((data) => {
-      // console.log('[210][Mutation 검색]', data);
+      console.log('[210][Mutation 검색]', data);
       this.lists = data;
+      this.mapping();
       this.listMutations = data;
       this.lists = data.slice(0, 10);
       this.curPage = 1;
@@ -236,6 +237,7 @@ export class MutationComponent implements OnInit {
     this.lists$.subscribe((data) => {
       console.log('[277][Mutation 검색]', data);
       this.lists = data;
+      this.mapping();
       this.listMutations = data;
       this.lists = data.slice(0, 10);
       this.curPage = 1;
@@ -243,6 +245,21 @@ export class MutationComponent implements OnInit {
       this.pageLine = 0;
       this.totRecords = this.listMutations.length;
     });
+  }
+
+  mapping(): void {
+    this.lists.forEach(item => {
+      if (item.type === 'AMLALL') {
+        item.display = 'AMLALL';
+      } else if (item.type === 'MDSMPN') {
+        item.display = 'MDSMPN';
+      } else if (item.type === 'LYM') {
+        item.display = '악성림프종/형질세포종';
+      } else if (item.type === 'Genetic') {
+        item.display = '유전성 유전질환';
+      }
+    });
+
   }
 
 }

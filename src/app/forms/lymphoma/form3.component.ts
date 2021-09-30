@@ -997,8 +997,8 @@ export class Form3Component implements OnInit, OnDestroy {
     from(this.comments)
       .pipe(
         concatMap(ment => this.commentsService.insertCommentsList(
-          this.patientInfo.test_code,
-          '', ment.type, ment.gene, ment.variant_id, ment.comment, ment.reference, this.patientInfo.test_code
+          'LYM',
+          '', ment.type, ment.gene, ment.variant_id, ment.comment, ment.reference, 'LYM'
         )),
         last()
       ).subscribe(data => {
