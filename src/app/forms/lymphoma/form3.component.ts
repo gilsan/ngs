@@ -960,7 +960,7 @@ export class Form3Component implements OnInit, OnDestroy {
 
     if (this.selectedItem === 'mutation') {
       this.subs.sink = this.patientsListService.saveMutation(
-        this.patientInfo.test_code,
+        'LYM',
         row.igv,
         row.sanger,
         'M' + this.patientInfo.name,
@@ -979,13 +979,14 @@ export class Form3Component implements OnInit, OnDestroy {
         alert('mutation에 추가 했습니다.');
       });
     } else if (this.selectedItem === 'artifacts') {
-      this.subs.sink = this.patientsListService.insertArtifacts(this.patientInfo.test_code,
+      this.subs.sink = this.patientsListService.insertArtifacts('LYM',
         row.gene, '', '', row.transcript, row.nucleotideChange, row.aminoAcidChange
       ).subscribe((data: any) => {
         alert('artifacts에 추가 했습니다.');
 
       });
     }
+
 
 
   }

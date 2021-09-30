@@ -6,6 +6,7 @@ import { emrUrl } from 'src/app/config';
 import { IArtifacts } from '../models/artifacts';
 import { ArtifactsService } from 'src/app/services/artifacts.service';
 import { ExcelService } from 'src/app/home/services/excelservice';
+import { map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-artifacts',
@@ -151,14 +152,15 @@ export class ArtifactsComponent implements OnInit {
 
     this.totRecords = 0;
     this.lists$ = this.artifactsService.getArtifactsList(genes, coding, type);
-    this.lists$.subscribe((data) => {
-      this.listArtfacts = data;
-      this.lists = data.slice(0, 10);
-      this.curPage = 1;
-      this.totPage = Math.ceil(this.listArtfacts.length / 10);
-      this.pageLine = 0;
-      this.totRecords = this.listArtfacts.length;
-    });
+    this.lists$
+      .subscribe((data) => {
+        this.listArtfacts = data;
+        this.lists = data.slice(0, 10);
+        this.curPage = 1;
+        this.totPage = Math.ceil(this.listArtfacts.length / 10);
+        this.pageLine = 0;
+        this.totRecords = this.listArtfacts.length;
+      });
   }
 
   excelDownload(): void {
