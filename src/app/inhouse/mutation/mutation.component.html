@@ -152,7 +152,7 @@
                                     <input type="text"  class="clr-input" value="{{list.gene}}" id="gene{{list.id}}" >
                                 </span>
                             </td>
-                            <td><span *ngIf="status.value === 'R'">{{list.type}}</span>
+                            <td><span *ngIf="status.value === 'R'">{{list.display}}</span>
                              <span class="bdnone" *ngIf="status.value === 'U'" [ngSwitch]="list.type">
                                        <select class="select_01 select_001"  *ngSwitchCase="'AMLALL'" #selectedtype>
                                           <option value=''>선택</option>

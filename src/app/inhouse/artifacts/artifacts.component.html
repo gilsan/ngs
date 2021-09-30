@@ -91,7 +91,7 @@
                              <span class="bdnone txt_l" *ngIf="status.value === 'U'"><input type="text"  class="clr-input "
                              #gene value="{{list.genes}}" id="genes{{list.id}}" ></span>
                         </td>
-                        <td><span class="bdnone" *ngIf="status.value === 'R'">{{list.type}}</span>
+                        <td><span class="bdnone" *ngIf="status.value === 'R'">{{list.display}}</span>
                              <span class="bdnone" *ngIf="status.value === 'U'" [ngSwitch]="list.type">
                                        <select class="select_01 select_001" #type *ngSwitchCase="'AMLALL'" #selectedtype>
                                           <option value=''>선택</option>

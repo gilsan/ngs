@@ -5,4 +5,5 @@ export interface IComments {
   comment: string;
   reference: string;
   variant_id: string;
+  display?: string;
 }

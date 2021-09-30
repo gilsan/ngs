@@ -31,11 +31,11 @@ export class SequencingService {
 
   //  filteredOriginData/list,  POST { pathologyNum: "123456" }
   insertSequencing(
-    nutation: string,
+    mutation: string,
     reportDate: string,
     examiner: string,
     rechecker: string,
-    paritienid: string,
+    patientid: string,
     title: string,
     descriptionCode: string,
     testCode: string,
@@ -43,11 +43,11 @@ export class SequencingService {
   ): Observable<ISequencing> {
     return this.http.post<ISequencing>(`${this.apiUrl}/sequencingdiag/insert`,
       {
-        nutation,
+        mutation,
         reportDate,
         examiner,
         rechecker,
-        paritienid,
+        patientid,
         title,
         descriptionCode,
         testCode,
@@ -55,8 +55,8 @@ export class SequencingService {
       });
   }
 
-  listSequencing(): Observable<ISequencing[]> {
-    return this.http.get<ISequencing[]>(`${this.apiUrl}/sequencingdiag/list`);
+  listSequencing(patientid: string): Observable<ISequencing[]> {
+    return this.http.post<ISequencing[]>(`${this.apiUrl}/sequencingdiag/list`, { patientid });
   }
 
 

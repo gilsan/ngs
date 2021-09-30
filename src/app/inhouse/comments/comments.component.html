@@ -26,6 +26,7 @@
 
             &nbsp;&nbsp;
             <select class="select_01 select_001" #type (change)="findComments(type.value)">
+               <option value="ALL">전체</option>
                <option value="AML">AML</option>
                <option value="ALL">ALL</option>
                <option value="MDSMPN">MDS/MPN</option>
@@ -86,20 +87,31 @@
                             <input type="hidden" value="R" #status >
                             <td><span>{{i + 1}}</span></td>
                             <td>
-                                <span class="bdnone" *ngIf="status.value === 'R'">{{list.type}}</span>
+                                <span class="bdnone" *ngIf="status.value === 'R'">{{list.display}}</span>
                              <span class="bdnone" *ngIf="status.value === 'U'" [ngSwitch]="list.type">
-                                       <select class="select_01 select_001" id="type{{list.id}}" *ngSwitchCase="'AMLALL'" #selectedtype>
+                                       <select class="select_01 select_001" id="type{{list.id}}" *ngSwitchCase="'AML'" #selectedtype>
                                           <option value=''>선택</option>
-                                          <option value="AML">AML</option>
+                                          <option value="AML" selected>AML</option>
                                           <option value="ALL">ALL</option>
-                                          <option value="MDSMPN">MDS/MPN</option>
+                                          <option value="MDS">MDS/MPN</option>
                                           <option value="LYM">악성림프종/형질세포종</option>
                                           <option value="Genetic">유전성 유전질환</option>
                                        </select>
-                                       <select class="select_01 select_001" id="type{{list.id}}" *ngSwitchCase="'MDSMPN'" #selectedtype>
+                                       <select class="select_01 select_001" id="type{{list.id}}" *ngSwitchCase="'ALL'" #selectedtype>
                                           <option value=''>선택</option>
-                                          <option value="AMLALL">AML/ALL</option>
-                                          <option value="MDSMPN" selected>MDS/MPN</option>
+                                          <option value="AML">AML</option>
+                                          <option value="ALL" selected>ALL</option>
+                                          <option value="MDS">MDS/MPN</option>
+                                          <option value="LYM">악성림프종/형질세포종</option>
+                                          <option value="Genetic">유전성 유전질환</option>
+                                       </select>
+
+
+                                       <select class="select_01 select_001" id="type{{list.id}}" *ngSwitchCase="'MDS'" #selectedtype>
+                                          <option value=''>선택</option>
+                                          <option value="AML">AML</option>
+                                          <option value="ALL">ALL</option>
+                                          <option value="MDS" selected>MDS/MPN</option>
                                           <option value="LYM">악성림프종/형질세포종</option>
                                           <option value="Genetic">유전성 유전질환</option>
                                        </select>
@@ -107,7 +119,7 @@
                                           <option value=''>선택</option>
                                           <option value="AML">AML</option>
                                           <option value="ALL">ALL</option>
-                                          <option value="MDSMPN">MDS/MPN</option>
+                                          <option value="MDS">MDS/MPN</option>
                                           <option value="LYM" selected>악성림프종/형질세포종</option>
                                           <option value="Genetic">유전성 유전질환</option>
                                        </select>
@@ -127,7 +139,7 @@
                                           <option value=''>선택</option>
                                           <option value="AML">AML</option>
                                           <option value="ALL">ALL</option>
-                                          <option value="MDSMPN">MDS/MPN</option>
+                                          <option value="MDS">MDS/MPN</option>
                                           <option value="LYM">악성림프종/형질세포종</option>
                                           <option value="Genetic" selected>유전성 유전질환</option>
                                        </select>
@@ -151,7 +163,7 @@
                                           <option value=''>선택</option>
                                           <option value="AML">AML</option>
                                           <option value="ALL">ALL</option>
-                                          <option value="MDSMPN">MDS/MPN</option>
+                                          <option value="MDS">MDS/MPN</option>
                                           <option value="LYM">악성림프종/형질세포종</option>
                                           <option value="Genetic">유전성 유전질환</option>
                                           <!--

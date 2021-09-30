@@ -81,6 +81,7 @@ export class SequencingreportComponent implements OnInit {
       try {
         this.patientInfo = this.pathologyService.patientInfo.filter(item => item.pathology_num === pathologyNum)[0];
         console.log('[73][환자정보] ', this.patientInfo);
+        this.getSavedInfo(this.patientInfo.patientID);
         if (this.patientInfo.img1.length > 0) {
           const tempArr = this.patientInfo.img1.split('/');
           this.img1 = tempArr[4];
@@ -133,6 +134,13 @@ export class SequencingreportComponent implements OnInit {
     }
   }
 
+  // 저장된 정보 검색
+  getSavedInfo(patientid: string): void {
+    this.sequencingService.listSequencing(patientid)
+      .subscribe(data => {
+        console.log('[140]', data)
+      });
+  }
 
   getUrl(type: string): SafeResourceUrl {
     let url = '';
