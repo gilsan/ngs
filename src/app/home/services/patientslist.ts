@@ -89,7 +89,7 @@ export class PatientsListService {
 
   // artifacts 삽입
   public insertArtifacts(type: string, gene: string, loc2: string = '', exon: string = '', transcript: string, coding: string, aminoAcidChange: string) {
-    return this.http.post(`${this.apiUrl}/artifactsInsert/insert`, {
+    return this.http.post(`${this.apiUrl}/artifacts/insert`, {
       type, gene, loc2, exon, transcript, coding, aminoAcidChange
     }).pipe(
       shareReplay()

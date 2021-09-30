@@ -63,15 +63,16 @@ export class CommentsComponent implements OnInit {
   }
 
   updateRow(id: string): void {
-
-    const commentsType: HTMLInputElement = document.getElementById('type' + id) as HTMLInputElement;
+    let typeVal: string;
+    // const commentsType: HTMLInputElement = document.getElementById('type' + id) as HTMLInputElement;
     const gene: HTMLInputElement = document.getElementById('gene' + id) as HTMLInputElement;
     const comment: HTMLInputElement = document.getElementById('comment' + id) as HTMLInputElement;
     const reference: HTMLInputElement = document.getElementById('reference' + id) as HTMLInputElement;
     // tslint:disable-next-line:variable-name
     const variant_id: HTMLInputElement = document.getElementById('variant_id' + id) as HTMLInputElement;
 
-    // if (commentsType.value === '') {
+
+    // if (commentsType.value === '' && id !== '') {
     //   alert('Type 값은 필수 입니다.');
     //   return;
     // }
@@ -89,22 +90,25 @@ export class CommentsComponent implements OnInit {
       return;
     }
     // const typeVal = this.type.nativeElement.value;
-    const typeVal = this.selectedtype.nativeElement.value;
-    if (typeVal === '') {
+    const typeval = this.selectedtype.nativeElement.value;
+    if (typeval === 'AML' || typeval === 'AML') {
+      typeVal = 'AMLALL';
+    }
+    if (typeval === '') {
       alert('Type 값은 필수 입니다.');
       return;
     }
 
-
+    console.log(id, typeval, gene.value, variant_id.value, comment.value, reference.value, typeVal);
     if (id !== '') {
-      this.commentsService.updateCommentsList(id, commentsType.value, gene.value, variant_id.value, comment.value, reference.value, typeVal)
+      this.commentsService.updateCommentsList(id, typeval, gene.value, variant_id.value, comment.value, reference.value, typeVal)
         .subscribe((data) => {
           console.log('[170][benign 수정]', data);
           alert('수정 되었습니다.');
           this.search(gene.value, typeVal);
         });
     } else {
-      this.commentsService.insertCommentsList(this.selectType, id, commentsType.value,
+      this.commentsService.insertCommentsList(this.selectType, id, typeval,
         gene.value, variant_id.value, comment.value, reference.value, typeVal)
         .subscribe((data) => {
           console.log('[170][benign 저장]', data);
@@ -139,7 +143,7 @@ export class CommentsComponent implements OnInit {
     this.totRecords = 0;
     this.lists$ = this.commentsService.getCommentsList(genes, type);
     this.lists$.subscribe((data) => {
-      //   console.log('[170][benign 검색]', data);
+      console.log('[146][benign 검색]', data);
       this.lists = data;
       this.listComments = data;
       this.lists = data.slice(0, 10);

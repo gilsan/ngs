@@ -88,53 +88,56 @@
                         <input type="hidden" value="R" #status id="status{{i+1}}" >
                         <td class="txt_l bdnone" >{{ (curPage-1)*10 + i + 1}}</td>
                         <td ><span class="bdnone txt_l" *ngIf="status.value === 'R'">{{list.genes}}</span>
-                             <span class="bdnone txt_l" *ngIf="status.value === 'U'"><input type="text"  class="clr-input " value="{{list.genes}}" id="genes{{list.id}}" ></span>
+                             <span class="bdnone txt_l" *ngIf="status.value === 'U'"><input type="text"  class="clr-input "
+                             #gene value="{{list.genes}}" id="genes{{list.id}}" ></span>
                         </td>
                         <td><span class="bdnone" *ngIf="status.value === 'R'">{{list.type}}</span>
                              <span class="bdnone" *ngIf="status.value === 'U'" [ngSwitch]="list.type">
-                                       <select class="select_01 select_001"  *ngSwitchCase="'AMLALL'" #selectedtype>
+                                       <select class="select_01 select_001" #type *ngSwitchCase="'AMLALL'" #selectedtype>
                                           <option value=''>선택</option>
                                           <option value="AMLALL" selected>AML/ALL</option>
                                           <option value="MDSMPN">MDS/MPN</option>
                                           <option value="LYM">악성림프/형질세포종</option>
                                           <option value="Genetic">유전성 유전질환</option>
                                        </select>
-                                       <select class="select_01 select_001"  *ngSwitchCase="'MDSMPN'" #selectedtype>
+                                       <select class="select_01 select_001"  #type  *ngSwitchCase="'MDSMPN'" #selectedtype>
                                           <option value=''>선택</option>
                                           <option value="AMLALL">AML/ALL</option>
                                           <option value="MDSMPN" selected>MDS/MPN</option>
                                           <option value="LYM">악성림프/형질세포종</option>
                                           <option value="Genetic">유전성 유전질환</option>
                                        </select>
-                                       <select class="select_01 select_001"  *ngSwitchCase="'LYM'" #selectedtype>
+                                       <select class="select_01 select_001"  #type  *ngSwitchCase="'LYM'" #selectedtype>
                                           <option value=''>선택</option>
                                           <option value="AMLALL">AML/ALL</option>
                                           <option value="MDSMPN">MDS/MPN</option>
                                           <option value="LYM" selected>악성림프/형질세포종</option>
                                           <option value="Genetic">유전성 유전질환</option>
                                        </select>
-                                       <select class="select_01 select_001"  *ngSwitchCase="'Genetic'" #selectedtype>
+                                       <select class="select_01 select_001"  #type  *ngSwitchCase="'Genetic'" #selectedtype>
                                           <option value=''>선택</option>
                                           <option value="AMLALL">AML/ALL</option>
                                           <option value="MDSMPN">MDS/MPN</option>
                                           <option value="LYM">악성림프/형질세포종</option>
                                           <option value="Genetic" selected>유전성 유전질환</option>
                                        </select>
-                                       <select class="select_01 select_001"  *ngSwitchCase="'Sequencing'" #selectedtype>
+                                       <!--
+                                       <select class="select_01 select_001"  #type  *ngSwitchCase="'Sequencing'" #selectedtype>
                                           <option value=''>선택</option>
                                           <option value="AMLALL">AML/ALL</option>
                                           <option value="MDSMPN">MDS/MPN</option>
                                           <option value="LYM">악성림프/형질세포종</option>
                                           <option value="Genetic">유전성 유전질환</option>
                                        </select>
-                                       <select class="select_01 select_001"  *ngSwitchCase="'MLPA'" #selectedtype>
+                                       <select class="select_01 select_001"  #type  *ngSwitchCase="'MLPA'" #selectedtype>
                                           <option value=''>선택</option>
                                           <option value="AMLALL">AML/ALL</option>
                                           <option value="MDSMPN">MDS/MPN</option>
                                           <option value="LYM">악성림프/형질세포종</option>
                                           <option value="Genetic">유전성 유전질환</option>
                                        </select>
-                                       <select class="select_01 select_001" *ngSwitchDefault #selectedtype>
+                                       -->
+                                       <select class="select_01 select_001"  #type  *ngSwitchDefault #selectedtype>
                                           <option value=''>선택</option>
                                           <option value="AMLALL">AML/ALL</option>
                                           <option value="MDSMPN">MDS/MPN</option>
@@ -149,19 +152,24 @@
                             </span>
                         </td>
                         <td ><span class="bdnone" *ngIf="status.value === 'R'">{{list.location}}</span>
-                             <span class="bdnone" *ngIf="status.value === 'U'"><input type="text"  class="clr-input " value="{{list.location}}" id="location{{list.id}}" ></span>
+                             <span class="bdnone" *ngIf="status.value === 'U'"><input type="text"  class="clr-input "
+                              #location value="{{list.location}}" id="location{{list.id}}" ></span>
                         </td>
                         <td ><span class="bdnone" *ngIf="status.value === 'R'">{{list.exon}}</span>
-                             <span class="bdnone" *ngIf="status.value === 'U'"><input type="text"  class="clr-input " value="{{list.exon}}"  id="exon{{list.id}}" ></span>
+                             <span class="bdnone" *ngIf="status.value === 'U'"><input type="text"  class="clr-input "
+                             #exon value="{{list.exon}}"  id="exon{{list.id}}" ></span>
                         </td>
                         <td ><span class="bdnone" *ngIf="status.value === 'R'">{{list.transcript}}</span>
-                             <span class="bdnone" *ngIf="status.value === 'U'"><input type="text"  class="clr-input " value="{{list.transcript}}" id="transcript{{list.id}}" ></span>
+                             <span class="bdnone" *ngIf="status.value === 'U'"><input type="text"  class="clr-input "
+                            #transcript value="{{list.transcript}}" id="transcript{{list.id}}" ></span>
                         </td>
                         <td ><span class="bdnone" *ngIf="status.value === 'R'">{{list.coding}}</span>
-                             <span class="bdnone" *ngIf="status.value === 'U'"><input type="text"  class="clr-input " value="{{list.coding}}" id="coding{{list.id}}" ></span>
+                             <span class="bdnone" *ngIf="status.value === 'U'"><input type="text"  class="clr-input "
+                             #coding value="{{list.coding}}" id="coding{{list.id}}" ></span>
                         </td>
                         <td ><span class="bdnone" *ngIf="status.value === 'R'">{{list.amino_acid_change}}</span>
-                             <span class="bdnone" *ngIf="status.value === 'U'"><input type="text"  class="clr-input " value="{{list.amino_acid_change}}" id="aminoAcidChange{{list.id}}" ></span>
+                             <span class="bdnone" *ngIf="status.value === 'U'"><input type="text"  class="clr-input"
+                             #amino value="{{list.amino_acid_change}}" id="aminoAcidChange{{list.id}}" ></span>
                         </td>
                         <td class="text-right">
                             <span class="bdnone" *ngIf="status.value === 'R' ">

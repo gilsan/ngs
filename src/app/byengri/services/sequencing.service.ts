@@ -55,6 +55,10 @@ export class SequencingService {
       });
   }
 
+  listSequencing(): Observable<ISequencing[]> {
+    return this.http.get<ISequencing[]>(`${this.apiUrl}/sequencingdiag/list`);
+  }
+
 
 
 

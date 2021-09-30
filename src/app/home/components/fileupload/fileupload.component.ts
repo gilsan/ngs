@@ -8,6 +8,7 @@ import * as XLSX from 'xlsx';
 import { constants } from 'zlib';
 import { IAFormVariant } from '../../models/patients';
 import { ArtifactsService } from 'src/app/services/artifacts.service';
+import { from } from 'rxjs';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 
@@ -142,6 +143,13 @@ export class FileuploadComponent implements OnInit {
       });
     }
     console.log(this.artifacts);
+    from(this.artifacts)
+      .pipe(
+        concatMap(data => this.artifactsService.insertArtifactsList(
+          data.id, data.genes, data.locat, data.exon, data.transcript, data.coding, data.aminoAcidChange, data.type
+        ))
+      )
+      .subscribe();
 
     // public insertArtifactsList(id: string, genes: string, locat: string, exon: string, transcript:
     //   string, coding: string, aminoAcidChange: string, type: string):

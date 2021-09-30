@@ -101,7 +101,7 @@ export class ArtifactsComponent implements OnInit {
       alert('Type 값은 필수 입니다.');
       return;
     }
-    
+    // console.log('[68]', id, genes.value, location.value, exon.value, transcript.value, coding.value, aminoAcidChange.value, typeVal);
     if (id !== '') {
       this.artifactsService.updateArtifactsList(id, genes.value, location.value, exon.value, transcript.value,
         coding.value, aminoAcidChange.value, typeVal)
@@ -120,7 +120,7 @@ export class ArtifactsComponent implements OnInit {
           this.search(genes.value);
         });
     }
-  
+
   }
 
 

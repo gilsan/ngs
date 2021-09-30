@@ -65,7 +65,7 @@ export class MutationComponent implements OnInit {
   }
 
   updateRow(id: string): void {
-
+    console.log('[68][mutation]', id);
     const buccal: HTMLInputElement = document.getElementById("buccal" + id) as HTMLInputElement;
     const patientName: HTMLInputElement = document.getElementById("patientName" + id) as HTMLInputElement;
     const registerNumber: HTMLInputElement = document.getElementById("registerNumber" + id) as HTMLInputElement;
