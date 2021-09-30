@@ -7,8 +7,20 @@ import { FileUploadService } from '../../services/file-upload.service';
 import * as XLSX from 'xlsx';
 import { constants } from 'zlib';
 import { IAFormVariant } from '../../models/patients';
+import { ArtifactsService } from 'src/app/services/artifacts.service';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
+
+export interface IArtifact {
+  id: string;
+  genes: string;
+  locat: string;
+  exon: string;
+  transcript: string;
+  coding: string;
+  aminoAcidChange: string;
+  type: string;
+}
 
 
 @Component({
@@ -21,6 +33,8 @@ export class FileuploadComponent implements OnInit {
   upload: UploadResponse = new UploadResponse();
   isActive: boolean;
   testedid: string;
+  artifacts: IArtifact[] = [];
+
 
   @Input() patientid: string;
   @Input() specimenNo: string;
@@ -34,6 +48,7 @@ export class FileuploadComponent implements OnInit {
     private fileUploadService: FileUploadService,
     private router: Router,
     private route: ActivatedRoute,
+    private artifactsService: ArtifactsService
   ) { }
 
   ngOnInit(): void {
@@ -102,12 +117,35 @@ export class FileuploadComponent implements OnInit {
       const rowObj = XLSX.utils.sheet_to_csv(wb.Sheets[sheet]);
 
       const datas = this.loadData(this.removeBackslach(rowObj));
-      console.log(rowObj);
+      // console.log(rowObj);
+      this.artifactsLists(rowObj);
+
 
     };
 
     data = [];
     reader.readAsBinaryString(file);
+  }
+
+  artifactsLists(s: string): void {
+    let ixEnd = 0;
+
+    for (let ix = 0; ix < s.length; ix = ixEnd + 1) {
+      ixEnd = s.indexOf('\n', ix);
+      if (ixEnd === -1) {
+        ixEnd = s.length;
+      }
+      const row = s.substring(ix, ixEnd).split(',');
+      this.artifacts.push({
+        id: '', genes: row[0], locat: '', exon: row[1],
+        transcript: row[2], coding: row[3], aminoAcidChange: row[4], type: 'LYM'
+      });
+    }
+    console.log(this.artifacts);
+
+    // public insertArtifactsList(id: string, genes: string, locat: string, exon: string, transcript:
+    //   string, coding: string, aminoAcidChange: string, type: string):
+
   }
 
   removeBackslach(data: string): string {

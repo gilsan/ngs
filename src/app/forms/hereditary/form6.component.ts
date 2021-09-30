@@ -301,7 +301,7 @@ export class Form6Component implements OnInit, OnDestroy {
         this.formTitle = item.title;
         geneLists = item.lists.split(',');
         this.target = item.target;
-        // console.log('[135][gene 정보]', item);
+        console.log('[304][gene 정보] ===>', geneTitles.length);
       }
     });
 
