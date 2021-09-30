@@ -7,4 +7,5 @@ export interface IArtifacts {
   coding: string;
   amino_acid_change: string;
   display?: string;
+  type?: string;
 }
