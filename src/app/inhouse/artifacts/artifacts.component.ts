@@ -155,6 +155,7 @@ export class ArtifactsComponent implements OnInit {
     this.lists$
       .subscribe((data) => {
         this.listArtfacts = data;
+
         this.lists = data.slice(0, 10);
         this.curPage = 1;
         this.totPage = Math.ceil(this.listArtfacts.length / 10);
