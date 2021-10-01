@@ -398,8 +398,6 @@ export class PatientsListService {
         if (item.gene2 === 'none') {
           if (testType === 'AML' || testType === 'ALL') {
             tempTestType = 'AMLALL';
-          } else if (testType === 'MDS' || testType === 'MDS') {
-            tempTestType = 'MDSMPN';
           } else {
             tempTestType = testType;
           }
@@ -416,8 +414,6 @@ export class PatientsListService {
         } else {
           if (testType === 'AML' || testType === 'ALL') {
             tempTestType = 'AMLALL';
-          } else if (testType === 'MDS' || testType === 'MDS') {
-            tempTestType = 'MDSMPN';
           } else {
             tempTestType = testType;
           }
@@ -465,8 +461,6 @@ export class PatientsListService {
           if (cnt === 1) {
             if (testType === 'AML' || testType === 'ALL') {
               tempTestType = 'AMLALL';
-            } else if (testType === 'MDS' || testType === 'MDS') {
-              tempTestType = 'MDSMPN';
             } else {
               tempTestType = testType;
             }
@@ -506,8 +500,6 @@ export class PatientsListService {
 
             if (testType === 'AML' || testType === 'ALL') {
               tempTestType = 'AMLALL';
-            } else if (testType === 'MDS' || testType === 'MDS') {
-              tempTestType = 'MDSMPN';
             } else {
               tempTestType = testType;
             }
@@ -573,8 +565,6 @@ export class PatientsListService {
 
           if (testType === 'AML' || testType === 'ALL') {
             tempTestType = 'AMLALL';
-          } else if (testType === 'MDS' || testType === 'MDS') {
-            tempTestType = 'MDSMPN';
           } else {
             tempTestType = testType;
           }

@@ -140,7 +140,7 @@ export class CommentsComponent implements OnInit {
   }
 
   search(genes: string, type: string): void {
-    if (type === 'ALL') {
+    if (type === 'TOTAL') {
       type = '';
     }
     this.totRecords = 0;
@@ -167,7 +167,7 @@ export class CommentsComponent implements OnInit {
   findComments(type: string): void {
     this.selectType = type;
     this.totRecords = 0;
-    if (type === 'ALL') {
+    if (type === 'TOTAL') {
       this.lists$ = this.commentsService.getCommentsList('', '');
     } else {
       this.lists$ = this.commentsService.getCommentsList('', type);
@@ -190,7 +190,7 @@ export class CommentsComponent implements OnInit {
     this.lists.forEach(item => {
       if (item.type === 'AML') {
         item.display = 'AML';
-      } else if (item.type === 'MDSMPN') {
+      } else if (item.type === 'MDS') {
         item.display = 'MDSMPN';
       } else if (item.type === 'LYM') {
         item.display = '악성림프종/형질세포종';

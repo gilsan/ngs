@@ -254,7 +254,7 @@ export class MutationComponent implements OnInit {
     this.lists.forEach(item => {
       if (item.type === 'AMLALL') {
         item.display = 'AMLALL';
-      } else if (item.type === 'MDSMPN') {
+      } else if (item.type === 'MDS') {
         item.display = 'MDSMPN';
       } else if (item.type === 'LYM') {
         item.display = '악성림프종/형질세포종';
