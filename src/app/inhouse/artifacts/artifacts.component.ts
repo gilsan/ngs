@@ -149,7 +149,9 @@ export class ArtifactsComponent implements OnInit {
   }
 
   search(genes: string, coding: string = '', type: string = ''): void {
-
+    if (type === 'ALL') {
+      type = '';
+    }
     this.totRecords = 0;
     this.lists$ = this.artifactsService.getArtifactsList(genes, coding, type);
     this.lists$
@@ -171,6 +173,7 @@ export class ArtifactsComponent implements OnInit {
   }
 
   findArtifacts(type: string): void {
+    console.log(type);
     this.selectedType = type;
     this.totRecords = 0;
     if (type === 'ALL') {

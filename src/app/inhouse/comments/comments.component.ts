@@ -140,6 +140,9 @@ export class CommentsComponent implements OnInit {
   }
 
   search(genes: string, type: string): void {
+    if (type === 'ALL') {
+      type = '';
+    }
     this.totRecords = 0;
     this.lists$ = this.commentsService.getCommentsList(genes, type);
     this.lists$.subscribe((data) => {

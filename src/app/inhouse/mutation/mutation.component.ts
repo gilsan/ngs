@@ -205,6 +205,9 @@ export class MutationComponent implements OnInit {
     this.lists = this.listMutations.slice((Number(page) - 1) * 10, (Number(page)) * 10);
   }
   search(genes: string, coding: string = '', type: string): void {
+    if (type === 'ALL') {
+      type = '';
+    }
     this.totRecords = 0;
     this.lists$ = this.mutationService.getMutationList(genes, coding, type);
     this.lists$.subscribe((data) => {
