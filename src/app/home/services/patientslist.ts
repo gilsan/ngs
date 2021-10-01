@@ -394,13 +394,17 @@ export class PatientsListService {
       switchMap(() => from(this.geneCoding)),
       concatMap(item => {
         // console.log('[395][geneCoding]==> ', item);
+        let tempTestType;
         if (item.gene2 === 'none') {
           if (testType === 'AML' || testType === 'ALL') {
-            testType = 'AMLALL';
+            tempTestType = 'AMLALL';
           } else if (testType === 'MDS' || testType === 'MDS') {
-            testType = 'MDSMPN';
+            tempTestType = 'MDSMPN';
+          } else {
+            tempTestType = testType;
           }
-          return this.getArtifactsInfoCount(item.gene1, item.coding, testType).pipe(
+
+          return this.getArtifactsInfoCount(item.gene1, item.coding, tempTestType).pipe(
             map(gene1Count => {
               console.log('[402]', item.gene1, item.coding, testType, gene1Count);
               if (gene1Count[0] !== null) {
@@ -411,12 +415,14 @@ export class PatientsListService {
           );
         } else {
           if (testType === 'AML' || testType === 'ALL') {
-            testType = 'AMLALL';
+            tempTestType = 'AMLALL';
           } else if (testType === 'MDS' || testType === 'MDS') {
-            testType = 'MDSMPN';
+            tempTestType = 'MDSMPN';
+          } else {
+            tempTestType = testType;
           }
-          const gene1$ = this.getArtifactsInfoCount(item.gene1, item.coding, testType);
-          const gene2$ = this.getArtifactsInfoCount(item.gene2, item.coding, testType);
+          const gene1$ = this.getArtifactsInfoCount(item.gene1, item.coding, tempTestType);
+          const gene2$ = this.getArtifactsInfoCount(item.gene2, item.coding, tempTestType);
 
           return combineLatest([gene1$, gene2$]).pipe(
             map(data => {
@@ -452,16 +458,19 @@ export class PatientsListService {
       */
       concatMap(item => {
         // console.log('===[443][patientslists][뮤테이션] getMutationInfoLists', item);
+        let tempTestType;
         if (item.gene2 === 'none') {
           const cnt = item.gene1.split(',').length;
           // console.log('====[395][patientslists][뮤테이션길이] getMutationInfoLists', item, cnt);
           if (cnt === 1) {
             if (testType === 'AML' || testType === 'ALL') {
-              testType = 'AMLALL';
+              tempTestType = 'AMLALL';
             } else if (testType === 'MDS' || testType === 'MDS') {
-              testType = 'MDSMPN';
+              tempTestType = 'MDSMPN';
+            } else {
+              tempTestType = testType;
             }
-            return this.getMutationInfoLists(item.gene1, item.coding, testType).pipe(
+            return this.getMutationInfoLists(item.gene1, item.coding, tempTestType).pipe(
               map(lists => {
                 // console.log('========[396][patientslist][뮤테이션]', lists, item.gene1, item.coding);
                 if (Array.isArray(lists) && lists.length) {
@@ -496,12 +505,14 @@ export class PatientsListService {
             }
 
             if (testType === 'AML' || testType === 'ALL') {
-              testType = 'AMLALL';
+              tempTestType = 'AMLALL';
             } else if (testType === 'MDS' || testType === 'MDS') {
-              testType = 'MDSMPN';
+              tempTestType = 'MDSMPN';
+            } else {
+              tempTestType = testType;
             }
             // console.log('[420][뮤테이션]', item, tempGene, tempCoding);
-            return this.getMutationInfoLists(tempGene, tempCoding, testType).pipe(
+            return this.getMutationInfoLists(tempGene, tempCoding, tempTestType).pipe(
               tap(data => console.log('[patientslist][429][뮤테이션]', data)),
               map(lists => {
                 if (Array.isArray(lists) && lists.length) {
@@ -550,6 +561,7 @@ export class PatientsListService {
           // );
         } else {
           // CSDE1,NRAS 인경우 NRAS로 찿는다.
+          let tempTestType;
           let tempGene;
           const tempCoding = item.coding.split(',')[0];
           // console.log('[482][뮤테이션]', item);
@@ -560,11 +572,13 @@ export class PatientsListService {
           }
 
           if (testType === 'AML' || testType === 'ALL') {
-            testType = 'AMLALL';
+            tempTestType = 'AMLALL';
           } else if (testType === 'MDS' || testType === 'MDS') {
-            testType = 'MDSMPN';
+            tempTestType = 'MDSMPN';
+          } else {
+            tempTestType = testType;
           }
-          return this.getMutationInfoLists(tempGene, tempCoding, testType).pipe(
+          return this.getMutationInfoLists(tempGene, tempCoding, tempTestType).pipe(
             map(lists => {
               if (Array.isArray(lists) && lists.length) {
                 return { ...item, mutationList1: lists[0], mutationList2: 'none', mtype: 'M' };
@@ -607,15 +621,15 @@ export class PatientsListService {
       concatMap(item => {
 
         if (item.gene2 === 'none') {
-          // console.log('[코멘트][585][', item.gene1, item.mutationList1.functional_impact, testType);
-          // console.log('[코멘트][585][', item.gene1, item.gene2, item.tsv.clinvar, item.tsv);
+          // console.log('[코멘트][610][', item.gene1, item.mutationList1.functional_impact, testType);
+          // console.log('[코멘트][611][', item.gene1, item.gene2, item.tsv.clinvar, item.tsv);
           // const clinvar = item.tsv.clinvar.toString().toLowerCase();
           let clinvar = '';
           if (item.mutationList1.functional_impact !== null &&
             item.mutationList1.functional_impact !== undefined) {
             clinvar = item.mutationList1.functional_impact.toString().toLowerCase();
           }
-
+          // console.log('[코멘트][618][', clinvar);
           if (clinvar === 'likely pathogenic'
             || clinvar === 'pathogenic'
             || clinvar === 'pathogenic/likely pathogenic'
@@ -631,7 +645,7 @@ export class PatientsListService {
 
             return this.getCommentInfoCount(gene1, testType).pipe(
               map(comments1Count => {
-                // console.log('[코멘트][608][', comments1Count);
+                // console.log('[코멘트][634][', comments1Count);
                 return { ...item, comments1Count: comments1Count[0].count, comments2Count: 0 };
               })
             );
@@ -651,7 +665,7 @@ export class PatientsListService {
             || clinvar === 'pathogenic'
             || clinvar === 'pathogenic/likely pathogenic'
             || clinvar === 'likely pathogenic/pathogenic') {
-            console.log('==== [628][코멘트 갯수]');
+            console.log('==== [654][코멘트 갯수]');
             // CSDE1,NRAS 인경우 NRAS로 찿는다.
             let tempMentcountGene;
             if (item.gene1 === 'NRAS') {
@@ -661,7 +675,7 @@ export class PatientsListService {
             }
             return this.getCommentInfoCount(tempMentcountGene, testType).pipe(
               map(comments1Count => {
-                console.log('==== [638][코멘트 갯수]', comments1Count, item.gene1, testType, item.tsv.clinvar);
+                console.log('==== [664][코멘트 갯수]', comments1Count, item.gene1, testType, item.tsv.clinvar);
                 return { ...item, comments1Count: comments1Count[0].count, comments2Count: 0 };
               })
             );
@@ -695,7 +709,7 @@ export class PatientsListService {
 
             return this.getCommentInfoLists(gene1, testType).pipe(
               map(comment => {
-                console.log('==== [606][코멘트정보 내용]  Comment List :', comment);
+                console.log('==== [698][코멘트정보 내용]  Comment List :', comment);
                 if (Array.isArray(comment) && comment.length) {
                   return { ...item, commentList1: comment[0], commentList2: 'none' };
                 } else {
