@@ -93,17 +93,19 @@ export class CommentsComponent implements OnInit {
     const typeval = this.selectedtype.nativeElement.value;
     if (typeval === 'AML' || typeval === 'AML') {
       typeVal = 'AMLALL';
+    } else {
+      typeVal = typeval;
     }
     if (typeval === '') {
       alert('Type 값은 필수 입니다.');
       return;
     }
 
-    console.log(id, typeval, gene.value, variant_id.value, comment.value, reference.value, typeVal);
+    // console.log('[103][benign 입력]', id, typeval, gene.value, variant_id.value, comment.value, reference.value, typeVal);
     if (id !== '') {
       this.commentsService.updateCommentsList(id, typeval, gene.value, variant_id.value, comment.value, reference.value, typeVal)
         .subscribe((data) => {
-          console.log('[170][benign 수정]', data);
+          console.log('[106][benign 수정]', data);
           alert('수정 되었습니다.');
           this.search(gene.value, typeVal);
         });
@@ -111,9 +113,9 @@ export class CommentsComponent implements OnInit {
       this.commentsService.insertCommentsList(this.selectType, id, typeval,
         gene.value, variant_id.value, comment.value, reference.value, typeVal)
         .subscribe((data) => {
-          console.log('[170][benign 저장]', data);
+          console.log('[115][benign 저장]', data);
           alert('저장 되었습니다.');
-          this.search(gene.value, typeVal);
+          this.search('', 'AMLALL');
         });
     }
 

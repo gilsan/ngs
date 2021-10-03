@@ -151,7 +151,8 @@ export class MutationComponent implements OnInit {
         .subscribe((data) => {
           console.log('[170][Mutation 저장]', data);
           alert('저장 되었습니다.');
-          this.search(gene.value, '', type);
+          // this.search(gene.value, '', type);
+          this.search('', '', 'AMLALL');
         });
     }
   }

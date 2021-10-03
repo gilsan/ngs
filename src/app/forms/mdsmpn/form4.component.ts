@@ -417,6 +417,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       // this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {
       this.patientsListService.mlpafiltering(this.form2TestedId, this.reportType, this.patientInfo.specimenNo).subscribe(data => {
         if (data.length > 0) {
+          // console.log('[420]', data);
           this.recoverVariants = data;
           this.vd.push({ sequence: this.vd.length, selectedname: 'mutation', gene: data[0].gene });
           // this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
@@ -430,6 +431,14 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
               this.store.setVUSStatus(this.vusstatus);
             }
           });
+
+          // COMMENTS 가져오기
+          // comments 분류
+          if (data[0].comments !== 'none') {
+            console.log(data[0].comments);
+            this.commentsRows().push(this.createCommentRow(data[0].comments));
+          }
+          ///////////////////////////////////////////////////////////////
           this.putCheckboxInit(); // 체크박스 초기화
 
         } else {

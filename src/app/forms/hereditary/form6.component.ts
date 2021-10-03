@@ -194,7 +194,7 @@ export class Form6Component implements OnInit, OnDestroy {
     if (parseInt(this.screenstatus, 10) >= 1 || parseInt(this.screenstatus, 10) === 2) {
       this.recoverDetected();
     } else if (parseInt(this.screenstatus, 10) === 0) {
-      // this.init(this.form2TestedId);
+      this.init(this.form2TestedId);
     } else {
       this.firstReportDay = '-';
       this.lastReportDay = '-';
@@ -251,7 +251,7 @@ export class Form6Component implements OnInit, OnDestroy {
       filter(data => data !== null || data !== undefined),
       map(route => route.get('type'))
     ).subscribe(data => {
-      this.reportType = data;
+      this.reportType = 'Genetic';
     });
   }
 
@@ -272,6 +272,7 @@ export class Form6Component implements OnInit, OnDestroy {
     }
 
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
+    console.log('[275][환자정보]', this.patientInfo);
     this.formTitle = this.patientInfo.reportTitle;
     // this.findTitle(this.patientInfo.test_code);
     this.requestDate = this.patientInfo.accept_date;
@@ -290,7 +291,7 @@ export class Form6Component implements OnInit, OnDestroy {
 
     this.screenstatus = this.patientInfo.screenstatus;
 
-    this.getimmundefi();
+    // this.getimmundefi();
 
   }
 
@@ -329,7 +330,7 @@ export class Form6Component implements OnInit, OnDestroy {
   getimmundefi(): void {
     this.subs.sink = this.variantsService.contentScreen6(this.form2TestedId)
       .subscribe(data => {
-        console.log('[329][내역 가져오기]', data);
+        console.log('[329][내역 가져오기]', data.length);
         if (data.length > 0) {
 
           data.forEach(item => {
@@ -459,6 +460,15 @@ export class Form6Component implements OnInit, OnDestroy {
               this.store.setVUSStatus(this.vusstatus);
             }
           });
+
+
+          // comments 분류 COMMENTS 가져오기
+          if (data[0].comments !== 'none') {
+            console.log(data[0].comments);
+            this.commentsRows().push(this.createCommentRow(data[0].comments));
+          }
+          ///////////////////////////////////////////////////////////////
+
           this.putCheckboxInit(); // 체크박스 초기화
 
         } else {
@@ -716,7 +726,6 @@ export class Form6Component implements OnInit, OnDestroy {
     this.detactedVariants = [...this.detactedVariants, tempvalue];
     this.mockData = this.detactedVariants;
     this.addNewRow(tempvalue);
-
     this.checkboxStatus = [];
     for (let i = 0; i < this.detactedVariants.length; i++) {
       this.checkboxStatus.push(i);

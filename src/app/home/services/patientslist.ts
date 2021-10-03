@@ -917,6 +917,12 @@ export class PatientsListService {
     return this.http.post(`${this.apiUrl}/screen/query`, { specimenNo });
   }
 
+  // comment list 가져오기
+  public getCommentsList(genes: string, sheet: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/comments/list`, { genes, sheet });
+  }
+
+
   mlpafiltering(testedID: string, type: string, specimenNo: string): Observable<any> {
     return this.screenSelect(testedID).pipe(
       switchMap((data) => from(data)),
@@ -949,8 +955,9 @@ export class PatientsListService {
         const comments$ = this.getCommentInfoLists(items.gene, type);
         return comments$.pipe(
           map(comments => {
+            // console.log(comments);
             if (Array.isArray(comments) && comments.length) {
-              items = { ...items, comments: comments[0] };
+              return items = { ...items, comments: comments[0] };
             }
             return items = { ...items, comments: 'none' };
           })
@@ -969,10 +976,9 @@ export class PatientsListService {
               items.cnt = 0;
               return [items];
             })
-          )
+          );
 
       }),
-
     ); // End of return
   }
 

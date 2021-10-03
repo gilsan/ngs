@@ -164,7 +164,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
   getTestInformation(): void {
     this.mlpaService.getMlpaLists(this.specimenNo)
       .subscribe(data => {
-        console.log('[/screen/listMlpa]', data);
+
         if (data.length > 0) {
           this.target = data[0].target;
           this.testmethod = data[0].testmethod;
@@ -226,7 +226,6 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
   getMLPAData(): void {
     this.mlpaService.getMlpReportMLPA(this.specimenNo)
       .subscribe(data => {
-        console.log('[/screen/listReportMLPA]', data);
         if (data.length > 0) {
           this.displayMlpa(data);
         } else {

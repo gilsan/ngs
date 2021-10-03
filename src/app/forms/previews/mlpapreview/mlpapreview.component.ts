@@ -31,10 +31,7 @@ export class MlpapreviewComponent implements OnInit {
       this.showTable3 = true;
       this.showTable4 = false;
     }
-    // } else if (this.type === 'type4') {
-    //   this.showTable3 = true;
-    //   this.showTable4 = false;
-    // }
+
   }
 
   closeModal(): void {
