@@ -99,8 +99,9 @@
             <col style="width:100px"/>   <!--  COSMIC ID   -->
             <col style="width:80px"/>  <!-- IGV -->
             <col style="width:200px"/>  <!--  sanger -->
-            <col style="width:120px"/>  <!--   Site  -->
-            <col style="width:80px"/>   <!--  Action -->
+            <!--
+            <col style="width:120px"/>
+            <col style="width:80px"/>     -->
             </colgroup>
       <thead>
           <tr>
@@ -125,8 +126,10 @@
               <th>COSMIC ID</th>
               <th>IGV</th>
               <th>Sanger</th>
+              <!--
               <th>Site</th>
               <th>Action</th>
+              -->
           </tr>
       </thead>
       <tbody cdkDropList (cdkDropListDropped)="droped($event)">
@@ -197,6 +200,7 @@
                 formControlName="sanger"></textarea>
 
             </td>
+            <!--
             <td  class="txt_c">
               <select class="select_01" style="width: 100%;" name="options" (change)="saveInhouse(i, inhouse.value)"
                #inhouse>
@@ -208,7 +212,7 @@
                <button class="btn-s blue"  (click)="save(i)" >저장</button>
 
             </td>
-
+            -->
             </tr>
           </ng-container>
       </tbody>

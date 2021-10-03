@@ -118,7 +118,7 @@ export class ArtifactsComponent implements OnInit {
         .subscribe((data) => {
           console.log('[170][benign 저장]', data);
           alert('저장 되었습니다.');
-          this.search(genes.value);
+          this.search('', '', 'AMLALL');
         });
     }
 

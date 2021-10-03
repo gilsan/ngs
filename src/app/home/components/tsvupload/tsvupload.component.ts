@@ -91,10 +91,18 @@ export class TsvuploadComponent implements OnInit {
         patientid = event.target.files[0].name.split('_')[4].split('.')[0];
       } else if (extension === 'tsv') {
         patientid = event.target.files[0].name.split('_')[1];
+      } else if (extension === 'txt') {
+        patientid = event.target.files[0].name.split('-')[1];
       }
 
+      let filenameList;
+      if (extension === 'txt') {
+        filenameList = event.target.files[0].name.split('.')[0].split('-');
+      } else {
+        filenameList = event.target.files[0].name.split('.')[0].split('_');
+      }
 
-      const filenameList = event.target.files[0].name.split('.')[0].split('_');
+      // console.log(event.target.files[0].name.split('.')[0].split('-'));
       if (filenameList.includes(this.patientid)) {
         this.onDroppedFile(event.target.files);
       } else {
