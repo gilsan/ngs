@@ -758,25 +758,25 @@ export class GenemgnComponent implements OnInit {
 
 
 
-  // genename(gene: string, i: number, j: number): void {
-  //   this.selectedgene = gene;
-  //   this.row = i;
-  //   this.col = j;
-  // }
+  genename(gene: string, i: number, j: number): void {
+    this.selectedgene = gene;
+    this.row = i;
+    this.col = j;
+  }
 
-  // mystyle(i: number, j: number): any {
-  //   let len;
-  //   if (this.genetype === 'ALL') {
-  //     len = this.ALL.length;
-  //   } else if (this.genetype === 'AML') {
-  //     len = this.AML.length;
-  //   } else if (this.genetype === 'LYM') {
-  //     len = this.LYM.length;
-  //   } else if (this.genetype === 'MDS') {
-  //     len = this.MDS.length;
-  //   }
+  mystyle(i: number, j: number): any {
+    let len;
+    if (this.genetype === 'ALL') {
+      len = this.ALL.length;
+    } else if (this.genetype === 'AML') {
+      len = this.AML.length;
+    } else if (this.genetype === 'LYM') {
+      len = this.LYM.length;
+    } else if (this.genetype === 'MDS') {
+      len = this.MDS.length;
+    }
 
-  // }
+  }
   // 생성 다이얼로그
   addOpenDialog(): void {
     const addDialogRef = this.dialog.open(AddgeneComponent, {

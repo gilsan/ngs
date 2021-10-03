@@ -404,7 +404,7 @@ export class PatientsListService {
 
           return this.getArtifactsInfoCount(item.gene1, item.coding, tempTestType).pipe(
             map(gene1Count => {
-              console.log('[402]', item.gene1, item.coding, testType, gene1Count);
+              // console.log('[402][getArtifactsInfoCount]', item.gene1, item.coding, tempTestType, gene1Count);
               if (gene1Count[0] !== null) {
                 return { ...item, artifacts1Count: gene1Count[0].count, artifacts2Count: 0 };
               }
@@ -466,7 +466,7 @@ export class PatientsListService {
             }
             return this.getMutationInfoLists(item.gene1, item.coding, tempTestType).pipe(
               map(lists => {
-                // console.log('========[396][patientslist][뮤테이션]', lists, item.gene1, item.coding);
+                // console.log('========[469][patientslist][뮤테이션]', lists, item.gene1, item.coding);
                 if (Array.isArray(lists) && lists.length) {
                   return { ...item, mutationList1: lists[0], mutationList2: 'none', mtype: 'M' };
                 } else {
@@ -609,10 +609,9 @@ export class PatientsListService {
         }
       }),
       concatMap(item => {
-
         if (item.gene2 === 'none') {
-          // console.log('[코멘트][610][', item.gene1, item.mutationList1.functional_impact, testType);
-          // console.log('[코멘트][611][', item.gene1, item.gene2, item.tsv.clinvar, item.tsv);
+          // console.log('[코멘트][614][', item.gene1, item.mutationList1.functional_impact, testType);
+          // console.log('[코멘트][615][', item.gene1, item.gene2, item.tsv.clinvar, item.tsv);
           // const clinvar = item.tsv.clinvar.toString().toLowerCase();
           let clinvar = '';
           if (item.mutationList1.functional_impact !== null &&
@@ -675,7 +674,7 @@ export class PatientsListService {
         }
       }),
       concatMap(item => {  // Comments
-
+        // console.log('[코멘트][677]  ====>', item);
         if (item.gene2 === 'none') {
           // const clinvar = item.tsv.clinvar.toString().toLowerCase();
           // console.log('[코멘트][575][', item.gene1, item.mutationList1.functional_impact);
@@ -941,7 +940,7 @@ export class PatientsListService {
               item.type = 'M';
               return item;
             }
-            item.type = 'new';
+            item.type = '';
             return item;
           })
         );

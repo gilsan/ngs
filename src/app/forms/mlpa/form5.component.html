@@ -60,8 +60,8 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let list of mlpaData1; let i= index">
-                                    <td>
-                                      <input type="text" class="input_02 textcenter" #prode2 (change)="mlpa1Prode(i, prode2.value, 'L', list)" [value]="list.seq">
+                                    <td>{{list.seq}}
+                                     <!--  <input type="text" class="input_02 textcenter" #prode2 (change)="mlpa1Prode(i, prode2.value, 'L', list)" [value]="list.seq"> -->
                                     </td>
                                     <td>
                                       <input type="text" #site1 class="input_02 textcenter" (change)="mlpa1Site(i, site1.value, 'L', list)" [value]="list.site">
@@ -90,8 +90,8 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let list of mlpaData2; let i=index">
-                                    <td>
-                                     <input type="text" class="input_02 textcenter" #prode2 (change)="mlpa1Prode(i, prode2.value, 'R', list)" [value]="list.seq">
+                                    <td>{{list.seq}}
+                                   <!--   <input type="text" class="input_02 textcenter" #prode2 (change)="mlpa1Prode(i, prode2.value, 'R', list)" [value]="list.seq"> -->
                                     </td>
                                     <td>
                                       <input type="text" class="input_02 textcenter" #site2 (change)="mlpa1Site(i, site2.value, 'R', list)" [value]="list.site">
@@ -106,14 +106,16 @@
                 </div>
                 <!--
                 -->
-                <div class="sub_title">결론 및 의견</div>
+                 <div class="sub_title">결론 및 의견</div>
                 <div class="pd_r20">
-                    <textarea class="textarea_01" #conclu (change)="conclusion(conclu.value)">{{mlpaData.conclusion}}</textarea>
+                      <textarea class="textarea_01" #comment20 (change)="comment(comment20.value)">{{mlpaData.comment}}</textarea>
                 </div>
 
-                <div class="sub_title">Comment</div>
+
+                <!-- <div class="sub_title">Comment</div> -->
                 <div class="pd_r20">
-                    <textarea class="textarea_01" #comment (change)="comment(comment.value)">{{mlpaData.comment}}</textarea>
+                     <textarea class="textarea_01" #comment10 (change)="conclusion(comment10.value)">{{mlpaData.conclusion}}</textarea>
+
                 </div>
 
                 <div class="discription">

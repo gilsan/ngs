@@ -170,10 +170,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
 
   maxHeight = 500;
   totalCount = 0; // 유전자와 nucleotidde change 을 가진 환자수
-  // genetictest = `  LPC139
-  // LPC174
-  // LPC188
-  // LPE405`;
+
 
   @ViewChild('commentbox') private commentbox: TemplateRef<any>;
   @ViewChild('box100', { static: true }) box100: ElementRef;
@@ -389,9 +386,6 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       });
 
 
-
-
-
     // profile 가져오기
     this.subs.sink = this.analysisService.getAanlysisMDSInfo(this.form2TestedId)
       .subscribe(data => {
@@ -416,7 +410,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     // VUS 메제시 확인 2021.4.7 추가
     if (this.patientInfo.vusmsg.length) {
       this.vusmsg = this.patientInfo.vusmsg;
-      console.log('[469][init][VUS메세지]', this.vusmsg);
+      console.log('[413][init][VUS메세지]', this.vusmsg);
     }
 
     if (this.form2TestedId) {
