@@ -272,7 +272,8 @@ export class Form6Component implements OnInit, OnDestroy {
     }
 
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
-    this.findTitle(this.patientInfo.test_code);
+    this.formTitle = this.patientInfo.reportTitle;
+    // this.findTitle(this.patientInfo.test_code);
     this.requestDate = this.patientInfo.accept_date;
 
     this.requestDate = this.patientInfo.accept_date;

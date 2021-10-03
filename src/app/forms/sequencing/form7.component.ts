@@ -145,7 +145,8 @@ export class Form7Component implements OnInit, OnDestroy {
 
   // 내역 가져오기
   getSequencing(): void {
-    this.ngsTitle = this.titleService.findSequencingTitle(this.patientInfo.test_code);
+    this.ngsTitle = this.patientInfo.reportTitle;
+    // this.ngsTitle = this.titleService.findSequencingTitle(this.patientInfo.test_code);
     this.subs.sink = this.variantsService.contentScreen7(this.form2TestedId)
       .subscribe(data => {
         // console.log('[144]', data[0]);
