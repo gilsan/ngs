@@ -118,13 +118,20 @@ export class Form7Component implements OnInit, OnDestroy {
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
     console.log('[85] 환자정보: ', this.patientInfo);
 
-    // 판독자 , 검사자
-    if (this.patientInfo.examin.length) {
-      this.examin = this.patientInfo.examin;
-    }
+    if (parseInt(this.screenstatus, 10) === 0) {
+      // 전송횟수, 검사보고일, 수정보고일  저장
+      this.setReportdaymgn(this.patientInfo);
+    } else if (parseInt(this.screenstatus, 10) > 0) {
+      // 판독자 , 검사자
+      if (this.patientInfo.examin.length) {
+        this.examin = this.patientInfo.examin;
+      }
 
-    if (this.patientInfo.recheck.length) {
-      this.recheck = this.patientInfo.recheck;
+      if (this.patientInfo.recheck.length) {
+        this.recheck = this.patientInfo.recheck;
+      }
+
+      this.getSendEMR(this.patientInfo);
     }
 
 
@@ -186,9 +193,9 @@ export class Form7Component implements OnInit, OnDestroy {
     this.isVisible = !this.isVisible;
   }
 
-  // 검사일/검사보고일/수정보고일 관리
-  setReportdaymgn(patientInfo: IPatient): void {
+  getSendEMR(patientInfo: IPatient): void {
     // 전송횟수, 검사보고일, 수정보고일  저장
+    // console.log('[487][검사일/검사보고일/수정보고일 관리]', patientInfo);
     this.sendEMR = Number(patientInfo.sendEMR);
     if (patientInfo.sendEMRDate.length) {
       this.firstReportDay = patientInfo.sendEMRDate.replace(/-/g, '.').slice(0, 10);
@@ -198,6 +205,13 @@ export class Form7Component implements OnInit, OnDestroy {
     } else if (this.sendEMR === 0) {
       this.firstReportDay = '-';
     }
+  }
+
+
+
+  // 검사일/검사보고일/수정보고일 관리
+  setReportdaymgn(patientInfo: IPatient): void {
+    this.getSendEMR(patientInfo);
 
     // 판독자 , 검사자
     if (patientInfo.examin.length) {

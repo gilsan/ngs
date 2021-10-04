@@ -167,6 +167,8 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
       if (this.patientInfo.recheck.length) {
         this.recheck = this.patientInfo.recheck;
       }
+
+      this.getSendEMR(this.patientInfo);
     }
   }
 
@@ -268,8 +270,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
     return;
   }
 
-  // 검사일/검사보고일/수정보고일 관리
-  setReportdaymgn(patientInfo: IPatient): void {
+  getSendEMR(patientInfo: IPatient): void {
     // 전송횟수, 검사보고일, 수정보고일  저장
     // console.log('[487][검사일/검사보고일/수정보고일 관리]', patientInfo);
     this.sendEMR = Number(patientInfo.sendEMR);
@@ -281,7 +282,13 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
     } else if (this.sendEMR === 0) {
       this.firstReportDay = '-';
     }
+  }
 
+
+
+  // 검사일/검사보고일/수정보고일 관리
+  setReportdaymgn(patientInfo: IPatient): void {
+    this.getSendEMR(patientInfo);
     // 판독자 , 검사자
     if (patientInfo.examin.length) {
       this.examin = patientInfo.examin;
