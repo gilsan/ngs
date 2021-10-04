@@ -904,7 +904,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     const row = control.value[index];
     if (this.selectedItem === 'mutation') {
       this.subs.sink = this.patientsListService.saveMutation(
-        'MDSMPN',
+        'MDS',
         row.igv,
         row.sanger,
         'M' + this.patientInfo.name,
@@ -925,7 +925,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     } else if (this.selectedItem === 'artifacts') {
       // console.log('[715][save][artifacts] ', row);
       this.subs.sink = this.patientsListService.insertArtifacts(
-        'MDSMPN',
+        'MDS',
         row.gene, '', '', row.transcript, row.nucleotideChange, row.aminoAcidChange
       ).subscribe((data: any) => {
         // console.log('[719][result][artifacts] ', data);

@@ -96,6 +96,21 @@ export class SequencingreportComponent implements OnInit {
           const tempArr = this.patientInfo.img3.split('/');
           this.img3 = tempArr[4];
         }
+
+        // 검체 검사자,확인자
+        this.examin = this.patientInfo.examin; // 기사
+        const exam = this.patientInfo.examin.split('_');
+        this.examedno = exam[0];
+        this.examedname = exam[1];
+        this.recheck = this.patientInfo.recheck; // 의사
+        const reck = this.patientInfo.recheck.split('_');
+        this.checkeredno = reck[0];
+        this.checkername = reck[1];
+
+
+
+
+
       } catch (err) {
         console.log(err);
       }
@@ -179,7 +194,7 @@ export class SequencingreportComponent implements OnInit {
 
   checker(): void {
     const medi$ = this.searchService.listPath().pipe(
-      tap(data => console.log(data)),
+      tap(data => console.log('[182][medi]', data)),
       shareReplay()
     );
 
@@ -248,6 +263,7 @@ export class SequencingreportComponent implements OnInit {
       this.comments
     )
       .subscribe(data => {
+        alert('저장 되었습니다.');
         console.log(data);
       });
 
