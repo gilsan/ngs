@@ -147,7 +147,6 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
     this.method = this.patientInfo.reportTitle;
     this.requestDate = this.patientInfo.accept_date;
 
-
     // 검체 감염유부 확인
     if (parseInt(this.patientInfo.detected, 10) === 0) {
       this.resultStatus = 'Detected';
@@ -155,9 +154,20 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
       this.resultStatus = 'Not Detected';
     }
 
-    // 전송횟수, 검사보고일, 수정보고일  저장
-    this.setReportdaymgn(this.patientInfo);
     this.screenstatus = this.patientInfo.screenstatus;
+    if (parseInt(this.screenstatus, 10) === 0) {
+      // 전송횟수, 검사보고일, 수정보고일  저장
+      this.setReportdaymgn(this.patientInfo);
+    } else if (parseInt(this.screenstatus, 10) > 0) {
+      // 판독자 , 검사자
+      if (this.patientInfo.examin.length) {
+        this.examin = this.patientInfo.examin;
+      }
+
+      if (this.patientInfo.recheck.length) {
+        this.recheck = this.patientInfo.recheck;
+      }
+    }
   }
 
   // test code 로 test information 찿기
@@ -211,6 +221,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
 
     const index = this.mlpaLists.findIndex(item => item.type === testcode);
     this.mlpaData = this.mlpaLists[index];
+    console.log('[214]', testcode, this.mlpaData);
     const len = this.mlpaData.data.length; // 데이터 길이
     const firstHalf = Math.round(this.mlpaData.data.length / 2);
     // MLPA 데이터 2개로 나누기
@@ -224,8 +235,10 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
 
   // DB에서 MLPA 데이터 가져오기
   getMLPAData(): void {
+    console.log('[228]', this.specimenNo);
     this.mlpaService.getMlpReportMLPA(this.specimenNo)
       .subscribe(data => {
+        console.log('[230]', data);
         if (data.length > 0) {
           this.displayMlpa(data);
         } else {
@@ -400,8 +413,14 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
   tempSave(): void {
     const userid = localStorage.getItem('diaguser');
     const data = [...this.mlpaData1, ...this.mlpaData2];
-    // this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimen);
-    // this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimen);
+    this.patientInfo.recheck = this.recheck;
+    this.patientInfo.examin = this.examin;
+
+    console.log('[1729][tempSave]patient,reform,comment]', this.patientInfo.recheck, this.patientInfo.specimenNo, this.patientInfo.examin);
+    this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimenNo)
+      .subscribe(datas => console.log(datas));
+    this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimenNo)
+      .subscribe(datas => console.log(datas));
     if (this.firstReportDay === '-') {
       this.firstReportDay = this.today().replace(/-/g, '.');
       this.lastReportDay = this.today().replace(/-/g, '.');
@@ -412,6 +431,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
 
     console.log('[390][임시 저장]', this.mlpaData);
     this.mlpaService.saveMlpaSave(
+      this.resultStatus,
       this.patientInfo.specimenNo,
       this.mlpaData.conclusion,
       this.mlpaData.comment,

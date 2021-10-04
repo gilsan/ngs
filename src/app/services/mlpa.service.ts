@@ -37,11 +37,21 @@ export class MlpaService {
 
 
   // MLPA 임시저장
-  public saveMlpaSave(specimenNo: string, conclusion: string, comment: string, data: IData[],
+  public saveMlpaSave(resultStatus: string, specimenNo: string, conclusion: string, comment: string, data: IData[],
     result: string, technique: string, title: string, type: string,
     target: string, testmethod: string, analyzedgene: string): Observable<any> {
+    let detectedType: string;
+    if (resultStatus === 'Detected') {
+      detectedType = 'detected';
+    } else if (resultStatus === 'Not Detected') {
+      detectedType = 'notdetected';
+    }
+
     return this.http.post(`${this.apiUrl}/screen/tempsave_mlpa`,
-      { specimenNo, conclusion, comment, data, result, technique, title, type, target, testmethod, analyzedgene });
+      {
+        resultStatus: detectedType, specimenNo, conclusion, comment, data, result,
+        technique, title, type, target, testmethod, analyzedgene
+      });
   }
 
   // MLPA 내역

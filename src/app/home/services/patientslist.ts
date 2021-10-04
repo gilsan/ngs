@@ -754,6 +754,7 @@ export class PatientsListService {
     } else if (part === 'recheck') {
       this.store.setRechecker(name);
     }
+
     return this.http.post(`${this.apiUrl}/patients_diag/updateExaminer`, { part, name, specimenNo });
   }
 

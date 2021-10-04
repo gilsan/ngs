@@ -65,7 +65,7 @@ export class Form7Component implements OnInit, OnDestroy {
   reportType: string; //
 
   resultStatus = 'Detected';
-
+  vusmsg = '';
   screenstatus: string;
   form: FormGroup;
   ngsTitle: string;
@@ -97,7 +97,7 @@ export class Form7Component implements OnInit, OnDestroy {
   loadForm(): void {
     this.form = this.fb.group({
       type: [''],
-      exonintro: [''],
+      exonintron: [''],
       nucleotideChange: [''],
       aminoAcidChange: [''],
       zygosity: [''],
@@ -118,6 +118,17 @@ export class Form7Component implements OnInit, OnDestroy {
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
     console.log('[85] 환자정보: ', this.patientInfo);
 
+    // 판독자 , 검사자
+    if (this.patientInfo.examin.length) {
+      this.examin = this.patientInfo.examin;
+    }
+
+    if (this.patientInfo.recheck.length) {
+      this.recheck = this.patientInfo.recheck;
+    }
+
+
+    this.vusmsg = this.patientInfo.vusmsg;
     // 검체 감염유부 확인
     if (parseInt(this.patientInfo.detected, 10) === 0) {
       this.resultStatus = 'Detected';
@@ -149,10 +160,13 @@ export class Form7Component implements OnInit, OnDestroy {
     // this.ngsTitle = this.titleService.findSequencingTitle(this.patientInfo.test_code);
     this.subs.sink = this.variantsService.contentScreen7(this.form2TestedId)
       .subscribe(data => {
-        // console.log('[144]', data[0]);
+        console.log('[152]', data[0]);
         if (data.length > 0) {
+          this.comment = data[0].comment;
+          this.comment1 = data[0].comment1;
+          this.comment2 = data[0].comment2;
           this.form.get('type').setValue(data[0].type);
-          this.form.get('exonintro').setValue(data[0].exonintro);
+          this.form.get('exonintron').setValue(data[0].exonintron);
           this.form.get('nucleotideChange').setValue(data[0].nucleotideChange);
           this.form.get('aminoAcidChange').setValue(data[0].aminoAcidChange);
           this.form.get('zygosity').setValue(data[0].zygosity);
@@ -233,12 +247,24 @@ export class Form7Component implements OnInit, OnDestroy {
     const formData: ISequence[] = [];
     formData.push(this.sequence);
     const tempComments = this.comment + '_' + this.comment1 + '_' + this.comment2;
-    console.log('[236]', this.sequence, tempComments);
-    // this.subs.sink = this.variantsService.saveScreen7(this.form2TestedId, formData, this.patientInfo)
-    //   .subscribe(data => {
-    //     this.patientsListService.changescreenstatus(this.form2TestedId, '2', userid, 'SEQN').subscribe();
-    //     alert('저장되었습니다.');
-    //   });
+    console.log('[236]', formData, tempComments);
+
+    this.patientInfo.recheck = this.recheck;
+    this.patientInfo.examin = this.examin;
+    // console.log('[1729][tempSave]patient,reform,comment]', this.patientInfo, formData, this.comments);
+    this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimenNo)
+      .subscribe(datas => console.log(datas));
+    this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimenNo)
+      .subscribe(datas => console.log(datas));
+
+
+
+    this.subs.sink = this.variantsService.saveScreen7(
+      this.resultStatus, this.form2TestedId, formData, this.patientInfo, this.comment, this.comment1, this.comment)
+      .subscribe(data => {
+        this.patientsListService.changescreenstatus(this.form2TestedId, '2', userid, 'SEQN').subscribe();
+        alert('저장되었습니다.');
+      });
   }
 
   today(): string {

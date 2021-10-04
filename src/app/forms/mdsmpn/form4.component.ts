@@ -1005,8 +1005,10 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     if (result) {
       this.store.setRechecker(this.patientInfo.recheck);
       this.store.setExamin(this.patientInfo.examin);
-      this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimen);
-      this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimen);
+      this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimenNo)
+        .subscribe(datas => console.log(datas));
+      this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimenNo)
+        .subscribe(datas => console.log(datas));
 
       // console.log('[840][screenRead][profile] ', this.profile);
       this.analysisService.putAnalysisMDS(
@@ -1047,8 +1049,10 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     const result = confirm('판독완료 전송하시겠습니까?');
     if (result) {
       this.store.setRechecker(this.patientInfo.recheck);
-      this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimen);
-      this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimen);
+      this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimenNo)
+        .subscribe(datas => console.log(datas));
+      this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimenNo)
+        .subscribe(datas => console.log(datas));
 
       this.analysisService.putAnalysisMDS(
         this.form2TestedId,
@@ -1457,8 +1461,10 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
 
     this.store.setRechecker(this.patientInfo.recheck);
     this.store.setExamin(this.patientInfo.examin);
-    this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimen);
-    this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimen);
+    this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimenNo)
+      .subscribe(datas => console.log(datas));
+    this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimenNo)
+      .subscribe(datas => console.log(datas));
     // MDS 분석 보내기
     // diagnosis: string,
     // genetictest: string,
@@ -1640,8 +1646,10 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
 
     this.store.setRechecker(this.patientInfo.recheck);
     this.store.setExamin(this.patientInfo.examin);
-    this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimen);
-    this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimen);
+    this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimenNo)
+      .subscribe(datas => console.log(datas));
+    this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimenNo)
+      .subscribe(datas => console.log(datas));
 
     if (this.reportType === 'MDS') {
       this.analysisService.putAnalysisAML(

@@ -1091,8 +1091,8 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     if (result) {
       this.store.setRechecker(this.patientInfo.recheck);
       this.store.setExamin(this.patientInfo.examin);
-      this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimen);
-      this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimen);
+      this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimenNo);
+      this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimenNo);
 
       //  this.patientInfo.recheck = this.
       // tslint:disable-next-line:max-line-length
@@ -1152,8 +1152,8 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     if (result) {
       this.store.setRechecker(this.patientInfo.recheck);
       // this.store.setExamin(this.patientInfo.examin);
-      this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimen);
-      this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimen);
+      this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimenNo);
+      this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimenNo);
 
       if (this.reportType === 'AML') {
         this.analysisService.putAnalysisAML(
@@ -1655,8 +1655,8 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     // console.log('[1730][tempSave]VUS 메세지]', this.vusmsg);
     this.store.setRechecker(this.patientInfo.recheck);
     this.store.setExamin(this.patientInfo.examin);
-    this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimen);
-    this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimen);
+    this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimenNo);
+    this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimenNo);
 
     if (this.reportType === 'AML') {
       this.analysisService.putAnalysisAML(
@@ -1927,8 +1927,8 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
 
     this.store.setRechecker(this.patientInfo.recheck);
     this.store.setExamin(this.patientInfo.examin);
-    this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimen);
-    this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimen);
+    this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimenNo);
+    this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimenNo);
 
     if (this.reportType === 'AML') {
       this.analysisService.putAnalysisAML(

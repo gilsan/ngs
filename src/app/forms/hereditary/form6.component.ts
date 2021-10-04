@@ -1034,8 +1034,10 @@ export class Form6Component implements OnInit, OnDestroy {
     if (result) {
       this.store.setRechecker(this.patientInfo.recheck);
       this.store.setExamin(this.patientInfo.examin);
-      this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimen);
-      this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimen);
+      this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimenNo)
+        .subscribe(datas => console.log(datas));
+      this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimenNo)
+        .subscribe(datas => console.log(datas));
 
       this.patientInfo.vusmsg = this.vusmsg;
       this.subs.sink = this.variantsService.screenInsert(this.form2TestedId, formData,
@@ -1066,8 +1068,10 @@ export class Form6Component implements OnInit, OnDestroy {
     const result = confirm('판독완료 전송하시겠습니까?');
     if (result) {
       this.store.setRechecker(this.patientInfo.recheck);
-      this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimen);
-      this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimen);
+      this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimenNo)
+        .subscribe(datas => console.log(datas));
+      this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimenNo)
+        .subscribe(datas => console.log(datas));
 
 
       this.patientInfo.vusmsg = this.vusmsg;
@@ -1441,8 +1445,10 @@ export class Form6Component implements OnInit, OnDestroy {
 
     this.store.setRechecker(this.patientInfo.recheck);
     this.store.setExamin(this.patientInfo.examin);
-    this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimen);
-    this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimen);
+    this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimenNo)
+      .subscribe(datas => console.log(datas));
+    this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimenNo)
+      .subscribe(datas => console.log(datas));
 
     // tslint:disable-next-line:max-line-length
     this.subs.sink = this.variantsService.screenTempSave(this.form2TestedId, formData, this.comments, this.profile, this.resultStatus, this.patientInfo)
@@ -1605,8 +1611,10 @@ export class Form6Component implements OnInit, OnDestroy {
 
     this.store.setRechecker(this.patientInfo.recheck);
     this.store.setExamin(this.patientInfo.examin);
-    this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimen);
-    this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimen);
+    this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimenNo)
+      .subscribe(datas => console.log(datas));
+    this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimenNo)
+      .subscribe(datas => console.log(datas));
 
     // tslint:disable-next-line:max-line-length
     this.variantsService.screenTempSave2(this.form2TestedId, formData, this.comments, this.profile, this.resultStatus, this.patientInfo)
