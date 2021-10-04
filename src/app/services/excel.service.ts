@@ -17,6 +17,7 @@ export class ExcelService {
   public exportAsExcelFile(jsonData: any[], excelFileName: string): void {
 
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(jsonData, { skipHeader: true });
+    // worksheet['!cols'] = width;
     const workbook: XLSX.WorkBook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
     const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
 
@@ -26,6 +27,16 @@ export class ExcelService {
   private saveAsExcelFile(buffer: any, fileName: string): void {
     const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
     FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+  }
+
+  public exortAsNGSTest(jsonData: any[], excelFileName: string, width: any[]): void {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(jsonData);
+    worksheet['!cols'] = width;
+    worksheet['!rows'] = [{ hpx: 57 }];
+    const workbook: XLSX.WorkBook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+    this.saveAsExcelFile(excelBuffer, excelFileName);
   }
 
 }
