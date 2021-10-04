@@ -153,6 +153,7 @@ export class SequencingreportComponent implements OnInit {
         if (data.length > 0) {
           this.title = data[0].title;
           this.comments = data[0].comments;
+          this.mutation = data[0].mutation;
         }
 
 
@@ -275,11 +276,9 @@ export class SequencingreportComponent implements OnInit {
       this.testCode,
       this.comments,
       this.patientInfo
-    )
-      .subscribe(data => {
-        alert('저장 되었습니다.');
-        // console.log(data);
-      });
+    ).subscribe(data => {
+      alert('저장 되었습니다.');
+    });
 
   }
 

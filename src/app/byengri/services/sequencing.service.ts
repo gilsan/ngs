@@ -16,6 +16,7 @@ export interface ISequencing {
   descriptionCode: string;
   testCode: string;
   comments?: string;
+  mutation?: string;
 }
 
 
