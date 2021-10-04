@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { emrUrl } from 'src/app/config';
 import { Observable } from 'rxjs';
 import { shareReplay, tap } from 'rxjs/operators';
-import { IFilteredOriginData, Ipolymorphism, IStateControl } from '../models/patients';
+import { IFilteredOriginData, IPatient, Ipolymorphism, IStateControl } from '../models/patients';
 
 
 export interface ISequencing {
@@ -15,6 +15,7 @@ export interface ISequencing {
   title: string;
   descriptionCode: string;
   testCode: string;
+  comments?: string;
 }
 
 
@@ -39,7 +40,8 @@ export class SequencingService {
     title: string,
     descriptionCode: string,
     testCode: string,
-    comments: string
+    comments: string,
+    patientinfo: IPatient
   ): Observable<ISequencing> {
     return this.http.post<ISequencing>(`${this.apiUrl}/sequencingdiag/insert`,
       {
@@ -51,7 +53,8 @@ export class SequencingService {
         title,
         descriptionCode,
         testCode,
-        comments
+        comments,
+        patientinfo
       });
   }
 

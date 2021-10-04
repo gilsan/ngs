@@ -48,7 +48,7 @@ export class SequencingreportComponent implements OnInit {
   mutation = 'negative';
 
   title = 'TERT 프로모터 돌연변이 염기서열';
-  descriptionCode = '';
+  descriptionCode = 'PMO12098';
   testCode = '';
   comments = '';
 
@@ -107,10 +107,6 @@ export class SequencingreportComponent implements OnInit {
         this.checkeredno = reck[0];
         this.checkername = reck[1];
 
-
-
-
-
       } catch (err) {
         console.log(err);
       }
@@ -153,7 +149,13 @@ export class SequencingreportComponent implements OnInit {
   getSavedInfo(patientid: string): void {
     this.sequencingService.listSequencing(patientid)
       .subscribe(data => {
-        console.log('[140]', data)
+        console.log('[152]', data);
+        if (data.length > 0) {
+          this.title = data[0].title;
+          this.comments = data[0].comments;
+        }
+
+
       });
   }
 
@@ -194,7 +196,7 @@ export class SequencingreportComponent implements OnInit {
 
   checker(): void {
     const medi$ = this.searchService.listPath().pipe(
-      tap(data => console.log('[182][medi]', data)),
+      // tap(data => console.log('[182][medi]', data)),
       shareReplay()
     );
 
@@ -251,6 +253,17 @@ export class SequencingreportComponent implements OnInit {
   }
 
   save(): void {
+    console.log(this.mutation,
+      this.reportday,
+      this.examin,
+      this.recheck,
+      this.patientInfo.patientID,
+      this.title,
+      this.descriptionCode,
+      this.testCode,
+      this.comments,
+      this.patientInfo);
+
     this.sequencingService.insertSequencing(
       this.mutation,
       this.reportday,
@@ -260,13 +273,27 @@ export class SequencingreportComponent implements OnInit {
       this.title,
       this.descriptionCode,
       this.testCode,
-      this.comments
+      this.comments,
+      this.patientInfo
     )
       .subscribe(data => {
         alert('저장 되었습니다.');
-        console.log(data);
+        // console.log(data);
       });
 
+  }
+
+  // tslint:disable-next-line:typedef
+  result(event) {
+    this.mutation = event.srcElement.defaultValue;
+
+  }
+
+  radioStatus(type: string): boolean {
+    if (type === this.mutation) {
+      return true;
+    }
+    return false;
   }
 
 
