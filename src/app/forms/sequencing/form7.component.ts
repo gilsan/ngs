@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PatientsListService } from 'src/app/home/services/patientslist';
 import { UtilsService } from '../commons/utils.service';
 import { DetectedVariantsService } from 'src/app/home/services/detectedVariants';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { IPatient, ISequence } from 'src/app/home/models/patients';
 import { SubSink } from 'subsink';
 import { Router } from '@angular/router';
@@ -19,7 +19,7 @@ import { sequencingForm } from 'src/app/home/models/sequencing.model';
 export class Form7Component implements OnInit, OnDestroy {
 
   form2TestedId: string;
-  sequence: ISequence;
+  sequences: ISequence[] = [];
   sendEMR = 0; // EMR 보낸 수
 
   patientInfo: IPatient = {
@@ -67,12 +67,20 @@ export class Form7Component implements OnInit, OnDestroy {
   resultStatus = 'Detected';
   vusmsg = '';
   screenstatus: string;
+  mockData: ISequence[] = [];
+
   form: FormGroup;
   ngsTitle: string;
   comment = '';
   comment1 = '';
   comment2 = '';
+  resultname = '';
+  targetdisease = '';
+  analyzedgene = '';
+  method = '*Direct sequencing for whole exons including intron-exon boundaries';
+  specimen = 'Genomic DNA isolated from peripheral blood leukocytes-adequate specimen';
   genbankaccesion = '';
+
   private subs = new SubSink();
 
   constructor(
@@ -96,13 +104,17 @@ export class Form7Component implements OnInit, OnDestroy {
 
   loadForm(): void {
     this.form = this.fb.group({
-      type: [''],
-      exonintron: [''],
-      nucleotideChange: [''],
-      aminoAcidChange: [''],
-      zygosity: [''],
-      rsid: [''],
+      tableRows: this.fb.array(this.mockData.map(list => this.createRow(list))),
+
     });
+    // this.form = this.fb.group({
+    //   type: [''],
+    //   exonintron: [''],
+    //   nucleotideChange: [''],
+    //   aminoAcidChange: [''],
+    //   zygosity: [''],
+    //   rsid: [''],
+    // });
   }
 
 
@@ -167,25 +179,34 @@ export class Form7Component implements OnInit, OnDestroy {
     // this.ngsTitle = this.titleService.findSequencingTitle(this.patientInfo.test_code);
     this.subs.sink = this.variantsService.contentScreen7(this.form2TestedId)
       .subscribe(data => {
-        console.log('[152]', data[0]);
+        // console.log('[152]', data[0]);
         if (data.length > 0) {
           this.comment = data[0].comment;
           this.comment1 = data[0].comment1;
           this.comment2 = data[0].comment2;
-          this.form.get('type').setValue(data[0].type);
-          this.form.get('exonintron').setValue(data[0].exonintron);
-          this.form.get('nucleotideChange').setValue(data[0].nucleotideChange);
-          this.form.get('aminoAcidChange').setValue(data[0].aminoAcidChange);
-          this.form.get('zygosity').setValue(data[0].zygosity);
-          this.form.get('rsid').setValue(data[0].rsid);
+          data.forEach(item => {
+            this.sequencingRows().push(this.createRow(
+              {
+                type: item.type,
+                exonintron: item.exonintron,
+                nucleotideChange: item.nucleotideChange,
+                aminoAcidChange: item.aminoAcidChange,
+                zygosity: item.zygosity,
+                rsid: item.rsid
+              }
+            ));
+          });
+
         }
+
       });
   }
 
   // 미리보기
   previewToggle(): void {
     this.isVisible = !this.isVisible;
-    this.sequence = this.form.getRawValue() as ISequence;
+    const control = this.form.get('tableRows') as FormArray;
+    this.sequences = control.getRawValue() as ISequence[];
   }
 
   // 미리보기 종료
@@ -257,9 +278,8 @@ export class Form7Component implements OnInit, OnDestroy {
 
   tempSave(): void {
     const userid = localStorage.getItem('diaguser');
-    this.sequence = this.form.getRawValue() as ISequence;
-    const formData: ISequence[] = [];
-    formData.push(this.sequence);
+    const control = this.form.get('tableRows') as FormArray;
+    const formData = control.getRawValue();
     const tempComments = this.comment + '_' + this.comment1 + '_' + this.comment2;
     console.log('[264]', formData, tempComments);
 
@@ -297,9 +317,8 @@ export class Form7Component implements OnInit, OnDestroy {
 
   gotoEMR(): void {
     const userid = localStorage.getItem('diaguser');
-    this.sequence = this.form.getRawValue() as ISequence;
-    const formData: ISequence[] = [];
-    formData.push(this.sequence);
+    const control = this.form.get('tableRows') as FormArray;
+    const formData = control.getRawValue();
     console.log(formData);
 
     if (this.firstReportDay === '-') {
@@ -311,8 +330,14 @@ export class Form7Component implements OnInit, OnDestroy {
     }
 
     // console.log('[EMR]', this.target, this.formTitle);
+
     const makeForm = sequencingForm(
       this.resultStatus,
+      this.resultname, // 볌명
+      this.targetdisease,
+      this.analyzedgene,
+      this.method,
+      this.specimen,
       this.examin, // 검사자
       this.recheck, // 확인자
       this.ngsTitle, // 제목,
@@ -383,6 +408,54 @@ export class Form7Component implements OnInit, OnDestroy {
   goBack(): void {
     this.router.navigate(['/diag', 'sequencing']);
   }
+
+  resultName(result: string): void {
+    this.resultname = result;
+  }
+
+
+  //////////////////////////////////////////
+  // sequencingForm
+  ////////////////////////////////////////////
+  createRow(sequencing: ISequence): FormGroup {
+    return this.fb.group({
+      type: sequencing.type,
+      exonintron: sequencing.exonintron,
+      nucleotideChange: sequencing.nucleotideChange,
+      aminoAcidChange: sequencing.aminoAcidChange,
+      zygosity: sequencing.zygosity,
+      rsid: sequencing.rsid
+    });
+  }
+
+  newRow(): FormGroup {
+    return this.fb.group({
+      type: '',
+      exonintron: '',
+      nucleotideChange: '',
+      aminoAcidChange: '',
+      zygosity: '',
+      rsid: '',
+    });
+  }
+
+  sequencingRows(): FormArray {
+    return this.form.get('tableRows') as FormArray;
+  }
+
+  addNewRow(): void {
+    this.sequencingRows().push(this.newRow());
+  }
+
+  removeRow(i: number): void {
+    this.sequencingRows().removeAt(i);
+  }
+  get getFormControls(): any {
+    const control = this.form.get('tableRows') as FormArray;
+    return control;
+  }
+  //////////////////////////////////////////////////////////////
+
 
 
 

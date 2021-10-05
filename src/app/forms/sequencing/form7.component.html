@@ -9,7 +9,9 @@
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
                     <td class="txt_02" ><span class="fb">Result </span>:
-                        <label class="">DNMT3A gene Mutation</label>&nbsp;&nbsp;
+                        <input type="test"   #results [value]="resultname" class="clr-input textcenter " size=25 (change)="resultName(results.value)">
+                        <!-- <label class="">DNMT3A gene Mutation</label>&nbsp;&nbsp;  -->
+                        &nbsp;&nbsp;
                         <input type="radio" id="vertical-radio2" name="radio-full" [value]="'Detected'" [checked]="radioStatus('Detected')" class="clr-radio"  (change)="result($event)">
                         <label for="vertical-radio2" class="  clr-col-12 clr-col-md-2">Detected</label>
                         &nbsp;&nbsp;
@@ -27,21 +29,34 @@
                   </colgroup>
                   <tbody>
                       <tr>
-                          <td> TARGET DISEASE: Primary Immunodeficiency (363 genes)</td>
-                          <td> METHOD: *Massively parallel sequencing</td>
+                          <td> TARGET DISEASE:  {{targetdisease}}</td>
+                          <td> METHOD: {{method}}</td>
                       </tr>
                       <tr>
-                        <td> ANALYZED GENE : APC on 5q21-q22</td>
+                        <td> ANALYZED GENE : {{analyzedgene}}</td>
                         <td> </td>
                       </tr>
                       <tr>
-                          <td> SPECIMEN: Genomic DNA isolated from peripheral blood leukocytes-adequate specimen</td>
+                          <td> SPECIMEN: {{specimen}}</td>
                           <td> REQUEST: {{patientInfo.request}}</td>
                       </tr>
                   </tbody>
                 </table>
 
-                <div class="sub_title">Mutation</div>
+               <!--  <div class="sub_title">Mutation</div>  -->
+
+                 <div style="margin-bottom: 10px;margin-top: 25px;">
+                     <ul style="display:flex;justify-content:flex-start; align-items: center;">
+                        <li>
+                            <span class="sub_title">Mutation</span>
+                        </li>
+                        <li>&nbsp;&nbsp;</li>
+                        <li>
+                            <button type="button" class="btn btn_01"  (click)="addNewRow()">추가</button>
+                         </li>
+                     </ul>
+                 </div>
+
                 <div class="box">
                     <div class="box_1000">
                       <form [formGroup]="form">
@@ -53,7 +68,7 @@
                                 <col style="width:120px"/>  <!-- Nuceleotide change   -->
                                 <col style="width:120px"/>  <!-- Amino acid change    -->
                                 <col style="width:120px"/>  <!-- dbSNP/COSMIC ID    -->
-
+                                <col style="width:50px;" />
                             </colgroup>
                             <thead>
                                 <tr>
@@ -63,11 +78,12 @@
                                     <th>Amino acid change</th>
                                     <th>Zygosity</th>
                                     <th>rs ID</th>
-
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <ng-container formArrayName="tableRows"  *ngFor="let group of getFormControls.controls; let i=index">
+                                <tr [formGroupName]="i">
                                     <td>
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="type">
                                     </td>
@@ -86,7 +102,11 @@
                                     <td>
                                         <input type="text" size="40" class="clr-input textcenter tdbox" formControlName="rsid">
                                     </td>
+                                    <td  align="center">
+                                       <img [src]="'assets/images/cancel.png'" (click)="removeRow(i)">
+                                    </td>
                                 </tr>
+                                </ng-container>
                             </tbody>
                         </table>
                         </form>
@@ -156,9 +176,13 @@
        <div class="modal-body">
            <app-sequencing
            [patientInfo]="patientInfo"
-           [sequence]= "sequence"
+           [sequences]= "sequences"
             [result]="resultStatus"
             [title]="ngsTitle"
+            [resultname]= "resultname"
+            [targetdisease]= "targetdisease"
+            [method]= "method"
+            [analyzedgene]= "analyzedgene"
             (closemodal)="closeModal()">
           </app-sequencing>
        </div>

@@ -3,6 +3,11 @@ import { IPatient, ISequence } from './patients';
 
 export function sequencingForm(
   resultStatus: string, // detected, not detected
+  resultname: string,
+  targetdisease: string,
+  analyzedgene: string,
+  method: string,
+  specimen: string,
   examin: string, // 검사자
   recheck: string, // 확인자
   title: string,
@@ -43,18 +48,18 @@ export function sequencingForm(
 		<Rows>
 			<Row>
 				<Col id="patient">${patientInfo.name}, ${patientInfo.patientID} (${patientInfo.gender}/${patientInfo.age})</Col>
-				<Col id="result">${resultStatus}</Col>
+				<Col id="result"><![CDATA[${resultname} ${resultStatus}]]></Col>
         <Col id="rsltright1"></Col>
 				<Col id="rsltright2"></Col>
 				<Col id="rsltleft1"></Col>
 				<Col id="rsltleft2"></Col>
         <Col id="rsltcenter1"></Col>
         <Col id="rsltcenter2"></Col>
-				<Col id="testinfo1">TARGET DISEASE: Primary Immunodeficiency (363 genes)</Col>
-				<Col id="testinfo2">METHOD: *Massively parallel sequencing</Col>
-				<Col id="testinfo3">SPECIMEN: Genomic DNA isolated from peripheral blood leukocytes-adequate specimen</Col>
+				<Col id="testinfo1">TARGET DISEASE: <![CDATA[${targetdisease}]]></Col>
+				<Col id="testinfo2">METHOD:  ${method}</Col>
+				<Col id="testinfo3">SPECIMEN:  ${specimen}</Col>
 				<Col id="testinfo4">REQUEST: ${patientInfo.request}</Col>
-        <Col id="testinfo5">ANALYZED GENE : APC on 5q21-q22</Col>
+        <Col id="testinfo5">ANALYZED GENE : ${analyzedgene}</Col>
         <Col id="opnion">${genbankaccesion}</Col>
 				<Col id="title">${title}</Col>
 				<Col id="examdt">${acceptdate}/${firstReportDay}/${lastReportDay} </Col>

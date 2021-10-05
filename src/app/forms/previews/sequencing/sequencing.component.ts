@@ -9,14 +9,18 @@ import { IPatient, ISequence } from 'src/app/home/models/patients';
 export class SequencingComponent implements OnInit {
 
   @Input() patientInfo: IPatient;
-  @Input() sequence: ISequence;
+  @Input() sequences: ISequence[];
   @Input() result: string;
   @Input() title: string;
+  @Input() resultname: string;
+  @Input() targetdisease: string;
+  @Input() method: string;
+  @Input() analyzedgene: string;
   @Output() closemodal = new EventEmitter<void>();
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.sequence);
+
   }
 
   closeModal(): void {

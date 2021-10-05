@@ -9,7 +9,7 @@
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
                     <td class="txt_02" ><span class="fb">Result </span>:
-                        <label class="">DUMT3A gene Mutation</label>
+                        <label class="">{{resultname}}</label>
                         &nbsp;&nbsp;{{result}}
                     </td>
                   </tr>
@@ -23,11 +23,11 @@
                   </colgroup>
                   <tbody>
                       <tr>
-                          <td> TARGET DISEASE: Primary Immunodeficiency (363 genes)</td>
-                          <td> METHOD: *Massively parallel sequencing</td>
+                          <td> TARGET DISEASE:  {{targetdisease}}</td>
+                          <td> METHOD: {{method}}</td>
                       </tr>
                       <tr>
-                        <td> ANALYZED GENE : DUMT3A on 2p23</td>
+                        <td> ANALYZED GENE :  {{analyzedgene}}</td>
                         <td> </td>
                       </tr>
                       <tr>
@@ -61,7 +61,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <tr  *ngFor="let sequence of sequences">
                                     <td>
                                         <input type="text" size="10" class="clr-input textcenter tdbox" [value]='sequence.type'>
                                     </td>
