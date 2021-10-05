@@ -251,7 +251,7 @@ SMA환자의 95-98%에서 SMN1 유전자의 결실 혹은 절단이 동형접합
     { seq: '17', site: 'PMP22 Exon5b', result: 'Normal' }, { seq: '18', site: 'TEKT3_a', result: 'Normal' },
     { seq: '19', site: 'TEKT3_b', result: 'Normal' }, { seq: '20', site: 'Upstream PMP22', result: 'Normal' }
     ],
-    result: 'PMP22 deletion / duplicatio',
+    result: 'PMP22 deletion / duplication',
     conclusion: `1. PMP22 유전자에 대한 MLPA 분석결과, 본 환자에서 유전성 압박마비편향 신경병증(Hereditary
       neuropathy with liability to pressure palsies; HNPP) 및 샤르코-마리-투스병 1A 형(Charcot-
       Marie-Tooth disease, type 1A )과 관련된 PMP22 유전자의 결실 및 중복은 관찰되지 않습니다.
@@ -299,7 +299,7 @@ export const HEADER = [
     method: '* Multiplex Ligation-dependent Probe Amplification (MLPA)', result: 'CYP21A2 deletion : Heterozygous large gene deletion'
   },
   {
-    type: 'LPE294', target: 'Prader-Willi/Angelman syndrome (PWS/AS)', analyzedGene: ': chromosome 15q11',
+    type: 'LPE294', target: 'Prader-Willi/Angelman syndrome (PWS/AS)', analyzedGene: 'chromosome 15q11',
     method: '* Methylation-specific Multiplex Ligation-dependent Probe Amplification (MS-MLPA)', result: 'PWS/AS deletion and disomy: Maternal Uniparental Disomy'
   },
   {
