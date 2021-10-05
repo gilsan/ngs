@@ -1981,6 +1981,13 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  //////////////////////////////////////////////////////////
+  goBack(): void {
+    this.router.navigate(['/diag', 'amlall']);
+  }
+
+
+
   // getMutationCount(data: any): string {
   //   const tempGene = data.gene;
   //   const tempAminoAcidChange = data.amino_acid_change;

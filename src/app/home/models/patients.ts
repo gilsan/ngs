@@ -39,6 +39,7 @@ export interface IPatient {
   examin?: string; // 검사자
   vusmsg?: string;
   verfile?: string; // tsv version
+  worker?: string;
 }
 
 export interface IProfile {
@@ -256,6 +257,7 @@ export interface IGeneCoding {
   gene2: string;
   coding: string;
   tsv: IFilteredTSV;
+  multigenes?: string;
 }
 
 export interface IRecoverVariants {

@@ -1696,6 +1696,9 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-
+  //////////////////////////////////////////////////////////
+  goBack(): void {
+    this.router.navigate(['/diag', 'mdsmpn']);
+  }
 
 }

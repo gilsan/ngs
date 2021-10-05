@@ -379,7 +379,10 @@ export class Form7Component implements OnInit, OnDestroy {
     this.comment2 = comment;
   }
 
-
+  //////////////////////////////////////////////////////////
+  goBack(): void {
+    this.router.navigate(['/diag', 'sequencing']);
+  }
 
 
 

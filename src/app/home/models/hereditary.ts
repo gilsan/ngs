@@ -15,6 +15,7 @@ export function hereditaryForm(
   patientInfo: IPatient,
   formData: IAFormVariant[],
   comment: string,
+  comment2: string,
   method: string,
   technique: string,
   genelist: IGeneList[],
@@ -141,10 +142,12 @@ export function hereditaryForm(
   <Dataset id="ds_5">
     <ColumnInfo>
       <Column id="technique" type="STRING" size="256"/>
+      <Column id="comment2" type="STRING" size="256"/>
     </ColumnInfo>
     <Rows>
        <Row>
        <Col id="technique"><![CDATA[${technique}]]></Col>
+       <Col id="comment2"><![CDATA[${comment2}]]></Col>
        </Row>
     </Rows>
     </Dataset>

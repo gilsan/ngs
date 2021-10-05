@@ -70,7 +70,8 @@ export class DetectedVariantsService {
 
   // 임시저장
   public screenTempSave(specimenNo: string, detectedVariants: IAFormVariant[],
-    comments: IComment[], profile: IProfile, resultStatus: string, patientInfo: IPatient): Observable<any> {
+    comments: IComment[], profile: IProfile, resultStatus: string,
+    patientInfo: IPatient, comment2: string = ''): Observable<any> {
     // console.log('[19][DetectedVariantsService] ', specimenNo, detectedVariants, comments, profile, patientInfo);
     let detectedType: string;
     const { chron, flt3itd, leukemia } = profile;
@@ -88,7 +89,8 @@ export class DetectedVariantsService {
         flt3itd,
         leukemia,
         resultStatus: detectedType, // detected, notdetected
-        patientInfo
+        patientInfo,
+        comment2
       });
   }
 

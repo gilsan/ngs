@@ -79,6 +79,7 @@ export class Form6Component implements OnInit, OnDestroy {
     screenstatus: '',
     recheck: '',
     examin: '',
+    worker: ''
   };
   geneCoding: IGeneCoding[];
   detactedVariants: IAFormVariant[] = [];
@@ -122,6 +123,7 @@ export class Form6Component implements OnInit, OnDestroy {
 
   comment: string;
   comments: IComment[] = [];
+  comment2: string;
   tempCommentGene = '';
   tempCommentVariants = '';
   tempCommentreference = '';
@@ -273,6 +275,7 @@ export class Form6Component implements OnInit, OnDestroy {
 
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
     console.log('[275][환자정보]', this.patientInfo);
+    this.comment2 = this.patientInfo.worker;
     this.formTitle = this.patientInfo.reportTitle;
     // this.findTitle(this.patientInfo.test_code);
     this.requestDate = this.patientInfo.accept_date;
@@ -515,7 +518,8 @@ export class Form6Component implements OnInit, OnDestroy {
         specimenNo: '',
         screenstatus: '',
         examin: '',
-        recheck: ''
+        recheck: '',
+
       };
     }
   }
@@ -1190,6 +1194,7 @@ export class Form6Component implements OnInit, OnDestroy {
       this.patientInfo,
       formData,
       this.comment,
+      this.comment2,
       this.methods,
       this.technique,
       this.genelists
@@ -1451,7 +1456,8 @@ export class Form6Component implements OnInit, OnDestroy {
       .subscribe(datas => console.log(datas));
 
     // tslint:disable-next-line:max-line-length
-    this.subs.sink = this.variantsService.screenTempSave(this.form2TestedId, formData, this.comments, this.profile, this.resultStatus, this.patientInfo)
+    this.subs.sink = this.variantsService.screenTempSave(this.form2TestedId, formData, this.comments,
+      this.profile, this.resultStatus, this.patientInfo, this.comment2)
       .subscribe(data => {
         // console.log('[1065]', data);
         alert('저장되었습니다.');
@@ -1645,6 +1651,9 @@ export class Form6Component implements OnInit, OnDestroy {
     this.isVisible = !this.isVisible;
   }
 
-
+  //////////////////////////////////////////////////////////
+  goBack(): void {
+    this.router.navigate(['/diag', 'hereditary']);
+  }
 
 }

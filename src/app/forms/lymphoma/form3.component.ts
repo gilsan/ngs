@@ -1739,7 +1739,10 @@ export class Form3Component implements OnInit, OnDestroy {
     }
   }
 
-
+  //////////////////////////////////////////////////////////
+  goBack(): void {
+    this.router.navigate(['/diag', 'lymphoma']);
+  }
 
 
 }
