@@ -199,12 +199,8 @@ export class Form3Component implements OnInit, OnDestroy {
     if (parseInt(this.screenstatus, 10) >= 1 || parseInt(this.screenstatus, 10) === 2) {
       this.recoverDetected();
     } else if (parseInt(this.screenstatus, 10) === 0) {
-      this.init(this.form2TestedId);
-      // if (this.savedDataExist) {
-      //   this.recoverDetected();
-      // } else {
-      //   this.init(this.form2TestedId);
-      // }
+      // this.init(this.form2TestedId);
+      this.checkSavedData();
 
     } else {
       this.firstReportDay = '-';
@@ -290,6 +286,7 @@ export class Form3Component implements OnInit, OnDestroy {
     } else if (this.patientInfo.test_code === 'LPE475') {
       this.target = 'Myeloma';
     }
+
     console.log('[288][환자정보]', this.patientInfo, this.target);
     this.method = this.patientInfo.reportTitle.replace(/"/g, '');
     this.store.setPatientInfo(this.patientInfo); // 환자정보 저장
@@ -349,12 +346,21 @@ export class Form3Component implements OnInit, OnDestroy {
     this.subs.sink = this.variantsService.screenSelect(this.form2TestedId)
       .pipe(
         tap(data => {
+          console.log('[348][checkSavedData]', data);
           if (data.length) {
             this.savedDataExist = true;
           }
         })
       )
-      .subscribe();
+      .subscribe(() => {
+        if (this.savedDataExist) {
+          console.log('[356][true]', this.savedDataExist);
+          this.recoverDetected();
+        } else {
+          console.log('[359][false]', this.savedDataExist);
+          this.init(this.form2TestedId);
+        }
+      });
   }
 
 

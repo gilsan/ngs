@@ -200,11 +200,6 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       this.recoverDetected();
     } else if (parseInt(this.screenstatus, 10) === 0) {
       this.checkSavedData();
-      if (this.savedDataExist) {
-        this.recoverDetected();
-      } else {
-        this.init(this.form2TestedId);
-      }
 
       // this.addDetectedVariant();
     } else {
@@ -286,8 +281,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     }
 
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
-    console.log('[259][환자정보]', this.patientInfo);
-    // this.patientInfo.screenstatus = '0'; // 임시
+    console.log('[290][환자정보]', this.patientInfo);
     this.method = this.patientInfo.reportTitle.replace(/"/g, '');
     this.store.setPatientInfo(this.patientInfo); // 환자정보 저장
 
@@ -344,12 +338,21 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     this.subs.sink = this.variantsService.screenSelect(this.form2TestedId)
       .pipe(
         tap(data => {
+          console.log('[347][checkSavedData]', data);
           if (data.length) {
             this.savedDataExist = true;
           }
         })
       )
-      .subscribe();
+      .subscribe(() => {
+        if (this.savedDataExist) {
+          console.log('[351][true]', this.savedDataExist);
+          this.recoverDetected();
+        } else {
+          console.log('[354][false]', this.savedDataExist);
+          this.init(this.form2TestedId);
+        }
+      });
   }
 
   ////////////////////////////////////////
@@ -456,7 +459,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
           // COMMENTS 가져오기
           // comments 분류
           if (data[0].comments !== 'none') {
-            console.log('[447]', data[0].comments.gene);
+            console.log('[447][INIT]', data[0].comments.gene, this.savedDataExist);
             this.comments.push(
               {
                 gene: data[0].comments.gene, comment: data[0].comments.comment, reference: data[0].comments.reference,

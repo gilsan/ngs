@@ -197,11 +197,7 @@ export class Form6Component implements OnInit, OnDestroy {
       this.recoverDetected();
     } else if (parseInt(this.screenstatus, 10) === 0) {
       // this.init(this.form2TestedId);
-      if (this.savedDataExist) {
-        this.recoverDetected();
-      } else {
-        this.init(this.form2TestedId);
-      }
+      this.checkSavedData();
 
     } else {
       this.firstReportDay = '-';
@@ -280,10 +276,11 @@ export class Form6Component implements OnInit, OnDestroy {
     }
 
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
-    console.log('[275][환자정보]', this.patientInfo);
+    this.patientInfo.screenstatus = '0';
+    console.log('[279][환자정보]', this.patientInfo);
     this.comment2 = this.patientInfo.worker;
     this.formTitle = this.patientInfo.reportTitle;
-    // this.findTitle(this.patientInfo.test_code);
+    this.findTitle(this.patientInfo.test_code);
     this.requestDate = this.patientInfo.accept_date;
 
     this.requestDate = this.patientInfo.accept_date;
@@ -374,12 +371,21 @@ export class Form6Component implements OnInit, OnDestroy {
     this.subs.sink = this.variantsService.screenSelect(this.form2TestedId)
       .pipe(
         tap(data => {
+          console.log('[373][checkSavedData]', data);
           if (data.length) {
             this.savedDataExist = true;
           }
         })
       )
-      .subscribe();
+      .subscribe(() => {
+        if (this.savedDataExist) {
+          console.log('[381][true]', this.savedDataExist);
+          this.recoverDetected();
+        } else {
+          console.log('[384][false]', this.savedDataExist);
+          this.init(this.form2TestedId);
+        }
+      });
   }
 
 
