@@ -16,6 +16,7 @@ export class SequencingComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log(this.sequence);
   }
 
   closeModal(): void {
