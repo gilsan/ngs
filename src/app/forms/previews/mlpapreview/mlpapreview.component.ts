@@ -12,6 +12,9 @@ export class MlpapreviewComponent implements OnInit {
   // @Input() type: string;
   @Input() patientInfo: IPatient;
   @Input() title: string;
+  @Input() target: string;
+  @Input() testmethod: string;
+  @Input() analyzedgene: string;
   @Input() request: string;
   @Input() result: string;
   @Input() resultStatus: string;

@@ -168,7 +168,7 @@ export class Form6Component implements OnInit, OnDestroy {
   formTitle: string;
   target: string;
   resultname = '(  )';
-
+  savedDataExist = false;
   @ViewChild('commentbox') private commentbox: TemplateRef<any>;
   @ViewChild('box100', { static: true }) box100: ElementRef;
   @ViewChild('table', { static: true }) table: ElementRef;
@@ -196,7 +196,13 @@ export class Form6Component implements OnInit, OnDestroy {
     if (parseInt(this.screenstatus, 10) >= 1 || parseInt(this.screenstatus, 10) === 2) {
       this.recoverDetected();
     } else if (parseInt(this.screenstatus, 10) === 0) {
-      this.init(this.form2TestedId);
+      // this.init(this.form2TestedId);
+      if (this.savedDataExist) {
+        this.recoverDetected();
+      } else {
+        this.init(this.form2TestedId);
+      }
+
     } else {
       this.firstReportDay = '-';
       this.lastReportDay = '-';
@@ -362,6 +368,21 @@ export class Form6Component implements OnInit, OnDestroy {
         }
       });
   }
+
+  // 디비에 저장된 데이터가 있는지 확인
+  checkSavedData(): void {
+    this.subs.sink = this.variantsService.screenSelect(this.form2TestedId)
+      .pipe(
+        tap(data => {
+          if (data.length) {
+            this.savedDataExist = true;
+          }
+        })
+      )
+      .subscribe();
+  }
+
+
   ////////////////////////////////////////
   // Genetic
   recoverDetected(): void {
@@ -467,7 +488,13 @@ export class Form6Component implements OnInit, OnDestroy {
 
           // comments 분류 COMMENTS 가져오기
           if (data[0].comments !== 'none') {
-            console.log(data[0].comments);
+            console.log('[491][init]', data[0].comments);
+            this.comments.push(
+              {
+                gene: data[0].comments.gene, comment: data[0].comments.comment, reference: data[0].comments.reference,
+                variant_id: data[0].comments.variants
+              }
+            );
             this.commentsRows().push(this.createCommentRow(data[0].comments));
           }
           ///////////////////////////////////////////////////////////////
@@ -1437,7 +1464,7 @@ export class Form6Component implements OnInit, OnDestroy {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
 
-    console.log('[1477][Detected variants]', formData);
+    console.log('[1467][Detected variants]', formData);
     if (this.comments.length) {
       const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
       this.comments = commentControl.getRawValue();
@@ -1446,7 +1473,7 @@ export class Form6Component implements OnInit, OnDestroy {
     this.patientInfo.recheck = this.recheck;
     this.patientInfo.examin = this.examin;
     this.patientInfo.vusmsg = this.vusmsg;
-    console.log('[1487][tempSave]patient,reform,comment]', this.patientInfo, formData, this.comments);
+    console.log('[1476][tempSave]patient,reform,comment]', this.patientInfo, formData, this.comments);
 
     this.store.setRechecker(this.patientInfo.recheck);
     this.store.setExamin(this.patientInfo.examin);

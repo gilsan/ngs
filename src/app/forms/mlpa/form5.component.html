@@ -36,7 +36,7 @@
                           <td> REQUEST: {{patientInfo.request}}</td>
                       </tr>
                       <tr>
-                        <td colspan="2">ANALYZED GENE:  {{analyzedgene}}</td>
+                        <td colspan="2">ANALYZED REGION:  {{analyzedgene}}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -168,6 +168,9 @@
          <app-mlpapreview
          (closemodal)="closeModal()"
          [title]="method"
+         [target]="target"
+         [testmethod]='testmethod'
+         [analyzedgene]='analyzedgene'
          [patientInfo]= "patientInfo"
          [request]="patientInfo.request"
          [result] = "mlpaData.result"

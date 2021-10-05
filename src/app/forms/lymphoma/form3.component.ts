@@ -171,7 +171,7 @@ export class Form3Component implements OnInit, OnDestroy {
 
   maxHeight = 500;
   target: string;
-
+  savedDataExist = false;
   @ViewChild('commentbox') private commentbox: TemplateRef<any>;
   @ViewChild('box100', { static: true }) box100: ElementRef;
   @ViewChild('table', { static: true }) table: ElementRef;
@@ -200,6 +200,12 @@ export class Form3Component implements OnInit, OnDestroy {
       this.recoverDetected();
     } else if (parseInt(this.screenstatus, 10) === 0) {
       this.init(this.form2TestedId);
+      // if (this.savedDataExist) {
+      //   this.recoverDetected();
+      // } else {
+      //   this.init(this.form2TestedId);
+      // }
+
     } else {
       this.firstReportDay = '-';
       this.lastReportDay = '-';
@@ -337,6 +343,21 @@ export class Form3Component implements OnInit, OnDestroy {
       this.genelists = data;
     });
   }
+
+  // 디비에 저장된 데이터가 있는지 확인
+  checkSavedData(): void {
+    this.subs.sink = this.variantsService.screenSelect(this.form2TestedId)
+      .pipe(
+        tap(data => {
+          if (data.length) {
+            this.savedDataExist = true;
+          }
+        })
+      )
+      .subscribe();
+  }
+
+
   ////////////////////////////////////////
   recoverDetected(): void {
     // 디비에서 Detected variant_id 가져오기

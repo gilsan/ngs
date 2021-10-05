@@ -261,7 +261,7 @@ export class Form7Component implements OnInit, OnDestroy {
     const formData: ISequence[] = [];
     formData.push(this.sequence);
     const tempComments = this.comment + '_' + this.comment1 + '_' + this.comment2;
-    console.log('[236]', formData, tempComments);
+    console.log('[264]', formData, tempComments);
 
     this.patientInfo.recheck = this.recheck;
     this.patientInfo.examin = this.examin;
@@ -274,7 +274,7 @@ export class Form7Component implements OnInit, OnDestroy {
 
 
     this.subs.sink = this.variantsService.saveScreen7(
-      this.resultStatus, this.form2TestedId, formData, this.patientInfo, this.comment, this.comment1, this.comment)
+      this.resultStatus, this.form2TestedId, formData, this.patientInfo, this.comment, this.comment1, this.comment2)
       .subscribe(data => {
         this.patientsListService.changescreenstatus(this.form2TestedId, '2', userid, 'SEQN').subscribe();
         alert('저장되었습니다.');

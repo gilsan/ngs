@@ -170,7 +170,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
 
   maxHeight = 500;
   totalCount = 0; // 유전자와 nucleotidde change 을 가진 환자수
-
+  savedDataExist = false;
 
   @ViewChild('commentbox') private commentbox: TemplateRef<any>;
   @ViewChild('box100', { static: true }) box100: ElementRef;
@@ -199,7 +199,13 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     if (parseInt(this.screenstatus, 10) >= 1 || parseInt(this.screenstatus, 10) === 2) {
       this.recoverDetected();
     } else if (parseInt(this.screenstatus, 10) === 0) {
-      this.init(this.form2TestedId);
+      this.checkSavedData();
+      if (this.savedDataExist) {
+        this.recoverDetected();
+      } else {
+        this.init(this.form2TestedId);
+      }
+
       // this.addDetectedVariant();
     } else {
       this.firstReportDay = '-';
@@ -281,6 +287,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
 
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
     console.log('[259][환자정보]', this.patientInfo);
+    // this.patientInfo.screenstatus = '0'; // 임시
     this.method = this.patientInfo.reportTitle.replace(/"/g, '');
     this.store.setPatientInfo(this.patientInfo); // 환자정보 저장
 
@@ -332,6 +339,19 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       this.genelists = data;
     });
   }
+  // 디비에 저장된 데이터가 있는지 확인
+  checkSavedData(): void {
+    this.subs.sink = this.variantsService.screenSelect(this.form2TestedId)
+      .pipe(
+        tap(data => {
+          if (data.length) {
+            this.savedDataExist = true;
+          }
+        })
+      )
+      .subscribe();
+  }
+
   ////////////////////////////////////////
   recoverDetected(): void {
     // 디비에서 Detected variant_id 가져오기
@@ -365,7 +385,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     this.subs.sink = this.variantsService.screenComment(this.form2TestedId)
       .subscribe(dbComments => {
         if (dbComments !== undefined && dbComments !== null && dbComments.length > 0) {
-          console.log('[247][COMMENT 가져오기]', dbComments);
+          console.log('[368][COMMENT 가져오기]', dbComments);
           dbComments.forEach(comment => {
 
             this.comments.push(
@@ -381,6 +401,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
               }
             ));
           });
+          console.log('[384][COMMENT 가져오기]', this.comments);
           this.store.setComments(this.comments); // comments 저장
         }
       });
@@ -435,8 +456,15 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
           // COMMENTS 가져오기
           // comments 분류
           if (data[0].comments !== 'none') {
-            console.log(data[0].comments);
+            console.log('[447]', data[0].comments.gene);
+            this.comments.push(
+              {
+                gene: data[0].comments.gene, comment: data[0].comments.comment, reference: data[0].comments.reference,
+                variant_id: data[0].comments.variants
+              }
+            );
             this.commentsRows().push(this.createCommentRow(data[0].comments));
+            console.log('[447]', this.comments);
           }
           ///////////////////////////////////////////////////////////////
           this.putCheckboxInit(); // 체크박스 초기화
@@ -1447,13 +1475,13 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     // console.log('[1040][tableerowForm]', formData);
     // console.log('[1041][checkbox]', this.checkboxStatus);
     // const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
-    console.log('[1043][Detected variants]', formData);
+    console.log('[1450][Detected variants]', formData);
     if (this.comments.length) {
       const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
       this.comments = commentControl.getRawValue();
     }
     // this.store.setComments(this.comments);
-
+    console.log('[1456][Detected variants]', this.comments);
     this.patientInfo.recheck = this.recheck;
     this.patientInfo.examin = this.examin;
     this.patientInfo.vusmsg = this.vusmsg;
