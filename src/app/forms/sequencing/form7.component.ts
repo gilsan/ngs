@@ -199,6 +199,17 @@ export class Form7Component implements OnInit, OnDestroy {
         }
 
       });
+
+    this.subs.sink = this.variantsService.contentTestScreen7(this.form2TestedId)
+      .subscribe(data => {
+        console.log('[205][Test Information]', data);
+        this.resultname = data[0].result;
+        this.targetdisease = data[0].target;
+        this.method = data[0].method;
+        this.analyzedgene = data[0].analyzedgene;
+        this.variations = data[0].identified_variations;
+        this.specimen = data[0].specimen;
+      });
   }
 
   // 미리보기
@@ -284,7 +295,6 @@ export class Form7Component implements OnInit, OnDestroy {
 
     this.patientInfo.recheck = this.recheck;
     this.patientInfo.examin = this.examin;
-    this.patientInfo.worker = this.resultname;
     // console.log('[1729][tempSave]patient,reform,comment]', this.patientInfo, formData, this.comments);
     this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimenNo)
       .subscribe(datas => console.log(datas));
@@ -293,7 +303,8 @@ export class Form7Component implements OnInit, OnDestroy {
 
     this.subs.sink = this.variantsService.saveScreen7(
       this.resultStatus, this.form2TestedId, formData, this.patientInfo, this.comment,
-      this.comment1, this.comment2, this.seqcomment, this.resultname)
+      this.comment1, this.comment2, this.seqcomment, this.resultname, this.patientInfo.test_code, this.variations,
+      this.targetdisease, this.method, this.analyzedgene, this.specimen)
       .subscribe(data => {
         this.patientsListService.changescreenstatus(this.form2TestedId, '2', userid, 'SEQN').subscribe();
         alert('저장되었습니다.');

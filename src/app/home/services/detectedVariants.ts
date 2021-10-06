@@ -192,7 +192,9 @@ export class DetectedVariantsService {
 
   // Sequencing 임시저장
   public saveScreen7(resultStatus: string, specimenNo: string, sequencing: ISequence[], patientInfo: IPatient,
-    comment: string, comment1: string, comment2: string, seqcomment: string, result: string): Observable<any> {
+    comment: string, comment1: string, comment2: string, seqcomment: string,
+    result: string, testcode: string, variations: string,
+    target: string, testmethod: string, analyzedgene: string, specimen: string): Observable<any> {
     //  screen/tempsave7
     let detectedType: string;
     if (resultStatus === 'Detected') {
@@ -201,13 +203,23 @@ export class DetectedVariantsService {
       detectedType = 'notdetected';
     }
     return this.http.post(`${this.apiUrl}/screen/tempsave7`,
-      { resultStatus: detectedType, specimenNo, sequencing, patientInfo, comment, comment1, comment2, seqcomment, result });
+      {
+        resultStatus: detectedType, specimenNo, sequencing, patientInfo,
+        comment, comment1, comment2, seqcomment, result, test_code: testcode,
+        identified_variations: variations, target, testmethod, analyzedgene, specimen
+      });
   }
 
   // Sequencing 내용 가져오기
   public contentScreen7(specimenNo: string): Observable<any> {
     // screen/listScreen7
     return this.http.post(`${this.apiUrl}/screen/listScreen7`, { specimenNo });
+  }
+
+  // Sequencing result test information 가져오기
+  public contentTestScreen7(specimenNo: string): Observable<any> {
+    // screen/listScreen7
+    return this.http.post(`${this.apiUrl}/screen/listPatientSequential`, { specimenNo });
   }
 
 
