@@ -93,6 +93,7 @@
                                 <tr [formGroupName]="i">
                                     <td>
                                         <input type="text" size="10" class="clr-input textcenter tdbox"
+                                         matInput
                                          [matTooltip]="group.get('type').value"
                                          formControlName="type" [matAutocomplete]="auto">
                                         <mat-autocomplete #auto="matAutocomplete">
@@ -103,22 +104,26 @@
                                     </td>
                                     <td>
                                         <input type="text" size="10" class="clr-input textcenter tdbox"
+                                        matInput
                                         [matTooltip]="group.get('exonintron').value"
                                         formControlName="exonintron">
                                     </td>
                                     <td>
                                         <input type="text" size="20" class="clr-input textcenter tdbox"
+                                         matInput
                                          [matTooltip]="group.get('nucleotideChange').value"
                                          formControlName="nucleotideChange">
                                     </td>
                                     <td>
                                         <input type="text" size="15" class="clr-input textcenter tdbox"
+                                        matInput
                                         [matTooltip]="group.get('aminoAcidChange').value"
                                         formControlName="aminoAcidChange">
                                     </td>
                                     <td>
                                         <input type="text" size="40" class="clr-input textcenter tdbox"
-                                         [matTooltip]="group.get('zygosit').value"
+                                         matInput
+                                         [matTooltip]="group.get('zygosity').value"
                                          formControlName="zygosity" [matAutocomplete]="zygo">
                                         <mat-autocomplete #zygo="matAutocomplete">
                                            <mat-option *ngFor="let option of zygosity" [value]="option">
@@ -128,11 +133,13 @@
                                     </td>
                                     <td>
                                         <input type="text" size="40" class="clr-input textcenter tdbox"
+                                          matInput
                                           [matTooltip]="group.get('rsid').value"
                                           formControlName="rsid">
                                     </td>
                                     <td>
                                         <input type="text" size="40" class="clr-input textcenter tdbox"
+                                         matInput
                                          [matTooltip]="group.get('genbankaccesion').value"
                                          formControlName="genbankaccesion">
                                     </td>
