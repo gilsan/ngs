@@ -154,14 +154,16 @@ export class Form6Component implements OnInit, OnDestroy {
   topScroll = false;
   leftScroll = true;
   // tslint:disable-next-line:max-line-length
-  vusmsg = `VUS는 ExAC, KRGDB등의 Population database에서 관찰되지 않았거나, 임상적 의의가 불분명합니다. 해당변이의 의의를 명확히 하기 위하여 환자의 buccal swab 검체로 germline variant 여부에 대한 확인이 필요 합니다.`;
+  vusmsg = ``;
 
   functionalimpact: string[] = ['Pathogenic', 'Likely Pathogenic', 'VUS'];
 
-  technique = `본 검사는 massively parallel sequencing 방법을 이용하여 연관된 유전자의 모든 coding exon과 인접 intron 부위를 분석하는 검사법입니다.  본 검사실은 2015 ACMG 지침의 분류에 따른  Pathogenic, Likely Pathogenic, Uncertain significance  변이에 대하여 Sanger sequencing으로 확인 후 보고하며 Likely benign, Benign 변이는 보고하지 않습니다(Genet Med. 2015 May;17(5):405-24.). `;
-  methods = `Total genomic DNA was extracted from the each sample.  The TruSeq DNA Sample Preparation kit of Illumina was used to make the library. The Agilent SureSelect Target enrichment kit was used for in-solution enrichment of target regions. The enriched fragments were then amplified and sequenced on the HiSeq2000 system (illumina). After demultiplexing, the reads were aligned to the human reference genome hg19 (GRCh37) using BWA (0.7.12). Duplicate reads were removed with Picard MarkDuplicates (1.130), local realignment around indels was performed with GATK RealignerTargetCreator (3.4.0), base scores were recalibrated with GATK BaseRecalibrator (3.4.0), and then variants were called with GATK HaplotypeCaller (3.4.0). Variants were annotated using SnpEff (4.1g).`;
+  methods = `Total genomic DNA was extracted from the each sample.  The TruSeq DNA Sample Preparation kit of Illumina was used to make the library. The Agilent SureSelect Target enrichment kit was used for in-solution enrichment of target regions. The enriched fragments were then amplified and sequenced on the HiSeq2000 system (illumina). After demultiplexing, the reads were aligned to the human reference genome hg19 (GRCh37) using BWA (0.7.12). Duplicate reads were removed with Picard MarkDuplicates (1.130), local realignment around indels was performed with GATK RealignerTargetCreator (3.4.0), base scores were recalibrated with GATK BaseRecalibrator (3.4.0), and then variants were called with GATK HaplotypeCaller (3.4.0). Variants were annotated using SnpEff (4.1g).
 
+  본 검사는 massively parallel sequencing 방법을 이용하여 연관된 유전자의 모든 coding exon과 인접 intron 부위를 분석하는 검사법입니다.  본 검사실은 2015 ACMG 지침의 분류에 따른  Pathogenic, Likely Pathogenic, Uncertain significance  변이에 대하여 Sanger sequencing으로 확인 후 보고하며 Likely benign, Benign 변이는 보고하지 않습니다(Genet Med. 2015 May;17(5):405-24.).`;
 
+  technique = `The analysis was optimised to identify base pair substitutions with a high sensitivity. The sensitivity for small insertions and deletions was lower. Deep-intronic mutations, mutations in the promoter region, repeats, large exonic deletions and duplications, and other structural variants were not detected by this test.`;
+  commentdata = '';
   maxHeight = 500;
   totalCount = 0; // 유전자와 nucleotidde change 을 가진 환자수
 
@@ -276,7 +278,6 @@ export class Form6Component implements OnInit, OnDestroy {
     }
 
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
-    this.patientInfo.screenstatus = '0';
     console.log('[279][환자정보]', this.patientInfo);
     this.comment2 = this.patientInfo.worker;
     this.formTitle = this.patientInfo.reportTitle;
@@ -318,7 +319,7 @@ export class Form6Component implements OnInit, OnDestroy {
 
   //  유전자 목록 가져오기
   getGeneList(): void {
-    console.log('[340] 환자정보: ', this.patientInfo);
+
     this.utilsService.getGeneTestCodeList(this.patientInfo.test_code).subscribe(data => {
       this.genelists = data;
     });
@@ -424,22 +425,23 @@ export class Form6Component implements OnInit, OnDestroy {
       .subscribe(dbComments => {
         if (dbComments !== undefined && dbComments !== null && dbComments.length > 0) {
           console.log('[247][COMMENT 가져오기]', dbComments);
-          dbComments.forEach(comment => {
+          this.commentdata = dbComments[0].comment;
+          // dbComments.forEach(comment => {
 
-            this.comments.push(
-              {
-                gene: comment.gene, comment: comment.comment, reference: comment.reference,
-                variant_id: comment.variants
-              }
-            );
-            this.commentsRows().push(this.createCommentRow(
-              {
-                gene: comment.gene, comment: comment.comment, reference: comment.reference,
-                variant_id: comment.variants
-              }
-            ));
-          });
-          this.store.setComments(this.comments); // comments 저장
+          //   this.comments.push(
+          //     {
+          //       gene: comment.gene, comment: comment.comment, reference: comment.reference,
+          //       variant_id: comment.variants
+          //     }
+          //   );
+          // this.commentsRows().push(this.createCommentRow(
+          //   {
+          //     gene: comment.gene, comment: comment.comment, reference: comment.reference,
+          //     variant_id: comment.variants
+          //   }
+          // ));
+          // });
+          // this.store.setComments(this.comments);
         }
       });
 
@@ -1062,11 +1064,10 @@ export class Form6Component implements OnInit, OnDestroy {
   screenRead(): void {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
-    if (this.comments.length) {
-      const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
-      this.comments = commentControl.getRawValue();
-    }
 
+    this.patientInfo.worker = this.comment2;
+    // console.log(this.patientInfo);
+    this.comments.push({ gene: '', comment: this.commentdata, reference: '', variant_id: '' });
     const result = confirm('스크린 판독 전송하시겠습니까?');
     if (result) {
       this.store.setRechecker(this.patientInfo.recheck);
@@ -1097,11 +1098,10 @@ export class Form6Component implements OnInit, OnDestroy {
   screenReadFinish(): void {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
-    if (this.comments.length) {
-      const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
-      this.comments = commentControl.getRawValue();
-    }
 
+    this.patientInfo.worker = this.comment2;
+
+    this.comments.push({ gene: '', comment: this.commentdata, reference: '', variant_id: '' });
     const result = confirm('판독완료 전송하시겠습니까?');
     if (result) {
       this.store.setRechecker(this.patientInfo.recheck);
@@ -1219,14 +1219,13 @@ export class Form6Component implements OnInit, OnDestroy {
       this.recheck, // 확인자
       this.target,
       this.specimenMessage,
-      this.vusmsg,
       this.formTitle, // 제목,
       this.patientInfo.accept_date, // 검사의뢰일
       this.firstReportDay,
       this.lastReportDay,
       this.patientInfo,
       formData,
-      this.comment,
+      this.commentdata,
       this.comment2,
       this.methods,
       this.technique,
@@ -1479,6 +1478,7 @@ export class Form6Component implements OnInit, OnDestroy {
     this.patientInfo.recheck = this.recheck;
     this.patientInfo.examin = this.examin;
     this.patientInfo.vusmsg = this.vusmsg;
+    this.comments.push({ gene: '', comment: this.commentdata, reference: '', variant_id: '' });
     console.log('[1476][tempSave]patient,reform,comment]', this.patientInfo, formData, this.comments);
 
     this.store.setRechecker(this.patientInfo.recheck);

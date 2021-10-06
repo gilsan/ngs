@@ -405,6 +405,8 @@ export interface ISequence {
   aminoAcidChange: string;
   zygosity: string;
   rsid: string;
+  genbankaccesion?: string;
+  GenbankAccesionNo: string;
 }
 
 

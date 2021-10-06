@@ -135,7 +135,6 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
     }
 
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
-    // this.patientInfo.screenstatus = '0'; // 임시
     console.log('[138][환자정보]', this.patientInfo);
 
 

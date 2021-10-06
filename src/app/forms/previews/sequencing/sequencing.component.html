@@ -28,7 +28,7 @@
                       </tr>
                       <tr>
                         <td> ANALYZED GENE :  {{analyzedgene}}</td>
-                        <td> </td>
+                        <td> IDENTIFIED VARIATIONS: {{variations}}</td>
                       </tr>
                       <tr>
                           <td> SPECIMEN: Genomic DNA isolated from peripheral blood leukocytes-adequate specimen</td>
@@ -49,6 +49,7 @@
                                 <col style="width:120px"/>  <!-- Nuceleotide change   -->
                                 <col style="width:120px"/>  <!-- Amino acid change    -->
                                 <col style="width:120px"/>  <!-- dbSNP/COSMIC ID    -->
+                                <col style="width:120px"/>
                             </colgroup>
                             <thead>
                                 <tr>
@@ -58,6 +59,7 @@
                                     <th>Amino acid change</th>
                                     <th>Zygosity</th>
                                     <th>rs ID</th>
+                                    <th>GenBank accesion no.</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -80,6 +82,10 @@
                                     <td>
                                         <input type="text" size="40" class="clr-input textcenter tdbox" [value]='sequence.rsid'>
                                     </td>
+                                    <td>
+                                        <input type="text" size="40" class="clr-input textcenter tdbox" [value]='sequence.genbankaccesion'>
+                                    </td>
+
                                 </tr>
                             </tbody>
                         </table>

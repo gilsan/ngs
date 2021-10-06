@@ -29,15 +29,20 @@
                   </colgroup>
                   <tbody>
                       <tr>
-                          <td> TARGET DISEASE:  {{targetdisease}}</td>
-                          <td> METHOD: {{method}}</td>
+                          <td> TARGET DISEASE: <input type="text" class="input_02 textcenter"
+                            [(ngModel)]= "targetdisease" ></td>
+                          <td> METHOD: <input type="text" class="input_02 textcenter"
+                            [(ngModel)]= "method"></td>
                       </tr>
                       <tr>
-                        <td> ANALYZED GENE : {{analyzedgene}}</td>
-                        <td> </td>
+                        <td> ANALYZED GENE : <input type="text" class="input_02 textcenter"
+                            [(ngModel)]= "analyzedgene"></td>
+                        <td> IDENTIFIED VARIATIONS: <input type="text" class="input_02 textcenter"
+                            [(ngModel)]= "variations"></td>
                       </tr>
                       <tr>
-                          <td> SPECIMEN: {{specimen}}</td>
+                          <td> SPECIMEN: <input type="text" class="input_02 textcenter"
+                            [(ngModel)]= "specimen"></td>
                           <td> REQUEST: {{patientInfo.request}}</td>
                       </tr>
                   </tbody>
@@ -68,6 +73,7 @@
                                 <col style="width:120px"/>  <!-- Nuceleotide change   -->
                                 <col style="width:120px"/>  <!-- Amino acid change    -->
                                 <col style="width:120px"/>  <!-- dbSNP/COSMIC ID    -->
+                                <col style="width:120px"/>
                                 <col style="width:50px;" />
                             </colgroup>
                             <thead>
@@ -78,6 +84,7 @@
                                     <th>Amino acid change</th>
                                     <th>Zygosity</th>
                                     <th>rs ID</th>
+                                    <th>GenBank accesion no.</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -102,6 +109,9 @@
                                     <td>
                                         <input type="text" size="40" class="clr-input textcenter tdbox" formControlName="rsid">
                                     </td>
+                                    <td>
+                                        <input type="text" size="40" class="clr-input textcenter tdbox" formControlName="genbankaccesion">
+                                    </td>
                                     <td  align="center">
                                        <img [src]="'assets/images/cancel.png'" (click)="removeRow(i)">
                                     </td>
@@ -111,12 +121,10 @@
                         </table>
                         </form>
                     </div>
-                         <!--  <div>
-                               <div  class="font_14 pd_t15">
-                                   <textarea style="width:100%" class="textarea_01"></textarea>
-                                 </div>
-                          </div>
-                          -->
+                </div>
+
+                <div class="pd_r20">
+                    <textarea class="textarea_01" #comment30 (change)="saveSeqComment(comment30.value)">{{seqcomment}}</textarea>
                 </div>
 
                 <div class="sub_title" >판독 코멘트</div>

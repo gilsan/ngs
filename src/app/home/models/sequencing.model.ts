@@ -16,10 +16,11 @@ export function sequencingForm(
   lastReportDay: string,
   patientInfo: IPatient,
   formData: ISequence[],
-  genbankaccesion: string,
   commentMsg: string,
   comment1Msg: string,
-  comment2Msg: string
+  comment2Msg: string,
+  seqcomment: string,
+  variations: string
 
 ): string {
 
@@ -60,11 +61,12 @@ export function sequencingForm(
 				<Col id="testinfo3">SPECIMEN:  ${specimen}</Col>
 				<Col id="testinfo4">REQUEST: ${patientInfo.request}</Col>
         <Col id="testinfo5">ANALYZED GENE : ${analyzedgene}</Col>
-        <Col id="opnion">${genbankaccesion}</Col>
+        <Col id="opnion"><![CDATA[${seqcomment}]]></Col>
 				<Col id="title">${title}</Col>
 				<Col id="examdt">${acceptdate}/${firstReportDay}/${lastReportDay} </Col>
 				<Col id="examid">${examin}</Col>
 				<Col id="signid">${recheck}</Col>
+        <Col id="identified">${variations}</Col>
 			</Row>
 		</Rows>
 	</Dataset>
@@ -80,6 +82,7 @@ export function sequencingForm(
 		<Column id="aminochange" type="STRING" size="256"/>
 		<Column id="zygosity" type="STRING" size="256"/>
 		<Column id="rsid" type="STRING" size="256"/>
+    <Column id="genbank3" type="STRING" size="256"/>
 	</ColumnInfo>
 	<Rows>
 	`;
@@ -95,6 +98,7 @@ export function sequencingForm(
 			 <Col id="aminochange">${formData[i].aminoAcidChange}</Col>
 			 <Col id="zygosity">${formData[i].zygosity}</Col>
 			 <Col id="rsid">${formData[i].rsid}</Col>
+       <Col id="genbank3">${formData[i].genbankaccesion}</Col>
 		 </Row>
 			`;
   }

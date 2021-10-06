@@ -79,8 +79,9 @@ export class Form7Component implements OnInit, OnDestroy {
   analyzedgene = '';
   method = '*Direct sequencing for whole exons including intron-exon boundaries';
   specimen = 'Genomic DNA isolated from peripheral blood leukocytes-adequate specimen';
-  genbankaccesion = '';
-
+  seqcomment = `*Sequencing has an analytical sensitivity of approximately 99% for the detection of nucleotide base alterations, small deletions and insertions, but it does not detect large deletions. Low-level mosaicism will not be detected by routine sequencing methodologies. Only the coding and immediate flanking regions of genes are analyzed, new splice sites, changes in the promoter region, and other non-coding or regulatory region will not be detected.`;
+  // genbankaccesion = '';
+  variations = '';
   private subs = new SubSink();
 
   constructor(
@@ -107,14 +108,7 @@ export class Form7Component implements OnInit, OnDestroy {
       tableRows: this.fb.array(this.mockData.map(list => this.createRow(list))),
 
     });
-    // this.form = this.fb.group({
-    //   type: [''],
-    //   exonintron: [''],
-    //   nucleotideChange: [''],
-    //   aminoAcidChange: [''],
-    //   zygosity: [''],
-    //   rsid: [''],
-    // });
+
   }
 
 
@@ -192,7 +186,8 @@ export class Form7Component implements OnInit, OnDestroy {
                 nucleotideChange: item.nucleotideChange,
                 aminoAcidChange: item.aminoAcidChange,
                 zygosity: item.zygosity,
-                rsid: item.rsid
+                rsid: item.rsid,
+                genbankaccesion: item.GenbankAccesionNo
               }
             ));
           });
@@ -346,10 +341,11 @@ export class Form7Component implements OnInit, OnDestroy {
       this.lastReportDay,
       this.patientInfo,
       formData,
-      this.genbankaccesion,
       this.comment,
       this.comment1,
-      this.comment2
+      this.comment2,
+      this.seqcomment,
+      this.variations
     );
 
     console.log('[287] ', makeForm);
@@ -404,6 +400,10 @@ export class Form7Component implements OnInit, OnDestroy {
     this.comment2 = comment;
   }
 
+  saveSeqComment(comment: string): void {
+    this.seqcomment = comment;
+  }
+
   //////////////////////////////////////////////////////////
   goBack(): void {
     this.router.navigate(['/diag', 'sequencing']);
@@ -424,7 +424,8 @@ export class Form7Component implements OnInit, OnDestroy {
       nucleotideChange: sequencing.nucleotideChange,
       aminoAcidChange: sequencing.aminoAcidChange,
       zygosity: sequencing.zygosity,
-      rsid: sequencing.rsid
+      rsid: sequencing.rsid,
+      genbankaccesion: sequencing.GenbankAccesionNo
     });
   }
 
@@ -436,6 +437,7 @@ export class Form7Component implements OnInit, OnDestroy {
       aminoAcidChange: '',
       zygosity: '',
       rsid: '',
+      genbankaccesion: ''
     });
   }
 

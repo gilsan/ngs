@@ -7,7 +7,6 @@ export function hereditaryForm(
   recheck: string, // 확인자
   target: string,
   specimenMessage: string,
-  vusmsg: string,
   title: string,
   acceptdate: string,
   firstReportDay: string,
@@ -58,7 +57,7 @@ export function hereditaryForm(
 				<Col id="testinfo2">METHOD: *Massively parallel sequencing</Col>
 				<Col id="testinfo3">SPECIMEN: ${specimenMessage}</Col>
 				<Col id="testinfo4">REQUEST: ${patientInfo.request}</Col>
-				<Col id="opnion"><![CDATA[${vusmsg}]]></Col>
+				<Col id="opnion"></Col>
 				<Col id="title">${title}</Col>
 				<Col id="examdt">${acceptdate}/${firstReportDay}/${lastReportDay} </Col>
 				<Col id="examid">${examin}</Col>
