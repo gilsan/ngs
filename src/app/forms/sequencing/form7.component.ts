@@ -187,7 +187,7 @@ export class Form7Component implements OnInit, OnDestroy {
                 aminoAcidChange: item.aminoAcidChange,
                 zygosity: item.zygosity,
                 rsid: item.rsid,
-                genbankaccesion: item.GenbankAccesionNo
+                genbankaccesion: item.genbankaccesion
               }
             ));
           });
@@ -425,7 +425,7 @@ export class Form7Component implements OnInit, OnDestroy {
       aminoAcidChange: sequencing.aminoAcidChange,
       zygosity: sequencing.zygosity,
       rsid: sequencing.rsid,
-      genbankaccesion: sequencing.GenbankAccesionNo
+      genbankaccesion: sequencing.genbankaccesion
     });
   }
 

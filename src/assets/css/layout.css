@@ -912,6 +912,7 @@
 
 .menu03:hover .sub-menu {
   display: inline-block;
+  height: 70px !important;
 }
 
 .sub-menu {
