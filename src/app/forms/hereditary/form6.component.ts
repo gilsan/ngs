@@ -1478,6 +1478,7 @@ export class Form6Component implements OnInit, OnDestroy {
     this.patientInfo.recheck = this.recheck;
     this.patientInfo.examin = this.examin;
     this.patientInfo.vusmsg = this.vusmsg;
+    // this.patientInfo.worker = this.resultname;
     this.comments.push({ gene: '', comment: this.commentdata, reference: '', variant_id: '' });
     console.log('[1476][tempSave]patient,reform,comment]', this.patientInfo, formData, this.comments);
 

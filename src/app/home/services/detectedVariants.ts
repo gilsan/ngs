@@ -192,7 +192,7 @@ export class DetectedVariantsService {
 
   // Sequencing 임시저장
   public saveScreen7(resultStatus: string, specimenNo: string, sequencing: ISequence[], patientInfo: IPatient,
-    comment: string, comment1: string, comment2: string): Observable<any> {
+    comment: string, comment1: string, comment2: string, seqcomment: string, result: string): Observable<any> {
     //  screen/tempsave7
     let detectedType: string;
     if (resultStatus === 'Detected') {
@@ -201,7 +201,7 @@ export class DetectedVariantsService {
       detectedType = 'notdetected';
     }
     return this.http.post(`${this.apiUrl}/screen/tempsave7`,
-      { resultStatus: detectedType, specimenNo, sequencing, patientInfo, comment, comment1, comment2 });
+      { resultStatus: detectedType, specimenNo, sequencing, patientInfo, comment, comment1, comment2, seqcomment, result });
   }
 
   // Sequencing 내용 가져오기

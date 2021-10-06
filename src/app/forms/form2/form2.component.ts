@@ -426,7 +426,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
 
       this.variantsService.screenSelect(this.form2TestedId)
         .subscribe(data => {
-          // console.log('[429]', data);
+          console.log('[429][저장된 데이터]', data);
           if (data.length > 0) {
             this.recoverVariants = data;
 
@@ -444,7 +444,34 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
               }
             });
             this.putCheckboxInit(); // 체크박스 초기화
+            /////////////////////////////////////
+            // 코멘트 가져오기
+            this.subs.sink = this.variantsService.screenComment(this.form2TestedId)
+              .subscribe(dbComments => {
+                if (dbComments !== undefined && dbComments !== null && dbComments.length > 0) {
+                  console.log('[457][COMMENT 가져오기]', dbComments);
+                  dbComments.forEach(comment => {
+                    // console.log('[291]', comment.reference);
+                    this.comments.push(
+                      {
+                        gene: comment.gene, comment: comment.comment,
+                        reference: comment.reference,
+                        variant_id: comment.variants
+                      }
+                    );
+                    this.commentsRows().push(this.createCommentRow(
+                      {
+                        gene: comment.gene, comment: comment.comment,
+                        reference: comment.reference,
+                        variant_id: comment.variants
+                      }
+                    ));
+                  });
+                  this.store.setComments(this.comments); // comments 저장
+                }
+              });
 
+            ////////////////////////////////////
           } else {
             this.addDetectedVariant();
           }
@@ -1079,10 +1106,10 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
     // const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
-    if (this.comments.length) {
-      const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
-      this.comments = commentControl.getRawValue();
-    }
+    // if (this.comments.length) {
+    const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
+    this.comments = commentControl.getRawValue();
+    // }
 
     this.store.setComments(this.comments);
 
@@ -1135,10 +1162,10 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
     // const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
-    if (this.comments.length) {
-      const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
-      this.comments = commentControl.getRawValue();
-    }
+    // if (this.comments.length) {
+    const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
+    this.comments = commentControl.getRawValue();
+    // }
     // } else {
     //   const commentControl = this.singleCommentForm.get('singleComments') as FormArray;
     //   this.comments = commentControl.getRawValue();
@@ -1642,16 +1669,16 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     const formData = control.getRawValue();
     // console.log('[1335][checkbox]', this.checkboxStatus);
     // const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
-    console.log('[1641][Detected variants]', formData);
-    if (this.comments.length) {
-      const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
-      this.comments = commentControl.getRawValue();
-    }
+    console.log('[1641][임시저장]', formData, this.comments);
+    // if (this.comments.length) {
+    const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
+    this.comments = commentControl.getRawValue();
+    //}
     this.store.setComments(this.comments);
     this.patientInfo.recheck = this.recheck;
     this.patientInfo.examin = this.examin;
     this.patientInfo.vusmsg = this.vusmsg;
-    // console.log('[1729][tempSave]patient,reform,comment]', this.patientInfo, formData, this.comments);
+    console.log('[1654][tempSave]patient,reform,comment]', this.comments);
     // console.log('[1730][tempSave]VUS 메세지]', this.vusmsg);
     this.store.setRechecker(this.patientInfo.recheck);
     this.store.setExamin(this.patientInfo.examin);

@@ -175,11 +175,13 @@ export class Form7Component implements OnInit, OnDestroy {
     // this.ngsTitle = this.titleService.findSequencingTitle(this.patientInfo.test_code);
     this.subs.sink = this.variantsService.contentScreen7(this.form2TestedId)
       .subscribe(data => {
-        console.log('[152][받은데이터]', data[0]);
+        console.log('[178][받은데이터]', data[0]);
         if (data.length > 0) {
           this.comment = data[0].comment;
           this.comment1 = data[0].comment1;
           this.comment2 = data[0].comment2;
+          this.seqcomment = data[0].seqcomment;
+
           data.forEach(item => {
             this.sequencingRows().push(this.createRow(
               {
@@ -289,10 +291,9 @@ export class Form7Component implements OnInit, OnDestroy {
     this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimenNo)
       .subscribe(datas => console.log(datas));
 
-
-
     this.subs.sink = this.variantsService.saveScreen7(
-      this.resultStatus, this.form2TestedId, formData, this.patientInfo, this.comment, this.comment1, this.comment2)
+      this.resultStatus, this.form2TestedId, formData, this.patientInfo, this.comment,
+      this.comment1, this.comment2, this.seqcomment, this.resultname)
       .subscribe(data => {
         this.patientsListService.changescreenstatus(this.form2TestedId, '2', userid, 'SEQN').subscribe();
         alert('저장되었습니다.');
