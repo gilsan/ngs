@@ -346,7 +346,7 @@ export class Form3Component implements OnInit, OnDestroy {
     this.subs.sink = this.variantsService.screenSelect(this.form2TestedId)
       .pipe(
         tap(data => {
-          console.log('[348][checkSavedData]', data);
+          console.log('[348][디비에 저장된 데이터가 있는지 확인]', data);
           if (data.length) {
             this.savedDataExist = true;
           }
@@ -398,7 +398,7 @@ export class Form3Component implements OnInit, OnDestroy {
     this.subs.sink = this.variantsService.screenComment(this.form2TestedId)
       .subscribe(dbComments => {
         if (dbComments !== undefined && dbComments !== null && dbComments.length > 0) {
-          console.log('[247][COMMENT 가져오기]', dbComments);
+          console.log('[401][COMMENT 가져오기]', dbComments);
           dbComments.forEach(comment => {
 
             this.comments.push(
@@ -1070,10 +1070,10 @@ export class Form3Component implements OnInit, OnDestroy {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
     // const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
-    if (this.comments.length) {
-      const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
-      this.comments = commentControl.getRawValue();
-    }
+    // if (this.comments.length) {
+    const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
+    this.comments = commentControl.getRawValue();
+    // }
 
     // this.store.setComments(this.comments);
 
@@ -1112,10 +1112,10 @@ export class Form3Component implements OnInit, OnDestroy {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
     // const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
-    if (this.comments.length) {
-      const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
-      this.comments = commentControl.getRawValue();
-    }
+    // if (this.comments.length) {
+    const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
+    this.comments = commentControl.getRawValue();
+    // }
 
     // this.store.setComments(this.comments);
     // console.log('[812][스크린판독완료] ', this.form2TestedId, formData, this.comments, this.profile);
@@ -1521,10 +1521,10 @@ export class Form3Component implements OnInit, OnDestroy {
     // console.log('[1041][checkbox]', this.checkboxStatus);
     // const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
     console.log('[1043][Detected variants]', formData);
-    if (this.comments.length) {
-      const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
-      this.comments = commentControl.getRawValue();
-    }
+    // if (this.comments.length) {
+    const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
+    this.comments = commentControl.getRawValue();
+    // }
     // this.store.setComments(this.comments);
 
     this.patientInfo.recheck = this.recheck;

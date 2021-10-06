@@ -341,6 +341,8 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
           console.log('[347][checkSavedData]', data);
           if (data.length) {
             this.savedDataExist = true;
+          } else {
+            this.savedDataExist = false;
           }
         })
       )
@@ -361,12 +363,12 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     this.subs.sink = this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {
       this.recoverVariants = data;
       this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
-      console.log('[204][form2][Detected variant_id]', this.recoverVariants);
+      console.log('[366][form2][Detected variant_id]', this.recoverVariants);
       this.store.setDetactedVariants(data); // Detected variant 저장
 
       // VUS 메제시 확인
       this.vusmsg = this.patientInfo.vusmsg;
-      console.log('[369][recoverDetected][VUS메세지]', this.patientInfo.vusmsg, this.vusmsg);
+      console.log('[371][recoverDetected][VUS메세지]', this.patientInfo.vusmsg, this.vusmsg);
 
       this.recoverVariants.forEach(item => {
         this.recoverVariant(item);  // 354
@@ -387,8 +389,9 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     // 코멘트 가져오기
     this.subs.sink = this.variantsService.screenComment(this.form2TestedId)
       .subscribe(dbComments => {
+        console.log('[393][COMMENT 가져오기]', dbComments);
         if (dbComments !== undefined && dbComments !== null && dbComments.length > 0) {
-          console.log('[368][COMMENT 가져오기]', dbComments);
+
           dbComments.forEach(comment => {
 
             this.comments.push(
@@ -404,7 +407,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
               }
             ));
           });
-          console.log('[384][COMMENT 가져오기]', this.comments);
+          console.log('[407][COMMENT 가져오기]', this.comments);
           this.store.setComments(this.comments); // comments 저장
         }
       });
@@ -1024,10 +1027,10 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
     // const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
-    if (this.comments.length) {
-      const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
-      this.comments = commentControl.getRawValue();
-    }
+    // if (this.comments.length) {
+    const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
+    this.comments = commentControl.getRawValue();
+    // }
 
     // this.store.setComments(this.comments);
 
@@ -1070,10 +1073,10 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
     // const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
-    if (this.comments.length) {
-      const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
-      this.comments = commentControl.getRawValue();
-    }
+    // if (this.comments.length) {
+    const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
+    this.comments = commentControl.getRawValue();
+    // }
 
     // this.store.setComments(this.comments);
     // console.log('[812][스크린판독완료] ', this.form2TestedId, formData, this.comments, this.profile);
@@ -1479,10 +1482,10 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     // console.log('[1041][checkbox]', this.checkboxStatus);
     // const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
     console.log('[1450][Detected variants]', formData);
-    if (this.comments.length) {
-      const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
-      this.comments = commentControl.getRawValue();
-    }
+    // if (this.comments.length) {
+    const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
+    this.comments = commentControl.getRawValue();
+    // }
     // this.store.setComments(this.comments);
     console.log('[1456][Detected variants]', this.comments);
     this.patientInfo.recheck = this.recheck;

@@ -337,7 +337,7 @@ export class Form6Component implements OnInit, OnDestroy {
   getimmundefi(): void {
     this.subs.sink = this.variantsService.contentScreen6(this.form2TestedId)
       .subscribe(data => {
-        console.log('[329][내역 가져오기]', data.length);
+        console.log('[340][내역 가져오기]', data.length);
         if (data.length > 0) {
 
           data.forEach(item => {
@@ -375,6 +375,8 @@ export class Form6Component implements OnInit, OnDestroy {
           console.log('[373][checkSavedData]', data);
           if (data.length) {
             this.savedDataExist = true;
+          } else {
+            this.savedDataExist = false;
           }
         })
       )
@@ -424,24 +426,24 @@ export class Form6Component implements OnInit, OnDestroy {
     this.subs.sink = this.variantsService.screenComment(this.form2TestedId)
       .subscribe(dbComments => {
         if (dbComments !== undefined && dbComments !== null && dbComments.length > 0) {
-          console.log('[247][COMMENT 가져오기]', dbComments);
+          console.log('[427][COMMENT 가져오기]', dbComments);
           this.commentdata = dbComments[0].comment;
-          // dbComments.forEach(comment => {
+          dbComments.forEach(comment => {
 
-          //   this.comments.push(
-          //     {
-          //       gene: comment.gene, comment: comment.comment, reference: comment.reference,
-          //       variant_id: comment.variants
-          //     }
-          //   );
-          // this.commentsRows().push(this.createCommentRow(
-          //   {
-          //     gene: comment.gene, comment: comment.comment, reference: comment.reference,
-          //     variant_id: comment.variants
-          //   }
-          // ));
-          // });
-          // this.store.setComments(this.comments);
+            this.comments.push(
+              {
+                gene: comment.gene, comment: comment.comment, reference: comment.reference,
+                variant_id: comment.variants
+              }
+            );
+            this.commentsRows().push(this.createCommentRow(
+              {
+                gene: comment.gene, comment: comment.comment, reference: comment.reference,
+                variant_id: comment.variants
+              }
+            ));
+          });
+          this.store.setComments(this.comments);
         }
       });
 
@@ -1470,10 +1472,10 @@ export class Form6Component implements OnInit, OnDestroy {
     const formData = control.getRawValue();
 
     console.log('[1467][Detected variants]', formData);
-    if (this.comments.length) {
-      const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
-      this.comments = commentControl.getRawValue();
-    }
+    // if (this.comments.length) {
+    const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
+    this.comments = commentControl.getRawValue();
+    // }
 
     this.patientInfo.recheck = this.recheck;
     this.patientInfo.examin = this.examin;
