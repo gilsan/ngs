@@ -71,16 +71,18 @@ export class Form7Component implements OnInit, OnDestroy {
 
   form: FormGroup;
   ngsTitle: string;
-  comment = '';
-  comment1 = '';
-  comment2 = '';
+  comment = `수기입력.  APC 유전자 분석결과, 가족성 선종성 용종증과 관련되어 기존에 보고된 nonsense mutation인 p.(Tyr493*) 이 관찰되었습니다. 가족성 선종성 용종증은 상염색체 우성 유전질환으로 환자의 75%-85%에서 이환된 부모의 가족력이 있습니다. 환자의 가족검사를 추천합니다`;
+  comment1 = `대장암의 약 70% 정도에서 adenoma-cancer carcinogenesis에 의하여 생기며, 이러한 대장암의 발생`;
+  comment2 = `본 검사는 reference sequence NM_000038.5를 기준으로 APC 유전자의 coding exon 및 인접 flanking region을 직접염기서열법으로 분석하는 방법입니다.`;
   resultname = '';
   targetdisease = '';
   analyzedgene = '';
   method = '*Direct sequencing for whole exons including intron-exon boundaries';
   specimen = 'Genomic DNA isolated from peripheral blood leukocytes-adequate specimen';
   seqcomment = `*Sequencing has an analytical sensitivity of approximately 99% for the detection of nucleotide base alterations, small deletions and insertions, but it does not detect large deletions. Low-level mosaicism will not be detected by routine sequencing methodologies. Only the coding and immediate flanking regions of genes are analyzed, new splice sites, changes in the promoter region, and other non-coding or regulatory region will not be detected.`;
-  // genbankaccesion = '';
+  types: string[] = ['Pathogenic', 'Likely Pathogenic', 'VUS'];
+  zygosity: string[] = ['Heterozygous', 'Homozygous'];
+
   variations = '';
   private subs = new SubSink();
 
@@ -123,7 +125,7 @@ export class Form7Component implements OnInit, OnDestroy {
 
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
     console.log('[85] 환자정보: ', this.patientInfo);
-
+    this.resultname = this.patientInfo.worker; // 병명
     if (parseInt(this.screenstatus, 10) === 0) {
       // 전송횟수, 검사보고일, 수정보고일  저장
       this.setReportdaymgn(this.patientInfo);
@@ -173,7 +175,7 @@ export class Form7Component implements OnInit, OnDestroy {
     // this.ngsTitle = this.titleService.findSequencingTitle(this.patientInfo.test_code);
     this.subs.sink = this.variantsService.contentScreen7(this.form2TestedId)
       .subscribe(data => {
-        // console.log('[152]', data[0]);
+        console.log('[152][받은데이터]', data[0]);
         if (data.length > 0) {
           this.comment = data[0].comment;
           this.comment1 = data[0].comment1;
@@ -280,6 +282,7 @@ export class Form7Component implements OnInit, OnDestroy {
 
     this.patientInfo.recheck = this.recheck;
     this.patientInfo.examin = this.examin;
+    this.patientInfo.worker = this.resultname;
     // console.log('[1729][tempSave]patient,reform,comment]', this.patientInfo, formData, this.comments);
     this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimenNo)
       .subscribe(datas => console.log(datas));

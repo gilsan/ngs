@@ -92,25 +92,49 @@
                                 <ng-container formArrayName="tableRows"  *ngFor="let group of getFormControls.controls; let i=index">
                                 <tr [formGroupName]="i">
                                     <td>
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="type">
+                                        <input type="text" size="10" class="clr-input textcenter tdbox"
+                                         [matTooltip]="group.get('type').value"
+                                         formControlName="type" [matAutocomplete]="auto">
+                                        <mat-autocomplete #auto="matAutocomplete">
+                                           <mat-option *ngFor="let option of types" [value]="option">
+                                                     {{option}}
+                                           </mat-option>
+                                        </mat-autocomplete>
                                     </td>
                                     <td>
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="exonintron">
+                                        <input type="text" size="10" class="clr-input textcenter tdbox"
+                                        [matTooltip]="group.get('exonintron').value"
+                                        formControlName="exonintron">
                                     </td>
                                     <td>
-                                        <input type="text" size="20" class="clr-input textcenter tdbox" formControlName="nucleotideChange">
+                                        <input type="text" size="20" class="clr-input textcenter tdbox"
+                                         [matTooltip]="group.get('nucleotideChange').value"
+                                         formControlName="nucleotideChange">
                                     </td>
                                     <td>
-                                        <input type="text" size="15" class="clr-input textcenter tdbox" formControlName="aminoAcidChange">
+                                        <input type="text" size="15" class="clr-input textcenter tdbox"
+                                        [matTooltip]="group.get('aminoAcidChange').value"
+                                        formControlName="aminoAcidChange">
                                     </td>
                                     <td>
-                                        <input type="text" size="40" class="clr-input textcenter tdbox" formControlName="zygosity">
+                                        <input type="text" size="40" class="clr-input textcenter tdbox"
+                                         [matTooltip]="group.get('zygosit').value"
+                                         formControlName="zygosity" [matAutocomplete]="zygo">
+                                        <mat-autocomplete #zygo="matAutocomplete">
+                                           <mat-option *ngFor="let option of zygosity" [value]="option">
+                                                     {{option}}
+                                           </mat-option>
+                                        </mat-autocomplete>
                                     </td>
                                     <td>
-                                        <input type="text" size="40" class="clr-input textcenter tdbox" formControlName="rsid">
+                                        <input type="text" size="40" class="clr-input textcenter tdbox"
+                                          [matTooltip]="group.get('rsid').value"
+                                          formControlName="rsid">
                                     </td>
                                     <td>
-                                        <input type="text" size="40" class="clr-input textcenter tdbox" formControlName="genbankaccesion">
+                                        <input type="text" size="40" class="clr-input textcenter tdbox"
+                                         [matTooltip]="group.get('genbankaccesion').value"
+                                         formControlName="genbankaccesion">
                                     </td>
                                     <td  align="center">
                                        <img [src]="'assets/images/cancel.png'" (click)="removeRow(i)">
