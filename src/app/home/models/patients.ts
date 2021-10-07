@@ -303,7 +303,7 @@ export interface IComment {
   gene: string;
   comment: string;
   reference: string;
-  variant_id: string;
+  variant_id?: string;
   variants?: string;
   id?: string;
   type?: string;

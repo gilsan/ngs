@@ -428,46 +428,10 @@ export class Form6Component implements OnInit, OnDestroy {
         if (dbComments !== undefined && dbComments !== null && dbComments.length > 0) {
           console.log('[427][COMMENT 가져오기]', dbComments);
           this.commentdata = dbComments[0].comment;
-          dbComments.forEach(comment => {
-
-            this.comments.push(
-              {
-                gene: comment.gene, comment: comment.comment, reference: comment.reference,
-                variant_id: comment.variants
-              }
-            );
-            this.commentsRows().push(this.createCommentRow(
-              {
-                gene: comment.gene, comment: comment.comment, reference: comment.reference,
-                variant_id: comment.variants
-              }
-            ));
-          });
-          this.store.setComments(this.comments);
+          this.comment2 = dbComments[0].reference;
+          this.resultname = dbComments[0].variants;
         }
       });
-
-
-
-
-
-    // profile 가져오기
-    // this.subs.sink = this.analysisService.getAanlysisMDSInfo(this.form2TestedId)
-    //   .subscribe(data => {
-    //     console.log('[369][profile]==> ', data[0]);
-    //     if (data.length > 0) {
-    //       this.profile.leukemia = data[0].diagnosis;
-    //       this.profile.genetictest = data[0].genetictest;
-    //       this.profile.chron = data[0].chromosomalanalysis;
-    //     } else {
-    //       this.profile.leukemia = '';
-    //       this.profile.genetictest = '';
-    //       this.profile.chron = '';
-    //     }
-    //     this.store.setProfile(this.profile); // profile 저장
-    //   });
-
-
   }
 
   init(form2TestedId: string): void {
@@ -479,7 +443,6 @@ export class Form6Component implements OnInit, OnDestroy {
     }
 
     if (this.form2TestedId) {
-      // this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {
       this.patientsListService.mlpafiltering(this.form2TestedId, this.reportType, this.patientInfo.specimenNo).subscribe(data => {
         if (data.length > 0) {
           this.recoverVariants = data;
@@ -495,18 +458,6 @@ export class Form6Component implements OnInit, OnDestroy {
             }
           });
 
-
-          // comments 분류 COMMENTS 가져오기
-          if (data[0].comments !== 'none') {
-            console.log('[491][init]', data[0].comments);
-            this.comments.push(
-              {
-                gene: data[0].comments.gene, comment: data[0].comments.comment, reference: data[0].comments.reference,
-                variant_id: data[0].comments.variants
-              }
-            );
-            this.commentsRows().push(this.createCommentRow(data[0].comments));
-          }
           ///////////////////////////////////////////////////////////////
 
           this.putCheckboxInit(); // 체크박스 초기화
@@ -516,21 +467,7 @@ export class Form6Component implements OnInit, OnDestroy {
         }
       });
 
-      // 검사자 정보 가져오기
-      // 저장된 검사자의 값이 있으면 표시
-      // this.analysisService.getAanlysisMDSInfo(this.form2TestedId)
-      //   .subscribe(data => {
-      //     if (data.length > 0) {
-      //       this.profile.leukemia = data[0].diagnosis;
-      //       this.profile.genetictest = data[0].genetictest;
-      //       this.profile.chron = data[0].chromosomalanalysis;
-      //     } else {
-      //       this.profile.leukemia = this.patientInfo.leukemiaassociatedfusion;
-      //       this.profile.genetictest = this.patientInfo.genetictest;
-      //       this.profile.chron = this.patientInfo.chromosomalanalysis;
-      //     }
-      //     this.store.setProfile(this.profile); // profile 저장
-      //   });
+
 
     } else {   // End of form2TestedId loop
       this.patientInfo = {
@@ -718,9 +655,6 @@ export class Form6Component implements OnInit, OnDestroy {
         dbSNPHGMD: '',
         gnomADEAS: '',
         OMIM: '',
-        // vafPercent: tsv.frequency,
-        // references: '',
-        // cosmicID: ''
       };
     }
     //
@@ -757,9 +691,6 @@ export class Form6Component implements OnInit, OnDestroy {
       dbSNPHGMD: item.dbSNPHGMD,
       gnomADEAS: item.gnomADEAS,
       OMIM: item.OMIM,
-      // vafPercent: item.vaf,
-      // references: item.reference,
-      // cosmicID: item.cosmic_id,
       checked: item.checked,
       id: item.id
     };
@@ -1069,7 +1000,9 @@ export class Form6Component implements OnInit, OnDestroy {
 
     this.patientInfo.worker = this.comment2;
     // console.log(this.patientInfo);
-    this.comments.push({ gene: '', comment: this.commentdata, reference: '', variant_id: '' });
+    this.comments.push({
+      gene: '', comment: this.commentdata, reference: this.comment2, type: '', variant_id: this.resultname
+    });
     const result = confirm('스크린 판독 전송하시겠습니까?');
     if (result) {
       this.store.setRechecker(this.patientInfo.recheck);
@@ -1103,7 +1036,9 @@ export class Form6Component implements OnInit, OnDestroy {
 
     this.patientInfo.worker = this.comment2;
 
-    this.comments.push({ gene: '', comment: this.commentdata, reference: '', variant_id: '' });
+    this.comments.push({
+      gene: '', comment: this.commentdata, reference: this.comment2, type: '', variant_id: this.resultname
+    });
     const result = confirm('판독완료 전송하시겠습니까?');
     if (result) {
       this.store.setRechecker(this.patientInfo.recheck);
@@ -1472,16 +1407,14 @@ export class Form6Component implements OnInit, OnDestroy {
     const formData = control.getRawValue();
 
     console.log('[1467][Detected variants]', formData);
-    // if (this.comments.length) {
-    const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
-    this.comments = commentControl.getRawValue();
-    // }
+    this.comments.push({
+      gene: '', comment: this.commentdata, reference: this.comment2, type: '', variant_id: this.resultname
+    });
 
     this.patientInfo.recheck = this.recheck;
     this.patientInfo.examin = this.examin;
     this.patientInfo.vusmsg = this.vusmsg;
-    // this.patientInfo.worker = this.resultname;
-    this.comments.push({ gene: '', comment: this.commentdata, reference: '', variant_id: '' });
+
     console.log('[1476][tempSave]patient,reform,comment]', this.patientInfo, formData, this.comments);
 
     this.store.setRechecker(this.patientInfo.recheck);
