@@ -712,7 +712,7 @@ export class Form3Component implements OnInit, OnDestroy {
         functionalImpact: item.functional_impact,
         transcript: tsv.transcript,
         exonIntro: 'E' + tsv.exon,
-        nucleotideChange: coding,
+        nucleotideChange: tsv.coding,
         aminoAcidChange: tsv.amino_acid_change,
 
         zygosity: 'Heterozygous',
@@ -731,7 +731,7 @@ export class Form3Component implements OnInit, OnDestroy {
         functionalImpact: '',
         transcript: tsv.transcript,
         exonIntro: 'E' + tsv.exon,
-        nucleotideChange: coding,
+        nucleotideChange: tsv.coding,
         aminoAcidChange: tsv.amino_acid_change,
         zygosity: 'Heterozygous',
         vafPercent: tsv.frequency,
