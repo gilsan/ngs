@@ -381,6 +381,7 @@ export class PatientsListService {
 
             clinVar = item.clinvar;
             const semi = item.coding.indexOf(',');
+            // console.log('[384] ', item.coding, semi);
             if (semi !== -1) {
               coding = item.coding.split(',')[0];
             } else {
@@ -388,14 +389,14 @@ export class PatientsListService {
             }
             // coding = item.coding.replace(/;/g, ',');
             const id = item.id;
-            // console.log('===== [388][gene1/gene2/coding]====\n', gene1, gene2, coding);
+            // console.log('===== [391][gene1/gene2/coding]====\n', gene1, gene2, coding);
             return { id, gene1, gene2, coding, tsv, clinVar, multigenes };
           }
         });
       }), // End of tap
       switchMap(() => from(this.geneCoding)),
       concatMap(item => {
-        // console.log('[395][geneCoding]==> ', item);
+        // console.log('===== [407][coding]====\n', item.coding);
         let tempTestType;
         if (item.gene2 === 'none') {
           if (testType === 'AML' || testType === 'ALL') {
@@ -403,7 +404,7 @@ export class PatientsListService {
           } else {
             tempTestType = testType;
           }
-
+          // console.log('===== [407][coding]====\n', item.coding);
           return this.getArtifactsInfoCount(item.gene1, item.coding, tempTestType).pipe(
             map(gene1Count => {
               // console.log('[410][getArtifactsInfoCount]', gene1Count[0].count, item.multigenes);
@@ -1001,15 +1002,6 @@ export class PatientsListService {
       }),
     ); // End of return
   }
-
-
-
-
-
-
-
-
-
 
 
 

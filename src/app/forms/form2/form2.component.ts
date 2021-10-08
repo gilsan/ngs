@@ -470,9 +470,9 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
                   this.store.setComments(this.comments); // comments 저장
                 }
               });
-
             ////////////////////////////////////
           } else {
+
             this.addDetectedVariant();
           }
         });
@@ -550,7 +550,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
         let type: string;
         let gene: string;
         let dvariable: IAFormVariant;
-        // console.log('********** [필터링원시자료][526]', data);
+        // console.log('********** [필터링원시자료][553]', data);
 
         // 타입 분류
         if (data.mtype === 'M') {  // mutation
@@ -732,7 +732,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     } else {
       tempCount = '';
     }
-    // console.log('[708]', count, tempCount);
+
     if (type === 'M') {
       tempvalue = {
         igv: '',
@@ -743,7 +743,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
         functionalImpact: item.functional_impact,
         transcript: tsv.transcript,
         exonIntro: 'E' + tsv.exon,
-        nucleotideChange: coding,
+        nucleotideChange: tsv.coding,
         aminoAcidChange: tsv.amino_acid_change,
         zygosity: 'Heterozygous',
         vafPercent: tsv.frequency,
@@ -761,7 +761,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
         functionalImpact: '',
         transcript: tsv.transcript,
         exonIntro: 'E' + tsv.exon,
-        nucleotideChange: coding,
+        nucleotideChange: tsv.coding,
         aminoAcidChange: tsv.amino_acid_change,
         zygosity: 'Heterozygous',
         vafPercent: tsv.frequency,

@@ -18,6 +18,7 @@ import { MaterialModule } from '../material.module';
 import { TypestaticsComponent } from './statistics/typestatics/typestatics.component';
 // import { MaterialModule } from '../material.module';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { NgsexcelComponent } from './ngsexcel/ngsexcel.component';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
     DeletegeneComponent,
     MgngeneComponent,
     TypestaticsComponent,
+    NgsexcelComponent,
   ],
   imports: [
 

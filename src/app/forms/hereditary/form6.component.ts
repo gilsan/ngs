@@ -210,6 +210,7 @@ export class Form6Component implements OnInit, OnDestroy {
 
   } // End of ngOninit
 
+
   ngAfterViewInit(): void {
     // this.checker();
   }
@@ -287,18 +288,15 @@ export class Form6Component implements OnInit, OnDestroy {
     this.requestDate = this.patientInfo.accept_date;
 
     // 검체 감염유부 확인
-    if (parseInt(this.patientInfo.detected, 10) === 0) {
-      this.resultStatus = 'Detected';
-    } else if (parseInt(this.patientInfo.detected, 10) === 1) {
-      this.resultStatus = 'Not Detected';
-    }
+    // if (parseInt(this.patientInfo.detected, 10) === 0) {
+    //   this.resultStatus = 'Detected';
+    // } else if (parseInt(this.patientInfo.detected, 10) === 1) {
+    //   this.resultStatus = 'Not Detected';
+    // }
 
     // 전송횟수, 검사보고일, 수정보고일  저장
     this.setReportdaymgn(this.patientInfo);
-
     this.screenstatus = this.patientInfo.screenstatus;
-
-    // this.getimmundefi();
 
   }
 
@@ -325,13 +323,6 @@ export class Form6Component implements OnInit, OnDestroy {
     });
   }
 
-
-  //  유전자 목록 가져오기
-  // getGeneList(type: string): any {
-  //   this.utilsService.getGeneList('MDS').subscribe(data => {
-  //     this.genelists = data;
-  //   });
-  // }
   /////////////////////////////////////////////////
   // 내역 가져오기
   getimmundefi(): void {
@@ -435,7 +426,6 @@ export class Form6Component implements OnInit, OnDestroy {
   }
 
   init(form2TestedId: string): void {
-
     // VUS 메제시 확인 2021.4.7 추가
     if (this.patientInfo.vusmsg.length) {
       this.vusmsg = this.patientInfo.vusmsg;
@@ -457,13 +447,7 @@ export class Form6Component implements OnInit, OnDestroy {
               this.store.setVUSStatus(this.vusstatus);
             }
           });
-
-          ///////////////////////////////////////////////////////////////
-
           this.putCheckboxInit(); // 체크박스 초기화
-
-        } else {
-          // this.addDetectedVariant();
         }
       });
 
@@ -498,15 +482,6 @@ export class Form6Component implements OnInit, OnDestroy {
     }
   }
 
-
-  addDetectedVariant(): void {
-    this.subs.sink = this.patientsListService.mlpafiltering(this.form2TestedId, this.reportType, this.patientInfo.specimenNo)
-      .subscribe(data => {
-        console.log('[498]', this.reportType);
-        console.log(data);
-      });
-
-  }
 
 
   // 검사일/검사보고일/수정보고일 관리

@@ -7,6 +7,7 @@ import { GenemgnComponent } from './genemgn/genemgn.component';
 import { InhouseComponent } from './inhouse.component';
 import { MgngeneComponent } from './mgngene/mgngene.component';
 import { MutationComponent } from './mutation/mutation.component';
+import { NgsexcelComponent } from './ngsexcel/ngsexcel.component';
 
 const routes: Routes = [
   {
@@ -15,7 +16,8 @@ const routes: Routes = [
       { path: 'artifacts', component: ArtifactsComponent },
       { path: 'benign', component: BenignComponent },
       { path: 'comments', component: CommentsComponent },
-      { path: 'genemgn', component: MgngeneComponent }
+      { path: 'genemgn', component: MgngeneComponent },
+      { path: 'ngsexcel', component: NgsexcelComponent }
     ]
   },
 ];

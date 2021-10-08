@@ -28,6 +28,7 @@ import { HereditaryComponent } from './components/hereditary/hereditary.componen
 import { MdsmpnComponent } from './components/mdsmpn/mdsmpn.component';
 
 
+
 const routes: Routes = [
   {
     path: '', component: HomeComponent, children: [

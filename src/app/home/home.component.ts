@@ -4,15 +4,18 @@ import { StoreService } from '../forms/store.current';
 import { PatientsListService } from './services/patientslist';
 import { StorePathService } from '../byengri/store.path.service';
 
+import { IExcelData } from 'src/app/home/models/patients';
+import { ExcelAddListService } from 'src/app/home/services/excelAddList';
+import { ExcelService } from 'src/app/services/excel.service';
+
+
 import { MatDialog } from '@angular/material/dialog';
 
 import { ManageUsersService } from 'src/app/home/services/manageUsers.service';
 import { IPasswd } from '../byengri/models/patients';
 import { DiagpasswdchangeComponent } from './diagpasswdchange/diagpasswdchange.component';
 import { filter, map, tap } from 'rxjs/operators';
-import { ExcelAddListService } from './services/excelAddList';
-import { IExcelData } from './models/patients';
-import { ExcelService } from '../services/excel.service';
+
 import { SubSink } from 'subsink';
 @Component({
   selector: 'app-home',
@@ -38,6 +41,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private service: ManageUsersService,
     private excelService: ExcelAddListService,
     private excel: ExcelService,
+
   ) { }
 
   ngOnInit(): void {
@@ -190,6 +194,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
   }
 
+  ngslink(): void {
+    this.router.navigate(['/diag', 'inhouse', 'ngsexcel']);
+  }
+
   excelDownload(): void {
 
     this.subs.sink = this.excelService.excelList().subscribe((lists: IExcelData[]) => {
@@ -243,34 +251,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
       this.excel.exportAsExcelFile(excelLists, 'report');
     });
-
-  }
-
-  ngsLists(): void {
-    const ngsLists = [];
-
-    ngsLists.push({
-      a1: '순번', b1: '조건부선별급여접수번호', c1: '증례드록번호', d1: '요양기호', e1: '등록번호',
-      f1: '환자명', g1: '생년월일', h1: '성별', i1: '청구여부', j1: '접수번호',
-      k1: '명일련', l1: '본인부담률', m1: '본인부담률90%분', n1: '90% 본인부담률 소견서 작성 여부', o1: '패널명',
-      p1: '패널구분', q1: '패널관리번호', r1: '검사 전\n상병분류기호', s1: '검사전상병명', t1: '검사 후\n상병분류기호',
-      u1: '검사후상병명', v1: '해당질환\n가족력', w1: '고형암 여부', x1: '진행성, 전이성, 재발성 고형암', y1: '병기구분',
-      z1: 'Stage', aa1: '행동양식 분류부호', ab1: '검체종류', ac1: '검체기타', ad1: '검체접수일',
-      ae1: '검사보고일', af1: 'PV/LPV 검출 여부', ag1: 'PV/LPV 검출 유전자', ah1: 'VUS 검출여부', ai1: 'VUS 검출 유전자',
-      aj1: '검사위탁', ak1: '인체유래물 등의\n기증 동의여부', al1: '기타 특이사항'
-    });
-
-    const ngwidth = [{ width: 6 }, { width: 12 }, { width: 6 }, { width: 12 }, { width: 9 },
-    { width: 8 }, { width: 8 }, { width: 4 }, { width: 4 }, { width: 8 },
-    { width: 7 }, { width: 5 }, { width: 4 }, { width: 4 }, { width: 24 },
-    { width: 5 }, { width: 15 }, { width: 12 }, { width: 11 }, { width: 8 },
-    { width: 55 }, { width: 6 }, { width: 5 }, { width: 5 }, { width: 5 },
-    { width: 4 }, { width: 4 }, { width: 9 }, { width: 5 }, { width: 12 },
-    { width: 12 }, { width: 12 }, { width: 27 }, { width: 9 }, { width: 36 },
-    { width: 9 }, { width: 9 }, { width: 9 }
-    ];
-
-    this.excel.exortAsNGSTest(ngsLists, 'report', ngwidth);
 
   }
 
