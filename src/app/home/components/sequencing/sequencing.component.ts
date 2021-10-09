@@ -9,7 +9,7 @@ import { IPatient } from '../../models/patients';
 import { PatientsListService } from '../../services/patientslist';
 import { SubSink } from 'subsink';
 import * as moment from 'moment';
-import { geneTitles, sequencingLists } from 'src/app/forms/commons/geneList';
+import { listSequencing, sequencingLists } from 'src/app/forms/commons/geneList';
 import { TestCodeTitleService } from '../../services/testCodeTitle.service';
 
 
@@ -42,7 +42,7 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
   private apiUrl = emrUrl;
 
   sequencingLists = sequencingLists;
-
+  listSequencing = listSequencing;
 
   @ViewChild('dbox100', { static: true }) dbox100: ElementRef;
 

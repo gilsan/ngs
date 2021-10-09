@@ -29,19 +29,19 @@
                   </colgroup>
                   <tbody>
                       <tr>
-                          <td> TARGET DISEASE: <input type="text" class="input_02 textcenter"
+                          <td> TARGET DISEASE: <input type="text" class="input_02"
                             [(ngModel)]= "targetdisease" ></td>
-                          <td> METHOD: <input type="text" class="input_02 textcenter"
+                          <td> METHOD: <input type="text" class="input_02"
                             [(ngModel)]= "method"></td>
                       </tr>
                       <tr>
-                        <td> ANALYZED GENE : <input type="text" class="input_02 textcenter"
+                        <td> ANALYZED GENE : <input type="text" class="input_02"
                             [(ngModel)]= "analyzedgene"></td>
-                        <td> IDENTIFIED VARIATIONS: <input type="text" class="input_02 textcenter"
+                        <td> IDENTIFIED VARIATIONS: <input type="text" class="input_02"
                             [(ngModel)]= "variations"></td>
                       </tr>
                       <tr>
-                          <td> SPECIMEN: <input type="text" class="input_02 textcenter"
+                          <td> SPECIMEN: <input type="text" class="input_02"
                             [(ngModel)]= "specimen"></td>
                           <td> REQUEST: {{patientInfo.request}}</td>
                       </tr>
@@ -67,7 +67,7 @@
                       <form [formGroup]="form">
                         <table class="table_list td-fix" style="text-align: center;">
                             <colgroup>
-                                <col style="width:60px"/>  <!-- Type   -->
+                                <col style="width:70px"/>  <!-- Type   -->
                                 <col style="width:100px"/>  <!-- Exon/Intron #    -->
                                 <col style="width:100px"/>  <!-- 진단시<br/>(2019.09.04)    -->
                                 <col style="width:120px"/>  <!-- Nuceleotide change   -->

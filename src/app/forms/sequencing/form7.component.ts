@@ -291,8 +291,8 @@ export class Form7Component implements OnInit, OnDestroy {
     const userid = localStorage.getItem('diaguser');
     const control = this.form.get('tableRows') as FormArray;
     const formData = control.getRawValue();
-    const tempComments = this.comment + '_' + this.comment1 + '_' + this.comment2;
-    console.log('[264]', formData, tempComments);
+    // 검사자const tempComments = this.comment + '_' + this.comment1 + '_' + this.comment2;
+    console.log('[295][저장]', formData);
 
     this.patientInfo.recheck = this.recheck;
     this.patientInfo.examin = this.examin;

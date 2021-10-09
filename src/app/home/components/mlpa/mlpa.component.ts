@@ -9,7 +9,7 @@ import { IPatient } from '../../models/patients';
 import { PatientsListService } from '../../services/patientslist';
 import { SubSink } from 'subsink';
 import * as moment from 'moment';
-import { geneTitles, mlpaLists } from 'src/app/forms/commons/geneList';
+import { geneTitles, mlpaLists, listMLPA } from 'src/app/forms/commons/geneList';
 import { MLPATLIST } from 'src/app/forms/commons/mlpa.data';
 import { MlpaService } from 'src/app/services/mlpa.service';
 import { TestCodeTitleService } from '../../services/testCodeTitle.service';
@@ -42,7 +42,7 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private apiUrl = emrUrl;
   mlpaLists = mlpaLists;
-
+  listsMLPA = listMLPA;
   @ViewChild('dbox100', { static: true }) dbox100: ElementRef;
 
   constructor(

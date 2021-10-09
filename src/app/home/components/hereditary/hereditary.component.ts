@@ -42,7 +42,7 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
   private apiUrl = emrUrl;
 
   hereditaryLists = geneLists;
-
+  listHereditary = geneTitles;
   @ViewChild('dbox100', { static: true }) dbox100: ElementRef;
 
   constructor(
