@@ -127,9 +127,18 @@
             <td><input type="text" size="40"  class="clr-input textcenter  tdbox"
             [matTooltip]="group.get('aminoAcidChange').value"
             formControlName="aminoAcidChange"></td>
-            <td><input type="text" size="20"  class="clr-input textcenter  tdbox"
+            <td>
+            <input type="text" size="20"  class="clr-input textcenter  tdbox"
+            matInput
             [matTooltip]="group.get('zygosity').value"
-            formControlName="zygosity"></td>
+            formControlName="zygosity"  [matAutocomplete]="zygo">
+              <mat-autocomplete #zygo="matAutocomplete">
+                 <mat-option *ngFor="let option of zygosity" [value]="option">
+                           {{option}}
+                 </mat-option>
+              </mat-autocomplete>
+
+            </td>
             <td><input type="text" size="20"  class="clr-input textcenter  tdbox"
             [matTooltip]="group.get('dbSNPHGMD').value"
             formControlName="dbSNPHGMD">
@@ -269,10 +278,13 @@
        <div class="modal-body">
            <app-immundefi
            [patientInfo]="patientInfo"
+           [target]="target"
+           [specimenMessage] = "specimenMessage"
            [immundefi]= "formDatas"
            [result]="resultStatus"
            [title]="formTitle"
            [comments]="comments"
+           [resultname]="resultname"
             (closemodal)="closeModal()">
           </app-immundefi>
        </div>

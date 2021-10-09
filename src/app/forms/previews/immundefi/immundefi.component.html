@@ -10,7 +10,7 @@
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
                     <td class="txt_02" ><span class="fb">Result </span>:
-                        <label for="vertical-radio2" class="clr-col-12 clr-col-md-2">Likely pathogenic variant {{result}}</label>
+                        <label for="vertical-radio2" class="clr-col-12 clr-col-md-2">{{resultname}}</label>
                         &nbsp;&nbsp;
                     </td>
                   </tr>
@@ -24,11 +24,11 @@
                   </colgroup>
                   <tbody>
                       <tr>
-                          <td> TARGET DISEASE: Primary Immunodeficiency (363 genes)</td>
+                          <td> TARGET DISEASE: {{target}}</td>
                           <td> METHOD: *Massively parallel sequencing</td>
                       </tr>
                       <tr>
-                          <td> SPECIMEN: Genomic DNA isolated from peripheral blood leukocytes-adequate specimen</td>
+                          <td> SPECIMEN: {{specimenMessage}}</td>
                           <td> REQUEST: {{patientInfo.request}}</td>
                       </tr>
                   </tbody>
