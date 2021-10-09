@@ -22,7 +22,7 @@
 
         <select class="select_01 select_001" #sheet>
           <option value="Sequencing">전체</option>
-          <option  *ngFor="let list of listSequencing"  [value]="list.code">{{list.code}} ({{list.title}})</option>
+          <option  *ngFor="let list of listSequencing"  [value]="list.code">{{list.code}} ({{list.testname}})</option>
         </select>&nbsp;&nbsp;
 
         <input type="date" [value]="startToday()" (change)="getDate(start.value)" #start class="input_01"
