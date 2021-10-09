@@ -297,6 +297,17 @@ export class Form6Component implements OnInit, OnDestroy {
     // 전송횟수, 검사보고일, 수정보고일  저장
     this.setReportdaymgn(this.patientInfo);
     this.screenstatus = this.patientInfo.screenstatus;
+    if (this.patientInfo.specimen === '015') {
+      this.specimenMsg = 'Bone marrow';
+      this.specimenMessage = 'Genomic DNA isolated from Bone marrow';
+    } else if (this.patientInfo.specimen === '004') {
+      this.specimenMsg = 'EDTA blood';
+      this.specimenMessage = 'Genomic DNA isolated from EDTA blood';
+      this.store.setSpecimenMsg(this.specimenMsg);
+    }
+
+
+
 
   }
 

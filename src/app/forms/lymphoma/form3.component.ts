@@ -320,6 +320,10 @@ export class Form3Component implements OnInit, OnDestroy {
       this.specimenMsg = 'Bone marrow';
       this.specimenMessage = 'Genomic DNA isolated from Bone marrow';
       this.store.setSpecimenMsg(this.specimenMsg);
+    } else if (this.patientInfo.specimen === '004') {
+      this.specimenMsg = 'EDTA blood';
+      this.specimenMessage = 'Genomic DNA isolated from EDTA blood';
+      this.store.setSpecimenMsg(this.specimenMsg);
     }
     // 필터링된 tsv 파일 가져오기
     this.filteredTSV$ = this.patientsListService.getFilteredTSVtList(this.form2TestedId)
@@ -710,13 +714,13 @@ export class Form3Component implements OnInit, OnDestroy {
         cnt: tempCount,
         gene,
         functionalImpact: item.functional_impact,
-        transcript: tsv.transcript,
-        exonIntro: 'E' + tsv.exon,
-        nucleotideChange: tsv.coding,
-        aminoAcidChange: tsv.amino_acid_change,
+        transcript: tsv.transcript.replace(/;/g, ','),
+        exonIntro: 'E' + tsv.exon.replace(/;/g, ','),
+        nucleotideChange: tsv.coding.replace(/;/g, ','),
+        aminoAcidChange: tsv.amino_acid_change.replace(/;/g, ','),
 
         zygosity: 'Heterozygous',
-        vafPercent: tsv.frequency,
+        vafPercent: tsv.frequency.replace(/;/g, ','),
         references: item.reference,
         cosmicID: item.cosmic_id,
       };
@@ -729,12 +733,12 @@ export class Form3Component implements OnInit, OnDestroy {
         cnt: '',
         gene,
         functionalImpact: '',
-        transcript: tsv.transcript,
-        exonIntro: 'E' + tsv.exon,
-        nucleotideChange: tsv.coding,
-        aminoAcidChange: tsv.amino_acid_change,
+        transcript: tsv.transcript.replace(/;/g, ','),
+        exonIntro: 'E' + tsv.exon.replace(/;/g, ','),
+        nucleotideChange: tsv.coding.replace(/;/g, ','),
+        aminoAcidChange: tsv.amino_acid_change.replace(/;/g, ','),
         zygosity: 'Heterozygous',
-        vafPercent: tsv.frequency,
+        vafPercent: tsv.frequency.replace(/;/g, ','),
         references: '',
         cosmicID: ''
       };
