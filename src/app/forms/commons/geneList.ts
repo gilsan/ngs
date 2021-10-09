@@ -257,7 +257,7 @@ export const listMLPA = [
   { ngstype: 'MLPA', title: '미세결실증후군 MLPA 검사', code: 'LPE294', testname: 'DMD/BMD (Muscular Dystrophy) (MLPA법)' },
   { ngstype: 'MLPA', title: 'SMA, SMN1 and SMN2 del/dup (MLPA)', code: 'LPE322', testname: 'SMA, SMN1 and SMN2 del/dup (MLPA)' },
   { ngstype: 'MLPA', title: 'CYP21A2 gene test (MLPA) ', code: 'LPE332', testname: 'CYP21A2 gene test (MLPA) ' },
-  { ngstype: 'MLPA', title: 'HBA1.2 gene, deletion (α-thalassemia) [MLPA] ', code: 'LPE351', testname: '' },
+  { ngstype: 'MLPA', title: 'HBA1.2 gene, deletion (α-thalassemia) [MLPA] ', code: 'LPE351', testname: 'HBA1.2 gene, deletion (α-thalassemia) [MLPA]' },
   { ngstype: 'MLPA', title: 'VHL gene (MLPA) test', code: 'LPE369', testname: 'VHL gene (MLPA) test' },
   { ngstype: 'MLPA', title: 'PMP22 Gene (MLPA)', code: 'LPE377', testname: 'PMP22 Gene (MLPA)' },
   { ngstype: 'MLPA', title: 'PARK2 Gene test검사 (MLPA)', code: 'LPE464', testname: 'PARK2 Gene test검사 (MLPA)' },
