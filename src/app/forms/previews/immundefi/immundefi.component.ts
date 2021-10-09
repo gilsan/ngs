@@ -9,10 +9,13 @@ import { IAFormVariant, IComment, IImmundefi, IPatient } from 'src/app/home/mode
 export class ImmundefiComponent implements OnInit {
 
   @Input() patientInfo: IPatient;
+  @Input() target: string;
+  @Input() specimenMessage: string;
   @Input() immundefi: IAFormVariant[];
   @Input() comments: IComment[];
   @Input() result: string;
   @Input() title: string;
+  @Input() resultname: string;
   @Output() closemodal = new EventEmitter<void>();
   constructor() { }
 

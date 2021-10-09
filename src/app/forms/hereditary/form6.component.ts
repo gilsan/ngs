@@ -171,6 +171,9 @@ export class Form6Component implements OnInit, OnDestroy {
   target: string;
   resultname = '(  )';
   savedDataExist = false;
+  zygosity: string[] = ['Heterozygous', 'Homozygous'];
+
+
   @ViewChild('commentbox') private commentbox: TemplateRef<any>;
   @ViewChild('box100', { static: true }) box100: ElementRef;
   @ViewChild('table', { static: true }) table: ElementRef;
