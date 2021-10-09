@@ -16,6 +16,7 @@ export class LymphomaPreviewComponent implements OnInit {
   @Input() lymphomas: IAFormVariant[];
   @Input() comments: IComment[];
   @Input() methods: string;
+  @Input() target: string;
   @Output() closemodal = new EventEmitter<void>();
 
   resultStatus: string;

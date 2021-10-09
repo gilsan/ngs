@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { concatMap, map, shareReplay } from 'rxjs/operators';
 import { FindNgsTitleService } from '../commons/findngstitle.service';
 import { sequencingForm } from 'src/app/home/models/sequencing.model';
+import { profile } from 'console';
 
 
 @Component({
