@@ -73,12 +73,12 @@
                             <td *ngIf="type === 'AML'">TARGET DISEASE: Acute myeloid leukemia</td>
                             <td *ngIf="type === 'ALL'">TARGET DISEASE: Acute lymphoblastic leukemia</td>
                             <td *ngIf="type === 'MDS'">TARGET DISEASE: MDS/MPN</td>
-                            <td *ngIf="type === 'LYM'">TARGET DISEASE: Lymphoma</td>
+                            <td *ngIf="type === 'LYM'">TARGET DISEASE: {{target}}</td>
                             <td>METHODS: *Massivery parallel sequencing</td>
                         </tr>
                         <tr>
                             <td *ngIf="type === 'AML' || type === 'ALL'">SPECIMEN: Genomic DNA isolated from {{specimenMsg}}</td>
-                            <td *ngIf="type === 'MDS' || type === 'LYM'">SPECIMEN: Genomic DNA isolated from peripheral blood</td>
+                            <td *ngIf="type === 'MDS' || type === 'LYM'">SPECIMEN: Genomic DNA isolated from Bone marrow</td>
                             <td>REQUEST: {{patientInfo.request}}</td>
                         </tr>
                     </tbody>
