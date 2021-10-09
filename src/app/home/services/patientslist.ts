@@ -383,7 +383,8 @@ export class PatientsListService {
             const semi = item.coding.indexOf(',');
             // console.log('[384] ', item.coding, semi);
             if (semi !== -1) {
-              coding = item.coding.split(',')[0];
+              // coding = item.coding.split(',')[0];
+              coding = item.coding;
             } else {
               coding = item.coding;
             }
