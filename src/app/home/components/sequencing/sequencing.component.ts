@@ -115,7 +115,7 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
     this.patientID = patientid;
     this.store.setPatientID(patientid);
     this.store.setSpecimentNo(specimenNo);
-    // this.router.navigate(['/diag', 'fileupload', specimenNo]);  // 기존
+
     this.isVisible = !this.isVisible;  // 신규
   }
 

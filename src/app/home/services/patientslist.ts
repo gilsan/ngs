@@ -404,7 +404,7 @@ export class PatientsListService {
           } else {
             tempTestType = testType;
           }
-          // console.log('===== [407][coding]====\n', item.coding);
+
           return this.getArtifactsInfoCount(item.gene1, item.coding, tempTestType).pipe(
             map(gene1Count => {
               // console.log('[410][getArtifactsInfoCount]', gene1Count[0].count, item.multigenes);
