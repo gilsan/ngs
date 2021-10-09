@@ -3,13 +3,23 @@
     <form [formGroup]="loginGroup"  #f ="ngForm">
       <table width="100%" border="0" cellspacing="0" cellpadding="0">
         <tr>
-            <td height="125" style="padding-left:58px;"><img [src]="'assets/images/login_logo.png'"  /></td>
+            <td height="125" style="padding-left:58px;">
+                <img [src]="'assets/images/login_logo.png'"  />
+            </td>
         </tr>
         <tr>
             <td height="650" align="center" valign="top" bgcolor="#2196f3">
                 <table width="630" border="0" cellspacing="0" cellpadding="0">
                     <tr>
-                        <td colspan="4" align="center" valign="top" style="padding-top:95px; padding-bottom:55px;"><img [src]="'assets/images/login_img.png'" /></td>
+                        <td colspan="4" align="center" valign="top" style="padding-top:95px; padding-bottom:55px;">
+                            <!-- <img [src]="'assets/images/login_img.png'" /> -->
+                            <!-- 줄바꿈있음
+                            <span class="text-small">유전자검사 판독결과<br/>통합관리시스템</span> -->
+
+                            <!-- 줄바꿈없음 -->
+                            <span class="text-large">유전자검사 판독결과 통합관리시스템</span>
+                            
+                        </td>
                     </tr>
                     <tr>
                         <td align="right" valign="top"><img [src]="'assets/images/login_id.png'" vspace="13"  /></td>
