@@ -203,8 +203,8 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     // this.checker();
   }
 
-  resizeHeight() {
-    return { height: `${this.maxHeight}px` };
+  resizeHeight(): void {
+    // return { height: `${this.maxHeight}px` };
   }
 
   tableScroll(evt: Event): void {

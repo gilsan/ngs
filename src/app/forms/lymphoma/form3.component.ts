@@ -217,7 +217,7 @@ export class Form3Component implements OnInit, OnDestroy {
 
 
   resizeHeight(): any {
-    return { height: `${this.maxHeight}px` };
+    //  return { height: `${this.maxHeight}px` };
   }
 
 
