@@ -125,14 +125,14 @@ export class NgsexcelComponent implements OnInit, OnDestroy {
 
     datas.forEach((item, idx) => {
       ngsLists.push({
-        a1: idx, b1: '', c1: '', d1: item.pid, e1: item.proccorpcd,
+        a1: '', b1: '', c1: '', d1: item.proccorpcd, e1: item.pid,
         f1: item.hngnm, g1: item.brthdd, h1: item.sex, i1: '', j1: item.clamacptno,
-        k1: item.docuseqno, l1: item.pay100ownbrate, m1: '', n1: '', o1: '',
-        p1: '', q1: '', r1: item.preicd10cd, s1: item.preicd10hngnm, t1: item.posticd10cd,
+        k1: item.docuseqno, l1: item.pay100ownbrate, m1: '', n1: '', o1: item.testnm,
+        p1: item.testcd, q1: item.bcno, r1: item.preicd10cd, s1: item.preicd10hngnm, t1: item.posticd10cd,
         u1: item.posticd10hngnm, v1: '', w1: '', x1: '', y1: '',
         z1: '', aa1: '', ab1: item.spccd, ac1: '', ad1: item.spcacptdt,
         ae1: item.lstreptdt, af1: '', ag1: '', ah1: '', ai1: '',
-        aj1: '', ak1: '', al1: ''
+        aj1: item.hospnm, ak1: '', al1: ''
       });
     });
 
