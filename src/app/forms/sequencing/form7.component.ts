@@ -176,7 +176,7 @@ export class Form7Component implements OnInit, OnDestroy {
     // this.ngsTitle = this.titleService.findSequencingTitle(this.patientInfo.test_code);
     this.subs.sink = this.variantsService.contentScreen7(this.form2TestedId)
       .subscribe(data => {
-        console.log('[178][받은데이터]', data[0]);
+        console.log('[178][받은데이터]', data);
         if (data.length > 0) {
           this.comment = data[0].comment;
           this.comment1 = data[0].comment1;
@@ -204,12 +204,15 @@ export class Form7Component implements OnInit, OnDestroy {
     this.subs.sink = this.variantsService.contentTestScreen7(this.form2TestedId)
       .subscribe(data => {
         console.log('[205][Test Information]', data);
-        this.resultname = data[0].result;
-        this.targetdisease = data[0].target;
-        this.method = data[0].method;
-        this.analyzedgene = data[0].analyzedgene;
-        this.variations = data[0].identified_variations;
-        this.specimen = data[0].specimen;
+        if (data.length > 0) {
+          this.resultname = data[0].result;
+          this.targetdisease = data[0].target;
+          this.method = data[0].method;
+          this.analyzedgene = data[0].analyzedgene;
+          this.variations = data[0].identified_variations;
+          this.specimen = data[0].specimen;
+        }
+
       });
   }
 
