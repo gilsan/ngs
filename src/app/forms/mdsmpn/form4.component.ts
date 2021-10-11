@@ -330,6 +330,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
   //  유전자 목록 가져오기
   getGeneList(type: string): any {
     this.utilsService.getGeneList('MDS').subscribe(data => {
+      console.log('[333][디비에서 가져온 Gene]', data);
       this.genelists = data;
     });
   }

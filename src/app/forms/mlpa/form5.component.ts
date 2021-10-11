@@ -180,7 +180,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
   getTestInformation(): void {
     this.mlpaService.getMlpaLists(this.specimenNo)
       .subscribe(data => {
-
+        console.log('[183][디비에서 가져온 데이터]', data);
         if (data.length > 0) {
           this.target = data[0].target;
           this.testmethod = data[0].testmethod;
@@ -190,18 +190,19 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
           this.mlpaData.conclusion = data[0].conclusion;
           this.mlpaData.comment = data[0].comment;
           this.mlpaData.technique = data[0].technique;
-        } else {
-          HEADER.forEach(list => {
-            if (list.type === this.patientInfo.test_code) {
-              this.target = list.target;
-              this.testmethod = list.method;
-              this.analyzedgene = list.analyzedGene;
-              this.mlpaData.result = list.result;
-            }
-          });
-
-          this.getComment(this.patientInfo.test_code);
         }
+        // else {
+        //   HEADER.forEach(list => {
+        //     if (list.type === this.patientInfo.test_code) {
+        //       this.target = list.target;
+        //       this.testmethod = list.method;
+        //       this.analyzedgene = list.analyzedGene;
+        //       this.mlpaData.result = list.result;
+        //     }
+        //   });
+
+        //   this.getComment(this.patientInfo.test_code);
+        // }
 
       });
   }
@@ -244,11 +245,11 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
     // console.log('[228]', this.specimenNo);
     this.mlpaService.getMlpReportMLPA(this.specimenNo)
       .subscribe(data => {
-        // console.log('[230]', data);
+        console.log('[248][저장된 데이터 가져오기]', data);
         if (data.length > 0) {
           this.displayMlpa(data);
         } else {
-          this.getTitle(this.testcode);
+          // this.getTitle(this.testcode);
         }
       });
   }
@@ -307,7 +308,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
         .pipe(shareReplay());
 
       lists$.pipe(
-        tap(data => console.log('[308] ', data)),
+        tap(data => console.log('[308][검사자정보]', data)),
         map(lists => lists.filter(list => list.part === 'D'))
       ).subscribe(data => {
         const len = data.length - 1;
