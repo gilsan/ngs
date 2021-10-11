@@ -45,6 +45,7 @@ export function sequencingForm(
 			<Column id="examdt" type="STRING" size="256"/>
 			<Column id="examid" type="STRING" size="256"/>
 			<Column id="signid" type="STRING" size="256"/>
+      <Column id="identified" type="STRING" size="256"/>
 		</ColumnInfo>
 		<Rows>
 			<Row>
@@ -82,7 +83,7 @@ export function sequencingForm(
 		<Column id="aminochange" type="STRING" size="256"/>
 		<Column id="zygosity" type="STRING" size="256"/>
 		<Column id="rsid" type="STRING" size="256"/>
-    <Column id="genbank3" type="STRING" size="256"/>
+    <Column id="genbank" type="STRING" size="256"/>
 	</ColumnInfo>
 	<Rows>
 	`;
@@ -98,7 +99,7 @@ export function sequencingForm(
 			 <Col id="aminochange">${formData[i].aminoAcidChange}</Col>
 			 <Col id="zygosity">${formData[i].zygosity}</Col>
 			 <Col id="rsid">${formData[i].rsid}</Col>
-       <Col id="genbank3">${formData[i].genbankaccesion}</Col>
+       <Col id="genbank">${formData[i].genbankaccesion}</Col>
 		 </Row>
 			`;
   }
