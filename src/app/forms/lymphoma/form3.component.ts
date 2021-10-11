@@ -986,8 +986,16 @@ export class Form3Component implements OnInit, OnDestroy {
     const selected = this.vd.find(item => item.sequence === index);
     this.selectedItem = selected.selectedname;
 
+    console.log('[989][save]', index, this.selectedItem);
+
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const row = control.value[index];
+    if (this.selectedItem === 'mutation') {
+      (control.at(index) as FormGroup).get('type').patchValue('M');
+    } else if (this.selectedItem === 'artifacts') {
+      (control.at(index) as FormGroup).get('type').patchValue('A');
+    }
+
 
     if (this.selectedItem === 'mutation') {
       this.subs.sink = this.patientsListService.saveMutation(

@@ -1034,6 +1034,14 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     console.log('[1154][저장] ', index, this.vd, this.selectedItem);
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const row = control.value[index];
+
+    if (this.selectedItem === 'mutation') {
+      (control.at(index) as FormGroup).get('type').patchValue('M');
+    } else if (this.selectedItem === 'artifacts') {
+      (control.at(index) as FormGroup).get('type').patchValue('A');
+    }
+
+
     // console.log('[1104][저장][mutation/artifacts] ', row, this.patientInfo);
     if (this.selectedItem === 'mutation') {
       this.subs.sink = this.patientsListService.saveMutation(

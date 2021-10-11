@@ -29,21 +29,42 @@
                   </colgroup>
                   <tbody>
                       <tr>
-                          <td> TARGET DISEASE: <input type="text" class="input_02"
-                            [(ngModel)]= "targetdisease" ></td>
-                          <td> METHOD: <input type="text" class="input_02"
-                            [(ngModel)]= "method"></td>
+                          <td>
+                              <div id="pos_right_side">
+                                TARGET DISEASE: <input type="text" class="input_02"
+                                [(ngModel)]= "targetdisease" >
+                              </div>
+                            </td>
+                          <td>
+                             <div id="pos_right_side">
+                               METHOD: <input type="text" class="input_02"
+                               [(ngModel)]= "method">
+                             </div>
+                          </td>
                       </tr>
                       <tr>
-                        <td> ANALYZED GENE : <input type="text" class="input_02"
-                            [(ngModel)]= "analyzedgene"></td>
-                        <td> IDENTIFIED VARIATIONS: <input type="text" class="input_02"
-                            [(ngModel)]= "variations"></td>
+                        <td>
+                           <div id="pos_right_side">
+                             ANALYZED GENE : <input type="text" class="input_02"
+                             [(ngModel)]= "analyzedgene">
+                           </div>
+                        </td>
+                        <td>
+                           <div id="pos_right_side">
+                            IDENTIFIED VARIATIONS: <input type="text" class="input_02"
+                            [(ngModel)]= "variations">
+                           </div>
+                        </td>
                       </tr>
                       <tr>
-                          <td> SPECIMEN: <input type="text" class="input_02"
-                            [(ngModel)]= "specimen"></td>
-                          <td> REQUEST: {{patientInfo.request}}</td>
+                          <td>
+                          <div id="pos_right_side">
+                            SPECIMEN: <input type="text" class="input_02"
+                            [(ngModel)]= "specimen">
+                          </div>
+                          </td>
+                          <td >
+                            REQUEST: {{patientInfo.request}}</td>
                       </tr>
                   </tbody>
                 </table>
