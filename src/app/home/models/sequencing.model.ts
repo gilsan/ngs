@@ -63,7 +63,7 @@ export function sequencingForm(
 				<Col id="testinfo3">SPECIMEN:  ${specimen}</Col>
 				<Col id="testinfo4">REQUEST: ${patientInfo.request}</Col>
         <Col id="testinfo5">ANALYZED GENE : ${analyzedgene}</Col>
-        <Col id="itestinfo6">${variations}</Col>
+        <Col id="testinfo6">IDENTIFIED VARIATIONS: ${variations}</Col>
         <Col id="opnion"><![CDATA[${seqcomment}]]></Col>
 				<Col id="title">${title}</Col>
 				<Col id="examdt">${acceptdate}/${firstReportDay}/${lastReportDay} </Col>
