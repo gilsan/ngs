@@ -82,6 +82,7 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
         tap(list => console.log(list)),
       )
       .subscribe((data) => {
+
         this.lists.push(data);
       });
   }
@@ -246,9 +247,10 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(
         switchMap(item => of(item)),
         switchMap(list => from(list)),
-        // tap(list => console.log(list)),
+        // tap(list => console.log('[250]', list)),
         filter(list => this.sequencingLists.includes(list.test_code)),
       ).subscribe((data: any) => {
+
         if (data.reportTitle === '') {
           const title = this.titleService.getMltaTitle(data.test_code);
           if (title !== 'None') {

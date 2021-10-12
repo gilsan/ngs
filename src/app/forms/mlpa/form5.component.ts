@@ -249,7 +249,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
         if (data.length > 0) {
           this.displayMlpa(data);
         } else {
-          alert('서버에서 빈 데이타를 받았습니다.');
+          alert('저장된 데이터가 없습니다.');
           // this.getTitle(this.testcode);
         }
       });
