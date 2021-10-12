@@ -75,7 +75,7 @@ export function makeCForm(
 				<Col id="result">${resultStatus}</Col>
 				<Col id="rsltright1"></Col>
 				<Col id="rsltright2"></Col>
-				<Col id="rsltleft1">diagnosis</Col>
+				<Col id="rsltleft1">Diagnosis</Col>
 				<Col id="rsltleft2"><![CDATA[${profile.leukemia}]]></Col>
         <Col id="rsltcenter1">Chromosomal analysis</Col>
         <Col id="rsltcenter2"><![CDATA[${profile.chron}]]></Col>
