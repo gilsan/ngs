@@ -300,7 +300,7 @@ export class Form3Component implements OnInit, OnDestroy {
     //   this.specimenMessage = 'Genomic DNA isolated from Bone marrow';
     // } else if (this.patientInfo.specimen === '004') {
     //   this.specimenMsg = 'EDTA blood';
-    //   this.specimenMessage = 'Genomic DNA isolated from EDTA blood';
+    //   this.specimenMessage = 'Genomic DNA isolated from peripheral blood';
     //   this.store.setSpecimenMsg(this.specimenMsg);
     // }
 
@@ -322,7 +322,7 @@ export class Form3Component implements OnInit, OnDestroy {
       this.store.setSpecimenMsg(this.specimenMsg);
     } else if (this.patientInfo.specimen === '004') {
       this.specimenMsg = 'EDTA blood';
-      this.specimenMessage = 'Genomic DNA isolated from EDTA blood';
+      this.specimenMessage = 'Genomic DNA isolated from peripheral blood';
       this.store.setSpecimenMsg(this.specimenMsg);
     }
     // 필터링된 tsv 파일 가져오기

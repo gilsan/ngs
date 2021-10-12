@@ -291,7 +291,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     this.requestDate = this.patientInfo.accept_date;
     if (this.patientInfo.specimen === '015') {
       this.specimenMsg = 'Bone marrow';
-      this.specimenMessage = 'Genomic DNA isolated from Bone marrow';
+      this.specimenMessage = 'Genomic DNA isolated from bone marrow';
     } else if (this.patientInfo.specimen === '004') {
       this.specimenMsg = 'EDTA blood';
       this.specimenMessage = 'Genomic DNA isolated from EDTA blood';

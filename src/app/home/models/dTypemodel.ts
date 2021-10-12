@@ -27,6 +27,10 @@ export function makeDForm(
   tsvVersionContents: string
 ): string {
 
+  if (specimenMessage.length === 0) {
+    specimenMessage = 'Genomic DNA isolated from peripheral blood';
+  }
+
   // 금일날자:
   function formatDate(date): any {
     const d = new Date(date);
