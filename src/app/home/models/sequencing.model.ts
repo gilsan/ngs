@@ -40,7 +40,7 @@ export function sequencingForm(
 			<Column id="testinfo3" type="STRING" size="256"/>
 			<Column id="testinfo4" type="STRING" size="256"/>
       <Column id="testinfo5" type="STRING" size="256"/>
-      <Column id="testinfo6" type="STRING" size="256"/>
+      <Column id="identified" type="STRING" size="256"/>
       <Column id="opnion" type="STRING" size="256"/>
 			<Column id="title" type="STRING" size="256"/>
 			<Column id="examdt" type="STRING" size="256"/>
@@ -63,7 +63,7 @@ export function sequencingForm(
 				<Col id="testinfo3">SPECIMEN:  ${specimen}</Col>
 				<Col id="testinfo4">REQUEST: ${patientInfo.request}</Col>
         <Col id="testinfo5">ANALYZED GENE : ${analyzedgene}</Col>
-        <Col id="testinfo6">IDENTIFIED VARIATIONS: ${variations}</Col>
+        <Col id="identified">IDENTIFIED VARIATIONS: ${variations}</Col>
         <Col id="opnion"><![CDATA[${seqcomment}]]></Col>
 				<Col id="title">${title}</Col>
 				<Col id="examdt">${acceptdate}/${firstReportDay}/${lastReportDay} </Col>
