@@ -82,27 +82,41 @@ export class TsvuploadComponent implements OnInit {
   }
 
   onSelectedFile(event: any): void {
-    console.log('[82][tsvupload] ', event.target.files[0].name);
+    // console.log('[82][tsvupload] ', event.target.files[0].name);
     let patientid = '';
     let extension = '';
+    let splitedList = [];
     if (event.target.files.length > 0) {
-      extension = event.target.files[0].name.split('.')[1];
+      const tempSave = event.target.files[0].name.split('.');
+      extension = tempSave[tempSave.length - 1];
+      // console.log(extension);
       if (extension === 'xlsx') {
-        patientid = event.target.files[0].name.split('_')[4].split('.')[0];
+        tempSave.forEach(item => {
+          const idx = item.indexOf('_');
+          if (idx !== -1) {
+            patientid = item.split('_')[4];
+            splitedList = [...splitedList, ...item.split(['_'])];
+          } else {
+            splitedList.push(item);
+          }
+        });
+        // patientid = event.target.files[0].name.split('_')[4].split('.')[0];
       } else if (extension === 'tsv') {
         patientid = event.target.files[0].name.split('_')[1];
       } else if (extension === 'txt') {
         patientid = event.target.files[0].name.split('-')[1];
       }
-
+      // console.log('[109][tsvupload] ', splitedList);
       let filenameList;
       if (extension === 'txt') {
         filenameList = event.target.files[0].name.split('.')[0].split('-');
+      } else if (extension === 'xlsx') {
+        filenameList = splitedList;
       } else {
         filenameList = event.target.files[0].name.split('.')[0].split('_');
       }
 
-      // console.log(event.target.files[0].name.split('.')[0].split('-'));
+      // console.log('[105][tsvupload] ', patientid, filenameList);
       if (filenameList.includes(this.patientid)) {
         this.onDroppedFile(event.target.files);
       } else {
