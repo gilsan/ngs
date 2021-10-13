@@ -28,15 +28,33 @@
                   </colgroup>
                   <tbody>
                       <tr>
-                          <td> TARGET DISEASE:  {{target}}</td>
-                          <td> METHOD:  {{testmethod}}</td>
+                          <td>
+                            <div id="pos_right_side">
+                             TARGET DISEASE:  <input type="text" class="input_02" style="width:83%;" [(ngModel)]= "target">
+                             </div></td>
+                          <td>
+                              <div id="pos_right_side">
+                                METHOD:<input type="text" class="input_02" style="width:83%;"
+                             [(ngModel)]= "testmethod">
+                              </div>
+                          </td>
                       </tr>
                       <tr>
-                          <td> SPECIMEN: Genomic DNA isolated from peripheral blood leukocytes-adequate specimen</td>
+                          <td>
+                             <div id="pos_right_side">
+                                SPECIMEN: <input type="text" class="input_02" style="width:83%;"
+                             [(ngModel)]= "specimen">
+                             </div>
+                          </td>
                           <td> REQUEST: {{patientInfo.request}}</td>
                       </tr>
                       <tr>
-                        <td colspan="2">ANALYZED REGION:  {{analyzedgene}}</td>
+                        <td>
+                            <div id="pos_right_side">
+                              ANALYZED REGION: <input type="text" class="input_02" style="width:83%;"
+                             [(ngModel)]= "analyzedgene">
+                            </div>
+                        </td>
                     </tr>
                   </tbody>
                 </table>
@@ -106,20 +124,20 @@
                 </div>
                 <!--
                 -->
-                 <div class="sub_title">결론 및 의견</div>
+                 <div class="sub_title">판독 코멘트</div>
                 <div class="pd_r20">
                       <textarea class="textarea_01" #comment20 (change)="comment(comment20.value)">{{mlpaData.comment}}</textarea>
                 </div>
 
 
-                <!-- <div class="sub_title">Comment</div> -->
+                <div class="sub_title">일반코멘트1</div>
                 <div class="pd_r20">
                      <textarea class="textarea_01" #comment10 (change)="conclusion(comment10.value)">{{mlpaData.conclusion}}</textarea>
-
                 </div>
 
-                <div class="discription">
-                     {{mlpaData.technique}}
+                <div class="sub_title">일반코멘트2</div>
+                <div class="pd_r20">
+                    <textarea class="textarea_01" #technique10 (change)="technique(technique10.value)">{{mlpaData.technique}}</textarea>
                 </div>
 
                 <hr class="mg_t30 mg_b20"/>

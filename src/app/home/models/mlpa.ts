@@ -29,6 +29,7 @@ export function mlpaForm(
   lastReportDay: string,
   patientInfo: IPatient,
   mlpaData: IMlpa,
+  spcimen: string
 ): string {
 
   const patient = `<root>
@@ -65,7 +66,7 @@ export function mlpaForm(
         <Col id="rsltcenter2"></Col>
 				<Col id="testinfo1">TARGET DISEASE: ${target}</Col>
 				<Col id="testinfo2">METHOD:  ${testmethod}</Col>
-				<Col id="testinfo3">SPECIMEN: Genomic DNA isolated from Bone marrow</Col>
+				<Col id="testinfo3">SPECIMEN: ${spcimen}</Col>
 				<Col id="testinfo4">REQUEST: ${patientInfo.request}</Col>
         <Col id="testinfo5"> Analyzed gene : ${analyzedgene}</Col>
         <Col id="opnion"></Col>

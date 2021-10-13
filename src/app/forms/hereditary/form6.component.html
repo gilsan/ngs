@@ -8,7 +8,13 @@
               <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
                     <td class="txt_02" ><span class="fb">Result </span>:
-                        <input type="test"   #results [value]="resultname" class="clr-input textcenter " size=50 (change)="resultName(results.value)">
+                        <input type="test"   #results [value]="resultname" class="clr-input textcenter " size=25 (change)="resultName(results.value)">
+                        &nbsp;&nbsp;
+                        <input type="radio" id="vertical-radio2" name="radio-full" [value]="'Detected'" [checked]="radioStatus('Detected')" class="clr-radio"  (change)="result($event)">
+                        <label for="vertical-radio2" class="  clr-col-12 clr-col-md-2">Detected</label>
+                        &nbsp;&nbsp;
+                        <input type="radio" id="vertical-radio1" name="radio-full" [value]="'Not Detected'" class="clr-radio"  (change)="result($event)" [checked]="radioStatus('Not Detected')">
+                        <label for="vertical-radio1" class="clr-col-12 clr-col-md-2">Not Detected</label>
                     </td>
 
                 </tr>
@@ -190,6 +196,8 @@
   </div>
 
 <div class="sub_title">General limitations of the technique</div>
+
+<div class="sub_title">Additional note</div>
 <div class="pd_r20">
     <textarea class="textarea_01" [(ngModel)]="technique">{{technique}}</textarea>
 </div>

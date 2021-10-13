@@ -299,3 +299,9 @@ td.multi_line {
   justify-content: space-between;
   align-items: flex-start;
 }
+
+#pos_right_side {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

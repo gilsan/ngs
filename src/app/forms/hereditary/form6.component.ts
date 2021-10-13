@@ -169,7 +169,7 @@ export class Form6Component implements OnInit, OnDestroy {
 
   formTitle: string;
   target: string;
-  resultname = '(  )';
+  resultname = '';
   savedDataExist = false;
   zygosity: string[] = ['Heterozygous', 'Homozygous'];
 
@@ -291,11 +291,11 @@ export class Form6Component implements OnInit, OnDestroy {
     this.requestDate = this.patientInfo.accept_date;
 
     // 검체 감염유부 확인
-    // if (parseInt(this.patientInfo.detected, 10) === 0) {
-    //   this.resultStatus = 'Detected';
-    // } else if (parseInt(this.patientInfo.detected, 10) === 1) {
-    //   this.resultStatus = 'Not Detected';
-    // }
+    if (parseInt(this.patientInfo.detected, 10) === 0) {
+      this.resultStatus = 'Detected';
+    } else if (parseInt(this.patientInfo.detected, 10) === 1) {
+      this.resultStatus = 'Not Detected';
+    }
 
     // 전송횟수, 검사보고일, 수정보고일  저장
     this.setReportdaymgn(this.patientInfo);
@@ -1146,6 +1146,7 @@ export class Form6Component implements OnInit, OnDestroy {
     }
 
     const makeForm = hereditaryForm(
+      this.resultStatus,
       this.resultname,
       this.examin, // 검사자
       this.recheck, // 확인자

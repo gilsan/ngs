@@ -31,7 +31,7 @@
                       <tr>
                           <td>
                               <div id="pos_right_side">
-                                TARGET DISEASE: <input type="text" class="input_02" style="width:85%;"
+                                TARGET DISEASE: <input type="text" class="input_02" style="width:83%;"
                                 [(ngModel)]= "targetdisease" >
                               </div>
                             </td>
@@ -43,6 +43,16 @@
                           </td>
                       </tr>
                       <tr>
+                          <td>
+                          <div id="pos_right_side">
+                            SPECIMEN: <input type="text" class="input_02" style="width:83%;"
+                            [(ngModel)]= "specimen">
+                          </div>
+                          </td>
+                          <td >
+                            REQUEST: {{patientInfo.request}}</td>
+                      </tr>
+                      <tr>
                         <td>
                            <div id="pos_right_side">
                              ANALYZED GENE : <input type="text" class="input_02" style="width:83%;"
@@ -50,26 +60,22 @@
                            </div>
                         </td>
                         <td>
+                        <!--
                            <div id="pos_right_side">
                             IDENTIFIED VARIATIONS: <input type="text" class="input_02" style="width:80%;"
                             [(ngModel)]= "variations">
                            </div>
+                            -->
                         </td>
                       </tr>
-                      <tr>
-                          <td>
-                          <div id="pos_right_side">
-                            SPECIMEN: <input type="text" class="input_02" style="width:88%;"
-                            [(ngModel)]= "specimen">
-                          </div>
-                          </td>
-                          <td >
-                            REQUEST: {{patientInfo.request}}</td>
-                      </tr>
+
                   </tbody>
                 </table>
 
-               <!--  <div class="sub_title">Mutation</div>  -->
+               <div class="sub_title">Identified Variations: <input type="text" class="input_02" style="width:37%;"
+                [(ngModel)]= "variations"></div>
+
+
 
                  <div style="margin-bottom: 10px;margin-top: 25px;">
                      <ul style="display:flex;justify-content:flex-start; align-items: center;">

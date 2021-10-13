@@ -108,7 +108,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
   testmethod: string;
   analyzedgene: string;
   comment1: string;
-
+  specimen = 'Genomic DNA isolated from peripheral blood leukocytes-adequate specimen';
   constructor(
     private patientsListService: PatientsListService,
     private router: Router,
@@ -488,7 +488,8 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
       this.firstReportDay,
       this.lastReportDay,
       this.patientInfo,
-      this.mlpaData
+      this.mlpaData,
+      this.specimen
     );
 
     console.log('[437] ', makeForm);
@@ -513,6 +514,11 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
             // this.setReportdaymgn(patient);
           });
       });
+
+  }
+
+
+  technique(data: string): void {
 
   }
 

@@ -2,6 +2,7 @@ import { IAFormVariant, IComment, IGeneList, IImmundefi, IPatient } from './pati
 
 
 export function hereditaryForm(
+  resultStatus: string,
   resultname: string,
   examin: string, // 검사자
   recheck: string, // 확인자
@@ -47,7 +48,7 @@ export function hereditaryForm(
 		<Rows>
 			<Row>
 				<Col id="patient">${patientInfo.name}, ${patientInfo.patientID} (${patientInfo.gender}/${patientInfo.age})</Col>
-				<Col id="result">${resultname}</Col>
+				<Col id="result"><![CDATA[${resultname} ${resultStatus}]]></Col>
         <Col id="rsltright1"></Col>
 				<Col id="rsltright2"></Col>
 				<Col id="rsltleft1"></Col>
