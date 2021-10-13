@@ -44,9 +44,19 @@
                             [(ngModel)]= "profile.leukemia" >
                         </td>
                         <td class="table_result_line"  style="text-align: center;">
+                              <input type="text" size="10" class="input_02 textcenter"
+                               matInput
+                               [(ngModel)]="profile.genetictest" [matAutocomplete]="auto">
+                              <mat-autocomplete #auto="matAutocomplete">
+                                 <mat-option *ngFor="let option of genetictestType" [value]="option">
+                                           {{option}}
+                                 </mat-option>
+                              </mat-autocomplete>
+                        <!--
                             <textarea class="textarea_01 textcenter"
                                [(ngModel)]="profile.genetictest" row=2
                                style="width: 100%; height: 100%; border: none"></textarea>
+                         -->
                         </td>
                         <td  style="text-align: center;">
                             <input type="text" class="input_02 textcenter"
@@ -222,7 +232,7 @@
 
 <!--    -->
       </div>
-      <div>
+      <div  *ngIf="vusstatus">
         <div  class="font_14 pd_t15">
             <textarea style="width:100%"class="textarea_01" [(ngModel)]="vusmsg"></textarea>
           </div>

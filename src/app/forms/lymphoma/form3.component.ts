@@ -134,7 +134,7 @@ export class Form3Component implements OnInit, OnDestroy {
   tempCommentVariants = '';
   tempCommentreference = '';
   tempCommentComment = '';
-  vusstatus = true;
+  vusstatus = false;
   preview = true;
   isVisible = false;
 
@@ -766,12 +766,12 @@ export class Form3Component implements OnInit, OnDestroy {
       cnt: item.cnt,
       gene: item.gene,
       functionalImpact: item.functional_impact,
-      transcript: item.transcript,
-      exonIntro: item.exon,
-      nucleotideChange: item.nucleotide_change,
-      aminoAcidChange: item.amino_acid_change,
+      transcript: item.transcript.replace(/;/g, ','),
+      exonIntro: item.exon.replace(/;/g, ','),
+      nucleotideChange: item.nucleotide_change.replace(/;/g, ','),
+      aminoAcidChange: item.amino_acid_change.replace(/;/g, ','),
       zygosity: item.zygosity,
-      vafPercent: item.vaf,
+      vafPercent: item.vaf.replace(/;/g, ','),
       references: item.reference,
       cosmicID: item.cosmic_id,
       checked: item.checked,
@@ -810,12 +810,12 @@ export class Form3Component implements OnInit, OnDestroy {
         cnt: [item.cnt],
         gene: [item.gene],
         functionalImpact: [item.functionalImpact],
-        transcript: [item.transcript],
-        exonIntro: [item.exonIntro],
-        nucleotideChange: [item.nucleotideChange],
-        aminoAcidChange: [item.aminoAcidChange],
+        transcript: [item.transcript.replace(/;/g, ',')],
+        exonIntro: [item.exonIntro.replace(/;/g, ',')],
+        nucleotideChange: [item.nucleotideChange.replace(/;/g, ',')],
+        aminoAcidChange: [item.aminoAcidChange.replace(/;/g, ',')],
         zygosity: [item.zygosity],
-        vafPercent: [item.vafPercent],
+        vafPercent: [item.vafPercent.replace(/;/g, ',')],
         references: [item.references],
         cosmicID: [item.cosmicID],
         id: [item.id],
@@ -830,12 +830,12 @@ export class Form3Component implements OnInit, OnDestroy {
       cnt: [item.cnt],
       gene: [item.gene],
       functionalImpact: [item.functionalImpact],
-      transcript: [item.transcript],
-      exonIntro: [item.exonIntro],
-      nucleotideChange: [item.nucleotideChange],
-      aminoAcidChange: [item.aminoAcidChange],
+      transcript: [item.transcript.replace(/;/g, ',')],
+      exonIntro: [item.exonIntro.replace(/;/g, ',')],
+      nucleotideChange: [item.nucleotideChange.replace(/;/g, ',')],
+      aminoAcidChange: [item.aminoAcidChange.replace(/;/g, ',')],
       zygosity: [item.zygosity],
-      vafPercent: [item.vafPercent],
+      vafPercent: [item.vafPercent.replace(/;/g, ',')],
       references: [item.references],
       cosmicID: [item.cosmicID],
       id: [item.id],
@@ -1267,6 +1267,10 @@ export class Form3Component implements OnInit, OnDestroy {
       tsvVersionContents = this.methods;
     } else if (this.tsvVersion === '516') {
       tsvVersionContents = this.methods516;
+    }
+
+    if (!this.vusstatus) {
+      this.vusmsg = '';
     }
 
     const makeForm = makeCForm(

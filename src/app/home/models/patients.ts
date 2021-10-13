@@ -40,6 +40,7 @@ export interface IPatient {
   vusmsg?: string;
   verfile?: string; // tsv version
   worker?: string;
+  functional_impact?: string;
 }
 
 export interface IProfile {

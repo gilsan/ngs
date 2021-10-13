@@ -23,8 +23,13 @@ export function makeBForm(
   firstReportDay: string,
   lastReportDay: string,
   genelists: IGeneList[],
-  tsvVersionContents: string
+  tsvVersionContents: string,
+  specimenMsg: string
 ): string {
+
+  if (specimenMessage.length === 0) {
+    specimenMessage = 'Genomic DNA isolated from ' + specimenMsg;
+  }
 
   // 금일날자:
   function formatDate(date): any {

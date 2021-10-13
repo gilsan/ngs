@@ -128,7 +128,7 @@ export class Form6Component implements OnInit, OnDestroy {
   tempCommentVariants = '';
   tempCommentreference = '';
   tempCommentComment = '';
-  vusstatus = true;
+  vusstatus = false;
   preview = true;
   isVisible = false;
 
@@ -154,7 +154,7 @@ export class Form6Component implements OnInit, OnDestroy {
   topScroll = false;
   leftScroll = true;
   // tslint:disable-next-line:max-line-length
-  vusmsg = ``;
+  vusmsg = `VUS는 ExAC, KRGDB등의 Population database에서 관찰되지 않았거나, 임상적 의의가 불분명합니다. 해당변이의 의의를 명확히 하기 위하여 환자의 buccal swab 검체로 germline variant 여부에 대한 확인이 필요 합니다.`;
 
   functionalimpact: string[] = ['Pathogenic', 'Likely Pathogenic', 'VUS'];
 
@@ -282,7 +282,7 @@ export class Form6Component implements OnInit, OnDestroy {
     }
 
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
-    console.log('[279][환자정보]', this.patientInfo);
+    console.log('[285][환자정보]', this.patientInfo);
     this.comment2 = this.patientInfo.worker;
     this.formTitle = this.patientInfo.reportTitle;
     this.findTitle(this.patientInfo.test_code);
@@ -322,7 +322,7 @@ export class Form6Component implements OnInit, OnDestroy {
         this.formTitle = item.title;
         geneLists = item.lists.split(',');
         this.target = item.target;
-        console.log('[304][gene 정보] ===>', geneTitles.length);
+        // console.log('[304][gene 정보] ===>', geneTitles.length);
       }
     });
 
@@ -342,7 +342,7 @@ export class Form6Component implements OnInit, OnDestroy {
   getimmundefi(): void {
     this.subs.sink = this.variantsService.contentScreen6(this.form2TestedId)
       .subscribe(data => {
-        console.log('[340][내역 가져오기]', data.length);
+        console.log('[345][내역 가져오기]', data.length);
         if (data.length > 0) {
 
           data.forEach(item => {
@@ -377,7 +377,7 @@ export class Form6Component implements OnInit, OnDestroy {
     this.subs.sink = this.variantsService.screenSelect(this.form2TestedId)
       .pipe(
         tap(data => {
-          console.log('[373][checkSavedData]', data);
+          console.log('[380][checkSavedData]', data);
           if (data.length) {
             this.savedDataExist = true;
           } else {
@@ -387,10 +387,10 @@ export class Form6Component implements OnInit, OnDestroy {
       )
       .subscribe(() => {
         if (this.savedDataExist) {
-          console.log('[381][true]', this.savedDataExist);
+          console.log('[390][true]', this.savedDataExist);
           this.recoverDetected();
         } else {
-          console.log('[384][false]', this.savedDataExist);
+          console.log('[393][false]', this.savedDataExist);
           this.init(this.form2TestedId);
         }
       });
@@ -404,26 +404,28 @@ export class Form6Component implements OnInit, OnDestroy {
     this.subs.sink = this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {
       this.recoverVariants = data;
       this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
-      console.log('[366][hereditary][Detected variant_id]', this.recoverVariants);
+      console.log('[407][hereditary][Detected variant_id]', this.recoverVariants);
       this.store.setDetactedVariants(data); // Detected variant 저장
 
       // VUS 메제시 확인
       this.vusmsg = this.patientInfo.vusmsg;
-      console.log('[369][recoverDetected][VUS메세지]', this.patientInfo.vusmsg, this.vusmsg);
-
+      console.log('[412][recoverDetected][VUS메세지]', this.patientInfo.vusmsg, this.vusmsg);
+      const tempVUS = [];
       this.recoverVariants.forEach(item => {
         this.recoverVariant(item);  // 354
 
-        // VUS 메제시 확인
-        this.vusmsg = this.patientInfo.vusmsg;
-        if (item.functional_impact === 'VUS') {
-          this.vusstatus = true;
-          this.store.setVUSStatus(this.vusstatus);
-        } else {
-          this.store.setVUSStatus(this.vusstatus);
-          this.vusstatus = false;
-        }
+        tempVUS.push(item.functional_impact);
       });
+
+      if (tempVUS.includes('VUS')) {
+        this.vusstatus = true;
+        if (this.patientInfo.vusmsg.length) {
+          this.vusmsg = this.patientInfo.vusmsg;
+        }
+      } else {
+        this.vusstatus = false;
+      }
+
       this.putCheckboxInit(); // 체크박스 초기화
     });
 
@@ -431,7 +433,7 @@ export class Form6Component implements OnInit, OnDestroy {
     this.subs.sink = this.variantsService.screenComment(this.form2TestedId)
       .subscribe(dbComments => {
         if (dbComments !== undefined && dbComments !== null && dbComments.length > 0) {
-          console.log('[427][COMMENT 가져오기]', dbComments);
+          console.log('[446][COMMENT 가져오기]', dbComments);
           this.commentdata = dbComments[0].comment;
           this.comment2 = dbComments[0].reference;
           this.resultname = dbComments[0].variants;
@@ -443,7 +445,7 @@ export class Form6Component implements OnInit, OnDestroy {
     // VUS 메제시 확인 2021.4.7 추가
     if (this.patientInfo.vusmsg.length) {
       this.vusmsg = this.patientInfo.vusmsg;
-      console.log('[469][init][VUS메세지]', this.vusmsg);
+      console.log('[458][init][VUS메세지]', this.vusmsg);
     }
 
     if (this.form2TestedId) {
@@ -563,7 +565,7 @@ export class Form6Component implements OnInit, OnDestroy {
   checkVue(): boolean {
 
     const idx = this.tsvLists.findIndex(item => item.loc1 === 'VUS');
-    console.log('[306][checkVue]', this.tsvLists, idx);
+    console.log('[578][checkVue]', this.tsvLists, idx);
     if (idx === -1) {
       this.ment = '';
       return false;
@@ -575,7 +577,7 @@ export class Form6Component implements OnInit, OnDestroy {
   result(event) {
     console.log(event);
     this.resultStatus = event.srcElement.defaultValue;
-    console.log('[556][라디오 검체]', this.resultStatus);
+    console.log('[590][라디오 검체]', this.resultStatus);
   }
 
   resultName(result: string): void {
@@ -608,7 +610,7 @@ export class Form6Component implements OnInit, OnDestroy {
     } else {
       tempCount = '';
     }
-    console.log('[653]', count, tempCount);
+    console.log('[623]', count, tempCount);
 
     if (type === 'M') {
       tempvalue = {
@@ -893,11 +895,11 @@ export class Form6Component implements OnInit, OnDestroy {
 
   // tslint:disable-next-line: typedef
   save(index: number) {
-    console.log('[924][inhousee]', index, this.vd);
+    console.log('[908][inhousee]', index, this.vd);
 
     const selected = this.vd.find(item => item.sequence === index);
     this.selectedItem = selected.selectedname;
-    console.log('[928][저장] ', index, this.vd, selected);
+    console.log('[912][저장] ', index, this.vd, selected);
 
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const row = control.value[index];
@@ -1139,6 +1141,10 @@ export class Form6Component implements OnInit, OnDestroy {
       this.lastReportDay = this.today().replace(/-/g, '.');
     }
 
+    if (!this.vusstatus) {
+      this.vusmsg = '';
+    }
+
     const makeForm = hereditaryForm(
       this.resultname,
       this.examin, // 검사자
@@ -1155,10 +1161,11 @@ export class Form6Component implements OnInit, OnDestroy {
       this.comment2,
       this.methods,
       this.technique,
-      this.genelists
+      this.genelists,
+      this.vusmsg
     );
 
-    console.log('[1196][Genetic XML]\n ', makeForm);
+    console.log('[1173][Genetic XML]\n ', makeForm);
     const examcode = this.patientInfo.test_code;
     this.patientsListService.sendEMR(
       this.patientInfo.specimenNo,
@@ -1395,7 +1402,7 @@ export class Form6Component implements OnInit, OnDestroy {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
 
-    console.log('[1467][Detected variants]', formData);
+    console.log('[1410][Detected variants]', formData);
     this.comments.push({
       gene: '', comment: this.commentdata, reference: this.comment2, type: '', variant_id: this.resultname
     });
@@ -1404,7 +1411,7 @@ export class Form6Component implements OnInit, OnDestroy {
     this.patientInfo.examin = this.examin;
     this.patientInfo.vusmsg = this.vusmsg;
 
-    console.log('[1476][tempSave]patient,reform,comment]', this.patientInfo, formData, this.comments);
+    console.log('[1419][tempSave]patient,reform,comment]', this.patientInfo, formData, this.comments);
 
     this.store.setRechecker(this.patientInfo.recheck);
     this.store.setExamin(this.patientInfo.examin);
@@ -1453,7 +1460,7 @@ export class Form6Component implements OnInit, OnDestroy {
     // console.log('[1150][tableerowForm]', formData);
     this.patientsListService.findMutationBygene(gene)
       .subscribe(data => {
-        console.log('[1148][findMutationBygene]', data);
+        console.log('[1468][findMutationBygene]', data);
         if (data === 0) {
           this.resultStatus = 'Not Detected';
         } else {

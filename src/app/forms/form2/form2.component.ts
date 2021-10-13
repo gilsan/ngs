@@ -125,7 +125,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
   tempCommentVariants = '';
   tempCommentreference = '';
   tempCommentComment = '';
-  vusstatus = true;
+  vusstatus = false;
   preview = true;
   isVisible = false;
 
@@ -791,12 +791,12 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       cnt: item.cnt,
       gene: item.gene,
       functionalImpact: item.functional_impact,
-      transcript: item.transcript,
-      exonIntro: item.exon,
-      nucleotideChange: item.nucleotide_change,
-      aminoAcidChange: item.amino_acid_change,
+      transcript: item.transcript.replace(/;/g, ','),
+      exonIntro: item.exon.replace(/;/g, ','),
+      nucleotideChange: item.nucleotide_change.replace(/;/g, ','),
+      aminoAcidChange: item.amino_acid_change.replace(/;/g, ','),
       zygosity: item.zygosity,
-      vafPercent: item.vaf,
+      vafPercent: item.vaf.replace(/;/g, ','),
       references: item.reference,
       cosmicID: item.cosmic_id,
       checked: item.checked,
@@ -839,12 +839,12 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
         cnt: [item.cnt],
         gene: [item.gene],
         functionalImpact: [item.functionalImpact],
-        transcript: [item.transcript],
-        exonIntro: [item.exonIntro],
-        nucleotideChange: [item.nucleotideChange],
-        aminoAcidChange: [item.aminoAcidChange],
+        transcript: [item.transcript.replace(/;/g, ',')],
+        exonIntro: [item.exonIntro.replace(/;/g, ',')],
+        nucleotideChange: [item.nucleotideChange.replace(/;/g, ',')],
+        aminoAcidChange: [item.aminoAcidChange.replace(/;/g, ',')],
         zygosity: [item.zygosity],
-        vafPercent: [item.vafPercent],
+        vafPercent: [item.vafPercent.replace(/;/g, ',')],
         references: [item.references],
         cosmicID: [item.cosmicID],
         id: [item.id],
@@ -859,12 +859,12 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       cnt: [item.cnt],
       gene: [item.gene],
       functionalImpact: [item.functionalImpact],
-      transcript: [item.transcript],
-      exonIntro: [item.exonIntro],
-      nucleotideChange: [item.nucleotideChange],
-      aminoAcidChange: [item.aminoAcidChange],
+      transcript: [item.transcript.replace(/;/g, ',')],
+      exonIntro: [item.exonIntro.replace(/;/g, ',')],
+      nucleotideChange: [item.nucleotideChange.replace(/;/g, ',')],
+      aminoAcidChange: [item.aminoAcidChange.replace(/;/g, ',')],
       zygosity: [item.zygosity],
-      vafPercent: [item.vafPercent],
+      vafPercent: [item.vafPercent.replace(/;/g, ',')],
       references: [item.references],
       cosmicID: [item.cosmicID],
       id: [item.id],
@@ -1321,6 +1321,10 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       tsvVersionContents = this.methods516;
     }
 
+    if (!this.vusstatus) {
+      this.vusmsg = '';
+    }
+
     const makeForm = makeBForm(
       this.resultStatus,
       this.examin, // 검사자
@@ -1336,7 +1340,8 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       this.firstReportDay,
       this.lastReportDay,
       this.genelists,
-      tsvVersionContents
+      tsvVersionContents,
+      this.specimenMsg
     );
     console.log('[1295] ', makeForm);
 
@@ -1422,6 +1427,10 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       tsvVersionContents = this.methods516;
     }
 
+    if (!this.vusstatus) {
+      this.vusmsg = '';
+    }
+
     const makeForm = makeAForm(
       this.resultStatus,
       this.examin, // 검사자
@@ -1437,7 +1446,8 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       this.firstReportDay,
       this.lastReportDay,
       this.genelists,
-      tsvVersionContents
+      tsvVersionContents,
+      this.specimenMsg
     );
     console.log('[1150][ALL XML] ', makeForm);
     const examcode = this.patientInfo.test_code;

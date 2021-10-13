@@ -84,6 +84,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     screenstatus: '',
     recheck: '',
     examin: '',
+    functional_impact: ''
   };
   geneCoding: IGeneCoding[];
   detactedVariants: IAFormVariant[] = [];
@@ -105,6 +106,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
   profile: IProfile = {
     leukemia: '', genetictest: '', chron: ''
   };
+  genetictestType = ['Genetics Test1', '-', 'Genetics Test3', 'Genetics Test4'];
   // tslint:disable-next-line:variable-name
   variant_id: string;
   tempid: string;
@@ -133,7 +135,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
   tempCommentVariants = '';
   tempCommentreference = '';
   tempCommentComment = '';
-  vusstatus = true;
+  vusstatus = false;
   preview = true;
   isVisible = false;
 
@@ -330,7 +332,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
   //  유전자 목록 가져오기
   getGeneList(type: string): any {
     this.utilsService.getGeneList('MDS').subscribe(data => {
-      console.log('[333][디비에서 가져온 Gene]', data);
+      // console.log('[333][디비에서 가져온 Gene]', data);
       this.genelists = data;
     });
   }
@@ -339,7 +341,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     this.subs.sink = this.variantsService.screenSelect(this.form2TestedId)
       .pipe(
         tap(data => {
-          console.log('[347][checkSavedData]', data);
+          console.log('[344][checkSavedData]', data);
           if (data.length) {
             this.savedDataExist = true;
           } else {
@@ -364,26 +366,27 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     this.subs.sink = this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {
       this.recoverVariants = data;
       this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
-      console.log('[366][form2][Detected variant_id]', this.recoverVariants);
+      console.log('[370][form2][Detected variant_id]', this.recoverVariants);
       this.store.setDetactedVariants(data); // Detected variant 저장
 
       // VUS 메제시 확인
-      this.vusmsg = this.patientInfo.vusmsg;
-      console.log('[371][recoverDetected][VUS메세지]', this.patientInfo.vusmsg, this.vusmsg);
-
+      // this.vusmsg = this.patientInfo.vusmsg;
+      console.log('[375][recoverDetected][VUS메세지]', this.patientInfo.vusmsg);
+      const tempVUS = [];
       this.recoverVariants.forEach(item => {
         this.recoverVariant(item);  // 354
-
         // VUS 메제시 확인
-        this.vusmsg = this.patientInfo.vusmsg;
-        if (item.functional_impact === 'VUS') {
-          this.vusstatus = true;
-          this.store.setVUSStatus(this.vusstatus);
-        } else {
-          this.store.setVUSStatus(this.vusstatus);
-          this.vusstatus = false;
-        }
+        tempVUS.push(item.functional_impact);
       });
+      if (tempVUS.includes('VUS')) {
+        this.vusstatus = true;
+        if (this.patientInfo.vusmsg.length) {
+          this.vusmsg = this.patientInfo.vusmsg;
+        }
+      } else {
+        this.vusstatus = false;
+      }
+      //  console.log('[391][vusstatus]', tempVUS);
       this.putCheckboxInit(); // 체크박스 초기화
     });
 
@@ -408,7 +411,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
               }
             ));
           });
-          console.log('[407][COMMENT 가져오기]', this.comments);
+          console.log('[424][COMMENT 가져오기]', this.comments);
           this.store.setComments(this.comments); // comments 저장
         }
       });
@@ -417,14 +420,18 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     // profile 가져오기
     this.subs.sink = this.analysisService.getAanlysisMDSInfo(this.form2TestedId)
       .subscribe(data => {
-        console.log('[369][profile]==> ', data[0]);
+        console.log('[433][profile]==> ', data[0]);
         if (data.length > 0) {
           this.profile.leukemia = data[0].diagnosis;
-          this.profile.genetictest = data[0].genetictest;
+          if (data[0].genetictest.length) {
+            this.profile.genetictest = data[0].genetictest;
+          } else {
+            this.profile.genetictest = '-';
+          }
           this.profile.chron = data[0].chromosomalanalysis;
         } else {
           this.profile.leukemia = '';
-          this.profile.genetictest = '';
+          this.profile.genetictest = '-';
           this.profile.chron = '';
         }
         this.store.setProfile(this.profile); // profile 저장
@@ -438,7 +445,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     // VUS 메제시 확인 2021.4.7 추가
     if (this.patientInfo.vusmsg.length) {
       this.vusmsg = this.patientInfo.vusmsg;
-      console.log('[413][init][VUS메세지]', this.vusmsg);
+      console.log('[445][init][VUS메세지]', this.vusmsg);
     }
 
     if (this.form2TestedId) {
@@ -448,7 +455,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
           // console.log('[420]', data);
           this.recoverVariants = data;
           this.vd.push({ sequence: this.vd.length, selectedname: 'mutation', gene: data[0].gene });
-          // this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
+
           this.store.setDetactedVariants(data); // Detected variant 저장
           this.recoverVariants.forEach(item => {
             this.recoverVariant(item);  // 354
@@ -463,7 +470,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
           // COMMENTS 가져오기
           // comments 분류
           if (data[0].comments !== 'none') {
-            console.log('[447][INIT]', data[0].comments.gene, this.savedDataExist);
+            console.log('[479][INIT]', data[0].comments.gene, this.savedDataExist);
             this.comments.push(
               {
                 gene: data[0].comments.gene, comment: data[0].comments.comment, reference: data[0].comments.reference,
@@ -471,7 +478,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
               }
             );
             this.commentsRows().push(this.createCommentRow(data[0].comments));
-            console.log('[447]', this.comments);
+            console.log('[487]', this.comments);
           }
           ///////////////////////////////////////////////////////////////
           this.putCheckboxInit(); // 체크박스 초기화
@@ -487,11 +494,21 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
         .subscribe(data => {
           if (data.length > 0) {
             this.profile.leukemia = data[0].diagnosis;
-            this.profile.genetictest = data[0].genetictest;
+            if (data[0].genetictest.length) {
+              this.profile.genetictest = data[0].genetictest;
+            } else {
+              this.profile.genetictest = '-';
+            }
+
             this.profile.chron = data[0].chromosomalanalysis;
           } else {
             this.profile.leukemia = this.patientInfo.leukemiaassociatedfusion;
-            this.profile.genetictest = this.patientInfo.genetictest;
+            if (this.patientInfo.genetictest.length) {
+              this.profile.genetictest = this.patientInfo.genetictest;
+            } else {
+              this.profile.genetictest = '-';
+            }
+
             this.profile.chron = this.patientInfo.chromosomalanalysis;
           }
           this.store.setProfile(this.profile); // profile 저장
@@ -529,7 +546,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
   addDetectedVariant(): void {
     this.subs.sink = this.patientsListService.mlpafiltering(this.form2TestedId, this.reportType, this.patientInfo.specimenNo)
       .subscribe(data => {
-        console.log('[498]', this.reportType);
+        console.log('[545]', this.reportType);
         console.log(data);
       });
 
@@ -613,7 +630,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
   result(event) {
     console.log(event);
     this.resultStatus = event.srcElement.defaultValue;
-    console.log('[556][라디오 검체]', this.resultStatus);
+    console.log('[629][라디오 검체]', this.resultStatus);
   }
 
   radioStatus(type: string): boolean {
@@ -642,7 +659,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     } else {
       tempCount = '';
     }
-    console.log('[653]', count, tempCount);
+    console.log('[658]', count, tempCount);
 
     if (type === 'M') {
       tempvalue = {
@@ -1218,6 +1235,9 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     // } else if (this.tsvVersion === '516') {
     //   tsvVersionContents = this.methods516;
     // }
+    if (!this.vusstatus) {
+      this.vusmsg = '';
+    }
 
     const makeForm = makeDForm(
       this.method,
