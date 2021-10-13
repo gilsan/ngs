@@ -44,6 +44,7 @@
                             [(ngModel)]= "profile.leukemia" >
                         </td>
                         <td class="table_result_line"  style="text-align: center;">
+                             <!--
                               <input type="text" size="10" class="input_02 textcenter"
                                matInput
                                [(ngModel)]="profile.genetictest" [matAutocomplete]="auto">
@@ -52,11 +53,16 @@
                                            {{option}}
                                  </mat-option>
                               </mat-autocomplete>
-                        <!--
+                        -->
                             <textarea class="textarea_01 textcenter"
-                               [(ngModel)]="profile.genetictest" row=2
+                               [(ngModel)]="profile.genetictest" row=2 [matAutocomplete]="auto"
                                style="width: 100%; height: 100%; border: none"></textarea>
-                         -->
+                              <mat-autocomplete #auto="matAutocomplete">
+                                 <mat-option *ngFor="let option of genetictestType" [value]="option">
+                                           {{option}}
+                                 </mat-option>
+                              </mat-autocomplete>
+
                         </td>
                         <td  style="text-align: center;">
                             <input type="text" class="input_02 textcenter"

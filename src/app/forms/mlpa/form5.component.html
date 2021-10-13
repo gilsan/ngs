@@ -170,11 +170,22 @@
                         <button type="button" class="btn btn_01">수정</button>
                     </li>
                     -->
+                     <li>
+                        <button class="btn btn_01" (click)="reset()"
+                        [disabled]="getStatus(4)">수정</button>
+                    </li>
+
                     <li>
-                        <button class="btn btn_01"  (click)="tempSave()">저장</button>
+                        <button class="btn btn_01" (click)="tempSave()">임시저장</button>
                     </li>
                     <li>
-                        <button class="btn btn_01" (click)="gotoEMR()">EMR전송</button>
+                        <button class="btn btn_01" (click)="tempSave()" [disabled]="getStatus(1)">스크린완료</button>
+                    </li>
+                    <li>
+                        <button class="btn btn_01" (click)="tempSave()" [disabled]="getStatus(2)">판독완료</button>
+                    </li>
+                    <li>
+                        <button class="btn btn_01" (click)="gotoEMR()"  [disabled]="getStatus(3)">EMR전송</button>
                     </li>
                 </ul>
             </div>

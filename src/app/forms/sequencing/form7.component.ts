@@ -125,7 +125,9 @@ export class Form7Component implements OnInit, OnDestroy {
     }
 
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
-    console.log('[85] 환자정보: ', this.patientInfo);
+    // 임시변경
+    // this.patientInfo.screenstatus = '0';
+    console.log('[128] 환자정보: ', this.patientInfo);
     this.resultname = this.patientInfo.worker; // 병명
     if (parseInt(this.screenstatus, 10) === 0) {
       // 전송횟수, 검사보고일, 수정보고일  저장
@@ -294,8 +296,10 @@ export class Form7Component implements OnInit, OnDestroy {
     const userid = localStorage.getItem('diaguser');
     const control = this.form.get('tableRows') as FormArray;
     const formData = control.getRawValue();
-    // 검사자const tempComments = this.comment + '_' + this.comment1 + '_' + this.comment2;
-    console.log('[295][저장]', formData);
+
+    this.screenstatus = String(parseInt(this.patientInfo.screenstatus, 10) + 1);
+    this.patientInfo.screenstatus = this.screenstatus;
+    console.log('[301][임시저장][screenstatus]', this.screenstatus);
 
     this.patientInfo.recheck = this.recheck;
     this.patientInfo.examin = this.examin;
@@ -310,7 +314,7 @@ export class Form7Component implements OnInit, OnDestroy {
       this.comment1, this.comment2, this.seqcomment, this.resultname, this.patientInfo.test_code, this.variations,
       this.targetdisease, this.method, this.analyzedgene, this.specimen)
       .subscribe(data => {
-        this.patientsListService.changescreenstatus(this.form2TestedId, '2', userid, 'SEQN').subscribe();
+        this.patientsListService.changescreenstatus(this.form2TestedId, this.screenstatus, userid, 'SEQN').subscribe();
         alert('저장되었습니다.');
       });
   }
@@ -476,6 +480,80 @@ export class Form7Component implements OnInit, OnDestroy {
     return control;
   }
   //////////////////////////////////////////////////////////////
+  reset(): void {
+    const control = this.form.get('tableRows') as FormArray;
+    const temp = control.getRawValue();
+    // this.checkboxStatus = [];
+    // for (let i = 0; i < temp.length; i++) {
+    //   if (String(temp[i].checked) === 'true') {
+    //     this.checkboxStatus.push(i);
+    //   }
+    // }
+
+    const tempUserid: any = localStorage.getItem('diaguser');
+    const tempuser: any = JSON.parse(tempUserid);
+    const userid = tempuser.userid;
+
+    this.patientsListService.resetscreenstatus(this.form2TestedId, '2', userid, this.reportType)
+      .subscribe(data => {
+        this.screenstatus = '2';
+        this.patientInfo.screenstatus = '2';
+
+      });
+  }
+
+  getStatus(index): boolean {
+    // console.log('[834][getStatus]', index, this.screenstatus);
+    if (index === 1) {
+      if (parseInt(this.screenstatus, 10) === 0) {
+        return false;
+      } else if (parseInt(this.screenstatus, 10) === 1) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 2) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 3) {
+        return true;
+      }
+
+    } else if (index === 2) {
+      if (parseInt(this.screenstatus, 10) === 0) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 1) {
+        return false;
+      } else if (parseInt(this.screenstatus, 10) === 2) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 3) {
+        return true;
+      }
+    } else if (index === 3) {
+      if (parseInt(this.screenstatus, 10) === 0) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 1) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 2) {
+        return false;
+      } else if (parseInt(this.screenstatus, 10) === 3) {
+        return true;
+      }
+    } else if (index === 4) {
+      if (parseInt(this.screenstatus, 10) === 0) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 1) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 2) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 3) {
+        return false;
+      }
+    }
+
+  }
+
+
+
+
+
+
 
 
 

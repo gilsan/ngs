@@ -492,6 +492,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       // 저장된 검사자의 값이 있으면 표시
       this.analysisService.getAanlysisMDSInfo(this.form2TestedId)
         .subscribe(data => {
+          console.log('[495][genetictest]', data);
           if (data.length > 0) {
             this.profile.leukemia = data[0].diagnosis;
             if (data[0].genetictest.length) {

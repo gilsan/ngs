@@ -440,6 +440,11 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
       this.lastReportDay = this.today().replace(/-/g, '.');
     }
 
+    this.screenstatus = String(parseInt(this.patientInfo.screenstatus, 10) + 1);
+    this.patientInfo.screenstatus = this.screenstatus;
+    console.log('[445][임시저장][screenstatus]', this.screenstatus);
+
+
     // specimenNo, comment, data, result, technique, title, type
     this.mlpaData.data = data;
 
@@ -459,7 +464,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
       this.analyzedgene,
     ).subscribe(result => {
       // console.log(result);
-      this.patientsListService.changescreenstatus(this.form2TestedId, '2', userid, 'MLPA').subscribe();
+      this.patientsListService.changescreenstatus(this.form2TestedId, this.screenstatus, userid, 'MLPA').subscribe();
       alert('저장되었습니다.');
     });
   }
@@ -519,13 +524,85 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
 
 
   technique(data: string): void {
-
+    console.log(data);
+    this.mlpaData.technique = data;
   }
 
   //////////////////////////////////////////////////////////
   goBack(): void {
     this.router.navigate(['/diag', 'mlpa']);
   }
+
+  ///////////////////////////////////////////////////////////
+  reset(): void {
+    // const control = this.form.get('tableRows') as FormArray;
+    // const temp = control.getRawValue();
+    // this.checkboxStatus = [];
+    // for (let i = 0; i < temp.length; i++) {
+    //   if (String(temp[i].checked) === 'true') {
+    //     this.checkboxStatus.push(i);
+    //   }
+    // }
+
+    const tempUserid: any = localStorage.getItem('diaguser');
+    const tempuser: any = JSON.parse(tempUserid);
+    const userid = tempuser.userid;
+
+    this.patientsListService.resetscreenstatus(this.form2TestedId, '2', userid, this.reportType)
+      .subscribe(data => {
+        this.screenstatus = '2';
+        this.patientInfo.screenstatus = '2';
+
+      });
+  }
+
+  getStatus(index): boolean {
+    // console.log('[834][getStatus]', index, this.screenstatus);
+    if (index === 1) {
+      if (parseInt(this.screenstatus, 10) === 0) {
+        return false;
+      } else if (parseInt(this.screenstatus, 10) === 1) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 2) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 3) {
+        return true;
+      }
+
+    } else if (index === 2) {
+      if (parseInt(this.screenstatus, 10) === 0) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 1) {
+        return false;
+      } else if (parseInt(this.screenstatus, 10) === 2) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 3) {
+        return true;
+      }
+    } else if (index === 3) {
+      if (parseInt(this.screenstatus, 10) === 0) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 1) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 2) {
+        return false;
+      } else if (parseInt(this.screenstatus, 10) === 3) {
+        return true;
+      }
+    } else if (index === 4) {
+      if (parseInt(this.screenstatus, 10) === 0) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 1) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 2) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 3) {
+        return false;
+      }
+    }
+
+  }
+
 
 
 
