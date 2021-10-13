@@ -55,14 +55,8 @@
                               </mat-autocomplete>
                         -->
                             <textarea class="textarea_01 textcenter"
-                               [(ngModel)]="profile.genetictest" row=2 [matAutocomplete]="auto"
+                               [(ngModel)]="profile.genetictest" row=2
                                style="width: 100%; height: 100%; border: none"></textarea>
-                              <mat-autocomplete #auto="matAutocomplete">
-                                 <mat-option *ngFor="let option of genetictestType" [value]="option">
-                                           {{option}}
-                                 </mat-option>
-                              </mat-autocomplete>
-
                         </td>
                         <td  style="text-align: center;">
                             <input type="text" class="input_02 textcenter"
