@@ -77,9 +77,9 @@
                             <td>METHODS: *Massivery parallel sequencing</td>
                         </tr>
                         <tr>
-                            <td *ngIf="type === 'AML' || type === 'ALL'">SPECIMEN: Genomic DNA isolated from {{specimenMsg}}</td>
-                            <td *ngIf="type === 'LYM'">SPECIMEN: Genomic DNA isolated from Bone marrow</td>
-                            <td *ngIf="type === 'MDS'">SPECIMEN: Genomic DNA isolated from peripheral blood</td>
+                            <td *ngIf="type === 'AML' || type === 'ALL'">SPECIMEN: {{specimenMessage}}</td>
+                            <td *ngIf="type === 'LYM'">SPECIMEN: {{specimenMessage}}</td>
+                            <td *ngIf="type === 'MDS'">SPECIMEN: {{specimenMessage}}</td>
                             <td>REQUEST: {{patientInfo.request}}</td>
                         </tr>
                     </tbody>

@@ -14,6 +14,7 @@ export class PreviewComponent implements OnInit {
   @Input() comments: IComment[];
   @Input() type: string;
   @Input() target: string;
+  @Input() specimenMessage: string;
   @Output() closemodal = new EventEmitter<void>();
   patientInfo: IPatient;
   profile: IProfile;  //  { leukemia: '', flt3itd: '', chron: '' };
