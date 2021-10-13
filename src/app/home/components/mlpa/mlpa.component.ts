@@ -266,15 +266,14 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
 
   processingStatus(i: number): string {
     const status = this.lists[i].screenstatus;
-    // const filename = this.lists[i].tsvFilteredFilename;
     if (parseInt(status, 10) === 0) {
       return '시작';
     } else if (parseInt(status, 10) === 1) {
-      return '저장';
+      return '스크린완료';
     } else if (parseInt(status, 10) === 2) {
-      return '저장';
+      return '판독완료';
     } else if (parseInt(status, 10) === 3) {
-      return '저장';
+      return '전송완료';
     }
   }
 

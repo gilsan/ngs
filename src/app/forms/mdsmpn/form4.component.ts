@@ -84,7 +84,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     screenstatus: '',
     recheck: '',
     examin: '',
-    functional_impact: ''
+    functional_impact: '',
   };
   geneCoding: IGeneCoding[];
   detactedVariants: IAFormVariant[] = [];
@@ -96,7 +96,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
   resultStatus = 'Detected';
   fusion = '';
   chronmosomal = '';
-  methods = METHODS;
+  // methods = METHODS;
   method: string;
   methods516 = METHODS516;
   general = GENERAL;
@@ -283,7 +283,10 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     }
 
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
-    console.log('[290][환자정보]', this.patientInfo);
+    // tslint:disable-next-line:max-line-length
+    this.profile.genetictest = this.patientInfo.genetic1 + '\n' + this.patientInfo.genetic2 + '\n' + this.patientInfo.genetic3 + '\n' + this.patientInfo.genetic4;
+    console.log('[290][환자정보]', this.patientInfo, this.profile);
+
     this.method = this.patientInfo.reportTitle.replace(/"/g, '');
     this.store.setPatientInfo(this.patientInfo); // 환자정보 저장
 
@@ -423,15 +426,16 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
         console.log('[433][profile]==> ', data[0]);
         if (data.length > 0) {
           this.profile.leukemia = data[0].diagnosis;
-          if (data[0].genetictest.length) {
+          if (this.profile.genetictest.length) {
             this.profile.genetictest = data[0].genetictest;
           } else {
-            this.profile.genetictest = '-';
+            this.profile.genetictest = this.patientInfo.genetic1 + '\n' + this.patientInfo.genetic2 + '\n' + this.patientInfo.genetic3 + '\n' + this.patientInfo.genetic4;
           }
+
           this.profile.chron = data[0].chromosomalanalysis;
         } else {
           this.profile.leukemia = '';
-          this.profile.genetictest = '-';
+          // this.profile.genetictest = '-';
           this.profile.chron = '';
         }
         this.store.setProfile(this.profile); // profile 저장
@@ -498,17 +502,18 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
             if (data[0].genetictest.length) {
               this.profile.genetictest = data[0].genetictest;
             } else {
-              this.profile.genetictest = '-';
+              this.profile.genetictest = this.patientInfo.genetic1 + '\n' + this.patientInfo.genetic2 + '\n' + this.patientInfo.genetic3 + '\n' + this.patientInfo.genetic4;
             }
 
             this.profile.chron = data[0].chromosomalanalysis;
           } else {
             this.profile.leukemia = this.patientInfo.leukemiaassociatedfusion;
-            if (this.patientInfo.genetictest.length) {
-              this.profile.genetictest = this.patientInfo.genetictest;
-            } else {
-              this.profile.genetictest = '-';
-            }
+            this.profile.genetictest = this.patientInfo.genetic1 + '\n' + this.patientInfo.genetic2 + '\n' + this.patientInfo.genetic3 + '\n' + this.patientInfo.genetic4;
+            // if (this.patientInfo.genetictest.length) {
+            //   this.profile.genetictest = this.patientInfo.genetictest;
+            // } else {
+            //   this.profile.genetictest = '-';
+            // }
 
             this.profile.chron = this.patientInfo.chromosomalanalysis;
           }

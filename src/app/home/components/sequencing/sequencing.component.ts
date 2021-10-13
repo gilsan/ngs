@@ -272,12 +272,13 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
     if (parseInt(status, 10) === 0) {
       return '시작';
     } else if (parseInt(status, 10) === 1) {
-      return '저장';
+      return '스크린완료';
     } else if (parseInt(status, 10) === 2) {
-      return '저장';
+      return '판독완료';
     } else if (parseInt(status, 10) === 3) {
-      return '저장';
+      return '전송완료';
     }
+
   }
 
 

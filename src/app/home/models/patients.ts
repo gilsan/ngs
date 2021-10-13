@@ -41,6 +41,10 @@ export interface IPatient {
   verfile?: string; // tsv version
   worker?: string;
   functional_impact?: string;
+  genetic1?: string;
+  genetic2?: string;
+  genetic3?: string;
+  genetic4?: string;
 }
 
 export interface IProfile {
