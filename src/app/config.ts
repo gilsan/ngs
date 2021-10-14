@@ -8,7 +8,7 @@ export const emrUrl = 'http://211.104.56.34:3000';
 
 // export const emrUrl = 'http://localhost:3000';
 // export const emrUrl = 'http://160.1.17.79:3000';
-//export const emrUrl = 'http://160.1.17.79:5000';
+// export const emrUrl = 'http://160.1.17.79:5000';
 
 //
 
