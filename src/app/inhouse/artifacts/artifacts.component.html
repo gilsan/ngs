@@ -77,7 +77,7 @@
                         <th class="txt_l">Type</th>
                         <th class="txt_l">Location</th>
                         <th class="txt_l">Exon</th>
-                        <th class="txt_l">Transcript</th>
+                        <th class="txt_l" >Transcript</th>
                         <th class="txt_l">Coding</th>
                         <th class="txt_l">Amino Acid Change</th>
                         <th class="txt_c">수정/삭제</th>
@@ -151,7 +151,7 @@
                                -->
                             </span>
                         </td>
-                        <td ><span class="bdnone" *ngIf="status.value === 'R'">{{list.location}}</span>
+                        <td><span class="bdnone" *ngIf="status.value === 'R'">{{list.location}}</span>
                              <span class="bdnone" *ngIf="status.value === 'U'"><input type="text"  class="clr-input "
                               #location value="{{list.location}}" id="location{{list.id}}" ></span>
                         </td>

@@ -68,7 +68,7 @@ export function mlpaForm(
 				<Col id="testinfo2">METHOD:  ${testmethod}</Col>
 				<Col id="testinfo3">SPECIMEN: ${spcimen}</Col>
 				<Col id="testinfo4">REQUEST: ${patientInfo.request}</Col>
-        <Col id="testinfo5"> Analyzed gene : ${analyzedgene}</Col>
+        <Col id="testinfo5">Analyzed gene : ${analyzedgene}</Col>
         <Col id="opnion"></Col>
 				<Col id="title">${title}</Col>
 				<Col id="examdt">${acceptdate}/${firstReportDay}/${lastReportDay} </Col>

@@ -603,7 +603,9 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
 
   }
 
-
+  resultName(result: string): void {
+    this.mlpaData.result = result;
+  }
 
 
 }

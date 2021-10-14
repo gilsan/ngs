@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { concatMap, map, shareReplay } from 'rxjs/operators';
 import { FindNgsTitleService } from '../commons/findngstitle.service';
 import { sequencingForm } from 'src/app/home/models/sequencing.model';
-import { profile } from 'console';
+import { listSequencing } from 'src/app/forms/commons/geneList';
 
 
 @Component({
@@ -174,8 +174,9 @@ export class Form7Component implements OnInit, OnDestroy {
 
   // 내역 가져오기
   getSequencing(): void {
-    this.ngsTitle = this.patientInfo.reportTitle;
-    // this.ngsTitle = this.titleService.findSequencingTitle(this.patientInfo.test_code);
+    // this.ngsTitle = this.patientInfo.reportTitle;
+    // 임시사용
+    this.ngsTitle = this.titleService.findSequencingTitle(this.patientInfo.test_code);
     this.subs.sink = this.variantsService.contentScreen7(this.form2TestedId)
       .subscribe(data => {
         console.log('[178][받은데이터]', data);

@@ -198,6 +198,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.router.navigate(['/diag', 'inhouse', 'ngsexcel']);
   }
 
+  comment(): void {
+    this.router.navigate(['/diag', 'inhouse', 'genemgn']);
+  }
+
   excelDownload(): void {
 
     this.subs.sink = this.excelService.excelList().subscribe((lists: IExcelData[]) => {

@@ -19,6 +19,8 @@ import { TypestaticsComponent } from './statistics/typestatics/typestatics.compo
 // import { MaterialModule } from '../material.module';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { NgsexcelComponent } from './ngsexcel/ngsexcel.component';
+// import { ResizetableDirective } from './directive/resizetable.directive';
+// import { ResizableModule } from './resizable/resizable.module';
 
 
 @NgModule({
@@ -35,13 +37,14 @@ import { NgsexcelComponent } from './ngsexcel/ngsexcel.component';
     MgngeneComponent,
     TypestaticsComponent,
     NgsexcelComponent,
+
   ],
   imports: [
 
     CommonModule,
     InhouseRoutingModule,
     MaterialModule,
-    NgxEchartsModule
+    NgxEchartsModule,
 
   ]
 })

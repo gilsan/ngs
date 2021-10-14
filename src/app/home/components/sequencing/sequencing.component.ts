@@ -42,7 +42,10 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
   private apiUrl = emrUrl;
 
   sequencingLists = sequencingLists;
-  listSequencing = listSequencing;
+  listSequencing = listSequencing.sort((a, b) => {
+    const x = a.gene; const y = b.gene;
+    return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+  });
 
   @ViewChild('dbox100', { static: true }) dbox100: ElementRef;
 

@@ -43,5 +43,6 @@ export class ArtifactsService {
     return this.http.post(`${this.apiUrl}/artifacts/delete`, { id });
   }
 
+
 }
 
