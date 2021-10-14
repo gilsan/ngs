@@ -1,6 +1,6 @@
 <div id="result">
     <div id="container" style="position: relative;">
-        <h2 style="margin-top: 5px;">{{method}}</h2>
+        <h2 style="margin-top: 5px;">MLPA</h2>
         <button type="button" class="preview__button" (click)="previewToggle()">미리보기</button>
         <!-- button type="button" class="excel">Excel</button>  -->
 
@@ -9,7 +9,9 @@
                 <div class="sub_title">Patient:{{patientInfo.name}}, {{patientInfo.patientID}} ({{patientInfo.gender}}/{{patientInfo.age}})</div>
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
-                    <td class="txt_02" ><span class="fb">Result </span>: {{mlpaData.result}}&nbsp;&nbsp;&nbsp;&nbsp;
+                    <td class="txt_02" ><span class="fb">Result </span>:
+                    <input type="test"   #results [value]="mlpaData.result" class="clr-input textcenter " size=25 (change)="resultName(results.value)">
+                        &nbsp;&nbsp;&nbsp;&nbsp;
                         <input type="radio" id="vertical-radio2" name="radio-full" [value]="'Detected'" [checked]="radioStatus('Detected')" class="clr-radio"  (change)="result($event)">
                         <label for="vertical-radio2" class="  clr-col-12 clr-col-md-2">Detected</label>
                         &nbsp;&nbsp;
@@ -71,7 +73,7 @@
                             </colgroup>
                             <thead>
                                 <tr>
-                                    <th>Prode #</th>
+                                    <th>Probe #</th>
                                     <th>Site</th>
                                     <th>Result</th>
                                 </tr>
@@ -101,7 +103,7 @@
                             </colgroup>
                             <thead>
                                 <tr>
-                                    <th>Prode #</th>
+                                    <th>Probe #</th>
                                     <th>Site</th>
                                     <th>Result</th>
                                 </tr>

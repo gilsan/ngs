@@ -17,12 +17,14 @@
         <select class="select_01 select_001"  #seqStatus>
           <option value="100">전체</option>
           <option value="0">시작</option>
+          <option value="1">스크린판독</option>
+          <option value="2">판독완료</option>
           <option value="3">EMR전송</option>
         </select>&nbsp;&nbsp;
 
         <select class="select_01 select_001" #seqSheet>
           <option value="Sequencing">전체</option>
-          <option  *ngFor="let list of listSequencing"  [value]="list.code">{{list.code}} ({{list.testname}})</option>
+          <option  *ngFor="let list of listSequencing"  [value]="list.code">{{list.gene}}, {{list.code}} ({{list.testname}})</option>
         </select>&nbsp;&nbsp;
 
         <input type="date" [value]="startToday()" (change)="getDate(seqStart.value)" #seqStart class="input_01"

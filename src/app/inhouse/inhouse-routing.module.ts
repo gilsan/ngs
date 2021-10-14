@@ -17,7 +17,7 @@ const routes: Routes = [
       { path: 'benign', component: BenignComponent },
       { path: 'comments', component: CommentsComponent },
       { path: 'genemgn', component: MgngeneComponent },
-      { path: 'ngsexcel', component: NgsexcelComponent }
+      { path: 'ngsexcel', component: NgsexcelComponent },
     ]
   },
 ];

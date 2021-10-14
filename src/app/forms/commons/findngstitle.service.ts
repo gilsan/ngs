@@ -1,6 +1,6 @@
 
 import { Injectable } from '@angular/core';
-import { testCodeLists } from './geneList';
+import { testCodeLists, listSequencing } from './geneList';
 
 @Injectable({
   providedIn: 'root'
@@ -8,9 +8,9 @@ import { testCodeLists } from './geneList';
 export class FindNgsTitleService {
 
   findSequencingTitle(testcode: string): string {
-    const idx = testCodeLists.findIndex(element => element.code === testcode);
+    const idx = listSequencing.findIndex(element => element.code === testcode);
     if (idx !== -1) {
-      return testCodeLists[idx].title;
+      return listSequencing[idx].title + ' ' + listSequencing[idx].code + ' ' + listSequencing[idx].testname;
     }
     return 'none';
   }
