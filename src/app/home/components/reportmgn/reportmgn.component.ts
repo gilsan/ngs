@@ -36,11 +36,11 @@ export class ReportmgnComponent implements OnInit {
       });
   }
 
-  retrive(type: string) {
+  retrive(type: string): void {
     this.reportService.getLists(type)
-      .subscribe(data => {
+      .subscribe((data) => {
 
-        this.display(type, data.checker, data.reader);
+        this.display(type, data[0].checker, data[0].reader);
       });
   }
 
