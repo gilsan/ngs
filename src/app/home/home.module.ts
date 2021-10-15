@@ -32,6 +32,7 @@ import { SequencingComponent } from './components/sequencing/sequencing.componen
 import { MlpaComponent } from './components/mlpa/mlpa.component';
 import { XlxsuploadComponent } from './components/xlxsupload/xlxsupload.component';
 import { TxtuploadComponent } from './components/txtupload/txtupload.component';
+import { ReportmgnComponent } from './components/reportmgn/reportmgn.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { TxtuploadComponent } from './components/txtupload/txtupload.component';
     SequencingComponent,
     MlpaComponent,
     XlxsuploadComponent,
-    TxtuploadComponent
+    TxtuploadComponent,
+    ReportmgnComponent
   ],
   imports: [
     CommonModule,

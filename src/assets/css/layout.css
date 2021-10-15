@@ -238,7 +238,8 @@
 .sub_menu01 a {
   display: inline-block;
   width: 216px;
-  height: 62px; /* 42 -> 62 */
+  height: 62px;
+  /* 42 -> 62 */
   cursor: pointer;
   background: url(../images/side_menu_010.png) no-repeat;
 }
@@ -247,7 +248,8 @@
 .sub_menu01 a:active {
   display: inline-block;
   width: 216px;
-  height: 62px; /* 42 -> 62 */
+  height: 62px;
+  /* 42 -> 62 */
   cursor: pointer;
   background: url(../images/side_menu_010_on.png) no-repeat;
 }
@@ -255,7 +257,8 @@
 .sub_menu01 a:visited {
   display: inline-block;
   width: 216px;
-  height: 62px; /* 42 -> 62 */
+  height: 62px;
+  /* 42 -> 62 */
   cursor: pointer;
   background: url(../images/side_menu_010.png) no-repeat;
 }
@@ -896,6 +899,8 @@
   left: 10% !important;
   top: 120px !important;
 }
+
+
 
 .sub-menu2 {
   display: none;
