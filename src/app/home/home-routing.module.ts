@@ -26,6 +26,7 @@ import { MlpaComponent } from './components/mlpa/mlpa.component';
 import { SequencingComponent } from './components/sequencing/sequencing.component';
 import { HereditaryComponent } from './components/hereditary/hereditary.component';
 import { MdsmpnComponent } from './components/mdsmpn/mdsmpn.component';
+import { ReportmgnComponent } from './components/reportmgn/reportmgn.component';
 
 
 
@@ -59,6 +60,7 @@ const routes: Routes = [
       { path: 'managefunctions', component: ManageFunctionsComponent },
       { path: 'detailfunctions', component: DetailFunctionsComponent },
       { path: 'manageusers', component: ManageUsersComponent },
+      { path: 'reportmgn', component: ReportmgnComponent },
       { path: 'disease_test', component: DiseaseformComponent },
       { path: 'maindiag', component: MaindiagComponent },
       { path: 'typestatics', component: TypestaticsComponent },

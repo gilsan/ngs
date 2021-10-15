@@ -1,0 +1,136 @@
+
+<div id="container1">
+    <div id="content">
+
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mg_b10">
+            <tr>
+                <td  class="mail_title">결과지담당자 지정</td>
+            </tr>
+        </table>
+
+    <div class="table-box-wrap">
+        <div class="table-box box">
+            <table border="0" cellpadding="0" cellspacing="0" class="table_list header-fix">
+                <colgroup>
+                    <col width="20%" />
+                    <col width="30%" />
+                    <col width="30%" />
+                    <col width="20%" />
+                </colgroup>
+                <thead>
+                    <tr class="pd-r-12">
+                        <th class="txt_l">결과지</th>
+                        <th class="txt_l">검사자</th>
+                        <th class="txt_l">판독의</th>
+                        <th class="txt_l"></th>
+                    </tr>
+                </thead>
+                <tbody >
+                    <tr class="table_bg">
+                            <td class="wid120 bdnone" >AML/ALL</td>
+                            <td >
+                               <input type="text" size="30" class="clr-input  tdbox" #amlchecker [value]="amlChecker">
+                            </td>
+                            <td >
+                               <input type="text" size="30" class="clr-input  tdbox" #amlreader [value]="amlReader">
+                            </td>
+                            <td>
+                                <div class="select_box">
+                                    <button type="button" class="btn btn_01"
+                                         (click)="retrive('AMLALL')">불러오기</button>
+                                    <button type="button" class="btn btn_01"
+                                         (click)="save('AMLALL', amlchecker.value, amlreader.value)">저장</button>
+                                </div>
+                            </td>
+                    </tr>
+                    <tr class="table_bg">
+                            <td class="wid120 bdnone" >악성램프종/형질세포종</td>
+                            <td>
+                                <input type="text" size="30" class="clr-input  tdbox" #lymchecker [value]="lymChecker">
+                            </td>
+                            <td>
+                                <input type="text" size="30" class="clr-input  tdbox" #lymreader [value]="lymReader">
+                            </td>
+                            <td>
+                                 <div class="select_box">
+                                     <button type="button" class="btn btn_01"
+                                     (click)="retrive('LYM')">불러오기</button>
+                                     <button type="button" class="btn btn_01"
+                                     (click)="save('LYM', lymchecker.value, lymreader.value)">저장</button>
+                                 </div>
+                            </td>
+                    </tr>
+                    <tr class="table_bg">
+                            <td class="wid120 bdnone" >MDS/MPN</td>
+                            <td>
+                                <input type="text" size="30" class="clr-input  tdbox" #mdschecker [value]="mdsChecker">
+                            </td>
+                            <td>
+                                <input type="text" size="30" class="clr-input  tdbox" #mdsreader [value]="mdsReader">
+                            </td>
+                            <td>
+                                     <div class="select_box">
+                                         <button type="button" class="btn btn_01"
+                                         (click)="retrive('MDS')">불러오기</button>
+                                         <button type="button" class="btn btn_01"
+                                         (click)="save('MDS', mdschecker.value, mdsreader.value)" >저장</button>
+                                     </div>
+                            </td>
+                    </tr>
+                    <tr class="table_bg">
+                            <td class="wid120 bdnone" >유전성유전질환</td>
+                            <td>
+                                <input type="text" size="30" class="clr-input  tdbox" #genchecker [value]="genChecker">
+                            </td>
+                            <td>
+                                <input type="text" size="30" class="clr-input  tdbox" #genreader [value]="genReader">
+                            </td>
+                            <td>
+                                     <div class="select_box">
+                                         <button type="button" class="btn btn_01"
+                                         (click)="retrive('Genetic')">불러오기</button>
+                                         <button type="button" class="btn btn_01"
+                                         (click)="save('Genetic', genchecker.value, genreader.value)" >저장</button>
+                                     </div>
+                            </td>
+                    </tr>
+                    <tr class="table_bg">
+                            <td class="wid120 bdnone" >Sequencing</td>
+                            <td>
+                                <input type="text" size="30" class="clr-input  tdbox" #seqchecker [value]="seqChecker">
+                            </td>
+                            <td>
+                                <input type="text" size="30" class="clr-input  tdbox" #seqreader [value]="seqReader">
+                            </td>
+                            <td>
+                                     <div class="select_box">
+                                         <button type="button" class="btn btn_01"
+                                         (click)="retrive('SEQ')">불러오기</button>
+                                         <button type="button" class="btn btn_01"
+                                         (click)="save('SEQ', seqchecker.value, seqreader.value)" >저장</button>
+                                     </div>
+                            </td>
+                    </tr>
+                    <tr class="table_bg">
+                            <td class="wid120 bdnone" >MLPA</td>
+                            <td>
+                                <input type="text" size="30" class="clr-input  tdbox" #mlpachecker [value]="mlpaChecker">
+                            </td>
+                            <td>
+                                <input type="text" size="30" class="clr-input  tdbox" #mlpareader [value]="mlpaReader">
+                            </td>
+                            <td >
+                                     <div class="select_box">
+                                         <button type="button" class="btn btn_01"
+                                         (click)="retrive('MLPA')">불러오기</button>
+                                         <button type="button" class="btn btn_01"
+                                         (click)="save('MLPA', mlpachecker.value, mlpareader.value)" >저장</button>
+                                     </div>
+                            </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+      </div>
+    </div>
+</div>

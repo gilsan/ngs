@@ -142,6 +142,10 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.router.navigate(['/diag', 'sequencing']);
     } else if (type === 'mlpa') {
       this.router.navigate(['/diag', 'mlpa']);
+    } else if (type === 'users') {
+      this.router.navigate(['/diag', 'manageusers']);
+    } else if (type === 'reportmgn') {
+      this.router.navigate(['/diag', 'reportmgn']);
     }
 
   }
