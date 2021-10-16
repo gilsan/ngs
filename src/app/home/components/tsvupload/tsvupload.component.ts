@@ -81,7 +81,21 @@ export class TsvuploadComponent implements OnInit {
       });
   }
 
+
   onSelectedFile(event: any): void {
+    console.log('[86][tsvupload] ', event.target.files[0].name.indexOf(this.patientid));
+    const result = event.target.files[0].name.indexOf(this.patientid);
+    if (result !== -1) {
+      this.onDroppedFile(event.target.files);
+    } else {
+      alert(' 환자번호 ' + this.patientid + '와 파일명의 환자번호가 일치하지 않습니다.');
+      this.uploadfile.nativeElement.value = '';
+      return;
+    }
+  }
+
+
+  onSelectedFile2(event: any): void {
     // console.log('[82][tsvupload] ', event.target.files[0].name);
     let patientid = '';
     let extension = '';

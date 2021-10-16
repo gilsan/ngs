@@ -26,35 +26,31 @@
                       class="nav-text"></span></a>
                   </td>
                   -->
-                  <td class="menu01">
+                  <td class="menu01" (click)="showMenu()">
                     <a routerLink="/diag"><span class="nav-text"></span></a>
-
-                     <ul class="sub-menu">
-                      <li><span (click)="url('amlall')">ALL/AML</span></li>
-                      <li><span (click)="url('lymphoma')">악성림프종,형질세포종</span></li>
-                      <li><span (click)="url('mdsmpn')">MDS/MPN</span></li>
-                      <li><span (click)="url('hereditary')">유전성유전질환</span></li>
-                      <li><span (click)="url('sequencing')">Sequencing</span></li>
-                      <li><span (click)="url('mlpa')">MLPA</span></li>
+                     <ul class="sub-menu" [ngStyle]="toggleMenu()">
+                      <li><span (click)="url('amlall', $event)">ALL/AML</span></li>
+                      <li><span (click)="url('lymphoma', $event)">악성림프종,형질세포종</span></li>
+                      <li><span (click)="url('mdsmpn', $event)">MDS/MPN</span></li>
+                      <li><span (click)="url('hereditary', $event)">유전성유전질환</span></li>
+                      <li><span (click)="url('sequencing', $event)">Sequencing</span></li>
+                      <li><span (click)="url('mlpa', $event)">MLPA</span></li>
                     </ul>
                   </td>
 
-                  <td class="menu03">
+
+                  <td class="menu03"  (click)="showMenu2()">
                     <a routerLink="/diag/artifactsComponent"><span class="nav-text"></span></a>
 
-                     <ul class="sub-menu">
+                     <ul class="sub-menu" [ngStyle]="toggleMenu2()">
                      <!-- <li><span (click)="link('benign')">Benign</span></li>  -->
-                      <li><span (click)="link('artifacts')">Artifacts</span></li>
-                      <li><span (click)="link('mutation')">Mutation</span></li>
-                      <li><span (click)="link('comments')">Comments</span></li>
-                      <li><span (click)="link('genemgn')">유전자관리</span></li>
-                      <li><span (click)="excelDownload()">환자정보다운로드</span></li>
-<<<<<<< HEAD
-                      <!--li><span (click)="ngslink()">한국유전자검사평가원 NGS 검사</span></li-->
-=======
+                      <li><span (click)="link('artifacts', $event)">Artifacts</span></li>
+                      <li><span (click)="link('mutation', $event)">Mutation</span></li>
+                      <li><span (click)="link('comments', $event)">Comments</span></li>
+                      <li><span (click)="link('genemgn', $event)">유전자관리</span></li>
+                      <li><span (click)="excelDownload($event)">환자정보다운로드</span></li>
                     <!--  <li><span (click)="comment()">시험용</span></li>
                        <li><span (click)="ngslink()">한국유전자검사평가원 NGS 검사</span></li> -->
->>>>>>> fa78b4cded899ba77acbe2f9239af58d43c84b46
                     </ul>
                   </td>
 
@@ -71,11 +67,11 @@
 
                 !-- -->
 
-                  <td class="menu06">
+                  <td class="menu06" (click)="showMenu3()">
                     <a routerLink="/diag/manageusers"><span class="nav-text"></span></a>
-                    <ul  class="sub-menu">
-                          <li><span (click)="url('users')">사용자관리</span></li>
-                          <li><span (click)="url('reportmgn')">결과지별담당자</span></li>
+                    <ul  class="sub-menu" [ngStyle]="toggleMenu3()">
+                          <li><span (click)="url3('users', $event)">사용자관리</span></li>
+                          <li><span (click)="url3('reportmgn', $event)">결과지별담당자</span></li>
                     </ul>
                   </td>
                   <!--

@@ -31,7 +31,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   dept = '진검';
   work = '';
   passwdInfo: IPasswd;
-
+  menu1 = false;
+  menu2 = false;
+  menu3 = false;
   constructor(
     private router: Router,
     private dstore: StoreService,
@@ -129,33 +131,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
 
-  url(type: string): void {
-    if (type === 'amlall') {
-      this.router.navigate(['/diag', 'amlall']);
-    } else if (type === 'lymphoma') {
-      this.router.navigate(['/diag', 'lymphoma']);
-    } else if (type === 'mdsmpn') {
-      this.router.navigate(['/diag', 'mdsmpn']);
-    } else if (type === 'hereditary') {
-      this.router.navigate(['/diag', 'hereditary']);
-    } else if (type === 'sequencing') {
-      this.router.navigate(['/diag', 'sequencing']);
-    } else if (type === 'mlpa') {
-      this.router.navigate(['/diag', 'mlpa']);
-    } else if (type === 'users') {
-      this.router.navigate(['/diag', 'manageusers']);
-    } else if (type === 'reportmgn') {
-      this.router.navigate(['/diag', 'reportmgn']);
-    }
 
-  }
-
-  link(url: string): void {
-    let item = {
-      url: '/diag/' + url + 'Component'
-    };
-    this.router.navigateByUrl(item.url);
-  }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DiagpasswdchangeComponent, {
@@ -206,7 +182,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.router.navigate(['/diag', 'inhouse', 'genemgn']);
   }
 
-  excelDownload(): void {
+  excelDownload(event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.menu2 = false;
 
     this.subs.sink = this.excelService.excelList().subscribe((lists: IExcelData[]) => {
       console.log(lists);
@@ -260,6 +239,93 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.excel.exportAsExcelFile(excelLists, 'report');
     });
 
+  }
+
+  showMenu(): void {
+    this.menu1 = true;
+    this.menu2 = false;
+    this.menu3 = false;
+  }
+
+  showMenu2(): void {
+    this.menu1 = false;
+    this.menu2 = true;
+    this.menu3 = false;
+  }
+
+  showMenu3(): void {
+    this.menu1 = false;
+    this.menu2 = false;
+    this.menu3 = true;
+  }
+
+  url(type: string, event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.menu1 = false;
+    if (type === 'amlall') {
+      this.router.navigate(['/diag', 'amlall']);
+    } else if (type === 'lymphoma') {
+      this.router.navigate(['/diag', 'lymphoma']);
+    } else if (type === 'mdsmpn') {
+      this.router.navigate(['/diag', 'mdsmpn']);
+    } else if (type === 'hereditary') {
+      this.router.navigate(['/diag', 'hereditary']);
+    } else if (type === 'sequencing') {
+      this.router.navigate(['/diag', 'sequencing']);
+    } else if (type === 'mlpa') {
+      this.router.navigate(['/diag', 'mlpa']);
+    } else if (type === 'users') {
+      this.router.navigate(['/diag', 'manageusers']);
+    } else if (type === 'reportmgn') {
+      this.router.navigate(['/diag', 'reportmgn']);
+    }
+  }
+
+  url3(type: string, event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.menu3 = false;
+    if (type === 'users') {
+      this.router.navigate(['/diag', 'manageusers']);
+    } else if (type === 'reportmgn') {
+      this.router.navigate(['/diag', 'reportmgn']);
+    }
+  }
+
+
+  link(url: string, event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.menu2 = false;
+    let item = {
+      url: '/diag/' + url + 'Component'
+    };
+    this.router.navigateByUrl(item.url);
+  }
+
+  toggleMenu(): any {
+    if (this.menu1) {
+      return { display: 'inline-block' };
+    } else {
+      return { display: 'none' };
+    }
+  }
+
+  toggleMenu2(): any {
+    if (this.menu2) {
+      return { display: 'inline-block' };
+    } else {
+      return { display: 'none' };
+    }
+  }
+
+  toggleMenu3(): any {
+    if (this.menu3) {
+      return { display: 'inline-block' };
+    } else {
+      return { display: 'none' };
+    }
   }
 
 
