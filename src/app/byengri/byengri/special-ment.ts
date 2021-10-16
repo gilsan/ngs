@@ -148,7 +148,7 @@ export const mentlists = [
   },
   {
     title: 'Thyroid cancer',
-    content: `- Mutation: BRAF, ERBB2, NTRK1, NTRK3
+    content: `- Mutation: BRAF, ERBB2, NTRK1, NTRK3, TERT
 - Fusion / Exon variant: NTRK1, NTRK2, NTRK3`
   },
   {
