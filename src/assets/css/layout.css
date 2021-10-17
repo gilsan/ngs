@@ -894,7 +894,7 @@
 }
 
 .menu01:hover .sub-menu {
-  /* display: inline-block; */
+  display: inline-block;
   width: 800px !important;
   left: 10% !important;
   top: 120px !important;
@@ -916,9 +916,11 @@
 }
 
 .menu03:hover .sub-menu {
-  /* display: inline-block; */
+  display: inline-block;
   height: 70px !important;
 }
+
+
 
 .sub-menu {
   display: none;

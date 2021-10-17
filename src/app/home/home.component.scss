@@ -79,7 +79,8 @@ img.btn-logout {
 //   height: 70px !important;
 // }
 
-.menu06 .sub-menu {
+.menu06:hover .sub-menu {
+  display: inline-block;
   width: 300px !important;
   left: 80% !important;
   top: 130px !important;
@@ -121,4 +122,16 @@ img.btn-logout {
   width: 1rem;
   height: 1rem;
   background-color: #2be75a;
+}
+
+.sub-menu-1 {
+  display: none;
+}
+
+.sub-menu-1 ul li:hover {
+  display: block;
+  position: absolute;
+  background: rgb(0, 100, 0);
+  margin-top: 15px;
+  margin-left: -15px;
 }

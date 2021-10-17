@@ -184,10 +184,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.router.navigate(['/diag', 'inhouse', 'genemgn']);
   }
 
-  excelDownload(event: Event): void {
-    event.preventDefault();
-    event.stopPropagation();
-    this.menu2 = false;
+  excelDownload(): void {
+    // event.preventDefault();
+    // event.stopPropagation();
+    // this.menu2 = false;
 
     this.subs.sink = this.excelService.excelList().subscribe((lists: IExcelData[]) => {
       console.log(lists);
@@ -261,9 +261,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.menu3 = true;
   }
 
-  url(type: string, event: Event): void {
-    event.preventDefault();
-    event.stopPropagation();
+  url(type: string): void {
+    // event.preventDefault();
+    // event.stopPropagation();
     this.menu1 = false;
     if (type === 'amlall') {
       this.router.navigate(['/diag', 'amlall']);
@@ -296,10 +296,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
 
-  link(url: string, event: Event): void {
-    event.preventDefault();
-    event.stopPropagation();
-    this.menu2 = false;
+  link(url: string): void {
+    // event.preventDefault();
+    // event.stopPropagation();
+    // this.menu2 = false;
     let item = {
       url: '/diag/' + url + 'Component'
     };
