@@ -284,7 +284,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
 
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
     // tslint:disable-next-line:max-line-length
-    this.profile.genetictest = this.patientInfo.genetic1 + '\n' + this.patientInfo.genetic2 + '\n' + this.patientInfo.genetic3 + '\n' + this.patientInfo.genetic4;
+    this.profile.genetictest = 'JAK2 V617F :' + this.patientInfo.genetic1 + '\n' + 'JAK2 exon 12 :' + this.patientInfo.genetic2 + '\n' + 'CALR :' + this.patientInfo.genetic3 + '\n' + 'MPL :' + this.patientInfo.genetic4;
     console.log('[290][환자정보]', this.patientInfo, this.profile);
 
     this.method = this.patientInfo.reportTitle.replace(/"/g, '');

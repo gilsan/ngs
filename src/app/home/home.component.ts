@@ -174,7 +174,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngslink(): void {
+  ngslink(event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
     this.router.navigate(['/diag', 'inhouse', 'ngsexcel']);
   }
 
@@ -326,6 +328,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     } else {
       return { display: 'none' };
     }
+  }
+
+  goBack(): void {
+    this.router.navigate(['/diag']);
   }
 
 

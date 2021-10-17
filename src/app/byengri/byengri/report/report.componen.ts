@@ -161,6 +161,18 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 종양세포밀도가 50% 미만(XX%)의 검체에서 얻어진 결과이므로, amplification 해석에 주의가 필요합니다.
 * Deletion의 경우 이미지 보고서를 참고해 주시기 바랍니다.`; // note
 
+  notement2 = `[NOTE1]
+  본 검체에서 추출 된 RNA는 일부 QC를 만족하지 못하여 51개의 유전자(AKT2, ALK, AR, AXL, BRCA1, BRCA2, BRAF, CDKN2A, EGFR, ERBB2, ERBB4, ERG, ESR1, ETV1, ETV4, ETV5, FGFR1, FGFR2, FGFR3, FGR, FLT3, JAK2, KRAS, MDM4, MET, MYB, MYBL1, NF1, NOTCH1, NOTCH4, NRG1, NTRK1, NTRK2, NTRK3, NUTM1, PDGFRA, PDGFRB, PIK3CA, PRKACA, PRKACB, PTEN, PPARG, RAD51B, RAF1, RB1, RELA, RET, ROS1, RSPO2, RSPO3, TERT)에 대한 fusion은 확인 할 수 없었습니다. 결과에 참고하시기 바랍니다.
+
+  [NOTE2]
+  종양세포밀도가 50% 미만(XX%)의 검체에서 얻어진 결과이므로, amplification 해석에 주의가 필요합니다.
+  * Deletion의 경우 이미지 보고서를 참고해 주시기 바랍니다.
+
+  [NOTE3]
+  본 검체는 copy number variation 분석에 필요한 Q.C를 만족하지 못하여 amplification은 확인할 수 없습니다. 결과에 참고하시기 바랍니다.`;
+  notecontents = '';
+
+
   generalReportEMR: string;
   specialmentEMR: string;
   notementEMR: string;
@@ -469,11 +481,12 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     // console.log('[272][report][ getDataFromDB][] ', pathologyNo);
     this.searchService.getPathmentlist(pathologyNo)
       .subscribe(data => {
-        // console.log('[275][멘트리스트][]', data);
+        console.log('[484][멘트리스트][]', data);
         if (data.message !== 'no data') {
           this.generalReport = data[0].generalReport;
           this.specialment = data[0].specialment;
-          this.notement = data[0].notement;
+          // this.notement = data[0].notement;
+          this.notecontents = data[0].notement;
         }
       });
     this.subs.sink = this.searchService.getMutationC(pathologyNo) // mutation 리스트
@@ -1317,6 +1330,12 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 
   setMapd(mapd: string): void {
     this.stateControl.mapd = mapd;
+    const val = parseFloat(this.stateControl.mapd);
+    if (val <= 0.5) {
+      this.notecontents = this.notement;
+    } else {
+      this.notecontents = this.notement2;
+    }
   }
 
   setRnaMapped(rnaMapped: string): void {
@@ -1434,7 +1453,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       this.msiScore,
       this.generalReport,
       this.specialment,
-      this.notement,
+      this.notecontents,
       this.pathimage,
     );
     console.log(form);
@@ -1475,7 +1494,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   makeEMRBase(): void {
     const patient$ = this.pathologyService.findPatientinfo(this.pathologyNum);
     patient$.subscribe(patientInfoEMR => {
-      console.log('[1326][makeEMRBase] ', patientInfoEMR);
+      console.log('[1498][makeEMRBase] ', patientInfoEMR);
       this.tumorMutationalBurdenEMR = patientInfoEMR.tumorburden;
       this.msiScoreEMR = patientInfoEMR.msiscore;
       this.extractionEMR.dnarna = 'FFPE tissue';
@@ -1912,7 +1931,6 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   ////////////////////////////////////////////////////////////////////////////////////////////
   tempSave(): void {
-
     if (this.examedno === 'none') {
       const tempex = confirm('검사자 선택이 안되어 있습니다. 전송하시겠습니까.');
       if (tempex === false) {
@@ -1936,7 +1954,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log('[1141][임시저장][imutation]', this.imutation);
     console.log('[1141][임시저장][iamplifications]', this.iamplifications);
     console.log('[1141][임시저장][ifusion]', this.ifusion);
-    console.log('[1141][임시저장][멘트][ment]', this.generalReport, this.specialment, this.notement);
+    console.log('[1141][임시저장][멘트][ment]', this.generalReport, this.specialment, this.notecontents);
     console.log('[1141][임시저장][검수자/확인자][]', this.examedname, this.examedno, this.checkername, this.checkeredno);
     console.log('[1946][임시저장][정도관리] ', this.stateControl);
     this.subs.sink = this.savepathologyService.savePathologyData(
@@ -1951,7 +1969,8 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       this.extraction,
       this.generalReport,
       this.specialment,
-      this.notement,
+      this.notecontents,
+      // this.notement,
       this.stateControl
     ).subscribe(data => {
       console.log('[1981][tempSave]  ====> ', data);
@@ -2458,7 +2477,6 @@ ${fuDNA}`;
   goBack(): void {
     this.router.navigate(['/pathology']);
   }
-
 
   ///////////////////////////////////////////////////
 

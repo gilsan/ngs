@@ -27,15 +27,19 @@
                           <td> METHOD: {{method}}</td>
                       </tr>
                       <tr>
-                        <td> ANALYZED GENE :  {{analyzedgene}}</td>
-                        <td> IDENTIFIED VARIATIONS: {{variations}}</td>
-                      </tr>
-                      <tr>
-                          <td> SPECIMEN: Genomic DNA isolated from peripheral blood leukocytes-adequate specimen</td>
+                          <td> SPECIMEN: {{specimen}}</td>
                           <td> REQUEST: {{patientInfo.request}}</td>
                       </tr>
+                      <tr>
+                        <td> ANALYZED GENE :  {{analyzedgene}}</td>
+                      </tr>
+
                   </tbody>
                 </table>
+
+
+                <div class="sub_title">Identified Variations: <input type="text" class="input_02" style="width:37%;"
+                [value]="variations"></div>
 
                 <div class="sub_title">Mutation</div>
                 <div class="box">

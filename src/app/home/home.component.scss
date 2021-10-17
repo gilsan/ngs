@@ -68,11 +68,11 @@ img.btn-logout {
 }
 
 
-.menu01 .sub-menu {
-  top: 135px !important;
-  width: 850px !important;
-  height: 70px !important;
-}
+// .menu01 .sub-menu {
+//   top: 135px !important;
+//   width: 850px !important;
+//   height: 70px !important;
+// }
 
 .menu03 .sub-menu {
   width: 800px !important;
@@ -101,4 +101,24 @@ img.btn-logout {
 
 .menuHide {
   display: none;
+}
+
+.navigation__button {
+  background-color: #fff;
+  height: 1rem;
+  width: 1rem;
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  border-radius: 50%;
+  z-index: 2000;
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1);
+  text-align: center;
+  cursor: pointer;
+}
+
+#circle {
+  width: 1rem;
+  height: 1rem;
+  background-color: #2be75a;
 }

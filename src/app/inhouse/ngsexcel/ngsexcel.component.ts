@@ -6,52 +6,18 @@ import { ExcelService } from 'src/app/services/excel.service';
 import { SubSink } from 'subsink';
 import * as moment from 'moment';
 import { Observable, of } from 'rxjs';
+import { emrUrl } from 'src/app/config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OutlinkService {
+  private apiUrl = emrUrl;
+  constructor(private http: HttpClient) { }
 
-
-  search(start, end, type): Observable<INGS[]> {
-    // tslint:disable-next-line:max-line-length
-    const url = `http://emr012edu.cmcnu.or.kr/cmcnu/.live?submit_id=TRLII00147&business_id=li&instcd=012&infmdd=${start}&intodd=${end}&intype=${type}`;
-    const data = [{
-      gbn: 'L',
-      hospnm: '가톨릭대학교 서울성모병원',
-      proccorpcd: '11100338',
-      pid: '35967076',
-      hngnm: '박정남',
-      brthdd: '20190101',
-      sex: '2',
-      docuseqno: '00964',
-      pay100ownbrate: '5',
-      clamacptno: '4037754',
-      preicd10cd: 'C920',
-      preicd10hngnm: '급성 골수모구성 백혈병',
-      posticd10cd: 'C920',
-      posticd10hngnm: '급성 골수모구성 백혈병',
-      age: '2',
-      testcd: 'LPE522',
-      testnm: '유전성 골형성이상 질환 [NGS]',
-      bcno: 'O278U3KK0',
-      orddd: '20210429',
-      prcpdd: '20210429',
-      prcpno: '1401889545',
-      execprcpuntqno: '1501301406',
-      spcnm: 'EDTA blood',
-      spccd: '1',
-      spcacptdt: '20210429',
-      lstreptdt: '20210429'
-    }];
-
-    return of(data);
+  search(start, end, type): Observable<any> {
+    return this.http.post(`${this.apiUrl}/report_xml/list`, { start, end, type });
   }
-
-
-  constructor(
-    private http: HttpClient
-  ) { }
 }
 
 export interface INGS {
@@ -136,49 +102,6 @@ export class NgsexcelComponent implements OnInit, OnDestroy {
       });
     });
 
-    // worklist 내용
-    // gbn : '진검병리구분'
-    // hospnm :'기관명칭'
-    // proccorpcd :'요양기호' --
-    // pid :'등록번호'  --
-    // hngnm :'성명' --
-    // brthdd : '생년월일'
-    // sex :'성별' --
-    // docuseqno :'명일련' --
-    // pay100ownbrate :'본인부담률' --
-    // clamacptno :'접수번호'  --
-    // preicd10cd :검사전상병분류기호 --
-    // preicd10hngnm :검사전상병명 --
-    // posticd10cd :검사후상병분류기호 --
-    // posticd10hngnm :검사후상병명 --
-    // age :'나이'
-    // testcd :'검사코드'
-    // testnm :'검사명'
-    // bcno :'검체번호/병리번호'
-    // orddd :'진료일'
-    // prcpdd :'처방일'
-    // prcpno :'처방번호
-    // execprcpuntqno :'실시번호'
-    // spcnm :'검체명'
-    // spccd :'검체코드' --
-    // spcacptdt:'접수일' --
-    // lstreptdt :'보고일' --
-
-
-
-    // gbn : '진검병리구분'
-    // hospnm :'기관명칭'
-    // brthdd : '생년월일'
-    // age :'나이'
-    // testcd :'검사코드'
-    // testnm :'검사명'
-    // bcno :'검체번호/병리번호'
-    // orddd :'진료일'
-    // prcpdd :'처방일'
-    // prcpno :'처방번호
-    // execprcpuntqno :'실시번호'
-    // spcnm :'검체명'
-
 
     const ngwidth = [{ width: 6 }, { width: 12 }, { width: 6 }, { width: 12 }, { width: 9 },
     { width: 8 }, { width: 8 }, { width: 4 }, { width: 4 }, { width: 8 },
@@ -233,6 +156,7 @@ export class NgsexcelComponent implements OnInit, OnDestroy {
       console.log(startday, endday, type);
       this.subs.sink = this.linkService.search(startday, endday, type)
         .subscribe(data => {
+          console.log(data);
           this.ngsLists(data);
         });
     } else {
@@ -242,6 +166,48 @@ export class NgsexcelComponent implements OnInit, OnDestroy {
   }
 
 
-
-
 }
+
+
+    // worklist 내용
+    // gbn : '진검병리구분'
+    // hospnm :'기관명칭'
+    // proccorpcd :'요양기호' --
+    // pid :'등록번호'  --
+    // hngnm :'성명' --
+    // brthdd : '생년월일'
+    // sex :'성별' --
+    // docuseqno :'명일련' --
+    // pay100ownbrate :'본인부담률' --
+    // clamacptno :'접수번호'  --
+    // preicd10cd :검사전상병분류기호 --
+    // preicd10hngnm :검사전상병명 --
+    // posticd10cd :검사후상병분류기호 --
+    // posticd10hngnm :검사후상병명 --
+    // age :'나이'
+    // testcd :'검사코드'
+    // testnm :'검사명'
+    // bcno :'검체번호/병리번호'
+    // orddd :'진료일'
+    // prcpdd :'처방일'
+    // prcpno :'처방번호
+    // execprcpuntqno :'실시번호'
+    // spcnm :'검체명'
+    // spccd :'검체코드' --
+    // spcacptdt:'접수일' --
+    // lstreptdt :'보고일' --
+
+
+
+    // gbn : '진검병리구분'
+    // hospnm :'기관명칭'
+    // brthdd : '생년월일'
+    // age :'나이'
+    // testcd :'검사코드'
+    // testnm :'검사명'
+    // bcno :'검체번호/병리번호'
+    // orddd :'진료일'
+    // prcpdd :'처방일'
+    // prcpno :'처방번호
+    // execprcpuntqno :'실시번호'
+    // spcnm :'검체명'

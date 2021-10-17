@@ -15,6 +15,7 @@ export class SequencingComponent implements OnInit {
   @Input() resultname: string;
   @Input() targetdisease: string;
   @Input() method: string;
+  @Input() specimen: string;
   @Input() analyzedgene: string;
   @Input() variations: string;
   @Output() closemodal = new EventEmitter<void>();
