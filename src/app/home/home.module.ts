@@ -33,6 +33,7 @@ import { MlpaComponent } from './components/mlpa/mlpa.component';
 import { XlxsuploadComponent } from './components/xlxsupload/xlxsupload.component';
 import { TxtuploadComponent } from './components/txtupload/txtupload.component';
 import { ReportmgnComponent } from './components/reportmgn/reportmgn.component';
+import { SaintFormsModule } from '../forms/forms.module';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,7 @@ import { ReportmgnComponent } from './components/reportmgn/reportmgn.component';
     MlpaComponent,
     XlxsuploadComponent,
     TxtuploadComponent,
-    ReportmgnComponent
+    ReportmgnComponent,
   ],
   imports: [
     CommonModule,
@@ -63,8 +64,9 @@ import { ReportmgnComponent } from './components/reportmgn/reportmgn.component';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    MaterialModule
-    //  ClarityModule
+    MaterialModule,
+    //  ClarityModule,
+    SaintFormsModule
   ],
   entryComponents: [
     DiagpasswdchangeComponent

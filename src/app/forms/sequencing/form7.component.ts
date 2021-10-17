@@ -397,6 +397,21 @@ export class Form7Component implements OnInit, OnDestroy {
 
   }
 
+  screenRead(): void {
+    const result = confirm('스크린 판독 전송하시겠습니까?');
+    if (result) {
+      this.tempSave();
+    }
+
+  }
+
+  screenReadFinish(): void {
+    const result = confirm('판독완료 전송하시겠습니까?');
+    if (result) {
+      this.tempSave();
+    }
+  }
+
   // tslint:disable-next-line:typedef
   result(event) {
     console.log(event);

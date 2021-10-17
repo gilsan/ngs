@@ -25,6 +25,7 @@ import { ImmundefiComponent } from './previews/immundefi/immundefi.component';
 import { SequencingComponent } from './previews/sequencing/sequencing.component';
 // import { Form1Component } from './form1/form1.component';
 import { MlpapreviewComponent } from './previews/mlpapreview/mlpapreview.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,22 @@ import { MlpapreviewComponent } from './previews/mlpapreview/mlpapreview.compone
     ClarityModule,
     MaterialModule,
     DragDropModule
-
+  ],
+  exports: [
+    FormsComponent,
+    Form2Component,
+    Form3Component,
+    Form4Component,
+    PreviewComponent,
+    FilteredComponent,
+    DialogOverviewExampleDialogComponent,
+    Form5Component,
+    Form6Component,
+    Form7Component,
+    LymphomaPreviewComponent,
+    ImmundefiComponent,
+    SequencingComponent,
+    MlpapreviewComponent
   ]
 })
 export class SaintFormsModule { }

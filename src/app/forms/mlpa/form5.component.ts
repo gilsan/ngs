@@ -5,8 +5,8 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { IPatient } from 'src/app/home/models/patients';
 import { PatientsListService } from 'src/app/home/services/patientslist';
-import { MLPATLIST, HEADER } from '../commons/mlpa.data';
-import { UtilsService } from '../commons/utils.service';
+import { MLPATLIST, HEADER } from 'src/app/forms/commons/mlpa.data';
+import { UtilsService } from 'src/app/forms/commons/utils.service';
 import { MlpaService } from 'src/app/services/mlpa.service';
 import { mlpaForm } from 'src/app/home/models/mlpa';
 
@@ -467,6 +467,21 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
       this.patientsListService.changescreenstatus(this.form2TestedId, this.screenstatus, userid, 'MLPA').subscribe();
       alert('저장되었습니다.');
     });
+  }
+
+  screenRead(): void {
+    const result = confirm('스크린 판독 전송하시겠습니까?');
+    if (result) {
+      this.tempSave();
+    }
+
+  }
+
+  screenReadFinish(): void {
+    const result = confirm('판독완료 전송하시겠습니까?');
+    if (result) {
+      this.tempSave();
+    }
   }
 
   gotoEMR(): void {

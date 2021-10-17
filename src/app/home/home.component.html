@@ -31,8 +31,8 @@
                       class="nav-text"></span></a>
                   </td>
                   -->
+                  <!--
                   <td class="menu01">
-                  <!--   <a routerLink="/diag"><span class="nav-text"></span></a>  -->
                      <a routerLink="/diag"><span class="nav-text"></span></a>
                      <ul class="sub-menu">
                       <li><span (click)="url('amlall')">ALL/AML</span></li>
@@ -43,19 +43,45 @@
                       <li><span (click)="url('mlpa')">MLPA</span></li>
                     </ul>
                   </td>
+                   -->
+                  <td>
+                     <button mat-button [matMenuTriggerFor]="menu01" id="menu010"></button>
+                      <mat-menu #menu01="matMenu">
+                        <button mat-menu-item (click)="url('amlall')">ALL/AML</button>
+                        <button mat-menu-item (click)="url('lymphoma')">악성림프종,형질세포종</button>
+                        <button mat-menu-item (click)="url('mdsmpn')">MDS/MPN</button>
+                        <button mat-menu-item (click)="url('hereditary')">유전성유전질환</button>
+                        <button mat-menu-item (click)="url('sequencing')">Sequencing</button>
+                        <button mat-menu-item (click)="url('mlpa')">MLPA</button>
+                      </mat-menu>
+                  </td>
 
 
+
+
+                  <!--
                   <td class="menu03">
                    <a routerLink="/diag/artifactsComponent"><span class="nav-text"></span></a>
                      <ul class="sub-menu" >
-                     <!-- <li><span (click)="link('benign')">Benign</span></li>  -->
+
                       <li><span (click)="link('artifacts')">Artifacts</span></li>
                       <li><span (click)="link('mutation')">Mutation</span></li>
                       <li><span (click)="link('comments')">Comments</span></li>
                       <li><span (click)="link('genemgn')">유전자관리</span></li>
                       <li><span (click)="excelDownload()">환자정보다운로드</span></li>
-                      <!--  <li><span (click)="ngslink($event)">한국유전자검사평가원 NGS 검사</span></li> -->
+                      <li><span (click)="ngslink($event)">한국유전자검사평가원 NGS 검사</span></li>
                     </ul>
+                  </td>
+                  -->
+                  <td>
+                     <button mat-button [matMenuTriggerFor]="menu03" id="menu030"></button>
+                      <mat-menu #menu03="matMenu">
+                        <button mat-menu-item (click)="link('artifacts')">Artifacts</button>
+                        <button mat-menu-item (click)="link('mutation')">Mutation</button>
+                        <button mat-menu-item (click)="link('comments')">Comments</button>
+                        <button mat-menu-item (click)="link('genemgn')">유전자관리</button>
+                        <button mat-menu-item (click)="excelDownload()">환자정보다운로드</button>
+                      </mat-menu>
                   </td>
 
                   <td class="menu04">
@@ -70,7 +96,7 @@
                   </td>
                 -->
 
-
+                 <!--
                   <td class="menu06">
                   <a routerLink="/diag/manageusers"><span class="nav-text"></span></a>
                     <ul  class="sub-menu">
@@ -78,6 +104,24 @@
                           <li><span (click)="url('reportmgn')">결과지별담당자</span></li>
                     </ul>
                   </td>
+                  -->
+                  <td>
+                     <button mat-button [matMenuTriggerFor]="menu" id="menu060"></button>
+                      <mat-menu #menu="matMenu">
+                        <button mat-menu-item (click)="url('users')"  id="item item1">사용자관리</button>
+                        <button mat-menu-item (click)="url('reportmgn')" id="item item2">결과지별담당자</button>
+                      </mat-menu>
+                  </td>
+                  <!--
+                         <button mat-button [matMenuTriggerFor]="menu"></button>
+                     </div>
+                      <mat-menu #menu="matMenu">
+                        <button mat-menu-item (click)="url('users')">사용자관리</button>
+                        <button mat-menu-item (click)="url('reportmgn')">결과지별담당자</button>
+                      </mat-menu>
+
+                  -->
+
                   <!--
                   <td>
                      <div  class="statistics">
@@ -90,7 +134,7 @@
                         <button mat-menu-item routerLink="/diag/fileupload">임시업로드</button>
                       </mat-menu>
                   </td>
-                   -->
+                 -->
                 <!--  -->
                  <!--  <td class="menu03"><a href="#"> </a></td>
                   <td><a href="#"><img src="../images/menu_040_on.png" alt="서비스 이력/통계" border="0" /></a></td>

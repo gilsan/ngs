@@ -80,9 +80,10 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
         switchMap(item => of(item)),
         switchMap(list => from(list)),
         filter(list => this.mlpaLists.includes(list.test_code)),
-        // tap(list => console.log(list)),
+        // consoletap(list => console.log(list)),
       )
       .subscribe((data) => {
+        // console.log(data);
         this.lists.push(data);
       });
   }
@@ -126,7 +127,8 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.patientsList.setTestedID(this.lists[i].specimenNo); // 검체번호
     this.patientsList.setTestcode(this.lists[i].test_code);  // 검사지 타입 AML ALL
-    this.router.navigate(['/diag', 'jingum', this.lists[i].test_code]);
+    // this.router.navigate(['/diag', 'jingum', this.lists[i].test_code]);
+    this.router.navigate(['/diag', 'mlpa', 'form5', this.lists[i].test_code]);
 
   }
 

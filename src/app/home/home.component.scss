@@ -135,3 +135,73 @@ img.btn-logout {
   margin-top: 15px;
   margin-left: -15px;
 }
+
+#menu010 {
+  margin-top: -5px;
+  display: inline-block;
+  width: 192px;
+  height: 64px;
+  cursor: pointer;
+  background: url(../../assets/images/menu_010.png) no-repeat;
+}
+
+#menu010:hover {
+  margin-top: -5px;
+  display: inline-block;
+  width: 192px;
+  height: 64px;
+  cursor: pointer;
+  background: url(../../assets/images/menu_010_on.png) no-repeat;
+}
+
+#menu030 {
+  margin-top: -5px;
+  display: inline-block;
+  width: 192px;
+  height: 64px;
+  cursor: pointer;
+  background: url(../../assets/images/menu_030.png) no-repeat;
+}
+
+#menu030:hover {
+  margin-top: -5px;
+  display: inline-block;
+  width: 192px;
+  height: 64px;
+  cursor: pointer;
+  background: url(../../assets/images/menu_010_on.png) no-repeat;
+}
+
+
+#menu060 {
+  margin-top: -5px;
+  display: inline-block;
+  width: 192px;
+  height: 64px;
+  cursor: pointer;
+  background: url(../../assets/images/menu_060.png) no-repeat;
+}
+
+#menu060:hover {
+  margin-top: -5px;
+  display: inline-block;
+  width: 192px;
+  height: 64px;
+  cursor: pointer;
+  background: url(../../assets/images/menu_010_on.png) no-repeat;
+}
+
+.mat-menu-item {
+  background-color: #1976D2;
+  color: white;
+}
+
+.mat-menu-item:hover,
+.mat-menu-item:active {
+  background-color: #69d67b;
+  color: white;
+}
+
+button:focus {
+  outline: none !important;
+}

@@ -27,6 +27,12 @@ import { SequencingComponent } from './components/sequencing/sequencing.componen
 import { HereditaryComponent } from './components/hereditary/hereditary.component';
 import { MdsmpnComponent } from './components/mdsmpn/mdsmpn.component';
 import { ReportmgnComponent } from './components/reportmgn/reportmgn.component';
+import { Form5Component } from '../forms/mlpa/form5.component';
+import { Form7Component } from '../forms/sequencing/form7.component';
+import { Form6Component } from '../forms/hereditary/form6.component';
+import { Form4Component } from '../forms/mdsmpn/form4.component';
+import { Form3Component } from '../forms/lymphoma/form3.component';
+import { Form2Component } from '../forms/form2/form2.component';
 
 
 
@@ -34,13 +40,29 @@ const routes: Routes = [
   {
     path: '', component: HomeComponent, children: [
       { path: 'main', component: MainscreenComponent },
-      { path: '', component: AmlallComponent },
+      // { path: '', component: AmlallComponent },
       { path: 'amlall', component: AmlallComponent },
+      { path: 'amlall/form2', component: Form2Component },
+      { path: 'amlall/form2/:type', component: Form2Component },
+
       { path: 'lymphoma', component: LymphomaComponent },
+      { path: 'lymphoma/form3', component: Form3Component },
+      { path: 'lymphoma/form3/:type', component: Form3Component },
+
       { path: 'mdsmpn', component: MdsmpnComponent },
+      { path: 'mdsmpn/form4', component: Form4Component },
+      { path: 'mdsmpn/form4/:type', component: Form4Component },
+
       { path: 'hereditary', component: HereditaryComponent },
+      { path: 'hereditary/form6', component: Form6Component },
+      { path: 'hereditary/form6/:type', component: Form6Component },
+
       { path: 'sequencing', component: SequencingComponent },
+      { path: 'sequencing/form7', component: Form7Component },
+      { path: 'sequencing/form7/:type', component: Form7Component },
       { path: 'mlpa', component: MlpaComponent },
+      { path: 'mlpa/form5', component: Form5Component },
+      { path: 'mlpa/form5/:type', component: Form5Component },
       { path: 'fileupload', component: FileuploadComponent },
       { path: 'fileupload/:id', component: FileuploadComponent },
       { path: 'inhouse_to_db', component: InhouseToDbComponent },
@@ -64,7 +86,7 @@ const routes: Routes = [
       { path: 'disease_test', component: DiseaseformComponent },
       { path: 'maindiag', component: MaindiagComponent },
       { path: 'typestatics', component: TypestaticsComponent },
-      { path: '**', component: AmlallComponent },
+      // { path: '**', component: AmlallComponent },
 
     ]
   },
