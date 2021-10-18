@@ -1059,7 +1059,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     // this.store.setComments(this.comments);
 
     // console.log('[771][스크린 판독] ', this.form2TestedId, formData, this.comments, this.profile);
-    const result = confirm('스크린 판독 전송하시겠습니까?');
+    const result = confirm('스크린완료 전송하시겠습니까?');
     if (result) {
       this.store.setRechecker(this.patientInfo.recheck);
       this.store.setExamin(this.patientInfo.examin);

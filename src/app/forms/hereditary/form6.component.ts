@@ -992,7 +992,7 @@ export class Form6Component implements OnInit, OnDestroy {
     this.comments.push({
       gene: '', comment: this.commentdata, reference: this.comment2, type: '', variant_id: this.resultname
     });
-    const result = confirm('스크린 판독 전송하시겠습니까?');
+    const result = confirm('스크린완료 전송하시겠습니까?');
     if (result) {
       this.store.setRechecker(this.patientInfo.recheck);
       this.store.setExamin(this.patientInfo.examin);

@@ -298,8 +298,15 @@ export class Form7Component implements OnInit, OnDestroy {
     const control = this.form.get('tableRows') as FormArray;
     const formData = control.getRawValue();
 
-    this.screenstatus = String(parseInt(this.patientInfo.screenstatus, 10) + 1);
-    this.patientInfo.screenstatus = this.screenstatus;
+    if (parseInt(this.patientInfo.screenstatus, 10) < 3) {
+      this.screenstatus = String(parseInt(this.patientInfo.screenstatus, 10) + 1);
+      this.patientInfo.screenstatus = this.screenstatus;
+    } else {
+      this.patientInfo.screenstatus = '3';
+      this.screenstatus = '3';
+    }
+
+
     console.log('[301][임시저장][screenstatus]', this.screenstatus);
 
     this.patientInfo.recheck = this.recheck;
