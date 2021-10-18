@@ -430,6 +430,11 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
     this.patientInfo.recheck = this.recheck;
     this.patientInfo.examin = this.examin;
 
+    if (parseInt(this.patientInfo.screenstatus, 10) > 3) {
+      this.patientInfo.screenstatus = '3';
+      this.screenstatus = '3';
+    }
+
     // console.log('[1729][tempSave]patient,reform,comment]', this.patientInfo.recheck, this.patientInfo.specimenNo, this.patientInfo.examin);
     this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimenNo)
       .subscribe(datas => console.log(datas));
