@@ -298,15 +298,6 @@ export class Form7Component implements OnInit, OnDestroy {
     const control = this.form.get('tableRows') as FormArray;
     const formData = control.getRawValue();
 
-    if (parseInt(this.patientInfo.screenstatus, 10) < 3) {
-      this.screenstatus = String(parseInt(this.patientInfo.screenstatus, 10) + 1);
-      this.patientInfo.screenstatus = this.screenstatus;
-    } else {
-      this.patientInfo.screenstatus = '3';
-      this.screenstatus = '3';
-    }
-
-
     console.log('[301][임시저장][screenstatus]', this.screenstatus);
 
     this.patientInfo.recheck = this.recheck;
@@ -407,6 +398,8 @@ export class Form7Component implements OnInit, OnDestroy {
   screenRead(): void {
     const result = confirm('스크린 판독 전송하시겠습니까?');
     if (result) {
+      this.screenstatus = '1';
+      this.patientInfo.screenstatus = this.screenstatus;
       this.tempSave();
     }
 
@@ -415,6 +408,8 @@ export class Form7Component implements OnInit, OnDestroy {
   screenReadFinish(): void {
     const result = confirm('판독완료 전송하시겠습니까?');
     if (result) {
+      this.screenstatus = '2';
+      this.patientInfo.screenstatus = this.screenstatus;
       this.tempSave();
     }
   }

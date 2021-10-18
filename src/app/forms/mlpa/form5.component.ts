@@ -440,17 +440,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
       this.lastReportDay = this.today().replace(/-/g, '.');
     }
 
-    if (parseInt(this.patientInfo.screenstatus, 10) < 3) {
-      this.screenstatus = String(parseInt(this.patientInfo.screenstatus, 10) + 1);
-      this.patientInfo.screenstatus = this.screenstatus;
-    } else {
-      this.patientInfo.screenstatus = '3';
-      this.screenstatus = '3';
-    }
-
     console.log('[445][임시저장][screenstatus]', this.screenstatus);
-
-
     // specimenNo, comment, data, result, technique, title, type
     this.mlpaData.data = data;
 
@@ -478,6 +468,8 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
   screenRead(): void {
     const result = confirm('스크린완료 전송하시겠습니까?');
     if (result) {
+      this.screenstatus = '1';
+      this.patientInfo.screenstatus = this.screenstatus;
       this.tempSave();
     }
 
@@ -486,6 +478,8 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
   screenReadFinish(): void {
     const result = confirm('판독완료 전송하시겠습니까?');
     if (result) {
+      this.screenstatus = '2';
+      this.patientInfo.screenstatus = this.screenstatus;
       this.tempSave();
     }
   }

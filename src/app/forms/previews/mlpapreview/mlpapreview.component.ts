@@ -22,6 +22,7 @@ export class MlpapreviewComponent implements OnInit {
   @Input() mlpaData2: IData[];
   @Input() conclusion: string;
   @Input() comment: string;
+  @Input() specimen: string;
   @Output() closemodal = new EventEmitter<void>();
   type = 'type3';
   constructor() { }
