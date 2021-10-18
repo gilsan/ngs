@@ -261,7 +261,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       map(route => route.get('type'))
     ).subscribe(data => {
       // console.log('[260][findType]', data);
-      this.reportType = data;
+      this.reportType = 'MDS';
       this.getGeneList('MDS'); // 진검 유전자 목록 가져옴.
     });
   }

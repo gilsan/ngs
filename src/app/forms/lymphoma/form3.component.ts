@@ -259,7 +259,7 @@ export class Form3Component implements OnInit, OnDestroy {
       map(route => route.get('type'))
     ).subscribe(data => {
 
-      this.reportType = data;
+      this.reportType = 'LYM';
       this.getGeneList('LYM'); // 진검 유전자 목록 가져옴.
     });
   }
