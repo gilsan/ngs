@@ -31,9 +31,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 /**
  *  ALL/AML   LYM           MDS
- * leukemia                 diagnosis
+ * leukemia                 diagnosis,leukemiaassociatedfusion
  * flt3itd    bonemarrow    genetictest
- * chron      chron         chron
+ * chron      chron         chron, chromosomalanalysis
  */
 @Component({
   selector: 'app-form4',
@@ -423,20 +423,20 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     // profile 가져오기
     this.subs.sink = this.analysisService.getAanlysisMDSInfo(this.form2TestedId)
       .subscribe(data => {
-        console.log('[433][profile]==> ', data[0]);
+        console.log('[426][저장된 profile]==> ', data[0]);
         if (data.length > 0) {
           this.profile.leukemia = data[0].diagnosis;
           if (this.profile.genetictest.length) {
             this.profile.genetictest = data[0].genetictest;
           } else {
-            this.profile.genetictest = this.patientInfo.genetic1 + '\n' + this.patientInfo.genetic2 + '\n' + this.patientInfo.genetic3 + '\n' + this.patientInfo.genetic4;
+            this.profile.genetictest = 'JAK2 V617F :' + this.patientInfo.genetic1 + '\n' + 'JAK2 exon 12 :' + this.patientInfo.genetic2 + '\n' + 'CALR :' + this.patientInfo.genetic3 + '\n' + 'MPL :' + this.patientInfo.genetic4;
           }
 
           this.profile.chron = data[0].chromosomalanalysis;
         } else {
-          this.profile.leukemia = '';
-          // this.profile.genetictest = '-';
-          this.profile.chron = '';
+          this.profile.leukemia = this.patientInfo.leukemiaassociatedfusion;
+          this.profile.genetictest = 'JAK2 V617F :' + this.patientInfo.genetic1 + '\n' + 'JAK2 exon 12 :' + this.patientInfo.genetic2 + '\n' + 'CALR :' + this.patientInfo.genetic3 + '\n' + 'MPL :' + this.patientInfo.genetic4;
+          this.profile.chron = this.patientInfo.chromosomalanalysis;
         }
         this.store.setProfile(this.profile); // profile 저장
       });
@@ -502,13 +502,13 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
             if (data[0].genetictest.length) {
               this.profile.genetictest = data[0].genetictest;
             } else {
-              this.profile.genetictest = this.patientInfo.genetic1 + '\n' + this.patientInfo.genetic2 + '\n' + this.patientInfo.genetic3 + '\n' + this.patientInfo.genetic4;
+              this.profile.genetictest = 'JAK2 V617F :' + this.patientInfo.genetic1 + '\n' + 'JAK2 exon 12 :' + this.patientInfo.genetic2 + '\n' + 'CALR :' + this.patientInfo.genetic3 + '\n' + 'MPL :' + this.patientInfo.genetic4;;
             }
 
             this.profile.chron = data[0].chromosomalanalysis;
           } else {
             this.profile.leukemia = this.patientInfo.leukemiaassociatedfusion;
-            this.profile.genetictest = this.patientInfo.genetic1 + '\n' + this.patientInfo.genetic2 + '\n' + this.patientInfo.genetic3 + '\n' + this.patientInfo.genetic4;
+            this.profile.genetictest = 'JAK2 V617F :' + this.patientInfo.genetic1 + '\n' + 'JAK2 exon 12 :' + this.patientInfo.genetic2 + '\n' + 'CALR :' + this.patientInfo.genetic3 + '\n' + 'MPL :' + this.patientInfo.genetic4;;
             // if (this.patientInfo.genetictest.length) {
             //   this.profile.genetictest = this.patientInfo.genetictest;
             // } else {
