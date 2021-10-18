@@ -508,13 +508,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
             this.profile.chron = data[0].chromosomalanalysis;
           } else {
             this.profile.leukemia = this.patientInfo.leukemiaassociatedfusion;
-            this.profile.genetictest = 'JAK2 V617F :' + this.patientInfo.genetic1 + '\n' + 'JAK2 exon 12 :' + this.patientInfo.genetic2 + '\n' + 'CALR :' + this.patientInfo.genetic3 + '\n' + 'MPL :' + this.patientInfo.genetic4;;
-            // if (this.patientInfo.genetictest.length) {
-            //   this.profile.genetictest = this.patientInfo.genetictest;
-            // } else {
-            //   this.profile.genetictest = '-';
-            // }
-
+            this.profile.genetictest = 'JAK2 V617F :' + this.patientInfo.genetic1 + '\n' + 'JAK2 exon 12 :' + this.patientInfo.genetic2 + '\n' + 'CALR :' + this.patientInfo.genetic3 + '\n' + 'MPL :' + this.patientInfo.genetic4;
             this.profile.chron = this.patientInfo.chromosomalanalysis;
           }
           this.store.setProfile(this.profile); // profile 저장
