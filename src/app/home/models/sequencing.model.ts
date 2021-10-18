@@ -58,7 +58,7 @@ export function sequencingForm(
 				<Col id="rsltleft2"></Col>
         <Col id="rsltcenter1"></Col>
         <Col id="rsltcenter2"></Col>
-				<Col id="testinfo1">TARGET DISEASE: <![CDATA[${targetdisease}]]></Col>
+				<Col id="testinfo1"><![CDATA[TARGET DISEASE: ${targetdisease}]]></Col>
 				<Col id="testinfo2">METHOD:  ${method}</Col>
 				<Col id="testinfo3">SPECIMEN:  ${specimen}</Col>
 				<Col id="testinfo4">REQUEST: ${patientInfo.request}</Col>

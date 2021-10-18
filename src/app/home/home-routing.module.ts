@@ -40,7 +40,7 @@ const routes: Routes = [
   {
     path: '', component: HomeComponent, children: [
       { path: 'main', component: MainscreenComponent },
-      // { path: '', component: AmlallComponent },
+      { path: '', component: AmlallComponent },
       { path: 'amlall', component: AmlallComponent },
       { path: 'amlall/form2', component: Form2Component },
       { path: 'amlall/form2/:type', component: Form2Component },

@@ -87,7 +87,7 @@ export function makeAForm(
 				<Col id="rsltright2"> <![CDATA[${profile.chron}]]> </Col>
 				<Col id="testinfo1">TARGET DISEASE: Acute lymphoblastic leukemia</Col>
 				<Col id="testinfo2">METHOD: *Massively parallel sequencing</Col>
-				<Col id="testinfo3">SPECIMEN: <![CDATA[${specimenMessage}]]> </Col>
+				<Col id="testinfo3"><![CDATA[SPECIMEN: ${specimenMessage}]]> </Col>
 				<Col id="testinfo4">REQUEST: ${patientInfo.request}</Col>
 				<Col id="opnion">${ment}</Col>
 				<Col id="title">Acute Lymphoblastic Leukemia NGS</Col>
