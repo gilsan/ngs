@@ -36,6 +36,12 @@ export class StoreService {
   whichstate = 'mainscreen'; // mainscreen, searchscreen
 
   scrolly = 0;
+  scrollyLYM = 0;
+  scrollyMDS = 0;
+  scrollyGEN = 0;
+  scrollySEQ = 0;
+  scrollyMLPA = 0;
+
   constructor() { }
   // mainscreen의 검색항목 저장
   // 시작날자, 종료날자, 검체번호, 환자번호
@@ -235,6 +241,55 @@ export class StoreService {
   getScrollyPosition(): number {
     return this.scrolly;
   }
+
+  // LYM scroll 위치 저장
+  setLYMScrollyPosition(position: number): void {
+    this.scrollyLYM = position;
+  }
+
+  getLYMScrollyPosition(): number {
+    return this.scrollyLYM;
+  }
+
+  // MDS  scroll 위치 저장
+  setMDSScrollyPosition(position: number): void {
+    this.scrollyMDS = position;
+  }
+
+  getMDSScrollyPosition(): number {
+    return this.scrollyMDS;
+  }
+
+  // 유전성  scroll 위치 저장
+  setGENScrollyPosition(position: number): void {
+    this.scrollyGEN = position;
+  }
+
+  getGENScrollyPosition(): number {
+    return this.scrollyGEN;
+  }
+
+  // Sequencing  scroll 위치 저장
+  setSEQScrollyPosition(position: number): void {
+    this.scrollySEQ = position;
+  }
+
+  getSEQScrollyPosition(): number {
+    return this.scrollySEQ;
+  }
+
+  // MLPA  scroll 위치 저장
+  setMLPAScrollyPosition(position: number): void {
+    this.scrollyMLPA = position;
+  }
+
+  getMLPAScrollyPosition(): number {
+    return this.scrollyMLPA;
+  }
+
+
+
+
   // Ilymphoma 값 저장
   setLymphoma(lymphoma: Ilymphoma): void {
     this.Lymphoma = lymphoma;

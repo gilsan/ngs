@@ -35,7 +35,7 @@
           (click)="search(mlpaStart.value, mlpaEnd.value, mlpaTestedID.value, mlpaPatient.value, mlpaStatus.value, mlpaSheet.value)">조 회</button>
       </div>
       <div class="box">
-        <div class="box_100 fill" appDiagScrollMonitor #dbox100>
+        <div class="box_100 fill" [appDiagScrollMonitor]="'MLPA'" #dbox100>
         <table border="0" cellpadding="0" cellspacing="0" class="table_list  fixed_header table_resul_x">
           <colgroup>
             <col width="40px">

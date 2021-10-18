@@ -4,7 +4,7 @@ import { IAFormVariant, IComment, IDList, IExamPart, Ilymphoma, IPatient, IProfi
 @Injectable({
   providedIn: 'root'
 })
-export class StoreService {
+export class StoreMLPAService {
 
   amlStartDay = '';
   amlEndDay = '';

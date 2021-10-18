@@ -247,7 +247,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       filter(data => data !== null || data !== undefined),
       map(route => route.get('type'))
     ).subscribe(data => {
-      // console.log('[198][findType]', data);
+      // console.log('[250][findType]', data);
       this.reportType = data;
       this.getGeneList(this.reportType); // 진검 유전자 목록 가져옴.
     });

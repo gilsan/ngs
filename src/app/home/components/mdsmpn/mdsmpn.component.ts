@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { from, Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { emrUrl } from 'src/app/config';
-import { StoreService } from 'src/app/forms/store.current.mds';
+import { StoreMDSService } from 'src/app/forms/store.current.mds';
 import { IPatient } from '../../models/patients';
 import { PatientsListService } from '../../services/patientslist';
 import { SubSink } from 'subsink';
@@ -45,7 +45,7 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private patientsList: PatientsListService,
     private router: Router,
-    private store: StoreService,
+    private store: StoreMDSService,
     private sanitizer: DomSanitizer,
     private titleService: TestCodeTitleService
   ) { }

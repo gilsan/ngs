@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { from, Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { emrUrl } from 'src/app/config';
-import { StoreService } from 'src/app/forms/store.current.mlpa';
+import { StoreMLPAService } from 'src/app/forms/store.current.mlpa';
 import { IPatient } from '../../models/patients';
 import { PatientsListService } from '../../services/patientslist';
 import { SubSink } from 'subsink';
@@ -48,7 +48,7 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private patientsList: PatientsListService,
     private router: Router,
-    private store: StoreService,
+    private store: StoreMLPAService,
     private sanitizer: DomSanitizer,
     public mlpaService: MlpaService,
     private titleService: TestCodeTitleService
