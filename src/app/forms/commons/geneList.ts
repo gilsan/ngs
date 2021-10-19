@@ -287,7 +287,7 @@ export const listSequencing = [
   { ngstype: 'Sequencing', title: 'KCNH2 Gene Sequencing Analysis Report', code: 'LPE237', testname: 'KCNH2 gene test (Long QT syndrome)', gene: 'KCNH2' },
   { ngstype: 'Sequencing', title: 'KCNQ1 Gene Sequencing Analysis Report', code: 'LPE238', testname: 'KCNQ1 gene test (Long QT syndrome)', gene: 'KCNQ1' },
   { ngstype: 'Sequencing', title: 'NF2 Gene Sequencing Analysis Report', code: 'LPE241', testname: 'Neurofibromatosis 2 (NF2) gene test', gene: 'NF2' },
-  { ngstype: 'Sequencing', title: 'NOTCH3 Gene Sequencing Analysis Report', code: 'LPE243', testname: 'CADASIL, NOTCH3 gene test', gene: 'CADASIL, NOTCH3' },
+  { ngstype: 'Sequencing', title: 'NOTCH3 Gene Sequencing Analysis Report', code: 'LPE243', testname: 'CADASIL, NOTCH3 gene test', gene: 'NOTCH3' },
   // { ngstype: 'Sequencing', title: '고위험군 CADASIL, NOTCH3 유전자검사 (부분)', code: 'LPE244', testname: '고위험군 CADASIL, NOTCH3 유전자검사 (부분)' },
   { ngstype: 'Sequencing', title: 'NF1 Gene Sequencing Analysis Report', code: 'LPE245', testname: 'Neurofibromatosis 1 (NF1) gene test', gene: 'NF1' },
   // { ngstype: 'Sequencing', title: 'NF1, family (부분)', code: 'LPE246', testname: 'NF1, family (부분)' },

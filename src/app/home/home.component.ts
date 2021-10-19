@@ -174,9 +174,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngslink(event: Event): void {
-    event.preventDefault();
-    event.stopPropagation();
+  ngslink(): void {
+    // event.preventDefault();
+    // event.stopPropagation();
     this.router.navigate(['/diag', 'inhouse', 'ngsexcel']);
   }
 

@@ -47,6 +47,8 @@ export interface INGS {
   spccd: string;
   spcacptdt: string;
   lstreptdt: string;
+  pv: string;
+  pv_gene: string;
 }
 
 
@@ -97,7 +99,7 @@ export class NgsexcelComponent implements OnInit, OnDestroy {
         p1: item.testcd, q1: item.bcno, r1: item.preicd10cd, s1: item.preicd10hngnm, t1: item.posticd10cd,
         u1: item.posticd10hngnm, v1: '', w1: '', x1: '', y1: '',
         z1: '', aa1: '', ab1: item.spccd, ac1: '', ad1: item.spcacptdt,
-        ae1: item.lstreptdt, af1: '', ag1: '', ah1: '', ai1: '',
+        ae1: item.lstreptdt, af1: item.pv, ag1: item.pv_gene, ah1: '', ai1: '',
         aj1: item.hospnm, ak1: '', al1: ''
       });
     });
