@@ -30,7 +30,7 @@ export class ExcelService {
   }
 
   public exortAsNGSTest(jsonData: any[], excelFileName: string, width: any[]): void {
-    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(jsonData);
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(jsonData, { skipHeader: true });
     worksheet['!cols'] = width;
     worksheet['!rows'] = [{ hpx: 57 }];
     const workbook: XLSX.WorkBook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
