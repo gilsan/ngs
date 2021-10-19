@@ -307,24 +307,24 @@ export class Form6Component implements OnInit, OnDestroy {
       this.store.setSpecimenMsg(this.specimenMsg);
     }
 
-
-
-
   }
 
   // test_code로 제목찿기
   findTitle(testCode: string): void {
-    let geneLists: string[];
-    geneTitles.forEach(item => {
-      if (item.gene === testCode) {
-        this.formTitle = item.title;
-        geneLists = item.lists.split(',');
-        this.target = item.target;
-        // console.log('[304][gene 정보] ===>', geneTitles.length);
-      }
-    });
+    // let geneLists: string[];
+    // geneTitles.forEach(item => {
+    //   if (item.gene === testCode) {
+    //     this.formTitle = item.title;
+    //     geneLists = item.lists.split(',');
+    //     this.target = item.target;
+    //   }
+    // });
+    this.utilsService.getTargetDisease('genetic', testCode)
+      .subscribe(data => {
+        this.target = data[0].disease.replace(/\s/g, '');
+        this.getGeneList();
+      });
 
-    this.getGeneList();
   }
 
   //  유전자 목록 가져오기

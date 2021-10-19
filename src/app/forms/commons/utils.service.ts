@@ -135,6 +135,10 @@ export class UtilsService {
       );
   }
 
+  // 유전선 유전질환 target disease 찿기
+  public getTargetDisease(type: string = 'genetic', test_code: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/diagGene/targetlist `, { type, test_code });
+  }
 
 
 }
