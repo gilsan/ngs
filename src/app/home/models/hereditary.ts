@@ -101,7 +101,7 @@ export function hereditaryForm(
 			 <Col id="zygosity">${formData[i].zygosity}</Col>
 			 <Col id="dbsnp">${formData[i].dbSNPHGMD}</Col>
 			 <Col id="gnomad">${formData[i].gnomADEAS}</Col>
-			 <Col id="omim">${formData[i].OMIM}</Col>
+			 <Col id="omim"><![CDATA[${formData[i].OMIM}]]></Col>
 		 </Row>
 			`;
   }

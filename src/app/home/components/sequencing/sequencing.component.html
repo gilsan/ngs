@@ -24,7 +24,7 @@
 
         <select class="select_01 select_001" #seqSheet>
           <option value="Sequencing">전체</option>
-          <option  *ngFor="let list of listSequencing"  [value]="list.code">{{list.gene}}, {{list.code}} ({{list.title}})</option>
+          <option  *ngFor="let list of listSequencing"  [value]="list.code">{{list.title}} ({{list.code}})</option>
         </select>&nbsp;&nbsp;
 
         <input type="date" [value]="startToday()" (change)="getDate(seqStart.value)" #seqStart class="input_01"
