@@ -10,7 +10,7 @@ export class FindNgsTitleService {
   findSequencingTitle(testcode: string): string {
     const idx = listSequencing.findIndex(element => element.code === testcode);
     if (idx !== -1) {
-      return listSequencing[idx].title + ' ' + listSequencing[idx].code + ' ' + listSequencing[idx].testname;
+      return listSequencing[idx].title;
     }
     return 'none';
   }

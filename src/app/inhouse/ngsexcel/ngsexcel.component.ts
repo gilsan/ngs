@@ -121,12 +121,12 @@ export class NgsexcelComponent implements OnInit, OnDestroy {
 
 
     const ngwidth = [{ width: 6 }, { width: 12 }, { width: 6 }, { width: 12 }, { width: 9 },
-    { width: 8 }, { width: 10 }, { width: 4 }, { width: 4 }, { width: 8 },
-    { width: 7 }, { width: 5 }, { width: 4 }, { width: 4 }, { width: 24 },
-    { width: 5 }, { width: 15 }, { width: 12 }, { width: 11 }, { width: 8 },
-    { width: 55 }, { width: 6 }, { width: 5 }, { width: 5 }, { width: 5 },
-    { width: 4 }, { width: 4 }, { width: 9 }, { width: 5 }, { width: 12 },
-    { width: 12 }, { width: 12 }, { width: 27 }, { width: 9 }, { width: 36 },
+    { width: 8 }, { width: 10 }, { width: 4 }, { width: 9 }, { width: 8 },
+    { width: 7 }, { width: 9 }, { width: 14 }, { width: 19 }, { width: 24 },
+    { width: 8 }, { width: 15 }, { width: 13 }, { width: 11 }, { width: 17 },
+    { width: 55 }, { width: 13 }, { width: 11 }, { width: 26 }, { width: 8 },
+    { width: 4 }, { width: 15 }, { width: 9 }, { width: 8 }, { width: 12 },
+    { width: 12 }, { width: 15 }, { width: 33 }, { width: 12 }, { width: 36 },
     { width: 9 }, { width: 9 }, { width: 9 }
     ];
 
