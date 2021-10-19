@@ -185,7 +185,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
           this.target = data[0].target;
           this.testmethod = data[0].testmethod;
           this.analyzedgene = data[0].analyzedgene;
-
+          this.specimen = data[0].specimen;
           this.mlpaData.result = data[0].result;
           this.mlpaData.conclusion = data[0].conclusion;
           this.mlpaData.comment = data[0].comment;
@@ -463,6 +463,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
       this.target,
       this.testmethod,
       this.analyzedgene,
+      this.specimen
     ).subscribe(result => {
       // console.log(result);
       this.patientsListService.changescreenstatus(this.form2TestedId, this.screenstatus, userid, 'MLPA').subscribe();

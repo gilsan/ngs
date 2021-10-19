@@ -88,7 +88,7 @@ export class TsvuploadComponent implements OnInit {
     if (result !== -1) {
       this.onDroppedFile(event.target.files);
     } else {
-      alert(' 환자번호 ' + this.patientid + '와 파일명의 환자번호가 일치하지 않습니다.');
+      alert('환자정보가 일치하지 않아 파일등록이 이루어지지 않았습니다.');
       this.uploadfile.nativeElement.value = '';
       return;
     }

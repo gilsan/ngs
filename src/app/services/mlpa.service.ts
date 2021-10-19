@@ -39,7 +39,7 @@ export class MlpaService {
   // MLPA 임시저장
   public saveMlpaSave(resultStatus: string, specimenNo: string, conclusion: string, comment: string, data: IData[],
     result: string, technique: string, title: string, type: string,
-    target: string, testmethod: string, analyzedgene: string): Observable<any> {
+    target: string, testmethod: string, analyzedgene: string, specimen: string): Observable<any> {
     let detectedType: string;
     if (resultStatus === 'Detected') {
       detectedType = 'detected';
@@ -50,7 +50,7 @@ export class MlpaService {
     return this.http.post(`${this.apiUrl}/screen/tempsave_mlpa`,
       {
         resultStatus: detectedType, specimenNo, conclusion, comment, data, result,
-        technique, title, type, target, testmethod, analyzedgene
+        technique, title, type, target, testmethod, analyzedgene, specimen
       });
   }
 

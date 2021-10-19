@@ -253,14 +253,14 @@ export const testCodeLists = [
 ];
 
 export const listMLPA = [
-  { ngstype: 'MLPA', title: 'DMD Gene MLAP Analysis Report', code: 'LPE232', testname: 'DMD/BMD (Muscular Dystrophy) (MLPA법)' },
-  { ngstype: 'MLPA', title: '미세결실증후군 MLAP Analysis Report', code: 'LPE294', testname: 'DMD/BMD (Muscular Dystrophy) (MLPA법)' },
-  { ngstype: 'MLPA', title: 'SMN1/2 Gene MLAP Analysis Report', code: 'LPE322', testname: 'SMA, SMN1 and SMN2 del/dup (MLPA)' },
-  { ngstype: 'MLPA', title: 'CYP21A2 Gene MLAP Analysis Report', code: 'LPE332', testname: 'CYP21A2 gene test (MLPA) ' },
-  { ngstype: 'MLPA', title: 'HBA1/2 Gene MLAP Analysis Report', code: 'LPE351', testname: 'HBA1.2 gene, deletion (α-thalassemia) [MLPA]' },
-  { ngstype: 'MLPA', title: 'VHL Gene MLAP Analysis Report', code: 'LPE369', testname: 'VHL gene (MLPA) test' },
-  { ngstype: 'MLPA', title: 'PMP22 Gene MLAP Analysis Report', code: 'LPE377', testname: 'PMP22 Gene (MLPA)' },
-  { ngstype: 'MLPA', title: 'PARK2 Gene MLAP Analysis Report', code: 'LPE464', testname: 'PARK2 Gene test검사 (MLPA)' },
+  { ngstype: 'MLPA', title: 'DMD Gene MLPA Analysis Report', code: 'LPE232', testname: 'DMD/BMD (Muscular Dystrophy) (MLPA법)' },
+  { ngstype: 'MLPA', title: '미세결실증후군 MLPA Analysis Report', code: 'LPE294', testname: 'DMD/BMD (Muscular Dystrophy) (MLPA법)' },
+  { ngstype: 'MLPA', title: 'SMN1/2 Gene MLPA Analysis Report', code: 'LPE322', testname: 'SMA, SMN1 and SMN2 del/dup (MLPA)' },
+  { ngstype: 'MLPA', title: 'CYP21A2 Gene MLPA Analysis Report', code: 'LPE332', testname: 'CYP21A2 gene test (MLPA) ' },
+  { ngstype: 'MLPA', title: 'HBA1/2 Gene MLPA Analysis Report', code: 'LPE351', testname: 'HBA1.2 gene, deletion (α-thalassemia) [MLPA]' },
+  { ngstype: 'MLPA', title: 'VHL Gene MLPA Analysis Report', code: 'LPE369', testname: 'VHL gene (MLPA) test' },
+  { ngstype: 'MLPA', title: 'PMP22 Gene MLPA Analysis Report', code: 'LPE377', testname: 'PMP22 Gene (MLPA)' },
+  { ngstype: 'MLPA', title: 'PARK2 Gene MLPA Analysis Report', code: 'LPE464', testname: 'PARK2 Gene test검사 (MLPA)' },
 ];
 
 export const listSequencing = [
