@@ -184,9 +184,9 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
     const dd = oneMonthsAgo.format('DD');
 
     const now1 = yy + '-' + mm + '-' + dd;
-    if (this.storeStartDay) {
-      return this.storeStartDay;
-    }
+    // if (this.storeStartDay) {
+    //   return this.storeStartDay;
+    // }
     return now1;
   }
 
@@ -201,9 +201,9 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
     const newday = ('0' + date).substr(-2);
     const now = year + '-' + newmon + '-' + newday;
 
-    if (this.storeEndDay) {
-      return this.storeEndDay;
-    }
+    // if (this.storeEndDay) {
+    //   return this.storeEndDay;
+    // }
     return now;
   }
 
