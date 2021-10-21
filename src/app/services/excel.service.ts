@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import * as FileSaver from 'file-saver';
+// import * as XLSX from 'sheetjs-style';
 import * as XLSX from 'xlsx';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
@@ -43,7 +44,7 @@ export class ExcelService {
     ws.E3 = { t: 's', v: '등록번호' };
     ws.F2 = { t: 's', v: 'A5' };
     ws.F3 = { t: 's', v: '환자명' };
-    ws.Gln291His = { t: 's', v: 'A6' };
+    ws.Gl = { t: 's', v: 'A6' };
     ws.G3 = { t: 's', v: '생년월일' };
     ws.H2 = { t: 's', v: 'A7' };
     ws.H3 = { t: 's', v: '성별' };
