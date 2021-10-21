@@ -5,8 +5,9 @@ import { ExcelAddListService } from 'src/app/home/services/excelAddList';
 import { ExcelService } from 'src/app/services/excel.service';
 import { SubSink } from 'subsink';
 import * as moment from 'moment';
-import { Observable, of } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 import { emrUrl } from 'src/app/config';
+import { map, switchMap, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -65,7 +66,8 @@ export class NgsexcelComponent implements OnInit, OnDestroy {
 
   lists: INGS[] = [];
   private subs = new SubSink();
-
+  size = 0;
+  count = 1;
   constructor(
     private excelService: ExcelAddListService,
     private excel: ExcelService,
@@ -157,13 +159,12 @@ export class NgsexcelComponent implements OnInit, OnDestroy {
 
 
 
-
     const ngwidth = [{ width: 6 }, { width: 21 }, { width: 12 }, { width: 12 }, { width: 9 },
     { width: 8 }, { width: 10 }, { width: 5 }, { width: 9 }, { width: 8 },
     { width: 7 }, { width: 9 }, { width: 14 }, { width: 19 }, { width: 24 },
     { width: 8 }, { width: 15 }, { width: 13 }, { width: 11 }, { width: 17 },
     { width: 55 }, { width: 13 }, { width: 11 }, { width: 26 }, { width: 8 },
-    { width: 4 }, { width: 15 }, { width: 9 }, { width: 8 }, { width: 12 },
+    { width: 8 }, { width: 15 }, { width: 9 }, { width: 8 }, { width: 12 },
     { width: 12 }, { width: 15 }, { width: 33 }, { width: 12 }, { width: 36 },
     { width: 9 }, { width: 9 }, { width: 14 }
     ];
@@ -202,17 +203,48 @@ export class NgsexcelComponent implements OnInit, OnDestroy {
   }
 
   search(start: string, end: string, type: string): void {
-    const lists = [];
+    // const lists = [];
 
     if (type !== 'none') {
       const startday = start.replace(/-/g, '');
       const endday = end.replace(/-/g, '');
 
-      console.log(startday, endday, type);
+      // console.log(startday, endday, type);
       this.subs.sink = this.linkService.search(startday, endday, type)
+        .pipe(
+          tap(data => this.size = data.length),
+          switchMap(datas => from(datas)),
+          map((data: any) => {
+            const pv_gene = data.pv_gene;
+            const vus_gene = data.vus_gene;
+
+            if (data.pv === 'Y') {
+              const pvLen = pv_gene.split(/(\s+)/).length;
+              if (pvLen > 1) {
+                data.pv_gene = pv_gene.trim().replace(/[ ]/g, ',');
+              }
+            }
+
+            if (data.vus === 'Y') {
+              const pvLen = vus_gene.split(/(\s+)/).length;
+              if (pvLen > 1) {
+                data.vus_gene = vus_gene.trim().replace(/[ ]/g, ',');
+              }
+            }
+
+            return data;
+          }),
+        )
         .subscribe(data => {
-          console.log(data);
-          this.ngsLists(data);
+          if (this.count < this.size) {
+            this.lists.push(data);
+            this.count++;
+          } else if (this.count === this.size) {
+            this.ngsLists(this.lists);
+            this.count = 0;
+            this.size = 0;
+          }
+
         });
     } else {
       alert('검색항목을 선택해 주십시요.');
