@@ -264,8 +264,8 @@ export const listMLPA = [
 ];
 
 export const listSequencing = [
-  { ngstype: 'Sequencing', title: 'BRCA1/BRCA2 Gene Analysis Report', code: 'LPC100', testname: 'BRCA1 gene, Mutation[sequencing]', gene: 'BRCA1' },
-  { ngstype: 'Sequencing', title: 'BRCA1/BRCA2 Gene Analysis Report', code: 'LPC101', testname: 'BRCA2 gene, Mutation[sequencing]', gene: 'BRCA2' },
+  { ngstype: 'Sequencing', title: 'BRCA1 Gene Analysis Report', code: 'LPC100', testname: 'BRCA1 gene, Mutation[sequencing]', gene: 'BRCA1' },
+  { ngstype: 'Sequencing', title: 'BRCA2 Gene Analysis Report', code: 'LPC101', testname: 'BRCA2 gene, Mutation[sequencing]', gene: 'BRCA2' },
   { ngstype: 'Sequencing', title: 'MLH1 Gene Sequencing Analysis Report', code: 'LPC117', testname: 'hMLH1 (Mutation identification Test), Confirmatory', gene: 'MLH1' },
   { ngstype: 'Sequencing', title: 'MSH2 Gene Sequencing Analysis Report', code: 'LPC118', testname: 'hMSH2 (Mutation identification Test), Confirmatory', gene: 'MSH2' },
   // { ngstype: 'Sequencing', title: 'BRCA1 고위험군gene mutation(sequencing)', code: 'LPC160', testname: 'BRCA1 고위험군gene mutation(sequencing)' },
