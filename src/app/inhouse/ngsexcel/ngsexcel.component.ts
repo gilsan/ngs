@@ -64,7 +64,7 @@ export interface INGS {
 })
 export class NgsexcelComponent implements OnInit, OnDestroy {
 
-  lists: INGS[] = [];
+  // lists: INGS[] = [];
   private subs = new SubSink();
   size = 0;
   count = 1;
@@ -203,13 +203,13 @@ export class NgsexcelComponent implements OnInit, OnDestroy {
   }
 
   search(start: string, end: string, type: string): void {
-    // const lists = [];
+    const lists = [];
 
     if (type !== 'none') {
       const startday = start.replace(/-/g, '');
       const endday = end.replace(/-/g, '');
 
-      // console.log(startday, endday, type);
+      console.log(startday, endday, type);
       this.subs.sink = this.linkService.search(startday, endday, type)
         .pipe(
           tap(data => this.size = data.length),
@@ -231,17 +231,16 @@ export class NgsexcelComponent implements OnInit, OnDestroy {
                 data.vus_gene = vus_gene.trim().replace(/[ ]/g, ',');
               }
             }
-
             return data;
           }),
         )
         .subscribe(data => {
           if (this.count < this.size) {
-            this.lists.push(data);
+            lists.push(data);
             this.count++;
           } else if (this.count === this.size) {
-            this.ngsLists(this.lists);
-            this.count = 0;
+            this.ngsLists(lists);
+            this.count = 1;
             this.size = 0;
           }
 
