@@ -94,22 +94,24 @@ export class NgsexcelComponent implements OnInit, OnDestroy {
     //   aj1: '검사위탁', ak1: '인체유래물 등의\n기증 동의여부', al1: '기타 특이사항'
     // });
 
-    ngsLists.push({
-      id: '순번', b1: '조건부선별급여접수번호', c1: '증례등록번호', proccorpcd: '요양기호', pid: '등록번호',
-      hngnm: '환자명', brthdd: '생년월일', sex: '성별', i1: '청구여부', clamacptno: '접수번호',
-      docuseqno: '명일련', pay100ownbrate: '본인부담률', m1: '본인부담률90%분', n1: '90% 본인부담률 소견서 작성 여부', testnm: '패널명',
-      testcd: '패널구분', bcno: '패널관리번호', preicd10cd: '검사 전\n상병분류기호', preicd10hngnm: '검사전상병명', posticd10cd: '검사 후\n상병분류기호',
-      posticd10hngnm: '검사후상병명', v1: '해당질환\n가족력', w1: '고형암 여부', x1: '진행성, 전이성, 재발성 고형암', y1: '병기구분',
-      z1: 'Stage', aa1: '행동양식 분류부호', spccd: '검체종류', ac1: '검체기타', spcacptdt: '검체접수일',
-      lstreptdt: '검사보고일', pv: 'PV/LPV 검출 여부', pv_gene: 'PV/LPV 검출 유전자', vus: 'VUS 검출여부', vus_gene: 'VUS 검출 유전자',
-      hospnm: '검사위탁', ak1: '인체유래물 등의\n기증 동의여부', al1: '기타 특이사항'
-    });
+
+
+    // ngsLists.push({
+    //   id: '순번', b1: '조건부선별급여접수번호', c1: '증례등록번호', proccorpcd: '요양기호', pid: '등록번호',
+    //   hngnm: '환자명', brthdd: '생년월일', sex: '성별', i1: '청구여부', clamacptno: '접수번호',
+    //   docuseqno: '명일련', pay100ownbrate: '본인부담률', m1: '본인부담률90%분', n1: '90% 본인부담률 소견서 작성 여부', testnm: '패널명',
+    //   testcd: '패널구분', bcno: '패널관리번호', preicd10cd: '검사 전\n상병분류기호', preicd10hngnm: '검사전상병명', posticd10cd: '검사 후\n상병분류기호',
+    //   posticd10hngnm: '검사후상병명', v1: '해당질환\n가족력', w1: '고형암 여부', x1: '진행성, 전이성, 재발성 고형암', y1: '병기구분',
+    //   z1: 'Stage', aa1: '행동양식 분류부호', spccd: '검체종류', ac1: '검체기타', spcacptdt: '검체접수일',
+    //   lstreptdt: '검사보고일', pv: 'PV/LPV 검출 여부', pv_gene: 'PV/LPV 검출 유전자', vus: 'VUS 검출여부', vus_gene: 'VUS 검출 유전자',
+    //   hospnm: '검사위탁', ak1: '인체유래물 등의\n기증 동의여부', al1: '기타 특이사항'
+    // });
 
 
     datas.forEach((item, idx) => {
       ngsLists.push({
-        id: '', b1: '', c1: '', proccorpcd: item.proccorpcd, pid: item.pid,
-        hngnm: item.hngnm, brthdd: item.brthdd, sex: item.sex, i1: '', clamacptno: item.clamacptno,
+        id: idx + 1, b1: '', c1: idx + 1, proccorpcd: item.proccorpcd, pid: item.pid,
+        hngnm: item.hngnm, brthdd: item.brthdd, sex: item.sex, i1: 'Y', clamacptno: item.clamacptno,
         docuseqno: item.docuseqno, pay100ownbrate: item.pay100ownbrate, m1: '', n1: '', testnm: item.testnm,
         testcd: item.testcd, bcno: item.bcno, preicd10cd: item.preicd10cd, preicd10hngnm: item.preicd10hngnm, posticd10cd: item.posticd10cd,
         posticd10hngnm: item.posticd10hngnm, v1: '', w1: '', x1: '', y1: '',
@@ -117,17 +119,53 @@ export class NgsexcelComponent implements OnInit, OnDestroy {
         lstreptdt: item.lstreptdt, pv: item.pv, pv_gene: item.pv_gene, vus: item.vus, vus_gene: item.vus_gene,
         hospnm: item.hospnm, ak1: '', al1: ''
       });
+
+    });
+
+    ngsLists.unshift({
+      id: '', b1: '', c1: '', proccorpcd: '', pid: '',
+      hngnm: '', brthdd: '', sex: '', i1: '', clamacptno: '',
+      docuseqno: '', pay100ownbrate: '', m1: '', n1: '', testnm: '',
+      testcd: '', bcno: '', preicd10cd: '', preicd10hngnm: '', posticd10cd: '',
+      posticd10hngnm: '', v1: '', w1: '', x1: '', y1: '',
+      z1: '', aa1: '', spccd: '', ac1: '', spcacptdt: '',
+      lstreptdt: '', pv: '', pv_gene: '', vus: '', vus_gene: '',
+      hospnm: '', ak1: '', al1: ''
+    });
+
+    ngsLists.unshift({
+      id: '', b1: '', c1: '', proccorpcd: '', pid: '',
+      hngnm: '', brthdd: '', sex: '', i1: '', clamacptno: '',
+      docuseqno: '', pay100ownbrate: '', m1: '', n1: '', testnm: '',
+      testcd: '', bcno: '', preicd10cd: '', preicd10hngnm: '', posticd10cd: '',
+      posticd10hngnm: '', v1: '', w1: '', x1: '', y1: '',
+      z1: '', aa1: '', spccd: '', ac1: '', spcacptdt: '',
+      lstreptdt: '', pv: '', pv_gene: '', vus: '', vus_gene: '',
+      hospnm: '', ak1: '', al1: ''
+    });
+
+    ngsLists.unshift({
+      id: '', b1: '', c1: '', proccorpcd: '', pid: '',
+      hngnm: '', brthdd: '', sex: '', i1: '', clamacptno: '',
+      docuseqno: '', pay100ownbrate: '', m1: '', n1: '', testnm: '',
+      testcd: '', bcno: '', preicd10cd: '', preicd10hngnm: '', posticd10cd: '',
+      posticd10hngnm: '', v1: '', w1: '', x1: '', y1: '',
+      z1: '', aa1: '', spccd: '', ac1: '', spcacptdt: '',
+      lstreptdt: '', pv: '', pv_gene: '', vus: '', vus_gene: '',
+      hospnm: '', ak1: '', al1: ''
     });
 
 
-    const ngwidth = [{ width: 6 }, { width: 12 }, { width: 6 }, { width: 12 }, { width: 9 },
-    { width: 8 }, { width: 10 }, { width: 4 }, { width: 9 }, { width: 8 },
+
+
+    const ngwidth = [{ width: 6 }, { width: 21 }, { width: 12 }, { width: 12 }, { width: 9 },
+    { width: 8 }, { width: 10 }, { width: 5 }, { width: 9 }, { width: 8 },
     { width: 7 }, { width: 9 }, { width: 14 }, { width: 19 }, { width: 24 },
     { width: 8 }, { width: 15 }, { width: 13 }, { width: 11 }, { width: 17 },
     { width: 55 }, { width: 13 }, { width: 11 }, { width: 26 }, { width: 8 },
     { width: 4 }, { width: 15 }, { width: 9 }, { width: 8 }, { width: 12 },
     { width: 12 }, { width: 15 }, { width: 33 }, { width: 12 }, { width: 36 },
-    { width: 9 }, { width: 9 }, { width: 9 }
+    { width: 9 }, { width: 9 }, { width: 14 }
     ];
 
     this.excel.exortAsNGSTest(ngsLists, 'report', ngwidth);
