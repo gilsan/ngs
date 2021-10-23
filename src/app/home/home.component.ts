@@ -184,6 +184,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.router.navigate(['/diag', 'inhouse', 'genemgn']);
   }
 
+  codemgn(): void {
+    this.router.navigate(['/diag', 'inhouse', 'codemgn']);
+  }
+
   ment(): void {
     this.router.navigate(['/diag', 'inhouse', 'ment']);
   }
