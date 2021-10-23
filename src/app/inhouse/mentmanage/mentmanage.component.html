@@ -81,26 +81,26 @@
 
                      </td>
                      <td>
-                         <input type="text"   class="clr-input textcenter tdbox" size="10" formControlName="code" >
+                         <input type="text" [matTooltip]="group.get('code').value"  class="clr-input textcenter tdbox" size="10" formControlName="code" >
                      </td>
                      <td>
-                         <input type="text"   class="clr-input textcenter tdbox"   formControlName="report" >
+                         <input type="text" [matTooltip]="group.get('report').value"  class="clr-input textcenter tdbox"   formControlName="report" >
                      </td>
                      <td>
-                         <input type="text"   class="clr-input textcenter tdbox"   formControlName="target" >
+                         <input type="text"  [matTooltip]="group.get('target').value"  class="clr-input textcenter tdbox"   formControlName="target" >
                      </td>
                      <td>
-                         <input type="text"  class="clr-input textcenter tdbox"   formControlName="specimen" >
+                         <input type="text" [matTooltip]="group.get('specimen').value" class="clr-input textcenter tdbox"   formControlName="specimen" >
                      </td>
                      <td>
-                        <input type="text"  class="clr-input textcenter tdbox"   formControlName="analyzedgene" >
+                        <input type="text" [matTooltip]="group.get('analyzedgene').value"  class="clr-input textcenter tdbox"   formControlName="analyzedgene" >
                      </td>
                      <td>
-                         <input type="text"  class="clr-input textcenter tdbox"  formControlName="method" >
+                         <input type="text" [matTooltip]="group.get('method').value" class="clr-input textcenter tdbox"  formControlName="method" >
                      </td>
                      <td>
                          <span  *ngIf="group.get('mode').value === 'D'">
-                             <textarea style="width:96%;display:block;margin:0 auto;"   class="textarea_01" formControlName="comment1"></textarea>
+                             <textarea style="width:96%;display:block;margin:0 auto;" [matTooltip]="group.get('comment1').value"  class="textarea_01" formControlName="comment1"></textarea>
                          </span>
                          <span  *ngIf="group.get('mode').value === 'E'">
                              <textarea style="width:96%;display:block;margin:0 auto;" rows="10"  cols="70"  class="textarea_01" formControlName="comment1"></textarea>
@@ -108,7 +108,7 @@
                      </td>
                      <td>
                          <span  *ngIf="group.get('mode').value === 'D'">
-                             <textarea style="width:96%;display:block;margin:0 auto;"   class="textarea_01" formControlName="comment1"></textarea>
+                             <textarea style="width:96%;display:block;margin:0 auto;" [matTooltip]="group.get('comment2').value"  class="textarea_01" formControlName="comment2"></textarea>
                          </span>
                          <span  *ngIf="group.get('mode').value === 'E'">
                              <textarea style="width:96%;display:block;margin:0 auto;" rows="10"  cols="70"  class="textarea_01" formControlName="comment2"></textarea>
