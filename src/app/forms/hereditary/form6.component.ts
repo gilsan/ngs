@@ -19,7 +19,7 @@ import { DetectedVariantsService } from 'src/app/home/services/detectedVariants'
 import { StoreService } from '../store.current';
 import { ExcelService } from 'src/app/home/services/excelservice';
 
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogOverviewExampleDialogComponent } from '../dialog-overview-example-dialog/dialog-overview-example-dialog.component';
 import { makeAForm } from 'src/app/home/models/aTypemodel';
 import { UtilsService } from '../commons/utils.service';
@@ -32,6 +32,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { geneTitles } from '../commons/geneList';
 import { hereditaryForm } from 'src/app/home/models/hereditary';
+import { ExamplementComponent } from '../examplement/examplement.component';
+
+
 @Component({
   selector: 'app-form6',
   templateUrl: './form6.component.html',
@@ -1620,5 +1623,17 @@ export class Form6Component implements OnInit, OnDestroy {
   goBack(): void {
     this.router.navigate(['/diag', 'hereditary']);
   }
+
+  showDialog(): void {
+    const addDialogRef = this.dialog.open(ExamplementComponent, {
+      width: '1200px',
+      height: '900px',
+      // disableClose: true,
+
+    });
+  }
+
+
+
 
 }

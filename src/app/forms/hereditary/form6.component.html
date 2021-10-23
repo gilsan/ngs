@@ -185,7 +185,18 @@
       </div>
 
 
-  <div class="sub_title">Comments</div>
+ <!--   <div class="sub_title">Comments</div>  -->
+  <div style="margin-bottom: 10px;margin-top: 25px;">
+      <ul style="display:flex;justify-content:flex-start; align-items: center;">
+          <li>
+              <span class="sub_title">Comments</span>
+          </li>
+          <li>&nbsp;&nbsp;</li>
+          <li>
+              <button type="button" class="btn btn_01" (click)="showDialog()">예문</button>
+          </li>
+      </ul>
+  </div>
   <div class="pd_r20">
         <textarea class="textarea_01" [(ngModel)]="commentdata">{{commentdata}}</textarea>
   </div>

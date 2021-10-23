@@ -26,6 +26,7 @@ import { SequencingComponent } from './previews/sequencing/sequencing.component'
 // import { Form1Component } from './form1/form1.component';
 import { MlpapreviewComponent } from './previews/mlpapreview/mlpapreview.component';
 import { RouterModule } from '@angular/router';
+import { ExamplementComponent } from './examplement/examplement.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { RouterModule } from '@angular/router';
     ImmundefiComponent,
     SequencingComponent,
     // Form1Component,
-    MlpapreviewComponent
+    MlpapreviewComponent,
+    ExamplementComponent
     //  TestformComponent
   ],
   imports: [

@@ -10,7 +10,8 @@ import { concatMap, map, shareReplay } from 'rxjs/operators';
 import { FindNgsTitleService } from '../commons/findngstitle.service';
 import { sequencingForm } from 'src/app/home/models/sequencing.model';
 import { listSequencing } from 'src/app/forms/commons/geneList';
-
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ExamplementComponent } from '../examplement/examplement.component';
 
 @Component({
   selector: 'app-form7',
@@ -94,6 +95,7 @@ export class Form7Component implements OnInit, OnDestroy {
     private utilsService: UtilsService,
     private variantsService: DetectedVariantsService,
     private titleService: FindNgsTitleService,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -567,9 +569,18 @@ export class Form7Component implements OnInit, OnDestroy {
       }
     }
 
+
+
   }
 
+  showDialog(): void {
+    const addDialogRef = this.dialog.open(ExamplementComponent, {
+      width: '1200px',
+      height: '900px',
+      // disableClose: true,
 
+    });
+  }
 
 
 

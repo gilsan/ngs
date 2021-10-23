@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { concatMap, map, shareReplay, take, tap } from 'rxjs/operators';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { IPatient } from 'src/app/home/models/patients';
 import { PatientsListService } from 'src/app/home/services/patientslist';
@@ -9,6 +9,7 @@ import { MLPATLIST, HEADER } from 'src/app/forms/commons/mlpa.data';
 import { UtilsService } from 'src/app/forms/commons/utils.service';
 import { MlpaService } from 'src/app/services/mlpa.service';
 import { mlpaForm } from 'src/app/home/models/mlpa';
+import { ExamplementComponent } from '../examplement/examplement.component';
 
 export interface IData {
   seq: string;
@@ -627,6 +628,16 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
   resultName(result: string): void {
     this.mlpaData.result = result;
   }
+
+  showDialog(): void {
+    const addDialogRef = this.dialog.open(ExamplementComponent, {
+      width: '1200px',
+      height: '900px',
+      // disableClose: true,
+
+    });
+  }
+
 
 
 }
