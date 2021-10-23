@@ -577,7 +577,7 @@ export class Form7Component implements OnInit, OnDestroy {
     const addDialogRef = this.dialog.open(ExamplementComponent, {
       width: '1200px',
       height: '900px',
-      // disableClose: true,
+      disableClose: true,
 
     });
   }

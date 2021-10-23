@@ -633,7 +633,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
     const addDialogRef = this.dialog.open(ExamplementComponent, {
       width: '1200px',
       height: '900px',
-      // disableClose: true,
+      disableClose: true,
 
     });
   }
