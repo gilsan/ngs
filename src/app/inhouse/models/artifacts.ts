@@ -9,3 +9,16 @@ export interface IArtifacts {
   display?: string;
   type?: string;
 }
+
+export interface IMent {
+  id?: string;
+  code: string;
+  report: string;
+  target: string;
+  specimen: string;
+  analyzedgene: string;
+  method: string;
+  comment1: string;
+  comment2: string;
+  mode?: string;
+}

@@ -19,6 +19,9 @@ import { TypestaticsComponent } from './statistics/typestatics/typestatics.compo
 // import { MaterialModule } from '../material.module';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { NgsexcelComponent } from './ngsexcel/ngsexcel.component';
+import { MentmanageComponent } from './mentmanage/mentmanage.component';
+import { ManagecodeComponent } from './managecode/managecode.component';
+import { ReactiveFormsModule } from '@angular/forms';
 // import { ResizetableDirective } from './directive/resizetable.directive';
 // import { ResizableModule } from './resizable/resizable.module';
 
@@ -37,6 +40,8 @@ import { NgsexcelComponent } from './ngsexcel/ngsexcel.component';
     MgngeneComponent,
     TypestaticsComponent,
     NgsexcelComponent,
+    MentmanageComponent,
+    ManagecodeComponent,
 
   ],
   imports: [
@@ -45,7 +50,7 @@ import { NgsexcelComponent } from './ngsexcel/ngsexcel.component';
     InhouseRoutingModule,
     MaterialModule,
     NgxEchartsModule,
-
+    ReactiveFormsModule,
   ]
 })
 export class InhouseModule { }

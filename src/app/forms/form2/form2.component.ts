@@ -1363,7 +1363,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
         this.screenstatus = '3';
         // console.log('[1312][SEND EMR][AML] ', msg, this.screenstatus);
         alert('EMR로 전송했습니다.');
-        this.excelDV();
+        // this.excelDV();
         // 환자정보 가져오기
         this.patientsListService.getPatientInfo(this.form2TestedId)
           .subscribe(patient => {
