@@ -38,4 +38,8 @@ export class ManagecodeComponent implements OnInit {
     });
   }
 
+  testcode(code: string): void {
+    console.log(code);
+  }
+
 }
