@@ -129,17 +129,24 @@ export class MentmanageComponent implements OnInit, OnDestroy {
     control.at(i).patchValue({ mode: 'D' });
     const rowData: IMent = control.at(i).value;
     console.log('[130][저장]', rowData);
-    if (rowData.id === 'N') {
-      this.defaultService.insertItem(this.selected, rowData)
-        .subscribe(data => {
-          this.snackBar.open('저장 했습니다.', '닫기', { duration: 3000 });
-        });
+
+    if (rowData.code.length === 0) {
+      alert('검체코드가 없습니다.')
     } else {
-      this.defaultService.updateItem(this.selected, rowData)
-        .subscribe(data => {
-          this.snackBar.open('수정 했습니다.', '닫기', { duration: 3000 });
-        });
+      if (rowData.id === 'N') {
+        this.defaultService.insertItem(this.selected, rowData)
+          .subscribe(data => {
+            this.snackBar.open('저장 했습니다.', '닫기', { duration: 3000 });
+          });
+      } else {
+        this.defaultService.updateItem(this.selected, rowData)
+          .subscribe(data => {
+            this.snackBar.open('수정 했습니다.', '닫기', { duration: 3000 });
+          });
+      }
     }
+
+
 
   }
 
