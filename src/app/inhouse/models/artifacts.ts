@@ -22,3 +22,11 @@ export interface IMent {
   comment2: string;
   mode?: string;
 }
+
+
+export interface ICode {
+  type: string;
+  report: string;
+  code: string;
+}
+

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpEvent, HttpEventType, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { emrUrl } from '../config';
-import { IMent } from '../inhouse/models/artifacts';
+import { ICode, IMent } from '../inhouse/models/artifacts';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +30,11 @@ export class CodeDefaultValue {
 
   public deleteItem(type: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/codedefault/delete`, { type });
+  }
+
+  //////////////
+  public getCodeLists(): Observable<ICode[]> {
+    return this.http.get<ICode[]>(`${this.apiUrl}/codedefault/codelists`);
   }
 
 
