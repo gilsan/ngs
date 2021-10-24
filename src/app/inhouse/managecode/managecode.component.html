@@ -48,24 +48,28 @@
                                  <col width="5%">
                                  <col width="5%">
                                  <col width="*">
-
+                                 <col width="10%">
                              </colgroup>
                              <thead>
                                  <tr>
                                      <th>No.</th>
                                      <th>TestCode</th>
                                      <th>보고서명</th>
+                                     <th>예문보기</th>
                                  </tr>
                              </thead>
                              <tbody>
                                <ng-container formArrayName="tableRows" *ngFor="let group of commentsRows().controls; let i=index">
                                  <tr  [formGroupName]="i">
-                                     <td></td>
-                                     <td>
+                                     <td align="center">{{i+1}}</td>
+                                     <td >
                                          <input type="text"  class="clr-input textcenter tdbox" size="10"     formControlName="code" >
                                      </td>
                                      <td>
                                           <input type="text"  class="clr-input textcenter tdbox" size="40"  formControlName="report" >
+                                     </td>
+                                     <td>
+                                        <button type="button" class="btn btn_01" >보기</button>
                                      </td>
                                  </tr>
                                </ng-container>
@@ -83,7 +87,7 @@
             <div class="box_100 full">
                 <div  id="container_box">
                    <div  id="comment cell-1">
-                     <form [formGroup]="tablerowForm">
+                   <!--   <form [formGroup]="tablerowForm"> -->
                            <table border="0" cellpadding="0" cellspacing="0" class="table_list  fixed_header td-fix table_resul_x">
                              <colgroup>
                                  <col width="5%">
@@ -99,11 +103,11 @@
                                  </tr>
                              </thead>
                              <tbody>
-                               <ng-container formArrayName="tableRows" *ngFor="let group of commentsRows().controls; let i=index">
-                                 <tr  [formGroupName]="i">
-                                     <td></td>
+                               <ng-container >
+                                 <tr>
+                                     <td align="center"></td>
                                      <td>
-                                        <textarea style="width:96%;display:block;margin:0 auto;"     class="textarea_01" formControlName="comment"></textarea>
+                                        <textarea style="width:96%;display:block;margin:0 auto;"     class="textarea_01"  ></textarea>
                                      </td>
                                      <td>
                                       <span class="bdnone">
@@ -119,7 +123,7 @@
                                </ng-container>
                              </tbody>
                            </table>
-                   </form>
+                   <!-- </form>  -->
                  </div>
                 </div>
             </div>

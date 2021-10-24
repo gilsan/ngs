@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpEvent, HttpEventType, HttpParams } from '@
 import { Observable } from 'rxjs';
 import { emrUrl } from '../config';
 import { IMent } from '../inhouse/models/artifacts';
-import { ICodement } from '../inhouse/models/comments';
+import { ICodecomment, ICodement } from '../inhouse/models/comments';
 
 @Injectable({
   providedIn: 'root',
@@ -37,8 +37,8 @@ export class CodeDefaultValue {
     return this.http.post(`${this.apiUrl}/codedefault/update`, { type, ...ment });
   }
 
-  public deleteItem(type: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/codedefault/delete`, { type });
+  public deleteItem(id: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/codedefault/delete`, { id });
   }
 
   //////////////
@@ -54,8 +54,25 @@ export class CodeDefaultValue {
     return this.http.post(`${this.apiUrl}/codedefault/codeupdate`, { type, ...ment });
   }
 
-  public codedeleteItem(type: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/codedefault/codedelete`, { type });
+  public codedeleteItem(id: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/codedefault/codedelete`, { id });
+  }
+
+  ///////////// 코멘트 관리
+  public getCommentLists(type: string, code: string): Observable<ICodecomment[]> {
+    return this.http.post<ICodecomment[]>(`${this.apiUrl}/codedefault/commentlists`, { type, code });
+  }
+
+  public commentinsertItem(ment: ICodecomment): Observable<any> {
+    return this.http.post(`${this.apiUrl}/codedefault/commentinsert`, { ...ment });
+  }
+
+  public commentupdateItem(ment: ICodecomment): Observable<any> {
+    return this.http.post(`${this.apiUrl}/codedefault/commentupdate`, { ...ment });
+  }
+
+  public commentdeleteItem(id: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/codedefault/commentdelete`, { id });
   }
 
 

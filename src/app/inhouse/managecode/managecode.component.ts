@@ -33,7 +33,7 @@ export class ManagecodeComponent implements OnInit {
   loadData(): void {
     this.defaultService.getCodeLists().subscribe(data => {
       this.lists = data;
-      // console.log(this.lists);
+      console.log('[36] ', this.lists);
       this.findReportLists(this.type);
     });
   }
@@ -110,9 +110,7 @@ export class ManagecodeComponent implements OnInit {
       id: ment.id,
       code: ment.code,
       report: ment.report,
-      comment: ment.comment,
       type: ment.type,
-      mode: 'D'
     });
   }
 
@@ -121,9 +119,7 @@ export class ManagecodeComponent implements OnInit {
       id: 'N',
       code: '',
       report: '',
-      comment: '',
       type: this.type,
-      mode: 'E'
     });
   }
 

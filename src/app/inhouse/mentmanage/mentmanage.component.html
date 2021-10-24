@@ -38,7 +38,7 @@
            <form [formGroup]="tablerowForm">
            <table border="0" cellpadding="0" cellspacing="0" class="table_list td-fix fixed_header table_resul_x">
              <colgroup>
-               <col width="5%">
+               <col width="3%">
                <col width="5%">
                <col width="10%">
                <col width="10%">
@@ -47,7 +47,7 @@
                <col width="10%">
                <col width="20%">
                <col width="20%">
-               <col width="10%">
+               <col width="12%">
              </colgroup>
 
             <thead>
@@ -67,29 +67,7 @@
             <tbody>
                 <ng-container formArrayName="tableRows" *ngFor="let group of commentsRows().controls; let i=index">
                    <tr  [formGroupName]="i">
-<<<<<<< HEAD
-                     <td   align="center">
-                       <span  *ngIf="group.get('mode').value === 'D'">
-                         <div>
-                             <img [src]="'assets/images/edit.png'" (click)="edit(i)">
-                         </div>
-                          <div>
-                           <img [src]="'assets/images/trash.png'" (click)="removeCommentRow(i)">
-                           </div>
-                        </span>
-                        <span  *ngIf="group.get('mode').value === 'E'">
-                           <div>
-                                <img [src]="'assets/images/save.png'" (click)="save(i)">
-                           </div>
-                           <div>
-                                <img [src]="'assets/images/cancel.png'" (click)="cancel(i)">
-                           </div>
-                        </span>
-
-                     </td>
-=======
-                     <td></td>
->>>>>>> af45be1346523b7ecf8b9f2435412bea5bc50169
+                     <td align="center">{{i+1}}</td>
                      <td>
                          <input type="text" [matTooltip]="group.get('code').value"  class="clr-input textcenter tdbox" size="10" formControlName="code" >
                      </td>
@@ -126,12 +104,12 @@
                      </td>
                      <td>
                       <span class="bdnone">
-                          <a class="btn-edit">수정</a>
-                          <a class="btn-delete">삭제</a>
+                          <a class="btn-edit"  (click)="edit(i)">수정</a>
+                          <a class="btn-delete" (click)="removeCommentRow(i)">삭제</a>
                       </span>
                       <span class="wid120 bdnone">
-                          <a class="btn-cancel">취소</a>
-                          <a class="btn-save">저장</a>
+                          <a class="btn-cancel" (click)="cancel(i)">취소</a>
+                          <a class="btn-save" (click)="save(i)">저장</a>
                       </span>
                      </td>
                    </tr>

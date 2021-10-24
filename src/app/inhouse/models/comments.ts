@@ -12,14 +12,12 @@ export interface ICodement {
   id: string;
   code: string;
   report: string;
-  comment: string;
   type: string;
-  mode?: string;
 }
 
-// export interface ICode {
-//   id: string;
-//   type: string;
-//   report: string;
-//   code: string;
-// }
+export interface ICodecomment {
+  id: string;
+  type: string;
+  code: string;
+  comment: string;
+}

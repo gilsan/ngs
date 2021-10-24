@@ -134,11 +134,11 @@ export class MentmanageComponent implements OnInit, OnDestroy {
       const rowData: IMent = control.at(i).value;
       this.commentsRows().removeAt(i);
       console.log('[136][삭제]', control.getRawValue());
-      // this.defaultService.deleteItem(rowData.id)
-      //   .subscribe(data => {
-      //     this.commentsRows().removeAt(i);
-      //     this.snackBar.open('삭제 하였습니다.', '닫기', { duration: 3000 });
-      //   });
+      this.defaultService.deleteItem(rowData.id)
+        .subscribe(data => {
+          this.commentsRows().removeAt(i);
+          this.snackBar.open('삭제 하였습니다.', '닫기', { duration: 3000 });
+        });
     } else {
       return;
     }
