@@ -14,26 +14,24 @@
                <option value="MLPA">MLPA</option>
                <option value="Genetic">유전성 유전질환</option>
            </select>&nbsp;&nbsp;
-            <select class="select_01 select_001" id="wgtmsr"  #code (change)="testcode(code.value)">
-               <option>선택</option>
+            <select class="select_01 select_001" id="wgtmsr"  #reportitem (change)="testcode(reportitem.value)">
+               <option value="none">선택</option>
                <option [value]="list.code" *ngFor="let list of reportLists">{{list.report}}</option>
            </select>&nbsp;&nbsp;
+           <!--
          <table border="0" cellspacing="0" cellpadding="0">
           <tr>
             <td class="main_btn">
               <ul>
                 <li>
-                  <button type="button" class="btn btn_01" (click)="addNewCommentRow()" [disabled]="showHide()">추가</button>
-                </li>
-
-                <!-- <li>
                   <button type="button" class="btn btn_01" >저장</button>
-                </li> -->
+                </li>
 
               </ul>
             </td>
           </tr>
         </table>
+           -->
         </div>
       <div class="col">
         <div class="col_5">
@@ -49,6 +47,7 @@
                                  <col width="5%">
                                  <col width="*">
                                  <col width="10%">
+                                 <col width="15%">
                              </colgroup>
                              <thead>
                                  <tr>
@@ -56,6 +55,9 @@
                                      <th>TestCode</th>
                                      <th>보고서명</th>
                                      <th>예문보기</th>
+                                     <th>
+                                        <button type="button" class="btn btn_01" (click)="addNewCommentRow()" [disabled]="showHide()">추가</button>
+                                     </th>
                                  </tr>
                              </thead>
                              <tbody>
@@ -71,6 +73,19 @@
                                      <td>
                                         <button type="button" class="btn btn_01" >보기</button>
                                      </td>
+                                     <td align="center" *ngIf="code === 'none'">
+                                         <a class="btn-save" (click)="save(i)">저장</a>
+                                         <a class="btn-delete" (click)="removeCommentRow(i)">삭제</a>
+                                     </td>
+
+                                     <td align="center" *ngIf="code !== 'none'">
+                                         <a class="btn-save" (click)="save(i)">저장</a>
+                                         <a class="btn-delete" (click)="removeCommentRow(i)">삭제</a>
+                                         <a class="btn-cancel" (click)="cancel(i)">취소</a>
+                                     </td>
+
+
+
                                  </tr>
                                </ng-container>
                              </tbody>
@@ -87,13 +102,12 @@
             <div class="box_100 full">
                 <div  id="container_box">
                    <div  id="comment cell-1">
-                   <!--   <form [formGroup]="tablerowForm"> -->
+                        <form [formGroup]="tablerowForm">
                            <table border="0" cellpadding="0" cellspacing="0" class="table_list  fixed_header td-fix table_resul_x">
                              <colgroup>
                                  <col width="5%">
                                  <col width="*">
                                  <col width="15%">
-
                              </colgroup>
                              <thead>
                                  <tr>
@@ -103,19 +117,19 @@
                                  </tr>
                              </thead>
                              <tbody>
-                               <ng-container >
-                                 <tr>
-                                     <td align="center"></td>
+                               <ng-container formArrayName="commentRows" *ngFor="let group of mentsRow().controls; let i=index" >
+                                 <tr [formGroupName]="i">
+                                     <td align="center">{{i+1}}</td>
                                      <td>
-                                        <textarea style="width:96%;display:block;margin:0 auto;"     class="textarea_01"  ></textarea>
+                                        <textarea style="width:96%;display:block;margin:0 auto;"  formControlName="comment"   class="textarea_01"  ></textarea>
                                      </td>
                                      <td>
                                       <span class="bdnone">
-                                          <a class="btn-edit">수정</a>
+
                                           <a class="btn-delete">삭제</a>
                                       </span>
                                       <span class="wid120 bdnone">
-                                          <a class="btn-cancel">취소</a>
+
                                           <a class="btn-save">저장</a>
                                       </span>
                                      </td>
@@ -123,7 +137,7 @@
                                </ng-container>
                              </tbody>
                            </table>
-                   <!-- </form>  -->
+                    </form>
                  </div>
                 </div>
             </div>

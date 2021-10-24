@@ -78,8 +78,7 @@ export class MentmanageComponent implements OnInit, OnDestroy {
       this.report = this.reportLists.filter(list => list.code === code)[0].report;
       const control = this.tablerowForm.get('tableRows') as FormArray;
       control.clear();
-      this.reportLists = this.lists.filter(list => list.code === code);
-      this.reportLists.forEach(list => {
+      this.lists.filter(list => list.code === code).forEach(list => {
         this.commentsRows().push(this.createCommentRow(list));
       });
     }

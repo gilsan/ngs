@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CodeDefaultValue } from 'src/app/services/codedefaultvalue';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
-import { ICodement } from '../models/comments';
+import { ICodecomment, ICodement } from '../models/comments';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -17,7 +17,7 @@ export class ManagecodeComponent implements OnInit {
   report = '';
   tablerowForm: FormGroup;
   enableDisable = true;
-  code = 'N';
+  code = 'none';
 
   constructor(
     private defaultService: CodeDefaultValue,
@@ -41,6 +41,7 @@ export class ManagecodeComponent implements OnInit {
   findReportLists(type: string): void {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     control.clear();
+    this.code = 'none';
     this.type = type;
     this.reportLists = this.lists.filter(list => list.type === type);
     this.reportLists = this.reportLists.sort((a, b) => {
@@ -52,24 +53,28 @@ export class ManagecodeComponent implements OnInit {
       this.reportLists.forEach(list => {
         this.commentsRows().push(this.createCommentRow(list));
       });
+      this.enableDisable = false;
+    } else {
+      this.enableDisable = true;
     }
 
   }
 
   testcode(code: string): void {
-    console.log(code);
+    // console.log(code);
     this.report = this.reportLists.filter(list => list.code === code)[0].report;
     if (code === 'none') {
       this.enableDisable = true;
     } else {
       this.code = code;
-      this.enableDisable = !this.enableDisable;
+      this.enableDisable = false;
       const control = this.tablerowForm.get('tableRows') as FormArray;
       control.clear();
-      this.reportLists = this.lists.filter(list => list.code === code);
-      this.reportLists.forEach(list => {
+      this.lists.filter(list => list.code === code).forEach(list => {
         this.commentsRows().push(this.createCommentRow(list));
       });
+
+      this.commentClear();
     }
 
   }
@@ -102,7 +107,8 @@ export class ManagecodeComponent implements OnInit {
   ///////////////////////////////////////
   loadForm(): void {
     this.tablerowForm = this.fb.group({
-      tableRows: this.fb.array([])
+      tableRows: this.fb.array([]),
+      commentRows: this.fb.array([])
     });
   }
   createCommentRow(ment: ICodement): FormGroup {
@@ -129,7 +135,7 @@ export class ManagecodeComponent implements OnInit {
 
   addNewCommentRow(): void {
     this.commentsRows().push(this.newCommentRow());
-
+    this.mentsRow().push(this.newMentRow());
   }
 
   removeCommentRow(i: number): void {
@@ -142,38 +148,70 @@ export class ManagecodeComponent implements OnInit {
           this.commentsRows().removeAt(i);
           this.snackBar.open('삭제 했습니다.', '닫기', { duration: 3000 });
         });
-
-
     } else {
       return;
     }
-
-
   }
 
   get getFormControls(): any {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     return control;
   }
-
-
   //////////////////////////////////////////////////////////////
+  createMentRow(ment: ICodecomment): FormGroup {
+    return this.fb.group({
+      id: ment.id,
+      code: ment.code,
+      comment: ment.comment,
+      type: ment.type,
+    });
+  }
+
+  newMentRow(): FormGroup {
+    return this.fb.group({
+      id: 'N',
+      code: this.code,
+      comment: '',
+      type: this.type,
+    });
+  }
+
+  mentsRow(): FormArray {
+    return this.tablerowForm.get('commentRows') as FormArray;
+  }
+
+  addNewMentRow(): void {
+    this.mentsRow().push(this.newMentRow());
+  }
+
+  commentClear(): void {
+    const commentControl = this.tablerowForm.get('commentRows') as FormArray;
+    commentControl.clear();
+  }
+
+  commentSave(i: number): void {
+
+  }
+
+  commentDelete(i: number): void {
+
+  }
+
+
+
+
+
+  /////////////////////////////////////////////////////////////
 
   edit(i: number): void {
     const control = this.tablerowForm.get('tableRows') as FormArray;
-    control.at(i).patchValue({ mode: 'E' });
   }
 
   cancel(i: number): void {
-    const control = this.tablerowForm.get('tableRows') as FormArray;
-    const rowData = control.at(i).value;
-    if (this.code === 'N') {
-      const idx = this.lists.findIndex(list => list.id === rowData.id);
-      console.log('[206]', i, this.lists[idx]);
-      control.at(i).patchValue({ ...this.lists[idx], mode: 'D' });
-    } else {
-      this.testcode(this.code);
-    }
+    this.code = 'none';
+    this.reportLists.forEach(list => {
+      this.commentsRows().push(this.createCommentRow(list));
+    });
   }
 
 
