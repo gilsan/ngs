@@ -32,3 +32,12 @@ img {
   height: 20px;
   width: 20px;
 }
+
+/*** 테이블 헤더 고정 ***/
+.fixed_header th {
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+}
+
+/*** /테이블 헤더 고정 ***/
