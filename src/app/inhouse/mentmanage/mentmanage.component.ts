@@ -19,7 +19,10 @@ export class MentmanageComponent implements OnInit, OnDestroy {
   lists: IMent[] = [];
   reportLists: IMent[] = [];
   report = '';
-
+  items: IMent[] = [
+    // tslint:disable-next-line:max-line-length
+    { target: '', specimen: '', analyzedgene: '', method: '', comment1: '', comment2: '', type: 'SEQ', report: 'BRCA1 Gene Analysis Report', code: 'LPC100' }
+  ];
   constructor(
     private fb: FormBuilder,
     private defaultService: CodeDefaultValue,
@@ -29,6 +32,7 @@ export class MentmanageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loadForm();
     this.loadData();
+
   }
 
   ngOnDestroy(): void {
@@ -40,6 +44,15 @@ export class MentmanageComponent implements OnInit, OnDestroy {
       tableRows: this.fb.array([])
     });
   }
+
+  // inputData(): void {
+  //   defaultcodeLists.forEach(list => {
+  //     this.defaultService.insertBatch(list)
+  //       .subscribe(data => {
+  //         console.log(data);
+  //       });
+  //   });
+  // }
 
   loadData(): void {
     this.defaultService.getLists()
@@ -69,23 +82,19 @@ export class MentmanageComponent implements OnInit, OnDestroy {
 
   testcode(code: string): void {
     console.log(code);
-    // this.report = this.reportLists.filter(list => list.code === code)[0].report;
-    // if (code === 'none') {
-    //   this.enableDisable = true;
-    // } else {
-    //   // this.testCode = code;
-    //   this.enableDisable = !this.enableDisable;
-    //   const control = this.tablerowForm.get('tableRows') as FormArray;
-    //   control.clear();
-    //   this.reportLists = this.lists.filter(list => list.code === code);
-    //   this.reportLists.forEach(list => {
-    //     this.commentsRows().push(this.createCommentRow(list));
-    //   });
-    // }
+    this.report = this.reportLists.filter(list => list.code === code)[0].report;
+    if (code === 'none') {
+      return;
+    } else {
+      const control = this.tablerowForm.get('tableRows') as FormArray;
+      control.clear();
+      this.reportLists = this.lists.filter(list => list.code === code);
+      this.reportLists.forEach(list => {
+        this.commentsRows().push(this.createCommentRow(list));
+      });
+    }
 
   }
-
-
 
 
   createCommentRow(ment: IMent): FormGroup {

@@ -25,6 +25,10 @@ export class CodeDefaultValue {
     return this.http.post<IMent[]>(`${this.apiUrl}/codedefault/list`, { type });
   }
 
+  public insertBatch(ment: IMent): Observable<any> {
+    return this.http.post(`${this.apiUrl}/codedefault/insert`, { ...ment });
+  }
+
   public insertItem(type: string, ment: IMent): Observable<any> {
     return this.http.post(`${this.apiUrl}/codedefault/insert`, { type, ...ment });
   }
