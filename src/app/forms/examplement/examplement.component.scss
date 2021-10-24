@@ -17,3 +17,17 @@
   background-color: #2196f3;
   font-size: 11px;
 }
+
+.mail_title {
+  background-position: 0 13px;
+}
+
+.drag-handle {
+  // display: flex;
+  align-items: center;
+  cursor: move;
+
+  .handle {
+    margin-right: 5px;
+  }
+}
