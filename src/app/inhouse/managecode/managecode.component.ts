@@ -96,7 +96,7 @@ export class ManagecodeComponent implements OnInit {
     return this.fb.group({
       id: 'N',
       code: '',
-      report: this.report,
+      report: '',
       comment: '',
       type: this.type
     });
