@@ -3,7 +3,7 @@
      <div id="content">
        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mg_b10">
          <tr>
-           <td class="mail_title">처방코드별 기본설정</td>
+           <td class="mail_title">기본입력값 설정</td>
          </tr>
        </table>
 
@@ -34,7 +34,7 @@
 
        </div>
        <div class="box">
-         <div class="box_100">
+         <div class="box_100 fill">
            <form [formGroup]="tablerowForm">
            <table border="0" cellpadding="0" cellspacing="0" class="table_list td-fix fixed_header table_resul_x">
              <colgroup>
@@ -47,12 +47,12 @@
                <col width="10%">
                <col width="20%">
                <col width="20%">
+               <col width="10%">
              </colgroup>
 
             <thead>
                 <tr>
-                    <th>
-                    </th>
+                    <th>No.</th>
                     <th>TestCode</th>
                     <th>결과지명</th>
                     <th>Target Disease</th>
@@ -61,32 +61,13 @@
                     <th>Method</th>
                     <th>일반코멘트1</th>
                     <th>일반코멘트2</th>
+                    <th>수정/삭제</th>
                 </tr>
             </thead>
             <tbody>
                 <ng-container formArrayName="tableRows" *ngFor="let group of commentsRows().controls; let i=index">
                    <tr  [formGroupName]="i">
-                     <td   align="center">
-                       <span  *ngIf="group.get('mode').value === 'D'">
-                         <div>
-                             <img [src]="'assets/images/edit.png'" (click)="edit(i)">
-                         </div>
-                          <div>
-                           <img [src]="'assets/images/trash.png'" (click)="removeCommentRow(i)">
-                           </div>
-                        </span>
-                        <span  *ngIf="group.get('mode').value === 'E'">
-                           <div>
-                                <img [src]="'assets/images/save.png'" (click)="save(i)">
-                           </div>
-                           <div>
-                                <img [src]="'assets/images/cancel.png'" (click)="cancel(i)">
-                           </div>
-
-
-                        </span>
-
-                     </td>
+                     <td></td>
                      <td>
                          <input type="text" [matTooltip]="group.get('code').value"  class="clr-input textcenter tdbox" size="10" formControlName="code" >
                      </td>
@@ -120,6 +101,16 @@
                          <span  *ngIf="group.get('mode').value === 'E'">
                              <textarea style="width:96%;display:block;margin:0 auto;" rows="10"  cols="70"  class="textarea_01" formControlName="comment2"></textarea>
                          </span>
+                     </td>
+                     <td>
+                      <span class="bdnone">
+                          <a class="btn-edit">수정</a>
+                          <a class="btn-delete">삭제</a>
+                      </span>
+                      <span class="wid120 bdnone">
+                          <a class="btn-cancel">취소</a>
+                          <a class="btn-save">저장</a>
+                      </span>
                      </td>
                    </tr>
                 </ng-container>
