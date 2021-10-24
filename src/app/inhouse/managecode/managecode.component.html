@@ -18,24 +18,6 @@
                <option>선택</option>
                <option [value]="list.code" *ngFor="let list of reportLists">{{list.report}}</option>
            </select>&nbsp;&nbsp;
-            <!--
-         <table border="0" cellspacing="0" cellpadding="0">
-          <tr>
-            <td class="main_btn">
-              <ul>
-                <li>
-                  <button type="button" class="btn btn_01" (click)="addNewCommentRow()" [disabled]="showHide()">추가</button>
-                </li>
-
-                <li>
-                  <button type="button" class="btn btn_01" >저장</button>
-                </li>
-
-              </ul>
-            </td>
-          </tr>
-        </table>
-          -->
         </div>
 
       <div class="box">
@@ -65,9 +47,23 @@
                           <tbody>
                             <ng-container formArrayName="tableRows" *ngFor="let group of commentsRows().controls; let i=index">
                               <tr  [formGroupName]="i">
-                                  <td>
-                                    <img [src]="'assets/images/save.png'" (click)="save(i)">&nbsp;&nbsp;
-                                    <img [src]="'assets/images/trash.png'" (click)="removeCommentRow(i)">
+                                  <td   align="center">
+                                      <span  *ngIf="group.get('mode').value === 'D'">
+                                        <div>
+                                           <img [src]="'assets/images/edit.png'" (click)="edit(i)">
+                                        </div>
+                                        <div>
+                                         <img [src]="'assets/images/trash.png'" (click)="removeCommentRow(i)">
+                                        </div>
+                                      </span>
+                                     <span  *ngIf="group.get('mode').value === 'E'">
+                                        <div>
+                                             <img [src]="'assets/images/save.png'" (click)="save(i)">
+                                        </div>
+                                        <div>
+                                             <img [src]="'assets/images/cancel.png'" (click)="cancel(i)">
+                                        </div>
+                                      </span>
                                   </td>
                                   <td>
                                       <input type="text"  class="clr-input textcenter tdbox" size="10"     formControlName="code" >
@@ -76,7 +72,12 @@
                                        <input type="text"  class="clr-input textcenter tdbox" size="40"  formControlName="report" >
                                   </td>
                                   <td>
-                                    <textarea style="width:96%;display:block;margin:0 auto;"     class="textarea_01" formControlName="comment"></textarea>
+                                    <span  *ngIf="group.get('mode').value === 'D'">
+                                      <textarea style="width:96%;display:block;margin:0 auto;"  class="textarea_01" formControlName="comment"></textarea>
+                                    </span>
+                                    <span  *ngIf="group.get('mode').value === 'E'">
+                                      <textarea style="width:96%;display:block;margin:0 auto;"  rows="10"  cols="70"   class="textarea_01" formControlName="comment"></textarea>
+                                    </span>
                                   </td>
                               </tr>
                             </ng-container>

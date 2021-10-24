@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CodeDefaultValue } from 'src/app/services/codedefaultvalue';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { ICodement } from '../models/comments';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-managecode',
@@ -16,11 +17,12 @@ export class ManagecodeComponent implements OnInit {
   report = '';
   tablerowForm: FormGroup;
   enableDisable = true;
-  // testCode = '';
+  code = 'N';
 
   constructor(
     private defaultService: CodeDefaultValue,
     private fb: FormBuilder,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -60,7 +62,7 @@ export class ManagecodeComponent implements OnInit {
     if (code === 'none') {
       this.enableDisable = true;
     } else {
-      // this.testCode = code;
+      this.code = code;
       this.enableDisable = !this.enableDisable;
       const control = this.tablerowForm.get('tableRows') as FormArray;
       control.clear();
@@ -76,6 +78,27 @@ export class ManagecodeComponent implements OnInit {
     return this.enableDisable;
   }
 
+  save(i: number): void {
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    const rowData: ICodement = control.at(i).value;
+    const idx = this.lists.findIndex(list => list.id === rowData.id);
+    this.lists[idx] = rowData;
+    console.log('[84][저장]', rowData);
+
+    if (rowData.id === 'N') {
+      this.defaultService.codeinsertItem(this.type, rowData)
+        .subscribe(data => {
+          this.snackBar.open('저장 했습니다.', '닫기', { duration: 3000 });
+        });
+    } else {
+      this.defaultService.codeupdateItem(this.type, rowData)
+        .subscribe(data => {
+          this.snackBar.open('수정 했습니다.', '닫기', { duration: 3000 });
+        });
+    }
+
+  }
+
   ///////////////////////////////////////
   loadForm(): void {
     this.tablerowForm = this.fb.group({
@@ -88,7 +111,8 @@ export class ManagecodeComponent implements OnInit {
       code: ment.code,
       report: ment.report,
       comment: ment.comment,
-      type: ment.type
+      type: ment.type,
+      mode: 'D'
     });
   }
 
@@ -98,7 +122,8 @@ export class ManagecodeComponent implements OnInit {
       code: '',
       report: '',
       comment: '',
-      type: this.type
+      type: this.type,
+      mode: 'E'
     });
   }
 
@@ -114,7 +139,15 @@ export class ManagecodeComponent implements OnInit {
   removeCommentRow(i: number): void {
     const ask = confirm('삭제 하시겠습니까');
     if (ask) {
-      this.commentsRows().removeAt(i);
+      const control = this.tablerowForm.get('tableRows') as FormArray;
+      const rowData: ICodement = control.at(i).value;
+      this.defaultService.codedeleteItem(rowData.id)
+        .subscribe(data => {
+          this.commentsRows().removeAt(i);
+          this.snackBar.open('삭제 했습니다.', '닫기', { duration: 3000 });
+        });
+
+
     } else {
       return;
     }
@@ -130,9 +163,22 @@ export class ManagecodeComponent implements OnInit {
 
   //////////////////////////////////////////////////////////////
 
+  edit(i: number): void {
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    control.at(i).patchValue({ mode: 'E' });
+  }
 
-
-
+  cancel(i: number): void {
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    const rowData = control.at(i).value;
+    if (this.code === 'N') {
+      const idx = this.lists.findIndex(list => list.id === rowData.id);
+      console.log('[206]', i, this.lists[idx]);
+      control.at(i).patchValue({ ...this.lists[idx], mode: 'D' });
+    } else {
+      this.testcode(this.code);
+    }
+  }
 
 
 

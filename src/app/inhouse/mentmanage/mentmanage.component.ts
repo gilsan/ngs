@@ -19,10 +19,7 @@ export class MentmanageComponent implements OnInit, OnDestroy {
   lists: IMent[] = [];
   reportLists: IMent[] = [];
   report = '';
-  items: IMent[] = [
-    // tslint:disable-next-line:max-line-length
-    { target: '', specimen: '', analyzedgene: '', method: '', comment1: '', comment2: '', type: 'SEQ', report: 'BRCA1 Gene Analysis Report', code: 'LPC100' }
-  ];
+  code = 'N';
   constructor(
     private fb: FormBuilder,
     private defaultService: CodeDefaultValue,
@@ -45,14 +42,6 @@ export class MentmanageComponent implements OnInit, OnDestroy {
     });
   }
 
-  // inputData(): void {
-  //   defaultcodeLists.forEach(list => {
-  //     this.defaultService.insertBatch(list)
-  //       .subscribe(data => {
-  //         console.log(data);
-  //       });
-  //   });
-  // }
 
   loadData(): void {
     this.defaultService.getLists()
@@ -82,10 +71,11 @@ export class MentmanageComponent implements OnInit, OnDestroy {
 
   testcode(code: string): void {
     console.log(code);
-    this.report = this.reportLists.filter(list => list.code === code)[0].report;
     if (code === 'none') {
       return;
     } else {
+      this.code = code;
+      this.report = this.reportLists.filter(list => list.code === code)[0].report;
       const control = this.tablerowForm.get('tableRows') as FormArray;
       control.clear();
       this.reportLists = this.lists.filter(list => list.code === code);
@@ -139,13 +129,16 @@ export class MentmanageComponent implements OnInit, OnDestroy {
   removeCommentRow(i: number): void {
     const ask = confirm('삭제 하시겠습니까');
     if (ask) {
-      this.commentsRows().removeAt(i);
+
       const control = this.tablerowForm.get('tableRows') as FormArray;
       const rowData: IMent = control.at(i).value;
-      this.defaultService.deleteItem(rowData.id)
-        .subscribe(data => {
-          this.snackBar.open('삭제 하였습니다.', '닫기', { duration: 3000 });
-        });
+      this.commentsRows().removeAt(i);
+      console.log('[136][삭제]', control.getRawValue());
+      // this.defaultService.deleteItem(rowData.id)
+      //   .subscribe(data => {
+      //     this.commentsRows().removeAt(i);
+      //     this.snackBar.open('삭제 하였습니다.', '닫기', { duration: 3000 });
+      //   });
     } else {
       return;
     }
@@ -176,6 +169,9 @@ export class MentmanageComponent implements OnInit, OnDestroy {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     control.at(i).patchValue({ mode: 'D' });
     const rowData: IMent = control.at(i).value;
+    const idx = this.lists.findIndex(list => list.id === rowData.id);
+    this.lists[idx] = rowData;
+
     console.log('[130][저장]', rowData);
 
     if (rowData.code.length === 0) {
@@ -194,8 +190,6 @@ export class MentmanageComponent implements OnInit, OnDestroy {
       }
     }
 
-
-
   }
 
   edit(i: number): void {
@@ -204,7 +198,15 @@ export class MentmanageComponent implements OnInit, OnDestroy {
   }
 
   cancel(i: number): void {
-    this.commentsRows().removeAt(i);
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    const rowData = control.at(i).value;
+    if (this.code === 'N') {
+      const idx = this.lists.findIndex(list => list.id === rowData.id);
+      console.log('[206]', i, this.lists[idx]);
+      control.at(i).patchValue({ ...this.lists[idx], mode: 'D' });
+    } else {
+      this.testcode(this.code);
+    }
   }
 
 

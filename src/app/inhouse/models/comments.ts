@@ -14,6 +14,7 @@ export interface ICodement {
   report: string;
   comment: string;
   type: string;
+  mode?: string;
 }
 
 // export interface ICode {
