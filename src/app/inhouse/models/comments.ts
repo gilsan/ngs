@@ -7,3 +7,18 @@ export interface IComments {
   variant_id: string;
   display?: string;
 }
+
+export interface ICodement {
+  id: string;
+  code: string;
+  report: string;
+  comment: string;
+  type: string;
+}
+
+// export interface ICode {
+//   id: string;
+//   type: string;
+//   report: string;
+//   code: string;
+// }

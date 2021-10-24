@@ -3,13 +3,13 @@
 
         <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mg_b10">
             <tr>
-                <td  class="mail_title">판독예문코드관리</td>
+                <td  class="mail_title">판독예문관리</td>
             </tr>
         </table>
 
         <div class="box mg_b20 pd_20 search">
             <select class="select_01 select_001" #type (change)="findReportLists(type.value)" id="types">
-               <option>선택</option>
+               <option value="none">선택</option>
                <option value="SEQ">Sequencing</option>
                <option value="MLPA">MLPA</option>
                <option value="Genetic">유전성 유전질환</option>
@@ -18,20 +18,80 @@
                <option>선택</option>
                <option [value]="list.code" *ngFor="let list of reportLists">{{list.report}}</option>
            </select>&nbsp;&nbsp;
+            <!--
          <table border="0" cellspacing="0" cellpadding="0">
           <tr>
             <td class="main_btn">
               <ul>
                 <li>
-                  <button type="button" class="btn btn_01" >추가</button>
+                  <button type="button" class="btn btn_01" (click)="addNewCommentRow()" [disabled]="showHide()">추가</button>
                 </li>
+
                 <li>
                   <button type="button" class="btn btn_01" >저장</button>
                 </li>
+
               </ul>
             </td>
           </tr>
         </table>
+          -->
         </div>
+
+      <div class="box">
+         <div class="box_100">
+             <div  id="container_box">
+                <div  id="comment cell-1">
+                  <form [formGroup]="tablerowForm">
+                      <table border="0" cellpadding="0" cellspacing="0" class="table_list  fixed_header table_resul_x">
+                          <colgroup>
+                              <col width="5%">
+                              <col width="5%">
+                              <col width="20%">
+                              <col width="*">
+                              <col width="5%">
+                          </colgroup>
+                          <thead>
+                              <tr>
+                                  <th>
+                                     <button type="button" class="btn btn_01" (click)="addNewCommentRow()" >추가</button>
+                                  </th>
+                                  <th>TestCode</th>
+                                  <th>보고서명</th>
+                                  <th>판독예문내용</th>
+                                  <th></th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                            <ng-container formArrayName="tableRows" *ngFor="let group of commentsRows().controls; let i=index">
+                              <tr  [formGroupName]="i">
+                                  <td>
+                                    <img [src]="'assets/images/save.png'" (click)="save(i)">&nbsp;&nbsp;
+                                    <img [src]="'assets/images/trash.png'" (click)="removeCommentRow(i)">
+                                  </td>
+                                  <td>
+                                      <input type="text"  class="clr-input textcenter tdbox" size="10"     formControlName="code" >
+                                  </td>
+                                  <td>
+                                       <input type="text"  class="clr-input textcenter tdbox" size="40"  formControlName="report" >
+                                  </td>
+                                  <td>
+                                    <textarea style="width:96%;display:block;margin:0 auto;"     class="textarea_01" formControlName="comment"></textarea>
+                                  </td>
+                                  <td>
+                                     <button type="button" class="btn btn_01" >저장</button>
+                                  </td>
+                              </tr>
+                            </ng-container>
+                          </tbody>
+                      </table>
+                </form>
+                </div>
+
+             </div>
+         </div>
+      </div>
+
+
     </div>
 </div>

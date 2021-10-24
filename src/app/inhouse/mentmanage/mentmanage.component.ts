@@ -12,13 +12,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class MentmanageComponent implements OnInit, OnDestroy {
 
-
-
-  selected = 'Genetic';
+  selected = '';
   tablerowForm: FormGroup;
   private subs = new SubSink();
-
-
+  type = '';
+  lists: IMent[] = [];
+  reportLists: IMent[] = [];
+  report = '';
 
   constructor(
     private fb: FormBuilder,
@@ -28,7 +28,7 @@ export class MentmanageComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadForm();
-    this.findLists(this.selected);
+    this.loadData();
   }
 
   ngOnDestroy(): void {
@@ -41,17 +41,50 @@ export class MentmanageComponent implements OnInit, OnDestroy {
     });
   }
 
+  loadData(): void {
+    this.defaultService.getLists()
+      .subscribe(lists => {
+        console.log('[47]', lists);
+        this.lists = lists;
+        this.findLists(this.type);
+      });
+  }
+
 
   findLists(type: string): void {
-    this.defaultService.getLists(type)
-      .subscribe(lists => {
-        console.log(lists);
-        lists.forEach(list => {
-          this.commentsRows().push(this.createCommentRow(list));
-        });
-      });
+    this.type = type;
+    console.log('[56]', type);
+
+    this.reportLists = this.lists.filter(list => list.type === type);
+    this.reportLists = this.reportLists.sort((a, b) => {
+      const x = a.report; const y = b.report;
+      return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    });
+
+    this.reportLists.forEach(list => {
+      this.commentsRows().push(this.createCommentRow(list));
+    });
 
   }
+
+  testcode(code: string): void {
+    console.log(code);
+    // this.report = this.reportLists.filter(list => list.code === code)[0].report;
+    // if (code === 'none') {
+    //   this.enableDisable = true;
+    // } else {
+    //   // this.testCode = code;
+    //   this.enableDisable = !this.enableDisable;
+    //   const control = this.tablerowForm.get('tableRows') as FormArray;
+    //   control.clear();
+    //   this.reportLists = this.lists.filter(list => list.code === code);
+    //   this.reportLists.forEach(list => {
+    //     this.commentsRows().push(this.createCommentRow(list));
+    //   });
+    // }
+
+  }
+
 
 
 
@@ -95,13 +128,19 @@ export class MentmanageComponent implements OnInit, OnDestroy {
   }
 
   removeCommentRow(i: number): void {
-    this.commentsRows().removeAt(i);
-    const control = this.tablerowForm.get('tableRows') as FormArray;
-    const rowData: IMent = control.at(i).value;
-    this.defaultService.deleteItem(rowData.id)
-      .subscribe(data => {
-        this.snackBar.open('삭제 하였습니다.', '닫기', { duration: 3000 });
-      });
+    const ask = confirm('삭제 하시겠습니까');
+    if (ask) {
+      this.commentsRows().removeAt(i);
+      const control = this.tablerowForm.get('tableRows') as FormArray;
+      const rowData: IMent = control.at(i).value;
+      this.defaultService.deleteItem(rowData.id)
+        .subscribe(data => {
+          this.snackBar.open('삭제 하였습니다.', '닫기', { duration: 3000 });
+        });
+    } else {
+      return;
+    }
+
   }
 
   get getFormControls(): any {
