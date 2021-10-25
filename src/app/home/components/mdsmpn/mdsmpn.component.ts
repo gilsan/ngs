@@ -247,7 +247,7 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.setSheet(sheet);
     this.store.setWhichstate('searchscreen');
     this.lists = [];
-
+    const tempLists = [];
     //
     const startdate = start.toString().replace(/-/gi, '');
     const enddate = end.toString().replace(/-/gi, '');
@@ -260,26 +260,46 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
       specimenNo = specimenNo.trim();
     }
 
-    this.lists$ = this.patientsList.mdsmpnSearch(startdate, enddate, patientId, specimenNo, status, sheet);
-    this.subs.sink = this.lists$
-      .pipe(
-        switchMap(item => of(item)),
-        switchMap(list => from(list)),
-        filter(list => list.test_code === 'LPE473'),
-        map(list => {
+    this.patientsList.mdsmpnSearch2(startdate, enddate, patientId, specimenNo, status, sheet)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        data.forEach(list => {
           if (list.test_code === 'LPE473') {
-            return { ...list, test_code: 'MDS/MPN' };
+            tempLists.push({ ...list, test_code: 'MDS/MPN' });
           }
-        }),
-        // tap(list => console.log(list)),
-      ).subscribe((data: any) => {
-        if (data.reportTitle === '') {
-          data.reportTitle = this.titleService.getMltaTitle('LPE473');
-        }
-        this.lists.push(data);
+        });
+        console.log(tempLists);
+        this.patientsList.setPatientID(tempLists);
+        this.lists = tempLists;
         this.patientID = '';
         this.specimenNo = '';
       });
+
+
+
+
+
+    // this.lists$ = this.patientsList.mdsmpnSearch(startdate, enddate, patientId, specimenNo, status, sheet);
+    // this.subs.sink = this.lists$
+    //   .pipe(
+    //     switchMap(item => of(item)),
+    //     switchMap(list => from(list)),
+    //     filter(list => list.test_code === 'LPE473'),
+    //     map(list => {
+    //       if (list.test_code === 'LPE473') {
+    //         return { ...list, test_code: 'MDS/MPN' };
+    //       }
+    //     }),
+    //     // tap(list => console.log(list)),
+    //   ).subscribe((data: any) => {
+    //     if (data.reportTitle === '') {
+    //       data.reportTitle = this.titleService.getMltaTitle('LPE473');
+    //     }
+    //     this.lists.push(data);
+    //     this.patientID = '';
+    //     this.specimenNo = '';
+    //   });
 
   }
   // 환자ID

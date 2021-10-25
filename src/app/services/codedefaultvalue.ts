@@ -63,8 +63,8 @@ export class CodeDefaultValue {
     return this.http.post<ICodecomment[]>(`${this.apiUrl}/codedefault/commentlists`, { type, code });
   }
 
-  public commentinsertItem(ment: ICodecomment): Observable<any> {
-    return this.http.post(`${this.apiUrl}/codedefault/commentinsert`, { ...ment });
+  public commentinsertItem(ment: ICodecomment[]): Observable<any> {
+    return this.http.post(`${this.apiUrl}/codedefault/commentinsert`, { reading: ment });
   }
 
   public commentupdateItem(ment: ICodecomment): Observable<any> {

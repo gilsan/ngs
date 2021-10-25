@@ -260,25 +260,35 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // MDS/MPN [NGS]  : LPE473 (골수형성이상, 골수증식종양)
     // Lymphoma [NGS] : LPE474-악성림프종, LPE475-형질세포종
-    this.lists$ = this.patientsList.lymphomaSearch(startdate, enddate, patientId, specimenNo, status, sheet);
-    this.subs.sink = this.lists$
-      .pipe(
-        switchMap(item => of(item)),
-        switchMap(list => from(list)),
-        filter(list => lymphomaLists.includes(list.test_code)),
-      ).subscribe((data: any) => {
-        if (data.reportTitle === '') {
-          const title = this.titleService.getMltaTitle(data.test_code);
-          if (title !== 'None') {
-            data.reportTitle = title;
-          }
-
-        }
-
-        this.lists.push(data);
+    this.patientsList.lymphomaSearch2(startdate, enddate, patientId, specimenNo, status, sheet)
+      .then(response => response.json())
+      .then(data => {
+        console.log('[LYM]', data);
+        this.patientsList.setPatientID(data);
+        this.lists = data;
         this.patientID = '';
         this.specimenNo = '';
       });
+
+    // this.lists$ = this.patientsList.lymphomaSearch(startdate, enddate, patientId, specimenNo, status, sheet);
+    // this.subs.sink = this.lists$
+    //   .pipe(
+    //     switchMap(item => of(item)),
+    //     switchMap(list => from(list)),
+    //     filter(list => lymphomaLists.includes(list.test_code)),
+    //   ).subscribe((data: any) => {
+    //     if (data.reportTitle === '') {
+    //       const title = this.titleService.getMltaTitle(data.test_code);
+    //       if (title !== 'None') {
+    //         data.reportTitle = title;
+    //       }
+
+    //     }
+
+    //     this.lists.push(data);
+    //     this.patientID = '';
+    //     this.specimenNo = '';
+    //   });
 
   }
   // 환자ID

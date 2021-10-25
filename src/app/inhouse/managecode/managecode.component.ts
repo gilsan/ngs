@@ -71,8 +71,7 @@ export class ManagecodeComponent implements OnInit {
     } else {
       this.code = code;
       this.disAble = true;
-      // const control = this.tablerowForm.get('tableRows') as FormArray;
-      // control.clear();
+
       this.tablerowsClear();
       this.lists.filter(list => list.code === code).forEach(list => {
         this.commentsRows().push(this.createCommentRow(list));
@@ -114,7 +113,7 @@ export class ManagecodeComponent implements OnInit {
     this.disAble = false;
     this.show = true;
     this.exshow = false;
-    this.tablerowsClear();
+
 
     this.reportLists = [...this.reportLists, rowData];
     this.reportLists.forEach(list => {
@@ -124,9 +123,20 @@ export class ManagecodeComponent implements OnInit {
     // readingcomment
     const commentControl = this.tablerowForm.get('commentRows') as FormArray;
     const commentFormData = commentControl.getRawValue();
-    // this.defaultService.commentinsertItem(commentFormData)
+    for (const el of commentFormData) {
+      el.code = rowData.code;
+    }
 
-    console.log('[129][신규저장]', commentFormData);
+    console.log('[129][신규저장]', commentFormData, rowData);
+    this.defaultService.commentinsertItem(commentFormData).subscribe(data => {
+      console.log('[131][판독문저장]');
+      this.commentClear();
+
+    });
+
+    this.defaultService.codeinsertItem(this.type, rowData).subscribe(data => {
+      this.tablerowsClear();
+    });
   }
 
   ///////////////////////////////////////

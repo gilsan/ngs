@@ -76,18 +76,24 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   init(): void {
-    this.lists$ = this.patientsList.getPatientList();
-    this.subs.sink = this.lists$
-      .pipe(
-        switchMap(item => of(item)),
-        switchMap(list => from(list)),
-        filter(list => this.sequencingLists.includes(list.test_code)),
-        tap(list => console.log(list)),
-      )
-      .subscribe((data) => {
-
-        this.lists.push(data);
+    this.patientsList.getPatientList2()
+      .then(response => response.json())
+      .then(data => {
+        this.patientsList.setPatientID(data);
+        this.lists = data;
       });
+    // this.lists$ = this.patientsList.getPatientList();
+    // this.subs.sink = this.lists$
+    //   .pipe(
+    //     switchMap(item => of(item)),
+    //     switchMap(list => from(list)),
+    //     filter(list => this.sequencingLists.includes(list.test_code)),
+    //     tap(list => console.log(list)),
+    //   )
+    //   .subscribe((data) => {
+
+    //     this.lists.push(data);
+    //   });
   }
 
   scrollPosition(): void {

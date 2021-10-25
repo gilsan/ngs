@@ -74,18 +74,22 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   init(): void {
-    this.lists$ = this.patientsList.getPatientList();
-    this.subs.sink = this.lists$
-      .pipe(
-        switchMap(item => of(item)),
-        switchMap(list => from(list)),
-        filter(list => this.mlpaLists.includes(list.test_code)),
-        // consoletap(list => console.log(list)),
-      )
-      .subscribe((data) => {
-        // console.log(data);
-        this.lists.push(data);
+    this.patientsList.getPatientList2()
+      .then(response => response.json())
+      .then(data => {
+        this.patientsList.setPatientID(data);
+        this.lists = data;
       });
+    // this.lists$ = this.patientsList.getPatientList();
+    // this.subs.sink = this.lists$
+    //   .pipe(
+    //     switchMap(item => of(item)),
+    //     switchMap(list => from(list)),
+    //     filter(list => this.mlpaLists.includes(list.test_code)),
+    //   )
+    //   .subscribe((data) => {
+    //     this.lists.push(data);
+    //   });
   }
 
   scrollPosition(): void {
@@ -243,25 +247,37 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
       specimenNo = specimenNo.trim();
     }
 
-    this.lists$ = this.patientsList.mlpaSearch(startdate, enddate, patientId, specimenNo, status, sheet);
-    this.subs.sink = this.lists$
-      .pipe(
-        switchMap(item => of(item)),
-        switchMap(list => from(list)),
-        filter(list => this.mlpaLists.includes(list.test_code)),
-        // tap(data => console.log('[MLPA][267]', data))
-      ).subscribe((data: any) => {
-        if (data.reportTitle === '') {
-          const title = this.titleService.getMltaTitle(data.test_code);
-          if (title !== 'None') {
-            data.reportTitle = title;
-          }
 
-        }
-        this.lists.push(data);
+    this.patientsList.mlpaSearch2(startdate, enddate, patientId, specimenNo, status, sheet)
+      .then(response => response.json())
+      .then(data => {
+        this.patientsList.setPatientID(data);
+        this.lists = data;
         this.patientID = '';
         this.specimenNo = '';
       });
+
+
+
+    // this.lists$ = this.patientsList.mlpaSearch(startdate, enddate, patientId, specimenNo, status, sheet);
+    // this.subs.sink = this.lists$
+    //   .pipe(
+    //     switchMap(item => of(item)),
+    //     switchMap(list => from(list)),
+    //     filter(list => this.mlpaLists.includes(list.test_code)),
+    //     // tap(data => console.log('[MLPA][267]', data))
+    //   ).subscribe((data: any) => {
+    //     if (data.reportTitle === '') {
+    //       const title = this.titleService.getMltaTitle(data.test_code);
+    //       if (title !== 'None') {
+    //         data.reportTitle = title;
+    //       }
+
+    //     }
+    //     this.lists.push(data);
+    //     this.patientID = '';
+    //     this.specimenNo = '';
+    //   });
 
   }
 

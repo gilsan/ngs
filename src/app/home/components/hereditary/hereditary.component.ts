@@ -73,19 +73,24 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   init(): void {
-    this.lists$ = this.patientsList.getPatientList();
-    this.subs.sink = this.lists$
-      .pipe(
-        switchMap(item => of(item)),
-        switchMap(list => from(list)),
-        tap(list => console.log(list)),
-        filter(list => this.hereditaryLists.includes(list.test_code)),
-        tap(list => console.log(list)),
-      )
-      .subscribe((data) => {
-        this.lists.push(data);
-        // console.log('[유전성유전][환자정보]', this.lists);
+    this.patientsList.getPatientList2()
+      .then(response => response.json())
+      .then(data => {
+        this.patientsList.setPatientID(data);
+        this.lists = data;
       });
+    // this.lists$ = this.patientsList.getPatientList();
+    // this.subs.sink = this.lists$
+    //   .pipe(
+    //     switchMap(item => of(item)),
+    //     switchMap(list => from(list)),
+    //     tap(list => console.log(list)),
+    //     filter(list => this.hereditaryLists.includes(list.test_code)),
+    //     tap(list => console.log(list)),
+    //   )
+    //   .subscribe((data) => {
+    //     this.lists.push(data);
+    //   });
   }
 
   scrollPosition(): void {
@@ -259,27 +264,34 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     if (specimenNo !== undefined) {
       specimenNo = specimenNo.trim();
     }
-
-
-    this.lists$ = this.patientsList.hereditarySearch(startdate, enddate, patientId, specimenNo, status, sheet);
-    this.subs.sink = this.lists$
-      .pipe(
-        switchMap(item => of(item)),
-        switchMap(list => from(list)),
-        filter(list => this.hereditaryLists.includes(list.test_code)),
-        // tap(list => console.log(list)),
-      ).subscribe((data: any) => {
-        if (data.reportTitle === '') {
-          const title = this.titleService.getMltaTitle(data.test_code);
-          if (title !== 'None') {
-            data.reportTitle = title;
-          }
-
-        }
-        this.lists.push(data);
+    this.patientsList.hereditarySearch2(startdate, enddate, patientId, specimenNo, status, sheet)
+      .then(response => response.json())
+      .then(data => {
+        this.patientsList.setPatientID(data);
+        this.lists = data;
         this.patientID = '';
         this.specimenNo = '';
       });
+
+    // this.lists$ = this.patientsList.hereditarySearch(startdate, enddate, patientId, specimenNo, status, sheet);
+    // this.subs.sink = this.lists$
+    //   .pipe(
+    //     switchMap(item => of(item)),
+    //     switchMap(list => from(list)),
+    //     filter(list => this.hereditaryLists.includes(list.test_code)),
+    //     // tap(list => console.log(list)),
+    //   ).subscribe((data: any) => {
+    //     if (data.reportTitle === '') {
+    //       const title = this.titleService.getMltaTitle(data.test_code);
+    //       if (title !== 'None') {
+    //         data.reportTitle = title;
+    //       }
+
+    //     }
+    //     this.lists.push(data);
+    //     this.patientID = '';
+    //     this.specimenNo = '';
+    //   });
 
   }
   // 환자ID

@@ -50,13 +50,24 @@ export class PatientsListService {
         });
       }),
       tap(data => {
-        // console.log('[29][getPatientList]', data);
         this.patientInfo = data;
       }),
       tap(data => console.log('[56][patientslist][getPatientList]', this.patientInfo))
 
     );
   }
+
+  public getPatientList2() {
+    return fetch(`${this.apiUrl}/patients_diag/list`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/text',
+      },
+    });
+  }
+
+
+  /////////////////////////////////////////////////////
 
   // 검진자 정보 가져오기 this.form2TestedId
   public getPatientInfo(specimenNo: string): Observable<IPatient> {
@@ -889,6 +900,21 @@ export class PatientsListService {
       );
   }
 
+  public lymphomaSearch2(start: string, end: string, patientID: string = '',
+    specimenNo: string = '',
+    status: string = '', sheet: string = '') {
+    return fetch(`${this.apiUrl}/searchpatient_diag/listLymphoma`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        start, end, patientID, specimenNo, status, sheet,
+      }),
+    });
+  }
+
+
   // MDS/MPN
   public mdsmpnSearch(start: string, end: string, patientID: string = '',
     specimenNo: string = '',
@@ -899,7 +925,19 @@ export class PatientsListService {
         shareReplay()
       );
   }
-
+  public mdsmpnSearch2(start: string, end: string, patientID: string = '',
+    specimenNo: string = '',
+    status: string = '', sheet: string = '') {
+    return fetch(`${this.apiUrl}/searchpatient_diag/listMdsMpn`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        start, end, patientID, specimenNo, status, sheet,
+      }),
+    });
+  }
 
 
   // genetic 유전성 유전성
@@ -912,6 +950,21 @@ export class PatientsListService {
         shareReplay()
       );
   }
+
+  public hereditarySearch2(start: string, end: string, patientID: string = '',
+    specimenNo: string = '',
+    status: string = '', sheet: string = '') {
+    return fetch(`${this.apiUrl}/searchpatient_diag/listGenetic`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        start, end, patientID, specimenNo, status, sheet,
+      }),
+    });
+  }
+
 
   // sequencing
   public sequencingSearch(start: string, end: string, patientID: string = '',
@@ -957,6 +1010,21 @@ export class PatientsListService {
         tap(data => this.patientInfo = data),
         shareReplay()
       );
+  }
+
+
+  public mlpaSearch2(start: string, end: string, patientID: string = '',
+    specimenNo: string = '',
+    status: string = '', sheet: string = '') {
+    return fetch(`${this.apiUrl}/searchpatient_diag/listMlpa`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        start, end, patientID, specimenNo, status, sheet,
+      }),
+    });
   }
 
   public screenSelect(specimenNo: string): Observable<any> {
