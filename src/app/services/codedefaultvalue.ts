@@ -41,7 +41,7 @@ export class CodeDefaultValue {
     return this.http.post(`${this.apiUrl}/codedefault/delete`, { id });
   }
 
-  //////////////
+  //////////////  testcodelists
   public getCodeLists(): Observable<ICodement[]> {
     return this.http.get<ICodement[]>(`${this.apiUrl}/codedefault/codelists`);
   }
@@ -58,7 +58,7 @@ export class CodeDefaultValue {
     return this.http.post(`${this.apiUrl}/codedefault/codedelete`, { id });
   }
 
-  ///////////// 코멘트 관리
+  ///////////// 코멘트 관리 readingcomment
   public getCommentLists(type: string, code: string): Observable<ICodecomment[]> {
     return this.http.post<ICodecomment[]>(`${this.apiUrl}/codedefault/commentlists`, { type, code });
   }

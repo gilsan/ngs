@@ -70,21 +70,26 @@
                                      <td class="txt_c">
                                           <input type="text"  class="clr-input textcenter tdbox" size="40"  formControlName="report" >
                                      </td>
-                                     <td>
-                                        <button type="button" class="btn btn_01" >보기</button>
+                                     <td  *ngIf="show; else noshow;">
+                                        <button type="button" class="btn btn_01" (click)="getExampleLists(i)">예문보기</button>
                                      </td>
+
+                                     <ng-template #noshow>
+                                        <td></td>
+                                     </ng-template>
                                      <td align="center" *ngIf="code === 'none'">
                                          <a class="btn-save" (click)="save(i)">저장</a>
                                          <a class="btn-delete" (click)="removeCommentRow(i)">삭제</a>
                                      </td>
 
-                                     <td align="center" *ngIf="code !== 'none'">
+                                     <td align="center" *ngIf="(code !== 'none' && code !== 'new')">
                                          <a class="btn-save" (click)="save(i)">저장</a>
-                                         <a class="btn-delete" (click)="removeCommentRow(i)">삭제</a>
                                          <a class="btn-cancel" (click)="cancel(i)">취소</a>
                                      </td>
-
-
+                                     <td align="center" *ngIf="code === 'new'">
+                                         <a class="btn-save" (click)="newSave(i)">저장</a>
+                                         <a class="btn-cancel" (click)="cancel(i)">취소</a>
+                                     </td>
 
                                  </tr>
                                </ng-container>
@@ -97,7 +102,8 @@
          </div>
         </div>
         <div class="col_5">
-          <h3>판독예시문목록</h3>
+          <h3>판독예시문목록</h3>&nbsp;&nbsp;
+          <button type="button" *ngIf="exshow" class="btn btn_01" (click)="addNewExampleRow()">추가</button>
           <div class="box">
             <div class="box_100 full">
                 <div  id="container_box">
@@ -113,7 +119,7 @@
                                  <tr>
                                      <th>No.</th>
                                      <th>판독예문내용</th>
-                                     <th>수정/삭제</th>
+                                     <th>삭제</th>
                                  </tr>
                              </thead>
                              <tbody>
@@ -123,15 +129,15 @@
                                      <td>
                                         <textarea style="width:96%;display:block;margin:0 auto;"  formControlName="comment"   class="textarea_01"  ></textarea>
                                      </td>
-                                     <td>
+                                     <td align="center">
+                                        <!--   <a class="btn-save">저장</a>  -->
+                                          <a class="btn-delete" (click)= "deletExampleRow(i)">삭제</a>
+                                          <!--
                                       <span class="bdnone">
-
-                                          <a class="btn-delete">삭제</a>
                                       </span>
                                       <span class="wid120 bdnone">
-
-                                          <a class="btn-save">저장</a>
                                       </span>
+                                      -->
                                      </td>
                                  </tr>
                                </ng-container>

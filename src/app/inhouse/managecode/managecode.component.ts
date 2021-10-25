@@ -16,8 +16,10 @@ export class ManagecodeComponent implements OnInit {
   reportLists: ICodement[] = [];
   report = '';
   tablerowForm: FormGroup;
-  enableDisable = true;
+  disAble = true;
   code = 'none';
+  show = true;
+  exshow = false;
 
   constructor(
     private defaultService: CodeDefaultValue,
@@ -33,14 +35,15 @@ export class ManagecodeComponent implements OnInit {
   loadData(): void {
     this.defaultService.getCodeLists().subscribe(data => {
       this.lists = data;
-      console.log('[36] ', this.lists);
+      // console.log('[36] ', this.lists);
       this.findReportLists(this.type);
     });
   }
 
   findReportLists(type: string): void {
-    const control = this.tablerowForm.get('tableRows') as FormArray;
-    control.clear();
+    // const control = this.tablerowForm.get('tableRows') as FormArray;
+    // control.clear();
+    this.tablerowsClear();
     this.code = 'none';
     this.type = type;
     this.reportLists = this.lists.filter(list => list.type === type);
@@ -53,9 +56,9 @@ export class ManagecodeComponent implements OnInit {
       this.reportLists.forEach(list => {
         this.commentsRows().push(this.createCommentRow(list));
       });
-      this.enableDisable = false;
+      this.disAble = false;
     } else {
-      this.enableDisable = true;
+      this.disAble = true;
     }
 
   }
@@ -64,12 +67,13 @@ export class ManagecodeComponent implements OnInit {
     // console.log(code);
     this.report = this.reportLists.filter(list => list.code === code)[0].report;
     if (code === 'none') {
-      this.enableDisable = true;
+      this.disAble = true;
     } else {
       this.code = code;
-      this.enableDisable = false;
-      const control = this.tablerowForm.get('tableRows') as FormArray;
-      control.clear();
+      this.disAble = true;
+      // const control = this.tablerowForm.get('tableRows') as FormArray;
+      // control.clear();
+      this.tablerowsClear();
       this.lists.filter(list => list.code === code).forEach(list => {
         this.commentsRows().push(this.createCommentRow(list));
       });
@@ -80,7 +84,7 @@ export class ManagecodeComponent implements OnInit {
   }
   ///////////////////////////////////////
   showHide(): boolean {
-    return this.enableDisable;
+    return this.disAble;
   }
 
   save(i: number): void {
@@ -101,7 +105,28 @@ export class ManagecodeComponent implements OnInit {
           this.snackBar.open('수정 했습니다.', '닫기', { duration: 3000 });
         });
     }
+  }
 
+  newSave(i: number): void {
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    const rowData: ICodement = control.at(i).value;
+    this.code = 'none';
+    this.disAble = false;
+    this.show = true;
+    this.exshow = false;
+    this.tablerowsClear();
+
+    this.reportLists = [...this.reportLists, rowData];
+    this.reportLists.forEach(list => {
+      this.commentsRows().push(this.createCommentRow(list));
+    });
+
+    // readingcomment
+    const commentControl = this.tablerowForm.get('commentRows') as FormArray;
+    const commentFormData = commentControl.getRawValue();
+    // this.defaultService.commentinsertItem(commentFormData)
+
+    console.log('[129][신규저장]', commentFormData);
   }
 
   ///////////////////////////////////////
@@ -133,9 +158,48 @@ export class ManagecodeComponent implements OnInit {
     return this.tablerowForm.get('tableRows') as FormArray;
   }
 
+  // 신규추가
   addNewCommentRow(): void {
+    this.tablerowsClear();
+    this.commentClear();
+    this.code = 'new';
+    this.disAble = true;
+    this.exshow = true;
+    this.show = false;
     this.commentsRows().push(this.newCommentRow());
     this.mentsRow().push(this.newMentRow());
+  }
+
+  // 예문신규추가
+  addNewExampleRow(): void {
+    this.mentsRow().push(this.newMentRow());
+  }
+
+  // 예문출력
+  displayExample(lists: ICodecomment[]): void {
+    lists.forEach(list => {
+      this.mentsRow().push(this.createMentRow(list));
+    });
+  }
+
+  // 예문삭제
+  deletExampleRow(i: number): void {
+    this.mentsRow().removeAt(i);
+  }
+
+  // 보고서 보기
+  showExample(): void {
+    this.exshow = true;
+  }
+
+  // 예문보기 선택시
+  getExampleLists(i: number): void {
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    const formData = control.at(i).value;
+    this.defaultService.getCommentLists(this.type, formData.code)
+      .subscribe(lists => {
+        console.log('[195][예문보기] ', lists)
+      });
   }
 
   removeCommentRow(i: number): void {
@@ -143,6 +207,8 @@ export class ManagecodeComponent implements OnInit {
     if (ask) {
       const control = this.tablerowForm.get('tableRows') as FormArray;
       const rowData: ICodement = control.at(i).value;
+      this.commentClear();
+
       this.defaultService.codedeleteItem(rowData.id)
         .subscribe(data => {
           this.commentsRows().removeAt(i);
@@ -151,6 +217,11 @@ export class ManagecodeComponent implements OnInit {
     } else {
       return;
     }
+  }
+
+  tablerowsClear(): void {
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    control.clear();
   }
 
   get getFormControls(): any {
@@ -197,10 +268,6 @@ export class ManagecodeComponent implements OnInit {
 
   }
 
-
-
-
-
   /////////////////////////////////////////////////////////////
 
   edit(i: number): void {
@@ -209,11 +276,20 @@ export class ManagecodeComponent implements OnInit {
 
   cancel(i: number): void {
     this.code = 'none';
+    this.disAble = false;
+    this.show = true;
+    this.exshow = false;
+    this.tablerowsClear();
+    this.commentClear();
     this.reportLists.forEach(list => {
       this.commentsRows().push(this.createCommentRow(list));
     });
   }
 
 
+
+
+
+  ///////////////////////////////////////////////////////////////////
 
 }

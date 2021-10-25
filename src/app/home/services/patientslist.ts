@@ -18,7 +18,7 @@ export class PatientsListService {
   private listSubject$ = new Subject<string>();
   public listObservable$ = this.listSubject$.asObservable();
   private jimTestedID: string;
-  public patientInfo: IPatient[];
+  public patientInfo: IPatient[] = [];
   testCode: string;
 
   geneCoding: IGeneCoding[];
@@ -917,12 +917,30 @@ export class PatientsListService {
   public sequencingSearch(start: string, end: string, patientID: string = '',
     specimenNo: string = '',
     status: string = '', sheet: string = ''): Observable<IPatient[]> {
+    this.patientInfo = [];
     return this.http.post<IPatient[]>(`${this.apiUrl}/searchpatient_diag/listSequencing`,
       { start, end, patientID, specimenNo, status, sheet }).pipe(
         tap(data => this.patientInfo = data),
         shareReplay()
       );
   }
+
+  public sequencingSearch2(start: string, end: string, patientID: string = '',
+    specimenNo: string = '',
+    status: string = '', sheet: string = '') {
+    return fetch(`${this.apiUrl}/searchpatient_diag/listSequencing`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        start, end, patientID, specimenNo, status, sheet,
+      }),
+    });
+
+
+  }
+
 
   // mlpa
   public mlpaSearch(start: string, end: string, patientID: string = '',

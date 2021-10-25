@@ -245,26 +245,37 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
       specimenNo = specimenNo.trim();
     }
 
-    this.lists$ = this.patientsList.sequencingSearch(startdate, enddate, patientId, specimenNo, status, sheet);
-    this.subs.sink = this.lists$
-      .pipe(
-        switchMap(item => of(item)),
-        switchMap(list => from(list)),
-        // tap(list => console.log('[250]', list)),
-        filter(list => this.sequencingLists.includes(list.test_code)),
-      ).subscribe((data: any) => {
-
-        if (data.reportTitle === '') {
-          const title = this.titleService.getMltaTitle(data.test_code);
-          if (title !== 'None') {
-            data.reportTitle = title;
-          }
-
-        }
-        this.lists.push(data);
-        this.patientID = '';
-        this.specimenNo = '';
+    this.patientsList.sequencingSearch2(startdate, enddate, patientId, specimenNo, status, sheet)
+      .then(response => response.json())
+      .then(data => {
+        data.forEach(list => {
+          this.lists.push(list);
+          this.patientID = '';
+          this.specimenNo = '';
+        });
       });
+
+
+    // this.lists$ = this.patientsList.sequencingSearch(startdate, enddate, patientId, specimenNo, status, sheet);
+    // this.subs.sink = this.lists$
+    //   .pipe(
+    //     switchMap(item => of(item)),
+    //     switchMap(list => from(list)),
+    //     filter(list => this.sequencingLists.includes(list.test_code)),
+    //     // tap(data => console.log(data))
+    //   ).subscribe((data: any) => {
+
+    //     if (data.reportTitle === '') {
+    //       const title = this.titleService.getMltaTitle(data.test_code);
+    //       if (title !== 'None') {
+    //         data.reportTitle = title;
+    //       }
+
+    //     }
+    //     this.lists.push(data);
+    //     this.patientID = '';
+    //     this.specimenNo = '';
+    //   });
 
   }
 
