@@ -67,13 +67,15 @@ export class CodeDefaultValue {
     return this.http.post(`${this.apiUrl}/codedefault/commentinsert`, { reading: ment });
   }
 
-  public commentupdateItem(ment: ICodecomment): Observable<any> {
-    return this.http.post(`${this.apiUrl}/codedefault/commentupdate`, { ...ment });
+  public commentupdateItem(ment: ICodecomment[]): Observable<any> {
+    return this.http.post(`${this.apiUrl}/codedefault/commentupdate`, { reading: ment });
   }
 
-  public commentdeleteItem(id: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/codedefault/commentdelete`, { id });
+  public commentdeleteItem(ment: ICodecomment[]): Observable<any> {
+    return this.http.post(`${this.apiUrl}/codedefault/commentdelete`, { reading: ment });
   }
+
+
 
 
 

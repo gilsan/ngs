@@ -35,15 +35,14 @@ export class ManagecodeComponent implements OnInit {
   loadData(): void {
     this.defaultService.getCodeLists().subscribe(data => {
       this.lists = data;
-      // console.log('[36] ', this.lists);
       this.findReportLists(this.type);
     });
   }
 
   findReportLists(type: string): void {
-    // const control = this.tablerowForm.get('tableRows') as FormArray;
-    // control.clear();
+
     this.tablerowsClear();
+    this.commentClear();
     this.code = 'none';
     this.type = type;
     this.reportLists = this.lists.filter(list => list.type === type);
@@ -64,7 +63,7 @@ export class ManagecodeComponent implements OnInit {
   }
 
   testcode(code: string): void {
-    // console.log(code);
+
     this.report = this.reportLists.filter(list => list.code === code)[0].report;
     if (code === 'none') {
       this.disAble = true;
@@ -91,7 +90,7 @@ export class ManagecodeComponent implements OnInit {
     const rowData: ICodement = control.at(i).value;
     const idx = this.lists.findIndex(list => list.id === rowData.id);
     this.lists[idx] = rowData;
-    console.log('[84][저장]', rowData);
+
 
     if (rowData.id === 'N') {
       this.defaultService.codeinsertItem(this.type, rowData)
@@ -104,6 +103,26 @@ export class ManagecodeComponent implements OnInit {
           this.snackBar.open('수정 했습니다.', '닫기', { duration: 3000 });
         });
     }
+
+    const commentControl = this.tablerowForm.get('commentRows') as FormArray;
+    const commentFormData: ICodecomment[] = commentControl.getRawValue();
+    console.log('[110][저장]', commentFormData);
+    commentFormData.forEach(list => {
+      if (list.id === 'N') {
+        list.code = rowData.code;
+        this.defaultService.commentinsertItem([list])
+          .subscribe(data => {
+            this.snackBar.open('저장 했습니다.', '닫기', { duration: 2000 });
+          });
+      } else {
+        this.defaultService.commentupdateItem([list])
+          .subscribe(data => {
+            this.snackBar.open('수정 했습니다.', '닫기', { duration: 2000 });
+          });
+      }
+    });
+    this.commentClear();
+
   }
 
   newSave(i: number): void {
@@ -114,12 +133,6 @@ export class ManagecodeComponent implements OnInit {
     this.show = true;
     this.exshow = false;
 
-
-    this.reportLists = [...this.reportLists, rowData];
-    this.reportLists.forEach(list => {
-      this.commentsRows().push(this.createCommentRow(list));
-    });
-
     // readingcomment
     const commentControl = this.tablerowForm.get('commentRows') as FormArray;
     const commentFormData = commentControl.getRawValue();
@@ -127,16 +140,21 @@ export class ManagecodeComponent implements OnInit {
       el.code = rowData.code;
     }
 
-    console.log('[129][신규저장]', commentFormData, rowData);
     this.defaultService.commentinsertItem(commentFormData).subscribe(data => {
-      console.log('[131][판독문저장]');
       this.commentClear();
-
     });
 
     this.defaultService.codeinsertItem(this.type, rowData).subscribe(data => {
+      this.reportLists = [...this.reportLists, rowData];
+      this.lists = [...this.lists, rowData];
       this.tablerowsClear();
+
+      this.reportLists.forEach(list => {
+
+        this.commentsRows().push(this.createCommentRow(list));
+      });
     });
+
   }
 
   ///////////////////////////////////////
@@ -208,7 +226,10 @@ export class ManagecodeComponent implements OnInit {
     const formData = control.at(i).value;
     this.defaultService.getCommentLists(this.type, formData.code)
       .subscribe(lists => {
-        console.log('[195][예문보기] ', lists)
+        console.log('[예문보기]', lists);
+        this.commentClear();
+        this.displayExample(lists);
+        this.exshow = true;
       });
   }
 
@@ -217,13 +238,39 @@ export class ManagecodeComponent implements OnInit {
     if (ask) {
       const control = this.tablerowForm.get('tableRows') as FormArray;
       const rowData: ICodement = control.at(i).value;
-      this.commentClear();
-
+      console.log('[242]', rowData);
       this.defaultService.codedeleteItem(rowData.id)
         .subscribe(data => {
           this.commentsRows().removeAt(i);
           this.snackBar.open('삭제 했습니다.', '닫기', { duration: 3000 });
+          const idx = this.lists.findIndex(list => list.id === rowData.id);
+          this.lists.splice(idx, 1);
+          const index = this.reportLists.findIndex(list => list.id === rowData.id);
+          this.reportLists.splice(index, 1);
         });
+
+      const commentControl = this.tablerowForm.get('commentRows') as FormArray;
+      const commentFormData: ICodecomment[] = commentControl.getRawValue();
+      if (commentFormData.length > 0) {
+        commentFormData.forEach(list => {
+          if (list.id !== 'N') {
+            this.defaultService.commentdeleteItem([list])
+              .subscribe(data => {
+                console.log('삭제');
+              });
+          }
+        });
+        this.commentClear();
+      } else {
+        this.defaultService.getCommentLists(this.type, rowData.code)
+          .subscribe(data => {
+            data.forEach(list => {
+              this.defaultService.commentdeleteItem([list])
+                .subscribe(item => console.log(item));
+            });
+          });
+      }
+
     } else {
       return;
     }
@@ -270,13 +317,13 @@ export class ManagecodeComponent implements OnInit {
     commentControl.clear();
   }
 
-  commentSave(i: number): void {
+  // commentSave(i: number): void {
 
-  }
+  // }
 
-  commentDelete(i: number): void {
+  // commentDelete(i: number): void {
 
-  }
+  // }
 
   /////////////////////////////////////////////////////////////
 
@@ -295,10 +342,6 @@ export class ManagecodeComponent implements OnInit {
       this.commentsRows().push(this.createCommentRow(list));
     });
   }
-
-
-
-
 
   ///////////////////////////////////////////////////////////////////
 
