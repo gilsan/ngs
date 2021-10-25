@@ -168,6 +168,8 @@ export class Form7Component implements OnInit, OnDestroy {
 
   getPatientinfo(testid: string): any {
     const tempInfo = this.patientsListService.patientInfo;
+    // const tempInfo = this.patientsListService.getPatientID();
+    // console.log(tempInfo);
     if (tempInfo) {
       return tempInfo.filter(data => data.specimenNo === testid)[0];
     }

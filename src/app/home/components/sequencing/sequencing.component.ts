@@ -248,10 +248,12 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
     this.patientsList.sequencingSearch2(startdate, enddate, patientId, specimenNo, status, sheet)
       .then(response => response.json())
       .then(data => {
+        this.patientsList.setPatientID(data);
         data.forEach(list => {
           this.lists.push(list);
           this.patientID = '';
           this.specimenNo = '';
+
         });
       });
 

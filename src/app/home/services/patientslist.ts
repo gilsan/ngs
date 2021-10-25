@@ -937,8 +937,14 @@ export class PatientsListService {
         start, end, patientID, specimenNo, status, sheet,
       }),
     });
+  }
 
+  public setPatientID(data: IPatient[]): void {
+    this.patientInfo = data;
+  }
 
+  public getPatientID(): any {
+    return this.patientInfo;
   }
 
 
