@@ -2043,5 +2043,40 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
   //   return result;
   // }
 
+  /////////////////////////////////////////////////////////////
+
+  reCall(): void {
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    const formData: IAFormVariant[] = control.getRawValue();
+    // control.clear();
+    console.log(formData);
+    const tempData: IAFormVariant[] = [];
+    formData.forEach(list => {
+      if (list.type === 'New') {
+        const gene = list.gene.split(',');
+        // console.log(gene);
+        gene.forEach(item => {
+          this.patientsListService.getMutationInfoLists(item, list.nucleotideChange, 'LYM')
+            .subscribe(data => {
+              if (data.length > 0) {
+                console.log(data);
+                list.functionalImpact = data[0].functional_impact;
+                list.references = data[0].reference;
+                list.cosmicID = data[0].cosmic_id;
+                list.type = 'M';
+              }
+            });
+
+        });
+      }
+      tempData.push(list);
+    });
+
+    tempData.forEach(list => {
+      this.addNewRow(list);
+    });
+
+  }
+
 
 }

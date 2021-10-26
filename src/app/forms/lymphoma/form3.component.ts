@@ -97,7 +97,7 @@ export class Form3Component implements OnInit, OnDestroy {
   fusion = '';
   chronmosomal = '';
   methods = METHODS;
-  method: string = '';
+  method: string = ' ';
   methods516 = METHODS516;
   general = GENERAL;
   indexNum = 0;
@@ -515,7 +515,7 @@ export class Form3Component implements OnInit, OnDestroy {
   addDetectedVariant(): void {
     this.subs.sink = this.patientsListService.filtering(this.form2TestedId, this.reportType)
       .subscribe(data => {
-        // console.log('[487]', data);
+        //console.log('[518][filtering]', data);
         let type: string;
         let gene: string;
         let dvariable: IAFormVariant;
@@ -1786,6 +1786,46 @@ export class Form3Component implements OnInit, OnDestroy {
   goBack(): void {
     this.router.navigate(['/diag', 'lymphoma']);
   }
+
+  /////////////////////////////////////////////////////////////
+
+  reCall(): void {
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    const formData: IAFormVariant[] = control.getRawValue();
+    control.clear();
+    // console.log(formData);
+    const tempData: IAFormVariant[] = [];
+    formData.forEach(list => {
+      if (list.type === 'New') {
+        const gene = list.gene.split(',');
+        // console.log(gene);
+        gene.forEach(item => {
+          this.patientsListService.getMutationInfoLists(item, list.nucleotideChange, 'LYM')
+            .subscribe(data => {
+              if (data.length > 0) {
+                console.log(data);
+                list.functionalImpact = data[0].functional_impact;
+                list.references = data[0].reference;
+                list.cosmicID = data[0].cosmic_id;
+                list.type = 'M';
+              }
+            });
+
+        });
+      }
+      tempData.push(list);
+    });
+
+    tempData.forEach(list => {
+      this.addNewRow(list);
+    });
+
+  }
+
+
+
+
+
 
 
 }

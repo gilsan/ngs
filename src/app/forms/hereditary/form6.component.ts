@@ -324,7 +324,7 @@ export class Form6Component implements OnInit, OnDestroy {
     // });
     this.utilsService.getTargetDisease('genetic', testCode)
       .subscribe(data => {
-        console.log('[][]', data[0]);
+        // console.log('[][]', data[0]);
         this.target = data[0].disease;
         this.getGeneList();
       });
@@ -406,12 +406,12 @@ export class Form6Component implements OnInit, OnDestroy {
     this.subs.sink = this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {
       this.recoverVariants = data;
       this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
-      console.log('[407][hereditary][Detected variant_id]', this.recoverVariants);
+      // console.log('[407][hereditary][Detected variant_id]', this.recoverVariants);
       this.store.setDetactedVariants(data); // Detected variant 저장
 
       // VUS 메제시 확인
       this.vusmsg = this.patientInfo.vusmsg;
-      console.log('[412][recoverDetected][VUS메세지]', this.patientInfo.vusmsg, this.vusmsg);
+      // console.log('[412][recoverDetected][VUS메세지]', this.patientInfo.vusmsg, this.vusmsg);
       const tempVUS = [];
       this.recoverVariants.forEach(item => {
         this.recoverVariant(item);  // 354
@@ -435,7 +435,7 @@ export class Form6Component implements OnInit, OnDestroy {
     this.subs.sink = this.variantsService.screenComment(this.form2TestedId)
       .subscribe(dbComments => {
         if (dbComments !== undefined && dbComments !== null && dbComments.length > 0) {
-          console.log('[446][COMMENT 가져오기]', dbComments);
+          // console.log('[446][COMMENT 가져오기]', dbComments);
           this.commentdata = dbComments[0].comment;
           this.comment2 = dbComments[0].reference;
           this.resultname = dbComments[0].variants;
@@ -1632,6 +1632,10 @@ export class Form6Component implements OnInit, OnDestroy {
 
     });
   }
+
+
+
+
 
 
 

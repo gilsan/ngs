@@ -1096,6 +1096,10 @@ export class PatientsListService {
     ); // End of return
   }
 
+  findOtherInfo(gene: string, nucleotide: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/codedefault/findmutation`, { gene, nucleotide })
+  }
+
 
 
 }
