@@ -87,6 +87,8 @@ export class Form7Component implements OnInit, OnDestroy {
 
   variations = '';
   private subs = new SubSink();
+  indexNum = 0;
+  selectedItem = 'mutation';
 
   constructor(
     private router: Router,
@@ -496,6 +498,8 @@ export class Form7Component implements OnInit, OnDestroy {
     this.sequencingRows().push(this.newRow());
   }
 
+
+
   removeRow(i: number): void {
     this.sequencingRows().removeAt(i);
   }
@@ -583,6 +587,71 @@ export class Form7Component implements OnInit, OnDestroy {
 
     });
   }
+
+
+  // tslint:disable-next-line: typedef
+  save(index: number) {
+    const control = this.form.get('tableRows') as FormArray;
+    const row = control.value[index];
+    console.log(row, this.selectedItem);
+    if (this.selectedItem === 'mutation') {
+      this.subs.sink = this.patientsListService.saveSEQMutation(
+        'SEQ',
+        row.type,
+        'M' + this.patientInfo.name,
+        this.patientInfo.patientID,
+        row.exonintron,
+        row.nucleotideChange,
+        row.aminoAcidChange,
+        row.zygosity,
+        row.rsid,
+        row.genbankaccesion,
+        this.analyzedgene
+      ).subscribe((data: any) => {
+        alert('mutation에 추가 했습니다.');
+      });
+    } else if (this.selectedItem === 'artifacts') {
+      this.subs.sink = this.patientsListService.insertArtifacts(
+        'SEQ',
+        this.analyzedgene, '', '', '', row.nucleotideChange, row.aminoAcidChange
+      ).subscribe((data: any) => {
+        alert('artifacts에 추가 했습니다.');
+      });
+    }
+
+  }
+
+  // tslint:disable-next-line: typedef
+  saveInhouse(i: number, selecteditem: string) {
+    this.selectedItem = selecteditem;
+  }
+
+  addRow(row: ISequence): void {
+    const control = this.form.get('tableRows') as FormArray;
+    control.push(this.createRow(row));
+  }
+
+  reCall(): void {
+    const control = this.form.get('tableRows') as FormArray;
+    const formData: ISequence[] = control.getRawValue();
+    const gene = this.analyzedgene;
+    control.clear();
+
+    formData.forEach(list => {
+      this.patientsListService.getMutationSeqInfoLists(gene, list.nucleotideChange, 'SEQ')
+        .subscribe(data => {
+          if (data.length > 0) {
+            // console.log('[649]', data[0]);
+            this.addRow(data[0]);
+          }
+        });
+    });
+
+  }
+
+  //////////////////////////////////////////////////////////////////////////////////////
+
+
 
 
 

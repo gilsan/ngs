@@ -37,7 +37,8 @@
                       </tr>
                   </tbody>
               </table>
-              <div class="sub_title">Mutation </div>
+              <div class="sub_title">Mutation&nbsp;&nbsp;
+                <button class="btn btn_01" (click)="reCall()">호출</button> </div>
     <div class="box">
               <div class="box_100" (scroll)="tableScroll($event)"  #box100>
 <!--    -------------------------------------                     -->
@@ -62,6 +63,8 @@
             <col style="width:300px"/>   <!-- OMIM -->
             <col style="width:80px"/>  <!-- IGV -->
             <col style="width:200px"/>  <!--  sanger -->
+            <col style="width:120px"/>  <!--   Site  -->
+            <col style="width:80px"/>   <!--  Action -->
             </colgroup>
       <thead>
           <tr>
@@ -86,6 +89,8 @@
               <th>OMIM</th>
               <th>IGV</th>
               <th>Sanger</th>
+              <th>Site</th>
+              <th>Action</th>
           </tr>
       </thead>
       <tbody cdkDropList (cdkDropListDropped)="droped($event)">
@@ -165,6 +170,17 @@
                 <textarea class="textarea_01"  style="width: 100%; height: 100%; border: none"
                 [matTooltip]="group.get('sanger').value"
                 formControlName="sanger"></textarea>
+            </td>
+
+            <td  class="txt_c">
+              <select class="select_01" style="width: 100%;" name="options" (change)="saveInhouse(i, inhouse.value)"
+               #inhouse>
+                <option value="mutation" selected>Mutation</option>
+                <option value="artifacts">Artifacts</option>
+              </select>
+            </td>
+            <td>
+               <button class="btn-s blue"  (click)="save(i)" >저장</button>
 
             </td>
 

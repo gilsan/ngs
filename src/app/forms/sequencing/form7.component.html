@@ -90,6 +90,10 @@
                         <li>
                             <button type="button" class="btn btn_01"  (click)="addNewRow()">추가</button>
                          </li>
+                         <li>&nbsp;&nbsp;</li>
+                        <li>
+                            <button type="button" class="btn btn_01"  (click)="reCall()">호출</button>
+                         </li>
                      </ul>
                  </div>
 
@@ -105,6 +109,8 @@
                                 <col style="width:120px"/>  <!-- Amino acid change    -->
                                 <col style="width:120px"/>  <!-- dbSNP/COSMIC ID    -->
                                 <col style="width:120px"/>
+                                <col style="width:120px"/>  <!--   Site  -->
+                                <col style="width:80px"/>   <!--  Action -->
                                 <col style="width:50px;" />
                             </colgroup>
                             <thead>
@@ -116,6 +122,8 @@
                                     <th>Zygosity</th>
                                     <th>rs ID</th>
                                     <th>GenBank accesion no.</th>
+                                    <th>Site</th>
+                                    <th>Action</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -173,6 +181,17 @@
                                          matInput
                                          [matTooltip]="group.get('genbankaccesion').value"
                                          formControlName="genbankaccesion">
+                                    </td>
+
+                                    <td  class="txt_c">
+                                      <select class="select_01" style="width: 100%;" name="options" (change)="saveInhouse(i, inhouse.value)"
+                                       #inhouse>
+                                        <option value="mutation" selected>Mutation</option>
+                                        <option value="artifacts">Artifacts</option>
+                                      </select>
+                                    </td>
+                                    <td>
+                                       <button class="btn-s blue"  (click)="save(i)" >저장</button>
                                     </td>
                                     <td  align="center">
                                        <img [src]="'assets/images/cancel.png'" (click)="removeRow(i)">

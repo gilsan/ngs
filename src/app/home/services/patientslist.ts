@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpEvent, HttpEventType, HttpParams } from '@angular/common/http';
-import { IAFormVariant, IComment, IDList, IFilteredTSV, IFitering, IGeneCoding, IGeneList, IMutation, IPatient } from '../models/patients';
+import { IAFormVariant, IComment, IDList, IFilteredTSV, IFitering, IGeneCoding, IGeneList, IImmundefi, IMutation, IPatient, ISequence } from '../models/patients';
 import { combineLatest, from, Observable, of, Subject, } from 'rxjs';
 import { concatMap, map, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { emrUrl } from 'src/app/config';
@@ -91,6 +91,28 @@ export class PatientsListService {
     );
   }
 
+
+  // Sequencing  유전체 와 coding 로 mutation 레코드에서 정보 가져오기
+  public getMutationSeqInfoLists(gene: string, coding: string, type: string): Observable<ISequence[]> {
+    return this.http.post<ISequence[]>(`${this.apiUrl}/mutation/seqcall`, { gene, coding, type }).pipe(
+      shareReplay()
+    );
+  }
+
+
+  // 유전성유전  유전체   로 mutation 레코드에서 정보 가져오기
+  public getMutationGeneticInfoLists1(gene: string, type: string): Observable<IImmundefi[]> {
+    return this.http.post<IImmundefi[]>(`${this.apiUrl}/mutation/geneticcall1`, { gene, type }).pipe(
+      shareReplay()
+    );
+  }
+
+  public getMutationGeneticInfoLists2(gene: string, coding: string, type: string): Observable<IImmundefi[]> {
+    return this.http.post<IImmundefi[]>(`${this.apiUrl}/mutation/geneticcall2`, { gene, coding, type }).pipe(
+      shareReplay()
+    );
+  }
+
   // 유전체 와 coding 로 Artifacts 레코드에서 정보 가져오기
   public getArtifactInfoLists(gene: string, coding: string) {
     return this.http.post(`${this.apiUrl}/ngsartifacts/list`, { gene, coding }).pipe(
@@ -167,6 +189,40 @@ export class PatientsListService {
     return this.http.post(`${this.apiUrl}/addGeneInfo/addGene`, { name, patientID, gene, transcript, aminoAcidChange, cosmicID });
 
   }
+
+  ///////////////////////////////////
+  // SEQUENCING 저장
+  public saveSEQMutation(
+    seqtype: string,
+    type: string,
+    name: string,
+    patientID: string,
+    exonintron: string,
+    nucleotideChange: string,
+    aminoAcidChange: string,
+    zygosity: string,
+    rsid: string,
+    genbankaccesion: string,
+    gene: string
+  ) {
+    return this.http.post(`${this.apiUrl}/mutation/seqinsert`, {
+      seqtype,
+      type,
+      name,
+      patientID,
+      exonintron,
+      nucleotideChange,
+      aminoAcidChange,
+      zygosity,
+      rsid,
+      genbankaccesion,
+      gene
+    }).pipe(
+      shareReplay()
+    );
+  }
+
+
 
   // Mutation 저장
   public saveMutation(

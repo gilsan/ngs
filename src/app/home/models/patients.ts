@@ -397,10 +397,10 @@ export interface IImmundefi {
   dbSNPHGMD?: string;
   gnomADEAS?: string;
   OMIM?: string;
-  age: string;
-  name: string;
+  age?: string;
+  name?: string;
   patientID: string;
-  gender: string;
+  gender?: string;
 }
 
 export interface ISequence {

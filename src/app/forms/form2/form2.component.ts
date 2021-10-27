@@ -2048,15 +2048,12 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
   reCall(): void {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData: IAFormVariant[] = control.getRawValue();
-    // control.clear();
-    console.log(formData);
-    const tempData: IAFormVariant[] = [];
+    control.clear();
     formData.forEach(list => {
       if (list.type === 'New') {
         const gene = list.gene.split(',');
-        // console.log(gene);
         gene.forEach(item => {
-          this.patientsListService.getMutationInfoLists(item, list.nucleotideChange, 'LYM')
+          this.patientsListService.getMutationInfoLists(item, list.nucleotideChange, 'AMLALL')
             .subscribe(data => {
               if (data.length > 0) {
                 console.log(data);
@@ -2064,18 +2061,14 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
                 list.references = data[0].reference;
                 list.cosmicID = data[0].cosmic_id;
                 list.type = 'M';
+                this.addNewRow(list);
               }
             });
 
         });
       }
-      tempData.push(list);
-    });
-
-    tempData.forEach(list => {
       this.addNewRow(list);
     });
-
   }
 
 

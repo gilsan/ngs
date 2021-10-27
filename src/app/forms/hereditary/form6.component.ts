@@ -1633,6 +1633,38 @@ export class Form6Component implements OnInit, OnDestroy {
     });
   }
 
+  /////////////////////////////////////////////////////////////
+
+  reCall(): void {
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    const formData: IAFormVariant[] = control.getRawValue();
+    control.clear();
+
+    formData.forEach(list => {
+      const gene = list.gene.split(',');
+      gene.forEach(item => {
+        const first$ = this.patientsListService.getMutationGeneticInfoLists1(item, 'Genetic');
+        const second$ = this.patientsListService.getMutationGeneticInfoLists2(item, list.nucleotideChange, 'Genetic');
+        combineLatest([first$, second$])
+          .subscribe(([data1, data2]) => {
+
+            if (data1.length > 0) {
+              list.type = 'M';
+              list.OMIM = data1[0].OMIM;
+              if (data2.length > 0) {
+                list.functionalImpact = data2[0].functionalImpact;
+                list.nucleotideChange = data2[0].nucleotideChange;
+                list.dbSNPHGMD = data2[0].dbSNPHGMD;
+                list.gnomADEAS = data2[0].gnomADEAS;
+              }
+            }
+            this.addNewRow(list);
+          });
+        console.log('[1663]', list);
+      });
+    });
+
+  }
 
 
 
