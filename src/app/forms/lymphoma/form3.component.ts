@@ -622,7 +622,13 @@ export class Form3Component implements OnInit, OnDestroy {
       this.recheck = patientInfo.recheck;
     }
     if (patientInfo.examin.length === 0 && patientInfo.recheck.length === 0) {
+      this.subs.sink = this.utilsService.getListsDig('LYM')
+        .subscribe(data => {
+          this.examin = data[0].checker;
+          this.recheck = data[0].reader;
+        });
 
+      /*
       const lists$ = this.utilsService.getDiagList()
         .pipe(shareReplay());
 
@@ -651,6 +657,7 @@ export class Form3Component implements OnInit, OnDestroy {
           }
         });
       });
+      */
     }
 
   }

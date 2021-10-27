@@ -10,7 +10,7 @@ import { UtilsService } from 'src/app/forms/commons/utils.service';
 import { MlpaService } from 'src/app/services/mlpa.service';
 import { mlpaForm } from 'src/app/home/models/mlpa';
 import { ExamplementComponent } from '../examplement/examplement.component';
-
+import { SubSink } from 'subsink';
 export interface IData {
   seq: string;
   site: string;
@@ -27,9 +27,6 @@ export interface IMlpa {
   technique: string;
   comment?: string;
 }
-
-
-
 
 
 @Component({
@@ -104,7 +101,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
 
   isVisible = false;
   screenstatus: string;
-
+  private subs = new SubSink();
   target: string;
   testmethod: string;
   analyzedgene: string;
@@ -305,7 +302,13 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
       this.recheck = patientInfo.recheck;
     }
     if (patientInfo.examin.length === 0 && patientInfo.recheck.length === 0) {
+      this.subs.sink = this.utilsService.getListsDig('MLPA')
+        .subscribe(data => {
+          this.examin = data[0].checker;
+          this.recheck = data[0].reader;
+        });
 
+      /*
       const lists$ = this.utilsService.getDiagList()
         .pipe(shareReplay());
 
@@ -335,6 +338,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
           }
         });
       });
+      */
     }
 
   }
