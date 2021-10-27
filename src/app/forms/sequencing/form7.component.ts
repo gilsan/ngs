@@ -12,6 +12,7 @@ import { sequencingForm } from 'src/app/home/models/sequencing.model';
 import { listSequencing } from 'src/app/forms/commons/geneList';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ExamplementComponent } from '../examplement/examplement.component';
+import { CodeDefaultValue } from 'src/app/services/codedefaultvalue';
 
 @Component({
   selector: 'app-form7',
@@ -73,9 +74,12 @@ export class Form7Component implements OnInit, OnDestroy {
 
   form: FormGroup;
   ngsTitle: string;
-  comment = `수기입력.  APC 유전자 분석결과, 가족성 선종성 용종증과 관련되어 기존에 보고된 nonsense mutation인 p.(Tyr493*) 이 관찰되었습니다. 가족성 선종성 용종증은 상염색체 우성 유전질환으로 환자의 75%-85%에서 이환된 부모의 가족력이 있습니다. 환자의 가족검사를 추천합니다`;
-  comment1 = `대장암의 약 70% 정도에서 adenoma-cancer carcinogenesis에 의하여 생기며, 이러한 대장암의 발생`;
-  comment2 = `본 검사는 reference sequence NM_000038.5를 기준으로 APC 유전자의 coding exon 및 인접 flanking region을 직접염기서열법으로 분석하는 방법입니다.`;
+  // comment = `수기입력.  APC 유전자 분석결과, 가족성 선종성 용종증과 관련되어 기존에 보고된 nonsense mutation인 p.(Tyr493*) 이 관찰되었습니다. 가족성 선종성 용종증은 상염색체 우성 유전질환으로 환자의 75%-85%에서 이환된 부모의 가족력이 있습니다. 환자의 가족검사를 추천합니다`;
+  // comment1 = `대장암의 약 70% 정도에서 adenoma-cancer carcinogenesis에 의하여 생기며, 이러한 대장암의 발생`;
+  // comment2 = `본 검사는 reference sequence NM_000038.5를 기준으로 APC 유전자의 coding exon 및 인접 flanking region을 직접염기서열법으로 분석하는 방법입니다.`;
+  comment = '';
+  comment1 = '';
+  comment2 = '';
   resultname = '';
   targetdisease = '';
   analyzedgene = '';
@@ -97,7 +101,8 @@ export class Form7Component implements OnInit, OnDestroy {
     private utilsService: UtilsService,
     private variantsService: DetectedVariantsService,
     private titleService: FindNgsTitleService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private defaultService: CodeDefaultValue,
   ) { }
 
   ngOnInit(): void {
@@ -185,9 +190,9 @@ export class Form7Component implements OnInit, OnDestroy {
       .subscribe(data => {
         console.log('[178][받은데이터]', data);
         if (data.length > 0) {
-          this.comment = data[0].comment;
-          this.comment1 = data[0].comment1;
-          this.comment2 = data[0].comment2;
+          //  this.comment = data[0].comment;
+          // this.comment1 = data[0].comment1;
+          // this.comment2 = data[0].comment2;
           this.seqcomment = data[0].seqcomment;
 
           data.forEach(item => {
@@ -213,11 +218,22 @@ export class Form7Component implements OnInit, OnDestroy {
         console.log('[205][Test Information]', data);
         if (data.length > 0) {
           this.resultname = data[0].result;
-          this.targetdisease = data[0].target;
-          this.method = data[0].method;
-          this.analyzedgene = data[0].analyzedgene;
+          // this.targetdisease = data[0].target;
+          // this.method = data[0].method;
+          // this.analyzedgene = data[0].analyzedgene;
           this.variations = data[0].identified_variations;
-          this.specimen = data[0].specimen;
+          // this.specimen = data[0].specimen;
+
+          this.defaultService.getList(this.patientInfo.test_code)
+            .subscribe(list => {
+              console.log('[226][Test Info]', list);
+              this.targetdisease = list[0].target;
+              this.method = list[0].method;
+              this.analyzedgene = list[0].analyzedgene;
+              this.specimen = list[0].specimen;
+              this.comment1 = list[0].comment1;
+              this.comment2 = list[0].comment2;
+            });
         }
 
       });
@@ -591,8 +607,19 @@ export class Form7Component implements OnInit, OnDestroy {
       width: '1200px',
       height: '900px',
       disableClose: true,
+      data: {
+        code: this.patientInfo.test_code,
+        type: 'SEQ'
+      }
 
     });
+
+    addDialogRef.afterClosed().subscribe(comment => {
+      this.comment = comment;
+    });
+
+
+
   }
 
 

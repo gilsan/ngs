@@ -10,9 +10,9 @@
         <div class="box mg_b20 pd_20 search">
             <select class="select_01 select_001" #type (change)="findReportLists(type.value)" id="types">
                <option value="none">선택</option>
+               <option value="Genetic">유전성 유전질환</option>
                <option value="SEQ">Sequencing</option>
                <option value="MLPA">MLPA</option>
-               <option value="Genetic">유전성 유전질환</option>
            </select>&nbsp;&nbsp;
             <select class="select_01 select_001" id="wgtmsr"  #reportitem (change)="testcode(reportitem.value)">
                <option value="none">선택</option>
@@ -103,6 +103,7 @@
         </div>
         <div class="col_5">
           <h3>판독예시문목록</h3>&nbsp;&nbsp;
+          <span><h3>코드: {{workingcode}} </h3></span>&nbsp;&nbsp;
           <button type="button" *ngIf="exshow" class="btn btn_01" (click)="addNewExampleRow()">추가</button>
           <div class="box">
             <div class="box_100 full">

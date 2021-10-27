@@ -20,7 +20,8 @@ export class ManagecodeComponent implements OnInit {
   code = 'none';
   show = true;
   exshow = false;
-
+  workingcode = '';
+  workingcodeShow = false;
   constructor(
     private defaultService: CodeDefaultValue,
     private fb: FormBuilder,
@@ -47,7 +48,7 @@ export class ManagecodeComponent implements OnInit {
     this.type = type;
     this.reportLists = this.lists.filter(list => list.type === type);
     this.reportLists = this.reportLists.sort((a, b) => {
-      const x = a.report; const y = b.report;
+      const x = a.code; const y = b.code;
       return ((x < y) ? -1 : ((x > y) ? 1 : 0));
     });
 
@@ -68,6 +69,7 @@ export class ManagecodeComponent implements OnInit {
     if (code === 'none') {
       this.disAble = true;
     } else {
+      this.workingcode = code;
       this.code = code;
       this.disAble = true;
 
@@ -90,7 +92,7 @@ export class ManagecodeComponent implements OnInit {
     const rowData: ICodement = control.at(i).value;
     const idx = this.lists.findIndex(list => list.id === rowData.id);
     this.lists[idx] = rowData;
-
+    this.workingcode = '';
 
     if (rowData.id === 'N') {
       this.defaultService.codeinsertItem(this.type, rowData)
@@ -100,7 +102,7 @@ export class ManagecodeComponent implements OnInit {
     } else {
       this.defaultService.codeupdateItem(this.type, rowData)
         .subscribe(data => {
-          this.snackBar.open('수정 했습니다.', '닫기', { duration: 3000 });
+          this.snackBar.open('저장 했습니다.', '닫기', { duration: 3000 });
         });
     }
 
@@ -117,7 +119,7 @@ export class ManagecodeComponent implements OnInit {
       } else {
         this.defaultService.commentupdateItem([list])
           .subscribe(data => {
-            this.snackBar.open('수정 했습니다.', '닫기', { duration: 2000 });
+            this.snackBar.open('저장 했습니다.', '닫기', { duration: 2000 });
           });
       }
     });
@@ -132,7 +134,7 @@ export class ManagecodeComponent implements OnInit {
     this.disAble = false;
     this.show = true;
     this.exshow = false;
-
+    this.workingcode = '';
     // readingcomment
     const commentControl = this.tablerowForm.get('commentRows') as FormArray;
     const commentFormData = commentControl.getRawValue();
@@ -224,6 +226,8 @@ export class ManagecodeComponent implements OnInit {
   getExampleLists(i: number): void {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.at(i).value;
+    console.log('[227]', formData);
+    this.workingcode = formData.code;
     this.defaultService.getCommentLists(this.type, formData.code)
       .subscribe(lists => {
         console.log('[예문보기]', lists);
@@ -236,6 +240,7 @@ export class ManagecodeComponent implements OnInit {
   removeCommentRow(i: number): void {
     const ask = confirm('삭제 하시겠습니까');
     if (ask) {
+      this.workingcode = '';
       const control = this.tablerowForm.get('tableRows') as FormArray;
       const rowData: ICodement = control.at(i).value;
       console.log('[242]', rowData);
@@ -332,6 +337,7 @@ export class ManagecodeComponent implements OnInit {
   }
 
   cancel(i: number): void {
+    this.workingcode = '';
     this.code = 'none';
     this.disAble = false;
     this.show = true;

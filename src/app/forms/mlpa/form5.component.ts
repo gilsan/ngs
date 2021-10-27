@@ -11,6 +11,7 @@ import { MlpaService } from 'src/app/services/mlpa.service';
 import { mlpaForm } from 'src/app/home/models/mlpa';
 import { ExamplementComponent } from '../examplement/examplement.component';
 import { SubSink } from 'subsink';
+import { CodeDefaultValue } from 'src/app/services/codedefaultvalue';
 export interface IData {
   seq: string;
   site: string;
@@ -112,7 +113,8 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
     private router: Router,
     private utilsService: UtilsService,
     public dialog: MatDialog,
-    public mlpaService: MlpaService
+    public mlpaService: MlpaService,
+    private defaultService: CodeDefaultValue,
   ) { }
 
   ngOnInit(): void {
@@ -180,28 +182,26 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
       .subscribe(data => {
         console.log('[183][디비에서 가져온 데이터]', data);
         if (data.length > 0) {
-          this.target = data[0].target;
-          this.testmethod = data[0].testmethod;
-          this.analyzedgene = data[0].analyzedgene;
-          this.specimen = data[0].specimen;
+          // this.target = data[0].target;
+          // this.testmethod = data[0].testmethod;
+          // this.analyzedgene = data[0].analyzedgene;
+          // this.specimen = data[0].specimen;
           this.mlpaData.result = data[0].result;
-          this.mlpaData.conclusion = data[0].conclusion;
-          this.mlpaData.comment = data[0].comment;
-          this.mlpaData.technique = data[0].technique;
+          // this.mlpaData.conclusion = data[0].conclusion;
+          // this.mlpaData.comment = data[0].comment;
+          // this.mlpaData.technique = data[0].technique;
+
+          this.defaultService.getList(this.patientInfo.test_code)
+            .subscribe(list => {
+              console.log('[196]', list);
+              this.target = list[0].target;
+              this.testmethod = list[0].method;
+              this.analyzedgene = list[0].analyzedgene;
+              this.specimen = list[0].specimen;
+              this.mlpaData.conclusion = list[0].comment1;
+              this.mlpaData.technique = list[0].comment2;
+            });
         }
-        // else {
-        //   HEADER.forEach(list => {
-        //     if (list.type === this.patientInfo.test_code) {
-        //       this.target = list.target;
-        //       this.testmethod = list.method;
-        //       this.analyzedgene = list.analyzedGene;
-        //       this.mlpaData.result = list.result;
-        //     }
-        //   });
-
-        //   this.getComment(this.patientInfo.test_code);
-        // }
-
       });
   }
 
@@ -638,8 +638,16 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
       width: '1200px',
       height: '900px',
       disableClose: true,
-
+      data: {
+        code: this.patientInfo.test_code,
+        type: 'MLPA'
+      }
     });
+
+    addDialogRef.afterClosed().subscribe(comment => {
+      this.mlpaData.comment = comment;
+    });
+
   }
 
 

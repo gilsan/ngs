@@ -21,8 +21,8 @@ export class CodeDefaultValue {
     return this.http.get<IMent[]>(`${this.apiUrl}/codedefault/lists`);
   }
 
-  public getList(type: string): Observable<IMent[]> {
-    return this.http.post<IMent[]>(`${this.apiUrl}/codedefault/list`, { type });
+  public getList(code: string): Observable<IMent[]> {
+    return this.http.post<IMent[]>(`${this.apiUrl}/codedefault/list`, { code });
   }
 
   public insertBatch(ment: IMent): Observable<any> {

@@ -59,7 +59,7 @@ export class MentmanageComponent implements OnInit, OnDestroy {
 
     this.reportLists = this.lists.filter(list => list.type === type);
     this.reportLists = this.reportLists.sort((a, b) => {
-      const x = a.report; const y = b.report;
+      const x = a.code; const y = b.code;
       return ((x < y) ? -1 : ((x > y) ? 1 : 0));
     });
 
@@ -184,7 +184,7 @@ export class MentmanageComponent implements OnInit, OnDestroy {
       } else {
         this.defaultService.updateItem(this.selected, rowData)
           .subscribe(data => {
-            this.snackBar.open('수정 했습니다.', '닫기', { duration: 3000 });
+            this.snackBar.open('저장 했습니다.', '닫기', { duration: 3000 });
           });
       }
     }

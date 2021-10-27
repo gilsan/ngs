@@ -436,7 +436,7 @@ export class Form6Component implements OnInit, OnDestroy {
       .subscribe(dbComments => {
         if (dbComments !== undefined && dbComments !== null && dbComments.length > 0) {
           // console.log('[446][COMMENT 가져오기]', dbComments);
-          this.commentdata = dbComments[0].comment;
+          // this.commentdata = dbComments[0].comment;
           this.comment2 = dbComments[0].reference;
           this.resultname = dbComments[0].variants;
         }
@@ -1636,8 +1636,17 @@ export class Form6Component implements OnInit, OnDestroy {
       width: '1200px',
       height: '900px',
       disableClose: true,
-
+      data: {
+        code: this.patientInfo.test_code,
+        type: 'Genetic'
+      }
     });
+
+    addDialogRef.afterClosed().subscribe(comment => {
+      this.commentdata = comment;
+    });
+
+
   }
 
   /////////////////////////////////////////////////////////////
