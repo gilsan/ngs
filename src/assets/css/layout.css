@@ -701,6 +701,14 @@
   overflow: auto;
 }
 
+.box_gene_100 {
+  width: 100%;
+  height: 160px;
+  padding: 0px;
+  overflow: auto;
+  border: 1px solid black;
+}
+
 .box_80 {
   width: 100%;
   height: 480px;

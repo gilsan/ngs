@@ -229,33 +229,34 @@
 
 
   <div class="sub_title">Target genes</div>
-  <table cellpadding="0" cellspacing="0" class="table_result02">
-       <colgroup>
-          <col style="width:10%;"/>
-          <col style="width:10%;"/>
-          <col style="width:10%;"/>
-          <col style="width:10%;"/>
-          <col style="width:10%;"/>
-          <col style="width:10%;"/>
-          <col style="width:10%;"/>
-          <col style="width:10%;"/>
-          <col style="width:10%;"/>
-          <col style="width:10%;"/>
-       </colgroup>
-       <tr  *ngFor="let list of genelists">
-        <td class="txt_c">{{list.g0}}</td>
-        <td class="txt_c">{{list.g1}}</td>
-        <td class="txt_c">{{list.g2}}</td>
-        <td class="txt_c">{{list.g3}}</td>
-        <td class="txt_c">{{list.g4}}</td>
-        <td class="txt_c">{{list.g5}}</td>
-        <td class="txt_c">{{list.g6}}</td>
-        <td class="txt_c">{{list.g7}}</td>
-        <td class="txt_c">{{list.g8}}</td>
-        <td class="txt_c">{{list.g9}}</td>
-      </tr>
-</table>
-
+  <div class="box_gene_100">
+     <table cellpadding="0" cellspacing="0" class="table_result02">
+          <colgroup>
+             <col style="width:10%;"/>
+             <col style="width:10%;"/>
+             <col style="width:10%;"/>
+             <col style="width:10%;"/>
+             <col style="width:10%;"/>
+             <col style="width:10%;"/>
+             <col style="width:10%;"/>
+             <col style="width:10%;"/>
+             <col style="width:10%;"/>
+             <col style="width:10%;"/>
+          </colgroup>
+          <tr  *ngFor="let list of genelists">
+           <td class="txt_c">{{list.g0}}</td>
+           <td class="txt_c">{{list.g1}}</td>
+           <td class="txt_c">{{list.g2}}</td>
+           <td class="txt_c">{{list.g3}}</td>
+           <td class="txt_c">{{list.g4}}</td>
+           <td class="txt_c">{{list.g5}}</td>
+           <td class="txt_c">{{list.g6}}</td>
+           <td class="txt_c">{{list.g7}}</td>
+           <td class="txt_c">{{list.g8}}</td>
+           <td class="txt_c">{{list.g9}}</td>
+         </tr>
+     </table>
+  </div>
 <div class="sub_title">Additional note</div>
 <div class="pd_r20">
     <textarea class="textarea_01" [(ngModel)]="comment2">{{comment2}}</textarea>

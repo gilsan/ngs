@@ -507,60 +507,63 @@
                   <textarea class="textarea_01">The analysis was optimised to identify base pair substitutions with a high sensitivity. The sensitivity for small insertions and deletions was lower. Deep-intronic mutations, mutations in the promoter region, repeats, large exonic deletions and duplications, and other structural variants were not detected by this test. Evaluation of germline mutation can be performed using buccal swab speciman.</textarea>
               </div>
               <div class="sub_title">Target genes</div>
-              <table cellpadding="0" cellspacing="0" class="table_result02"   *ngIf="reportType === 'AML'">
-                  <colgroup>
-                  <col style="width:10%;" />
-                  <col style="width:10%;" />
-                  <col style="width:10%;" />
-                  <col style="width:10%;" />
-                  <col style="width:10%;" />
-                  <col style="width:10%;" />
-                  <col style="width:10%;" />
-                  <col style="width:10%;" />
-                  <col style="width:10%;" />
-                  <col style="width:10%;" />
-                  </colgroup>
-                  <tr  *ngFor="let list of genelists">
-                    <td class="txt_c">{{list.g0}}</td>
-                    <td class="txt_c">{{list.g1}}</td>
-                    <td class="txt_c">{{list.g2}}</td>
-                    <td class="txt_c">{{list.g3}}</td>
-                    <td class="txt_c">{{list.g4}}</td>
-                    <td class="txt_c">{{list.g5}}</td>
-                    <td class="txt_c">{{list.g6}}</td>
-                    <td class="txt_c">{{list.g7}}</td>
-                    <td class="txt_c">{{list.g8}}</td>
-                    <td class="txt_c">{{list.g9}}</td>
-                  </tr>
-              </table>
+              <div class="box_gene_100"  *ngIf="reportType === 'AML'">
+                  <table cellpadding="0" cellspacing="0" class="table_result02"  >
+                      <colgroup>
+                      <col style="width:10%;" />
+                      <col style="width:10%;" />
+                      <col style="width:10%;" />
+                      <col style="width:10%;" />
+                      <col style="width:10%;" />
+                      <col style="width:10%;" />
+                      <col style="width:10%;" />
+                      <col style="width:10%;" />
+                      <col style="width:10%;" />
+                      <col style="width:10%;" />
+                      </colgroup>
+                      <tr  *ngFor="let list of genelists">
+                        <td class="txt_c">{{list.g0}}</td>
+                        <td class="txt_c">{{list.g1}}</td>
+                        <td class="txt_c">{{list.g2}}</td>
+                        <td class="txt_c">{{list.g3}}</td>
+                        <td class="txt_c">{{list.g4}}</td>
+                        <td class="txt_c">{{list.g5}}</td>
+                        <td class="txt_c">{{list.g6}}</td>
+                        <td class="txt_c">{{list.g7}}</td>
+                        <td class="txt_c">{{list.g8}}</td>
+                        <td class="txt_c">{{list.g9}}</td>
+                      </tr>
+                  </table>
+              </div>
   <!--  ------------------------------- ALL   -->
-  <table cellpadding="0" cellspacing="0" class="table_result02"    *ngIf="reportType === 'ALL'">
-       <colgroup>
-          <col style="width:10%;"/>
-          <col style="width:10%;"/>
-          <col style="width:10%;"/>
-          <col style="width:10%;"/>
-          <col style="width:10%;"/>
-          <col style="width:10%;"/>
-          <col style="width:10%;"/>
-          <col style="width:10%;"/>
-          <col style="width:10%;"/>
-          <col style="width:10%;"/>
-       </colgroup>
-       <tr  *ngFor="let list of genelists">
-        <td class="txt_c">{{list.g0}}</td>
-        <td class="txt_c">{{list.g1}}</td>
-        <td class="txt_c">{{list.g2}}</td>
-        <td class="txt_c">{{list.g3}}</td>
-        <td class="txt_c">{{list.g4}}</td>
-        <td class="txt_c">{{list.g5}}</td>
-        <td class="txt_c">{{list.g6}}</td>
-        <td class="txt_c">{{list.g7}}</td>
-        <td class="txt_c">{{list.g8}}</td>
-        <td class="txt_c">{{list.g9}}</td>
-      </tr>
-</table>
-
+  <div class="box_gene_100"   *ngIf="reportType === 'ALL'">
+      <table cellpadding="0" cellspacing="0" class="table_result02"  >
+           <colgroup>
+              <col style="width:10%;"/>
+              <col style="width:10%;"/>
+              <col style="width:10%;"/>
+              <col style="width:10%;"/>
+              <col style="width:10%;"/>
+              <col style="width:10%;"/>
+              <col style="width:10%;"/>
+              <col style="width:10%;"/>
+              <col style="width:10%;"/>
+              <col style="width:10%;"/>
+           </colgroup>
+           <tr  *ngFor="let list of genelists">
+            <td class="txt_c">{{list.g0}}</td>
+            <td class="txt_c">{{list.g1}}</td>
+            <td class="txt_c">{{list.g2}}</td>
+            <td class="txt_c">{{list.g3}}</td>
+            <td class="txt_c">{{list.g4}}</td>
+            <td class="txt_c">{{list.g5}}</td>
+            <td class="txt_c">{{list.g6}}</td>
+            <td class="txt_c">{{list.g7}}</td>
+            <td class="txt_c">{{list.g8}}</td>
+            <td class="txt_c">{{list.g9}}</td>
+          </tr>
+      </table>
+    </div>
   <!-- ------------------------------- END ALL -->
   <hr class="mg_t30 mg_b20"/>
   <table width="100%" border="0" cellspacing="0" cellpadding="0">
