@@ -30,7 +30,7 @@
             <select class="select_01 select_001" #type (change)="findArtifacts(type.value)">
                <option value="ALL">전체</option>
                <option value="AMLALL">AML/ALL</option>
-               <option value="MDSMPN">MDS/MPN</option>
+               <option value="MDS">MDS/MPN</option>
                <option value="LYM">악성림프종/형질세포종</option>
                <option value="Genetic">유전성 유전질환</option>
            </select>&nbsp;&nbsp;
@@ -96,28 +96,28 @@
                                        <select class="select_01 select_001" #type *ngSwitchCase="'AMLALL'" #selectedtype>
                                           <option value=''>선택</option>
                                           <option value="AMLALL" selected>AML/ALL</option>
-                                          <option value="MDSMPN">MDS/MPN</option>
+                                          <option value="MDS">MDS/MPN</option>
                                           <option value="LYM">악성림프종/형질세포종</option>
                                           <option value="Genetic">유전성 유전질환</option>
                                        </select>
-                                       <select class="select_01 select_001"  #type  *ngSwitchCase="'MDSMPN'" #selectedtype>
+                                       <select class="select_01 select_001"  #type  *ngSwitchCase="'MDS'" #selectedtype>
                                           <option value=''>선택</option>
                                           <option value="AMLALL">AML/ALL</option>
-                                          <option value="MDSMPN" selected>MDS/MPN</option>
+                                          <option value="MDS" selected>MDS/MPN</option>
                                           <option value="LYM">악성림프종/형질세포종</option>
                                           <option value="Genetic">유전성 유전질환</option>
                                        </select>
                                        <select class="select_01 select_001"  #type  *ngSwitchCase="'LYM'" #selectedtype>
                                           <option value=''>선택</option>
                                           <option value="AMLALL">AML/ALL</option>
-                                          <option value="MDSMPN">MDS/MPN</option>
+                                          <option value="MDS">MDS/MPN</option>
                                           <option value="LYM" selected>악성림프종/형질세포종</option>
                                           <option value="Genetic">유전성 유전질환</option>
                                        </select>
                                        <select class="select_01 select_001"  #type  *ngSwitchCase="'Genetic'" #selectedtype>
                                           <option value=''>선택</option>
                                           <option value="AMLALL">AML/ALL</option>
-                                          <option value="MDSMPN">MDS/MPN</option>
+                                          <option value="MDS">MDS/MPN</option>
                                           <option value="LYM">악성림프종/형질세포종</option>
                                           <option value="Genetic" selected>유전성 유전질환</option>
                                        </select>
@@ -125,14 +125,14 @@
                                        <select class="select_01 select_001"  #type  *ngSwitchCase="'Sequencing'" #selectedtype>
                                           <option value=''>선택</option>
                                           <option value="AMLALL">AML/ALL</option>
-                                          <option value="MDSMPN">MDS/MPN</option>
+                                          <option value="MDS">MDS/MPN</option>
                                           <option value="LYM">악성림프/형질세포종</option>
                                           <option value="Genetic">유전성 유전질환</option>
                                        </select>
                                        <select class="select_01 select_001"  #type  *ngSwitchCase="'MLPA'" #selectedtype>
                                           <option value=''>선택</option>
                                           <option value="AMLALL">AML/ALL</option>
-                                          <option value="MDSMPN">MDS/MPN</option>
+                                          <option value="MDS">MDS/MPN</option>
                                           <option value="LYM">악성림프/형질세포종</option>
                                           <option value="Genetic">유전성 유전질환</option>
                                        </select>
@@ -140,7 +140,7 @@
                                        <select class="select_01 select_001"  #type  *ngSwitchDefault #selectedtype>
                                           <option value=''>선택</option>
                                           <option value="AMLALL">AML/ALL</option>
-                                          <option value="MDSMPN">MDS/MPN</option>
+                                          <option value="MDS">MDS/MPN</option>
                                           <option value="LYM">악성림프종/형질세포종</option>
                                           <option value="Genetic">유전성 유전질환</option>
                                        </select>
