@@ -190,7 +190,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
           this.mlpaData.conclusion = data[0].conclusion;
           this.mlpaData.comment = data[0].comment;
           this.mlpaData.technique = data[0].technique;
-          if (this.patientInfo.screenstatus === '0') {
+          if (this.patientInfo.screenstatus === '0' && this.target.length === 0) {
             this.defaultService.getList(this.patientInfo.test_code)
               .subscribe(list => {
                 console.log('[196]', list);
