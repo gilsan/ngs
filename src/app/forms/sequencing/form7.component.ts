@@ -672,14 +672,17 @@ export class Form7Component implements OnInit, OnDestroy {
     const control = this.form.get('tableRows') as FormArray;
     const formData: ISequence[] = control.getRawValue();
     const gene = this.analyzedgene;
-    control.clear();
 
-    formData.forEach(list => {
+    formData.forEach((list, index) => {
       this.patientsListService.getMutationSeqInfoLists(gene, list.nucleotideChange, 'SEQ')
         .subscribe(data => {
           if (data.length > 0) {
-            // console.log('[649]', data[0]);
-            this.addRow(data[0]);
+            console.log('[649]', data[0]);
+            control.at(index).patchValue({
+              type: data[0].type, exonintron: data[0].exonintron,
+              aminoAcidChange: data[0].aminoAcidChange, zygosity: data[0].zygosity, rsid: data[0].rsid,
+              genbankaccesion: data[0].genbankaccesion
+            });
           }
         });
     });

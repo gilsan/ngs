@@ -2056,8 +2056,8 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
   reCall(): void {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData: IAFormVariant[] = control.getRawValue();
-    control.clear();
-    formData.forEach(list => {
+
+    formData.forEach((list, index) => {
       if (list.type === 'New') {
         const gene = list.gene.split(',');
         gene.forEach(item => {
@@ -2065,17 +2065,20 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
             .subscribe(data => {
               if (data.length > 0) {
                 console.log(data);
-                list.functionalImpact = data[0].functional_impact;
-                list.references = data[0].reference;
-                list.cosmicID = data[0].cosmic_id;
-                list.type = 'M';
-                this.addNewRow(list);
+                control.at(index).patchValue({
+                  type: 'M', functionalImpact: data[0].functional_impact,
+                  references: data[0].reference, cosmicID: data[0].cosmic_id
+                });
+                // list.functionalImpact = data[0].functional_impact;
+                // list.references = data[0].reference;
+                // list.cosmicID = data[0].cosmic_id;
+                // list.type = 'M';
+                // this.addNewRow(list);
               }
             });
-
         });
       }
-      this.addNewRow(list);
+      // this.addNewRow(list);
     });
   }
 

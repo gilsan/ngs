@@ -363,18 +363,26 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       });
   }
 
+  // white space 제거
+  removeWhitespace(item: string): string {
+    return item.replace(/(\r\n|\r)/gm, '');
+  }
   ////////////////////////////////////////
   recoverDetected(): void {
     // 디비에서 Detected variant_id 가져오기
     this.subs.sink = this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {
+      for (const el of data) {
+        el.nucleotide_change = el.nucleotide_change.replace(/(\r\n|\r)/gm, '');
+        el.cosmic_id = el.cosmic_id.replace(/(\r\n|\r)/gm, ',');
+      }
       this.recoverVariants = data;
       this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
-      console.log('[370][form2][Detected variant_id]', this.recoverVariants);
+      console.log('[380][form2][Detected variant_id]', this.recoverVariants);
       this.store.setDetactedVariants(data); // Detected variant 저장
 
       // VUS 메제시 확인
       // this.vusmsg = this.patientInfo.vusmsg;
-      console.log('[375][recoverDetected][VUS메세지]', this.patientInfo.vusmsg);
+      console.log('[385][recoverDetected][VUS메세지]', this.patientInfo.vusmsg);
       const tempVUS = [];
       this.recoverVariants.forEach(item => {
         this.recoverVariant(item);  // 354
@@ -456,7 +464,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       // this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {
       this.patientsListService.mlpafiltering(this.form2TestedId, this.reportType, this.patientInfo.specimenNo).subscribe(data => {
         if (data.length > 0) {
-          // console.log('[420]', data);
+          console.log('[459]', data);
           this.recoverVariants = data;
           this.vd.push({ sequence: this.vd.length, selectedname: 'mutation', gene: data[0].gene });
 
@@ -952,14 +960,14 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
 
   // tslint:disable-next-line: typedef
   save(index: number) {
-    console.log('[894][inhousee]', index, this.vd);
+    console.log('[962][inhousee]', index, this.vd);
 
     const selected = this.vd.find(item => item.sequence === index);
     this.selectedItem = selected.selectedname;
-    console.log('[754][저장] ', index, this.vd, selected);
 
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const row = control.value[index];
+    console.log('[969][저장] ', index, this.vd, selected, row);
     if (this.selectedItem === 'mutation') {
       this.subs.sink = this.patientsListService.saveMutation(
         'MDS',
@@ -1765,26 +1773,18 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
   reCall(): void {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData: IAFormVariant[] = control.getRawValue();
-    control.clear();
-    formData.forEach(list => {
-      if (list.type === 'New') {
-        const gene = list.gene.split(',');
-        gene.forEach(item => {
-          this.patientsListService.getMutationInfoLists(item, list.nucleotideChange, 'MDS')
-            .subscribe(data => {
-              if (data.length > 0) {
-                console.log(data);
-                list.functionalImpact = data[0].functional_impact;
-                list.references = data[0].reference;
-                list.cosmicID = data[0].cosmic_id;
-                list.type = 'M';
-                this.addNewRow(list);
-              }
-            });
 
-        });
-      }
-      this.addNewRow(list);
+    formData.forEach((list, index) => {
+      const gene = list.gene.split(',');
+      gene.forEach(item => {
+        this.patientsListService.getMutationInfoLists(item, list.nucleotideChange, 'MDS')
+          .subscribe(data => {
+            if (data.length > 0) {
+              control.at(index).patchValue({ type: 'M' });
+            }
+          });
+      });
+
     });
   }
 

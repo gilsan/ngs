@@ -1654,9 +1654,8 @@ export class Form6Component implements OnInit, OnDestroy {
   reCall(): void {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData: IAFormVariant[] = control.getRawValue();
-    control.clear();
 
-    formData.forEach(list => {
+    formData.forEach((list, index) => {
       const gene = list.gene.split(',');
       gene.forEach(item => {
         const first$ = this.patientsListService.getMutationGeneticInfoLists1(item, 'Genetic');
@@ -1665,18 +1664,16 @@ export class Form6Component implements OnInit, OnDestroy {
           .subscribe(([data1, data2]) => {
 
             if (data1.length > 0) {
-              list.type = 'M';
-              list.OMIM = data1[0].OMIM;
+              control.at(index).patchValue({ type: 'M', OMIM: data1[0].OMIM });
               if (data2.length > 0) {
-                list.functionalImpact = data2[0].functionalImpact;
-                list.nucleotideChange = data2[0].nucleotideChange;
-                list.dbSNPHGMD = data2[0].dbSNPHGMD;
-                list.gnomADEAS = data2[0].gnomADEAS;
+                control.at(index).patchValue(
+                  {
+                    functionalImpact: data2[0].functionalImpact, nucleotideChange: data2[0].nucleotideChange,
+                    dbSNPHGMD: data2[0].dbSNPHGMD, gnomADEAS: data2[0].gnomADEAS
+                  });
               }
             }
-            this.addNewRow(list);
           });
-        console.log('[1663]', list);
       });
     });
 
