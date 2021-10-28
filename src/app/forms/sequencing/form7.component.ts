@@ -190,9 +190,9 @@ export class Form7Component implements OnInit, OnDestroy {
       .subscribe(data => {
         console.log('[178][받은데이터]', data);
         if (data.length > 0) {
-          //  this.comment = data[0].comment;
-          // this.comment1 = data[0].comment1;
-          // this.comment2 = data[0].comment2;
+          this.comment = data[0].comment;
+          this.comment1 = data[0].comment1;
+          this.comment2 = data[0].comment2;
           this.seqcomment = data[0].seqcomment;
 
           data.forEach(item => {
@@ -218,22 +218,25 @@ export class Form7Component implements OnInit, OnDestroy {
         console.log('[205][Test Information]', data);
         if (data.length > 0) {
           this.resultname = data[0].result;
-          // this.targetdisease = data[0].target;
-          // this.method = data[0].method;
-          // this.analyzedgene = data[0].analyzedgene;
+          this.targetdisease = data[0].target;
+          this.method = data[0].method;
+          this.analyzedgene = data[0].analyzedgene;
           this.variations = data[0].identified_variations;
-          // this.specimen = data[0].specimen;
+          this.specimen = data[0].specimen;
 
-          this.defaultService.getList(this.patientInfo.test_code)
-            .subscribe(list => {
-              console.log('[226][Test Info]', list);
-              this.targetdisease = list[0].target;
-              this.method = list[0].method;
-              this.analyzedgene = list[0].analyzedgene;
-              this.specimen = list[0].specimen;
-              this.comment1 = list[0].comment1;
-              this.comment2 = list[0].comment2;
-            });
+          if (this.patientInfo.screenstatus === '0') {
+            this.defaultService.getList(this.patientInfo.test_code)
+              .subscribe(list => {
+                console.log('[226][Test Info]', list);
+                this.targetdisease = list[0].target;
+                this.method = list[0].method;
+                this.analyzedgene = list[0].analyzedgene;
+                this.specimen = list[0].specimen;
+                this.comment1 = list[0].comment1;
+                this.comment2 = list[0].comment2;
+              });
+          }
+
         }
 
       });

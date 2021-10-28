@@ -182,25 +182,27 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
       .subscribe(data => {
         console.log('[183][디비에서 가져온 데이터]', data);
         if (data.length > 0) {
-          // this.target = data[0].target;
-          // this.testmethod = data[0].testmethod;
-          // this.analyzedgene = data[0].analyzedgene;
-          // this.specimen = data[0].specimen;
+          this.target = data[0].target;
+          this.testmethod = data[0].testmethod;
+          this.analyzedgene = data[0].analyzedgene;
+          this.specimen = data[0].specimen;
           this.mlpaData.result = data[0].result;
-          // this.mlpaData.conclusion = data[0].conclusion;
-          // this.mlpaData.comment = data[0].comment;
-          // this.mlpaData.technique = data[0].technique;
+          this.mlpaData.conclusion = data[0].conclusion;
+          this.mlpaData.comment = data[0].comment;
+          this.mlpaData.technique = data[0].technique;
+          if (this.patientInfo.screenstatus === '0') {
+            this.defaultService.getList(this.patientInfo.test_code)
+              .subscribe(list => {
+                console.log('[196]', list);
+                this.target = list[0].target;
+                this.testmethod = list[0].method;
+                this.analyzedgene = list[0].analyzedgene;
+                this.specimen = list[0].specimen;
+                this.mlpaData.conclusion = list[0].comment1;
+                this.mlpaData.technique = list[0].comment2;
+              });
+          }
 
-          this.defaultService.getList(this.patientInfo.test_code)
-            .subscribe(list => {
-              console.log('[196]', list);
-              this.target = list[0].target;
-              this.testmethod = list[0].method;
-              this.analyzedgene = list[0].analyzedgene;
-              this.specimen = list[0].specimen;
-              this.mlpaData.conclusion = list[0].comment1;
-              this.mlpaData.technique = list[0].comment2;
-            });
         }
       });
   }
