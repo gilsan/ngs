@@ -194,7 +194,7 @@ export class Form7Component implements OnInit, OnDestroy {
           this.comment1 = data[0].comment1;
           this.comment2 = data[0].comment2;
           this.seqcomment = data[0].seqcomment;
-
+          console.log('[197][받은데이터]', this.comment1, this.comment2);
           data.forEach(item => {
             this.sequencingRows().push(this.createRow(
               {
@@ -224,7 +224,7 @@ export class Form7Component implements OnInit, OnDestroy {
           this.variations = data[0].identified_variations;
           this.specimen = data[0].specimen;
 
-          if (this.patientInfo.screenstatus === '0') {
+          if (this.patientInfo.screenstatus === '0' && this.targetdisease.length === 0) {
             this.defaultService.getList(this.patientInfo.test_code)
               .subscribe(list => {
                 console.log('[226][Test Info]', list);
