@@ -550,7 +550,9 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
         let type: string;
         let gene: string;
         let dvariable: IAFormVariant;
-        // console.log('********** [필터링원시자료][553]', data);
+        let igv = '';
+        igv = data.igv;
+        // console.log('********** [필터링원시자료][553]', igv);
 
         // 타입 분류
         if (data.mtype === 'M') {  // mutation
@@ -628,7 +630,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
         }
         this.vd.push({ sequence: this.vdcount, selectedname: 'mutation', gene });
         this.vdcount++;
-        this.addVarient(type, dvariable, gene, data.coding, data.tsv, data.cnt);
+        this.addVarient(type, dvariable, gene, data.coding, data.tsv, data.cnt, igv);
 
       }); // End of Subscribe
 
@@ -731,7 +733,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
   }
 
   // tslint:disable-next-line: typedef
-  addVarient(type: string, item: IAFormVariant, gene: string, coding: string, tsv: IFilteredTSV, count: string) {
+  addVarient(type: string, item: IAFormVariant, gene: string, coding: string, tsv: IFilteredTSV, count: string, igv: string) {
     let tempvalue;
     let tempCount;
 
@@ -743,7 +745,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
 
     if (type === 'M') {
       tempvalue = {
-        igv: '',
+        igv,
         sanger: '',
         type,
         cnt: tempCount,
@@ -761,7 +763,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
 
     } else {
       tempvalue = {
-        igv: '',
+        igv,
         sanger: '',
         type,
         cnt: '',

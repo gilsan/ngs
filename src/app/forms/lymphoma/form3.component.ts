@@ -519,8 +519,8 @@ export class Form3Component implements OnInit, OnDestroy {
         let type: string;
         let gene: string;
         let dvariable: IAFormVariant;
-
-
+        let igv = '';
+        igv = data.igv;
         // 타입 분류
         if (data.mtype === 'M') {  // mutation
           type = 'M';
@@ -592,7 +592,7 @@ export class Form3Component implements OnInit, OnDestroy {
 
         this.vd.push({ sequence: this.vdcount, selectedname: 'mutation', gene });
         this.vdcount++;
-        this.addVarient(type, dvariable, gene, data.coding, data.tsv, data.cnt);
+        this.addVarient(type, dvariable, gene, data.coding, data.tsv, data.cnt, igv);
 
       }); // End of Subscribe
 
@@ -704,7 +704,7 @@ export class Form3Component implements OnInit, OnDestroy {
   }
 
   // tslint:disable-next-line: typedef
-  addVarient(type: string, item: IAFormVariant, gene: string, coding: string, tsv: IFilteredTSV, count: string) {
+  addVarient(type: string, item: IAFormVariant, gene: string, coding: string, tsv: IFilteredTSV, count: string, igv: string) {
     let tempvalue;
     let tempCount;
     if (parseInt(count, 10) > 1) {
@@ -715,7 +715,7 @@ export class Form3Component implements OnInit, OnDestroy {
     // console.log('[676]', count, tempCount);
     if (type === 'M') {
       tempvalue = {
-        igv: '',
+        igv,
         sanger: '',
         type,
         cnt: tempCount,
@@ -734,7 +734,7 @@ export class Form3Component implements OnInit, OnDestroy {
 
     } else {
       tempvalue = {
-        igv: '',
+        igv,
         sanger: '',
         type,
         cnt: '',

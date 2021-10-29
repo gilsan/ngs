@@ -65,6 +65,7 @@
             <table border="0" cellpadding="0" cellspacing="0" class="header-fix table_list" style="min-width:2600px; width:100%">
             	<colgroup>
                     <col width="3%" />
+                    <col width="2%" />
                     <col width="5%" />
                     <col width="5%" />
                     <col width="5%" />
@@ -74,6 +75,9 @@
                     <col width="5%" />
                     <col width="5%" />
                     <col width="5%" />
+                    <col width="5%" />
+                    <col width="5%" />
+                    <col width="8%" /> <!--  VAF -->
                     <col width="5%" />
                     <col width="5%" />
                     <col width="5%" />
@@ -113,6 +117,11 @@
                         <th >COSMIC ID</th>
                         <th >SIFT/Polyphen/Mutation Taster</th>
                         <th >Buccal2</th>
+                        <th>rsID</th>
+                        <th>GenBank accesion no</th>
+                        <th>dbSNP/HGMD</th>
+                        <th>gnomAD EAS</th>
+                        <th>OMIM</th>
                         <!--th>ExAC</th>
                         <th>ExAC_East</th>
                         <th>KRGDB</th>
@@ -122,6 +131,7 @@
                         <th >Ivg</th>
                         <th >Sanger</th>
                         <th >수정/삭제</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -279,9 +289,11 @@
                                     <input type="text"  class="clr-input" value="{{list.zygosity}}" id="zygosity{{list.id}}"  >
                                 </span>
                             </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.vaf}}</span>
+                            <td class="txt_c"><span *ngIf="status.value === 'R'">
+                                <textarea class="textarea_01"  style="width: 100%; height: 100%; border: none">{{list.vaf}}</textarea>
+                               </span>
                                 <span class="clr-input" *ngIf="status.value === 'U'">
-                                    <input type="text"  class="clr-input" value="{{list.vaf}}" id="vaf{{list.id}}"  >
+                                    <textarea   class="clr-input" value="{{list.vaf}}" id="vaf{{list.id}}"></textarea>
                                 </span>
                             </td>
                             <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.reference}}</span>
@@ -342,6 +354,31 @@
                             <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.sanger}}</span>
                                 <span class="clr-input" *ngIf="status.value === 'U'">
                                     <input type="text"  class="clr-input" value="{{list.sanger}}" id="sanger{{list.id}}" >
+                                </span>
+                            </td>
+                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.rsid}}</span>
+                                <span class="clr-input" *ngIf="status.value === 'U'">
+                                    <input type="text"  class="clr-input" value="{{list.rsid}}" id="rsid{{list.id}}" >
+                                </span>
+                            </td>
+                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.genbank_accesion}}</span>
+                                <span class="clr-input" *ngIf="status.value === 'U'">
+                                    <input type="text"  class="clr-input" value="{{list.genbank_accesion}}" id="genbank_accesion{{list.id}}" >
+                                </span>
+                            </td>
+                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.dbsnp_hgmd}}</span>
+                                <span class="clr-input" *ngIf="status.value === 'U'">
+                                    <input type="text"  class="clr-input" value="{{list.dbsnp_hgmd}}" id="dbsnp_hgmd{{list.id}}" >
+                                </span>
+                            </td>
+                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.gnomad_eas}}</span>
+                                <span class="clr-input" *ngIf="status.value === 'U'">
+                                    <input type="text"  class="clr-input" value="{{list.gnomad_eas}}" id="gnomad_eas{{list.id}}" >
+                                </span>
+                            </td>
+                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.omim}}</span>
+                                <span class="clr-input" *ngIf="status.value === 'U'">
+                                    <input type="text"  class="clr-input" value="{{list.omim}}" id="omim{{list.id}}" >
                                 </span>
                             </td>
                             <td class="txt_c">

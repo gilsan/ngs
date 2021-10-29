@@ -26,4 +26,10 @@ export interface IMutation {
   etc3?: string;
   display?: string;
   type?: string;
+  rsid?: string;
+  genbank_accesion?: string;
+  dbsnp_hgmd?: string;
+  gnomad_eas?: string;
+  omim?: string;
+
 }

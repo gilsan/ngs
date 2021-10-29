@@ -421,7 +421,7 @@ export class PatientsListService {
       tap(data => {
         // gene 와 coding 값 분리
         this.geneCoding = data.map(item => {
-          // console.log('****[356][patientslist][item] ****', item);
+          // console.log('****[424][patientslist][item] ****', item);
           let coding: string;
           let multigenes: string;
           let gene1: string;
@@ -457,14 +457,15 @@ export class PatientsListService {
             }
             // coding = item.coding.replace(/;/g, ',');
             const id = item.id;
+            const igv = item.locus;
             // console.log('===== [391][gene1/gene2/coding]====\n', gene1, gene2, coding);
-            return { id, gene1, gene2, coding, tsv, clinVar, multigenes };
+            return { id, gene1, gene2, coding, tsv, clinVar, multigenes, igv };
           }
         });
       }), // End of tap
       switchMap(() => from(this.geneCoding)),
       concatMap(item => {
-        // console.log('===== [407][coding]====\n', item.coding);
+        // console.log('===== [467][item]====\n', item);
         let tempTestType;
         if (item.gene2 === 'none') {
           if (testType === 'AML' || testType === 'ALL') {
