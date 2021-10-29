@@ -46,6 +46,7 @@ export class ManagecodeComponent implements OnInit {
     this.commentClear();
     this.code = 'none';
     this.type = type;
+    this.workingcode = '';
     this.reportLists = this.lists.filter(list => list.type === type);
     this.reportLists = this.reportLists.sort((a, b) => {
       const x = a.code; const y = b.code;
@@ -59,6 +60,7 @@ export class ManagecodeComponent implements OnInit {
       this.disAble = false;
     } else {
       this.disAble = true;
+      this.exshow = false;
     }
 
   }
