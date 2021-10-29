@@ -12,7 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class MentmanageComponent implements OnInit, OnDestroy {
 
-  selected = '';
+  selected = 'none';
   tablerowForm: FormGroup;
   private subs = new SubSink();
   type = '';
@@ -158,6 +158,8 @@ export class MentmanageComponent implements OnInit, OnDestroy {
       this.selected = 'SEQ';
     } else if (type === 'MLPA') {
       this.selected = 'MLPA';
+    } else if (type === 'none') {
+      this.selected = 'none';
     }
     const control = this.tablerowForm.get('tableRows') as FormArray;
     control.clear();
