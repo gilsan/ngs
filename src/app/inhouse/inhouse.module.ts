@@ -22,6 +22,7 @@ import { NgsexcelComponent } from './ngsexcel/ngsexcel.component';
 import { MentmanageComponent } from './mentmanage/mentmanage.component';
 import { ManagecodeComponent } from './managecode/managecode.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { PatientexcelComponent } from './patientexcel/patientexcel.component';
 // import { ResizetableDirective } from './directive/resizetable.directive';
 // import { ResizableModule } from './resizable/resizable.module';
 
@@ -42,6 +43,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     NgsexcelComponent,
     MentmanageComponent,
     ManagecodeComponent,
+    PatientexcelComponent,
 
   ],
   imports: [

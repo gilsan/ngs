@@ -258,6 +258,10 @@ export interface IMsg {
   message: string;
 }
 
+export interface IExcelData {
+
+}
+
 export interface IMent {
   id?: string;
   title: string;

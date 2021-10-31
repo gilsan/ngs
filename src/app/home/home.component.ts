@@ -180,6 +180,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.router.navigate(['/diag', 'inhouse', 'ngsexcel']);
   }
 
+  ngsExcelLink(): void {
+
+    this.router.navigate(['/diag', 'inhouse', 'patientexcel']);
+  }
+
   comment(): void {
     this.router.navigate(['/diag', 'inhouse', 'genemgn']);
   }
@@ -193,9 +198,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   excelDownload(): void {
-    // event.preventDefault();
-    // event.stopPropagation();
-    // this.menu2 = false;
+
 
     this.subs.sink = this.excelService.excelList().subscribe((lists: IExcelData[]) => {
       console.log(lists);

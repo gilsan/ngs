@@ -24,6 +24,8 @@ import { BlacklistComponent } from './inhouse/blacklist/blacklist.component';
 import { SequencingComponent } from './sequencing/sequencing.component';
 import { SequencingreportComponent } from './byengri/sequencingreport/sequencingreport.component';
 import { ImageuploadComponent } from './imageupload/imageupload.component';
+import { NgsexcelComponent } from './inhouse/ngsexcel/ngsexcel.component';
+import { PatientexcelComponent } from './inhouse/patientexcel/patientexcel.component';
 
 
 @NgModule({
@@ -45,6 +47,8 @@ import { ImageuploadComponent } from './imageupload/imageupload.component';
     SequencingComponent,
     SequencingreportComponent,
     ImageuploadComponent,
+    NgsexcelComponent,
+    PatientexcelComponent,
   ],
   imports: [
 

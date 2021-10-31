@@ -493,18 +493,18 @@ export class UploadComponent implements OnInit {
   }
 
   donefilter(file: File): any {
-
+    let loadDataIndex: number;
     const reader = new FileReader();
     reader.onload = (e) => {
       const lists = [];
-
       const data = this.loadData(reader.result);
       this.filteredOriginData = [];
-      // console.log('==== [423][donefilter] ', data[18].includes('Locus'), file);
+      loadDataIndex = data.findIndex(list => list.includes('Locus'));
+
       /**
        * IR 파일이 아닐경우 에러메세지 보냄.
        */
-      if (!data[18].includes('Locus')) {
+      if (!data[loadDataIndex].includes('Locus')) {
 
         alert('IR 파일명이 맞는지 확인해 주세요.\n ' + file.name);
         this.onWrongFile.emit(null);
@@ -523,43 +523,66 @@ export class UploadComponent implements OnInit {
       // console.log('==== [412][filteredOriginData] ', this.filteredOriginData);
       // 기본자료 수집
       data.forEach((list, index) => {
-        if (index === 18) {
+        if (index === loadDataIndex) {
           this.fields = list;
         }
-        if (index >= 19) {
-          // console.log('==== [475][UPLOAD][filteredOriginData] ', list);
-          this.filteredOriginData.push({
-            locus: list[this.findGenePostion('Locus')].trim(),
-            readcount: list[this.findGenePostion('Read Counts')].trim(),
-            OncomineVariant: list[this.findGenePostion('Oncomine Variant Class')].trim(),
-            oncomine: list[this.findGenePostion('Oncomine Gene Class')].trim(),
-            type: list[this.findGenePostion('Type')].trim(),
-            gene: list[this.findGenePostion('Genes (Exons)')].trim(),
-            aminoAcidChange: list[this.findGenePostion('Amino Acid Change')].trim(),
-            coding: list[this.findGenePostion('Coding')].trim(),
-            frequency: list[this.findGenePostion('% Frequency')].trim(),
-            comsmicID: list[this.findGenePostion('Variant ID')].trim(),
-            cytoband: list[this.findGenePostion('CytoBand')].trim(),
-            variantID: list[this.findGenePostion('Variant ID')].trim(),
-            variantName: list[this.findGenePostion('Variant Name')].trim(),
-            pathologyNum: this.pathologyNum
-            /*
-            locus: list[0].trim(),
-            readcount: list[21].trim(),
-            OncomineVariant: list[12].trim(),
-            oncomine: list[13].trim(),
-            type: list[5].trim(),
-            gene: list[9].trim(),
-            aminoAcidChange: list[20].trim(),
-            coding: list[35].trim(),
-            frequency: list[19].trim(),
-            comsmicID: list[30].trim(),
-            cytoband: list[15].trim(),
-            variantID: list[17].trim(),
-            variantName: list[18].trim(),
-            pathologyNum: this.pathologyNum,
-            */
-          });
+        if (index >= loadDataIndex + 1) {
+          // console.log('==== [532][UPLOAD][filteredOriginData] ', list);
+          // 2021-10-30 % Frequency ==> Allele Frequency % 로 변경
+          const existFrequency = this.findGenePostion('Allele Frequency %');
+          if (existFrequency !== -1) {
+            this.filteredOriginData.push({
+              locus: list[this.findGenePostion('Locus')].trim(),
+              readcount: list[this.findGenePostion('Read Counts')].trim(),
+              OncomineVariant: list[this.findGenePostion('Oncomine Variant Class')].trim(),
+              oncomine: list[this.findGenePostion('Oncomine Gene Class')].trim(),
+              type: list[this.findGenePostion('Type')].trim(),
+              gene: list[this.findGenePostion('Genes (Exons)')].trim(),
+              aminoAcidChange: list[this.findGenePostion('Amino Acid Change')].trim(),
+              coding: list[this.findGenePostion('Coding')].trim(),
+              frequency: list[this.findGenePostion('Allele Frequency %')].trim(),
+              comsmicID: list[this.findGenePostion('Variant ID')].trim(),
+              cytoband: list[this.findGenePostion('CytoBand')].trim(),
+              variantID: list[this.findGenePostion('Variant ID')].trim(),
+              variantName: list[this.findGenePostion('Variant Name')].trim(),
+              pathologyNum: this.pathologyNum
+              /*
+              locus: list[0].trim(),
+              readcount: list[21].trim(),
+              OncomineVariant: list[12].trim(),
+              oncomine: list[13].trim(),
+              type: list[5].trim(),
+              gene: list[9].trim(),
+              aminoAcidChange: list[20].trim(),
+              coding: list[35].trim(),
+              frequency: list[19].trim(),
+              comsmicID: list[30].trim(),
+              cytoband: list[15].trim(),
+              variantID: list[17].trim(),
+              variantName: list[18].trim(),
+              pathologyNum: this.pathologyNum,
+              */
+            });
+          } else {
+            this.filteredOriginData.push({
+              locus: list[this.findGenePostion('Locus')].trim(),
+              readcount: list[this.findGenePostion('Read Counts')].trim(),
+              OncomineVariant: list[this.findGenePostion('Oncomine Variant Class')].trim(),
+              oncomine: list[this.findGenePostion('Oncomine Gene Class')].trim(),
+              type: list[this.findGenePostion('Type')].trim(),
+              gene: list[this.findGenePostion('Genes (Exons)')].trim(),
+              aminoAcidChange: list[this.findGenePostion('Amino Acid Change')].trim(),
+              coding: list[this.findGenePostion('Coding')].trim(),
+              frequency: list[this.findGenePostion('% Frequency')].trim(),
+              comsmicID: list[this.findGenePostion('Variant ID')].trim(),
+              cytoband: list[this.findGenePostion('CytoBand')].trim(),
+              variantID: list[this.findGenePostion('Variant ID')].trim(),
+              variantName: list[this.findGenePostion('Variant Name')].trim(),
+              pathologyNum: this.pathologyNum
+            });
+
+          }
+
           // console.log('==== [313][upload][filteredOriginData] ', this.filteredOriginData);
         }
 
@@ -657,7 +680,6 @@ export class UploadComponent implements OnInit {
   *///
   // 유전자의 위치 찿음
   findGenePostion(item: string): number {
-    // console.log('[594] findGenePosition: ', this.fields, item);
     return this.fields.findIndex(field => field === item);
   }
 

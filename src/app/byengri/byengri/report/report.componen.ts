@@ -258,7 +258,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       } catch (err) {
         console.log(err);
       }
-
+      console.log('[261][환자정보] ', this.patientInfo);
       this.searchService.howManyImages(this.pathologyNum)
         .subscribe(data => {
           if (Number(data.count) > 0) {
@@ -1945,18 +1945,18 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.convertFormData();
 
-    console.log('[1141][임시저장][환자정보][this.basicInfo]', this.basicInfo);
-    console.log('[1141][임시저장][환자정보][patientInfo]', this.patientInfo);
-    console.log('[1141][임시저장][검체정보][extraction]', this.extraction);
-    console.log('[1141][임시저장][mutaion]', this.mutation);
-    console.log('[1141][임시저장][amplifications]', this.amplifications);
-    console.log('[1141][임시저장][fusion]', this.fusion);
-    console.log('[1141][임시저장][imutation]', this.imutation);
-    console.log('[1141][임시저장][iamplifications]', this.iamplifications);
-    console.log('[1141][임시저장][ifusion]', this.ifusion);
-    console.log('[1141][임시저장][멘트][ment]', this.generalReport, this.specialment, this.notecontents);
-    console.log('[1141][임시저장][검수자/확인자][]', this.examedname, this.examedno, this.checkername, this.checkeredno);
-    console.log('[1946][임시저장][정도관리] ', this.stateControl);
+    console.log('[1948][임시저장][환자정보][this.basicInfo]', this.basicInfo);
+    console.log('[1948][임시저장][환자정보][patientInfo]', this.patientInfo);
+    console.log('[1948][임시저장][검체정보][extraction]', this.extraction);
+    console.log('[1948][임시저장][mutaion]', this.mutation);
+    console.log('[1948][임시저장][amplifications]', this.amplifications);
+    console.log('[1948][임시저장][fusion]', this.fusion);
+    console.log('[1948][임시저장][imutation]', this.imutation);
+    console.log('[1948][임시저장][iamplifications]', this.iamplifications);
+    console.log('[1948][임시저장][ifusion]', this.ifusion);
+    console.log('[1948][임시저장][멘트][ment]', this.generalReport, this.specialment, this.notecontents);
+    console.log('[1948][임시저장][검수자/확인자][]', this.examedname, this.examedno, this.checkername, this.checkeredno);
+    console.log('[1948][임시저장][정도관리] ', this.stateControl);
     this.subs.sink = this.savepathologyService.savePathologyData(
       this.basicInfo.pathologyNum,
       this.patientInfo,
@@ -2106,6 +2106,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       gene: fusion.gene,
       breakpoint: fusion.breakpoint,
       functions: fusion.functions,
+      readcount: fusion.readcount,
       tier: fusion.tier,
       seq: index
     });
@@ -2121,8 +2122,8 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.fb.group({
       gene: '',
       breakpoint: '',
-      readcount: '',
       functions: '',
+      readcount: '',
       tier: '',
       seq: ''
     });
@@ -2131,7 +2132,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   addFusion(): void {
     this.fusionLists().push(this.newFusion());
     this.fusion.push({
-      gene: '', breakpoint: '', functions: '', tier: '', seq: ''
+      gene: '', breakpoint: '', functions: '', readcount: '', tier: '', seq: ''
     });
     const len = this.fusionLists().getRawValue().length;
     if (len > 0) {
@@ -2266,6 +2267,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       gene: fusion.gene,
       breakpoint: fusion.breakpoint,
       functions: fusion.functions,
+      readcount: fusion.readcount,
       tier: fusion.tier,
       seq: index
     });
@@ -2280,6 +2282,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       gene: '',
       breakpoint: '',
       functions: '',
+      readcount: '',
       tier: '',
       seq: ''
     });
@@ -2288,7 +2291,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   addIFusion(): void {
     this.ifusionLists().push(this.newIFusion());
     this.ifusion.push({
-      gene: '', breakpoint: '', functions: '', tier: '', seq: ''
+      gene: '', breakpoint: '', functions: '', readcount: '', tier: '', seq: ''
     });
     const len = this.ifusionLists().getRawValue().length;
     if (len > 0) {

@@ -10,6 +10,7 @@ import { MentmanageComponent } from './mentmanage/mentmanage.component';
 import { MgngeneComponent } from './mgngene/mgngene.component';
 import { MutationComponent } from './mutation/mutation.component';
 import { NgsexcelComponent } from './ngsexcel/ngsexcel.component';
+import { PatientexcelComponent } from './patientexcel/patientexcel.component';
 
 const routes: Routes = [
   {
@@ -19,9 +20,10 @@ const routes: Routes = [
       { path: 'benign', component: BenignComponent },
       { path: 'comments', component: CommentsComponent },
       { path: 'genemgn', component: MgngeneComponent },
-      { path: 'ngsexcel', component: NgsexcelComponent },
+      { path: 'codemgn', component: ManagecodeComponent },
       { path: 'ment', component: MentmanageComponent },
-      { path: 'codemgn', component: ManagecodeComponent }
+      { path: 'ngsexcel', component: NgsexcelComponent },
+      { path: 'patientexcel', component: PatientexcelComponent }
     ]
   },
 ];

@@ -347,7 +347,7 @@ export class Form7Component implements OnInit, OnDestroy {
       this.comment1, this.comment2, this.seqcomment, this.resultname, this.patientInfo.test_code, this.variations,
       this.targetdisease, this.method, this.analyzedgene, this.specimen)
       .subscribe(data => {
-        this.patientsListService.changescreenstatus(this.form2TestedId, this.screenstatus, userid, 'SEQN').subscribe();
+        this.patientsListService.changescreenstatus(this.form2TestedId, this.screenstatus, userid, 'SEQ').subscribe();
         alert('저장되었습니다.');
       });
   }
@@ -671,7 +671,7 @@ export class Form7Component implements OnInit, OnDestroy {
   reCall(): void {
     const control = this.form.get('tableRows') as FormArray;
     const formData: ISequence[] = control.getRawValue();
-    const gene = this.analyzedgene;
+    const gene = this.ngsTitle.split('Gene')[0].trim();
 
     formData.forEach((list, index) => {
       this.patientsListService.getMutationSeqInfoLists(gene, list.nucleotideChange, 'SEQ')

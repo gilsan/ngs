@@ -228,7 +228,14 @@ export class ByengriComponent implements OnInit, OnDestroy {
   }
 
   ngslink(): void {
-    this.router.navigate(['/pathology', 'inhouse', 'ngsexcel']);
+    this.router.navigate(['/pathology', 'ngsexcel']);
+  }
+
+
+
+  ngsExcelLink(): void {
+
+    this.router.navigate(['/pathology', 'patientexcel']);
   }
 
 

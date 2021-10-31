@@ -302,12 +302,14 @@
                   <col width="150px">
                   <col width="8%">
                   <col width="8%">
+                  <col width="8%">
                 </colgroup>
                 <thead>
                   <tr>
                     <th class="table_result_line fontsize" style="width:200px;">Gene (exon)</th>
                     <th class="fontsize">Breakpoint </th>
                     <th class="fontsize">Function</th>
+                    <th class="fontsize">Read Count</th>
                     <th class="m-w-90" style="font-size: 14px;">Tier</th>
                     <th class="m-w-90">
                       <button class="btn btn_01" (click)="addFusion()">추가</button>
@@ -325,6 +327,9 @@
                       </td>
                       <td class="txt_c">
                         <input type="text" size="10" class="clr-input" formControlName="functions">
+                      </td>
+                       <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="readcount">
                       </td>
                       <td class="txt_c">
                         <input type="text" size="5" class="clr-input" formControlName="tier" style="color: red;">
@@ -475,12 +480,14 @@
                 <col width="130px">
                 <col width="8%">
                 <col width="8%">
+                <col width="8%">
               </colgroup>
               <thead>
                 <tr>
                   <th class="table_result_line fontsize" style="width:200px;">Gene (exon)</th>
                   <th class="fontsize min-w">Breakpoint</th>
                   <th class="fontsize" style="width:150px;">Function</th>
+                  <th class="fontsize">Read Count</th>
                   <th class="m-w-90" style="font-size: 14px;">Note</th>
                   <th class="m-w-90">
                     <button class="btn btn_01" (click)="addIFusion()">추가</button>
@@ -498,6 +505,9 @@
                     </td>
                     <td class="txt_c">
                       <input type="text" size="10" class="clr-input" formControlName="functions">
+                    </td>
+                    <td class="txt_c">
+                      <input type="text" size="10" class="clr-input" formControlName="readcount">
                     </td>
                     <td class="txt_c">
                       <input type="text" size="10" class="clr-input" formControlName='tier'>

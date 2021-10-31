@@ -91,6 +91,13 @@ export class PatientsListService {
     );
   }
 
+  // 유전체 와 coding 로 mutation 레코드에서 정보 가져오기
+  public getMutationInfoamlall(gene: string, coding: string, type: string): Observable<IAFormVariant[]> {
+    // console.log('[77][patientslist SERVICE][getMutationInfoLists]', gene, coding, type);
+    return this.http.post<IAFormVariant[]>(`${this.apiUrl}/mutation/amlall`, { gene, coding, type }).pipe(
+      shareReplay()
+    );
+  }
 
   // Sequencing  유전체 와 coding 로 mutation 레코드에서 정보 가져오기
   public getMutationSeqInfoLists(gene: string, coding: string, type: string): Observable<ISequence[]> {
@@ -113,12 +120,22 @@ export class PatientsListService {
     );
   }
 
+  // 유전성유전  유전체   로  variant detected 레코드에서 정보 가져오기
+  public getVariantDetected(gene: string, coding: string): Observable<any[]> {
+    return this.http.post<any[]>(`${this.apiUrl}/mutation/alltype`, { gene, coding }).pipe(
+      shareReplay()
+    );
+  }
+
+
   // 유전체 와 coding 로 Artifacts 레코드에서 정보 가져오기
   public getArtifactInfoLists(gene: string, coding: string) {
     return this.http.post(`${this.apiUrl}/ngsartifacts/list`, { gene, coding }).pipe(
       shareReplay()
     );
   }
+
+
 
   // artifacts 삽입
   public insertArtifacts(type: string, genes: string, loc2: string = '', exon: string = '', transcript: string, coding: string, aminoAcidChange: string) {

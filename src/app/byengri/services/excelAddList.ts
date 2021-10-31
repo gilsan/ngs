@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { emrUrl } from 'src/app/config';
 // import { IExcelData } from '../models/patients';
 import { Observable, of } from 'rxjs';
+import { IExcelData } from '../models/patients';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,10 @@ export class ExcelAddListService {
 
   public excelList(): Observable<any> {
     return this.http.get(`${this.apiUrl}/excelDV/list`);
+  }
+
+  public patientExcelList(start: string, end: string): Observable<IExcelData[]> {
+    return this.http.post<IExcelData[]>(`${this.apiUrl}/excelDv/lists`, { start, end, gubun: 'path' });
   }
 
 }

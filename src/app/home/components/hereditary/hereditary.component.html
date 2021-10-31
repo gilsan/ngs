@@ -67,7 +67,7 @@
             <col width="5%">
             <col width="8%">
             <col width="7%">
-
+            <col width="7%">
 
           </colgroup>
           <thead>
@@ -84,6 +84,7 @@
               <th>VCF 파일</th>
               <th>BAM 파일</th>
               <th>진행상태</th>
+              <th>&nbsp;</th>
               <th>&nbsp;</th>
               <th>&nbsp;</th>
             </tr>
@@ -118,6 +119,10 @@
                 <button type="button" class="btn btn_05" *ngIf="list.tsvFilteredFilename;"
                   (click)="goUploadpage(list.specimenNo, list.patientID)">재등록</button>
               </td>
+              <td  class="txt_c">
+                 <button type="button" class="btn btn_05">직접입력</button>
+              </td>
+
               <ng-template #reload><td></td></ng-template>
             </tr>
           </tbody>

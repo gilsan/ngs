@@ -2071,16 +2071,10 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
                   type: 'M', functionalImpact: data[0].functional_impact,
                   references: data[0].reference, cosmicID: data[0].cosmic_id
                 });
-                // list.functionalImpact = data[0].functional_impact;
-                // list.references = data[0].reference;
-                // list.cosmicID = data[0].cosmic_id;
-                // list.type = 'M';
-                // this.addNewRow(list);
               }
             });
         });
       }
-      // this.addNewRow(list);
     });
   }
 

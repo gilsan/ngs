@@ -31,4 +31,11 @@ export class ExcelAddListService {
     return this.http.get(`${this.apiUrl}/excelDV/list`);
   }
 
+  public patientExcelList(start: string, end: string, type: string): Observable<IExcelData[]> {
+    return this.http.post<IExcelData[]>(`${this.apiUrl}/excelDv/lists`, { start, end, type, gubun: 'diag' });
+  }
+
+
+
+
 }
