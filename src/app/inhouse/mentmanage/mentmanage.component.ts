@@ -69,13 +69,14 @@ export class MentmanageComponent implements OnInit, OnDestroy {
 
   }
 
-  testcode(code: string): void {
-    console.log(code);
+  testcode(code: string, type: string): void {
+    console.log('[73][testcode]', code, type);
     if (code === 'none') {
       return;
     } else {
       this.code = code;
-      this.report = this.reportLists.filter(list => list.code === code)[0].report;
+      console.log('[78][testcode]', this.reportLists.filter(list => list.code === code && list.type === type));
+      this.report = this.reportLists.filter(list => list.code === code && list.type === type)[0].report;
       const control = this.tablerowForm.get('tableRows') as FormArray;
       control.clear();
       this.lists.filter(list => list.code === code).forEach(list => {
@@ -150,7 +151,7 @@ export class MentmanageComponent implements OnInit, OnDestroy {
   }
 
   //////////////////////////////////////////////////////////////
-  findTypeLists(type: string): void {
+  findTypeLists(type: string, code: string): void {
     console.log(type);
     if (type === 'Genetic') {
       this.selected = 'Genetic';
@@ -161,6 +162,7 @@ export class MentmanageComponent implements OnInit, OnDestroy {
     } else if (type === 'none') {
       this.selected = 'none';
     }
+    this.code = code;
     const control = this.tablerowForm.get('tableRows') as FormArray;
     control.clear();
     this.findLists(this.selected);
@@ -201,12 +203,14 @@ export class MentmanageComponent implements OnInit, OnDestroy {
   cancel(i: number): void {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const rowData = control.at(i).value;
+    this.code = rowData.code;
+    console.log('[206][cancel]', rowData, this.code);
     if (this.code === 'N') {
       const idx = this.lists.findIndex(list => list.id === rowData.id);
       console.log('[206]', i, this.lists[idx]);
       control.at(i).patchValue({ ...this.lists[idx], mode: 'D' });
     } else {
-      this.testcode(this.code);
+      this.testcode(this.code, this.selected);
     }
   }
 
