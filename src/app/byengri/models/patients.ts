@@ -259,7 +259,19 @@ export interface IMsg {
 }
 
 export interface IExcelData {
-
+  no?: string;
+  prescription_date: string;
+  report_date: string;
+  pathology_num: string;
+  rel_pathology_num: string;
+  pathological_dx: string;
+  organ: string;
+  diagnosis: string;
+  report_gb: string;
+  gene: string;
+  amino_acid_change: string;
+  nucleotide_change: string;
+  variant_allele_frequency: string;
 }
 
 export interface IMent {

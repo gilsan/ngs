@@ -15,10 +15,10 @@ export class ExcelService {
   private excelFileName = 'ngs';
 
 
-  public exportAsExcelFile(jsonData: any[], excelFileName: string): void {
+  public exportAsExcelFile(jsonData: any[], excelFileName: string, width: any[]): void {
 
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(jsonData, { skipHeader: true });
-    // worksheet['!cols'] = width;
+    worksheet['!cols'] = width;
     const workbook: XLSX.WorkBook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
     const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
 

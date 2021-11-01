@@ -1,11 +1,13 @@
 import { Component, OnInit, OnDestroy, Injectable } from '@angular/core';
-import { IExcelData } from 'src/app/home/models/patients';
+
 
 import { SubSink } from 'subsink';
 import * as moment from 'moment';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ExcelAddListService } from '../../services/excelAddList';
+
 import { ExcelService } from '../../services/excel.service';
+import { IExcelData } from '../../models/patients';
+import { ExcelAddListService } from '../../services/excelAddList';
 
 @Component({
   selector: 'app-patientexcel',
@@ -60,36 +62,56 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
   search(start: string, end: string): void {
 
     console.log(start, end);
-    /*
+    const excelLists: IExcelData[] = [];
+    let count;
     this.subs.sink = this.excelService.patientExcelList(start, end)
-      .subscribe(excellists => {
-        const excelLists: IExcelData[] = [];
+      .subscribe(lists => {
+        // console.log(lists);
         this.snackBar.open('정상적으로 다운로드 하였습니다.', '닫기', { duration: 3000 });
         excelLists.push({
-           no: 'No',
-           testdate: '검사일시',
-           savedate: '저장일시',
-           registerno: '등록번호',
-           pathno: '병리번호',
-           tubeno: '관련병리번호\n(Tube number)',
-           organ: 'Organ',
-           diagnosis: 'Diagnosis',
-           gubun: '구분(C:PV/LPV 검출 유전자, P:VUS 검출 유전자)',
-           gene: 'gene',
-           variantp: 'variant(P) (참고:Amino acid change의미)',
-           variantn:'variant(N) (참고:Nucleotide change의미)',
-           allele: 'Allele Frequency'
+          no: 'No',
+          prescription_date: '검사일시',
+          report_date: '저장일시',
+          rel_pathology_num: '등록번호',
+          pathology_num: '병리번호',
+          pathological_dx: '관련병리번호\n(Tube number)',
+          organ: 'Organ',
+          diagnosis: 'Diagnosis',
+          report_gb: '구분(C:PV/LPV 검출 유전자, P:VUS 검출 유전자)',
+          gene: 'gene',
+          amino_acid_change: 'variant(P) (참고:Amino acid change의미)',
+          nucleotide_change: 'variant(N) (참고:Nucleotide change의미)',
+          variant_allele_frequency: 'Allele Frequency'
         });
 
-        excellists.forEach(list => {
+        lists.forEach((list, index) => {
+          count = index + 1;
+          console.log(list);
           excelLists.push({
-
+            no: count.toString(),
+            prescription_date: list.prescription_date,
+            report_date: list.report_date,
+            rel_pathology_num: list.rel_pathology_num,
+            pathology_num: list.pathology_num,
+            pathological_dx: list.rel_pathology_num,
+            organ: list.organ,
+            diagnosis: '',
+            report_gb: list.report_gb,
+            gene: list.gene,
+            amino_acid_change: list.amino_acid_change,
+            nucleotide_change: list.nucleotide_change,
+            variant_allele_frequency: list.variant_allele_frequency
           });
         });
 
-        this.excel.exportAsExcelFile(excelLists, 'report');
+        const ngwidth = [{ width: 9 }, { width: 11 }, { width: 12 }, { width: 12 }, { width: 12 },
+        { width: 25 }, { width: 9 }, { width: 9 }, { width: 42 }, { width: 9 },
+        { width: 35 }, { width: 35 }, { width: 16 }
+        ];
+
+        this.excel.exportAsExcelFile(excelLists, 'report', ngwidth);
       });
-     */
+
 
   }
 

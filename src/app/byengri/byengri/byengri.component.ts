@@ -173,57 +173,7 @@ export class ByengriComponent implements OnInit, OnDestroy {
     // event.stopPropagation();
     // this.menu2 = false;
 
-    this.subs.sink = this.excelService.excelList().subscribe((lists: any[]) => {
-      console.log(lists);
-      const excelLists: any[] = [];
 
-
-      excelLists.push({
-        tsvname: 'TSV파일명',
-        name: '환자명',
-        gender: '성별',
-        age: '나이',
-        patientID: '등록번호',
-        acceptdate: '검사일시',
-        reportdate: '저장일시',
-        testcode: '결과지 구분',
-        gene: 'Gene',
-        functionalImpact: 'Functional Impact',
-        transcript: 'Transcript',
-        exonIntro: 'Exon/Intron',
-        nucleotideChange: 'Nucleotide Change',
-        aminoAcidChange: 'Amino Acid Change',
-        zygosity: 'Zygosity',
-        vafPercent: 'VAF %',
-        references: 'Reference(s)',
-        cosmicID: 'COSMIC ID'
-      });
-
-      lists.forEach(list => {
-        excelLists.push({
-          tsvname: list.tsvname,
-          name: list.name,
-          gender: list.gender,
-          age: list.age,
-          patientID: list.patientID,
-          acceptdate: list.acceptdate,
-          reportdate: list.reportdate,
-          testcode: list.testcode,
-          gene: list.gene,
-          functionalImpact: list.functionalImpact,
-          transcript: list.transcript,
-          exonIntro: list.exonIntro,
-          nucleotideChange: list.nucleotideChange,
-          aminoAcidChange: list.aminoAcidChange,
-          zygosity: list.zygosity,
-          vafPercent: list.vafPercent,
-          references: list.reference,
-          cosmicID: list.cosmicID
-        });
-      });
-
-      this.excel.exportAsExcelFile(excelLists, 'report');
-    });
 
   }
 
