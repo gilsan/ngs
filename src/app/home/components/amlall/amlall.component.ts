@@ -11,6 +11,7 @@ import { SubSink } from 'subsink';
 import * as moment from 'moment';
 import { geneTitles } from 'src/app/forms/commons/geneList';
 import { TestCodeTitleService } from 'src/app/home/services/testCodeTitle.service';
+import { AMLALL, LYM, SEQ, MDS, GENETIC, MLPA } from 'src/app/forms/commons/geneList';
 @Component({
   selector: 'app-amlall',
   templateUrl: './amlall.component.html',
@@ -59,6 +60,34 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.search(this.startToday(), this.endToday(), '', '');
   }
 
+  // 전체 리스트
+  getAllLists(): void {
+    let empty = 0;
+    let start = 0;
+    let screenread = 0;
+    let screenfinish = 0;
+    this.patientsList.getAllLists()
+      .pipe(
+        switchMap(lists => from(lists))
+      )
+      .subscribe((data) => {
+        if (data === undefined) {
+          console.log('[78][전체 리스트]', data);
+        } else {
+          if (data.screenstatus === '') {
+            empty++;
+          } else if (data.screenstatus === '0') {
+            start++;
+          } else if (data.screenstatus === '1') {
+            screenread++;
+          } else if (data.screenstatus === '2') {
+            screenfinish++;
+          }
+        }
+      });
+  }
+
+
   ngAfterViewInit(): void {
     setTimeout(() => {
       const scrolly = this.store.getScrollyPosition();
@@ -71,6 +100,8 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   init(): void {
+
+
     this.lists$ = this.patientsList.getPatientList();
     this.subs.sink = this.lists$
       .pipe(

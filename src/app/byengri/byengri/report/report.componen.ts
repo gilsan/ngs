@@ -559,6 +559,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.subs.sink = this.searchService.getFusionC(pathologyNo)
       .subscribe(data => {
+        console.log('[562][FusionC]', data);
         if (data.message !== 'no data') {
           let tempfu;
           if (data.length > 1) {
@@ -581,6 +582,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
               gene: item.gene,
               breakpoint: item.fusion_breakpoint,
               functions: item.fusion_function,
+              readcount: item.readcount,
               tier: item.tier
             }, index));
           });
@@ -674,6 +676,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
             this.ifusion.push({
               gene: item.gene,
               breakpoint: item.fusion_breakpoint,
+              readcount: item.readcount,
               functions: item.fusion_function,
               tier: item.tier
             }, index);
@@ -681,6 +684,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
             this.ifusionLists().push(this.createIFusion({
               gene: item.gene,
               breakpoint: item.fusion_breakpoint,
+              readcount: item.readcount,
               functions: item.fusion_function,
               tier: item.tier,
             }, index));

@@ -27,6 +27,11 @@ export class PatientsListService {
     private store: StoreService,
   ) { }
 
+  //  전체 검진자 정보 가져오기
+  public getAllLists(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/patients_diag/allLists`);
+  }
+
   // 검진자정보 리스트 가져오기
   public getPatientList(): Observable<IPatient[]> {
 

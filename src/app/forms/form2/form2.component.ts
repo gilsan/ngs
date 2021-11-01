@@ -348,6 +348,8 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
         if (item.functional_impact === 'VUS') {
           this.vusstatus = true;
           this.store.setVUSStatus(this.vusstatus);
+        } else {
+          this.vusmsg = '';
         }
 
       });
@@ -441,6 +443,8 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
               if (item.functional_impact === 'VUS') {
                 this.vusstatus = true;
                 this.store.setVUSStatus(this.vusstatus);
+              } else {
+                this.vusmsg = ''; // vusmsg 가 저장 되어 있지 않으면 내용삭제 2021.11.01
               }
             });
             this.putCheckboxInit(); // 체크박스 초기화
@@ -581,10 +585,10 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
           if (dvariable.functional_impact === 'VUS') {
             this.vusstatus = true;
             this.store.setVUSStatus(this.vusstatus); // VUS 상태정보 저장
+          } else {
+            this.vusmsg = '';
           }
-          // } else {
-          //   this.store.setVUSStatus(this.vusstatus);
-          // }
+
         }
 
         // 유전자명
@@ -1406,8 +1410,8 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     }
 
     const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
-    console.log('[1466][ALL][EMR로 보내기, 체크박스]', this.checkboxStatus);
-    console.log('[1467][ALL][EMR로 보내기 DV]', reformData);
+    console.log('[1413][ALL][EMR로 보내기, 체크박스]', this.checkboxStatus);
+    console.log('[1413][ALL][EMR로 보내기 DV][VUSMSG]', reformData, this.vusstatus);
     // 코멘트가 있는경우
     if (this.comments.length) {
       const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
