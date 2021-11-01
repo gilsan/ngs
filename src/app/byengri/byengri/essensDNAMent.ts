@@ -1,11 +1,21 @@
 // 2021.5.4 colon cancer, rectal cancer add
 
+import { type } from "os";
+
 export const essentialDNAMentList = [
   {
     title: 'Bladder cancer',
     content: [
       { type: 'Mutation', data: ['ERBB2', 'FGFR3', 'NTRK1', 'NTRK3', 'TSC1'] },
       { type: 'Fusion', data: ['FGFR2', 'FGFR3', 'NTRK1', 'NTRK2', 'NTRK3'] }
+    ]
+  },
+  {
+    title: 'Triple Negative Breast cancer',
+    content: [
+      { type: 'Mutation', data: ['BRCA1', 'BRCA2', 'ERBB2', 'ESR1', 'NTRK1', 'NTRK3', 'PIK3CA'] },
+      { type: 'Amplification', data: ['ERBB2'] },
+      { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3'] }
     ]
   },
   {

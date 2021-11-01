@@ -1152,12 +1152,13 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
         }
 
       }); // End of Subscirbe;
-
+    console.log(' ######[1155][prevelant][amplification] ');
     // 필수 유전자 코멘트
     combineLatest([tumortype$.pipe(
       map(data => data[0].tumortype)
     ),
     clinically$.pipe(
+      tap(data => console.log('[1161]', data)),
       map(datas => datas.map(data => data.clinically)),
       map(items => items.map(item => {
         const lists = item.split(' ');
@@ -1170,6 +1171,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       })),
     )])
       .subscribe(([type, dnaData]) => {
+        console.log('[1173]', type, dnaData);
         this.essenceDNAComment(type, dnaData);
       });
 
@@ -2417,8 +2419,10 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   essenceDNAComment(typetumor: string, lists: { type: string, dna: string }[]): void {
     let mentContent;
     const mentLists = Object.values(essentialDNAMentList);
+    console.log('[2425][] *** ', typetumor, mentLists);
+    console.log('[2425][] *** ', mentLists.filter(mentlist => mentlist.title.toLowerCase() === typetumor.toLowerCase()));
     mentContent = mentLists.filter(mentlist => mentlist.title.toLowerCase() === typetumor.toLowerCase())[0].content;
-    console.log('[2425][] *** ', mentContent, lists);
+
     lists.forEach(list => {
       mentContent.forEach(ment => {
         if (ment.type.toLowerCase() === list.type.toLowerCase()) {
