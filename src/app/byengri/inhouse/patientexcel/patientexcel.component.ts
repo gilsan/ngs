@@ -77,10 +77,10 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
           pathological_dx: '관련병리번호\n(Tube number)',
           organ: 'Organ',
           diagnosis: 'Diagnosis',
-          report_gb: '구분(C:PV/LPV 검출 유전자, P:VUS 검출 유전자)',
+          report_gb: '구분(C,P)',
           gene: 'gene',
-          amino_acid_change: 'variant(P) (참고:Amino acid change의미)',
-          nucleotide_change: 'variant(N) (참고:Nucleotide change의미)',
+          amino_acid_change: 'variant(P)',
+          nucleotide_change: 'variant(N) ',
           variant_allele_frequency: 'Allele Frequency'
         });
 
@@ -105,8 +105,8 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         });
 
         const ngwidth = [{ width: 9 }, { width: 11 }, { width: 12 }, { width: 12 }, { width: 12 },
-        { width: 25 }, { width: 9 }, { width: 9 }, { width: 42 }, { width: 9 },
-        { width: 35 }, { width: 35 }, { width: 16 }
+        { width: 25 }, { width: 9 }, { width: 9 }, { width: 10 }, { width: 9 },
+        { width: 9 }, { width: 9 }, { width: 16 }
         ];
 
         this.excel.exportAsExcelFile(excelLists, 'report', ngwidth);

@@ -69,7 +69,7 @@ export class NgsexcelComponent implements OnInit {
     console.log('[search]', start, end);
 
     this.subs.sink = this.linkService.search(start, end).subscribe((lists: any[]) => {
-      console.log(lists);
+      // console.log(lists);
       const excelLists: any[] = [];
       this.snackBar.open('정상적으로 다운로드 하였습니다.', '닫기', { duration: 3000 });
       excelLists.push({
@@ -81,16 +81,16 @@ export class NgsexcelComponent implements OnInit {
         pathological_dx: '관련병리번호\n(Tube number)',
         organ: 'Organ',
         diagnosis: 'Diagnosis',
-        report_gb: '구분(C:PV/LPV 검출 유전자, P:VUS 검출 유전자)',
+        report_gb: '구분(C, P)',
         gene: 'gene',
-        amino_acid_change: 'variant(P) (참고:Amino acid change의미)',
-        nucleotide_change: 'variant(N) (참고:Nucleotide change의미)',
+        amino_acid_change: 'variant(P) ',
+        nucleotide_change: 'variant(N)',
         variant_allele_frequency: 'Allele Frequency'
       });
 
       const ngwidth = [{ width: 9 }, { width: 11 }, { width: 12 }, { width: 12 }, { width: 12 },
-      { width: 25 }, { width: 9 }, { width: 9 }, { width: 42 }, { width: 9 },
-      { width: 35 }, { width: 35 }, { width: 16 }
+      { width: 25 }, { width: 9 }, { width: 9 }, { width: 10 }, { width: 9 },
+      { width: 9 }, { width: 9 }, { width: 16 }
       ];
 
       lists.forEach((list, index) => {
