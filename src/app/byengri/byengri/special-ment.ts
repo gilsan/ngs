@@ -12,6 +12,13 @@ export const mentlists = [
 - Fusion / Exon variant: NTRK1, NTRK2, NTRK3`
   },
   {
+    title: 'Triple Negative Breast cancer',
+    content: `- Mutation: BRCA1, BRCA2, ERBB2, ESR1, NTRK1, NTRK3, PIK3CA
+- Amplification: ERBB2
+- Fusion / Exon variant: NTRK1, NTRK2, NTRK3`
+  },
+
+  {
     title: 'Cervical cancer',
     content: `- Mutation: ERBB2, NTRK1, NTRK3
 - Fusion / Exon variant: NTRK1, NTRK2, NTRK3`

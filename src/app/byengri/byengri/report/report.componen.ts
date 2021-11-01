@@ -1435,6 +1435,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log('[1065][SER]', this.basicInfo);
     console.log('[1066][SER]', this.extraction, this.mutation, this.amplifications,
       this.fusion, this.imutation, this.iamplifications, this.ifusion);
+    console.log('[1066][SER]', this.specialment);
     /////////////
     const form = makeReport(
       emrDate,
