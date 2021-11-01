@@ -97,12 +97,13 @@ export class BlacklistComponent implements OnInit {
       list.push(data.nativeElement.value);
     });
 
+    console.log('[100][updateRow]', this.ipolymorphism, id);
 
     this.ipolymorphism.gene = list[0];
     this.ipolymorphism.amino_acid_change = list[1];
     this.ipolymorphism.nucleotide_change = list[2];
     this.ipolymorphism.reason = list[3];
-
+    console.log('[106][updateRow]', this.listIpolymorphism, list);
     if (id >= (this.lists.length - 1)) {
       const tempId = parseInt(this.listIpolymorphism[this.listIpolymorphism.length - 1].id, 0);
       this.ipolymorphism.id = (tempId + 1).toString();

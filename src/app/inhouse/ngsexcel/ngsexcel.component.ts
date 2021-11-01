@@ -213,6 +213,7 @@ export class NgsexcelComponent implements OnInit, OnDestroy {
     console.log(startday, endday);
     this.subs.sink = this.linkService.search(startday, endday)
       .pipe(
+        tap(data => console.log('[진검]', data)),
         tap(data => this.size = data.length),
         switchMap(datas => from(datas)),
         map((data: any) => {
