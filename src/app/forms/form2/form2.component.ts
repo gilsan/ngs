@@ -2065,7 +2065,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     const formData: IAFormVariant[] = control.getRawValue();
 
     formData.forEach((list, index) => {
-      if (list.type === 'New') {
+      if (list.type === 'New' || list.type === 'new') {
         const gene = list.gene.split(',');
         gene.forEach(item => {
           this.patientsListService.getMutationInfoLists(item, list.nucleotideChange, 'AMLALL')

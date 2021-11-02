@@ -1799,7 +1799,6 @@ export class Form3Component implements OnInit, OnDestroy {
   reCall(): void {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData: IAFormVariant[] = control.getRawValue();
-    // control.clear();
     formData.forEach((list, index) => {
       if (list.type === 'New') {
         const gene = list.gene.split(',');
@@ -1807,15 +1806,12 @@ export class Form3Component implements OnInit, OnDestroy {
           this.patientsListService.getMutationInfoLists(item, list.nucleotideChange, 'LYM')
             .subscribe(data => {
               if (data.length > 0) {
+                console.log('[1809][호출]', data);
                 control.at(index).patchValue({
                   type: 'M', functionalImpact: data[0].functional_impact,
                   references: data[0].reference, cosmicID: data[0].cosmic_id
                 });
-                // list.functionalImpact = data[0].functional_impact;
-                // list.references = data[0].reference;
-                // list.cosmicID = data[0].cosmic_id;
-                // list.type = 'M';
-                // this.addNewRow(list);
+
               }
             });
         });

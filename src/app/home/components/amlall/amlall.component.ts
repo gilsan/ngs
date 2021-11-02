@@ -140,7 +140,7 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
   onSelected(): void {
     // 리스트 업데이트 함
     this.lists = [];
-
+    // console.log('[143][날짜검사]', this.startday, this.endday);
     if (this.startday.length && this.endday.length) {
       this.search(this.startday, this.endday, this.specimenno, this.patientid);
     } else {

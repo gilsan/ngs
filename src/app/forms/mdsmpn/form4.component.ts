@@ -8,6 +8,7 @@ import {
   IPatient, IProfile, IRecoverVariants
 } from 'src/app/home/models/patients';
 import { PatientsListService } from 'src/app/home/services/patientslist';
+// import { PatientsListService } from 'src/app/home/services/patientslist';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { IAFormVariant } from 'src/app/home/models/patients';
 import { shareReplay, switchMap, tap, concatMap, map, filter, last } from 'rxjs/operators';
@@ -1773,19 +1774,40 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
   reCall(): void {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData: IAFormVariant[] = control.getRawValue();
-
+    console.log('[1776][호출]', formData);
     formData.forEach((list, index) => {
-      const gene = list.gene.split(',');
-      gene.forEach(item => {
-        this.patientsListService.getMutationInfoLists(item, list.nucleotideChange, 'MDS')
-          .subscribe(data => {
-            if (data.length > 0) {
-              control.at(index).patchValue({ type: 'M' });
-            }
-          });
-      });
-
+      if (list.type === 'New' || list.type === 'new') {
+        const gene = list.gene.split(',');
+        gene.forEach(item => {
+          this.patientsListService.getMutationInfoLists(item, list.nucleotideChange, 'MDS')
+            .subscribe(data => {
+              console.log('[1783][호출]', data);
+              if (data.length > 0) {
+                console.log(data);
+                control.at(index).patchValue({
+                  type: 'M', functionalImpact: data[0].functional_impact,
+                  references: data[0].reference, cosmicID: data[0].cosmic_id
+                });
+              }
+            });
+        });
+      }
     });
+
+
+    // formData.forEach((list, index) => {
+    //   const gene = list.gene.split(',');
+    //   gene.forEach(item => {
+    //     this.patientsListService.getMutationInfoLists(item, list.nucleotideChange, 'MDS')
+    //       .subscribe(data => {
+    //         if (data.length > 0) {
+    //           console.log('[1783][디비에서 받은것]', data[0]);
+    //           control.at(index).patchValue({ type: 'M' });
+    //         }
+    //       });
+    //   });
+
+    // });
   }
 
 

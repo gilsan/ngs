@@ -612,7 +612,7 @@ export class PatientsListService {
             }
             // console.log('[519][뮤테이션]', item, tempGene, tempCoding);
             return this.getMutationInfoLists(tempGene, tempCoding, tempTestType).pipe(
-              // tap(data => console.log('[patientslist][429][뮤테이션]', data)),
+              // tap(data => console.log('[patientslist][615][뮤테이션]', data)),
               map(lists => {
                 if (Array.isArray(lists) && lists.length) {
                   return { ...item, mutationList1: lists[0], mutationList2: 'none', mtype: 'M' };

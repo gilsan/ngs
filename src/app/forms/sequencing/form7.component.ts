@@ -677,10 +677,10 @@ export class Form7Component implements OnInit, OnDestroy {
       this.patientsListService.getMutationSeqInfoLists(gene, list.nucleotideChange, 'SEQ')
         .subscribe(data => {
           if (data.length > 0) {
-            console.log('[649]', data[0]);
+            console.log('[680][디비에서 받은것]', data[0]);
             control.at(index).patchValue({
               type: data[0].type, exonintron: data[0].exonintron,
-              aminoAcidChange: data[0].aminoAcidChange, zygosity: data[0].zygosity, rsid: data[0].rsid,
+              aminoAcidChange: data[0].aminoAcidChange, rsid: data[0].rsid,
               genbankaccesion: data[0].genbankaccesion
             });
           }

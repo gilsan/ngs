@@ -11,7 +11,7 @@ import {
 import { PatientsListService } from 'src/app/home/services/patientslist';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { IAFormVariant } from 'src/app/home/models/patients';
-import { shareReplay, switchMap, tap, concatMap, map, filter, last } from 'rxjs/operators';
+import { shareReplay, switchMap, tap, concatMap, map, filter, last, take, first } from 'rxjs/operators';
 
 import { SubSink } from 'subsink';
 import { GENERAL, makeBForm, METHODS, METHODS516 } from 'src/app/home/models/bTypemodel';
@@ -1661,14 +1661,18 @@ export class Form6Component implements OnInit, OnDestroy {
         const first$ = this.patientsListService.getMutationGeneticInfoLists1(item, 'Genetic');
         const second$ = this.patientsListService.getMutationGeneticInfoLists2(item, list.nucleotideChange, 'Genetic');
         combineLatest([first$, second$])
+          .pipe(
+            first(),
+            take(1)
+          )
           .subscribe(([data1, data2]) => {
-
+            console.log('[1665][디비에서 받은 데이터]', data1, data2);
             if (data1.length > 0) {
               control.at(index).patchValue({ type: 'M', OMIM: data1[0].OMIM });
               if (data2.length > 0) {
                 control.at(index).patchValue(
                   {
-                    functionalImpact: data2[0].functionalImpact, nucleotideChange: data2[0].nucleotideChange,
+                    functionalImpact: data2[0].functionalImpact,
                     dbSNPHGMD: data2[0].dbSNPHGMD, gnomADEAS: data2[0].gnomADEAS
                   });
               }
