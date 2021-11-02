@@ -137,6 +137,8 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigate(['/diag', 'hereditary', 'form6', this.lists[i].test_code]);
   }
 
+
+
   goReporterClass(idx: number): any {
     const specimenno = this.store.getSpecimenNo();
     // console.log('[154][main][goReporterClass]', idx, pathNum);
