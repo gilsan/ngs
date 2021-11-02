@@ -97,16 +97,14 @@ export class BlacklistComponent implements OnInit {
       list.push(data.nativeElement.value);
     });
 
-    console.log('[100][updateRow]', this.ipolymorphism, id);
-
     this.ipolymorphism.gene = list[0];
     this.ipolymorphism.amino_acid_change = list[1];
     this.ipolymorphism.nucleotide_change = list[2];
     this.ipolymorphism.reason = list[3];
-    console.log('[106][updateRow]', this.listIpolymorphism, list);
+    // console.log('[106][updateRow]', this.lists.length, id);
     if (id >= (this.lists.length - 1)) {
-      const tempId = parseInt(this.listIpolymorphism[this.listIpolymorphism.length - 1].id, 0);
-      this.ipolymorphism.id = (tempId + 1).toString();
+      // const tempId = parseInt(this.listIpolymorphism[this.listIpolymorphism.length - 1].id, 0);
+      // this.ipolymorphism.id = (tempId + 1).toString();
       this.filteredService.insertPolymorphism(this.ipolymorphism)
         .subscribe(data => {
           this.init();
@@ -123,11 +121,16 @@ export class BlacklistComponent implements OnInit {
   }
 
   deleteRow(id: number): void {
-    const idx = this.lists[id].id;
-    this.filteredService.deletePolymorphism(parseInt(idx, 0)).subscribe(data => {
-      this.init();
-      alert('삭제 되었습니다.');
-    });
+    const result = confirm('삭제 하시겠습니까?');
+    if (result) {
+      const idx = this.lists[id].id;
+      this.lists.splice(id, 1);
+      this.filteredService.deletePolymorphism(parseInt(idx, 0)).subscribe(data => {
+        this.init();
+        alert('삭제 되었습니다.');
+      });
+    }
+
   }
 
 

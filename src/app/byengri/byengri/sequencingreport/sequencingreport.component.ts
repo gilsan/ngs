@@ -45,15 +45,24 @@ export class SequencingreportComponent implements OnInit {
 
   reportday: string;
   screenstatus: string;
-  mutation = 'negative';
+  mutation = '';
 
-  title = 'TERT 프로모터 돌연변이 염기서열';
-  descriptionCode = 'PMO12098';
+  title = '';
+  descriptionCode = '';
   testCode = '';
   comments = '';
 
-  // @ViewChild('examine', { static: true }) examine: ElementRef;
-  // @ViewChild('rechecked', { static: true }) rechecked: ElementRef;
+  prescriptioncode = [
+    { code: 'PMO11007', title: 'EGFR exon 18,19,20,21 유전자 돌연변이 염기서열검사' },
+    { code: 'PMO11017', title: 'C-Kit exon 9,11,13,17 유전자 돌연변이 염기서열검사' },
+    { code: 'PMO11019', title: 'KRAS xon 2,3 유전자 돌연변이 염기서열검사' },
+    { code: 'PMO11020', title: 'BRAF exon15(세포, 갑상선) 유전자 돌연변이 염기서열검사' },
+    { code: 'PMO11042', title: 'TERT 프로모터 돌연변이 염기서열검사' },
+    { code: 'PMO12054', title: 'BRAF exon15(조직, 갑상선유두암) 유전자 돌연변이 염기서열검사' },
+    { code: 'PMO12057', title: 'BRAF exon15(전이성 대장직장암,혈액암,급여)유전자 돌연변이 염기서열검사' },
+    { code: 'PMO12059', title: 'PDGFRA exon12,14,18 유전자 돌연변이 염기서열검사' },
+    { code: 'PMO12060', title: 'NRAS(조직, 비급여) 유전자 돌연변이검사' }
+  ];
 
   constructor(
     private route: ActivatedRoute,
@@ -80,7 +89,13 @@ export class SequencingreportComponent implements OnInit {
       this.pathologyNum = pathologyNum; // 검체번호 저장
       try {
         this.patientInfo = this.pathologyService.patientInfo.filter(item => item.pathology_num === pathologyNum)[0];
-        console.log('[73][환자정보] ', this.patientInfo);
+        console.log('[73][환자정보] ', this.patientInfo, this.pathologyNum);
+        this.descriptionCode = this.patientInfo.prescription_code;
+        const idx = this.prescriptioncode.findIndex(list => list.code === this.descriptionCode);
+        if (idx !== -1) {
+          this.title = this.prescriptioncode.filter(list => list.code === this.descriptionCode)[0].title;
+        }
+
         this.getSavedInfo(this.patientInfo.patientID);
         if (this.patientInfo.img1.length > 0) {
           const tempArr = this.patientInfo.img1.split('/');
