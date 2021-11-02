@@ -63,6 +63,10 @@ export class SequencingService {
     return this.http.post<ISequencing[]>(`${this.apiUrl}/sequencingdiag/list`, { patientid });
   }
 
+  getTitle(testcode: string): Observable<any> {
+    return this.http.post<ISequencing[]>(`${this.apiUrl}/patients_path/testcode`, { testcode });
+  }
+
 
 
 

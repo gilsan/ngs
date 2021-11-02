@@ -177,6 +177,7 @@
                      <col style="width:130px"/>
                   </colgroup> -->
                   <colgroup>
+
                     <col width="130px">
                     <col width="*">
                     <col width="*">
@@ -184,6 +185,8 @@
                     <col width="130px">
                     <col width="8%">
                     <col width="8%">
+                    <col width="5%">
+
                   </colgroup>
                 <thead>
                   <tr>
@@ -194,6 +197,7 @@
                     <th class="fontsize">ID</th>
                     <th style="font-size: 14px;">Tier</th>
                     <th style="font-size: 14px;"> -->
+
                     <th class="table_result_line fontsize">Gene</th>
                     <th class="fontsize m-w-160">Amino acid change</th>
                     <th class="fontsize">Nucleotide change</th>
@@ -203,12 +207,15 @@
                     <th class="m-w-90">
                       <button class="btn btn_01" (click)="addMutation()">추가</button>
                     </th>
+                    <th></th>
+
                   </tr>
                 </thead>
-                <tbody>
+                <tbody   cdkDropList (cdkDropListDropped)="commentDroped($event)">
                   <ng-container formArrayName="mutationLists"
                     *ngFor="let group of mutationLists().controls; let i=index">
-                    <tr [formGroupName]="i">
+                    <tr [formGroupName]="i" cdkDrag>
+
                       <td class="table_result_line txt_c">
                         <input type="text" size="10" class="clr-input" formControlName="gene" style="color: red;">
                       </td>
@@ -230,6 +237,11 @@
                       </td>
                       <td align="center" class="m-w-90">
                         <img [src]="'assets/images/cancel.png'" (click)="removeMutation(i)">
+                      </td>
+                      <td class="txt_c">
+                                <button type="button" class="drag-handle"  cdkDragHandle>
+                                <img [src]="'assets/baseline_unfold_more_black_18dp.png'">
+                            </button>
                       </td>
                     </tr>
                   </ng-container>
@@ -253,6 +265,7 @@
                   <col width="45%">
                   <col width="8%">
                   <col width="8%">
+                  <col width="5%">
                 </colgroup>
                 <thead>
                   <tr>
@@ -263,12 +276,13 @@
                     <th class="m-w-90">
                       <button class="btn btn_01" (click)="addAmplifications()">추가</button>
                     </th>
+                    <th></th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody   cdkDropList (cdkDropListDropped)="commentDroped2($event)">
                   <ng-container formArrayName="amplificationsLists"
                     *ngFor="let group of amplificationsLists().controls; let i=index">
-                    <tr [formGroupName]="i">
+                    <tr [formGroupName]="i"  cdkDrag>
                       <td class="table_result_line txt_c">
                         <input type="text" size="10" class="clr-input" formControlName="gene" style="color: red;"></td>
                       <td class="txt_c"><input type="text" size="30" class="clr-input" formControlName="region"></td>
@@ -281,7 +295,13 @@
                       <td align="center">
                         <img [src]="'assets/images/cancel.png'" (click)="removeAmplifications(i)">
                       </td>
+                      <td class="txt_c">
+                                <button type="button" class="drag-handle"  cdkDragHandle>
+                                <img [src]="'assets/baseline_unfold_more_black_18dp.png'">
+                            </button>
+                      </td>
                     </tr>
+
                   </ng-container>
                 </tbody>
               </table>
@@ -303,6 +323,7 @@
                   <col width="8%">
                   <col width="8%">
                   <col width="8%">
+                  <col width="5%">
                 </colgroup>
                 <thead>
                   <tr>
@@ -314,11 +335,12 @@
                     <th class="m-w-90">
                       <button class="btn btn_01" (click)="addFusion()">추가</button>
                     </th>
+                    <th></th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody cdkDropList (cdkDropListDropped)="commentDroped3($event)">
                   <ng-container formArrayName="fusionLists" *ngFor="let group of fusionLists().controls; let i=index">
-                    <tr [formGroupName]="i">
+                    <tr [formGroupName]="i" cdkDrag>
                       <td class="table_result_line txt_c">
                         <input type="text" class="clr-input" formControlName="gene" style="color: red;">
                       </td>
@@ -336,6 +358,11 @@
                       </td>
                       <td align="center">
                         <img [src]="'assets/images/cancel.png'" (click)="removeFusion(i)">
+                      </td>
+                      <td class="txt_c">
+                                <button type="button" class="drag-handle"  cdkDragHandle>
+                                <img [src]="'assets/baseline_unfold_more_black_18dp.png'">
+                            </button>
                       </td>
                     </tr>
                   </ng-container>
@@ -363,6 +390,7 @@
                 <col width="130px">
                 <col width="8%">
                 <col width="8%">
+                <col width="5%">
               </colgroup>
               <thead>
                 <tr>
@@ -375,12 +403,13 @@
                   <th class="m-w-90">
                     <button class="btn btn_01" (click)="addIMutation()">추가</button>
                   </th>
+                  <th></th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody cdkDropList (cdkDropListDropped)="commentDroped4($event)">
                 <ng-container formArrayName="imutationLists"
                   *ngFor="let group of imutationLists().controls; let i=index">
-                  <tr [formGroupName]="i">
+                  <tr [formGroupName]="i" cdkDrag>
                     <td class="table_result_line txt_c">
                       <input type="text" size="10" class="clr-input" formControlName="gene">
                     </td>
@@ -404,6 +433,11 @@
                     <td align="center">
                       <img [src]="'assets/images/cancel.png'" (click)="removeIMutation(i)">
                     </td>
+                      <td class="txt_c">
+                                <button type="button" class="drag-handle"  cdkDragHandle>
+                                <img [src]="'assets/baseline_unfold_more_black_18dp.png'">
+                            </button>
+                      </td>
                   </tr>
                 </ng-container>
               </tbody>
@@ -427,6 +461,7 @@
                 <col width="45%">
                 <col width="8%">
                 <col width="8%">
+                <col width="5%">
               </colgroup>
               <thead>
                 <tr>
@@ -437,12 +472,13 @@
                   <th class="m-w-90">
                     <button class="btn btn_01" (click)="addIAmplifications()">추가</button>
                   </th>
+                  <th></th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody cdkDropList (cdkDropListDropped)="commentDroped5($event)">
                 <ng-container formArrayName="iamplificationsLists"
                   *ngFor="let group of iamplificationsLists().controls; let i=index">
-                  <tr [formGroupName]="i">
+                  <tr [formGroupName]="i" cdkDrag>
                     <td class="table_result_line txt_c">
                       <input type="text" size="10" class="clr-input" formControlName="gene">
                     </td>
@@ -459,6 +495,11 @@
                     <td align="center">
                       <img [src]="'assets/images/cancel.png'" (click)="removeIAmplifications(i)">
                     </td>
+                      <td class="txt_c">
+                                <button type="button" class="drag-handle"  cdkDragHandle>
+                                <img [src]="'assets/baseline_unfold_more_black_18dp.png'">
+                            </button>
+                      </td>
                   </tr>
                 </ng-container>
               </tbody>
@@ -481,6 +522,7 @@
                 <col width="8%">
                 <col width="8%">
                 <col width="8%">
+                <col width="5%">
               </colgroup>
               <thead>
                 <tr>
@@ -492,11 +534,12 @@
                   <th class="m-w-90">
                     <button class="btn btn_01" (click)="addIFusion()">추가</button>
                   </th>
+                  <th></th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody cdkDropList (cdkDropListDropped)="commentDroped6($event)">
                 <ng-container formArrayName="ifusionLists" *ngFor="let group of ifusionLists().controls; let i=index">
-                  <tr [formGroupName]="i">
+                  <tr [formGroupName]="i" cdkDrag>
                     <td class="table_result_line txt_c">
                       <input type="text" size="15" class="clr-input" formControlName="gene">
                     </td>
@@ -515,6 +558,11 @@
                     <td align="center">
                       <img [src]="'assets/images/cancel.png'" (click)="removeIFusion(i)">
                     </td>
+                      <td class="txt_c">
+                                <button type="button" class="drag-handle"  cdkDragHandle>
+                                <img [src]="'assets/baseline_unfold_more_black_18dp.png'">
+                            </button>
+                      </td>
                   </tr>
                 </ng-container>
               </tbody>

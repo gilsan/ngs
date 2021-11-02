@@ -164,6 +164,8 @@ export class ByengriComponent implements OnInit, OnDestroy {
       this.router.navigate(['pathology', 'orir']);
     } else if (url === 'sequencing') {
       this.router.navigate(['pathology', 'sequencing']);
+    } else if (url === 'EssGene') {
+      this.router.navigate(['pathology', 'EssGene']);
     }
   }
 

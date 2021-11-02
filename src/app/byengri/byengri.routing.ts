@@ -11,6 +11,7 @@ import { SequencingreportComponent } from './byengri/sequencingreport/sequencing
 
 import { FileuploadComponent } from './fileupload/fileupload.component';
 import { BlacklistComponent } from './inhouse/blacklist/blacklist.component';
+import { EssgeneComponent } from './inhouse/essgene/essgene.component';
 import { NgsexcelComponent } from './inhouse/ngsexcel/ngsexcel.component';
 import { PatientexcelComponent } from './inhouse/patientexcel/patientexcel.component';
 import { MainComponent } from './main/main.component';
@@ -46,7 +47,8 @@ const routes: Routes = [
       { path: 'research', component: ResearchComponent },
       { path: 'research/:id', component: ResearchComponent, resolve: { patientinfo: ReportResolver } },
       { path: 'ngsexcel', component: NgsexcelComponent },
-      { path: 'patientexcel', component: PatientexcelComponent }
+      { path: 'patientexcel', component: PatientexcelComponent },
+      { path: 'EssGene', component: EssgeneComponent }
 
     ]
   }

@@ -1,11 +1,11 @@
 @charset "utf-8";
 /*
 //=============================================================================
-// 로컬정보 (http://www. )                                                      
+// 로컬정보 (http://www. )
 // 설  명: NGS 통합관리시스템
 // 작업일: 2020.10.28
 // 작업일: 2020.10.28
-// 수정자: 조현정                                                                    
+// 수정자: 조현정
 //=============================================================================
 */
 
@@ -152,12 +152,14 @@
   font-size: 12px;
   color: #666666;
   padding: 10px;
+  border-left: #e0e0e0 solid 1px;
 }
 
 .table_list td {
   font-size: 13px;
   color: #666666;
   border-top: #e0e0e0 solid 1px;
+  border-left: #e0e0e0 solid 1px;
   padding: 10px;
   line-height: 30px;
 }

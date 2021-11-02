@@ -89,14 +89,17 @@ export class SequencingreportComponent implements OnInit {
       this.pathologyNum = pathologyNum; // 검체번호 저장
       try {
         this.patientInfo = this.pathologyService.patientInfo.filter(item => item.pathology_num === pathologyNum)[0];
-        console.log('[73][환자정보] ', this.patientInfo, this.pathologyNum);
+        console.log('[92][환자정보] ', this.patientInfo, this.pathologyNum);
         this.descriptionCode = this.patientInfo.prescription_code;
-        const idx = this.prescriptioncode.findIndex(list => list.code === this.descriptionCode);
-        if (idx !== -1) {
-          this.title = this.prescriptioncode.filter(list => list.code === this.descriptionCode)[0].title;
-        }
+
+        // 임시
+        // const idx = this.prescriptioncode.findIndex(list => list.code === this.descriptionCode);
+        // if (idx !== -1) {
+        //   this.title = this.prescriptioncode.filter(list => list.code === this.descriptionCode)[0].title;
+        // }
 
         this.getSavedInfo(this.patientInfo.patientID);
+
         if (this.patientInfo.img1.length > 0) {
           const tempArr = this.patientInfo.img1.split('/');
           this.img1 = tempArr[4];
@@ -164,12 +167,26 @@ export class SequencingreportComponent implements OnInit {
   getSavedInfo(patientid: string): void {
     this.sequencingService.listSequencing(patientid)
       .subscribe(data => {
-        console.log('[152]', data);
+        console.log('[167][저장된 정보 검색]', data);
         if (data.length > 0) {
           this.title = data[0].title;
           this.comments = data[0].comments;
           this.mutation = data[0].mutation;
+        } else {
+          this.sequencingService.getTitle(this.patientInfo.prescription_code)
+            .subscribe(result => {
+              if (result !== null) {
+                this.title = result.report_title;
+              }
+
+            });
         }
+
+        // this.sequencingService.getTitle('PMO11007')
+        //   .subscribe(result => {
+        //     this.title = result.report_title;
+        //     console.log('[186][제목]', result, this.title);
+        //   });
 
 
       });

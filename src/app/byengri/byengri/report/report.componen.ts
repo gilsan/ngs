@@ -21,6 +21,7 @@ import { mentlists } from '../special-ment';
 import { clinically, msiScore, patientInfo, prevalent, tsvData, tumorcellpercentage, tumorMutationalBurden, tumortype } from './mockData';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { NavigationServie } from 'src/app/services/navigation.service';
+import { moveItemInArray, CdkDragDrop } from '@angular/cdk/drag-drop';
 import { essentialDNAMentList } from '../essensDNAMent';
 
 @Component({
@@ -2491,5 +2492,118 @@ ${fuDNA}`;
   }
 
   ///////////////////////////////////////////////////
+  // this.mutationForm.get('mutationLists') as FormArray
+  commentDroped(event: CdkDragDrop<string[]>): void {
+    const from1 = event.previousIndex;
+    const to = event.currentIndex;
 
+    const mutationControl = this.mutationForm.get('mutationLists') as FormArray;
+    this.moveItemInCommentArray(mutationControl, from1, to);
+  }
+  /////////////////////////////////////////////////////////////////////////////
+  //// this.amplificationsForm.get('amplificationsLists')
+  commentDroped2(event: CdkDragDrop<string[]>): void {
+    const from1 = event.previousIndex;
+    const to = event.currentIndex;
+
+    const amplificationsControl = this.amplificationsForm.get('amplificationsLists') as FormArray;
+    this.moveItemInCommentArray(amplificationsControl, from1, to);
+  }
+  /////////////////////////////////////////////////////////////////////////////////////
+  /// this.fusionForm.get('fusionLists')
+  commentDroped3(event: CdkDragDrop<string[]>): void {
+    const from1 = event.previousIndex;
+    const to = event.currentIndex;
+
+    const fusionControl = this.fusionForm.get('fusionLists') as FormArray;
+    this.moveItemInCommentArray(fusionControl, from1, to);
+  }
+  ///////////////////////////////////////////////////////////////////////////
+  /// this.imutationForm.get('imutationLists')
+  commentDroped4(event: CdkDragDrop<string[]>): void {
+    const from1 = event.previousIndex;
+    const to = event.currentIndex;
+
+    const imutationControl = this.imutationForm.get('imutationLists') as FormArray;
+    this.moveItemInCommentArray(imutationControl, from1, to);
+  }
+  //////////////////////////////////////////////////////////////////
+  // this.iamplificationsForm.get('iamplificationsLists')
+  commentDroped5(event: CdkDragDrop<string[]>): void {
+    const from1 = event.previousIndex;
+    const to = event.currentIndex;
+
+    const iamplificationsControl = this.iamplificationsForm.get('iamplificationsListss') as FormArray;
+    this.moveItemInCommentArray(iamplificationsControl, from1, to);
+  }
+
+  //////////////////////////////////////////////////////////////////////////////////
+  //// this.ifusionForm.get('ifusionLists')
+  commentDroped6(event: CdkDragDrop<string[]>): void {
+    const from1 = event.previousIndex;
+    const to = event.currentIndex;
+
+    const ifusionControl = this.ifusionForm.get('ifusionLists') as FormArray;
+    this.moveItemInCommentArray(ifusionControl, from1, to);
+  }
+  ////////////////////////////////////////////////////////////////////////////////
+
+  moveItemInCommentArray(formArray: FormArray, fromIndex: number, toIndex: number): void {
+    const from2 = this.clamp(fromIndex, formArray.length - 1);
+    const to2 = this.clamp(toIndex, formArray.length - 1);
+
+    if (from2 === to2) {
+      return;
+    }
+
+    if (from2 < to2) {
+      const diff = to2 - from2;
+      if (diff === 1) {
+        return;
+      }
+    }
+
+
+    const len = formArray.length;
+
+    const totalFormGroup = [];
+    const newFormGroup = [];
+    const previous = formArray.at(from2);
+    const current = formArray.at(to2);
+
+
+    for (let i = 0; i < len; i++) {
+      totalFormGroup.push(formArray.at(i));
+    }
+
+    totalFormGroup.forEach((form, index) => {
+      if (from2 > to2) {
+        if (index === to2) {
+          newFormGroup.push(previous);
+          newFormGroup.push(current);
+        } else if (index !== from2 && index !== to2) {
+          newFormGroup.push(form);
+        }
+      } else if (from2 < to2 && (to2 - from2) > 1) {
+
+        if (index === to2) {
+          newFormGroup.push(previous);
+          newFormGroup.push(form);
+        } else if (index !== from2 && index !== to2) {
+          newFormGroup.push(form);
+        }
+      }
+    });
+
+    for (let i = 0; i < len; i++) {
+      formArray.setControl(i, newFormGroup[i]);
+    }
+  }
+
+  /** Clamps a number between zero and a maximum. */
+  clamp(value: number, max: number): number {
+    return Math.max(0, Math.min(max, value));
+  }
+
+  ///////////////////////////////////////////////////
 }

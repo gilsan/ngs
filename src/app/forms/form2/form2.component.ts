@@ -2060,6 +2060,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
   /////////////////////////////////////////////////////////////
 
   reCall(): void {
+
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData: IAFormVariant[] = control.getRawValue();
 
@@ -2069,6 +2070,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
         gene.forEach(item => {
           this.patientsListService.getMutationInfoLists(item, list.nucleotideChange, 'AMLALL')
             .subscribe(data => {
+              console.log('[2072][호출]', data);
               if (data.length > 0) {
                 console.log(data);
                 control.at(index).patchValue({

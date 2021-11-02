@@ -1,12 +1,11 @@
-// 2021.5.4 colon cancer, rectal cancer add
+import { Component, OnInit } from '@angular/core';
 
-
-
-export const essentialDNAMentList = [
+export const Lists = [
   {
     title: 'Bladder cancer',
     content: [
       { type: 'Mutation', data: ['ERBB2', 'FGFR3', 'NTRK1', 'NTRK3', 'TSC1'] },
+      { type: 'Amplification', data: [] },
       { type: 'Fusion', data: ['FGFR2', 'FGFR3', 'NTRK1', 'NTRK2', 'NTRK3'] }
     ]
   },
@@ -30,6 +29,7 @@ export const essentialDNAMentList = [
     title: 'Cervical cancer',
     content: [
       { type: 'Mutation', data: ['ERBB2', 'NTRK1', 'NTRK3'] },
+      { type: 'Amplification', data: [] },
       { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3'] }
     ]
   },
@@ -37,6 +37,7 @@ export const essentialDNAMentList = [
     title: 'Cholangiocarcinoma',
     content: [
       { type: 'Mutation', data: ['ERBB2', 'IDH1', 'NTRK1', 'NTRK3'] },
+      { type: 'Amplification', data: [] },
       { type: 'Fusion', data: ['FGFR2', 'NTRK1', 'NTRK2', 'NTRK3'] }
     ]
   },
@@ -68,6 +69,7 @@ export const essentialDNAMentList = [
     title: 'Endometrial cancer',
     content: [
       { type: 'Mutation', data: ['ERBB2', 'NTRK1', 'NTRK3', 'POLE'] },
+      { type: 'Amplification', data: [] },
       { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3'] }
     ]
   },
@@ -99,6 +101,7 @@ export const essentialDNAMentList = [
     title: 'Gastrointestinal Stromal Tumor',
     content: [
       { type: 'Mutation', data: ['BRAF', 'ERBB2', 'KIT', 'NTRK1', 'NTRK3', 'PDGFRA'] },
+      { type: 'Amplification', data: [] },
       { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3'] }
     ]
   },
@@ -122,6 +125,7 @@ export const essentialDNAMentList = [
     title: 'Kidney cancer',
     content: [
       { type: 'Mutation', data: ['ERBB2', 'NTRK1', 'NTRK3'] },
+      { type: 'Amplification', data: [] },
       { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3'] }
     ]
   },
@@ -129,6 +133,7 @@ export const essentialDNAMentList = [
     title: 'Liver cancer',
     content: [
       { type: 'Mutation', data: ['ERBB2', 'NTRK1', 'NTRK3'] },
+      { type: 'Amplification', data: [] },
       { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3'] }
     ]
   },
@@ -144,6 +149,7 @@ export const essentialDNAMentList = [
     title: 'Mesothelioma',
     content: [
       { type: 'Mutation', data: ['BAP1', 'ERBB2', 'NTRK1', 'NTRK3'] },
+      { type: 'Amplification', data: [] },
       { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3'] }
     ]
   },
@@ -159,6 +165,7 @@ export const essentialDNAMentList = [
     title: 'Osteosarcoma',
     content: [
       { type: 'Mutation', data: ['ERBB2', 'NTRK1', 'NTRK3'] },
+      { type: 'Amplification', data: [] },
       { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3'] }
     ]
   },
@@ -166,6 +173,7 @@ export const essentialDNAMentList = [
     title: 'Ovarian cancer',
     content: [
       { type: 'Mutation', data: ['BRCA1', 'BRCA2', 'ERBB2', 'FOXL2', 'NTRK1', 'NTRK3'] },
+      { type: 'Amplification', data: [] },
       { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3'] }
     ]
   },
@@ -173,6 +181,7 @@ export const essentialDNAMentList = [
     title: 'Pancreatic cancer',
     content: [
       { type: 'Mutation', data: ['BRCA1', 'BRCA2', 'ERBB2', 'NTRK1', 'NTRK3'] },
+      { type: 'Amplification', data: [] },
       { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3'] }
     ]
   },
@@ -180,6 +189,7 @@ export const essentialDNAMentList = [
     title: 'Prostate cancer',
     content: [
       { type: 'Mutation', data: ['ATM', 'BARD1', 'BRCA1', 'BRCA2', 'BRIP1', 'CDK12', 'CHEK1', 'CHEK2', 'ERBB2', 'FANCL', 'NTRK1', 'NTRK3', 'PALB2', 'RAD51B', 'RAD51C', 'RAD51D', 'RAD54L'] },
+      { type: 'Amplification', data: [] },
       { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3'] }
     ]
   },
@@ -187,6 +197,7 @@ export const essentialDNAMentList = [
     title: 'Skin Basal Cell Carcinoma',
     content: [
       { type: 'Mutation', data: ['ERBB2', 'NTRK1', 'NTRK3', 'SMO'] },
+      { type: 'Amplification', data: [] },
       { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3'] }
     ]
   },
@@ -194,6 +205,7 @@ export const essentialDNAMentList = [
     title: 'Small Cell Lung cancer',
     content: [
       { type: 'Mutation', data: ['ERBB2', 'NTRK1', 'NTRK3'] },
+      { type: 'Amplification', data: [] },
       { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3'] }
     ]
   },
@@ -201,6 +213,7 @@ export const essentialDNAMentList = [
     title: 'Soft Tissue Sarcoma',
     content: [
       { type: 'Mutation', data: ['ERBB2', 'NTRK1', 'NTRK3'] },
+      { type: 'Amplification', data: [] },
       { type: 'Fusion', data: ['ALK', 'NTRK1', 'NTRK2', 'NTRK3'] }
     ]
   },
@@ -223,6 +236,7 @@ export const essentialDNAMentList = [
     title: 'Testicular cancer',
     content: [
       { type: 'Mutation', data: ['ERBB2', 'NTRK1', 'NTRK3'] },
+      { type: 'Amplification', data: [] },
       { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3'] }
     ]
   },
@@ -230,6 +244,7 @@ export const essentialDNAMentList = [
     title: 'Thyroid cancer',
     content: [
       { type: 'Mutation', data: ['BRAF', 'ERBB2', 'NTRK1', 'NTRK3', 'RET'] },
+      { type: 'Amplification', data: [] },
       { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3', 'RET'] }
     ]
   },
@@ -237,6 +252,7 @@ export const essentialDNAMentList = [
     title: 'Unknown primary origin',
     content: [
       { type: 'Mutation', data: ['ERBB2', 'NTRK1', 'NTRK3'] },
+      { type: 'Amplification', data: [] },
       { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3'] }
     ]
   },
@@ -244,6 +260,7 @@ export const essentialDNAMentList = [
     title: 'Other solid tumor',
     content: [
       { type: 'Mutation', data: ['ERBB2', 'NTRK1', 'NTRK3'] },
+      { type: 'Amplification', data: [] },
       { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3'] }
     ]
   },
@@ -251,6 +268,7 @@ export const essentialDNAMentList = [
     title: 'Erdheim-chester disease',
     content: [
       { type: 'Mutation', data: ['BRAF', 'ERBB2', 'NTRK1', 'NTRK3'] },
+      { type: 'Amplification', data: [] },
       { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3'] }
     ]
   },
@@ -266,6 +284,7 @@ export const essentialDNAMentList = [
     title: 'Thymic tumor',
     content: [
       { type: 'Mutation', data: ['ERBB2', 'KIT', 'NTRK1', 'NTRK3'] },
+      { type: 'Amplification', data: [] },
       { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3'] }
     ]
   },
@@ -279,3 +298,22 @@ export const essentialDNAMentList = [
   }
 
 ];
+
+
+
+@Component({
+  selector: 'app-essgene',
+  templateUrl: './essgene.component.html',
+  styleUrls: ['./essgene.component.scss']
+})
+export class EssgeneComponent implements OnInit {
+  panelOpenState = false;
+  constructor() { }
+
+  lists = [];
+  ngOnInit(): void {
+    this.lists = Lists;
+    // console.log(this.lists);
+  }
+
+}

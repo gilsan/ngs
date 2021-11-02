@@ -26,6 +26,8 @@ import { SequencingreportComponent } from './byengri/sequencingreport/sequencing
 import { ImageuploadComponent } from './imageupload/imageupload.component';
 import { NgsexcelComponent } from './inhouse/ngsexcel/ngsexcel.component';
 import { PatientexcelComponent } from './inhouse/patientexcel/patientexcel.component';
+import { EssgeneComponent } from './inhouse/essgene/essgene.component';
+import { GeneComponent } from './inhouse/essgene/gene/gene.component';
 
 
 @NgModule({
@@ -49,6 +51,8 @@ import { PatientexcelComponent } from './inhouse/patientexcel/patientexcel.compo
     ImageuploadComponent,
     NgsexcelComponent,
     PatientexcelComponent,
+    EssgeneComponent,
+    GeneComponent,
   ],
   imports: [
 

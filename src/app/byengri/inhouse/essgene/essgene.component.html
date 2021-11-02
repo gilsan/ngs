@@ -1,0 +1,43 @@
+<div id="container">
+    <div id="content">
+
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mg_b10">
+            <tr>
+                <td  class="mail_title">Tier</td>
+            </tr>
+        </table>
+
+        <mat-card>
+          <mat-form-field>
+              <input matInput placeholder="Genes">
+          </mat-form-field>
+          <mat-card-actions>
+            <button mat-raised-button color="primary">추가</button>
+          </mat-card-actions>
+        </mat-card>
+        <br>
+
+
+
+        <div class="table-box-wrap">
+            <div class="table-box box">
+
+               <mat-accordion>
+                  <mat-expansion-panel *ngFor="let list of lists;">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                         {{list.title}}
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <app-gene
+                       [title]="list.title"
+                       [content]="list.content"
+                    ></app-gene>
+                  </mat-expansion-panel>
+               </mat-accordion>
+
+
+            </div>
+        </div>
+
+</div>

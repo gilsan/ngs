@@ -1,0 +1,53 @@
+<div id="container">
+
+  <div class="table-box-wrap">
+    <div class="table-box box">
+        <form [formGroup]="form">
+            <table border="0" cellpadding="0" cellspacing="0" class="table_list header-fix">
+                <colgroup>
+
+                    <col width="20%" />
+                    <col width="20%" />
+                    <col width="20%" />
+                    <col width="10%" />
+                </colgroup>
+                <thead>
+                    <tr class="pd-r-12">
+                        <th class="txt_c">Mutation</th>
+                        <th class="txt_c">Amplification</th>
+                        <th class="txt_c">Fusion</th>
+                        <th class="txt_c"><button mat-raised-button color="primary" (click)="addRow()">추가</button></th>
+                    </tr>
+                </thead>
+                <tbody>
+                  <ng-container formArrayName="tableRows"  *ngFor="let group of rows().controls; let i=index">
+                    <tr class="table_bg" [formGroupName]="i" >
+                        <td  class="txt_c">
+                          <mat-form-field >
+                             <input matInput  formControlName="mutation">
+                          </mat-form-field>
+                        </td>
+
+                        <td  class="txt_c">
+                          <mat-form-field >
+                             <input matInput  formControlName="amplification">
+                          </mat-form-field>
+                        </td>
+                        <td  class="txt_c">
+                          <mat-form-field >
+                             <input matInput  formControlName="fusion">
+                          </mat-form-field>
+                        </td>
+
+                        <td align="center">
+                           <img [src]="'assets/images/cancel.png'" (click)="r">
+                        </td>
+                    </tr>
+                 </ng-container>
+                </tbody>
+            </table>
+       </form>
+        </div>
+  </div>
+
+</div>
