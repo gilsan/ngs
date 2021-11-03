@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
+import { SequencingService } from '../../services/sequencing.service';
 
 export const Lists = [
   {
@@ -299,7 +301,14 @@ export const Lists = [
 
 ];
 
-
+export interface ICONTENT {
+  type: string;
+  data: string[];
+}
+export interface IList {
+  title: string;
+  content: ICONTENT[];
+}
 
 @Component({
   selector: 'app-essgene',
@@ -308,12 +317,30 @@ export const Lists = [
 })
 export class EssgeneComponent implements OnInit {
   panelOpenState = false;
-  constructor() { }
 
-  lists = [];
+  // createname$ = new Subject();
+  // createEventObservable = this.createname$.asObservable();
+
+  constructor(
+    private sequencingService: SequencingService
+  ) { }
+
+  lists: IList[] = [];
+
   ngOnInit(): void {
     this.lists = Lists;
-    // console.log(this.lists);
+  }
+
+  addNew(name: string): void {
+    this.lists.push({
+      title: name,
+      content: [
+        { type: 'Mutation', data: [] },
+        { type: 'Amplification', data: [] },
+        { type: 'Fusion', data: [] }
+      ]
+    });
+    this.sequencingService.makeEvent(name);
   }
 
 }

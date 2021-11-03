@@ -9,10 +9,10 @@
 
         <mat-card>
           <mat-form-field>
-              <input matInput placeholder="Genes">
+              <input matInput placeholder="Cancer name" #name>
           </mat-form-field>
           <mat-card-actions>
-            <button mat-raised-button color="primary">추가</button>
+            <button mat-raised-button color="primary" (click)="addNew(name.value)">추가</button>
           </mat-card-actions>
         </mat-card>
         <br>
@@ -32,6 +32,7 @@
                     <app-gene
                        [title]="list.title"
                        [content]="list.content"
+
                     ></app-gene>
                   </mat-expansion-panel>
                </mat-accordion>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpEvent, HttpEventType, HttpParams } from '@angular/common/http';
 import { IAFormVariant, IComment, IDList, IFilteredTSV, IFitering, IGeneCoding, IGeneList, IMutation, IPatient } from '../models/patients';
-import { combineLatest, from, Observable, of, Subject, } from 'rxjs';
+import { combineLatest, from, Observable, of } from 'rxjs';
 import { concatMap, map, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { emrUrl } from 'src/app/config';
 import { StoreService } from 'src/app/forms/store.current';
@@ -15,8 +15,7 @@ export class PatientsListService {
 
   private apiUrl = emrUrl;
 
-  private listSubject$ = new Subject<string>();
-  public listObservable$ = this.listSubject$.asObservable();
+
   private jimTestedID: string;
   public patientInfo: IPatient[];
   testCode: string;

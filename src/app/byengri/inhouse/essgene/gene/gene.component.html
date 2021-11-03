@@ -24,23 +24,24 @@
                     <tr class="table_bg" [formGroupName]="i" >
                         <td  class="txt_c">
                           <mat-form-field >
-                             <input matInput  formControlName="mutation">
+                             <input matInput #muC  formControlName="mutation"
+                              (change)="changeCMutaion(i, muC.value)">
                           </mat-form-field>
                         </td>
 
                         <td  class="txt_c">
                           <mat-form-field >
-                             <input matInput  formControlName="amplification">
+                             <input matInput #amC formControlName="amplification" (change)="changeCAmplification(i, amC.value)">
                           </mat-form-field>
                         </td>
                         <td  class="txt_c">
                           <mat-form-field >
-                             <input matInput  formControlName="fusion">
+                             <input matInput #fuC formControlName="fusion">
                           </mat-form-field>
                         </td>
 
                         <td align="center">
-                           <img [src]="'assets/images/cancel.png'" (click)="r">
+                           <!-- <img [src]="'assets/images/cancel.png'" >   -->
                         </td>
                     </tr>
                  </ng-container>

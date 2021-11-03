@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { first } from 'rxjs/operators';
+import { SequencingService } from 'src/app/byengri/services/sequencing.service';
 
 
 export interface ICONTENT {
@@ -21,25 +23,34 @@ export interface IROW {
 })
 export class GeneComponent implements OnInit {
 
-
   @Input() title: string;
   @Input() content: ICONTENT[];
+
   mutationLists: string[];
   amplificationLists: string[];
   fusionLists: string[];
   maxVal = [];
   maxLen = 0;
   lists: IROW[] = [];
-
+  newLists: string[] = [];
   form: FormGroup;
 
   constructor(
     private fb: FormBuilder,
+    private sequencingService: SequencingService
   ) { }
 
   ngOnInit(): void {
     this.init();
     this.loadForm();
+    this.sequencingService.listObservable$
+      .pipe(
+        first()
+      )
+      .subscribe(data => {
+        this.newLists.push(data);
+        console.log('[52][신규생성]', this.newLists);
+      });
   }
 
   init(): void {
@@ -126,15 +137,25 @@ export class GeneComponent implements OnInit {
     this.rows().removeAt(i);
   }
   //////////////////////////////////////////
+  changeCMutaion(i: number, value: string): void {
+    const originalLen = this.mutationLists.length - 1;
+    if (i > originalLen) {  // 신규
+      this.mutationLists.push(value);
+    } else {  // 기존
+      this.mutationLists[i] = value;
+    }
+    console.log('[138][]', this.mutationLists, this.title);
+  }
 
+  changeCAmplification(i: number, value: string): void {
+    console.log(i, this.title, value);
+  }
 
+  changeCFusion(i: number, value: string): void {
 
+  }
 
-
-
-
-
-
+  ///////////////////////////////////////////////////////////
 
 
 

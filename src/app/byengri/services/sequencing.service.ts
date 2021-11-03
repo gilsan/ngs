@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { emrUrl } from 'src/app/config';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { shareReplay, tap } from 'rxjs/operators';
 import { IFilteredOriginData, IPatient, Ipolymorphism, IStateControl } from '../models/patients';
 
@@ -26,6 +26,9 @@ export interface ISequencing {
   providedIn: 'root'
 })
 export class SequencingService {
+
+  private listSubject$ = new Subject<string>();
+  public listObservable$ = this.listSubject$.asObservable();
 
   private apiUrl = emrUrl;
   sequencing: ISequencing;
@@ -65,8 +68,13 @@ export class SequencingService {
     return this.http.post<ISequencing[]>(`${this.apiUrl}/sequencingdiag/list`, { patientid });
   }
 
-  getTitle(testcode: string): Observable<any> {
-    return this.http.post<ISequencing[]>(`${this.apiUrl}/patients_path/testcode`, { testcode });
+  getTitle(prescriptioncode: string): Observable<any> {
+    return this.http.post<ISequencing[]>(`${this.apiUrl}/patients_path/testcode`, { prescription_code: prescriptioncode });
+  }
+
+  makeEvent(val: string): Observable<string> {
+    this.listSubject$.next(val);
+    return this.listSubject$;
   }
 
 
