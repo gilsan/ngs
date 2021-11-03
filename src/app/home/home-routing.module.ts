@@ -36,6 +36,7 @@ import { Form2Component } from '../forms/form2/form2.component';
 
 
 
+
 const routes: Routes = [
   {
     path: '', component: HomeComponent, children: [
@@ -86,6 +87,7 @@ const routes: Routes = [
       { path: 'disease_test', component: DiseaseformComponent },
       { path: 'maindiag', component: MaindiagComponent },
       { path: 'typestatics', component: TypestaticsComponent },
+
       // { path: '**', component: AmlallComponent },
 
     ]

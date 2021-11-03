@@ -101,6 +101,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
   sendEMR = 0; // EMR 보낸 수
 
   isVisible = false;
+  isExamVisible = false;
   screenstatus: string;
   private subs = new SubSink();
   target: string;
@@ -636,22 +637,30 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
   }
 
   showDialog(): void {
-    const addDialogRef = this.dialog.open(ExamplementComponent, {
-      width: '1200px',
-      height: '900px',
-      disableClose: true,
-      data: {
-        code: this.patientInfo.test_code,
-        type: 'MLPA'
-      }
-    });
+    this.isExamVisible = true;
+    // const addDialogRef = this.dialog.open(ExamplementComponent, {
+    //   width: '1200px',
+    //   height: '900px',
+    //   disableClose: true,
+    //   data: {
+    //     code: this.patientInfo.test_code,
+    //     type: 'MLPA'
+    //   }
+    // });
 
-    addDialogRef.afterClosed().subscribe(comment => {
-      this.mlpaData.comment = comment;
-    });
+    // addDialogRef.afterClosed().subscribe(comment => {
+    //   this.mlpaData.comment = comment;
+    // });
 
   }
 
+  modalClose(): void {
+    this.isExamVisible = false;
+  }
+
+  receiveMent(comment: string): void {
+    this.mlpaData.comment = comment;
+  }
 
 
 }

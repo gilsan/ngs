@@ -1,60 +1,64 @@
-<table width="100%" border="0" cellspacing="0" cellpadding="0" class="mg_b10">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" id="title"
+ style="background-color: white;">
   <tr>
     <td class="mail_title">판독예시문목록</td>
     <td class="txt_r">
-      <!--   <button class="btn btn_01">추가</button>  -->
-        <button class="btn btn_02" (click)="cancel()" style="margin-left: 5px;"><span>닫기</span></button>
+        <button class="btn btn_01" (click)="seqSave()">순서저장</button>
+        <button class="btn btn_01" (click)="cancel()" style="margin-left: 100px;"><span>닫기</span></button>
     </td>
   </tr>
 </table>
 
-<div class="table-box-wrap">
-  <div class="table-box box" style="min-height: 800px;">
+<div class="table-box-wrap" style="overflow: auto;">
+  <div class="table-box box" style="min-height: 800px;" id="box_size">
+    <form [formGroup]="tablerowForm">
       <table border="0" cellpadding="0" cellspacing="0" class="table_list">
           <colgroup>
-             <!--  <col width="7%" /> -->
-              <col width="73%" />
+              <col width="83%" />
               <col width="10%"/>
+              <col width="7%" />
             <!--  <col width="10%" /> -->
           </colgroup>
         <thead>
           <tr>
-           <!--  <th>표시순서</th>  -->
             <th>판독예문내용</th>
             <th>판독입력</th>
+            <th>표시순서</th>
            <!--  <th>수정/삭제</th>  -->
           </tr>
         </thead>
-        <tbody>
+          <tbody   cdkDropList (cdkDropListDropped)="commentDroped($event)">
+          <ng-container formArrayName="tableRows" *ngFor="let group of getFormControls.controls; let i=index">
+             <tr  [formGroupName]="i" cdkDrag>
 
-          <tr  *ngFor="let list of lists; let i = index;">
-            <!--
-             <td class="txt_c">
-              <button type="button" class="drag-handle">
-                <img [src]="'assets/baseline_unfold_more_black_18dp.png'">
-              </button>
-            </td>
-              -->
-            <td class="txt_c">
-                <textarea class="mat-tooltip-trigger textarea_01 ng-untouched ng-pristine ng-valid">{{list.comment}}</textarea>
-            </td>
-            <td class="txt_c">
-                <button class="btn btn_01" (click)="selectedComment(i)">판독입력</button>
-            </td>
-             <!--
-            <td class="txt_c">
-              <span class="bdnone">
-                  <a class="btn-edit">수정</a>
-                  <a class="btn-delete">삭제</a>
-              </span>
-              <span class="wid120 bdnone">
-                  <a class="btn-cancel">취소</a>
-                  <a class="btn-save">저장</a>
-              </span>
-            </td>
-             -->
-          </tr>
+
+              <td class="txt_c">
+                  <textarea class="mat-tooltip-trigger textarea_01 ng-untouched ng-pristine ng-valid" readonly formControlName="comment"></textarea>
+              </td>
+              <td class="txt_c">
+                  <button class="btn btn_01" (click)="selectedComment(i)">판독입력</button>
+              </td>
+               <td class="txt_c">
+                <button type="button" class="drag-handle"  cdkDragHandle>
+                  <img [src]="'assets/baseline_unfold_more_black_18dp.png'">
+                </button>
+               </td>
+               <!--
+              <td class="txt_c">
+                <span class="bdnone">
+                    <a class="btn-edit">수정</a>
+                    <a class="btn-delete">삭제</a>
+                </span>
+                <span class="wid120 bdnone">
+                    <a class="btn-cancel">취소</a>
+                    <a class="btn-save">저장</a>
+                </span>
+              </td>
+               -->
+            </tr>
+          </ng-container>
         </tbody>
       </table>
+    </form>
     </div>
   </div>

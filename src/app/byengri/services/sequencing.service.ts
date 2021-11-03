@@ -20,6 +20,8 @@ export interface ISequencing {
 }
 
 
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -66,6 +68,8 @@ export class SequencingService {
   getTitle(testcode: string): Observable<any> {
     return this.http.post<ISequencing[]>(`${this.apiUrl}/patients_path/testcode`, { testcode });
   }
+
+
 
 
 

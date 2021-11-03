@@ -1808,7 +1808,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     // this.formArray = this.ifusionLists()
     const from1 = event.previousIndex;
     const to = event.currentIndex;
-    // console.log(event);
+
     // console.log('[1428][droped]', from1, to);
     this.vd.forEach(item => {
       if (item.sequence === from1) {

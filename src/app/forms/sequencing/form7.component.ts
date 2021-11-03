@@ -60,6 +60,7 @@ export class Form7Component implements OnInit, OnDestroy {
   };
 
   isVisible = false;
+  isExamVisible = false;
   examin = ''; // 검사자
   recheck = ''; // 확인자
   requestDate: string; // 검사의뢰일
@@ -606,23 +607,30 @@ export class Form7Component implements OnInit, OnDestroy {
   }
 
   showDialog(): void {
-    const addDialogRef = this.dialog.open(ExamplementComponent, {
-      width: '1200px',
-      height: '900px',
-      disableClose: true,
-      data: {
-        code: this.patientInfo.test_code,
-        type: 'SEQ'
-      }
+    this.isExamVisible = true;
+    // const addDialogRef = this.dialog.open(ExamplementComponent, {
+    //   width: '1200px',
+    //   height: '900px',
+    //   disableClose: true,
+    //   data: {
+    //     code: this.patientInfo.test_code,
+    //     type: 'SEQ'
+    //   }
 
-    });
+    // });
 
-    addDialogRef.afterClosed().subscribe(comment => {
-      this.comment = comment;
-    });
+    // addDialogRef.afterClosed().subscribe(comment => {
+    //   this.comment = comment;
+    // });
 
+  }
 
+  modalClose(): void {
+    this.isExamVisible = false;
+  }
 
+  receiveMent(comment: string): void {
+    this.comment = comment;
   }
 
 

@@ -228,10 +228,20 @@
          [conclusion]="mlpaData.conclusion"
          [specimen]= "specimen"
          [comment]="mlpaData.comment"></app-mlpapreview>
-
-
        </div>
    </div>
+
+
+   <div class="modal-overlay" *ngIf="isExamVisible">
+       <div class="modal-body2">
+           <app-examplement
+           [type]="'MLPA'"
+           [code]="patientInfo.test_code"
+            (closemodal)="modalClose()"
+            (sendMent)="receiveMent($event)"></app-examplement>
+       </div>
+   </div>
+
 
 </div>
 

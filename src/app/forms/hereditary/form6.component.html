@@ -330,6 +330,17 @@
        </div>
    </div>
 
+   <div class="modal-overlay" *ngIf="isExamVisible">
+       <div class="modal-body2">
+           <app-examplement
+           [type]="'Genetic'"
+           [code]="patientInfo.test_code"
+            (closemodal)="modalClose()"
+            (sendMent)="receiveMent($event)"></app-examplement>
+       </div>
+   </div>
+
+
 
 <ng-template #dragHandleTmpl>
 	<svg class="bi bi-list handle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"

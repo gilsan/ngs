@@ -134,7 +134,7 @@ export class Form6Component implements OnInit, OnDestroy {
   vusstatus = false;
   preview = true;
   isVisible = false;
-
+  isExamVisible = false;
   examin = ''; // 검사자
   recheck = ''; // 확인자
 
@@ -1488,7 +1488,7 @@ export class Form6Component implements OnInit, OnDestroy {
   ////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////
   droped(event: CdkDragDrop<string[]>): void {
-
+    // console.log('[1491][이동] ', event);
     const from1 = event.previousIndex;
     const to = event.currentIndex;
 
@@ -1632,21 +1632,20 @@ export class Form6Component implements OnInit, OnDestroy {
   }
 
   showDialog(): void {
-    const addDialogRef = this.dialog.open(ExamplementComponent, {
-      width: '1200px',
-      height: '900px',
-      disableClose: true,
-      data: {
-        code: this.patientInfo.test_code,
-        type: 'Genetic'
-      }
-    });
+    this.isExamVisible = true;
+    // const addDialogRef = this.dialog.open(ExamplementComponent, {
+    //   width: '1200px',
+    //   height: '900px',
+    //   disableClose: true,
+    //   data: {
+    //     code: this.patientInfo.test_code,
+    //     type: 'Genetic'
+    //   }
+    // });
 
-    addDialogRef.afterClosed().subscribe(comment => {
-      this.commentdata = comment;
-    });
-
-
+    // addDialogRef.afterClosed().subscribe(comment => {
+    //   this.commentdata = comment;
+    // });
   }
 
   /////////////////////////////////////////////////////////////
@@ -1683,7 +1682,13 @@ export class Form6Component implements OnInit, OnDestroy {
 
   }
 
+  modalClose(): void {
+    this.isExamVisible = false;
+  }
 
+  receiveMent(comment: string): void {
+    this.commentdata = comment;
+  }
 
 
 

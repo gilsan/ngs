@@ -320,3 +320,13 @@
           </app-sequencing>
        </div>
    </div>
+
+      <div class="modal-overlay" *ngIf="isExamVisible">
+       <div class="modal-body2">
+           <app-examplement
+           [type]="'SEQ'"
+           [code]="patientInfo.test_code"
+            (closemodal)="modalClose()"
+            (sendMent)="receiveMent($event)"></app-examplement>
+       </div>
+   </div>

@@ -58,7 +58,7 @@ export class CodeDefaultValue {
     return this.http.post(`${this.apiUrl}/codedefault/codedelete`, { id });
   }
 
-  ///////////// 코멘트 관리 readingcomment
+  ///////////// 코멘트(해석) 관리 readingcomment
   public getCommentLists(type: string, code: string): Observable<ICodecomment[]> {
     return this.http.post<ICodecomment[]>(`${this.apiUrl}/codedefault/commentlists`, { type, code });
   }
@@ -71,8 +71,12 @@ export class CodeDefaultValue {
     return this.http.post(`${this.apiUrl}/codedefault/commentupdate`, { reading: ment });
   }
 
+  public commentsequpdateItem(ment: ICodecomment[]): Observable<any> {
+    return this.http.post(`${this.apiUrl}/codedefault/commentsequpdate`, { reading: ment });
+  }
+
   public commentdeleteItem(ment: ICodecomment[]): Observable<any> {
-    return this.http.post(`${this.apiUrl}/codedefault/commentdelete`, { reading: ment });
+    return this.http.post(`${this.apiUrl}/codedefault/commentdelete`, { reading: [ment] });
   }
 
 

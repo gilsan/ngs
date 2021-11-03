@@ -216,7 +216,15 @@ export class ManagecodeComponent implements OnInit {
 
   // 예문삭제
   deletExampleRow(i: number): void {
+    const commentControl = this.tablerowForm.get('commentRows') as FormArray;
+    const commentFormData = commentControl.at(i).value;
+    console.log('[222][예문삭제]', commentFormData);
     this.mentsRow().removeAt(i);
+    this.defaultService.commentdeleteItem(commentFormData)
+      .subscribe(data => {
+        console.log('[225][예문삭제]', data);
+      });
+
   }
 
   // 보고서 보기

@@ -9,6 +9,7 @@ import { Form5Component } from './mlpa/form5.component';
 import { Form6Component } from './hereditary/form6.component';
 import { Form7Component } from './sequencing/form7.component';
 import { FormsComponent } from './forms.component';
+// import { ExamplementComponent } from './examplement/examplement.component';
 // import { Form1Component } from './form1/form1.component';
 
 

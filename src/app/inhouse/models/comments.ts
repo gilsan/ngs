@@ -20,4 +20,5 @@ export interface ICodecomment {
   type: string;
   code: string;
   comment: string;
+  seq?: string;
 }
