@@ -300,9 +300,43 @@ export class UploadComponent implements OnInit {
       let count = 0;
       let nextline;
       let clinicallyCount = 0;
+      let tempSave = 'none';
+      let tumorBurden = false;
+      let idxNo = 0;
+
       data.filter(list => list[0] !== 'Public data sources included in relevant therapies')
         .forEach((list, index) => {
-          // console.log('[254][]', list[0]);
+          if (list[0].length > 0) {
+            const temp1 = list[0].split('(');
+            if ((temp1[0].trim() === 'Tumor Mutational Burden' && temp1[1]) ||
+              (list[0] === 'Tumor Mutational Burden' && list[1] !== undefined)) {
+
+              if (temp1[0].trim() === 'Tumor Mutational Burden' && temp1[1]) {
+                const temp2 = temp1[1].split(' ');
+                if (temp2[1] === 'Mut/Mb') {
+                  // status = false;
+                  // start = index;
+                  this.burden = temp2[0];
+                  idxNo = index;
+                }
+              }
+
+              if (list[0] === 'Tumor Mutational Burden' && list[1] !== undefined) {
+                const burden = list[1].split(' ');
+                if (burden[1] === 'Mut/Mb') {
+                  this.burden = burden[0];
+                  idxNo = index;
+                }
+              }
+            }
+          }
+        });
+
+      const data2 = data.splice(idxNo, 1);
+      console.log('[336][Tumor 존재여부] ===> ', this.burden);
+      data.filter(list => list[0] !== 'Public data sources included in relevant therapies')
+        .forEach((list, index) => {
+          // console.log('[338][]', list[0]);
 
           if (list[0].length > 0) {
 
@@ -310,25 +344,83 @@ export class UploadComponent implements OnInit {
               this.tumorType = list[1].trim();
               // this.pathologyService.setTumortype(list[1].trim(), this.pathologyNum);
             }
-            const temp1 = list[0].split('(');
+            // const temp1 = list[0].split('(');
 
-            if (temp1[0].trim() === 'Tumor Mutational Burden' && temp1[1]) {
-              const temp2 = temp1[1].split(' ');
-              if (temp2[1] === 'Mut/Mb') {
-                status = false;
-                start = index;
 
-                this.burden = temp2[0];
-                // console.log('[193][burden] ', this.burden);
-              }
-            }
+            // if ((temp1[0].trim() === 'Tumor Mutational Burden' && temp1[1]) ||
+            //   (list[0] === 'Tumor Mutational Burden' && list[1] !== undefined)) {
+            //   if (tempSave === 'none') {
+            //     tempSave = 'Genomic';
+            //   } else if (tempSave === 'Genomic') {
+            //     tempSave = 'Tumor';
+            //   }
 
-            if (list[0] === 'Tumor Mutational Burden' && list[1] !== undefined) {
-              const burden = list[1].split(' ');
-              if (burden[1] === 'Mut/Mb') {
-                this.burden = burden[0];
-              }
-            }
+            // } else if (list[0] === 'Genomic Alteration' && (list[1] === 'Gene Name')) {
+            //   if (tempSave === 'none') {
+            //     tempSave = 'Genomic';
+            //   } else if (tempSave === 'Genomic') {
+            //     tempSave = 'Tumor';
+            //   }
+            // }
+
+
+            // if (tempSave === 'Tumor') {
+            //   if (temp1[0].trim() === 'Tumor Mutational Burden' && temp1[1]) {
+            //     const temp2 = temp1[1].split(' ');
+            //     if (temp2[1] === 'Mut/Mb') {
+            //       status = false;
+            //       start = index;
+
+            //       this.burden = temp2[0];
+            //       // console.log('[193][burden] ', this.burden);
+            //     }
+
+            //     if (count > 0) {
+            //       status = false;
+            //     } else {
+            //       status = true;
+            //       start = index + 1;
+            //     }
+            //     count++;
+            //   }
+
+            //   if (list[0] === 'Tumor Mutational Burden' && list[1] !== undefined) {
+            //     const burden = list[1].split(' ');
+            //     if (burden[1] === 'Mut/Mb') {
+            //       this.burden = burden[0];
+            //     }
+
+            //     if (count > 0) {
+            //       status = false;
+            //     } else {
+            //       status = true;
+            //       start = index + 1;
+            //     }
+            //     count++;
+            //   }
+            // } else if (tempSave === 'Genomic') {
+            //   if (temp1[0].trim() === 'Tumor Mutational Burden' && temp1[1]) {
+            //     const temp2 = temp1[1].split(' ');
+            //     if (temp2[1] === 'Mut/Mb') {
+            //       status = false;
+            //       start = index;
+            //       this.burden = temp2[0];
+            //       // console.log('[193][burden] ', this.burden);
+            //     }
+            //   }
+
+            //   if (list[0] === 'Tumor Mutational Burden' && list[1] !== undefined) {
+            //     const burden = list[1].split(' ');
+            //     if (burden[1] === 'Mut/Mb') {
+            //       this.burden = burden[0];
+            //     }
+            //   }
+            // }
+            // Tumor Mutational Burden 없는 경우
+            // console.log('[399][Tumor 존재여부] ===> ', tumorBurden, this.burden);
+            // if (!tumorBurden) {
+            //   tempSave = 'Tumor';
+            // }
 
             if (list[0] === 'Genomic Alteration' && (list[1] === 'Gene Name')) {
               if (count > 0) {

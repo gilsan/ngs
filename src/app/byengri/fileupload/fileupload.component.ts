@@ -66,7 +66,7 @@ export class FileuploadComponent implements OnInit {
     event.preventDefault();
     event.stopPropagation();
     this.isActive = false;
-    // console.log('Drag leave');
+
   }
 
   onDrop(event: any): void {
@@ -98,10 +98,10 @@ export class FileuploadComponent implements OnInit {
     if (event.target.files.length > 0) {
       const filename = event.target.files[0].name;
       const file = event.target.files[0];
-      // this.onDroppedFile(event.target.files);
+
       console.log('[fileupload][병리 파일명][96]', filename);
       if (filename === 'Statistic.txt') {
-        // this.Statistic(file);
+
       } else {
         const diseaseFilename = filename.split('_');
         this.diseaseNumber = diseaseFilename[0];
@@ -141,9 +141,9 @@ export class FileuploadComponent implements OnInit {
       data.forEach((list, index) => {
         console.log('[142]', list);
         if (list[0].trim() === 'Sample Cancer Type') {
-          // console.log('[upload] ', list[1]);
+
           this.tumorType = list[1].trim();
-          // this.fileUploadService.setTumortype(list[1].trim(), this.pathologyNum);
+
         }
         const temp1 = list[0].split('(');
 
@@ -154,11 +154,11 @@ export class FileuploadComponent implements OnInit {
 
           const burden = temp1[1].split(' ');
           this.burden = burden[0];
-          // this.fileUploadService.setTumorMutationalBurden(burden[0], this.pathologyNum);
+
         }
 
 
-
+        console.log('===== [161]', list);
         if (list[0] === 'Genomic Alteration' && (list[1] !== 'Finding' || list[1] === undefined)) {
           if (count > 0) {
             status = false;
@@ -170,16 +170,15 @@ export class FileuploadComponent implements OnInit {
         }
 
         if (index >= start && status) {
-          //  console.log('[163][]', list);
+
           const filteredlist = list[0].trim().split(' ');
           const tier = list[2].substring(0, list[2].length - 1);
-          // console.log('[clinical][164] ', filteredlist, tier);
+
           if (filteredlist[1] !== 'deletion') {
             this.clinical.push({ gene: filteredlist[0], tier, frequency: list[3] });  // 티어
             this.clinically.push(list[0]); // 유전자
             console.log('[clinical][170] ', this.clinical, this.clinically);
-            // this.fileUploadService.setClinically(this.clinically, this.pathologyNum);
-            // this.fileUploadService.setClinical(this.clinical, this.pathologyNum);
+
           }
 
         }
@@ -209,10 +208,7 @@ export class FileuploadComponent implements OnInit {
 
       });  // End of ForEach
       /*
-       this.fileUploadService.setTumortype(this.tumorType, this.pathologyNum);
-       this.fileUploadService.setTumorMutationalBurden(this.burden, this.pathologyNum);
-       this.fileUploadService.setClinically(this.clinically, this.pathologyNum);
-       this.fileUploadService.setClinical(this.clinical, this.pathologyNum);
+
        */
     };
     reader.readAsText(file);
@@ -229,7 +225,7 @@ export class FileuploadComponent implements OnInit {
 
         if (mutationList[0] === 'Mutation Load (Mutations/Mb)') {
           this.mutationScore = mutationList[1];
-          // this.status$.next('statistic');
+
         }
       });
     };
@@ -259,12 +255,10 @@ export class FileuploadComponent implements OnInit {
 
         if (msiList[0] === 'sampleDiseaseType') {
           this.type = msiList[1].replace(/(\r\n|\r)/gm, '');
-          // this.fileUploadService.setTumortype(this.type, this.pathologyNum);
-          // this.status$.next('type');
+
         } else if (msiList[0] === 'CellularityAsAFractionBetween0-1') {
           this.percentage = parseFloat(msiList[1]) * 100;
-          // this.fileUploadService.setTumorCellPercentage(this.percentage.toString());  // 퍼센트
-          //  this.status$.next('percentage');
+
         }
       });
       this.fileUploadService.setTumorCellPercentage(this.percentage.toString(), this.pathologyNum);  // 퍼센트
@@ -282,7 +276,7 @@ export class FileuploadComponent implements OnInit {
       const lists = [];
 
       const data = this.loadData(reader.result);
-      // console.log(data);
+
       // 기본자료 수집
 
       data.forEach((list, index) => {
@@ -306,7 +300,7 @@ export class FileuploadComponent implements OnInit {
         }
 
       });
-      // console.log('[upload]', this.filteredOriginData);
+
       this.fileUploadService.setFilteredTSV(this.filteredOriginData);
 
 
@@ -322,7 +316,7 @@ export class FileuploadComponent implements OnInit {
         if (msiList[0] === 'MSI Score') {
           this.msiScore = msiList[1];
           this.fileUploadService.setMSIScore(this.msiScore, this.pathologyNum);
-          // this.status$.next('msi');
+
         }
       });
     };
