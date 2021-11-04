@@ -137,33 +137,33 @@
                 <tbody>
                     <tr class="table_bg" *ngFor="let list of lists; let i = index">
                             <input type="hidden" value="R" #status >
-                            <td style="width:10px;" class="txt_c" >{{i + 1}}</td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.buccal}}</span>
+                            <td style="width:10px;" class="txt_c" >{{i + 1}}</td> <!--  No  -->
+                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.buccal}}</span> <!-- buccal   -->
                                 <span class="clr-input" *ngIf="status.value === 'U'">
                                     <input type="text"  class="clr-input" value="{{list.buccal}}" id="buccal{{list.id}}"    >
                                 </span>
                             </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.patient_name}}</span>
+                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.patient_name}}</span> <!--    -->
                                 <span *ngIf="status.value === 'U'">
                                     <input type="text"  class="clr-input" value="{{list.patient_name}}"  id="patientName{{list.id}}" >
                                 </span>
                             </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.register_number}}</span>
+                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.register_number}}</span> <!--    -->
                                 <span class="clr-input" *ngIf="status.value === 'U'">
                                     <input type="text"  class="clr-input" value="{{list.register_number}}" id="registerNumber{{list.id}}" >
                                 </span>
                             </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.fusion}}</span>
+                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.fusion}}</span> <!--    -->
                                 <span class="clr-input" *ngIf="status.value === 'U'">
                                     <input type="text"  class="clr-input" value="{{list.fusion}}" id="fusion{{list.id}}" >
                                 </span>
                             </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.gene}}</span>
+                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.gene}}</span> <!-- gene   -->
                                 <span class="clr-input" *ngIf="status.value === 'U'">
                                     <input type="text"  class="clr-input" value="{{list.gene}}" id="gene{{list.id}}" >
                                 </span>
                             </td>
-                            <td><span *ngIf="status.value === 'R'">{{list.display}}</span>
+                            <td><span *ngIf="status.value === 'R'">{{list.display}}</span> <!--  type  -->
                              <span class="bdnone" *ngIf="status.value === 'U'" [ngSwitch]="list.type">
                                        <select class="select_01 select_001"  *ngSwitchCase="'AMLALL'" #selectedtype>
                                           <option value=''>선택</option>
@@ -231,7 +231,7 @@
 
                                 </span>
                             </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.functional_impact}}</span>
+                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.functional_impact}}</span> <!--    -->
                                 <span class="clr-input" *ngIf="status.value === 'U'" [ngSwitch]="list.functional_impact">
                                     <select class="select_01 select_001"  #functionalimpact  *ngSwitchCase="'Pathogenic'">
                                         <option value=''>선택</option>
@@ -264,54 +264,54 @@
 
                                 </span>
                             </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.transcript}}</span>
+                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.transcript}}</span> <!--  transcript  -->
                                 <span class="clr-input" *ngIf="status.value === 'U'">
                                     <input type="text"  class="clr-input" value="{{list.transcript}}" id="transcript{{list.id}}"  >
                                 </span>
                             </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.exon_intro}}</span>
+                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.exon_intro}}</span> <!-- Exion/Intron   -->
                                 <span class="clr-input" *ngIf="status.value === 'U'">
                                     <input type="text"  class="clr-input" value="{{list.exon_intro}}" id="exonIntro{{list.id}}" >
                                 </span>
                             </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.nucleotide_change}}</span>
+                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.nucleotide_change}}</span> <!-- Necleotide Change   -->
                                 <span class="clr-input" *ngIf="status.value === 'U'">
                                     <input type="text"  class="clr-input" value="{{list.nucleotide_change}}"  id="nucleotideChange{{list.id}}"  >
                                 </span>
                             </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.amino_acid_change}}</span>
+                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.amino_acid_change}}</span> <!--    -->
                                 <span class="clr-input" *ngIf="status.value === 'U'">
                                     <input type="text"  class="clr-input" value="{{list.amino_acid_change}}" id="aminoAcidChange{{list.id}}" >
                                 </span>
                             </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.zygosity}}</span>
+                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.zygosity}}</span> <!-- Zygosity   -->
                                 <span class="clr-input" *ngIf="status.value === 'U'">
                                     <input type="text"  class="clr-input" value="{{list.zygosity}}" id="zygosity{{list.id}}"  >
                                 </span>
                             </td>
                             <td class="txt_c"><span *ngIf="status.value === 'R'">
-                                <textarea class="textarea_01"  style="width: 100%; height: 100%; border: none">{{list.vaf}}</textarea>
+                                <textarea class="textarea_01"  style="width: 100%; height: 100%; border: none">{{list.vaf}}</textarea> <!-- vaf   -->
                                </span>
                                 <span class="clr-input" *ngIf="status.value === 'U'">
                                     <textarea   class="clr-input" value="{{list.vaf}}" id="vaf{{list.id}}"></textarea>
                                 </span>
                             </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.reference}}</span>
+                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.reference}}</span> <!--    -->
                                 <span class="clr-input" *ngIf="status.value === 'U'">
                                     <input type="text"  class="clr-input" value="{{list.reference}}" id="reference{{list.id}}" >
                                 </span>
                             </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.cosmic_id}}</span>
+                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.cosmic_id}}</span> <!--    -->
                                 <span class="clr-input" *ngIf="status.value === 'U'">
                                     <input type="text"  class="clr-input" value="{{list.cosmic_id}}" id="cosmicId{{list.id}}"  >
                                 </span>
                             </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.sift_polyphen_mutation_taster}}</span>
+                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.sift_polyphen_mutation_taster}}</span> <!--    -->
                                 <span class="clr-input" *ngIf="status.value === 'U'">
                                     <input type="text"  class="clr-input" value="{{list.sift_polyphen_mutation_taster}}" id="siftPolyphenMutationTaster{{list.id}}" >
                                 </span>
                             </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.buccal2}}</span>
+                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.buccal2}}</span> <!--    -->
                                 <span class="clr-input" *ngIf="status.value === 'U'">
                                     <input type="text"  class="clr-input" value="{{list.buccal2}}" id="buccal2{{list.id}}"  >
                                 </span>
@@ -346,42 +346,47 @@
                                     <input type="text"  class="clr-input" value="{{list.etc3}}" id="etc3{{list.id}}">
                                 </span>
                             </td-->
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.igv}}</span>
-                                <span class="clr-input" *ngIf="status.value === 'U'">
-                                    <input type="text"  class="clr-input" value="{{list.igv}}" id="igv{{list.id}}" >
-                                </span>
-                            </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.sanger}}</span>
-                                <span class="clr-input" *ngIf="status.value === 'U'">
-                                    <input type="text"  class="clr-input" value="{{list.sanger}}" id="sanger{{list.id}}" >
-                                </span>
-                            </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.rsid}}</span>
+                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.rsid}}</span> <!--    -->
                                 <span class="clr-input" *ngIf="status.value === 'U'">
                                     <input type="text"  class="clr-input" value="{{list.rsid}}" id="rsid{{list.id}}" >
                                 </span>
                             </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.genbank_accesion}}</span>
+                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.genbank_accesion}}</span> <!--    -->
                                 <span class="clr-input" *ngIf="status.value === 'U'">
                                     <input type="text"  class="clr-input" value="{{list.genbank_accesion}}" id="genbank_accesion{{list.id}}" >
                                 </span>
                             </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.dbsnp_hgmd}}</span>
+
+
+
+
+                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.dbsnp_hgmd}}</span> <!--    -->
                                 <span class="clr-input" *ngIf="status.value === 'U'">
                                     <input type="text"  class="clr-input" value="{{list.dbsnp_hgmd}}" id="dbsnp_hgmd{{list.id}}" >
                                 </span>
                             </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.gnomad_eas}}</span>
+                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.gnomad_eas}}</span> <!--    -->
                                 <span class="clr-input" *ngIf="status.value === 'U'">
                                     <input type="text"  class="clr-input" value="{{list.gnomad_eas}}" id="gnomad_eas{{list.id}}" >
                                 </span>
                             </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.omim}}</span>
+                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.omim}}</span> <!--    -->
                                 <span class="clr-input" *ngIf="status.value === 'U'">
                                     <input type="text"  class="clr-input" value="{{list.omim}}" id="omim{{list.id}}" >
                                 </span>
                             </td>
-                            <td class="txt_c">
+                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.igv}}</span> <!--    -->
+                                <span class="clr-input" *ngIf="status.value === 'U'">
+                                    <input type="text"  class="clr-input" value="{{list.igv}}" id="igv{{list.id}}" >
+                                </span>
+                            </td>
+                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.sanger}}</span>  <!--    -->
+                                <span class="clr-input" *ngIf="status.value === 'U'">
+                                    <input type="text"  class="clr-input" value="{{list.sanger}}" id="sanger{{list.id}}" >
+                                </span>
+                            </td>
+
+                            <td class="txt_c"> <!--    -->
                                 <span *ngIf="status.value === 'R'">
                                     <a class="btn-edit" (click)="status.value='U'" >수정</a>
                                     <a class="btn-delete" (click)="deleteRow(list.id, list.gene,list.patient_name)">삭제</a>
