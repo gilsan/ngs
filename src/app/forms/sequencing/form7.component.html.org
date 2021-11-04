@@ -1,0 +1,332 @@
+<div id="result">
+    <div id="container" style="position: relative;">
+        <h2 style="margin-top: 5px;height:32px;">&#60;{{ngsTitle}}&#62;</h2>
+        <button type="button" class="preview__button"(click)="previewToggle()">미리보기</button>
+
+        <div id="content">
+            <div class="box pd_20">
+                <div class="sub_title">Patient:  {{patientInfo.name}}, {{patientInfo.patientID}} ({{patientInfo.gender}}/{{patientInfo.age}})</div>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td class="txt_02" ><span class="fb">Result </span>:
+                        <input type="test"   #results [value]="resultname" class="clr-input textcenter " size=25 (change)="resultName(results.value)">
+                        <!-- <label class="">DNMT3A gene Mutation</label>&nbsp;&nbsp;  -->
+                        &nbsp;&nbsp;
+                        <input type="radio" id="vertical-radio2" name="radio-full" [value]="'Detected'" [checked]="radioStatus('Detected')" class="clr-radio"  (change)="result($event)">
+                        <label for="vertical-radio2" class="  clr-col-12 clr-col-md-2">Detected</label>
+                        &nbsp;&nbsp;
+                        <input type="radio" id="vertical-radio1" name="radio-full" [value]="'Not Detected'" class="clr-radio"  (change)="result($event)" [checked]="radioStatus('Not Detected')">
+                        <label for="vertical-radio1" class="clr-col-12 clr-col-md-2">Not Detected</label>
+                    </td>
+                  </tr>
+                </table>
+
+                <div class="sub_title">Test Information</div>
+                <table cellpadding="0" cellspacing="0" class="table_result02">
+                  <colgroup>
+                  <col style="width:50%;" />
+                  <col style="width:50%;" />
+                  </colgroup>
+                  <tbody>
+                      <tr>
+                          <td>
+                              <div id="pos_right_side">
+                                <span class="mt5">TARGET DISEASE:</span>
+                                <input type="text" class="input_02" style="width:calc(100% - 100px);"
+                                [(ngModel)]= "targetdisease" >
+                              </div>
+                            </td>
+                          <td>
+                             <div id="pos_right_side">
+                                <span class="mt5">METHOD:</span>
+                                <input type="text" class="input_02" style="width:calc(100% - 55px);"
+                               [(ngModel)]= "method">
+                             </div>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>
+                          <div id="pos_right_side">
+                            <span class="mt5">SPECIMEN:</span>
+                            <input type="text" class="input_02" style="width:calc(100% - 64px);"
+                            [(ngModel)]= "specimen">
+                          </div>
+                          </td>
+                          <td >
+                            REQUEST: {{patientInfo.request}}</td>
+                      </tr>
+                      <tr>
+                        <td>
+                           <div id="pos_right_side">
+                            <span class="mt5">ANALYZED GENE:</span>
+                            <input type="text" class="input_02" style="width:calc(100% - 97px);"
+                             [(ngModel)]= "analyzedgene">
+                           </div>
+                        </td>
+                        <td>
+                        <!--
+                           <div id="pos_right_side">
+                            IDENTIFIED VARIATIONS: <input type="text" class="input_02" style="width:80%;"
+                            [(ngModel)]= "variations">
+                           </div>
+                            -->
+                        </td>
+                      </tr>
+
+                  </tbody>
+                </table>
+
+               <div class="sub_title">Identified Variations: <input type="text" class="input_02" style="width:37.5%;"
+                [(ngModel)]= "variations"></div>
+
+
+
+                 <div style="margin-bottom: 10px;margin-top: 25px;">
+                     <ul style="display:flex;justify-content:flex-start; align-items: center;">
+                        <li>
+                            <span class="sub_title">Mutation</span>
+                        </li>
+                        <li>&nbsp;&nbsp;</li>
+                        <li>
+                            <button type="button" class="btn btn_01"  (click)="addNewRow()">추가</button>
+                         </li>
+                         <li>&nbsp;&nbsp;</li>
+                        <li>
+                            <button type="button" class="btn btn_01"  (click)="reCall()">호출</button>
+                         </li>
+                     </ul>
+                 </div>
+
+                <div class="box">
+                    <div class="box_1000">
+                      <form [formGroup]="form">
+                        <table class="table_list td-fix" style="text-align: center;">
+                            <colgroup>
+                                <col style="width:80px"/>  <!-- Type   -->
+                                <col style="width:100px"/>  <!-- Exon/Intron #    -->
+                                <col style="width:100px"/>  <!-- 진단시<br/>(2019.09.04)    -->
+                                <col style="width:120px"/>  <!-- Nuceleotide change   -->
+                                <col style="width:120px"/>  <!-- Amino acid change    -->
+                                <col style="width:120px"/>  <!-- dbSNP/COSMIC ID    -->
+                                <col style="width:120px"/>
+                                <col style="width:120px"/>  <!--   Site  -->
+                                <col style="width:80px"/>   <!--  Action -->
+                                <col style="width:50px;" />
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Exon/Intron #</th>
+                                    <th>Nucleotide change</th>
+                                    <th>Amino acid change</th>
+                                    <th>Zygosity</th>
+                                    <th>rs ID</th>
+                                    <th>GenBank accesion no.</th>
+                                    <th>Site</th>
+                                    <th>Action</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <ng-container formArrayName="tableRows"  *ngFor="let group of getFormControls.controls; let i=index">
+                                <tr [formGroupName]="i">
+                                    <td>
+                                        <input type="text" size="10" class="clr-input textcenter tdbox"
+                                         matInput
+                                         [matTooltip]="group.get('type').value"
+                                         formControlName="type" [matAutocomplete]="auto">
+                                        <mat-autocomplete #auto="matAutocomplete">
+                                           <mat-option *ngFor="let option of types" [value]="option">
+                                                     {{option}}
+                                           </mat-option>
+                                        </mat-autocomplete>
+                                    </td>
+                                    <td>
+                                        <input type="text" size="10" class="clr-input textcenter tdbox"
+                                        matInput
+                                        [matTooltip]="group.get('exonintron').value"
+                                        formControlName="exonintron">
+                                    </td>
+                                    <td>
+                                        <input type="text" size="20" class="clr-input textcenter tdbox"
+                                         matInput
+                                         [matTooltip]="group.get('nucleotideChange').value"
+                                         formControlName="nucleotideChange">
+                                    </td>
+                                    <td>
+                                        <input type="text" size="15" class="clr-input textcenter tdbox"
+                                        matInput
+                                        [matTooltip]="group.get('aminoAcidChange').value"
+                                        formControlName="aminoAcidChange">
+                                    </td>
+                                    <td>
+                                        <input type="text" size="40" class="clr-input textcenter tdbox"
+                                         matInput
+                                         [matTooltip]="group.get('zygosity').value"
+                                         formControlName="zygosity" [matAutocomplete]="zygo">
+                                        <mat-autocomplete #zygo="matAutocomplete">
+                                           <mat-option *ngFor="let option of zygosity" [value]="option">
+                                                     {{option}}
+                                           </mat-option>
+                                        </mat-autocomplete>
+                                    </td>
+                                    <td>
+                                        <input type="text" size="40" class="clr-input textcenter tdbox"
+                                          matInput
+                                          [matTooltip]="group.get('rsid').value"
+                                          formControlName="rsid">
+                                    </td>
+                                    <td>
+                                        <input type="text" size="40" class="clr-input textcenter tdbox"
+                                         matInput
+                                         [matTooltip]="group.get('genbankaccesion').value"
+                                         formControlName="genbankaccesion">
+                                    </td>
+
+                                    <td  class="txt_c">
+                                      <select class="select_01" style="width: 100%;" name="options" (change)="saveInhouse(i, inhouse.value)"
+                                       #inhouse>
+                                        <option value="mutation" selected>Mutation</option>
+                                        <option value="artifacts">Artifacts</option>
+                                      </select>
+                                    </td>
+                                    <td>
+                                       <button class="btn-s blue"  (click)="save(i)" >저장</button>
+                                    </td>
+                                    <td  align="center">
+                                       <img [src]="'assets/images/cancel.png'" (click)="removeRow(i)">
+                                    </td>
+                                </tr>
+                                </ng-container>
+                            </tbody>
+                        </table>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="pd_r20">
+                    <textarea class="textarea_01" #comment30 (change)="saveSeqComment(comment30.value)">{{seqcomment}}</textarea>
+                </div>
+
+              <!--   <div class="sub_title" >판독 코멘트</div>  -->
+              <div style="margin-bottom: 10px;margin-top: 25px;">
+                  <ul style="display:flex;justify-content:flex-start; align-items: center;">
+                      <li>
+                          <span class="sub_title">판독 코멘트</span>
+                      </li>
+                      <li>&nbsp;&nbsp;</li>
+                      <li>
+                          <button type="button" class="btn btn_01" (click)="showDialog()">예문</button>
+                      </li>
+                  </ul>
+              </div>
+
+                <div class="pd_r20">
+                    <textarea class="textarea_01"  #comment0 (change)="saveComment(comment0.value)">{{comment}}</textarea>
+                </div>
+
+                <div class="sub_title" >일반코멘트1</div>
+                <div class="pd_r20">
+                    <textarea class="textarea_01" #comment10 (change)="saveComment1(comment10.value)">{{comment1}}</textarea>
+                </div>
+
+                <div class="sub_title">일반코멘트2</div>
+                <div class="pd_r20">
+                    <textarea class="textarea_01" #comment20 (change)="saveComment2(comment20.value)">{{comment2}}</textarea>
+                </div>
+
+                <hr class="mg_t30 mg_b20"/>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td class="txt_l font_16 fb">
+                            검사의뢰일/검사보고일/수정보고일:{{requestDate | date: 'yyyy.MM.dd'}}/{{firstReportDay}}/{{lastReportDay}}
+                        </td>
+                        <td class="txt_1 font_16 fb">
+                            검사자:  <input type="text" class="input_02" size="30"  [(ngModel)]="examin">
+                        </td>
+                        <td class="txt_1 font_16 fb">
+                            판독의사: <input type="text" class="input_02" size="30" [(ngModel)]="recheck">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <br />
+            <div class="foot_btn mg_t30 pd_b30 txt_c main_btn">
+                <ul>
+                    <li>
+                       <button type="button" class="btn btn_01" (click)="goBack()">HOME</button>
+                    </li>
+                    <li>
+                        <button type="button" class="btn btn_01" (click)="previewToggle()">미리보기</button>
+                    </li>
+
+                     <li>
+                        <button class="btn btn_01" (click)="reset()"
+                        [disabled]="getStatus(4)">수정</button>
+                    </li>
+
+                    <li>
+                        <button class="btn btn_01" (click)="tempSave()">임시저장</button>
+                    </li>
+                    <li>
+                        <button class="btn btn_01" (click)="screenRead()" [disabled]="getStatus(1)">스크린완료</button>
+                    </li>
+                    <li>
+                        <button class="btn btn_01" (click)="screenReadFinish()" [disabled]="getStatus(2)">판독완료</button>
+                    </li>
+                    <li>
+                        <button class="btn btn_01" (click)="gotoEMR()"  [disabled]="getStatus(3)">EMR전송</button>
+                    </li>
+<!--
+                 <li>
+                    <button class="btn btn_01" (click)="reset()"
+                    [disabled]="getStatus(4)">수정</button>
+                </li>
+                <li>
+                    <button class="btn btn_01" (click)="tempSave()">임시저장</button>
+                </li>
+                <li>
+                    <button class="btn btn_01" (click)="screenRead()" [disabled]="getStatus(1)">스크린완료</button>
+                </li>
+                <li>
+                    <button class="btn btn_01" (click)="screenReadFinish()" [disabled]="getStatus(2)">판독완료</button>
+                </li>
+
+                <li>
+                    <button class="btn btn_01" (click)="gotoEMR()" [disabled]="getStatus(3)">EMR전송</button>
+                </li>
+ -->
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+   <div class="modal-overlay" *ngIf="isVisible">
+       <div class="modal-body">
+           <app-sequencing
+           [patientInfo]="patientInfo"
+           [sequences]= "sequences"
+            [result]="resultStatus"
+            [title]="ngsTitle"
+            [resultname]= "resultname"
+            [targetdisease]= "targetdisease"
+            [method]= "method"
+            [analyzedgene]= "analyzedgene"
+            [specimen]= "specimen"
+            [variations]= "variations"
+            (closemodal)="closeModal()">
+          </app-sequencing>
+       </div>
+   </div>
+
+      <div class="modal-overlay" *ngIf="isExamVisible">
+       <div class="modal-body2">
+           <app-examplement
+           [type]="'SEQ'"
+           [code]="patientInfo.test_code"
+            (closemodal)="modalClose()"
+            (sendMent)="receiveMent($event)"></app-examplement>
+       </div>
+   </div>
