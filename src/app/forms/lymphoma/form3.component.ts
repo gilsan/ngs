@@ -730,6 +730,7 @@ export class Form3Component implements OnInit, OnDestroy {
         vafPercent: tsv.frequency.replace(/;/g, ','),
         references: item.reference,
         cosmicID: item.cosmic_id,
+        gubun: 'LYM'
       };
 
     } else {
@@ -747,7 +748,8 @@ export class Form3Component implements OnInit, OnDestroy {
         zygosity: 'Heterozygous',
         vafPercent: tsv.frequency.replace(/;/g, ','),
         references: '',
-        cosmicID: ''
+        cosmicID: '',
+        gubun: 'LYM'
       };
     }
     //
@@ -782,7 +784,8 @@ export class Form3Component implements OnInit, OnDestroy {
       references: item.reference,
       cosmicID: item.cosmic_id,
       checked: item.checked,
-      id: item.id
+      id: item.id,
+      gubun: 'LYM'
     };
 
     this.detactedVariants = [...this.detactedVariants, tempvalue];
@@ -827,7 +830,8 @@ export class Form3Component implements OnInit, OnDestroy {
         cosmicID: [item.cosmicID],
         id: [item.id],
         checked: [checktype],
-        status: ['NEW']
+        status: ['NEW'],
+        gubun: ['LYM']
       });
     }
     return this.fb.group({
@@ -847,7 +851,8 @@ export class Form3Component implements OnInit, OnDestroy {
       cosmicID: [item.cosmicID],
       id: [item.id],
       checked: [checktype],
-      status: ['OLD']
+      status: ['OLD'],
+      gubun: ['LYM']
     });
   }
 
@@ -914,7 +919,8 @@ export class Form3Component implements OnInit, OnDestroy {
       vafPercent: [''],
       references: [''],
       cosmicID: [''],
-      checked: [true]
+      checked: [true],
+      gubun: ['LYM']
     });
   }
 
@@ -937,7 +943,8 @@ export class Form3Component implements OnInit, OnDestroy {
       references: [''],
       cosmicID: [''],
       checked: [true],
-      status: ['NEW']
+      status: ['NEW'],
+      gubun: ['LYM']
     });
   }
 
@@ -1803,12 +1810,12 @@ export class Form3Component implements OnInit, OnDestroy {
       if (list.type === 'New') {
         const gene = list.gene.split(',');
         gene.forEach(item => {
-          this.patientsListService.getMutationInfoLists(item, list.nucleotideChange, 'LYM')
+          this.patientsListService.getMutationVariantsLists(item, list.nucleotideChange, 'LYM')
             .subscribe(data => {
               if (data.length > 0) {
-                console.log('[1809][호출]', data);
+                console.log('[1816][호출]', data);
                 control.at(index).patchValue({
-                  type: 'M', functionalImpact: data[0].functional_impact,
+                  type: data[0].type, functionalImpact: data[0].functional_impact,
                   references: data[0].reference, cosmicID: data[0].cosmic_id
                 });
 

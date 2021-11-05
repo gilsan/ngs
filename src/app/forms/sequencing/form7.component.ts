@@ -86,7 +86,7 @@ export class Form7Component implements OnInit, OnDestroy {
   analyzedgene = '';
   method = '*Direct sequencing for whole exons including intron-exon boundaries';
   specimen = 'Genomic DNA isolated from peripheral blood leukocytes-adequate specimen';
-  seqcomment = `*Sequencing has an analytical sensitivity of approximately 99% for the detection of nucleotide base alterations, small deletions and insertions, but it does not detect large deletions. Low-level mosaicism will not be detected by routine sequencing methodologies. Only the coding and immediate flanking regions of genes are analyzed, new splice sites, changes in the promoter region, and other non-coding or regulatory region will not be detected.`;
+  seqcomment = '';
   types: string[] = ['Pathogenic', 'Likely Pathogenic', 'VUS'];
   zygosity: string[] = ['Heterozygous', 'Homozygous'];
 
@@ -189,7 +189,7 @@ export class Form7Component implements OnInit, OnDestroy {
     this.ngsTitle = this.patientInfo.reportTitle;
     this.subs.sink = this.variantsService.contentScreen7(this.form2TestedId)
       .subscribe(data => {
-        console.log('[178][받은데이터]', data);
+        console.log('[192][받은데이터]', data);
         if (data.length > 0) {
           this.comment = data[0].comment;
           this.comment1 = data[0].comment1;
@@ -216,7 +216,7 @@ export class Form7Component implements OnInit, OnDestroy {
 
     this.subs.sink = this.variantsService.contentTestScreen7(this.form2TestedId)
       .subscribe(data => {
-        console.log('[205][Test Information]', data);
+        console.log('[219][Test Information]', data);
         if (data.length > 0) {
           this.resultname = data[0].result;
           this.targetdisease = data[0].target;
@@ -228,13 +228,14 @@ export class Form7Component implements OnInit, OnDestroy {
           if (this.patientInfo.screenstatus === '0' && this.targetdisease.length === 0) {
             this.defaultService.getList(this.patientInfo.test_code)
               .subscribe(list => {
-                console.log('[226][Test Info]', list);
+                console.log('[231][Test Info]', list);
                 this.targetdisease = list[0].target;
                 this.method = list[0].method;
                 this.analyzedgene = list[0].analyzedgene;
                 this.specimen = list[0].specimen;
                 this.comment1 = list[0].comment1;
                 this.comment2 = list[0].comment2;
+                this.seqcomment = list[0].comment;
               });
           }
 

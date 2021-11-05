@@ -295,3 +295,10 @@ export interface IPasswd {
   pickselect: string;
   part_nm: string;
 }
+
+export interface IESS {
+  id?: string;
+  title: string;
+  type: string;
+  gene: string;
+}

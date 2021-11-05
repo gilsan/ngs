@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { emrUrl } from 'src/app/config';
 import { Observable, Subject } from 'rxjs';
 import { shareReplay, tap } from 'rxjs/operators';
-import { IFilteredOriginData, IPatient, Ipolymorphism, IStateControl } from '../models/patients';
+import { IESS, IFilteredOriginData, IPatient, Ipolymorphism, IStateControl } from '../models/patients';
 
 
 export interface ISequencing {
@@ -77,6 +77,24 @@ export class SequencingService {
     return this.listSubject$;
   }
 
+  // Essentail 가져오기
+  getEssTitle(): Observable<IESS[]> {
+    return this.http.get<IESS[]>(`${this.apiUrl}/mutation/esslists`);
+  }
+
+  // Essentail 입력
+  getEssInsert(ess: IESS): Observable<any> {
+    return this.http.post(`${this.apiUrl}/mutation/essinsert`, ess);
+  }
+  // // Essentail 수정
+  getEssUpdate(ess: IESS): Observable<any> {
+    return this.http.post(`${this.apiUrl}/mutation/essupdate`, ess);
+  }
+
+  // Essentail 삭제
+  getEssDelete(id: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/mutation/essdelete`, { id });
+  }
 
 
 

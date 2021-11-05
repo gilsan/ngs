@@ -16,8 +16,9 @@ export interface IMent {
   report: string;
   target: string;
   specimen: string;
-  analyzedgene: string;
+  analyzedgene?: string;
   method: string;
+  comment: string;
   comment1: string;
   comment2: string;
   mode?: string;

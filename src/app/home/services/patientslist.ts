@@ -89,9 +89,17 @@ export class PatientsListService {
   }
 
   // 유전체 와 coding 로 mutation 레코드에서 정보 가져오기
-  public getMutationInfoLists(gene: string, coding: string, type: string): Observable<IAFormVariant[]> {
+  public getMutationVariantsLists(gene: string, coding: string, gubun: string): Observable<IAFormVariant[]> {
     // console.log('[77][patientslist SERVICE][getMutationInfoLists]', gene, coding, type);
-    return this.http.post<IAFormVariant[]>(`${this.apiUrl}/mutationInfo/list`, { gene, coding, type }).pipe(
+    return this.http.post<IAFormVariant[]>(`${this.apiUrl}/mutationInfo/variantslist`, { gene, coding, gubun }).pipe(
+      shareReplay()
+    );
+  }
+
+  // 유전체 와 coding 로 mutation 레코드에서 정보 가져오기
+  public getMutationInfoLists(gene: string, coding: string, gubun: string): Observable<IAFormVariant[]> {
+    // console.log('[77][patientslist SERVICE][getMutationInfoLists]', gene, coding, type);
+    return this.http.post<IAFormVariant[]>(`${this.apiUrl}/mutationInfo/list`, { gene, coding, gubun }).pipe(
       shareReplay()
     );
   }
@@ -121,6 +129,21 @@ export class PatientsListService {
 
   public getMutationGeneticInfoLists2(gene: string, coding: string, type: string): Observable<IImmundefi[]> {
     return this.http.post<IImmundefi[]>(`${this.apiUrl}/mutation/geneticcall2`, { gene, coding, type }).pipe(
+      shareReplay()
+    );
+  }
+
+  // 유전서유전체 mutation에 등록하기
+  public getMutationGeneticSave(igv: string, sanger: string, name: string,
+    patientID: string, gene: string, functionalImpact: string, transcript: string,
+    exonIntro: string, nucleotideChange: string, aminoAcidChange: string,
+    zygosity: string, dbSNPHGMD: string, gnomADEAS: string, OMIM: string): Observable<IImmundefi[]> {
+    return this.http.post<IImmundefi[]>(`${this.apiUrl}/mutation/geneticinsert`, {
+      igv, sanger, name,
+      patientID, gene, functionalImpact, transcript,
+      exonIntro, nucleotideChange, aminoAcidChange,
+      zygosity, dbSNPHGMD, gnomADEAS, OMIM
+    }).pipe(
       shareReplay()
     );
   }

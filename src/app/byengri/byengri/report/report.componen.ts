@@ -863,11 +863,14 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
         // tslint:disable-next-line:prefer-const
 
         this.clinically.forEach(item => {
+          console.log('[866][유전자추적]', item);
           const members = item.trim().split(' ');
           const gene = members[0].trim().replace(/"/g, '');
           const type = members[1].trim().replace(/"/g, '');
+          console.log('[870][유전자추적]', members, gene, type);
           if (type.charAt(0) === 'p' || type === 'exon') {
             // const indexm = this.findGeneInfo(gene);
+            console.log('[871][유전자추적]', gene, type);
             let indexm: number;
             let nucleotideChange: string;
             let customid = '';
@@ -888,14 +891,14 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
             variantAlleleFrequency = this.findFrequency(gene);
             if (type === 'exon') {
               indexm = this.findGeneInfo(gene);
-              // console.log('=== [841]', indexm, this.filteredOriginData);
+              // console.log('=== [891]', indexm, this.filteredOriginData);
               if (indexm !== -1) {
                 nucleotideChange = this.filteredOriginData[indexm].coding;
               }
             } else {
               indexm = this.withGeneCoding(gene, nucleotideChange);
             }
-            // console.log('==== [582][indexm]', gene, type, indexm);
+            // console.log('==== [898][indexm]', gene, type, indexm);
             if (indexm !== -1) {
               customid = this.filteredOriginData[indexm].variantID;
               if (customid === undefined || customid === null) { customid = ''; }
@@ -919,7 +922,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
               }
               customid = '';
             }
-            // console.log('[890][삭제유전자 리스트 ', this.polymorphismList);
+            // console.log('[922][삭제유전자 리스트 ]', this.polymorphismList);
             // console.log('[891][유전자]' + gene, aminoAcidChange, nucleotideChange);
             // gene, aminoAcidChange, nucleotideChange 조합으로 해당 되는것 삭제
             const result = this.removeGeneCheck(gene, aminoAcidChange, nucleotideChange);
@@ -928,7 +931,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
               if (customid.indexOf('vc.novel') !== -1) {
                 customid = '';
               }
-              // console.log('==== [978][mutation] ', gene);
+              // console.log('==== [931][뮤테이션] ', gene);
               this.mutation.push({
                 gene,
                 aminoAcidChange,

@@ -763,6 +763,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
         vafPercent: tsv.frequency.replace(/;/g, ','),
         references: item.reference,
         cosmicID: item.cosmic_id,
+        gubun: 'AMLALL'
       };
 
     } else {
@@ -781,6 +782,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
         vafPercent: tsv.frequency.replace(/;/g, ','),
         references: '',
         cosmicID: '',
+        gubun: 'AMLALL'
       };
     }
     //
@@ -814,7 +816,8 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       references: item.reference,
       cosmicID: item.cosmic_id,
       checked: item.checked,
-      id: item.id
+      id: item.id,
+      gubun: 'AMLALL'
     };
 
     this.detactedVariants = [...this.detactedVariants, tempvalue];
@@ -863,7 +866,8 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
         cosmicID: [item.cosmicID],
         id: [item.id],
         checked: [checktype],
-        status: ['NEW']
+        status: ['NEW'],
+        gubun: ['AMLALL']
       });
     }
     return this.fb.group({
@@ -883,7 +887,8 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       cosmicID: [item.cosmicID],
       id: [item.id],
       checked: [checktype],
-      status: ['OLD']
+      status: ['OLD'],
+      gubun: ['AMLALL']
     });
   }
 
@@ -951,7 +956,8 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       vafPercent: [''],
       references: [''],
       cosmicID: [''],
-      checked: [true]
+      checked: [true],
+      gubun: ['AMLALL']
     });
   }
 
@@ -974,7 +980,8 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       references: [''],
       cosmicID: [''],
       checked: [true],
-      status: ['NEW']
+      status: ['NEW'],
+      gubun: ['AMLALL']
     });
   }
 
@@ -2065,22 +2072,21 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     const formData: IAFormVariant[] = control.getRawValue();
 
     formData.forEach((list, index) => {
-      if (list.type === 'New' || list.type === 'new') {
-        const gene = list.gene.split(',');
-        gene.forEach(item => {
-          this.patientsListService.getMutationInfoLists(item, list.nucleotideChange, 'AMLALL')
-            .subscribe(data => {
-              console.log('[2072][호출]', data);
-              if (data.length > 0) {
-                console.log(data);
-                control.at(index).patchValue({
-                  type: 'M', functionalImpact: data[0].functional_impact,
-                  references: data[0].reference, cosmicID: data[0].cosmic_id
-                });
-              }
-            });
-        });
-      }
+
+      const gene = list.gene.split(',');
+      gene.forEach(item => {
+        this.patientsListService.getMutationVariantsLists(item, list.nucleotideChange, 'AMLALL')
+          .subscribe(data => {
+            if (data.length > 0) {
+              console.log('[2080][호출]', data, index);
+              control.at(index).patchValue({
+                type: data[0].type,
+                functionalImpact: data[0].functional_impact,
+                references: data[0].reference, cosmicID: data[0].cosmic_id
+              });
+            }
+          });
+      });
     });
   }
 

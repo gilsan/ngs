@@ -33,6 +33,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { geneTitles } from '../commons/geneList';
 import { hereditaryForm } from 'src/app/home/models/hereditary';
 import { ExamplementComponent } from '../examplement/examplement.component';
+import { CodeDefaultValue } from 'src/app/services/codedefaultvalue';
 
 
 @Component({
@@ -122,8 +123,8 @@ export class Form6Component implements OnInit, OnDestroy {
   rsltdesc = '';
   screenstatus: string;
   specimenMsg: string;
-  specimenMessage = 'Genomic DNA isolated from peripheral blood leukocytes-adequate specimen ';
-
+  // specimenMessage = 'Genomic DNA isolated from peripheral blood leukocytes-adequate specimen ';
+  specimenMessage = '';
   comment: string;
   comments: IComment[] = [];
   comment2: string;
@@ -192,6 +193,7 @@ export class Form6Component implements OnInit, OnDestroy {
     private excelService: ExcelAddListService,
     private snackBar: MatSnackBar,
     private commentsService: CommentsService,
+    private defaultService: CodeDefaultValue
   ) { }
 
   ngOnInit(): void {
@@ -314,14 +316,6 @@ export class Form6Component implements OnInit, OnDestroy {
 
   // test_code로 제목찿기
   findTitle(testCode: string): void {
-    // let geneLists: string[];
-    // geneTitles.forEach(item => {
-    //   if (item.gene === testCode) {
-    //     this.formTitle = item.title;
-    //     geneLists = item.lists.split(',');
-    //     this.target = item.target;
-    //   }
-    // });
     this.utilsService.getTargetDisease('genetic', testCode)
       .subscribe(data => {
         // console.log('[][]', data[0]);
@@ -406,8 +400,21 @@ export class Form6Component implements OnInit, OnDestroy {
     this.subs.sink = this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {
       this.recoverVariants = data;
       this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
-      // console.log('[407][hereditary][Detected variant_id]', this.recoverVariants);
+
       this.store.setDetactedVariants(data); // Detected variant 저장
+      // In House 관리 데이터 가져옴
+      // if (this.patientInfo.screenstatus === '0') {
+      this.defaultService.getList(this.patientInfo.test_code)
+        .subscribe(info => {
+          console.log('[409][인하우스] ', info);
+          this.target = info[0].target;
+          this.method = info[0].method;
+          this.specimenMessage = info[0].specimen;
+
+        });
+      // }
+
+
 
       // VUS 메제시 확인
       this.vusmsg = this.patientInfo.vusmsg;
@@ -427,7 +434,7 @@ export class Form6Component implements OnInit, OnDestroy {
       } else {
         this.vusstatus = false;
       }
-
+      this.reCall();
       this.putCheckboxInit(); // 체크박스 초기화
     });
 
@@ -457,7 +464,7 @@ export class Form6Component implements OnInit, OnDestroy {
           this.vd.push({ sequence: this.vd.length, selectedname: 'mutation', gene: data[0].gene });
           this.store.setDetactedVariants(data); // Detected variant 저장
           this.recoverVariants.forEach(item => {
-            this.recoverVariant(item);  // 354
+            this.recoverVariant(item);  // 데이터 입력
             // VUS 메제시 확인
             this.vusmsg = this.patientInfo.vusmsg;
             if (item.functional_impact === 'VUS') {
@@ -913,8 +920,7 @@ export class Form6Component implements OnInit, OnDestroy {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const row = control.value[index];
     if (this.selectedItem === 'mutation') {
-      this.subs.sink = this.patientsListService.saveMutation(
-        'Genetic',
+      this.subs.sink = this.patientsListService.getMutationGeneticSave(
         row.igv,
         row.sanger,
         'M' + this.patientInfo.name,
@@ -1172,7 +1178,8 @@ export class Form6Component implements OnInit, OnDestroy {
       this.methods,
       this.technique,
       this.genelists,
-      this.vusmsg
+      this.vusmsg,
+      this.method
     );
 
     console.log('[1173][Genetic XML]\n ', makeForm);
