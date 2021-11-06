@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { first } from 'rxjs/operators';
+import { IItem, ILIST } from 'src/app/byengri/models/patients';
 import { SequencingService } from 'src/app/byengri/services/sequencing.service';
 
 
@@ -41,6 +42,7 @@ export class GeneComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
     this.init();
     this.loadForm();
     this.sequencingService.listObservable$
@@ -89,7 +91,7 @@ export class GeneComponent implements OnInit {
 
       this.lists.push(temp);
     }
-
+    console.log(this.lists)
   }
 
   loadForm(): void {
@@ -110,7 +112,7 @@ export class GeneComponent implements OnInit {
   ////////////////////////////////////////
   createRow(row: IROW): FormGroup {
     return this.fb.group({
-      mutation: row.mutation,
+      mutation: [{ id: '2', data: 'AAA' }],
       amplification: row.amplification,
       fusion: row.fusion,
     });
@@ -128,6 +130,8 @@ export class GeneComponent implements OnInit {
     });
   }
 
+
+
   addNewRow(row: IROW): void {
     const control = this.form.get('tableRows') as FormArray;
     control.push(this.createRow(row));
@@ -138,6 +142,7 @@ export class GeneComponent implements OnInit {
   }
   //////////////////////////////////////////
   changeCMutaion(i: number, value: string): void {
+
     const originalLen = this.mutationLists.length - 1;
     if (i > originalLen) {  // 신규
       this.mutationLists.push(value);

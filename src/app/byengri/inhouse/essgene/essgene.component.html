@@ -13,6 +13,7 @@
           </mat-form-field>
           <mat-card-actions>
             <button mat-raised-button color="primary" (click)="addNew(name.value)">추가</button>
+            <!-- <button mat-raised-button color="primary" (click)="start()">시작</button> -->
           </mat-card-actions>
         </mat-card>
         <br>
@@ -23,7 +24,7 @@
             <div class="table-box box">
 
                <mat-accordion>
-                  <mat-expansion-panel *ngFor="let list of lists;">
+                  <mat-expansion-panel *ngFor="let list of items;">
                     <mat-expansion-panel-header>
                       <mat-panel-title>
                          {{list.title}}
@@ -32,7 +33,6 @@
                     <app-gene
                        [title]="list.title"
                        [content]="list.content"
-
                     ></app-gene>
                   </mat-expansion-panel>
                </mat-accordion>

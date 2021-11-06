@@ -10,7 +10,7 @@
        <div class="box mg_b20 pd_20 search">
          <select class="select_01 select_001" #type (change)="findTypeLists(type.value, code.value)">
            <option value="none">선택</option>
-          <!--  <option value="Genetic">유전성유전질환</option>  -->
+          <option value="Genetic">유전성유전질환</option>
            <option value="SEQ">Sequencing</option>
            <option value="MLPA">MLPA</option>
          </select>&nbsp;&nbsp;
@@ -33,21 +33,24 @@
         </table>
 
        </div>
+
+      <ng-container *ngIf="columnShow">
        <div class="box"  *ngIf="selected !== 'none'">
          <div class="box_100 fill">
            <form [formGroup]="tablerowForm">
            <table border="0" cellpadding="0" cellspacing="0" class="table_list td-fix fixed_header table_resul_x">
              <colgroup>
-               <col width="3%">
+               <col width="2%">
+               <col width="2%">
                <col width="5%">
-               <col width="10%">
-               <col width="10%">
-               <col width="10%">
-               <col width="10%">
-               <col width="10%">
+               <col width="7%">
+               <col width="7%">
+               <col width="7%">
+               <col width="7%">
                <col width="20%">
                <col width="20%">
-               <col width="12%">
+               <col width="20%">
+               <col width="2%">
              </colgroup>
 
             <thead>
@@ -59,6 +62,7 @@
                     <th>Specimen</th>
                     <th>Analyzed Gene</th>
                     <th>Method</th>
+                    <th>일반코멘트</th>
                     <th>일반코멘트1</th>
                     <th>일반코멘트2</th>
                     <th>수정/삭제</th>
@@ -69,10 +73,12 @@
                    <tr  [formGroupName]="i">
                      <td align="center">{{i+1}}</td>
                      <td>
-                         <input type="text" [matTooltip]="group.get('code').value"  class="clr-input textcenter tdbox" size="10" formControlName="code" >
+                         <input type="text" [matTooltip]="group.get('code').value" style="text-align: center" readonly
+                          class="clr-input textcenter tdbox" size="5" formControlName="code" >
                      </td>
                      <td>
-                         <input type="text" [matTooltip]="group.get('report').value"  class="clr-input textcenter tdbox"   formControlName="report" >
+                         <input type="text" [matTooltip]="group.get('report').value" style="text-align: center" readonly
+                         class="clr-input textcenter tdbox"   formControlName="report" >
                      </td>
                      <td>
                          <input type="text"  [matTooltip]="group.get('target').value"  class="clr-input textcenter tdbox"   formControlName="target" >
@@ -85,6 +91,14 @@
                      </td>
                      <td>
                          <input type="text" [matTooltip]="group.get('method').value" class="clr-input textcenter tdbox"  formControlName="method" >
+                     </td>
+                     <td>
+                         <span  *ngIf="group.get('mode').value === 'D'">
+                             <textarea style="width:96%;display:block;margin:0 auto;" [matTooltip]="group.get('comment').value"  class="textarea_01" formControlName="comment"></textarea>
+                         </span>
+                         <span  *ngIf="group.get('mode').value === 'E'">
+                             <textarea style="width:96%;display:block;margin:0 auto;" rows="10"  cols="70"  class="textarea_01" formControlName="comment"></textarea>
+                         </span>
                      </td>
                      <td>
                          <span  *ngIf="group.get('mode').value === 'D'">
@@ -104,12 +118,19 @@
                      </td>
                      <td>
                       <span class="bdnone">
-                          <a class="btn-edit"  (click)="edit(i)">수정</a>
-                          <a class="btn-delete" (click)="removeCommentRow(i)">삭제</a>
+                          <div>
+                            <a class="btn-edit"  (click)="edit(i)">수정</a>
+                          </div>
+                          <div>
+                            <a class="btn-delete" (click)="removeCommentRow(i)">삭제</a>
+                          </div>
                       </span>
                       <span class="wid120 bdnone">
+                          <div>
+                              <a class="btn-save" (click)="save(i)">저장</a>
+                          </div>
                          <!-- <a class="btn-cancel" (click)="cancel(i)">취소</a>  -->
-                          <a class="btn-save" (click)="save(i)">저장</a>
+
                       </span>
                      </td>
                    </tr>
@@ -123,6 +144,115 @@
            </form>
          </div>
        </div>
+      </ng-container>
+      <ng-container *ngIf="!columnShow">
+       <div class="box"  *ngIf="selected !== 'none'">
+         <div class="box_100 fill">
+           <form [formGroup]="tablerowForm">
+           <table border="0" cellpadding="0" cellspacing="0" class="table_list td-fix fixed_header table_resul_x">
+             <colgroup>
+               <col width="2%">
+               <col width="2%">
+               <col width="5%">
+               <col width="8%">
+               <col width="8%">
+               <col width="8%">
+               <col width="20%">
+               <col width="20%">
+               <col width="20%">
+               <col width="5%">
+             </colgroup>
+
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>TestCode</th>
+                    <th>결과지명</th>
+                    <th>Target Disease</th>
+                    <th>Specimen</th>
+                    <th>Method</th>
+                    <th>일반코멘트</th>
+                    <th>일반코멘트1</th>
+                    <th>일반코멘트2</th>
+                    <th>수정/삭제</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container formArrayName="tableRows" *ngFor="let group of commentsRows().controls; let i=index">
+                   <tr  [formGroupName]="i">
+                     <td align="center">{{i+1}}</td>
+                     <td>
+                         <input type="text" [matTooltip]="group.get('code').value"  style="text-align: center" readonly
+                          class="clr-input textcenter tdbox" size="5" formControlName="code" >
+                     </td>
+                     <td>
+                         <input type="text" [matTooltip]="group.get('report').value" style="text-align: center" readonly
+                          class="clr-input textcenter tdbox"   formControlName="report" >
+                     </td>
+                     <td>
+                         <input type="text"  [matTooltip]="group.get('target').value"  class="clr-input textcenter tdbox"   formControlName="target" >
+                     </td>
+                     <td>
+                         <input type="text" [matTooltip]="group.get('specimen').value" class="clr-input textcenter tdbox"   formControlName="specimen" >
+                     </td>
+                     <td>
+                         <input type="text" [matTooltip]="group.get('method').value" class="clr-input textcenter tdbox"  formControlName="method" >
+                     </td>
+                     <td>
+                         <span  *ngIf="group.get('mode').value === 'D'">
+                             <textarea style="width:96%;display:block;margin:0 auto;" [matTooltip]="group.get('comment').value"  class="textarea_01" formControlName="comment"></textarea>
+                         </span>
+                         <span  *ngIf="group.get('mode').value === 'E'">
+                             <textarea style="width:96%;display:block;margin:0 auto;" rows="10"  cols="70"  class="textarea_01" formControlName="comment"></textarea>
+                         </span>
+                     </td>
+                     <td>
+                         <span  *ngIf="group.get('mode').value === 'D'">
+                             <textarea style="width:96%;display:block;margin:0 auto;" [matTooltip]="group.get('comment1').value"  class="textarea_01" formControlName="comment1"></textarea>
+                         </span>
+                         <span  *ngIf="group.get('mode').value === 'E'">
+                             <textarea style="width:96%;display:block;margin:0 auto;" rows="10"  cols="70"  class="textarea_01" formControlName="comment1"></textarea>
+                         </span>
+                     </td>
+                     <td>
+                         <span  *ngIf="group.get('mode').value === 'D'">
+                             <textarea style="width:96%;display:block;margin:0 auto;" [matTooltip]="group.get('comment2').value"  class="textarea_01" formControlName="comment2"></textarea>
+                         </span>
+                         <span  *ngIf="group.get('mode').value === 'E'">
+                             <textarea style="width:96%;display:block;margin:0 auto;" rows="10"  cols="70"  class="textarea_01" formControlName="comment2"></textarea>
+                         </span>
+                     </td>
+                     <td>
+                      <span class="bdnone">
+                          <div>
+                            <a class="btn-edit"  (click)="edit(i)">수정</a>
+                          </div>
+                          <div>
+                            <a class="btn-delete" (click)="removeCommentRow(i)">삭제</a>
+                          </div>
+
+                      </span>
+                      <span class="wid120 bdnone">
+                          <div>
+                            <a class="btn-save" (click)="save(i)">저장</a>
+                          </div>
+
+                      </span>
+                     </td>
+                   </tr>
+                </ng-container>
+
+            </tbody>
+
+             <div></div>
+
+           </table>
+           </form>
+         </div>
+       </div>
+      </ng-container>
+
+
      </div>
    </div>
  </div>

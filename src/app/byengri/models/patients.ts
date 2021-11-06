@@ -295,3 +295,37 @@ export interface IPasswd {
   pickselect: string;
   part_nm: string;
 }
+
+export interface IESS {
+  id?: string;
+  title: string;
+  type: string;
+  gene: string;
+}
+
+
+
+
+export interface ICONTENT {
+  type: string;
+  data: string[];
+}
+export interface IBASE {
+  title: string;
+  content: ICONTENT[];
+}
+
+export interface IItem {
+  data: {
+    mutation: ILIST[];
+    amplification: ILIST[];
+    fusion: ILIST[];
+  };
+  title: string;
+}
+export interface ILIST {
+  id: string;
+  title: string;
+  type: string;
+  gene: string;
+}

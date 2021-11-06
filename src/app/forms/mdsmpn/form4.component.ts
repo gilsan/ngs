@@ -693,6 +693,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
         vafPercent: tsv.frequency,
         references: item.reference,
         cosmicID: item.cosmic_id,
+        gubun: 'MDS'
       };
 
     } else {
@@ -710,7 +711,8 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
         zygosity: 'Heterozygous',
         vafPercent: tsv.frequency,
         references: '',
-        cosmicID: ''
+        cosmicID: '',
+        gubun: 'MDS'
       };
     }
     //
@@ -748,7 +750,8 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       references: item.reference,
       cosmicID: item.cosmic_id,
       checked: item.checked,
-      id: item.id
+      id: item.id,
+      gubun: 'MDS'
     };
 
     this.detactedVariants = [...this.detactedVariants, tempvalue];
@@ -798,7 +801,8 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
         cosmicID: [item.cosmicID],
         id: [item.id],
         checked: [checktype],
-        status: ['NEW']
+        status: ['NEW'],
+        gubun: ['MDS']
       });
     }
     return this.fb.group({
@@ -818,7 +822,8 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       cosmicID: [item.cosmicID],
       id: [item.id],
       checked: [checktype],
-      status: ['OLD']
+      status: ['OLD'],
+      gubun: ['MDS']
     });
   }
 
@@ -885,7 +890,8 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       vafPercent: [''],
       references: [''],
       cosmicID: [''],
-      checked: [true]
+      checked: [true],
+      gubun: ['MDS']
     });
   }
 
@@ -908,7 +914,8 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       references: [''],
       cosmicID: [''],
       checked: [true],
-      status: ['NEW']
+      status: ['NEW'],
+      gubun: ['MDS']
     });
   }
 
@@ -1779,13 +1786,13 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       if (list.type === 'New' || list.type === 'new') {
         const gene = list.gene.split(',');
         gene.forEach(item => {
-          this.patientsListService.getMutationInfoLists(item, list.nucleotideChange, 'MDS')
+          this.patientsListService.getMutationVariantsLists(item, list.nucleotideChange, 'MDS')
             .subscribe(data => {
-              console.log('[1783][호출]', data);
+
               if (data.length > 0) {
-                console.log(data);
+                console.log('[1783][호출]', data);
                 control.at(index).patchValue({
-                  type: 'M', functionalImpact: data[0].functional_impact,
+                  type: data[0].type, functionalImpact: data[0].functional_impact,
                   references: data[0].reference, cosmicID: data[0].cosmic_id
                 });
               }

@@ -20,6 +20,7 @@ export class MentmanageComponent implements OnInit, OnDestroy {
   reportLists: IMent[] = [];
   report = '';
   code = 'N';
+  columnShow = true;
   constructor(
     private fb: FormBuilder,
     private defaultService: CodeDefaultValue,
@@ -55,8 +56,6 @@ export class MentmanageComponent implements OnInit, OnDestroy {
 
   findLists(type: string): void {
     this.type = type;
-    console.log('[56]', type);
-
     this.reportLists = this.lists.filter(list => list.type === type);
     this.reportLists = this.reportLists.sort((a, b) => {
       const x = a.code; const y = b.code;
@@ -70,12 +69,12 @@ export class MentmanageComponent implements OnInit, OnDestroy {
   }
 
   testcode(code: string, type: string): void {
-    console.log('[73][testcode]', code, type);
+
     if (code === 'none') {
       return;
     } else {
       this.code = code;
-      console.log('[78][testcode]', this.reportLists.filter(list => list.code === code && list.type === type));
+      // console.log('[78][testcode]', this.reportLists.filter(list => list.code === code && list.type === type));
       this.report = this.reportLists.filter(list => list.code === code && list.type === type)[0].report;
       const control = this.tablerowForm.get('tableRows') as FormArray;
       control.clear();
@@ -95,8 +94,10 @@ export class MentmanageComponent implements OnInit, OnDestroy {
       specimen: ment.specimen,
       analyzedgene: ment.analyzedgene,
       method: ment.method,
+      comment: ment.comment,
       comment1: ment.comment1,
       comment2: ment.comment2,
+      type: ment.type,
       mode: 'D',
       id: ment.id
     });
@@ -110,8 +111,10 @@ export class MentmanageComponent implements OnInit, OnDestroy {
       specimen: '',
       analyzedgene: '',
       method: '',
+      comment: '',
       comment1: '',
       comment2: '',
+      type: this.selected,
       mode: 'E',
       id: 'N'
     });
@@ -155,12 +158,16 @@ export class MentmanageComponent implements OnInit, OnDestroy {
     console.log(type);
     if (type === 'Genetic') {
       this.selected = 'Genetic';
+      this.columnShow = false;
     } else if (type === 'SEQ') {
       this.selected = 'SEQ';
+      this.columnShow = true;
     } else if (type === 'MLPA') {
       this.selected = 'MLPA';
+      this.columnShow = true;
     } else if (type === 'none') {
       this.selected = 'none';
+      this.columnShow = true;
     }
     this.code = code;
     const control = this.tablerowForm.get('tableRows') as FormArray;
@@ -178,7 +185,7 @@ export class MentmanageComponent implements OnInit, OnDestroy {
     console.log('[130][저장]', rowData);
 
     if (rowData.code.length === 0) {
-      alert('검체코드가 없습니다.')
+      alert('검체코드가 없습니다.');
     } else {
       if (rowData.id === 'N') {
         this.defaultService.insertItem(this.selected, rowData)
