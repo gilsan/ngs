@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
+import { combineLatest, from } from 'rxjs';
+import { IBASE, IItem, IList } from '../../models/patients';
 import { SequencingService } from '../../services/sequencing.service';
 
 export const Lists = [
@@ -301,14 +302,25 @@ export const Lists = [
 
 ];
 
-export interface ICONTENT {
-  type: string;
-  data: string[];
-}
-export interface IList {
-  title: string;
-  content: ICONTENT[];
-}
+
+export const Sample = [
+  {
+    title: 'Thymic tumor',
+    content: [
+      { type: 'Mutation', data: ['ERBB2', 'KIT', 'NTRK1', 'NTRK3'] },
+      { type: 'Amplification', data: [] },
+      { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3'] }
+    ]
+  },
+  {
+    title: 'Uterine papillary serous carcinoma',
+    content: [
+      { type: 'Mutation', data: ['ERBB2', 'NTRK1', 'NTRK3'] },
+      { type: 'Amplification', data: ['ERBB2'] },
+      { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3'] }
+    ]
+  }
+];
 
 @Component({
   selector: 'app-essgene',
@@ -317,30 +329,71 @@ export interface IList {
 })
 export class EssgeneComponent implements OnInit {
   panelOpenState = false;
+  titles: string[] = [];
 
-  // createname$ = new Subject();
-  // createEventObservable = this.createname$.asObservable();
 
   constructor(
     private sequencingService: SequencingService
   ) { }
 
-  lists: IList[] = [];
+  lists: IItem[] = [];
+  items: IBASE[] = [];
 
   ngOnInit(): void {
-    this.lists = Lists;
+    this.getData();
+    this.items = Sample;
+  }
+
+  getData(): void {
+    const lists$ = this.sequencingService.getEssTitle();
+    const titles$ = this.sequencingService.getEssTitleOnly();
+    const titles = [];
+
+    combineLatest([lists$, titles$])
+      .subscribe(([data1, data2]) => {
+
+        data2.forEach(list => {
+          const titleCol = data1.filter(item => item.title === list.title);
+          const mutation = titleCol.filter(item => item.type === 'Mutation');
+          const amplification = titleCol.filter(item => item.type === 'Amplification');
+          const fusion = titleCol.filter(item => item.type === 'Fusion');
+
+          this.lists.push({ title: list.title, data: { mutation, amplification, fusion } });
+        });
+      });
+
   }
 
   addNew(name: string): void {
-    this.lists.push({
-      title: name,
-      content: [
-        { type: 'Mutation', data: [] },
-        { type: 'Amplification', data: [] },
-        { type: 'Fusion', data: [] }
-      ]
-    });
-    this.sequencingService.makeEvent(name);
+    // this.lists.push({
+    //   title: name,
+    //   content: [
+    //     { type: 'Mutation', data: [] },
+    //     { type: 'Amplification', data: [] },
+    //     { type: 'Fusion', data: [] }
+    //   ]
+    // });
+    // this.sequencingService.makeEvent(name);
   }
+
+  // start(): void {
+  //   let title = '';
+  //   let type = '';
+
+  //   this.lists.forEach(list => {
+  //     title = list.title;
+  //     list.content.forEach(item => {
+  //       type = item.type;
+  //       item.data.forEach(gene => {
+  //         this.sequencingService.getEssInsert({ title, type, gene })
+  //           .subscribe(data => {
+  //             console.log('[355]', title, type, gene, data);
+
+  //           });
+  //       });
+  //     });
+
+  //   })
+  // }
 
 }
