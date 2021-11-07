@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpEvent, HttpEventType, HttpParams } from '@angular/common/http';
 import { combineLatest, from, Observable, of, Subject, } from 'rxjs';
 import { concatMap, map, shareReplay, switchMap, tap } from 'rxjs/operators';
-import { IMutation } from 'src/app/inhouse/models/mutation';
+import { IGenetic, IMutation, ISEQ } from 'src/app/inhouse/models/mutation';
 import { emrUrl } from 'src/app/config';
 import { Ilymphoma } from '../home/models/patients';
 
@@ -85,5 +85,52 @@ export class MutationService {
   public updateLymphoma(registernum: string, data: Ilymphoma): Observable<any> {
     return this.http.post(`${this.apiUrl}/mutationMapper/updateinfo`, { registernum, data });
   }
+
+
+
+
+  // 유전성유전 조회
+  public listGenetic(specimenNo: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}mutation/geneticinsert`, { specimenNo });
+  }
+
+  // 유전성유전 입력
+  public insertGenetic(genetic: IGenetic): Observable<any> {
+    return this.http.post(`${this.apiUrl}mutation/geneticinsert`, { genetic });
+  }
+
+  // 유전성유전 갱신
+  public updateGenetic(genetic: IGenetic): Observable<any> {
+    return this.http.post(`${this.apiUrl}mutation/geneticupdate`, { genetic });
+  }
+
+  // 유전성유전 삭제
+  public deleteGenetic(gene: string, nucleotideChange: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}mutation/geneticdelete`, { gene, nucleotideChange });
+  }
+
+
+
+
+  // Sequencing 입력
+  public insertSequencing(seq: ISEQ): Observable<any> {
+    return this.http.post(`${this.apiUrl}mutation/geneticinsert`, { seq });
+  }
+
+  // Sequencing 갱신
+  public updateSequencing(seq: ISEQ): Observable<any> {
+    return this.http.post(`${this.apiUrl}mutation/sequpdate`, { seq });
+  }
+
+  // Sequencing 삭제
+  public deleteSequencing(gene: string, nucleotideChange: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}mutation/sequpdate`, { gene, nucleotideChange });
+  }
+
+
+
+
+
+
 }
 

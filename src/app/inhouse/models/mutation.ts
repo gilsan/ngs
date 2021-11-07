@@ -33,3 +33,35 @@ export interface IMutation {
   omim?: string;
 
 }
+
+export interface IGenetic {
+  id?: string;
+  gene: string;
+  functional_impact: string;
+  transcript?: string;
+  name: string;
+  patientID: string;
+  exon: string;
+  nucleotideChange: string;
+  aminoAcidChange: string;
+  zygosity: string;
+  dbSNPHGMD: string;
+  gnomADEAS: string;
+  OMIM: string;
+  igv: string;
+  sanger: string;
+}
+
+export interface ISEQ {
+  id?: string;
+  gene: string;
+  functional_impact: string;
+  name: string;
+  patientID: string;
+  exonintron: string;
+  nucleotideChange: string;
+  aminoAcidChange: string;
+  zygosity: string;
+  rsid: string;
+  genbankaccesion: string;
+}

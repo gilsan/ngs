@@ -94,6 +94,32 @@ export class DetectedVariantsService {
       });
   }
 
+  public screenTempSave6(specimenNo: string, detectedVariants: IAFormVariant[],
+    comments: IComment[], profile: IProfile, resultStatus: string,
+    patientInfo: IPatient, comment2: string = '',
+    technique: string, methods: string, result: string): Observable<any> {
+    // console.log('[19][DetectedVariantsService] ', specimenNo, detectedVariants, comments, profile, patientInfo);
+    let detectedType: string;
+    const { chron, flt3itd, leukemia } = profile;
+    if (resultStatus === 'Detected') {
+      detectedType = 'detected';
+    } else if (resultStatus === 'Not Detected') {
+      detectedType = 'notdetected';
+    }
+    return this.http.post(`${this.apiUrl}/screen/tempsave6`,
+      {
+        specimenNo,
+        detected_variants: detectedVariants,
+        comments,
+        chron,
+        flt3itd,
+        leukemia,
+        resultStatus: detectedType, // detected, notdetected
+        patientInfo,
+        additionalNote: comment2, result
+      });
+  }
+
   public allscreenInsert(specimenNo: string, detectedVariants: IAFormVariant[],
     comments: IComment[], profile: IProfile, resultStatus: string, patientInfo: IPatient): Observable<any> {
     // console.log('[19][DetectedVariantsService] ', specimenNo, detectedVariants, comments, profile, patientInfo);

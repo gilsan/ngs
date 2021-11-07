@@ -1449,8 +1449,8 @@ export class Form6Component implements OnInit, OnDestroy {
       .subscribe(datas => console.log(datas));
 
     // tslint:disable-next-line:max-line-length
-    this.subs.sink = this.variantsService.screenTempSave(this.form2TestedId, formData, this.comments,
-      this.profile, this.resultStatus, this.patientInfo, this.comment2)
+    this.subs.sink = this.variantsService.screenTempSave6(this.form2TestedId, formData, this.comments,
+      this.profile, this.resultStatus, this.patientInfo, this.comment2, this.technique, this.methods, this.resultname)
       .subscribe(data => {
         // console.log('[1065]', data);
         alert('저장되었습니다.');

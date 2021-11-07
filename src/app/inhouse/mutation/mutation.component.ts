@@ -3,9 +3,11 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { emrUrl } from 'src/app/config';
-import { IMutation } from '../models/mutation';
+import { IGenetic, IMutation } from '../models/mutation';
 import { MutationService } from 'src/app/services/mutation.service';
 import { ExcelService } from 'src/app/home/services/excelservice';
+import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-mutation',
@@ -20,6 +22,8 @@ export class MutationComponent implements OnInit {
   constructor(
     private mutationService: MutationService,
     private excel: ExcelService,
+    private fb: FormBuilder,
+    private snackBar: MatSnackBar,
   ) { }
   lists$: Observable<IMutation[]>;
   lists: IMutation[];
@@ -35,8 +39,12 @@ export class MutationComponent implements OnInit {
 
   private apiUrl = emrUrl;
 
+  geneticForm: FormGroup;
+
+
   ngOnInit(): void {
     this.init();
+    this.loadGeneticForm();
   }
 
 
@@ -187,6 +195,10 @@ export class MutationComponent implements OnInit {
       etc2: '',
       etc3: '',
     });
+
+    if (this.gubun === 'Genetic') {
+      this.geneticRows().push(this.newGeneticRow());
+    }
   }
   myFunc(status: string) {
     console.log("function called" + status);
@@ -234,6 +246,7 @@ export class MutationComponent implements OnInit {
   }
 
   findMutation(type): void {
+
     this.gubun = type;
     this.totRecords = 0;
     if (type === 'ALL') {
@@ -253,6 +266,11 @@ export class MutationComponent implements OnInit {
       this.totPage = Math.ceil(this.listMutations.length / 10);
       this.pageLine = 0;
       this.totRecords = this.listMutations.length;
+
+      if (type === 'Genetic') {
+
+        this.makeGeneticRows(this.listMutations);
+      }
     });
   }
 
@@ -270,6 +288,125 @@ export class MutationComponent implements OnInit {
     });
 
   }
+
+  /////// 유전성유전
+  loadGeneticForm(): void {
+    this.geneticForm = this.fb.group({
+      tableRows: this.fb.array([])
+    });
+  }
+
+  makeGeneticRows(lists: IMutation[]): void {
+    lists.forEach(list => {
+      this.geneticRows().push(this.createGeneticRow({
+        id: list.id,
+        gene: list.gene,
+        functional_impact: list.functional_impact,
+        transcript: list.transcript,
+        name: list.patient_name,
+        patientID: '',
+        exon: list.exon_intro,
+        nucleotideChange: list.nucleotide_change,
+        aminoAcidChange: list.amino_acid_change,
+        zygosity: list.zygosity,
+        dbSNPHGMD: list.dbsnp_hgmd,
+        gnomADEAS: list.gnomad_eas,
+        OMIM: list.omim,
+        igv: list.igv,
+        sanger: list.sanger
+      }));
+    });
+  }
+
+  createGeneticRow(list: IGenetic): FormGroup {
+    return this.fb.group({
+      id: list.id,
+      gene: list.gene,
+      functional_impact: list.functional_impact,
+      transcript: list.transcript,
+      name: list.name,
+      patientID: list.patientID,
+      exon: list.exon,
+      nucleotideChange: list.nucleotideChange,
+      aminoAcidChange: list.aminoAcidChange,
+      zygosity: list.zygosity,
+      dbSNPHGMD: list.dbSNPHGMD,
+      gnomADEAS: list.gnomADEAS,
+      OMIM: list.OMIM,
+      igv: list.igv,
+      sanger: list.sanger
+    });
+  }
+
+  newGeneticRow(): FormGroup {
+    return this.fb.group({
+      id: 'N',
+      gene: '',
+      functional_impact: '',
+      transcript: '',
+      name: '',
+      patientID: '',
+      exon: '',
+      nucleotideChange: '',
+      aminoAcidChange: '',
+      zygosity: '',
+      dbSNPHGMD: '',
+      gnomADEAS: '',
+      OMIM: '',
+      igv: '',
+      sanger: ''
+    });
+  }
+
+  geneticRows(): FormArray {
+    return this.geneticForm.get('tableRows') as FormArray;
+  }
+
+  addNewGeneticRow(): void {
+    this.geneticRows().push(this.newGeneticRow());
+  }
+
+  geneticSave(i: number): void {
+    const control = this.geneticForm.get('tableRows') as FormArray;
+    const rowData: IGenetic = control.at(i).value;
+    console.log(rowData);
+    const id = rowData.id;
+    if (id === 'N') {
+      this.mutationService.insertGenetic(rowData).subscribe(data => {
+        this.snackBar.open('저장 하였습니다.', '닫기', { duration: 3000 });
+        // this.geneticRows().clear();
+        // this.loadData();
+      });
+    } else {
+      this.mutationService.updateGenetic(rowData).subscribe(data => {
+        this.snackBar.open('저장 하였습니다.', '닫기', { duration: 3000 });
+      });
+    }
+  }
+
+  geneticDelete(i: number): void {
+    const ask = confirm('삭제 하시겠습니까');
+    if (ask) {
+      const control = this.geneticForm.get('tableRows') as FormArray;
+      const rowData: IGenetic = control.at(i).value;
+      this.geneticRows().removeAt(i);
+      console.log('[136][삭제]', control.getRawValue());
+      this.mutationService.deleteGenetic(rowData.gene, rowData.nucleotideChange)
+        .subscribe(data => {
+          this.geneticRows().removeAt(i);
+          this.snackBar.open('삭제 하였습니다.', '닫기', { duration: 3000 });
+        });
+    } else {
+      return;
+    }
+  }
+
+
+
+
+
+
+  ///////////////////////////////////////////////// sequencing
 
 
 
