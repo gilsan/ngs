@@ -398,6 +398,7 @@ export class Form6Component implements OnInit, OnDestroy {
   recoverDetected(): void {
     // 디비에서 Detected variant_id 가져오기
     this.subs.sink = this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {
+      console.log('[401]', data);
       this.recoverVariants = data;
       this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
 
