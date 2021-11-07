@@ -1,0 +1,106 @@
+<div id="container">
+  <div id="content">
+
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mg_b10">
+            <tr>
+                <td  class="mail_title">Tiers</td>
+            </tr>
+        </table>
+        <div class="box mg_b20 pd_20 search">
+            <input type="text" class="input_01"   placeholder="Cancer 검색" #genes>
+            <button type="button" class="btn btn_02" (click)="search(genes.value)" style="margin-left: 10px;">조회</button>
+
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mg_b10">
+                <tr>
+                    <td class="main_btn">
+                        <ul>
+                            <li>
+                                <button type="button" class="btn btn_01" (click)="insertRow()" >추가</button>
+                            </li>
+                            <!--
+                            <li>
+                                <button type="button" class="btn btn_01" (click)="addNew()" >저장</button>
+                            </li>
+                            -->
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="total">
+             <span>Total: {{totRecords}} Records  ({{curPage}} / {{totPage}}) Pages  </span>
+        </div>
+
+        <div class="table-box-wrap">
+            <div class="table-box box" style="overflow-x: auto;">
+              <form [formGroup]="tablerowForm">
+                  <table border="0" cellpadding="0" cellspacing="0" class="table_list header-fix">
+                      <colgroup>
+                          <col width="3%" />
+                          <col width="15%" />
+                          <col width="25%" />
+                          <col width="25$" />
+                          <col width="25%" />
+                          <col width="7%" />
+                      </colgroup>
+                      <thead>
+                          <tr class="pd-r-12">
+                              <th class="txt_c">No.</th>
+                              <th class="txt_c">Cancer</th>
+                              <th class="txt_c">Mutation</th>
+                              <th class="txt_c">Amplification</th>
+                              <th class="txt_c">Fusion / Exon variant</th>
+                              <th class="txt_c">수정/삭제</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <ng-container formArrayName="tableRows" *ngFor="let group of getFormControls.controls; let i=index">
+                              <tr class="table_bg"  [formGroupName]="i">
+                                  <td><span>{{i + 1}}</span></td>
+                                  <td>
+                                     <input type="text"  class="clr-input"
+                                     [matTooltip]="group.get('title').value" formControlName="title">
+                                  </td>
+                                  <td>
+                                      <input type="text" size="40" class="clr-input"
+                                      [matTooltip]="group.get('mutation').value" formControlName="mutation">
+                                  </td>
+                                  <td class="txt">
+                                      <input type="text" size="40" class="clr-input" [matTooltip]="group.get('amplification').value"
+                                      formControlName="amplification">
+                                  </td>
+                                  <td class="txt">
+                                      <input type="text" size="40" class="clr-input " [matTooltip]="group.get('fusion').value"
+                                      formControlName="fusion">
+                                  </td>
+                                  <td class="text-right">
+                                      <a class="btn-save"  (click)="save(i)">저장</a>
+                                      <a class="btn-delete" (click)="removeCommentRow(i)">삭제</a>
+                                  </td>
+                              </tr>
+                          </ng-container>
+                      </tbody>
+                  </table>
+              </form>
+            </div>
+        </div>
+
+        <div class="txt_c pd_t20 btn_num">
+            <a class="ico_pre" (click)="goPage('<')" >이전</a>
+            <span *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]">
+                <span   *ngIf="i + (pageLine*10) <= totPage">
+                    <span *ngIf="i + (pageLine*10) == curPage">
+                        <a  (click)="goPage(i + (pageLine*10))"><span class="btn_select">{{i + (pageLine*10)}}</span></a>
+                    </span>
+                    <span *ngIf="i + (pageLine*10) != curPage">
+                        <a  (click)="goPage(i + (pageLine*10))"><span>{{i + (pageLine*10)}}</span></a>
+                    </span>
+                </span>
+            </span>
+            <a class="ico_next" (click)="goPage('>')" >다음</a>
+        </div>
+
+
+
+  </div>
+</div>

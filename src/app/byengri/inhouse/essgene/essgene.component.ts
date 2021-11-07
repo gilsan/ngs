@@ -352,14 +352,14 @@ export class EssgeneComponent implements OnInit {
     combineLatest([lists$, titles$])
       .subscribe(([data1, data2]) => {
 
-        data2.forEach(list => {
-          const titleCol = data1.filter(item => item.title === list.title);
-          const mutation = titleCol.filter(item => item.type === 'Mutation');
-          const amplification = titleCol.filter(item => item.type === 'Amplification');
-          const fusion = titleCol.filter(item => item.type === 'Fusion');
+        // data2.forEach(list => {
+        //   const titleCol = data1.filter(item => item.title === list.title);
+        //   const mutation = titleCol.filter(item => item.type === 'Mutation');
+        //   const amplification = titleCol.filter(item => item.type === 'Amplification');
+        //   const fusion = titleCol.filter(item => item.type === 'Fusion');
 
-          this.lists.push({ title: list.title, data: { mutation, amplification, fusion } });
-        });
+        //   this.lists.push({ title: list.title, data: { mutation, amplification, fusion } });
+        // });
       });
 
   }

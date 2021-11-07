@@ -312,6 +312,8 @@ export interface IComment {
   variants?: string;
   id?: string;
   type?: string;
+  methods?: string;
+  technique?: string;
 }
 
 export interface IIComment {

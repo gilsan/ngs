@@ -13,6 +13,7 @@ import { listSequencing } from 'src/app/forms/commons/geneList';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ExamplementComponent } from '../examplement/examplement.component';
 import { CodeDefaultValue } from 'src/app/services/codedefaultvalue';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-form7',
@@ -104,6 +105,7 @@ export class Form7Component implements OnInit, OnDestroy {
     private titleService: FindNgsTitleService,
     public dialog: MatDialog,
     private defaultService: CodeDefaultValue,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -639,6 +641,7 @@ export class Form7Component implements OnInit, OnDestroy {
   save(index: number) {
     const control = this.form.get('tableRows') as FormArray;
     const row = control.value[index];
+    const gene = this.ngsTitle.split('Gene')[0].trim();
     console.log(row, this.selectedItem);
     if (this.selectedItem === 'mutation') {
       this.subs.sink = this.patientsListService.saveSEQMutation(
@@ -652,7 +655,7 @@ export class Form7Component implements OnInit, OnDestroy {
         row.zygosity,
         row.rsid,
         row.genbankaccesion,
-        this.analyzedgene
+        gene
       ).subscribe((data: any) => {
         alert('mutation에 추가 했습니다.');
       });
@@ -692,6 +695,7 @@ export class Form7Component implements OnInit, OnDestroy {
               aminoAcidChange: data[0].aminoAcidChange, rsid: data[0].rsid,
               genbankaccesion: data[0].genbankaccesion
             });
+            this.snackBar.open('완료 했습니다.', '닫기', { duration: 3000 });
           }
         });
     });

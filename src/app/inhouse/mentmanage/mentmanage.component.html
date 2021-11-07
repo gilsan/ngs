@@ -62,7 +62,7 @@
                     <th>Specimen</th>
                     <th>Analyzed Gene</th>
                     <th>Method</th>
-                    <th>일반코멘트</th>
+                    <th>Mutation Comment</th>
                     <th>일반코멘트1</th>
                     <th>일반코멘트2</th>
                     <th>수정/삭제</th>
@@ -81,16 +81,16 @@
                          class="clr-input textcenter tdbox"   formControlName="report" >
                      </td>
                      <td>
-                         <input type="text"  [matTooltip]="group.get('target').value"  class="clr-input textcenter tdbox"   formControlName="target" >
+                         <input type="text"  [matTooltip]="group.get('target').value"  class="clr-input tdbox"   formControlName="target" >
                      </td>
                      <td>
-                         <input type="text" [matTooltip]="group.get('specimen').value" class="clr-input textcenter tdbox"   formControlName="specimen" >
+                         <input type="text" [matTooltip]="group.get('specimen').value" class="clr-input  tdbox"   formControlName="specimen" >
                      </td>
                      <td>
-                        <input type="text" [matTooltip]="group.get('analyzedgene').value"  class="clr-input textcenter tdbox"   formControlName="analyzedgene" >
+                        <input type="text" [matTooltip]="group.get('analyzedgene').value"  class="clr-input  tdbox"   formControlName="analyzedgene" >
                      </td>
                      <td>
-                         <input type="text" [matTooltip]="group.get('method').value" class="clr-input textcenter tdbox"  formControlName="method" >
+                         <input type="text" [matTooltip]="group.get('method').value" class="clr-input  tdbox"  formControlName="method" >
                      </td>
                      <td>
                          <span  *ngIf="group.get('mode').value === 'D'">
@@ -171,7 +171,7 @@
                     <th>Target Disease</th>
                     <th>Specimen</th>
                     <th>Method</th>
-                    <th>일반코멘트</th>
+                    <th>Mutation Comment</th>
                     <th>일반코멘트1</th>
                     <th>일반코멘트2</th>
                     <th>수정/삭제</th>

@@ -18,20 +18,24 @@
                <option value="none">선택</option>
                <option [value]="list.code" *ngFor="let list of reportLists">{{list.report}}</option>
            </select>&nbsp;&nbsp;
-           <!--
+
          <table border="0" cellspacing="0" cellpadding="0">
           <tr>
             <td class="main_btn">
               <ul>
                 <li>
-                  <button type="button" class="btn btn_01" >저장</button>
+                  <button type="button" class="btn btn_01" *ngIf="exshow" (click)="addNewExampleRow()">추가</button>
+                </li>
+
+                <li>
+                  <button type="button" class="btn btn_01" *ngIf="exshow" (click)="mentSave()" >저장</button>
                 </li>
 
               </ul>
             </td>
           </tr>
         </table>
-           -->
+
         </div>
       <div class="col">
         <div class="col_5">
@@ -47,17 +51,19 @@
                                  <col width="5%">
                                  <col width="*">
                                  <col width="10%">
-                                 <col width="15%">
+                               <!--   <col width="15%">  -->
                              </colgroup>
                              <thead>
                                  <tr>
                                      <th>No.</th>
                                      <th>TestCode</th>
-                                     <th>보고서명</th>
+                                     <th>결과지명</th>
                                      <th>예문보기</th>
+                                     <!--
                                      <th>
                                         <button type="button" class="btn btn_01" (click)="addNewCommentRow()" [disabled]="showHide()">추가</button>
                                      </th>
+                                     -->
                                  </tr>
                              </thead>
                              <tbody>
@@ -65,15 +71,16 @@
                                  <tr  [formGroupName]="i">
                                      <td align="center">{{i+1}}</td>
                                      <td >
-                                         <input type="text"  class="clr-input textcenter tdbox" size="10"     formControlName="code" >
+                                         <input type="text"  class="clr-input textcenter tdbox" size="10"  readonly   formControlName="code" >
                                      </td>
                                      <td class="txt_c">
-                                          <input type="text"  class="clr-input textcenter tdbox" size="40"  formControlName="report" >
+                                          <input type="text"  class="clr-input textcenter tdbox" size="40" readonly formControlName="report" >
                                      </td>
                                      <td  *ngIf="show; else noshow;">
                                         <button type="button" class="btn btn_01" (click)="getExampleLists(i)">예문보기</button>
                                      </td>
 
+                                    <!--
                                      <ng-template #noshow>
                                         <td></td>
                                      </ng-template>
@@ -90,7 +97,7 @@
                                          <a class="btn-save"  style="color: red;" (click)="newSave(i)">저장</a>
                                          <a class="btn-cancel" (click)="cancel(i)">취소</a>
                                      </td>
-
+                                     -->
                                  </tr>
                                </ng-container>
                              </tbody>
@@ -104,7 +111,11 @@
         <div class="col_5">
           <h3>판독예시문목록</h3>&nbsp;&nbsp;
           <span style="display:inline-block; width:100px;"><h3>코드: {{workingcode}} </h3></span>&nbsp;&nbsp;
+          <!--
           <button type="button" *ngIf="exshow" class="btn btn_01" (click)="addNewExampleRow()" style="height: 27px;">추가</button>
+          &nbsp;&nbsp;
+          <button type="button" *ngIf="exshow" class="btn btn_01" (click)="mentSave()" style="height: 27px;">저장</button>
+          -->
           <div class="box">
             <div class="box_100 full">
                 <div  id="container_box">
@@ -131,7 +142,7 @@
                                         <textarea style="width:96%;display:block;margin:0 auto;"  formControlName="comment"   class="textarea_01"  ></textarea>
                                      </td>
                                      <td align="center">
-                                        <!--   <a class="btn-save">저장</a>  -->
+                                        <!--  <a class="btn-save" (click)="mentSave(i)">저장</a> -->
                                           <a class="btn-delete" (click)= "deletExampleRow(i)">삭제</a>
                                           <!--
                                       <span class="bdnone">

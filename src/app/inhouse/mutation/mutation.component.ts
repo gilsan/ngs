@@ -25,7 +25,7 @@ export class MutationComponent implements OnInit {
   lists: IMutation[];
   listMutations: IMutation[];
   mutationInfo: IMutation;
-
+  gubun = 'AMLALL';
 
   genes: string;
   curPage: number;
@@ -38,6 +38,8 @@ export class MutationComponent implements OnInit {
   ngOnInit(): void {
     this.init();
   }
+
+
 
   init(): void {
     this.search('', '', 'AMLALL');
@@ -206,6 +208,7 @@ export class MutationComponent implements OnInit {
     this.lists = this.listMutations.slice((Number(page) - 1) * 10, (Number(page)) * 10);
   }
   search(genes: string, coding: string = '', type: string): void {
+    this.gubun = type;
     if (type === 'ALL') {
       type = '';
     }
@@ -231,15 +234,17 @@ export class MutationComponent implements OnInit {
   }
 
   findMutation(type): void {
+    this.gubun = type;
     this.totRecords = 0;
     if (type === 'ALL') {
+
       this.lists$ = this.mutationService.getMutationList('', '', '');
     } else {
       this.lists$ = this.mutationService.getMutationList('', '', type);
     }
 
     this.lists$.subscribe((data) => {
-      console.log('[277][Mutation 검색]', data);
+      console.log('[247][Mutation 검색]', data, this.gubun);
       this.lists = data;
       this.mapping();
       this.listMutations = data;
@@ -265,5 +270,7 @@ export class MutationComponent implements OnInit {
     });
 
   }
+
+
 
 }

@@ -78,8 +78,8 @@ export class SequencingService {
   }
 
   // Essentail 가져오기
-  getEssTitle(): Observable<ILIST[]> {
-    return this.http.get<ILIST[]>(`${this.apiUrl}/mutation/esslists`)
+  getEssTitle(): Observable<IESS[]> {
+    return this.http.get<IESS[]>(`${this.apiUrl}/mutation/esslists`)
       .pipe(
         shareReplay()
       );

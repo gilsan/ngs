@@ -47,7 +47,7 @@ export class SequencingreportComponent implements OnInit {
   screenstatus: string;
   mutation = '';
 
-  title = '';
+  title = '돌연변이 염기서열검사';
   descriptionCode = '';
   testCode = '';
   comments = '';

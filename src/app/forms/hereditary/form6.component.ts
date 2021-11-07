@@ -442,10 +442,20 @@ export class Form6Component implements OnInit, OnDestroy {
     this.subs.sink = this.variantsService.screenComment(this.form2TestedId)
       .subscribe(dbComments => {
         if (dbComments !== undefined && dbComments !== null && dbComments.length > 0) {
-          // console.log('[446][COMMENT 가져오기]', dbComments);
-          // this.commentdata = dbComments[0].comment;
+          console.log('[446][COMMENT 가져오기]', dbComments);
+          this.commentdata = dbComments[0].comment;
           this.comment2 = dbComments[0].reference;
           this.resultname = dbComments[0].variants;
+          const methods = dbComments[0].methods;
+          const technique = dbComments[0].technique;
+
+          if (methods.length > 0) {
+            this.methods = methods;
+          }
+
+          if (technique.length > 0) {
+            this.technique = technique;
+          }
         }
       });
   }
@@ -1421,7 +1431,8 @@ export class Form6Component implements OnInit, OnDestroy {
 
     console.log('[1410][Detected variants]', formData);
     this.comments.push({
-      gene: '', comment: this.commentdata, reference: this.comment2, type: '', variant_id: this.resultname
+      gene: '', comment: this.commentdata, reference: this.comment2, type: '', variant_id: this.resultname,
+      methods: this.methods, technique: this.technique
     });
 
     this.patientInfo.recheck = this.recheck;

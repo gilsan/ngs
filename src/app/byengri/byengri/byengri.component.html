@@ -17,37 +17,20 @@
               <tr>
                  <td></td>
                  <td class="menu01">
-                     <!--button mat-button [matMenuTriggerFor]="menu01" id="menu010"></button>
+                     <button mat-button [matMenuTriggerFor]="menu01" id="menu010"></button>
                       <mat-menu #menu01="matMenu">
                         <button mat-menu-item (click)="link('orir')">OR/IR</button>
-
                         <button mat-menu-item (click)="link('sequencing')">돌연변이 Sequencing</button>
-
-                      </mat-menu-->
-                 
-                    <a routerLink="/pathology"><span class="nav-text"></span></a>
-                      <!--ul class="sub-menu type2">
-                        <li><span (click)="link('orir')">OR/IR</span></li>
-                        <li><span (click)="link('sequencing')">돌연변이 Sequencing</span></li>
-                      </ul-->
-                   
-
+                      </mat-menu>
                   </td>
                   <td class="menu03">
                      <button mat-button [matMenuTriggerFor]="menu03" id="menu030"></button>
                       <mat-menu #menu03="matMenu">
                         <button mat-menu-item (click)="link('blacklist')">Blacklist</button>
-                    <!--  <button mat-menu-item (click)="link('EssGene')">Essential Gene</button>  -->
+                        <button mat-menu-item (click)="link('EssGene')">Tiers</button>
                         <button mat-menu-item (click)="ngsExcelLink()">환자정보다운로드</button>
                         <button mat-menu-item (click)="ngslink()">건강보험심사평가원 NGS 통계</button>
-
                       </mat-menu>
-                    <!--
-                    <a routerLink="/diag/artifactsComponent"><span class="nav-text"></span></a>
-                     <ul class="sub-menu">
-                      <li><span (click)="link('blacklist')">Blacklist</span></li>
-                    </ul>
-                    -->
                   </td>
 
                   <td class="menu11">

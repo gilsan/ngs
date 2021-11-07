@@ -1818,7 +1818,7 @@ export class Form3Component implements OnInit, OnDestroy {
                   type: data[0].type, functionalImpact: data[0].functional_impact,
                   references: data[0].reference, cosmicID: data[0].cosmic_id
                 });
-
+                this.snackBar.open('완료 했습니다.', '닫기', { duration: 3000 });
               }
             });
         });

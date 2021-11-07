@@ -14,6 +14,7 @@ import { BlacklistComponent } from './inhouse/blacklist/blacklist.component';
 import { EssgeneComponent } from './inhouse/essgene/essgene.component';
 import { NgsexcelComponent } from './inhouse/ngsexcel/ngsexcel.component';
 import { PatientexcelComponent } from './inhouse/patientexcel/patientexcel.component';
+import { TierComponent } from './inhouse/tier/tier.component';
 import { MainComponent } from './main/main.component';
 import { MainpaComponent } from './mainpa/mainpa.component';
 // import { PathReportComponent } from './path-report/path-report.component';
@@ -48,7 +49,7 @@ const routes: Routes = [
       { path: 'research/:id', component: ResearchComponent, resolve: { patientinfo: ReportResolver } },
       { path: 'ngsexcel', component: NgsexcelComponent },
       { path: 'patientexcel', component: PatientexcelComponent },
-      { path: 'EssGene', component: EssgeneComponent }
+      { path: 'EssGene', component: TierComponent }
 
     ]
   }

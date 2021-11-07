@@ -28,6 +28,7 @@ import { NgsexcelComponent } from './inhouse/ngsexcel/ngsexcel.component';
 import { PatientexcelComponent } from './inhouse/patientexcel/patientexcel.component';
 import { EssgeneComponent } from './inhouse/essgene/essgene.component';
 import { GeneComponent } from './inhouse/essgene/gene/gene.component';
+import { TierComponent } from './inhouse/tier/tier.component';
 
 
 @NgModule({
@@ -53,6 +54,7 @@ import { GeneComponent } from './inhouse/essgene/gene/gene.component';
     PatientexcelComponent,
     EssgeneComponent,
     GeneComponent,
+    TierComponent,
   ],
   imports: [
 

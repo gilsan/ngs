@@ -296,11 +296,19 @@ export interface IPasswd {
   part_nm: string;
 }
 
-export interface IESS {
+export interface IESS2 {
   id?: string;
   title: string;
   type: string;
   gene: string;
+}
+
+export interface IESS {
+  id?: string;
+  title: string;
+  mutation: string;
+  amplification: string;
+  fusion: string;
 }
 
 
