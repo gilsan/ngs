@@ -149,9 +149,9 @@ export class DetectedVariantsService {
     return this.http.post(`${this.apiUrl}/screen/query`, { specimenNo });
   }
 
-  // Genetic detected variants
+  // result, Test Information
   public screenSelect7(specimenNo: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/screen/listScreen7`, { specimenNo });
+    return this.http.post(`${this.apiUrl}/screen/listPatientSequential`, { specimenNo });
   }
 
   public allscreenSelect(specimenNo: string): Observable<any> {
