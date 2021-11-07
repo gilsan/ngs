@@ -1064,87 +1064,92 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
 
   // 스크린 판독
   screenRead(): void {
-    const control = this.tablerowForm.get('tableRows') as FormArray;
-    const formData = control.getRawValue();
-    // const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
-    // if (this.comments.length) {
-    const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
-    this.comments = commentControl.getRawValue();
-    // }
-
-    // this.store.setComments(this.comments);
-
-    // console.log('[771][스크린 판독] ', this.form2TestedId, formData, this.comments, this.profile);
     const result = confirm('스크린완료 전송하시겠습니까?');
     if (result) {
-      this.store.setRechecker(this.patientInfo.recheck);
-      this.store.setExamin(this.patientInfo.examin);
-      this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimenNo)
-        .subscribe(datas => console.log(datas));
-      this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimenNo)
-        .subscribe(datas => console.log(datas));
-
-      // console.log('[840][screenRead][profile] ', this.profile);
-      this.analysisService.putAnalysisMDS(
-        this.form2TestedId,
-        this.profile.leukemia,
-        this.profile.genetictest,
-        this.profile.chron).subscribe(data => console.log('MDS INSERT'));
-
-      this.patientInfo.vusmsg = this.vusmsg;
-      this.subs.sink = this.variantsService.screenInsert(this.form2TestedId, formData,
-        this.comments, this.profile, this.resultStatus, this.patientInfo)
-        .pipe(
-          tap(data => {
-            // console.log('[843][screenRead] ', data);
-            alert('저장되었습니다.');
-          }),
-          concatMap(() => this.patientsListService.getScreenStatus(this.form2TestedId))
-        ).subscribe(msg => {
-          // console.log('[845][sendscreen]', msg[0].screenstatus);
-          this.screenstatus = msg[0].screenstatus;
-        });
+      this.screenstatus = '1';
+      this.patientInfo.screenstatus = this.screenstatus;
+      this.tempSave();
     }
+
+    // const control = this.tablerowForm.get('tableRows') as FormArray;
+    // const formData = control.getRawValue();
+
+    // const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
+    // this.comments = commentControl.getRawValue();
+
+    // const result = confirm('스크린완료 전송하시겠습니까?');
+    // if (result) {
+    //   this.store.setRechecker(this.patientInfo.recheck);
+    //   this.store.setExamin(this.patientInfo.examin);
+    //   this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimenNo)
+    //     .subscribe(datas => console.log(datas));
+    //   this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimenNo)
+    //     .subscribe(datas => console.log(datas));
+
+
+    //   this.analysisService.putAnalysisMDS(
+    //     this.form2TestedId,
+    //     this.profile.leukemia,
+    //     this.profile.genetictest,
+    //     this.profile.chron).subscribe(data => console.log('MDS INSERT'));
+
+    //   this.patientInfo.vusmsg = this.vusmsg;
+    //   this.subs.sink = this.variantsService.screenInsert(this.form2TestedId, formData,
+    //     this.comments, this.profile, this.resultStatus, this.patientInfo)
+    //     .pipe(
+    //       tap(data => {
+
+    //         alert('저장되었습니다.');
+    //       }),
+    //       concatMap(() => this.patientsListService.getScreenStatus(this.form2TestedId))
+    //     ).subscribe(msg => {
+
+    //       this.screenstatus = msg[0].screenstatus;
+    //     });
+    // }
 
   }
 
   // 판독완료
   screenReadFinish(): void {
-    const control = this.tablerowForm.get('tableRows') as FormArray;
-    const formData = control.getRawValue();
-    // const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
-    // if (this.comments.length) {
-    const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
-    this.comments = commentControl.getRawValue();
-    // }
-
-    // this.store.setComments(this.comments);
-    // console.log('[812][스크린판독완료] ', this.form2TestedId, formData, this.comments, this.profile);
     const result = confirm('판독완료 전송하시겠습니까?');
     if (result) {
-      this.store.setRechecker(this.patientInfo.recheck);
-      this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimenNo)
-        .subscribe(datas => console.log(datas));
-      this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimenNo)
-        .subscribe(datas => console.log(datas));
-
-      this.analysisService.putAnalysisMDS(
-        this.form2TestedId,
-        this.profile.leukemia,
-        this.profile.genetictest,
-        this.profile.chron).subscribe(data => console.log('MDS INSERT'));
-
-      this.patientInfo.vusmsg = this.vusmsg;
-      this.subs.sink = this.variantsService.screenUpdate(this.form2TestedId, formData, this.comments, this.profile, this.patientInfo)
-        .subscribe(data => {
-          // console.log('[판독완료] screen Updated ....[566]', data);
-          alert('저장되었습니다.');
-          this.patientsListService.getScreenStatus(this.form2TestedId)
-            .subscribe(msg => {
-              this.screenstatus = msg[0].screenstatus;
-            });
-        });
+      this.screenstatus = '2';
+      this.patientInfo.screenstatus = this.screenstatus;
+      this.tempSave();
     }
+
+    // const control = this.tablerowForm.get('tableRows') as FormArray;
+    // const formData = control.getRawValue();
+
+    // const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
+    // this.comments = commentControl.getRawValue();
+
+    // const result = confirm('판독완료 전송하시겠습니까?');
+    // if (result) {
+    //   this.store.setRechecker(this.patientInfo.recheck);
+    //   this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimenNo)
+    //     .subscribe(datas => console.log(datas));
+    //   this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimenNo)
+    //     .subscribe(datas => console.log(datas));
+
+    //   this.analysisService.putAnalysisMDS(
+    //     this.form2TestedId,
+    //     this.profile.leukemia,
+    //     this.profile.genetictest,
+    //     this.profile.chron).subscribe(data => console.log('MDS INSERT'));
+
+    //   this.patientInfo.vusmsg = this.vusmsg;
+    //   this.subs.sink = this.variantsService.screenUpdate(this.form2TestedId, formData, this.comments, this.profile, this.patientInfo)
+    //     .subscribe(data => {
+
+    //       alert('저장되었습니다.');
+    //       this.patientsListService.getScreenStatus(this.form2TestedId)
+    //         .subscribe(msg => {
+    //           this.screenstatus = msg[0].screenstatus;
+    //         });
+    //     });
+    // }
 
   }
 
@@ -1519,6 +1524,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
 
   tempSave(): void {
     // console.log('[1037][tempSave]');
+    const userid = localStorage.getItem('diaguser');
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
     // console.log('[1040][tableerowForm]', formData);
@@ -1555,6 +1561,8 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     this.subs.sink = this.variantsService.screenTempSave(this.form2TestedId, formData, this.comments, this.profile, this.resultStatus, this.patientInfo)
       .subscribe(data => {
         // console.log('[1065]', data);
+        this.patientsListService.changescreenstatus(this.form2TestedId, this.screenstatus, userid, 'MDS')
+          .subscribe();
         alert('저장되었습니다.');
       });
   }

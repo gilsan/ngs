@@ -76,6 +76,7 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.patientsList.getPatientList2()
       .then(response => response.json())
       .then(data => {
+        console.log(data);
         this.patientsList.setPatientID(data);
         this.lists = data;
       });

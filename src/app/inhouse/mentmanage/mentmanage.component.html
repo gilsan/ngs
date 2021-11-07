@@ -47,7 +47,7 @@
                <col width="7%">
                <col width="7%">
                <col width="7%">
-               <col width="20%">
+               <col  *ngIf="mlpaCase" width="20%">
                <col width="20%">
                <col width="20%">
                <col width="2%">
@@ -62,7 +62,7 @@
                     <th>Specimen</th>
                     <th>Analyzed Gene</th>
                     <th>Method</th>
-                    <th>Mutation Comment</th>
+                    <th *ngIf="mlpaCase">Mutation Comment</th>
                     <th>일반코멘트1</th>
                     <th>일반코멘트2</th>
                     <th>수정/삭제</th>
@@ -92,7 +92,7 @@
                      <td>
                          <input type="text" [matTooltip]="group.get('method').value" class="clr-input  tdbox"  formControlName="method" >
                      </td>
-                     <td>
+                     <td  *ngIf="mlpaCase">
                          <span  *ngIf="group.get('mode').value === 'D'">
                              <textarea style="width:96%;display:block;margin:0 auto;" [matTooltip]="group.get('comment').value"  class="textarea_01" formControlName="comment"></textarea>
                          </span>

@@ -21,6 +21,8 @@ export class MentmanageComponent implements OnInit, OnDestroy {
   report = '';
   code = 'N';
   columnShow = true;
+  mlpaCase = true;
+
   constructor(
     private fb: FormBuilder,
     private defaultService: CodeDefaultValue,
@@ -159,15 +161,19 @@ export class MentmanageComponent implements OnInit, OnDestroy {
     if (type === 'Genetic') {
       this.selected = 'Genetic';
       this.columnShow = false;
+      this.mlpaCase = true;
     } else if (type === 'SEQ') {
       this.selected = 'SEQ';
       this.columnShow = true;
+      this.mlpaCase = true;
     } else if (type === 'MLPA') {
       this.selected = 'MLPA';
       this.columnShow = true;
+      this.mlpaCase = false;
     } else if (type === 'none') {
       this.selected = 'none';
       this.columnShow = true;
+      this.mlpaCase = true;
     }
     this.code = code;
     const control = this.tablerowForm.get('tableRows') as FormArray;
