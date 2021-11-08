@@ -407,243 +407,98 @@
           </ng-container>
 <!--  ========================= AMLALL LYM MDS ====================================   -->
           <ng-container  *ngIf="gubun === 'AMLALL' || gubun === 'LYM' || gubun === 'MDS'">
-            <table border="0" cellpadding="0" cellspacing="0" class="header-fix table_list"
-               style="min-width:2600px; width:100%">
-            	<colgroup>
-                    <col width="3%" />
-                    <col width="2%" />
-                    <col width="5%" />
-                    <col width="5%" />
-                    <col width="5%" />
-                    <col width="5%" />
-                    <col width="5%" />
-                    <col width="5%" />
-                    <col width="5%" />
-                    <col width="5%" />
-                    <col width="5%" />
-                    <col width="5%" />
-                    <col width="5%" />
-                    <col width="8%" /> <!--  VAF -->
-                    <col width="5%" />
-                    <col width="5%" />
-                    <col width="5%" />
-                    <col width="5%" />
-                    <col width="5%" />
-                    <col width="5%" />
-                    <col width="7%"/>
-                </colgroup>
-                <thead>
-                    <tr>
-                        <th >No.</th>
-                        <th >Buccal</th>
-                        <th >Patient Name</th>
-                        <th >Register No.</th>
-                        <th >Fusion</th>
-                        <th >Gene</th>
-                        <th>Type</th>
-                        <th >Functional Impact</th>
-                        <th >Transcript</th>
-                        <th >Exion/Intron #</th>
-                        <th >Necleotide Change</th>
-                        <th >Amino Acid Change</th>
-                        <th >Zygosity</th>
-                        <th >VAF%</th>
-                        <th >Reference</th>
-                        <th >COSMIC ID</th>
-                        <th >SIFT/Polyphen/Mutation Taster</th>
-                        <th >Buccal2</th>
-                        <th >Igv</th>
-                        <th >Sanger</th>
-                        <th >수정/삭제</th>
+              <form  [formGroup]="amlForm">
+                      <table border="0" cellpadding="0" cellspacing="0" class="header-fix table_list"
+                         style="min-width:2600px; width:100%">
+                      	<colgroup>
+                              <col width="3%" />
+                              <col width="5%" />
+                              <col width="5%" />
+                              <col width="5%" />
+                              <col width="5%" />
+                              <col width="5%" />
+                              <col width="5%" />
+                              <col width="8%" />
+                              <col width="5%" />
+                              <col width="5%" />
+                              <col width="5%" />
+                              <col width="5%" />
+                              <col width="5%" />
+                              <col width="5%" />
+                              <col width="5%"/>
+                          </colgroup>
+                          <thead>
+                              <tr>
+                                  <th >No.</th>
+                                  <th >Patient Name</th>
+                                  <th >Gene</th>
+                                  <th >Functional Impact</th>
+                                  <th >Transcript</th>
+                                  <th >Exion/Intron #</th>
+                                  <th >Necleotide Change</th>
+                                  <th >Amino Acid Change</th>
+                                  <th >Zygosity</th>
+                                  <th >VAF%</th>
+                                  <th >Reference</th>
+                                  <th >COSMIC ID</th>
+                                  <th >Igv</th>
+                                  <th >Sanger</th>
+                                  <th >수정/삭제</th>
 
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="table_bg" *ngFor="let list of lists; let i = index">
-                            <input type="hidden" value="R" #status >
-                            <td style="width:10px;" class="txt_c" >{{i + 1}}</td> <!--  No  -->
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.buccal}}</span> <!-- buccal   -->
-                                <span class="clr-input" *ngIf="status.value === 'U'">
-                                    <input type="text"  class="clr-input" value="{{list.buccal}}" id="buccal{{list.id}}"    >
-                                </span>
-                            </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.patient_name}}</span> <!--    -->
-                                <span *ngIf="status.value === 'U'">
-                                    <input type="text"  class="clr-input" value="{{list.patient_name}}"  id="patientName{{list.id}}" >
-                                </span>
-                            </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.register_number}}</span> <!--    -->
-                                <span class="clr-input" *ngIf="status.value === 'U'">
-                                    <input type="text"  class="clr-input" value="{{list.register_number}}" id="registerNumber{{list.id}}" >
-                                </span>
-                            </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.fusion}}</span> <!--    -->
-                                <span class="clr-input" *ngIf="status.value === 'U'">
-                                    <input type="text"  class="clr-input" value="{{list.fusion}}" id="fusion{{list.id}}" >
-                                </span>
-                            </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.gene}}</span> <!-- gene   -->
-                                <span class="clr-input" *ngIf="status.value === 'U'">
-                                    <input type="text"  class="clr-input" value="{{list.gene}}" id="gene{{list.id}}" >
-                                </span>
-                            </td>
-                            <td><span *ngIf="status.value === 'R'">{{list.display}}</span> <!--  type  -->
-                             <span class="bdnone" *ngIf="status.value === 'U'" [ngSwitch]="list.type">
-                                       <select class="select_01 select_001"  *ngSwitchCase="'AMLALL'" #selectedtype>
-                                          <option value=''>선택</option>
-                                          <option value="AMLALL" selected>AML/ALL</option>
-                                          <option value="MDS">MDS/MPN</option>
-                                          <option value="LYM">악성림프종/형질세포종</option>
-                                          <option value="Genetic">유전성 유전질환</option>
-                                          <option value="SEQ">Sequencing</option>
-                                       </select>
-                                       <select class="select_01 select_001"  *ngSwitchCase="'MDS'" #selectedtype>
-                                          <option value=''>선택</option>
-                                          <option value="AMLALL">AML/ALL</option>
-                                          <option value="MDS" selected>MDS/MPN</option>
-                                          <option value="LYM">악성림프종/형질세포종</option>
-                                          <option value="Genetic">유전성 유전질환</option>
-                                          <option value="SEQ">Sequencing</option>
-                                       </select>
-                                       <select class="select_01 select_001"  *ngSwitchCase="'LYM'" #selectedtype>
-                                          <option value=''>선택</option>
-                                          <option value="AMLALL">AML/ALL</option>
-                                          <option value="MDS">MDS/MPN</option>
-                                          <option value="LYM" selected>악성림프종/형질세포종</option>
-                                          <option value="Genetic">유전성 유전질환</option>
-                                          <option value="SEQ">Sequencing</option>
-                                       </select>
-                                       <select class="select_01 select_001"  *ngSwitchCase="'Genetic'" #selectedtype>
-                                          <option value=''>선택</option>
-                                          <option value="AMLALL">AML/ALL</option>
-                                          <option value="MDS">MDS/MPN</option>
-                                          <option value="LYM">악성림프종/형질세포종</option>
-                                          <option value="Genetic" selected>유전성 유전질환</option>
-                                          <option value="SEQ">Sequencing</option>
-                                       </select>
-
-                                       <select class="select_01 select_001"  *ngSwitchCase="'SEQ'" #selectedtype>
-                                          <option value=''>선택</option>
-                                          <option value="AMLALL">AML/ALL</option>
-                                          <option value="MDS">MDS/MPN</option>
-                                          <option value="LYM">악성림프/형질세포종</option>
-                                          <option value="Genetic">유전성 유전질환</option>
-                                          <option value="SEQ" selected>Sequencing</option>
-                                       </select>
-                                       <select class="select_01 select_001" *ngSwitchDefault #selectedtype>
-                                          <option value=''>선택</option>
-                                          <option value="AMLALL">AML/ALL</option>
-                                          <option value="MDS">MDS/MPN</option>
-                                          <option value="LYM">악성림프종/형질세포종</option>
-                                          <option value="Genetic">유전성 유전질환</option>
-                                          <option value="SEQ">Sequencing</option>
-                                       </select>
-                                </span>
-                            </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.functional_impact}}</span> <!--    -->
-                                <span class="clr-input" *ngIf="status.value === 'U'" [ngSwitch]="list.functional_impact">
-                                    <select class="select_01 select_001"  #functionalimpact  *ngSwitchCase="'Pathogenic'">
-                                        <option value=''>선택</option>
-                                        <option value="Pathogenic" selected>Pathogenic</option>
-                                        <option value="Likely Pathogenic">Likely Pathogenic</option>
-                                        <option value="VUS">VUS</option>
-                                    </select>
-                                    <select class="select_01 select_001"  #functionalimpact  *ngSwitchCase="'Likely Pathogenic'">
-                                        <option value=''>선택</option>
-                                        <option value="Pathogenic">Pathogenic</option>
-                                        <option value="Likely Pathogenic" selected>Likely Pathogenic</option>
-                                        <option value="VUS">VUS</option>
-                                    </select>
-                                    <select class="select_01 select_001"  #functionalimpact  *ngSwitchCase="'VUS'">
-                                        <option value=''>선택</option>
-                                        <option value="Pathogenic">Pathogenic</option>
-                                        <option value="Likely Pathogenic">Likely Pathogenic</option>
-                                        <option value="VUS" selected>VUS</option>
-                                    </select>
-                                    <select class="select_01 select_001"  #functionalimpact *ngSwitchDefault>
-                                        <option value=''>선택</option>
-                                        <option value="Pathogenic">Pathogenic</option>
-                                        <option value="Likely Pathogenic">Likely Pathogenic</option>
-                                        <option value="VUS">VUS</option>
-                                    </select>
-                                </span>
-                            </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.transcript}}</span> <!--  transcript  -->
-                                <span class="clr-input" *ngIf="status.value === 'U'">
-                                    <input type="text"  class="clr-input" value="{{list.transcript}}" id="transcript{{list.id}}"  >
-                                </span>
-                            </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.exon_intro}}</span> <!-- Exion/Intron   -->
-                                <span class="clr-input" *ngIf="status.value === 'U'">
-                                    <input type="text"  class="clr-input" value="{{list.exon_intro}}" id="exonIntro{{list.id}}" >
-                                </span>
-                            </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.nucleotide_change}}</span> <!-- Necleotide Change   -->
-                                <span class="clr-input" *ngIf="status.value === 'U'">
-                                    <input type="text"  class="clr-input" value="{{list.nucleotide_change}}"  id="nucleotideChange{{list.id}}"  >
-                                </span>
-                            </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.amino_acid_change}}</span> <!--    -->
-                                <span class="clr-input" *ngIf="status.value === 'U'">
-                                    <input type="text"  class="clr-input" value="{{list.amino_acid_change}}" id="aminoAcidChange{{list.id}}" >
-                                </span>
-                            </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.zygosity}}</span> <!-- Zygosity   -->
-                                <span class="clr-input" *ngIf="status.value === 'U'">
-                                    <input type="text"  class="clr-input" value="{{list.zygosity}}" id="zygosity{{list.id}}"  >
-                                </span>
-                            </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">
-                                <textarea class="textarea_01"  style="width: 100%; height: 100%; border: none">{{list.vaf}}</textarea> <!-- vaf   -->
-                               </span>
-                                <span class="clr-input" *ngIf="status.value === 'U'">
-                                    <textarea   class="clr-input" value="{{list.vaf}}" id="vaf{{list.id}}"></textarea>
-                                </span>
-                            </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.reference}}</span> <!--    -->
-                                <span class="clr-input" *ngIf="status.value === 'U'">
-                                    <input type="text"  class="clr-input" value="{{list.reference}}" id="reference{{list.id}}" >
-                                </span>
-                            </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.cosmic_id}}</span> <!--    -->
-                                <span class="clr-input" *ngIf="status.value === 'U'">
-                                    <input type="text"  class="clr-input" value="{{list.cosmic_id}}" id="cosmicId{{list.id}}"  >
-                                </span>
-                            </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.sift_polyphen_mutation_taster}}</span> <!--    -->
-                                <span class="clr-input" *ngIf="status.value === 'U'">
-                                    <input type="text"  class="clr-input" value="{{list.sift_polyphen_mutation_taster}}" id="siftPolyphenMutationTaster{{list.id}}" >
-                                </span>
-                            </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.buccal2}}</span> <!--    -->
-                                <span class="clr-input" *ngIf="status.value === 'U'">
-                                    <input type="text"  class="clr-input" value="{{list.buccal2}}" id="buccal2{{list.id}}"  >
-                                </span>
-                            </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.igv}}</span> <!--    -->
-                                <span class="clr-input" *ngIf="status.value === 'U'">
-                                    <input type="text"  class="clr-input" value="{{list.igv}}" id="igv{{list.id}}" >
-                                </span>
-                            </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.sanger}}</span>  <!--    -->
-                                <span class="clr-input" *ngIf="status.value === 'U'">
-                                    <input type="text"  class="clr-input" value="{{list.sanger}}" id="sanger{{list.id}}" >
-                                </span>
-                            </td>
-
-                            <td class="txt_c"> <!--    -->
-                                <span *ngIf="status.value === 'R'">
-                                    <a class="btn-edit" (click)="status.value='U'" >수정</a>
-                                    <a class="btn-delete" (click)="deleteRow(list.id, list.gene,list.patient_name)">삭제</a>
-                                </span>
-                                <span *ngIf="status.value === 'U'">
-                                    <a class="btn-cancel" (click)="status.value='R'">취소</a>
-                                    <a class="btn-save" (click)="updateRow(list.id)">저장</a>
-                                </span>
-                            </td>
-                    </tr>
-                </tbody>
-            </table>
+                              </tr>
+                          </thead>
+                          <tbody>
+                            <ng-container formArrayName="tableRows" *ngFor="let group of amlRows().controls; let i=index">
+                              <tr class="table_bg"  [formGroupName]="i">
+                                  <td style="width:10px;" class="txt_c" >{{i + 1}}</td>
+                                  <td class="txt_c">
+                                          <input type="text"  class="clr-input"  formControlName="name">
+                                  </td>
+                                  <td class="txt_c">
+                                          <input type="text"  class="clr-input"  formControlName="gene">
+                                  </td>
+                                  <td class="txt_c">
+                                          <input type="text"  class="clr-input"  formControlName="functional_impact">
+                                  </td>
+                                  <td class="txt_c">
+                                          <input type="text"  class="clr-input"  formControlName="transcript">
+                                  </td>
+                                  <td class="txt_c">
+                                          <input type="text"  class="clr-input"  formControlName="exon">
+                                  </td>
+                                  <td class="txt_c">
+                                          <input type="text"  class="clr-input"  formControlName="nucleotideChange">
+                                  </td>
+                                  <td class="txt_c">
+                                          <input type="text"  class="clr-input"  formControlName="aminoAcidChange">
+                                  </td>
+                                  <td class="txt_c">
+                                          <input type="text"  class="clr-input"  formControlName="zygosity">
+                                  </td>
+                                  <td class="txt_c">
+                                          <input type="text"  class="clr-input"  formControlName="vaf">
+                                  </td>
+                                  <td class="txt_c">
+                                          <input type="text"  class="clr-input"  formControlName="reference">
+                                  </td>
+                                  <td class="txt_c">
+                                          <input type="text"  class="clr-input"  formControlName="cosmicid">
+                                  </td>
+                                  <td class="txt_c">
+                                          <input type="text"  class="clr-input"  formControlName="igv">
+                                  </td>
+                                  <td class="txt_c">
+                                          <input type="text"  class="clr-input"  formControlName="sanger">
+                                  </td>
+                                  <td class="txt_c">
+                                        <button class="btn-save"  (click)="amlSave(i)">저장</button>&nbsp;&nbsp;
+                                        <button class="btn-delete" (click)="amlDelete(i)">삭제</button>
+                                  </td>
+                              </tr>
+                            </ng-container>
+                          </tbody>
+                      </table>
+              </form>
            </ng-container>
 
 <!--  =======================   유전성  ======================================   -->
@@ -734,8 +589,8 @@
                                          <input type="text"  class="clr-input"  formControlName="sanger">
                                  </td>
                                  <td class="txt_c">
-                                        <div><button class="btn-save">저장</button></div>
-                                        <div><button class="btn-delete">삭제</button></div>
+                                        <div><button class="btn-save"  (click)="geneticSave(i)">저장</button></div>
+                                        <div><button class="btn-delete" (click)="geneticDelete(i)">삭제</button></div>
                                  </td>
                          </tr>
                         </ng-container>
@@ -745,116 +600,84 @@
           </ng-container>
 <!--  =========================== SEQUENCING ==================================   -->
           <ng-container *ngIf="gubun === 'SEQ'">
-            <table border="0" cellpadding="0" cellspacing="0" class="header-fix table_list"
-               style="min-width:2600px; width:100%" >
-            	<colgroup>
-                    <col width="3%" /> <!-- 1   -->
-                    <col width="5%" /> <!--3  Patient Name  -->
-                    <col width="5%" /> <!--4 Register No  -->
-                    <col width="5%" /> <!--5 Fusion  -->
-                    <col width="5%" /> <!--6 Gene  -->
-                    <col width="5%" /> <!--7 Type  -->
-                    <col width="5%" /> <!--10 Exion/Intron #  -->
-                    <col width="5%" /> <!--11 Necleotide Change  -->
-                    <col width="5%" /> <!-- 12Amino Acid Change  -->
-                    <col width="5%" /> <!-- 13Zygosity  -->
-                    <col width="5%" /> <!-- 19 rsID  -->
-                    <col width="5%" /> <!--20  GenBank accesion no  -->
-                    <col  width="7%"/>
-                </colgroup>
-                <thead>
-                    <tr>
-                        <th >No.</th>    <!--  1   -->
-                        <th >Patient Name</th> <!--  3   -->
-                        <th >Register No.</th> <!--  4   -->
-                        <th >Functional Impact</th><!--  5   -->
-                        <th >Gene</th> <!--  6   -->
-                        <th>Type</th> <!--  7   -->
-                        <th >Exion/Intron #</th> <!--  10   -->
-                        <th >Necleotide Change</th> <!--  11   -->
-                        <th >Amino Acid Change</th> <!-- 12    -->
-                        <th >Zygosity</th> <!-- 13    -->
-                        <th>rsID</th> <!--  19   -->
-                        <th>GenBank accesion no</th> <!-- 20    -->
-                        <th >수정/삭제</th> <!--  26   -->
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="table_bg" *ngFor="let list of lists; let i = index">
-                            <input type="hidden" value="R" #status >
-                            <td style="width:10px;" class="txt_c" >{{i + 1}}</td> <!-- 1 No  -->
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.patient_name}}</span> <!--  3  -->
-                                <span *ngIf="status.value === 'U'">
-                                    <input type="text"  class="clr-input" value="{{list.patient_name}}"  id="patientName{{list.id}}" >
-                                </span>
-                            </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.register_number}}</span> <!-- 4   -->
-                                <span class="clr-input" *ngIf="status.value === 'U'">
-                                    <input type="text"  class="clr-input" value="{{list.register_number}}" id="registerNumber{{list.id}}" >
-                                </span>
-                            </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.functional_impact}}</span> <!--  5  -->
-                                <span class="clr-input" *ngIf="status.value === 'U'">
-                                    <input type="text"  class="clr-input" value="{{list.functional_impact}}" id="fusion{{list.id}}" >
-                                </span>
-                            </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.gene}}</span> <!--6  gene   -->
-                                <span class="clr-input" *ngIf="status.value === 'U'">
-                                    <input type="text"  class="clr-input" value="{{list.gene}}" id="gene{{list.id}}" >
-                                </span>
-                            </td>
-                            <td><span *ngIf="status.value === 'R'">{{list.type}}</span> <!-- 7  type  -->
-                                <span class="bdnone" *ngIf="status.value === 'U'">
-                                   <input type="text"  class="clr-input" value="SEQ" id="gene{{list.id}}" >
-                                </span>
-                            </td>
-
-
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.exon_intro}}</span> <!-- 10 Exion/Intron   -->
-                                <span class="clr-input" *ngIf="status.value === 'U'">
-                                    <input type="text"  class="clr-input" value="{{list.exon_intro}}" id="exonIntro{{list.id}}" >
-                                </span>
-                            </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.nucleotide_change}}</span> <!--11 Necleotide Change   -->
-                                <span class="clr-input" *ngIf="status.value === 'U'">
-                                    <input type="text"  class="clr-input" value="{{list.nucleotide_change}}"  id="nucleotideChange{{list.id}}"  >
-                                </span>
-                            </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.amino_acid_change}}</span> <!-- 12   -->
-                                <span class="clr-input" *ngIf="status.value === 'U'">
-                                    <input type="text"  class="clr-input" value="{{list.amino_acid_change}}" id="aminoAcidChange{{list.id}}" >
-                                </span>
-                            </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.zygosity}}</span> <!-- Zygosity 13  -->
-                                <span class="clr-input" *ngIf="status.value === 'U'">
-                                    <input type="text"  class="clr-input" value="{{list.zygosity}}" id="zygosity{{list.id}}"  >
-                                </span>
-                            </td>
-
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.rsid}}</span> <!--  19  -->
-                                <span class="clr-input" *ngIf="status.value === 'U'">
-                                    <input type="text"  class="clr-input" value="{{list.rsid}}" id="rsid{{list.id}}" >
-                                </span>
-                            </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.genbank_accesion}}</span> <!--  20  -->
-                                <span class="clr-input" *ngIf="status.value === 'U'">
-                                    <input type="text"  class="clr-input" value="{{list.genbank_accesion}}" id="genbank_accesion{{list.id}}" >
-                                </span>
-                            </td>
-                            <td class="txt_c"> <!-- 26   -->
-                                <span *ngIf="status.value === 'R'">
-                                    <a class="btn-edit" (click)="status.value='U'" >수정</a>
-                                    <a class="btn-delete" (click)="deleteRow(list.id, list.gene,list.patient_name)">삭제</a>
-                                </span>
-                                <span *ngIf="status.value === 'U'">
-                                    <a class="btn-cancel" (click)="status.value='R'">취소</a>
-                                    <a class="btn-save" (click)="updateRow(list.id)">저장</a>
-                                </span>
-                            </td>
-                    </tr>
-                </tbody>
-            </table>
-            </ng-container>
+            <form [formGroup]="seqForm">
+              <table border="0" cellpadding="0" cellspacing="0" class="header-fix table_list"
+                 style="min-width:2600px; width:80%" >
+              	<colgroup>
+                      <col width="2%" /> <!-- 1   -->
+                      <col width="5%" /> <!--3  Patient Name  -->
+                    <!--  <col width="5%" /> 4 Register No  -->
+                      <col width="5%" /> <!--5 Fusion  -->
+                      <col width="5%" /> <!--6 Gene  -->
+                    <!--  <col width="5%" /> 7 Type  -->
+                      <col width="5%" /> <!--10 Exion/Intron #  -->
+                      <col width="10%" /> <!--11 Necleotide Change  -->
+                      <col width="10%" /> <!-- 12Amino Acid Change  -->
+                      <col width="10%" /> <!-- 13Zygosity  -->
+                      <col width="5%" /> <!-- 19 rsID  -->
+                      <col width="10%" /> <!--20  GenBank accesion no  -->
+                      <col  width="5%"/>
+                  </colgroup>
+                  <thead>
+                      <tr>
+                          <th >No.</th>    <!--  1   -->
+                          <th >Patient Name</th> <!--  3   -->
+                        <!--  <th >Register No.</th>   4   -->
+                          <th >Functional Impact</th><!--  5   -->
+                          <th >Gene</th> <!--  6   -->
+                        <!--  <th>Type</th>   7   -->
+                          <th >Exion/Intron #</th> <!--  10   -->
+                          <th >Necleotide Change</th> <!--  11   -->
+                          <th >Amino Acid Change</th> <!-- 12    -->
+                          <th >Zygosity</th> <!-- 13    -->
+                          <th>rsID</th> <!--  19   -->
+                          <th>GenBank accesion no</th> <!-- 20    -->
+                          <th >수정/삭제</th> <!--  26   -->
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <ng-container formArrayName="tableRows" *ngFor="let group of seqRows().controls; let i=index">
+                          <tr class="table_bg"  [formGroupName]="i">
+                              <td class="txt_c">
+                                  {{ i + 1}}
+                              </td>
+                              <td class="txt_c">
+                                  <input type="text"  class="clr-input" formControlName="name">
+                              </td>
+                              <td class="txt_c">
+                                  <input type="text"  class="clr-input" formControlName="functional_impact">
+                              </td>
+                              <td class="txt_c">
+                                  <input type="text"  class="clr-input" formControlName="gene">
+                              </td>
+                              <td class="txt_c">
+                                  <input type="text"  class="clr-input" formControlName="exonintron">
+                              </td>
+                              <td class="txt_c">
+                                  <input type="text"  class="clr-input" formControlName="nucleotideChange">
+                              </td>
+                              <td class="txt_c">
+                                  <input type="text"  class="clr-input" formControlName="aminoAcidChange">
+                              </td>
+                              <td class="txt_c">
+                                  <input type="text"  class="clr-input" formControlName="zygosity">
+                              </td>
+                              <td class="txt_c">
+                                  <input type="text"  class="clr-input" formControlName="rsid">
+                              </td>
+                              <td class="txt_c">
+                                  <input type="text"  class="clr-input" formControlName="genbankaccesion">
+                              </td>
+                              <td class="txt_c">
+                                        <button class="btn-save"  (click)="seqSave(i)">저장</button> &nbsp;&nbsp;
+                                        <button class="btn-delete" (click)="seqDelete(i)">삭제</button>
+                              </td>
+                          </tr>
+                      </ng-container>
+                  </tbody>
+              </table>
+            </form>
+          </ng-container>
 
 <!--  =============================================================   -->
         </div>

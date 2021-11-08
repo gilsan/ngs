@@ -275,7 +275,7 @@
             <col style="width:180px"/>  <!-- Amino acid change    -->
             <col style="width:120px"/>  <!-- Zygosity    -->
             <col style="width:200px"/>  <!--  VAF %   -->
-            <col style="width:130px"/>  <!--   References  -->
+            <col style="width:130px"/>  <!--   reference  -->
             <col style="width:100px"/>   <!--  COSMIC ID   -->
             <col style="width:200px"/>  <!-- IGV -->
             <col style="width:200px"/>  <!--  sanger -->
@@ -387,12 +387,12 @@
             </td>
             <td><input type="text" size="10"  class="clr-input textcenter  tdbox"
                 (keydown.enter)="$event.preventDefault()"
-                [matTooltip]="group.get('references').value"
-                formControlName="references"></td>
+                [matTooltip]="group.get('reference').value"
+                formControlName="reference"></td>
             <td><input type="text" size="20"  class="clr-input textcenter  tdbox"
                 (keydown.enter)="$event.preventDefault()"
-                [matTooltip]="group.get('cosmicID').value"
-                formControlName="cosmicID"></td>
+                [matTooltip]="group.get('cosmic_id').value"
+                formControlName="cosmic_id"></td>
 
             <td><input type="text" size="10"
                 (keydown.enter)="$event.preventDefault()"

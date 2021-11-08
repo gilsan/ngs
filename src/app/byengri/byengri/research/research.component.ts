@@ -562,6 +562,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
               gene: item.gene,
               breakpoint: item.fusion_breakpoint,
               functions: item.fusion_function,
+              readcount: item.readcount,
               tier: item.tier
             }, index));
           });
@@ -655,6 +656,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
             this.ifusion.push({
               gene: item.gene,
               breakpoint: item.fusion_breakpoint,
+              readcount: item.readcount,
               functions: item.fusion_function,
               tier: item.tier
             }, index);
@@ -662,6 +664,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
             this.ifusionLists().push(this.createIFusion({
               gene: item.gene,
               breakpoint: item.fusion_breakpoint,
+              readcount: item.readcount,
               functions: item.fusion_function,
               tier: item.tier,
             }, index));
@@ -1653,6 +1656,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
               gene: item.gene,
               breakpoint: item.fusion_breakpoint,
               functions: item.fusion_function,
+              readcount: item.readcount,
               tier: item.tier
             });
           });
@@ -2055,6 +2059,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
       gene: fusion.gene,
       breakpoint: fusion.breakpoint,
       functions: fusion.functions,
+      readcount: fusion.readcount,
       tier: fusion.tier,
       seq: index
     });
@@ -2080,7 +2085,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
   addFusion(): void {
     this.fusionLists().push(this.newFusion());
     this.fusion.push({
-      gene: '', breakpoint: '', functions: '', tier: '', seq: ''
+      gene: '', breakpoint: '', functions: '', readcount: '', tier: '', seq: ''
     });
     const len = this.fusionLists().getRawValue().length;
     if (len > 0) {
@@ -2215,6 +2220,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
       gene: fusion.gene,
       breakpoint: fusion.breakpoint,
       functions: fusion.functions,
+      readcount: fusion.readcount,
       tier: fusion.tier,
       seq: index
     });
@@ -2229,6 +2235,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
       gene: '',
       breakpoint: '',
       functions: '',
+      readcount: '',
       tier: '',
       seq: ''
     });
@@ -2237,7 +2244,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
   addIFusion(): void {
     this.ifusionLists().push(this.newIFusion());
     this.ifusion.push({
-      gene: '', breakpoint: '', functions: '', tier: '', seq: ''
+      gene: '', breakpoint: '', functions: '', readcount: '', tier: '', seq: ''
     });
     const len = this.ifusionLists().getRawValue().length;
     if (len > 0) {

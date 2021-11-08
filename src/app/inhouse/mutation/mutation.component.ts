@@ -3,7 +3,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { emrUrl } from 'src/app/config';
-import { IGenetic, IMutation } from '../models/mutation';
+import { IAML, IGenetic, IMutation, ISEQ } from '../models/mutation';
 import { MutationService } from 'src/app/services/mutation.service';
 import { ExcelService } from 'src/app/home/services/excelservice';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
@@ -40,13 +40,15 @@ export class MutationComponent implements OnInit {
   private apiUrl = emrUrl;
 
   geneticForm: FormGroup;
-
+  seqForm: FormGroup;
+  amlForm: FormGroup;
 
   ngOnInit(): void {
     this.init();
     this.loadGeneticForm();
+    this.loadSeqForm();
+    this.loadAmlForm();
   }
-
 
 
   init(): void {
@@ -55,7 +57,7 @@ export class MutationComponent implements OnInit {
 
   deleteRow(id: string, genes: string, patientName: string): void {
 
-    if (id === "") {
+    if (id === '') {
       const result = confirm('삭제 하시겠습니까?');
       if (result) {
         this.lists = this.lists.slice(0, this.lists.length - 1);
@@ -198,27 +200,44 @@ export class MutationComponent implements OnInit {
 
     if (this.gubun === 'Genetic') {
       this.geneticRows().push(this.newGeneticRow());
+    } else if (this.gubun === 'SEQ') {
+      this.seqRows().push(this.newSeqRow());
+    } else if (this.gubun === 'AMLALL') {
+      this.amlRows().push(this.newAmlRow());
     }
   }
-  myFunc(status: string) {
-    console.log("function called" + status);
+  myFunc(status: string): void {
+    console.log('function called' + status);
   }
 
   goPage(page: string): void {
-    if (page === "<" && this.pageLine > 0) {
+    if (page === '<' && this.pageLine > 0) {
       this.pageLine--;
       this.curPage = this.pageLine * 10 - 1;
-      if (this.curPage < 1) this.curPage = 1;
-    } else if (page === ">" && this.pageLine < Math.ceil(this.totPage / 10) - 1) {
+      if (this.curPage < 1) { this.curPage = 1 }
+    } else if (page === '>' && this.pageLine < Math.ceil(this.totPage / 10) - 1) {
       this.pageLine++;
       this.curPage = this.pageLine * 10 + 1;
     } else {
-      if (page != "<" && page != ">")
+      if (page !== '<' && page !== '>') {
         this.curPage = Number(page);
+      }
     }
-    page = this.curPage + "";
+    page = this.curPage + '';
     this.lists = this.listMutations.slice((Number(page) - 1) * 10, (Number(page)) * 10);
+
+    if (this.gubun === 'Genetic') {
+      this.geneticRows().clear();
+      this.makeGeneticRows(this.lists);
+    } else if (this.gubun === 'SEQ') {
+      this.seqRows().clear();
+      this.makeSeqRows(this.lists);
+    } else if (this.gubun === 'AMLALL') {
+      this.amlRows().clear();
+      this.makeAmlRows(this.lists);
+    }
   }
+
   search(genes: string, coding: string = '', type: string): void {
     this.gubun = type;
     if (type === 'ALL') {
@@ -227,7 +246,7 @@ export class MutationComponent implements OnInit {
     this.totRecords = 0;
     this.lists$ = this.mutationService.getMutationList(genes, coding, type);
     this.lists$.subscribe((data) => {
-      console.log('[210][Mutation 검색]', data);
+      console.log('[230][Mutation 검색]', data);
       this.lists = data;
       this.mapping();
       this.listMutations = data;
@@ -257,7 +276,7 @@ export class MutationComponent implements OnInit {
     }
 
     this.lists$.subscribe((data) => {
-      console.log('[247][Mutation 검색]', data, this.gubun);
+      console.log('[260][Mutation 검색]', data, this.gubun);
       this.lists = data;
       this.mapping();
       this.listMutations = data;
@@ -267,9 +286,12 @@ export class MutationComponent implements OnInit {
       this.pageLine = 0;
       this.totRecords = this.listMutations.length;
 
-      if (type === 'Genetic') {
-
-        this.makeGeneticRows(this.listMutations);
+      if (this.gubun === 'Genetic') {
+        this.makeGeneticRows(this.lists);
+      } else if (this.gubun === 'SEQ') {
+        this.makeSeqRows(this.lists);
+      } else if (this.gubun === 'AMLALL') {
+        this.makeAmlRows(this.lists);
       }
     });
   }
@@ -288,6 +310,7 @@ export class MutationComponent implements OnInit {
     });
 
   }
+
 
   /////// 유전성유전
   loadGeneticForm(): void {
@@ -390,10 +413,224 @@ export class MutationComponent implements OnInit {
       const control = this.geneticForm.get('tableRows') as FormArray;
       const rowData: IGenetic = control.at(i).value;
       this.geneticRows().removeAt(i);
-      console.log('[136][삭제]', control.getRawValue());
-      this.mutationService.deleteGenetic(rowData.gene, rowData.nucleotideChange)
+      console.log('[399][삭제]', rowData);
+      if (rowData.id === 'N') {
+        this.geneticRows().removeAt(i);
+        this.snackBar.open('삭제 하였습니다.', '닫기', { duration: 3000 });
+      }
+      this.mutationService.deleteGenetic(rowData.id)
         .subscribe(data => {
           this.geneticRows().removeAt(i);
+          this.snackBar.open('삭제 하였습니다.', '닫기', { duration: 3000 });
+        });
+    } else {
+      return;
+    }
+  }
+
+  ///////////////////////////////////////////////// sequencing
+  loadSeqForm(): void {
+    this.seqForm = this.fb.group({
+      tableRows: this.fb.array([])
+    });
+  }
+
+  makeSeqRows(lists: IMutation[]): void {
+    lists.forEach(list => {
+      this.seqRows().push(this.createSeqRow({
+        id: list.id,
+        name: list.patient_name,
+        functional_impact: list.functional_impact,
+        gene: list.gene,
+        exonintron: list.exon_intro,
+        nucleotideChange: list.nucleotide_change,
+        aminoAcidChange: list.amino_acid_change,
+        zygosity: list.zygosity,
+        rsid: list.rsid,
+        genbankaccesion: list.genbank_accesion
+      }));
+    });
+  }
+
+  createSeqRow(list: ISEQ): FormGroup {
+    return this.fb.group({
+      id: list.id,
+      name: list.name,
+      functional_impact: list.functional_impact,
+      gene: list.gene,
+      exonintron: list.exonintron,
+      nucleotideChange: list.nucleotideChange,
+      aminoAcidChange: list.aminoAcidChange,
+      zygosity: list.zygosity,
+      rsid: list.rsid,
+      genbankaccesion: list.genbankaccesion,
+    });
+  }
+
+
+  newSeqRow(): FormGroup {
+    return this.fb.group({
+      id: 'N',
+      name: '',
+      functional_impact: '',
+      gene: '',
+      exonintron: '',
+      nucleotideChange: '',
+      aminoAcidChange: '',
+      zygosity: '',
+      rsid: '',
+      genbankaccesion: '',
+    });
+  }
+
+  seqRows(): FormArray {
+    return this.seqForm.get('tableRows') as FormArray;
+  }
+
+  addNewSeqRow(): void {
+    this.geneticRows().push(this.newGeneticRow());
+  }
+
+  seqSave(i: number): void {
+    const control = this.seqForm.get('tableRows') as FormArray;
+    const rowData: ISEQ = control.at(i).value;
+    console.log(rowData);
+    const id = rowData.id;
+    if (id === 'N') {
+      this.mutationService.insertSequencing(rowData).subscribe(data => {
+        this.snackBar.open('저장 하였습니다.', '닫기', { duration: 3000 });
+      });
+    } else {
+      this.mutationService.updateSequencing(rowData).subscribe(data => {
+        this.snackBar.open('저장 하였습니다.', '닫기', { duration: 3000 });
+      });
+    }
+  }
+
+  seqDelete(i: number): void {
+    const ask = confirm('삭제 하시겠습니까');
+    if (ask) {
+      const control = this.seqForm.get('tableRows') as FormArray;
+      const rowData: ISEQ = control.at(i).value;
+      this.seqRows().removeAt(i);
+      console.log('[516][삭제][SEQ]', rowData);
+      if (rowData.id === 'N') {
+        this.seqRows().removeAt(i);
+        this.snackBar.open('삭제 하였습니다.', '닫기', { duration: 3000 });
+      }
+      this.mutationService.deleteGenetic(rowData.id)
+        .subscribe(data => {
+          this.geneticRows().removeAt(i);
+          this.snackBar.open('삭제 하였습니다.', '닫기', { duration: 3000 });
+        });
+    } else {
+      return;
+    }
+  }
+  //////////////////////////////////////////////////////////////////////
+  /// AMLALL LYM MDS/MPN
+  loadAmlForm(): void {
+    this.amlForm = this.fb.group({
+      tableRows: this.fb.array([])
+    });
+  }
+
+  makeAmlRows(lists: IMutation[]): void {
+    lists.forEach(list => {
+      this.amlRows().push(this.createAmlRow({
+        id: list.id,
+        name: list.patient_name,
+        gene: list.gene,
+        functional_impact: list.functional_impact,
+        transcript: list.transcript,
+        exon: list.exon_intro,
+        nucleotideChange: list.nucleotide_change,
+        aminoAcidChange: list.amino_acid_change,
+        zygosity: list.zygosity,
+        vaf: list.vaf,
+        reference: list.reference,
+        cosmicid: list.cosmic_id,
+        igv: list.igv,
+        sanger: list.sanger
+      }));
+    });
+  }
+
+  createAmlRow(list: IAML): FormGroup {
+    return this.fb.group({
+      id: list.id,
+      name: list.name,
+      gene: list.gene,
+      functional_impact: list.functional_impact,
+      transcript: list.transcript,
+      exon: list.exon,
+      nucleotideChange: list.nucleotideChange,
+      aminoAcidChange: list.aminoAcidChange,
+      zygosity: list.zygosity,
+      vaf: list.vaf,
+      reference: list.reference,
+      cosmicid: list.cosmicid,
+      igv: list.igv,
+      sanger: list.sanger
+    });
+  }
+
+  newAmlRow(): FormGroup {
+    return this.fb.group({
+      id: 'N',
+      name: '',
+      gene: '',
+      functional_impact: '',
+      transcript: '',
+      exon: '',
+      nucleotideChange: '',
+      aminoAcidChange: '',
+      vaf: '',
+      reference: '',
+      cosmicid: '',
+      igv: '',
+      sanger: '',
+    });
+  }
+
+  amlRows(): FormArray {
+    return this.amlForm.get('tableRows') as FormArray;
+  }
+
+  addNewAmlRow(): void {
+    this.amlRows().push(this.newAmlRow());
+  }
+
+  amlSave(i: number): void {
+    const control = this.amlForm.get('tableRows') as FormArray;
+    const rowData: IAML = control.at(i).value;
+    console.log(rowData);
+    const id = rowData.id;
+    if (id === 'N') {
+      this.mutationService.insertAML(rowData, 'AMLALL').subscribe(data => {
+        this.snackBar.open('저장 하였습니다.', '닫기', { duration: 3000 });
+      });
+    } else {
+      this.mutationService.updateAML(rowData).subscribe(data => {
+        this.snackBar.open('저장 하였습니다.', '닫기', { duration: 3000 });
+      });
+    }
+  }
+
+  amlDelete(i: number): void {
+    const ask = confirm('삭제 하시겠습니까');
+    if (ask) {
+      const control = this.amlForm.get('tableRows') as FormArray;
+      const rowData: IAML = control.at(i).value;
+      this.seqRows().removeAt(i);
+      console.log('[626][삭제][AML]', rowData);
+      if (rowData.id === 'N') {
+        this.amlRows().removeAt(i);
+        this.snackBar.open('삭제 하였습니다.', '닫기', { duration: 3000 });
+      }
+      this.mutationService.deleteAML(rowData.id)
+        .subscribe(data => {
+          this.amlRows().removeAt(i);
           this.snackBar.open('삭제 하였습니다.', '닫기', { duration: 3000 });
         });
     } else {
@@ -406,7 +643,18 @@ export class MutationComponent implements OnInit {
 
 
 
-  ///////////////////////////////////////////////// sequencing
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

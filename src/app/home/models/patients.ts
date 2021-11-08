@@ -79,10 +79,11 @@ export interface IExcelData {
   vafPercent?: string;
   reference?: string;
   references?: string;
-  cosmicID?: string;
+  cosmic_id?: string;
   dbSNPHGMD?: string,
   gnomADEAS?: string,
   OMIM?: string,
+  cosmicID?: string,
   acceptdate: string;
   reportdate: string;
   testcode: string;

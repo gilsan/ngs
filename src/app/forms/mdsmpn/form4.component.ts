@@ -691,8 +691,8 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
         // zygosity: item.zygosity,
         zygosity: 'Heterozygous',
         vafPercent: tsv.frequency,
-        references: item.reference,
-        cosmicID: item.cosmic_id,
+        reference: item.reference,
+        cosmic_id: item.cosmic_id,
         gubun: 'MDS'
       };
 
@@ -710,8 +710,8 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
         aminoAcidChange: tsv.amino_acid_change,
         zygosity: 'Heterozygous',
         vafPercent: tsv.frequency,
-        references: '',
-        cosmicID: '',
+        reference: '',
+        cosmic_id: '',
         gubun: 'MDS'
       };
     }
@@ -747,8 +747,8 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       aminoAcidChange: item.amino_acid_change,
       zygosity: item.zygosity,
       vafPercent: item.vaf,
-      references: item.reference,
-      cosmicID: item.cosmic_id,
+      reference: item.reference,
+      cosmic_id: item.cosmic_id,
       checked: item.checked,
       id: item.id,
       gubun: 'MDS'
@@ -797,8 +797,8 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
         aminoAcidChange: [item.aminoAcidChange],
         zygosity: [item.zygosity],
         vafPercent: [item.vafPercent],
-        references: [item.references],
-        cosmicID: [item.cosmicID],
+        reference: [item.reference],
+        cosmic_id: [item.cosmic_id],
         id: [item.id],
         checked: [checktype],
         status: ['NEW'],
@@ -818,8 +818,8 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       aminoAcidChange: [item.aminoAcidChange],
       zygosity: [item.zygosity],
       vafPercent: [item.vafPercent],
-      references: [item.references],
-      cosmicID: [item.cosmicID],
+      reference: [item.reference],
+      cosmic_id: [item.cosmic_id],
       id: [item.id],
       checked: [checktype],
       status: ['OLD'],
@@ -888,8 +888,8 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       aminoAcidChange: [''],
       zygosity: [''],
       vafPercent: [''],
-      references: [''],
-      cosmicID: [''],
+      reference: [''],
+      cosmic_id: [''],
       checked: [true],
       gubun: ['MDS']
     });
@@ -911,8 +911,8 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       aminoAcidChange: [''],
       zygosity: [''],
       vafPercent: [''],
-      references: [''],
-      cosmicID: [''],
+      reference: [''],
+      cosmic_id: [''],
       checked: [true],
       status: ['NEW'],
       gubun: ['MDS']
@@ -991,8 +991,8 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
         row.aminoAcidChange,
         row.zygosity,
         row.vafPercent,
-        row.references,
-        row.cosmicID
+        row.reference,
+        row.cosmic_id
       ).subscribe((data: any) => {
         alert('mutation에 추가 했습니다.');
       });
@@ -1402,8 +1402,8 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
         aminoAcidChange: '',
         zygosity: '',
         vafPercent: '',
-        references: '',
-        cosmicID: ''
+        reference: '',
+        cosmic_id: ''
       });
     } else {
 
@@ -1424,8 +1424,8 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
           aminoAcidChange: item.aminoAcidChange,
           zygosity: item.zygosity,
           vafPercent: item.vafPercent,
-          reference: item.references,
-          cosmicID: item.cosmicID,
+          reference: item.reference,
+          cosmic_id: item.cosmic_id,
           tsvname: this.patientInfo.tsvFilteredFilename
 
         });
@@ -1789,25 +1789,23 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
   reCall(): void {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData: IAFormVariant[] = control.getRawValue();
-    console.log('[1776][호출]', formData);
+    console.log('[1776][호출][보낸것]', formData);
     formData.forEach((list, index) => {
-      if (list.type === 'New' || list.type === 'new') {
-        const gene = list.gene.split(',');
-        gene.forEach(item => {
-          this.patientsListService.getMutationVariantsLists(item, list.nucleotideChange, 'MDS')
-            .subscribe(data => {
+      const gene = list.gene.split(',');
+      gene.forEach(item => {
+        this.patientsListService.getMutationVariantsLists(item, list.nucleotideChange, 'MDS')
+          .subscribe(data => {
 
-              if (data.length > 0) {
-                console.log('[1783][호출]', data);
-                control.at(index).patchValue({
-                  type: data[0].type, functionalImpact: data[0].functional_impact,
-                  references: data[0].reference, cosmicID: data[0].cosmic_id
-                });
-                this.snackBar.open('완료 했습니다.', '닫기', { duration: 3000 });
-              }
-            });
-        });
-      }
+            if (data.length > 0) {
+              console.log('[1783][호출][받은데이터]', data);
+              control.at(index).patchValue({
+                type: data[0].type, functionalImpact: data[0].functional_impact,
+                reference: data[0].reference, cosmic_id: data[0].cosmic_id
+              });
+              this.snackBar.open('완료 했습니다.', '닫기', { duration: 3000 });
+            }
+          });
+      });
     });
 
 

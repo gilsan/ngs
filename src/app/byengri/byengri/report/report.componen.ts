@@ -1718,6 +1718,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
               gene: item.gene,
               breakpoint: item.fusion_breakpoint,
               functions: item.fusion_function,
+              readcount: item.readcount,
               tier: item.tier
             });
           });

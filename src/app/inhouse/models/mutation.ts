@@ -54,14 +54,31 @@ export interface IGenetic {
 
 export interface ISEQ {
   id?: string;
-  gene: string;
-  functional_impact: string;
   name: string;
-  patientID: string;
+  functional_impact: string;
+  gene: string;
+  patientID?: string;
   exonintron: string;
   nucleotideChange: string;
   aminoAcidChange: string;
   zygosity: string;
   rsid: string;
   genbankaccesion: string;
+}
+
+export interface IAML {
+  id?: string;
+  name: string;
+  gene: string;
+  functional_impact: string;
+  transcript: string;
+  exon: string;
+  nucleotideChange: string;
+  aminoAcidChange: string;
+  zygosity: string;
+  vaf: string;
+  reference: string;
+  cosmicid: string;
+  igv: string;
+  sanger: string;
 }

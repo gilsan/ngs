@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpEvent, HttpEventType, HttpParams } from '@angular/common/http';
 import { combineLatest, from, Observable, of, Subject, } from 'rxjs';
 import { concatMap, map, shareReplay, switchMap, tap } from 'rxjs/operators';
-import { IGenetic, IMutation, ISEQ } from 'src/app/inhouse/models/mutation';
+import { IAML, IGenetic, IMutation, ISEQ } from 'src/app/inhouse/models/mutation';
 import { emrUrl } from 'src/app/config';
 import { Ilymphoma } from '../home/models/patients';
 
@@ -87,44 +87,56 @@ export class MutationService {
   }
 
 
-
-
   // 유전성유전 조회
   public listGenetic(specimenNo: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}mutation/geneticinsert`, { specimenNo });
+    return this.http.post(`${this.apiUrl}/mutation/geneticlists`, { specimenNo });
   }
 
   // 유전성유전 입력
   public insertGenetic(genetic: IGenetic): Observable<any> {
-    return this.http.post(`${this.apiUrl}mutation/geneticinsert`, { genetic });
+    return this.http.post(`${this.apiUrl}/mutation/geneticinsert`, { genetic });
   }
 
   // 유전성유전 갱신
   public updateGenetic(genetic: IGenetic): Observable<any> {
-    return this.http.post(`${this.apiUrl}mutation/geneticupdate`, { genetic });
+    return this.http.post(`${this.apiUrl}/mutation/geneticupdate`, { genetic });
   }
+
 
   // 유전성유전 삭제
-  public deleteGenetic(gene: string, nucleotideChange: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}mutation/geneticdelete`, { gene, nucleotideChange });
+  public deleteGenetic(id: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/mutation/geneticdelete`, { id });
   }
-
-
 
 
   // Sequencing 입력
   public insertSequencing(seq: ISEQ): Observable<any> {
-    return this.http.post(`${this.apiUrl}mutation/geneticinsert`, { seq });
+    return this.http.post(`${this.apiUrl}/mutation/seqinsert`, { seq });
   }
 
   // Sequencing 갱신
   public updateSequencing(seq: ISEQ): Observable<any> {
-    return this.http.post(`${this.apiUrl}mutation/sequpdate`, { seq });
+    return this.http.post(`${this.apiUrl}/mutation/sequpdate`, { seq });
   }
 
   // Sequencing 삭제
-  public deleteSequencing(gene: string, nucleotideChange: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}mutation/sequpdate`, { gene, nucleotideChange });
+  public deleteSequencing(id: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/mutation/sseqdelete`, { id });
+  }
+
+  // AML 입력
+  public insertAML(aml: IAML, type: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/mutation/amlinsert`, { aml, type });
+  }
+
+  //  AML 갱신
+  public updateAML(aml: IAML): Observable<any> {
+    return this.http.post(`${this.apiUrl}/mutation/amlupdate`, { aml });
+  }
+
+  //  AML 삭제
+  public deleteAML(id: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/mutation/amlqdelete`, { id });
   }
 
 

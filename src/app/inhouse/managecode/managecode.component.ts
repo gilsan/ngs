@@ -69,8 +69,15 @@ export class ManagecodeComponent implements OnInit {
   }
 
   testcode(code: string): void {
+    if (code !== 'none') {
+      this.report = this.reportLists.filter(list => list.code === code)[0].report;
+    } else {
+      this.disAble = true;
+      this.commentsRows().clear();
+      this.findReportLists(this.type);
+      return;
+    }
 
-    this.report = this.reportLists.filter(list => list.code === code)[0].report;
     if (code === 'none') {
       this.disAble = true;
     } else {
@@ -387,7 +394,8 @@ export class ManagecodeComponent implements OnInit {
     if (this.commentListStatus === 'EMPTY') {
       this.defaultService.commentinsertItem(commentFormData)
         .subscribe(data => {
-          this.snackBar.open('저장 했습니다.', '닫기', { duration: 2000 });
+          // this.snackBar.open('저장 했습니다.', '닫기', { duration: 2000 });
+          alert('저장 했습니다.');
           this.commentClear();
         });
     } else if (this.commentListStatus === 'EXIST') {

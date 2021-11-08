@@ -73,7 +73,8 @@ export class MentmanageComponent implements OnInit, OnDestroy {
   testcode(code: string, type: string): void {
 
     if (code === 'none') {
-      return;
+      this.commentsRows().clear();
+      this.findLists(this.type);
     } else {
       this.code = code;
       // console.log('[78][testcode]', this.reportLists.filter(list => list.code === code && list.type === type));
