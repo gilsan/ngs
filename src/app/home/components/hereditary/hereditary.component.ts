@@ -129,13 +129,18 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // tslint:disable-next-line: typedef
   goReporter(i: number) {
-    // console.log('[111][mainscreen][goReporter]', this.lists[i]);
     const specimenno = this.store.getSpecimenNo();
 
     this.patientsList.setTestedID(this.lists[i].specimenNo); // 검체번호
     this.patientsList.setTestcode(this.lists[i].test_code);  // 검사지 타입 AML ALL
-    // this.router.navigate(['/diag', 'jingum', this.lists[i].test_code]);
     this.router.navigate(['/diag', 'hereditary', 'form6', this.lists[i].test_code]);
+  }
+
+  goDirect(i): void {
+    const specimenno = this.store.getSpecimenNo();
+    this.patientsList.setTestedID(this.lists[i].specimenNo); // 검체번호
+    this.patientsList.setTestcode(this.lists[i].test_code);  // 검사지 타입 AML ALL
+    this.router.navigate(['/diag', 'hereditary', 'form6', 'direct']);
   }
 
 

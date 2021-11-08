@@ -24,6 +24,7 @@ export class ManagecodeComponent implements OnInit {
   exshow = false;
   workingcode = '';
   workingcodeShow = false;
+  isTestcodeSelect = false;
   constructor(
     private defaultService: CodeDefaultValue,
     private fb: FormBuilder,
@@ -69,6 +70,7 @@ export class ManagecodeComponent implements OnInit {
   }
 
   testcode(code: string): void {
+    this.isTestcodeSelect = true;
     if (code !== 'none') {
       this.report = this.reportLists.filter(list => list.code === code)[0].report;
     } else {
@@ -397,6 +399,10 @@ export class ManagecodeComponent implements OnInit {
           // this.snackBar.open('저장 했습니다.', '닫기', { duration: 2000 });
           alert('저장 했습니다.');
           this.commentClear();
+          if (this.isTestcodeSelect) {
+            this.commentsRows().clear();
+            this.findReportLists(this.type);
+          }
         });
     } else if (this.commentListStatus === 'EXIST') {
       commentFormData.forEach(list => {
@@ -404,15 +410,23 @@ export class ManagecodeComponent implements OnInit {
           list.code = this.lpeCode;
           this.defaultService.commentinsertItem([list])
             .subscribe(data => {
-              this.snackBar.open('저장 했습니다.', '닫기', { duration: 2000 });
+              // alert('저장 했습니다.');
+              // this.snackBar.open('저장 했습니다.', '닫기', { duration: 2000 });
             });
         } else {
           this.defaultService.commentupdateItem([list])
             .subscribe(data => {
-              this.snackBar.open('저장 했습니다.', '닫기', { duration: 2000 });
+
+              // this.snackBar.open('저장 했습니다.', '닫기', { duration: 2000 });
             });
         }
       });
+      alert('저장 했습니다.');
+      this.commentClear();
+      if (this.isTestcodeSelect) {
+        this.commentsRows().clear();
+        this.findReportLists(this.type);
+      }
     }
 
   }

@@ -174,7 +174,7 @@ export class Form6Component implements OnInit, OnDestroy {
   resultname = '';
   savedDataExist = false;
   zygosity: string[] = ['Heterozygous', 'Homozygous'];
-
+  isDirect = false;
 
   @ViewChild('commentbox') private commentbox: TemplateRef<any>;
   @ViewChild('box100', { static: true }) box100: ElementRef;
@@ -264,6 +264,10 @@ export class Form6Component implements OnInit, OnDestroy {
       filter(data => data !== null || data !== undefined),
       map(route => route.get('type'))
     ).subscribe(data => {
+      console.log(data);
+      if (data === 'direct') {
+        this.isDirect = true;
+      }
       this.reportType = 'Genetic';
     });
   }
@@ -285,6 +289,17 @@ export class Form6Component implements OnInit, OnDestroy {
     }
 
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
+    if (this.isDirect) {
+      this.patientInfo.screenstatus = '0';
+      this.defaultService.getList(this.patientInfo.test_code)
+        .subscribe(info => {
+          console.log('[296][인하우스] ', info);
+          this.target = info[0].target;
+          this.method = info[0].method;
+          this.specimenMessage = info[0].specimen;
+
+        });
+    }
     console.log('[285][환자정보]', this.patientInfo);
     this.comment2 = this.patientInfo.worker;
     this.formTitle = this.patientInfo.reportTitle;
