@@ -78,7 +78,7 @@ export interface IAML {
   zygosity: string;
   vaf: string;
   reference: string;
-  cosmicid: string;
+  cosmic_id: string;
   igv: string;
   sanger: string;
 }

@@ -67,49 +67,212 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         .subscribe(excellists => {
           const excelLists: IExcelData[] = [];
           this.snackBar.open('정상적으로 다운로드 하였습니다.', '닫기', { duration: 3000 });
-          excelLists.push({
-            tsvname: 'TSV파일명',
-            name: '환자명',
-            gender: '성별',
-            age: '나이',
-            patientID: '등록번호',
-            acceptdate: '검사일시',
-            reportdate: '저장일시',
-            testcode: '결과지 구분',
-            gene: 'Gene',
-            functionalImpact: 'Functional Impact',
-            transcript: 'Transcript',
-            exonIntro: 'Exon/Intron',
-            nucleotideChange: 'Nucleotide Change',
-            aminoAcidChange: 'Amino Acid Change',
-            zygosity: 'Zygosity',
-            vafPercent: 'VAF %',
-            references: 'Reference(s)',
-            cosmicID: 'COSMIC ID'
-          });
-
-          excellists.forEach(list => {
+          if (type === 'AMLALL') {
             excelLists.push({
-              tsvname: list.tsvname,
-              name: list.name,
-              gender: list.gender,
-              age: list.age,
-              patientID: list.patientID,
-              acceptdate: list.acceptdate,
-              reportdate: list.reportdate,
-              testcode: list.testcode,
-              gene: list.gene,
-              functionalImpact: list.functionalImpact,
-              transcript: list.transcript,
-              exonIntro: list.exonIntro,
-              nucleotideChange: list.nucleotideChange,
-              aminoAcidChange: list.aminoAcidChange,
-              zygosity: list.zygosity,
-              vafPercent: list.vafPercent,
-              references: list.reference,
-              cosmicID: list.cosmicID
+              prescription: '처방코드',
+              title: 'Report제목',
+              name: '환자명',
+              gender: '성별',
+              age: '나이',
+              patientID: '등록번호',
+              barcode: '검체바코드',
+              acceptdate: '접수일시',
+              reportdate: '저장일시',
+              researchPrescriptionCode: '연구용처방여부',
+              result: 'Result',
+              gene: 'Gene',
+              functionalImpact: 'Functional Impact',
+              transcript: 'Transcript',
+              exonIntro: 'Exon/Intron',
+              nucleotideChange: 'Nucleotide Change',
+              aminoAcidChange: 'Amino Acid Change',
+              zygosity: 'Zygosity',
+              vafPercent: 'VAF %',
+              reference: 'Reference(s)',
+              cosmic_id: 'COSMIC ID',
+              tsvname: 'TSV파일명',
+              LeukemiaAssociatedFusion: 'Leukemia associated fusion',
+              IKZF1deletion: 'IKZF1 deletion',
+              ChromosomalAnalysis: 'Chromosomal analysis'
             });
-          });
+
+            excellists.forEach(list => {
+              excelLists.push({
+                tsvname: list.tsvname,
+                name: list.name,
+                gender: list.gender,
+                age: list.age,
+                patientID: list.patientID,
+                barcode: list.barcode,
+                acceptdate: list.acceptdate,
+                reportdate: list.reportdate,
+                testcode: list.testcode,
+                gene: list.gene,
+                functionalImpact: list.functionalImpact,
+                transcript: list.transcript,
+                exonIntro: list.exonIntro,
+                nucleotideChange: list.nucleotideChange,
+                aminoAcidChange: list.aminoAcidChange,
+                zygosity: list.zygosity,
+                vafPercent: list.vafPercent,
+                references: list.reference,
+                cosmicID: list.cosmicID
+              });
+            });
+          } else if (type === 'LYM') {
+            excelLists.push({
+              prescription: '처방코드',
+              title: 'Report제목',
+              name: '환자명',
+              gender: '성별',
+              age: '나이',
+              patientID: '등록번호',
+              barcode: '검체바코드',
+              acceptdate: '접수일시',
+              reportdate: '저장일시',
+              researchPrescriptionCode: '연구용처방여부',
+              result: 'Result',
+              gene: 'Gene',
+              functionalImpact: 'Functional Impact',
+              transcript: 'Transcript',
+              exonIntro: 'Exon/Intron',
+              nucleotideChange: 'Nucleotide Change',
+              aminoAcidChange: 'Amino Acid Change',
+              zygosity: 'Zygosity',
+              vafPercent: 'VAF %',
+              reference: 'Reference(s)',
+              cosmic_id: 'COSMIC ID',
+              tsvname: 'TSV파일명',
+              Diagnosis: 'Diagnosis',
+              ChromosomalAnalysis: 'Chromosomal analysis'
+            });
+
+          } else if (type === 'MDS') {
+            excelLists.push({
+              prescription: '처방코드',
+              title: 'Report제목',
+              name: '환자명',
+              gender: '성별',
+              age: '나이',
+              patientID: '등록번호',
+              barcode: '검체바코드',
+              acceptdate: '접수일시',
+              reportdate: '저장일시',
+              researchPrescriptionCode: '연구용처방여부',
+              result: 'Result',
+              gene: 'Gene',
+              functionalImpact: 'Functional Impact',
+              transcript: 'Transcript',
+              exonIntro: 'Exon/Intron',
+              nucleotideChange: 'Nucleotide Change',
+              aminoAcidChange: 'Amino Acid Change',
+              zygosity: 'Zygosity',
+              vafPercent: 'VAF %',
+              reference: 'Reference(s)',
+              cosmic_id: 'COSMIC ID',
+              excelname: 'Excel파일명',
+              Diagnosis: 'Diagnosis',
+              GeneticTest: 'Genetic test',
+              ChromosomalAnalysis: 'Chromosomal analysis'
+            });
+          } else if (type === 'Genetic') {
+            excelLists.push({
+              prescription: '처방코드',
+              title: 'Report제목',
+              name: '환자명',
+              gender: '성별',
+              age: '나이',
+              patientID: '등록번호',
+              barcode: '검체바코드',
+              acceptdate: '접수일시',
+              reportdate: '저장일시',
+              researchPrescriptionCode: '연구용처방여부',
+              result: 'Result',
+              gene: 'Gene',
+              functionalImpact: 'Functional Impact',
+              transcript: 'Transcript',
+              exonIntro: 'Exon/Intron',
+              nucleotideChange: 'Nucleotide Change',
+              aminoAcidChange: 'Amino Acid Change',
+              zygosity: 'Zygosity',
+              dbSNPHGMD: 'dbSNP/HGMD',
+              gnomADEAS: 'gnomAD EAS',
+              OMIM: 'OMIM',
+            });
+
+            excellists.forEach(list => {
+              excelLists.push({
+                tsvname: list.tsvname,
+                name: list.name,
+                gender: list.gender,
+                age: list.age,
+                patientID: list.patientID,
+                barcode: list.barcode,
+                acceptdate: list.acceptdate,
+                reportdate: list.reportdate,
+                testcode: list.testcode,
+                gene: list.gene,
+                functionalImpact: list.functionalImpact,
+                transcript: list.transcript,
+                exonIntro: list.exonIntro,
+                nucleotideChange: list.nucleotideChange,
+                aminoAcidChange: list.aminoAcidChange,
+                zygosity: list.zygosity,
+                vafPercent: list.vafPercent,
+                references: list.reference,
+                cosmicID: list.cosmicID
+              });
+            });
+          } else if (type === 'SEQ') {
+            excelLists.push({
+              prescription: '처방코드',
+              title: 'Report제목',
+              name: '환자명',
+              gender: '성별',
+              age: '나이',
+              patientID: '등록번호',
+              barcode: '검체바코드',
+              acceptdate: '접수일시',
+              reportdate: '저장일시',
+              researchPrescriptionCode: '연구용처방여부',
+              result: 'Result',
+              gene: 'Gene',
+              functionalImpact: 'Type',
+              transcript: 'Genbank accession no',
+              exonIntro: 'Exon/Intron',
+              nucleotideChange: 'Nucleotide Change',
+              aminoAcidChange: 'Amino Acid Change',
+              zygosity: 'Zygosity',
+              rsid: 'rs ID'
+            });
+
+            excellists.forEach(list => {
+              excelLists.push({
+                tsvname: list.tsvname,
+                name: list.name,
+                gender: list.gender,
+                age: list.age,
+                patientID: list.patientID,
+                barcode: list.barcode,
+                acceptdate: list.acceptdate,
+                reportdate: list.reportdate,
+                testcode: list.testcode,
+                gene: list.gene,
+                functionalImpact: list.functionalImpact,
+                transcript: list.transcript,
+                exonIntro: list.exonIntro,
+                nucleotideChange: list.nucleotideChange,
+                aminoAcidChange: list.aminoAcidChange,
+                zygosity: list.zygosity,
+                vafPercent: list.vafPercent,
+                references: list.reference,
+                cosmicID: list.cosmicID
+              });
+            });
+          }
+
+
+
 
           this.excel.exportAsExcelFile(excelLists, 'report');
         });

@@ -159,7 +159,19 @@ export class MentmanageComponent implements OnInit, OnDestroy {
   //////////////////////////////////////////////////////////////
   findTypeLists(type: string, code: string): void {
     console.log(type);
-    if (type === 'Genetic') {
+    if (type === 'AMLALL') {
+      this.selected = 'AMLALL';
+      this.columnShow = true;
+      this.mlpaCase = true;
+    } else if (type === 'MDS') {
+      this.selected = 'MDS';
+      this.columnShow = true;
+      this.mlpaCase = true;
+    } else if (type === 'LYM') {
+      this.selected = 'LYM';
+      this.columnShow = true;
+      this.mlpaCase = true;
+    } else if (type === 'Genetic') {
       this.selected = 'Genetic';
       this.columnShow = false;
       this.mlpaCase = true;

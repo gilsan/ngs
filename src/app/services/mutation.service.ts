@@ -126,19 +126,23 @@ export class MutationService {
 
   // AML 입력
   public insertAML(aml: IAML, type: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/mutation/amlinsert`, { aml, type });
+    return this.http.post(`${this.apiUrl}/mutation/amlInsert`, { aml, type });
   }
 
   //  AML 갱신
-  public updateAML(aml: IAML): Observable<any> {
-    return this.http.post(`${this.apiUrl}/mutation/amlupdate`, { aml });
+  public updateAML(aml: IAML, type: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/mutation/amlUpdate`, { aml, type });
   }
 
   //  AML 삭제
   public deleteAML(id: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/mutation/amlqdelete`, { id });
+    return this.http.post(`${this.apiUrl}/mutation/amlDelete`, { id });
   }
 
+  //  AML 목록
+  public listsAML(type: string): Observable<IAML[]> {
+    return this.http.post<IAML[]>(`${this.apiUrl}/mutation/amlLists`, { type });
+  }
 
 
 

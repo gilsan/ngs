@@ -64,6 +64,8 @@ export interface ILYMProfile {
 
 export interface IExcelData {
   id?: string;
+  prescription?: string;
+  title?: string;
   patientID?: string;
   specimenNo?: string;
   name: string;
@@ -84,10 +86,22 @@ export interface IExcelData {
   gnomADEAS?: string,
   OMIM?: string,
   cosmicID?: string,
+  type?: string;
+  genbank?: string;
+  rsid?: string;
   acceptdate: string;
   reportdate: string;
-  testcode: string;
+  testcode?: string;
+  barcode?: string;
   tsvname?: string;
+  result?: string;
+  LeukemiaAssociatedFusion?: string;
+  IKZF1deletion?: string;
+  ChromosomalAnalysis?: string;
+  Diagnosis?: string;
+  GeneticTest?: string;
+  researchPrescriptionCode?: string;
+  excelname?: string;
 }
 
 

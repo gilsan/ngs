@@ -300,7 +300,7 @@ export class Form6Component implements OnInit, OnDestroy {
 
         });
     }
-    console.log('[285][환자정보]', this.patientInfo);
+    console.log('[303][환자정보]', this.patientInfo);
     this.comment2 = this.patientInfo.worker;
     this.formTitle = this.patientInfo.reportTitle;
     this.findTitle(this.patientInfo.test_code);
@@ -1718,14 +1718,19 @@ export class Form6Component implements OnInit, OnDestroy {
           .subscribe(([data1, data2]) => {
             console.log('[1665][디비에서 받은 데이터]', data1, data2);
             if (data1.length > 0) {
-              control.at(index).patchValue({ type: 'M', OMIM: data1[0].OMIM });
+
               if (data2.length > 0) {
                 control.at(index).patchValue(
                   {
+                    type: 'M',
                     functionalImpact: data2[0].functionalImpact,
                     dbSNPHGMD: data2[0].dbSNPHGMD, gnomADEAS: data2[0].gnomADEAS
                   });
+              } else {
+                control.at(index).patchValue({ type: 'New', OMIM: data1[0].OMIM });
               }
+            } else {
+              control.at(index).patchValue({ type: 'New' });
             }
           });
       });
@@ -1741,7 +1746,34 @@ export class Form6Component implements OnInit, OnDestroy {
     this.commentdata = comment;
   }
 
+  autoComment(): void {
 
+    if (this.resultStatus === 'Detected') {
+      const control = this.tablerowForm.get('tableRows') as FormArray;
+      const lists = control.getRawValue();
+      console.log(lists);
+      let comment = '';
+      lists.forEach(list => {
+        const msg1 = `본 환자에서 ${this.target} 에 대한 targeted panel sequencing 결과, ${list.gene} 유전자에서 ${list.functionalImpact}로 분류되는 ${list.nucleotideChange}, ${list.aminoAcidChange} 변이가 ${list.zygosity}로 관찰되었습니다.\n`;
+
+        const msg2 = `또한,  ${list.gene} 유전자에서 VUS (Variant of Unknown Significance) 로 분류되는  ${list.nucleotideChange}, ${list.aminoAcidChange} 변이가 ${list.zygosity}로 관찰되었습니다.\n`;
+
+
+        const zygosity = list.zygosity.split(',');
+        zygosity.forEach((item) => {
+          comment = comment + `본 환자에서 ${this.target} 에 대한 targeted panel sequencing 결과, ${list.gene} 유전자에서 ${list.functionalImpact}로 분류되는 ${list.nucleotideChange}, ${list.aminoAcidChange} 변이가 ${item}로 관찰되었습니다.\n`;
+        });
+
+        if (list.functionalImpact.toLowerCase() === 'vus') {
+          comment = comment + `또한,  ${list.gene} 유전자에서 VUS (Variant of Unknown Significance) 로 분류되는  ${list.nucleotideChange}, ${list.aminoAcidChange} 변이가 ${list.zygosity}로 관찰되었습니다.\n`;
+        }
+      });
+
+      this.commentdata = comment;
+    } else if (this.resultStatus === 'Not Detected') {
+      this.commentdata = `본 환자에서 ${this.target} 에 대한 targeted panel sequencing 결과, 질환 관련 돌연변이는 관찰되지 않았습니다`;
+    }
+  }
 
 
 

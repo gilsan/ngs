@@ -232,7 +232,7 @@ export class MutationComponent implements OnInit {
     } else if (this.gubun === 'SEQ') {
       this.seqRows().clear();
       this.makeSeqRows(this.lists);
-    } else if (this.gubun === 'AMLALL') {
+    } else if (this.gubun === 'AMLALL' || this.gubun === 'LYM' || this.gubun === 'MDS') {
       this.amlRows().clear();
       this.makeAmlRows(this.lists);
     }
@@ -246,11 +246,12 @@ export class MutationComponent implements OnInit {
     this.totRecords = 0;
     this.lists$ = this.mutationService.getMutationList(genes, coding, type);
     this.lists$.subscribe((data) => {
-      console.log('[230][Mutation 검색]', data);
+
       this.lists = data;
       this.mapping();
       this.listMutations = data;
       this.lists = data.slice(0, 10);
+      console.log('[249][Mutation 검색]', this.lists);
       this.curPage = 1;
       this.totPage = Math.ceil(this.listMutations.length / 10);
       this.pageLine = 0;
@@ -290,8 +291,11 @@ export class MutationComponent implements OnInit {
         this.makeGeneticRows(this.lists);
       } else if (this.gubun === 'SEQ') {
         this.makeSeqRows(this.lists);
-      } else if (this.gubun === 'AMLALL') {
+      } else if (this.gubun === 'AMLALL' || this.gubun === 'LYM' || this.gubun === 'MDS') {
+        console.log(this.lists);
         this.makeAmlRows(this.lists);
+      } else if (this.gubun === 'ALL') {
+        this.lists = data;
       }
     });
   }
@@ -549,7 +553,7 @@ export class MutationComponent implements OnInit {
         zygosity: list.zygosity,
         vaf: list.vaf,
         reference: list.reference,
-        cosmicid: list.cosmic_id,
+        cosmic_id: list.cosmic_id,
         igv: list.igv,
         sanger: list.sanger
       }));
@@ -569,7 +573,7 @@ export class MutationComponent implements OnInit {
       zygosity: list.zygosity,
       vaf: list.vaf,
       reference: list.reference,
-      cosmicid: list.cosmicid,
+      cosmic_id: list.cosmic_id,
       igv: list.igv,
       sanger: list.sanger
     });
@@ -585,9 +589,10 @@ export class MutationComponent implements OnInit {
       exon: '',
       nucleotideChange: '',
       aminoAcidChange: '',
+      zygosity: '',
       vaf: '',
       reference: '',
-      cosmicid: '',
+      cosmic_id: '',
       igv: '',
       sanger: '',
     });
@@ -607,11 +612,11 @@ export class MutationComponent implements OnInit {
     console.log(rowData);
     const id = rowData.id;
     if (id === 'N') {
-      this.mutationService.insertAML(rowData, 'AMLALL').subscribe(data => {
+      this.mutationService.insertAML(rowData, this.gubun).subscribe(data => {
         this.snackBar.open('저장 하였습니다.', '닫기', { duration: 3000 });
       });
     } else {
-      this.mutationService.updateAML(rowData).subscribe(data => {
+      this.mutationService.updateAML(rowData, this.gubun).subscribe(data => {
         this.snackBar.open('저장 하였습니다.', '닫기', { duration: 3000 });
       });
     }
