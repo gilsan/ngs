@@ -457,7 +457,7 @@ export class UploadComponent implements OnInit {
           concatMap(() => this.pathologyService.setPrevalent2(this.prevalent2, this.pathologyNum)),
           concatMap(() => this.pathologyService.setTumorMutationalBurden(this.burden, this.pathologyNum)),
           concatMap(() => this.pathologyService.setClinical(this.clinical, this.pathologyNum)),
-          concatMap(() => this.pathologyService.setGenomic(this.geno, this.pathologyNum))
+          // concatMap(() => this.pathologyService.setGenomic(this.geno, this.pathologyNum))
         ).subscribe(result => {
 
           this.clinically = [];
