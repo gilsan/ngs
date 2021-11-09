@@ -1,72 +1,78 @@
 caption {
-    position: absolute;
-    font-size: 0;
-    left: -99999px;
+  position: absolute;
+  font-size: 0;
+  left: -99999px;
 }
+
 .table-box-wrap {
-    position: relative;
-    /*width:509px;*/
-    // padding-top: 40px;
+  position: relative;
+  /*width:509px;*/
+  // padding-top: 40px;
 
 }
+
 .table-box-wrap .table-box {
-    max-height: 450px;
-    overflow: auto;
-    overflow-x: hidden;
+  max-height: 450px;
+  overflow: auto;
+  overflow-x: hidden;
 }
 
 .table_list td {
-    background-color: #fff;
+  background-color: #fff;
 }
 
 .table_list td {
-    text-align: center !important;
-}
-.table_list.header-fix > thead th {
-    position: sticky;
-    top: 0;
-    text-align: center !important;
+  text-align: center !important;
 }
 
-.btn-edit, .btn-delete, .btn-cancel, .btn-save {
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    font-size: 0;
-    margin-left: 3px;
-    border-radius: 3px;
+.table_list.header-fix>thead th {
+  position: sticky;
+  top: 0;
+  text-align: center !important;
+}
+
+.btn-edit,
+.btn-delete,
+.btn-cancel,
+.btn-save {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  font-size: 0;
+  margin-left: 3px;
+  border-radius: 3px;
 }
 
 .btn-edit {
-    background: url(../images/edit.png);
-    background-size: 20px;
-    background-position: center;
-    background-repeat: no-repeat;
-//    background-color: #2090e9;
+  background: url(../images/edit.png);
+  background-size: 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  //    background-color: #2090e9;
 }
 
 .btn-delete {
-    background: url(../images/trash.png);
-    background-size: 20px;
-    background-position: center;
-    background-repeat: no-repeat;
-//    background-color: rgb(141, 141, 141);
+  background: url(../images/trash.png);
+  background-size: 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  //    background-color: rgb(141, 141, 141);
 }
 
 .btn-cancel {
-    background: url(../images/cancel.png);
-    background-size: 20px;
-    background-position: center;
-    background-repeat: no-repeat;
-//    background-color: rgb(141, 141, 141);
+  background: url(../images/cancel.png);
+  background-size: 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  //    background-color: rgb(141, 141, 141);
 }
 
 .btn-save {
-    background: url(../images/save.png);
-    background-size: 20px;
-    background-position: center;
-    background-repeat: no-repeat;
-//    background-color: #2090e9;
+  background: url(../images/save.png);
+  background-size: 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  //    background-color: #2090e9;
 }
 
 // .table_bg > .txt_c {
@@ -75,9 +81,10 @@ caption {
 //     line-height: 50px;
 // }
 
-.txt_c > p {
-    margin-top: 0;
+.txt_c>p {
+  margin-top: 0;
 }
+
 // .input_01 {
 //    height: 30px;
 //    margin : 10px;
@@ -89,7 +96,7 @@ caption {
   height: 1.2rem;
   color: var(--clr-forms-text-color, black);
   border-bottom-color: var(--clr-forms-border-color, #b3b3b3);
-  border-bottom:none !important;   
-  display: inline-block; 
+  // border-bottom:none !important;
+  display: inline-block;
   max-height: 1.2rem;
 }

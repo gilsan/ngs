@@ -256,6 +256,7 @@ export class MutationComponent implements OnInit {
       this.totPage = Math.ceil(this.listMutations.length / 10);
       this.pageLine = 0;
       this.totRecords = this.listMutations.length;
+      this.goPage('1');
     });
 
   }
