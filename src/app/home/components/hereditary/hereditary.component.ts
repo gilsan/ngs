@@ -76,7 +76,7 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.patientsList.getPatientList2()
       .then(response => response.json())
       .then(data => {
-        console.log(data);
+        console.log('[79]', data);
         this.patientsList.setPatientID(data);
         this.lists = data;
       });
@@ -314,7 +314,8 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
   processingStatus(i: number): string {
     const status = this.lists[i].screenstatus;
     const filename = this.lists[i].tsvFilteredFilename;
-    if (parseInt(status, 10) === 0 && filename.length) {
+    console.log('[317] ==>', this.lists);
+    if (parseInt(status, 10) === 0) {
       return '시작';
     } else if (parseInt(status, 10) === 1) {
       return '스크린완료';
@@ -323,6 +324,7 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     } else if (parseInt(status, 10) === 3) {
       return '전송완료';
     }
+    return;
   }
 
   isDisabled(i: number): boolean {
