@@ -388,7 +388,7 @@ export class Form6Component implements OnInit, OnDestroy {
     this.subs.sink = this.variantsService.screenSelect(this.form2TestedId)
       .pipe(
         tap(data => {
-          console.log('[380][checkSavedData]', data);
+          console.log('[390][checkSavedData]', data);
           if (data.length) {
             this.savedDataExist = true;
           } else {
@@ -1459,7 +1459,7 @@ export class Form6Component implements OnInit, OnDestroy {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
 
-    console.log('[1410][Detected variants]', formData);
+    console.log('[1462][Detected variants]', formData);
     this.comments.push({
       gene: '', comment: this.commentdata, reference: this.comment2, type: '', variant_id: this.resultname,
       methods: this.methods, technique: this.technique
@@ -1469,7 +1469,7 @@ export class Form6Component implements OnInit, OnDestroy {
     this.patientInfo.examin = this.examin;
     this.patientInfo.vusmsg = this.vusmsg;
 
-    console.log('[1419][tempSave]patient,reform,comment]', this.patientInfo, formData, this.comments);
+    console.log('[1472][tempSave]patient,reform,comment]', this.patientInfo, formData, this.comments);
 
     this.store.setRechecker(this.patientInfo.recheck);
     this.store.setExamin(this.patientInfo.examin);

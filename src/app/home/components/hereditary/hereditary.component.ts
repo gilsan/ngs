@@ -314,7 +314,7 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
   processingStatus(i: number): string {
     const status = this.lists[i].screenstatus;
     const filename = this.lists[i].tsvFilteredFilename;
-    console.log('[317] ==>', this.lists);
+    // console.log('[317] ==>', this.lists);
     if (parseInt(status, 10) === 0) {
       return '시작';
     } else if (parseInt(status, 10) === 1) {
