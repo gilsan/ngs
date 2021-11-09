@@ -138,6 +138,8 @@ export class ExamplementComponent implements OnInit {
   }
 
   selectedComment(i: number): void {
+    // alert('결과지 Comments 에 예문이 추가되었습니다.');
+    this.snackBar.open('결과지 Comments 에 예문이 추가되었습니다.', '닫기', { duration: 3000 });
     const ment = this.lists[i].comment;
     this.sendMent.emit(ment);
     console.log(ment);

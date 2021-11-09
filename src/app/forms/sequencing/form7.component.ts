@@ -227,7 +227,7 @@ export class Form7Component implements OnInit, OnDestroy {
           this.variations = data[0].identified_variations;
           this.specimen = data[0].specimen;
 
-          if (this.patientInfo.screenstatus === '0' && this.targetdisease.length === 0) {
+          if (this.patientInfo.screenstatus === '0') {
             this.defaultService.getList(this.patientInfo.test_code)
               .subscribe(list => {
                 console.log('[231][Test Info]', list);
@@ -240,7 +240,6 @@ export class Form7Component implements OnInit, OnDestroy {
                 this.seqcomment = list[0].comment;
               });
           }
-
         }
 
       });
@@ -633,7 +632,7 @@ export class Form7Component implements OnInit, OnDestroy {
   }
 
   receiveMent(comment: string): void {
-    this.comment = comment;
+    this.comment = this.comment + '\n' + comment;
   }
 
 

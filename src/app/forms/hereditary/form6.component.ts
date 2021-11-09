@@ -1684,19 +1684,7 @@ export class Form6Component implements OnInit, OnDestroy {
 
   showDialog(): void {
     this.isExamVisible = true;
-    // const addDialogRef = this.dialog.open(ExamplementComponent, {
-    //   width: '1200px',
-    //   height: '900px',
-    //   disableClose: true,
-    //   data: {
-    //     code: this.patientInfo.test_code,
-    //     type: 'Genetic'
-    //   }
-    // });
 
-    // addDialogRef.afterClosed().subscribe(comment => {
-    //   this.commentdata = comment;
-    // });
   }
 
   /////////////////////////////////////////////////////////////
@@ -1743,7 +1731,7 @@ export class Form6Component implements OnInit, OnDestroy {
   }
 
   receiveMent(comment: string): void {
-    this.commentdata = comment;
+    this.commentdata = this.commentdata + '\n' + comment;
   }
 
   autoComment(): void {

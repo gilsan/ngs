@@ -170,7 +170,7 @@ export class FileuploadComponent implements OnInit {
         }
 
         if (index >= start && status) {
-          console.log('[173]', list);
+
           const filteredlist = list[0].trim().split(' ');
           const tier = list[2].substring(0, list[2].length - 1);
 
@@ -178,11 +178,14 @@ export class FileuploadComponent implements OnInit {
             this.clinical.push({ gene: filteredlist[0], tier, frequency: list[3] });  // 티어
             this.clinically.push(list[0]); // 유전자
             console.log('[clinical][170] ', this.clinical, this.clinically);
+
           }
 
         }
 
         if (count === 2) {
+          // console.log(this.clinically);
+          // this.fileUploadService.setClinically(this.clinically);
         }
 
         if (list[0].trim() === 'Prevalent cancer biomarkers without relevant evidence based on included data sources') {
@@ -199,11 +202,14 @@ export class FileuploadComponent implements OnInit {
           });
 
           console.log('[201][deletion]====== ', deletion);
-
+          // this.fileUploadService.setPrevalent(deletion, this.pathologyNum);
         }
 
-      });  // End of ForEach
 
+      });  // End of ForEach
+      /*
+
+       */
     };
     reader.readAsText(file);
   }

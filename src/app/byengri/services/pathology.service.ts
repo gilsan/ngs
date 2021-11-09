@@ -7,6 +7,13 @@ import { IAmplification, IExtraction, IFilteredOriginData, IFusion, IIAmplificat
 import { IIMutation, IGeneTire } from './../models/patients';
 import { emrUrl } from './../../config';
 
+export interface IGENO {
+  geno: string;
+  relevant1: string;
+  relevant2: string;
+  trials: string;
+}
+
 
 @Injectable({
   providedIn: 'root',
@@ -334,6 +341,11 @@ export class PathologyService {
 
   public getClinically(): any {
     return this.clinically;
+  }
+
+  // Genomic Alteration
+  public setGenomic(geno: IGENO[], pathologyNum: string): any {
+    return this.http.post(`${this.apiUrl}/clinically/genomic`, { pathologyNum, geno });
   }
 
   // clincal

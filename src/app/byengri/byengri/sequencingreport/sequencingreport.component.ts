@@ -61,7 +61,9 @@ export class SequencingreportComponent implements OnInit {
     { code: 'PMO12054', title: 'BRAF exon15(조직, 갑상선유두암) 유전자 돌연변이 염기서열검사' },
     { code: 'PMO12057', title: 'BRAF exon15(전이성 대장직장암,혈액암,급여)유전자 돌연변이 염기서열검사' },
     { code: 'PMO12059', title: 'PDGFRA exon12,14,18 유전자 돌연변이 염기서열검사' },
-    { code: 'PMO12060', title: 'NRAS(조직, 비급여) 유전자 돌연변이검사' }
+    { code: 'PMO12060', title: 'NRAS(조직, 비급여) 유전자 돌연변이검사' },
+    { code: 'PMO12071', title: 'DH2 유전자 돌연변이 염기서열검사' },
+    { code: 'PMO12098', title: 'TERT 프로모터(조직, 갑상선암) 유전자 돌연변이 염기서열검사' }
   ];
 
   constructor(
@@ -91,12 +93,6 @@ export class SequencingreportComponent implements OnInit {
         this.patientInfo = this.pathologyService.patientInfo.filter(item => item.pathology_num === pathologyNum)[0];
         console.log('[92][환자정보] ', this.patientInfo, this.pathologyNum);
         this.descriptionCode = this.patientInfo.prescription_code;
-
-        // 임시
-        // const idx = this.prescriptioncode.findIndex(list => list.code === this.descriptionCode);
-        // if (idx !== -1) {
-        //   this.title = this.prescriptioncode.filter(list => list.code === this.descriptionCode)[0].title;
-        // }
 
         this.getSavedInfo(this.patientInfo.patientID);
 

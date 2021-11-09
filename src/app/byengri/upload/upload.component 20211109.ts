@@ -8,14 +8,8 @@ import { IFilteredOriginData } from '../models/patients';
 import { UploadResponse } from '../models/uploadfile';
 import { PathologyService } from '../services/pathology.service';
 import { StorePathService } from '../store.path.service';
-import { IGeneTire } from './../models/patients';
+import { IGeneTire } from '../models/patients';
 
-export interface IGENO {
-  geno: string;
-  relevant1: string;
-  relevant2: string;
-  trials: string;
-}
 @Component({
   selector: 'app-upload',
   templateUrl: './upload.component.html',
@@ -59,7 +53,6 @@ export class UploadComponent implements OnInit {
   burden: string;
 
   fields: string[] = [];
-  geno: IGENO[] = [];
 
   constructor(
     // private fileUploadService: PathologyService,
@@ -285,7 +278,10 @@ export class UploadComponent implements OnInit {
       }
 
       this.onDroppedFile(files);
+
+
     }
+
 
   }
 
@@ -340,15 +336,91 @@ export class UploadComponent implements OnInit {
       console.log('[336][Tumor 존재여부] ===> ', this.burden);
       data.filter(list => list[0] !== 'Public data sources included in relevant therapies')
         .forEach((list, index) => {
-
+          // console.log('[338][]', list[0]);
 
           if (list[0].length > 0) {
 
             if (list[0].trim() === 'Sample Cancer Type') {
               this.tumorType = list[1].trim();
-
+              // this.pathologyService.setTumortype(list[1].trim(), this.pathologyNum);
             }
+            // const temp1 = list[0].split('(');
 
+
+            // if ((temp1[0].trim() === 'Tumor Mutational Burden' && temp1[1]) ||
+            //   (list[0] === 'Tumor Mutational Burden' && list[1] !== undefined)) {
+            //   if (tempSave === 'none') {
+            //     tempSave = 'Genomic';
+            //   } else if (tempSave === 'Genomic') {
+            //     tempSave = 'Tumor';
+            //   }
+
+            // } else if (list[0] === 'Genomic Alteration' && (list[1] === 'Gene Name')) {
+            //   if (tempSave === 'none') {
+            //     tempSave = 'Genomic';
+            //   } else if (tempSave === 'Genomic') {
+            //     tempSave = 'Tumor';
+            //   }
+            // }
+
+
+            // if (tempSave === 'Tumor') {
+            //   if (temp1[0].trim() === 'Tumor Mutational Burden' && temp1[1]) {
+            //     const temp2 = temp1[1].split(' ');
+            //     if (temp2[1] === 'Mut/Mb') {
+            //       status = false;
+            //       start = index;
+
+            //       this.burden = temp2[0];
+            //       // console.log('[193][burden] ', this.burden);
+            //     }
+
+            //     if (count > 0) {
+            //       status = false;
+            //     } else {
+            //       status = true;
+            //       start = index + 1;
+            //     }
+            //     count++;
+            //   }
+
+            //   if (list[0] === 'Tumor Mutational Burden' && list[1] !== undefined) {
+            //     const burden = list[1].split(' ');
+            //     if (burden[1] === 'Mut/Mb') {
+            //       this.burden = burden[0];
+            //     }
+
+            //     if (count > 0) {
+            //       status = false;
+            //     } else {
+            //       status = true;
+            //       start = index + 1;
+            //     }
+            //     count++;
+            //   }
+            // } else if (tempSave === 'Genomic') {
+            //   if (temp1[0].trim() === 'Tumor Mutational Burden' && temp1[1]) {
+            //     const temp2 = temp1[1].split(' ');
+            //     if (temp2[1] === 'Mut/Mb') {
+            //       status = false;
+            //       start = index;
+            //       this.burden = temp2[0];
+            //       // console.log('[193][burden] ', this.burden);
+            //     }
+            //   }
+
+            //   if (list[0] === 'Tumor Mutational Burden' && list[1] !== undefined) {
+            //     const burden = list[1].split(' ');
+            //     if (burden[1] === 'Mut/Mb') {
+            //       this.burden = burden[0];
+            //     }
+            //   }
+            // }
+            // Tumor Mutational Burden 없는 경우
+            // console.log('[399][Tumor 존재여부] ===> ', tumorBurden, this.burden);
+            // if (!tumorBurden) {
+            //   tempSave = 'Tumor';
+            // }
 
             if (list[0] === 'Genomic Alteration' && (list[1] === 'Gene Name')) {
               if (count > 0) {
@@ -367,8 +439,6 @@ export class UploadComponent implements OnInit {
             if (index >= start && status) {
               const len = this.checkListNum(list[0]);
 
-              this.geno.push({ geno: list[1], relevant1: list[4], relevant2: list[5], trials: list[6] });
-              console.log('[441]', this.geno);
               if (len === 1) {
                 const filteredlist = list[0].trim().split(' ');
                 const tier = list[2].substring(0, list[2].length - 1);
@@ -436,19 +506,26 @@ export class UploadComponent implements OnInit {
             if (nextline === index) {
               this.prevalent = list[0].replace(/&gt;/g, '>').split(';').filter(item => {
                 const member = item.trim().split(' ');
-
+                // console.log('[362][prevalent]', this.prevalent);
                 return member[1] !== 'deletion';
 
               });
-
+              // console.log('===== [330][prevalent][전]', this.prevalent);
               this.prevalent.forEach((item, idx) => {
                 this.prevalent2.push({ gene: item.trim(), seq: idx.toString() });
               });
-
+              // console.log('===== [333][prevalent][후]', this.prevalent2);
             }
           }
         });  // End of ForEach
-
+      // console.log('==== [325][디비전송]' + '[clinically2]' + this.clinically2 + ' [prevalent2]' + this.prevalent2);
+      // from(this.clinically)
+      //   .pipe(
+      //     map(clinicallydata => [clinicallydata]),
+      //     concatMap(item => this.pathologyService.setClinically(item, this.pathologyNum))
+      //   ).subscribe(result => {
+      //     this.clinically = [];
+      //   });
 
       // this.pathologyService.setClinically(this.clinically, this.pathologyNum)
       this.pathologyService.setClinically2(this.clinically2, this.pathologyNum)
@@ -456,10 +533,10 @@ export class UploadComponent implements OnInit {
           concatMap(() => this.pathologyService.setTumortype(this.tumorType, this.pathologyNum)),
           concatMap(() => this.pathologyService.setPrevalent2(this.prevalent2, this.pathologyNum)),
           concatMap(() => this.pathologyService.setTumorMutationalBurden(this.burden, this.pathologyNum)),
-          concatMap(() => this.pathologyService.setClinical(this.clinical, this.pathologyNum)),
-          concatMap(() => this.pathologyService.setGenomic(this.geno, this.pathologyNum))
-        ).subscribe(result => {
+          concatMap(() => this.pathologyService.setClinical(this.clinical, this.pathologyNum))
 
+        ).subscribe(result => {
+          // console.log(result);
           this.clinically = [];
           this.tumorType = '';
           this.clinical = [];
@@ -467,7 +544,6 @@ export class UploadComponent implements OnInit {
           this.burden = '';
           this.clinically2 = [];
           this.prevalent2 = [];
-          this.geno = [];
         });
 
     };
@@ -543,7 +619,7 @@ export class UploadComponent implements OnInit {
           this.fields = list;
         }
         if (index >= loadDataIndex + 1) {
-
+          // console.log('==== [532][UPLOAD][filteredOriginData] ', list);
           // 2021-10-30 % Frequency ==> Allele Frequency % 로 변경
           const existFrequency = this.findGenePostion('Allele Frequency %');
           if (existFrequency !== -1) {
@@ -563,7 +639,20 @@ export class UploadComponent implements OnInit {
               variantName: list[this.findGenePostion('Variant Name')].trim(),
               pathologyNum: this.pathologyNum
               /*
-
+              locus: list[0].trim(),
+              readcount: list[21].trim(),
+              OncomineVariant: list[12].trim(),
+              oncomine: list[13].trim(),
+              type: list[5].trim(),
+              gene: list[9].trim(),
+              aminoAcidChange: list[20].trim(),
+              coding: list[35].trim(),
+              frequency: list[19].trim(),
+              comsmicID: list[30].trim(),
+              cytoband: list[15].trim(),
+              variantID: list[17].trim(),
+              variantName: list[18].trim(),
+              pathologyNum: this.pathologyNum,
               */
             });
           } else {
@@ -586,10 +675,11 @@ export class UploadComponent implements OnInit {
 
           }
 
+          // console.log('==== [313][upload][filteredOriginData] ', this.filteredOriginData);
         }
 
       });
-
+      // console.log('==== [465][upload][유전자 데이터 중복검색][filteredOriginData]  ===== \n ', this.filteredOriginData);
       this.pathologyService.setFilteredTSV(this.filteredOriginData);
       data.forEach(item => {
         const checkshap = item.toString().indexOf('#');
@@ -605,13 +695,13 @@ export class UploadComponent implements OnInit {
         }
         if (msiList[0] === 'MSI Score') {
           this.msiScore = msiList[1];
-
+          // this.pathologyService.setMSIScore(this.msiScore, this.pathologyNum);
           this.status$.next('msi');
         }
       });
       this.pathologyService.setMSIScore(this.msiScore + '(' + this.msiUnit + ')', this.pathologyNum);
 
-
+      // console.log('[320][upload][msiScore]', this.msiScore);
     };
 
     reader.readAsText(file);
@@ -642,20 +732,43 @@ export class UploadComponent implements OnInit {
         scenarios.push(row);
       }
     });
-
+    // console.log('=================\n, scenarios', scenarios);
+    // console.log('===================\n');
     return scenarios;
   }
 
   // 갯수확인
   checkListNum(genes: string): number {
-
+    // console.log('[585][genes[ ==> ', genes);
+    // const re = /[\[\]=]/gi;  // BAP1 p.([V409=;Q410*]) c.1227_1228delGCinsTT 경우
+    // // let tempfre  = [];
+    // if (re.test(genes)) {
+    //   const tempLen = genes.split(';');
+    //   if (tempLen.length === 1) {
+    //     return 1;
+    //   }
+    //   return tempLen.length;
+    // }
     // 구분자를 ; ==> , 변경
     const num = genes.split(',');
     return num.length;
   }
 
   /*
-
+             locus : Locus
+             readcount : Read Counts
+             OncomineVariant : Oncomine Variant Class
+             oncomine : Oncomine Gene Class
+             type  : Type
+             gene : Genes (Exons), Genes
+             aminoAcidChange : Amino Acid Chang
+             coding  : Coding
+             frequency : % Frequency
+             comsmicID : Variant ID
+             cytoband : CytoBand
+             variantID : Variant ID
+             variantName : Variant Name
+             pathologyNum
   *///
   // 유전자의 위치 찿음
   findGenePostion(item: string): number {
