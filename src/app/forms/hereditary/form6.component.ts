@@ -402,7 +402,12 @@ export class Form6Component implements OnInit, OnDestroy {
           this.recoverDetected();
         } else {
           console.log('[393][false]', this.savedDataExist);
-          this.init(this.form2TestedId);
+          if (this.isDirect) {
+            this.recoverDetected();
+          } else {
+            this.init(this.form2TestedId);
+          }
+
         }
       });
   }
