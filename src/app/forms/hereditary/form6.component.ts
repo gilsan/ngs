@@ -290,7 +290,10 @@ export class Form6Component implements OnInit, OnDestroy {
 
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
     if (this.isDirect) {
-      this.patientInfo.screenstatus = '0';
+      if (this.patientInfo.screenstatus === null || this.patientInfo.screenstatus === undefined) {
+        this.patientInfo.screenstatus = '0';
+      }
+
       this.defaultService.getList(this.patientInfo.test_code)
         .subscribe(info => {
           console.log('[296][인하우스] ', info);
