@@ -1226,14 +1226,14 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
 
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
-
+    console.log('[1229][gotoEMR]', formData);
     if (this.checkboxStatus.length === 0) {
       this.checkboxRefill();
     }
 
     const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
     // console.log('=== [1243][MDS][EMR로 보내기, 체크박스]', this.checkboxStatus);
-    // console.log('=== [1244][MDS][EMR로 보내기 DV]', reformData);
+    console.log('=== [1244][MDS][EMR로 보내기 DV]', reformData);
     // 코멘트가 있는경우
     if (this.comments.length) {
       const commentControl = this.tablerowForm.get('commentsRows') as FormArray;

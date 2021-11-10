@@ -126,8 +126,8 @@ export function makeCForm(
 			 <Col id="aminochange">${formData[i].aminoAcidChange}</Col>
 			 <Col id="zygosity">${formData[i].zygosity}</Col>
 			 <Col id="vaf">${formData[i].vafPercent}</Col>
-			 <Col id="reference">${formData[i].references}</Col>
-			 <Col id="cosmicid">${formData[i].cosmicID}</Col>
+			 <Col id="reference">${formData[i].reference}</Col>
+			 <Col id="cosmicid">${formData[i].cosmic_id}</Col>
 		 </Row>
 			`;
   }
