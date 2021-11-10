@@ -107,11 +107,11 @@
               <td class="txt_c" *ngIf="list.test_code === 'LPE474' || list.test_code === 'LPE475'  || processingSatus(list.test_code) ;else status">{{processingStatus(i)}}</td>
               <ng-template #status><td></td></ng-template>
               <td class="txt_c">
-                <button type="button" class="btn btn_03" *ngIf="list.tsvFilteredFilename.trim() || ( showReport(list.test_code)) ; else printing"
+                <button type="button" class="btn btn_03" *ngIf="list.tsvFilteredFilename.trim() || ( showReport(list.codetest)) ; else printing"
                   (click)="goReporter(i)">결과지/보고서</button>
                 <ng-template #printing>
                   <button type="button" class="btn btn_03" (click)="goUploadpage(list.specimenNo, list.patientID)"
-                  *ngIf="list.test_code === 'LPE474' || list.test_code === 'LPE475'  || processingSatus(list.test_code)? true : false"
+                  *ngIf="list.test_code === 'LPE474' || list.test_code === 'LPE475'  || processingSatus(list.codetest)? true : false"
                   >파일등록/변환</button>
                 </ng-template>
               </td>

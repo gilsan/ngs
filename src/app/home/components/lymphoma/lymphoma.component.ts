@@ -303,7 +303,7 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
   processingStatus(i: number): string {
     const status = this.lists[i].screenstatus;
     const filename = this.lists[i].tsvFilteredFilename;
-    if (parseInt(status, 10) === 0 && filename.length) {
+    if (parseInt(status, 10) === 0) {
       return '시작';
     } else if (parseInt(status, 10) === 1) {
       return '스크린완료';

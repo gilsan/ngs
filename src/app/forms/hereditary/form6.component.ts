@@ -409,7 +409,7 @@ export class Form6Component implements OnInit, OnDestroy {
         } else {
           console.log('[409][false]', this.savedDataExist);
           if (this.isDirect) {
-            this.recoverDetected();
+            this.getComment();
           } else {
             this.init(this.form2TestedId);
           }
@@ -421,6 +421,31 @@ export class Form6Component implements OnInit, OnDestroy {
 
   ////////////////////////////////////////
   // Genetic
+
+  getComment(): void {
+    this.subs.sink = this.variantsService.screenComment(this.form2TestedId)
+      .subscribe(dbComments => {
+        if (dbComments !== undefined && dbComments !== null && dbComments.length > 0) {
+          console.log('[472][COMMENT 가져오기]', dbComments);
+          this.commentdata = dbComments[0].comment;
+          this.comment2 = dbComments[0].reference;
+          this.resultname = dbComments[0].variants;
+          const methods = dbComments[0].methods;
+          const technique = dbComments[0].technique;
+
+          if (methods.length > 0) {
+            console.log('[437][COMMENT 가져오기]', methods.length);
+            this.methods = methods;
+          }
+
+          if (technique.length > 0) {
+            this.technique = technique;
+          }
+        }
+      });
+  }
+
+
   recoverDetected(): void {
     // 디비에서 Detected variant_id 가져오기
     this.subs.sink = this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {
@@ -429,16 +454,7 @@ export class Form6Component implements OnInit, OnDestroy {
       this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
 
       this.store.setDetactedVariants(data); // Detected variant 저장
-      // In House 관리 데이터 가져옴
-      // this.defaultService.getList(this.patientInfo.test_code)
-      //   .subscribe(info => {
-      //     console.log('[435][인하우스] ', info);
-      //     this.target = info[0].target;
-      //     this.method = info[0].method;
-      //     this.specimenMessage = info[0].specimen;
-      //     this.methods = info[0].comment1;
-      //     this.technique = info[0].comment2;
-      //   });
+
 
       // VUS 메제시 확인
       this.vusmsg = this.patientInfo.vusmsg;
@@ -463,25 +479,27 @@ export class Form6Component implements OnInit, OnDestroy {
     });
 
     // 코멘트 가져오기
-    this.subs.sink = this.variantsService.screenComment(this.form2TestedId)
-      .subscribe(dbComments => {
-        if (dbComments !== undefined && dbComments !== null && dbComments.length > 0) {
-          console.log('[472][COMMENT 가져오기]', dbComments);
-          this.commentdata = dbComments[0].comment;
-          this.comment2 = dbComments[0].reference;
-          this.resultname = dbComments[0].variants;
-          const methods = dbComments[0].methods;
-          const technique = dbComments[0].technique;
+    this.getComment();
+    // this.subs.sink = this.variantsService.screenComment(this.form2TestedId)
+    //   .subscribe(dbComments => {
+    //     if (dbComments !== undefined && dbComments !== null && dbComments.length > 0) {
+    //       console.log('[472][COMMENT 가져오기]', dbComments);
+    //       this.commentdata = dbComments[0].comment;
+    //       this.comment2 = dbComments[0].reference;
+    //       this.resultname = dbComments[0].variants;
+    //       const methods = dbComments[0].methods;
+    //       const technique = dbComments[0].technique;
 
-          if (methods.length > 0) {
-            this.methods = methods;
-          }
+    //       if (methods.length > 0) {
+    //         console.log('[477][COMMENT 가져오기]', methods.length);
+    //         this.methods = methods;
+    //       }
 
-          if (technique.length > 0) {
-            this.technique = technique;
-          }
-        }
-      });
+    //       if (technique.length > 0) {
+    //         this.technique = technique;
+    //       }
+    //     }
+    //   });
   }
 
   init(form2TestedId: string): void {

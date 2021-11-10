@@ -80,7 +80,7 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
             return { ...list, codetest: 'MDS/MPN' };
           }
         }),
-        // tap(list => console.log(list)),
+        tap(list => console.log(list)),
       )
       .subscribe((data) => {
         this.lists.push(data);
@@ -314,7 +314,7 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
   processingStatus(i: number): string {
     const status = this.lists[i].screenstatus;
     const filename = this.lists[i].tsvFilteredFilename;
-    if (parseInt(status, 10) === 0 && filename.length) {
+    if (parseInt(status, 10) === 0) {
       return '시작';
     } else if (parseInt(status, 10) === 1) {
       return '스크린완료';
