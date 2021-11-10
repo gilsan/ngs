@@ -350,6 +350,7 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   showReport(testCode: string): boolean {
+    // console.log('[353][]', testCode, this.hereditaryLists)
     if (this.hereditaryLists.includes(testCode)) {
       return false;
     }

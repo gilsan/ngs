@@ -104,7 +104,7 @@
               <td class="txt_c" *ngIf="list.codetest === 'AML' || list.codetest === 'ALL'  || processingSatus(list.codetest) ;else status">{{processingStatus(i)}}</td>
               <ng-template #status><td></td></ng-template>
               <td class="txt_c">
-                <button type="button" class="btn btn_03" *ngIf="list.tsvFilteredFilename.trim() || ( showReport(list.test_code)) ; else printing"
+                <button type="button" class="btn btn_03" *ngIf="list.tsvFilteredFilename.trim() || ( showReport(list.codetest)) ; else printing"
                   (click)="goReporter(i)">결과지/보고서</button>
                 <ng-template #printing>
                   <button type="button" class="btn btn_03" (click)="goUploadpage(list.specimenNo, list.patientID)"
