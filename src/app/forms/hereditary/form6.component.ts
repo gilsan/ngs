@@ -162,9 +162,9 @@ export class Form6Component implements OnInit, OnDestroy {
 
   functionalimpact: string[] = ['Pathogenic', 'Likely Pathogenic', 'VUS'];
 
-  methods = `Total genomic DNA was extracted from the each sample.  The DNA Prep with Enrichment, TruSight One Expanded of Illumina was used to make the library. The enriched fragments were then amplified and sequenced on the Nextseq 550 system (illumina). After demultiplexing, the reads were aligned to the human reference genome hg19 (GRCh37) using BWA (2.1.2). Duplicate reads were removed with Picard MarkDuplicates (1.130), local realignment around indels was performed with GATK RealignerTargetCreator (3.4.0), base scores were recalibrated with GATK BaseRecalibrator (3.4.0), and then variants were called with GATK (1.6). Variants were annotated using BaseSpace Annotation Engine (3.6.2.0).`;
+  methods = '';
 
-  technique = `The analysis was optimised to identify base pair substitutions with a high sensitivity. The sensitivity for small insertions and deletions was lower. Deep-intronic mutations, mutations in the promoter region, repeats, large exonic deletions and duplications, and other structural variants were not detected by this test.`;
+  technique = '';
   commentdata = '';
   maxHeight = 500;
   totalCount = 0; // 유전자와 nucleotidde change 을 가진 환자수
@@ -204,7 +204,7 @@ export class Form6Component implements OnInit, OnDestroy {
     if (parseInt(this.screenstatus, 10) >= 1 || parseInt(this.screenstatus, 10) === 2) {
       this.recoverDetected();
     } else if (parseInt(this.screenstatus, 10) === 0) {
-      // this.init(this.form2TestedId);
+      this.defaultCode();
       this.checkSavedData();
 
     } else {
@@ -257,7 +257,17 @@ export class Form6Component implements OnInit, OnDestroy {
     return { 'header-fix': false, 'td-fix': true };
   }
 
-
+  defaultCode(): void {
+    this.defaultService.getList(this.patientInfo.test_code)
+      .subscribe(info => {
+        console.log('[263][인하우스] ', info);
+        this.target = info[0].target;
+        this.method = info[0].method;
+        this.specimenMessage = info[0].specimen;
+        this.methods = info[0].comment1;
+        this.technique = info[0].comment2;
+      });
+  }
 
   findType(): void {
     this.route.paramMap.pipe(
@@ -293,17 +303,10 @@ export class Form6Component implements OnInit, OnDestroy {
       if (this.patientInfo.screenstatus === null || this.patientInfo.screenstatus === undefined) {
         this.patientInfo.screenstatus = '0';
       }
-
-      this.defaultService.getList(this.patientInfo.test_code)
-        .subscribe(info => {
-          console.log('[296][인하우스] ', info);
-          this.target = info[0].target;
-          this.method = info[0].method;
-          this.specimenMessage = info[0].specimen;
-
-        });
+      this.defaultCode();
     }
     console.log('[303][환자정보]', this.patientInfo);
+
     this.comment2 = this.patientInfo.worker;
     this.formTitle = this.patientInfo.reportTitle;
     this.findTitle(this.patientInfo.test_code);
@@ -391,7 +394,7 @@ export class Form6Component implements OnInit, OnDestroy {
     this.subs.sink = this.variantsService.screenSelect(this.form2TestedId)
       .pipe(
         tap(data => {
-          console.log('[390][checkSavedData]', data);
+          console.log('[395][screenstatus =0, DB 저장여부확인]', data);
           if (data.length) {
             this.savedDataExist = true;
           } else {
@@ -401,10 +404,10 @@ export class Form6Component implements OnInit, OnDestroy {
       )
       .subscribe(() => {
         if (this.savedDataExist) {
-          console.log('[390][true]', this.savedDataExist);
+          console.log('[406][true]', this.savedDataExist);
           this.recoverDetected();
         } else {
-          console.log('[393][false]', this.savedDataExist);
+          console.log('[409][false]', this.savedDataExist);
           if (this.isDirect) {
             this.recoverDetected();
           } else {
@@ -421,24 +424,21 @@ export class Form6Component implements OnInit, OnDestroy {
   recoverDetected(): void {
     // 디비에서 Detected variant_id 가져오기
     this.subs.sink = this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {
-      console.log('[401]', data);
+      console.log('[426]', data);
       this.recoverVariants = data;
       this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
 
       this.store.setDetactedVariants(data); // Detected variant 저장
       // In House 관리 데이터 가져옴
-      // if (this.patientInfo.screenstatus === '0') {
-      this.defaultService.getList(this.patientInfo.test_code)
-        .subscribe(info => {
-          console.log('[409][인하우스] ', info);
-          this.target = info[0].target;
-          this.method = info[0].method;
-          this.specimenMessage = info[0].specimen;
-
-        });
-      // }
-
-
+      // this.defaultService.getList(this.patientInfo.test_code)
+      //   .subscribe(info => {
+      //     console.log('[435][인하우스] ', info);
+      //     this.target = info[0].target;
+      //     this.method = info[0].method;
+      //     this.specimenMessage = info[0].specimen;
+      //     this.methods = info[0].comment1;
+      //     this.technique = info[0].comment2;
+      //   });
 
       // VUS 메제시 확인
       this.vusmsg = this.patientInfo.vusmsg;
@@ -466,7 +466,7 @@ export class Form6Component implements OnInit, OnDestroy {
     this.subs.sink = this.variantsService.screenComment(this.form2TestedId)
       .subscribe(dbComments => {
         if (dbComments !== undefined && dbComments !== null && dbComments.length > 0) {
-          console.log('[446][COMMENT 가져오기]', dbComments);
+          console.log('[472][COMMENT 가져오기]', dbComments);
           this.commentdata = dbComments[0].comment;
           this.comment2 = dbComments[0].reference;
           this.resultname = dbComments[0].variants;
@@ -488,7 +488,7 @@ export class Form6Component implements OnInit, OnDestroy {
     // VUS 메제시 확인 2021.4.7 추가
     if (this.patientInfo.vusmsg.length) {
       this.vusmsg = this.patientInfo.vusmsg;
-      console.log('[458][init][VUS메세지]', this.vusmsg);
+      console.log('[495][init][VUS메세지]', this.vusmsg);
     }
 
     if (this.form2TestedId) {
@@ -1488,7 +1488,7 @@ export class Form6Component implements OnInit, OnDestroy {
 
     // tslint:disable-next-line:max-line-length
     this.subs.sink = this.variantsService.screenTempSave(this.form2TestedId, formData, this.comments,
-      this.profile, this.resultStatus, this.patientInfo, this.comment2)
+      this.profile, this.resultStatus, this.patientInfo)
       .subscribe(data => {
         // console.log('[1065]', data);
         this.patientsListService.changescreenstatus(this.form2TestedId, this.screenstatus, userid, 'Generic')
