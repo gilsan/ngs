@@ -77,7 +77,7 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
         filter(list => list.test_code === 'LPE473'),
         map(list => {
           if (list.test_code === 'LPE473') {
-            return { ...list, test_code: 'MDS/MPN' };
+            return { ...list, codetest: 'MDS/MPN' };
           }
         }),
         // tap(list => console.log(list)),
@@ -266,7 +266,7 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log(data);
         data.forEach(list => {
           if (list.test_code === 'LPE473') {
-            tempLists.push({ ...list, test_code: 'MDS/MPN' });
+            tempLists.push({ ...list, codetest: 'MDS/MPN' });
           }
         });
         console.log(tempLists);

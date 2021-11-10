@@ -109,11 +109,11 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
         switchMap(list => from(list)),
         map(list => {
           if (list.test_code === 'LPE545' || list.test_code === 'LPE472') {
-            return { ...list, test_code: 'ALL', original_code: list.test_code };
+            return { ...list, codetest: 'ALL', original_code: list.test_code };
           } else if (list.test_code === 'LPE471') {
-            return { ...list, test_code: 'AML', original_code: list.test_code };
+            return { ...list, codetest: 'AML', original_code: list.test_code };
           } else if (list.test_code === 'LPE473') {
-            return { ...list, test_code: 'MDS/MPN' };
+            return { ...list, codetest: 'MDS/MPN' };
           } else if (list.test_code === 'LPE474' || list.test_code === 'LPE475') {
             return { ...list };
             // return { ...list, test_code: 'Lymphoma' };
@@ -320,9 +320,9 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
         filter(list => list.test_code === 'LPE545' || list.test_code === 'LPE472' || list.test_code === 'LPE471'),
         map(list => {
           if (list.test_code === 'LPE545' || list.test_code === 'LPE472') {
-            return { ...list, test_code: 'ALL', original_code: list.test_code };
+            return { ...list, codetest: 'ALL', original_code: list.test_code };
           } else if (list.test_code === 'LPE471') {
-            return { ...list, test_code: 'AML', original_code: list.test_code };
+            return { ...list, codetest: 'AML', original_code: list.test_code };
           }
         }),
       ).subscribe((data: any) => {

@@ -34,6 +34,7 @@ export interface IPatient {
   report_date?: string;
   specimenNo: string;
   test_code?: string;
+  codetest?: string;
   screenstatus: string;
   recheck?: string; // 확인자
   examin?: string; // 검사자
