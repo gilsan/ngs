@@ -224,6 +224,7 @@ export class Form7Component implements OnInit, OnDestroy {
           this.targetdisease = data[0].target;
           this.method = data[0].method;
           this.analyzedgene = data[0].analyzedgene;
+
           if (parseInt(this.patientInfo.screenstatus, 10) === 0) {
             this.variations = '';
           } else {
