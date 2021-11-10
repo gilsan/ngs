@@ -246,6 +246,9 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
     // console.log('[228]', this.specimenNo);
     this.mlpaService.getMlpReportMLPA(this.specimenNo)
       .subscribe(data => {
+        data = data.sort((a, b) => {
+          return parseInt(a.seq, 10) - parseInt(b.seq, 10);
+        })
         console.log('[248][저장된 데이터 가져오기]', data);
         if (data.length > 0) {
           this.displayMlpa(data);
