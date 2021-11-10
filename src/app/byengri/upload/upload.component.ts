@@ -4,18 +4,13 @@ import { from, Subject } from 'rxjs';
 import { concatMap, filter, map, tap } from 'rxjs/operators';
 import { FileUploadService } from 'src/app/home/services/file-upload.service';
 import { RearchStorePathService } from '../mainpa_services/store.path.service';
-import { IFilteredOriginData } from '../models/patients';
+import { IFilteredOriginData, IGENO } from '../models/patients';
 import { UploadResponse } from '../models/uploadfile';
 import { PathologyService } from '../services/pathology.service';
 import { StorePathService } from '../store.path.service';
 import { IGeneTire } from './../models/patients';
 
-export interface IGENO {
-  geno: string;
-  relevant1: string;
-  relevant2: string;
-  trials: string;
-}
+
 @Component({
   selector: 'app-upload',
   templateUrl: './upload.component.html',
@@ -367,8 +362,8 @@ export class UploadComponent implements OnInit {
             if (index >= start && status) {
               const len = this.checkListNum(list[0]);
 
-              this.geno.push({ geno: list[1], relevant1: list[4], relevant2: list[5], trials: list[6] });
-              console.log('[441]', this.geno);
+              this.geno.push({ gene: list[0], relevant1: list[4], relevant2: list[5], trial: list[6] });
+              console.log('[441][GENO]', this.geno);
               if (len === 1) {
                 const filteredlist = list[0].trim().split(' ');
                 const tier = list[2].substring(0, list[2].length - 1);
@@ -457,7 +452,7 @@ export class UploadComponent implements OnInit {
           concatMap(() => this.pathologyService.setPrevalent2(this.prevalent2, this.pathologyNum)),
           concatMap(() => this.pathologyService.setTumorMutationalBurden(this.burden, this.pathologyNum)),
           concatMap(() => this.pathologyService.setClinical(this.clinical, this.pathologyNum)),
-          // concatMap(() => this.pathologyService.setGenomic(this.geno, this.pathologyNum))
+          concatMap(() => this.pathologyService.setGenomic(this.geno, this.pathologyNum))
         ).subscribe(result => {
 
           this.clinically = [];

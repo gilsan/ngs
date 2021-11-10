@@ -372,7 +372,7 @@
           </div>
         </div>
         <!-- -----------------------------------  -->
-        <!--
+
         <div class="sub_title_03_E">Relevant Biomarkers</div>
         <div style="margin-right:18px;">
             <table width="100%" cellpadding="0" cellspacing="0" class="table_result pd_l35">
@@ -391,19 +391,11 @@
                 </tr>
               </thead>
               <tbody>
-                  <tr>
-                      <td>
-                         123
-                      </td>
-                       <td>
-                       123
-                      </td>
-                      <td>
-                      123
-                      </td>
-                       <td>
-                       123
-                      </td>
+                  <tr  *ngFor="let geno of genoLists">
+                      <td id="border">{{geno.gene}}</td>
+                      <td id="border">{{geno.relevant1}}</td>
+                      <td id="border">{{geno.relevant2}}</td>
+                      <td id="border">{{geno.trial}}</td>
                   </tr>
               </tbody>
             </table>
@@ -412,7 +404,7 @@
             </div>
 
         </div>
-        -->
+
         <!-- ----------------------------------   -->
 
         <div class="sub_title_03_E">Prevalent cancer biomarkers of unknown significance</div>

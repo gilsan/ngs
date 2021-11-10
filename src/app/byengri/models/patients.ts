@@ -337,3 +337,10 @@ export interface ILIST {
   type: string;
   gene: string;
 }
+
+export interface IGENO {
+  gene: string;
+  relevant1: string;
+  relevant2: string;
+  trial: string;
+}

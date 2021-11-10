@@ -10,7 +10,7 @@ import { SubSink } from 'subsink';
 import { makeReport } from '../../models/dataset';
 import {
   IAmplification, IBasicInfo, IExtraction, IFilteredOriginData,
-  IFusion, IGeneTire, IIAmplification, IList, IMent, IMutation, IPatient, Ipolymorphism, IStateControl
+  IFusion, IGeneTire, IGENO, IIAmplification, IList, IMent, IMutation, IPatient, Ipolymorphism, IStateControl
 } from '../../models/patients';
 import { FilteredService } from '../../services/filtered.service';
 import { PathologyService } from '../../services/pathology.service';
@@ -210,6 +210,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   ifusionForm: FormGroup;
   msiTag = false;
   reportday: string;
+  genoLists: IGENO[] = [];
   // <a [href]="fileUrl" download="file.txt">DownloadFile</a>
   // this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl()
 
@@ -724,10 +725,11 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     const prevalent$ = this.filteredService.getPrevalent(pathologynum);
     const tumorcellpercentage$ = this.filteredService.getTumorcellpercentage(pathologynum);
     const statcontrol$ = this.filteredService.getStatecontrol(pathologynum);
+    const gemonic$ = this.filteredService.getGemonic(pathologynum);
     combineLatest([filteredOriginaData$, msiscore$, tumorMutationalBurden$,
-      tumortype$, clinically$, clinical$, prevalent$, tumorcellpercentage$, statcontrol$])
+      tumortype$, clinically$, clinical$, prevalent$, tumorcellpercentage$, statcontrol$, gemonic$])
       .subscribe(([filteredOriginaDataVal, msiscoreVal, tumorMutationalBurdenVal,
-        tumortypeVal, clinicallyVal, clinicalVal, prevalentVal, tumorcellpercentageVal, statcontrolVal]) => {
+        tumortypeVal, clinicallyVal, clinicalVal, prevalentVal, tumorcellpercentageVal, statcontrolVal, gemoicVal]) => {
 
         this.filteredOriginData = filteredOriginaDataVal; // filtered 된 데이터 가져옴
         // MSISCORE
@@ -811,6 +813,11 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
           this.stateControl = statcontrolVal[0];
         }
 
+        // Genomic Alteration
+        if (gemoicVal.length) {
+          this.genoLists = gemoicVal;
+        }
+
         console.log('[보고서 유전자정보]', this.filteredOriginData);
         console.log('[보고서][msiscore]', this.msiScore);
         console.log('[보고서][tumorcellpercentage]', this.tumorcellpercentage);
@@ -821,6 +828,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log('[보고서][prevalent]', this.prevalent);
         console.log('[보고서][환자정보]', this.patientInfo);
         console.log('[보고서][정도관리]', statcontrolVal[0]);
+        console.log('[보고서][Genomic]', this.genoLists);
         // 검체정보
         this.extraction.dnarna = 'FFPE tissue';
         this.extraction.managementNum = this.patientInfo.rel_pathology_num;
@@ -1154,6 +1162,9 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
             this.ifusionLists().push(this.createIFusion(fItem, index.toString()));
           });
         }
+
+        /// Genomic Alteration
+
 
       }); // End of Subscirbe;
     console.log(' ######[1155][prevelant][amplification] ');

@@ -3,16 +3,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpEvent, HttpEventType, HttpParams } from '@angular/common/http';
 import { combineLatest, from, Observable, of, Subject, } from 'rxjs';
 import { concatMap, map, shareReplay, switchMap, tap } from 'rxjs/operators';
-import { IAmplification, IExtraction, IFilteredOriginData, IFusion, IIAmplification, IMutation, IPatient } from '../models/patients';
+import { IAmplification, IExtraction, IFilteredOriginData, IFusion, IGENO, IIAmplification, IMutation, IPatient } from '../models/patients';
 import { IIMutation, IGeneTire } from './../models/patients';
 import { emrUrl } from './../../config';
 
-export interface IGENO {
-  geno: string;
-  relevant1: string;
-  relevant2: string;
-  trials: string;
-}
+
 
 
 @Injectable({
@@ -344,8 +339,8 @@ export class PathologyService {
   }
 
   // Genomic Alteration
-  public setGenomic(geno: IGENO[], pathologyNum: string): any {
-    return this.http.post(`${this.apiUrl}/clinically/genomic`, { pathologyNum, geno });
+  public setGenomic(genomic: IGENO[], pathologyNum: string): any {
+    return this.http.post(`${this.apiUrl}/clinically/genomicInsert`, { pathologyNum, genomic });
   }
 
   // clincal
