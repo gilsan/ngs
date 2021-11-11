@@ -114,7 +114,7 @@
                  class="clr-input textcenter tdbox"
                  [matTooltip]="group.get('gene').value"
                  formControlName="gene"></td>
-            <td><input type="text" size="10"  class="clr-input textcenter  tdbox"
+            <td><input type="text" size="10"  class="clr-input   tdbox"
                 matInput
                 [matAutocomplete]="auto"
                [matTooltip]="group.get('functionalImpact').value"
@@ -126,20 +126,22 @@
                 </mat-autocomplete>
 
             </td>
-            <td><input type="text" size="20"  class="clr-input textcenter  tdbox"
+            <td><input type="text" size="20"  class="clr-input    tdbox"
             [matTooltip]="group.get('transcript').value"
             formControlName="transcript"></td>
-            <td><input type="text" size="15"  class="clr-input textcenter  tdbox"
+            <td><input type="text" size="15"  class="clr-input    tdbox"
             [matTooltip]="group.get('exonIntro').value"
             formControlName="exonIntro"></td>
-            <td><input type="text" size="40"  class="clr-input textcenter  tdbox"
+            <td><input type="text" size="40"  class="clr-input    tdbox"
             [matTooltip]="group.get('nucleotideChange').value"
             formControlName="nucleotideChange"></td>
-            <td><input type="text" size="40"  class="clr-input textcenter  tdbox"
+            <td><input type="text" size="40"  class="clr-input    tdbox"
+            placeholder="2개 이상시 콤마로 분리"
             [matTooltip]="group.get('aminoAcidChange').value"
             formControlName="aminoAcidChange"></td>
             <td>
-            <input type="text" size="20"  class="clr-input textcenter  tdbox"
+            <input type="text" size="20"  class="clr-input    tdbox"
+            placeholder="2개 이상시 콤마로 분리"
             matInput
             [matTooltip]="group.get('zygosity').value"
             formControlName="zygosity"  [matAutocomplete]="zygo">
