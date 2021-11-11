@@ -1981,7 +1981,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
 
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
-
+    console.log('[1984][]', formData)
     if (this.comments.length) {
       const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
       this.comments = commentControl.getRawValue();
@@ -2014,7 +2014,8 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     // tslint:disable-next-line:max-line-length
     this.variantsService.screenTempSave2(this.form2TestedId, formData, this.comments, this.profile, this.resultStatus, this.patientInfo)
       .pipe(
-        concatMap(() => this.variantsService.screenSelect(this.form2TestedId))
+        concatMap(() => this.variantsService.screenSelect(this.form2TestedId)),
+        tap(data => console.log('[2018][졍렬]', data))
       ).subscribe(data => {
         this.vd = [];
         this.checkboxStatus = [];
