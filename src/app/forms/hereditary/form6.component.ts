@@ -1766,20 +1766,23 @@ export class Form6Component implements OnInit, OnDestroy {
       const control = this.tablerowForm.get('tableRows') as FormArray;
       const lists = control.getRawValue();
       console.log(lists);
+      this.commentdata = '';
       let comment = '';
+
       lists.forEach(list => {
-        const msg1 = `본 환자에서 ${this.target} 에 대한 targeted panel sequencing 결과, ${list.gene} 유전자에서 ${list.functionalImpact}로 분류되는 ${list.nucleotideChange}, ${list.aminoAcidChange} 변이가 ${list.zygosity}로 관찰되었습니다.\n`;
+        if (list.functionalImpact.length > 0) {
+          console.log(list.aminoAcidChange);
 
-        const msg2 = `또한,  ${list.gene} 유전자에서 VUS (Variant of Unknown Significance) 로 분류되는  ${list.nucleotideChange}, ${list.aminoAcidChange} 변이가 ${list.zygosity}로 관찰되었습니다.\n`;
-
-
-        const zygosity = list.zygosity.split(',');
-        zygosity.forEach((item) => {
-          comment = comment + `본 환자에서 ${this.target} 에 대한 targeted panel sequencing 결과, ${list.gene} 유전자에서 ${list.functionalImpact}로 분류되는 ${list.nucleotideChange}, ${list.aminoAcidChange} 변이가 ${item}로 관찰되었습니다.\n`;
-        });
-
-        if (list.functionalImpact.toLowerCase() === 'vus') {
-          comment = comment + `또한,  ${list.gene} 유전자에서 VUS (Variant of Unknown Significance) 로 분류되는  ${list.nucleotideChange}, ${list.aminoAcidChange} 변이가 ${list.zygosity}로 관찰되었습니다.\n`;
+          const aminoAcidChange = list.aminoAcidChange.split(',');
+          aminoAcidChange.forEach((item) => {
+            const zygosity = list.zygosity.split(',');
+            zygosity.forEach((zigo) => {
+              comment = comment + `본 환자에서 ${this.target} 에 대한 targeted panel sequencing 결과, ${list.gene} 유전자에서 ${list.functionalImpact}로 분류되는 ${list.nucleotideChange}, ${item} 변이가 ${zigo}로 관찰되었습니다.\n`;
+            });
+          });
+          if (list.functionalImpact.toLowerCase() === 'vus') {
+            comment = comment + `또한,  ${list.gene} 유전자에서 VUS (Variant of Unknown Significance) 로 분류되는  ${list.nucleotideChange}, ${list.aminoAcidChange} 변이가 ${list.zygosity}로 관찰되었습니다.\n`;
+          }
         }
       });
 
@@ -1788,7 +1791,4 @@ export class Form6Component implements OnInit, OnDestroy {
       this.commentdata = `본 환자에서 ${this.target} 에 대한 targeted panel sequencing 결과, 질환 관련 돌연변이는 관찰되지 않았습니다`;
     }
   }
-
-
-
 }

@@ -533,8 +533,6 @@ export class Form7Component implements OnInit, OnDestroy {
     this.sequencingRows().push(this.newRow());
   }
 
-
-
   removeRow(i: number): void {
     this.sequencingRows().removeAt(i);
   }
@@ -711,20 +709,24 @@ export class Form7Component implements OnInit, OnDestroy {
 
   autoComment(): void {
     const gene = this.ngsTitle.split('Gene')[0].trim();
+    this.comment = '';
     if (this.resultStatus === 'Detected') {
       const control = this.form.get('tableRows') as FormArray;
       const lists = control.getRawValue();
       console.log(lists);
       let comment = '';
       lists.forEach(list => {
-        const zygosity = list.zygosity.split(',');
-        zygosity.forEach((item) => {
-          comment = comment + `본 환자에서 ${this.targetdisease} 에 대한 direct sequencing  결과, ${gene} 유전자에서 ${list.functionalImpact}로 분류되는 ${list.nucleotideChange}, ${list.aminoAcidChange} 변이가 ${item}로 관찰되었습니다.\n`;
-        });
+        const aminoAcidChange = list.aminoAcidChange.split(',');
+        if (list.type.length > 0) {
+          aminoAcidChange.forEach((item, index) => {
+            comment = comment + `본 환자에서 ${this.targetdisease} 에 대한 direct sequencing  결과, ${gene} 유전자에서 ${list.type}로 분류되는 ${list.nucleotideChange}, ${item} 변이가 ${list.zygosity}로 관찰되었습니다.\n`;
 
-        if (list.functionalImpact.toLowerCase() === 'vus') {
-          comment = comment + `또한,  ${gene} 유전자에서 VUS (Variant of Unknown Significance) 로 분류되는  ${list.nucleotideChange}, ${list.aminoAcidChange} 변이가 ${list.zygosity}로 관찰되었습니다.\n`;
+            if (list.type.toLowerCase() === 'vus' && (index === aminoAcidChange.length - 1)) {
+              comment = comment + `또한,  ${gene} 유전자에서 VUS (Variant of Unknown Significance) 로 분류되는  ${list.nucleotideChange}, ${item} 변이가 ${list.zygosity}로 관찰되었습니다.\n`;
+            }
+          });
         }
+
       });
 
       this.comment = comment;
