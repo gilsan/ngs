@@ -556,7 +556,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
         let dvariable: IAFormVariant;
         let igv = '';
         igv = data.igv;
-        // console.log('********** [필터링원시자료][553]', igv);
+        // console.log('********** [필터링원시자료][553]', igv, data);
 
         // 타입 분류
         if (data.mtype === 'M') {  // mutation
@@ -1981,7 +1981,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
 
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
-    console.log('[1984][]', formData)
+    console.log('[1984][정렬]', formData)
     if (this.comments.length) {
       const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
       this.comments = commentControl.getRawValue();
