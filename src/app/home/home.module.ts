@@ -34,6 +34,8 @@ import { XlxsuploadComponent } from './components/xlxsupload/xlxsupload.componen
 import { TxtuploadComponent } from './components/txtupload/txtupload.component';
 import { ReportmgnComponent } from './components/reportmgn/reportmgn.component';
 import { SaintFormsModule } from '../forms/forms.module';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+
 
 @NgModule({
   declarations: [
@@ -57,6 +59,8 @@ import { SaintFormsModule } from '../forms/forms.module';
     XlxsuploadComponent,
     TxtuploadComponent,
     ReportmgnComponent,
+    DashboardComponent,
+
   ],
   imports: [
     CommonModule,

@@ -12,6 +12,7 @@ import * as moment from 'moment';
 import { geneTitles } from 'src/app/forms/commons/geneList';
 import { TestCodeTitleService } from 'src/app/home/services/testCodeTitle.service';
 import { AMLALL, LYM, SEQ, MDS, GENETIC, MLPA } from 'src/app/forms/commons/geneList';
+import { DashboardService } from '../../services/dashboard.service';
 @Component({
   selector: 'app-amlall',
   templateUrl: './amlall.component.html',
@@ -48,7 +49,8 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router,
     private store: StoreService,
     private sanitizer: DomSanitizer,
-    private titleService: TestCodeTitleService
+    private titleService: TestCodeTitleService,
+    private dashboardService: DashboardService,
   ) { }
 
   ngOnInit(): void {
@@ -56,8 +58,6 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.storeStartDay === null || this.storeEndDay === null) {
       this.init();
     }
-    // console.log('[51][ngOnInit]');
-    // this.search(this.startToday(), this.endToday(), '', '');
   }
 
   // 전체 리스트

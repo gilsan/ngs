@@ -1202,6 +1202,18 @@ export class PatientsListService {
     return this.http.post(`${this.apiUrl}/codedefault/findmutation`, { gene, nucleotide })
   }
 
+  public boardSearch(start: string, end: string): Observable<any> {
+    return this.http.post<any[]>(`${this.apiUrl}/searchpatient_diag/list`, { start, end, patientID: '', specimenNo: '' }).pipe(
+      switchMap(data => from(data)),
+      map((data: any) => {
+        return { screenstatus: data.screenstatus, test_code: data.test_code };
+      }),
+      shareReplay()
+    );
+  }
+
+
+
 
 
 }

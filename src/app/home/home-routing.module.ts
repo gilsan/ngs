@@ -33,6 +33,7 @@ import { Form6Component } from '../forms/hereditary/form6.component';
 import { Form4Component } from '../forms/mdsmpn/form4.component';
 import { Form3Component } from '../forms/lymphoma/form3.component';
 import { Form2Component } from '../forms/form2/form2.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 
 
@@ -42,6 +43,7 @@ const routes: Routes = [
     path: '', component: HomeComponent, children: [
       { path: 'main', component: MainscreenComponent },
       { path: '', component: AmlallComponent },
+      { path: 'board', component: DashboardComponent },
       { path: 'amlall', component: AmlallComponent },
       { path: 'amlall/form2', component: Form2Component },
       { path: 'amlall/form2/:type', component: Form2Component },

@@ -1,0 +1,225 @@
+<div class="container">
+    <mat-grid-list cols="3" rowHeight="300">
+      <mat-grid-tile>
+          <div class="cell_container">
+             <div class="cell cell-1"><span class="content">AML/ALL</span></div>
+             <div class="cell cell-2"><span>접수</span> </div>
+             <div class="cell cell-3"><span>{{getCount('AMLALL', 'register')}}명</span></div>
+             <div class="cell cell-4"  (click)="goResult('AMLALL', 'register')">
+                <img [src]="'assets/images/arrow.png'"  class="arrow" >
+             </div>
+             <div class="cell cell-5"><span>시작</span></div>
+             <div class="cell cell-6"><span>{{getCount('AMLALL', 'start')}}명</span></div>
+             <div class="cell cell-7"  (click)="goResult('AMLALL', '0')">
+               <img [src]="'assets/images/arrow.png'"  class="arrow">
+             </div>
+             <div class="cell cell-8"><span>스크린판독</span></div>
+             <div class="cell cell-9"><span>{{getCount('AMLALL', 'screenread')}}명</span></div>
+             <div class="cell cell-10"  (click)="goResult('AMLALL', '1')">
+                <img [src]="'assets/images/arrow.png'"  class="arrow">
+             </div>
+
+             <div class="cell cell-11"><span>판독완료</span></div>
+             <div class="cell cell-12"><span>{{getCount('AMLALL', 'screenfinish')}}명</span></div>
+             <div class="cell cell-13"  (click)="goResult('AMLALL', '2')">
+                <img [src]="'assets/images/arrow.png'"  class="arrow">
+             </div>
+             <div class="cell cell-14"><span>EMR완료</span></div>
+             <div class="cell cell-15"><span>{{getCount('AMLALL', 'emrsend')}}명</span></div>
+             <div class="cell cell-16"  (click)="goResult('AMLALL', '3')">
+                <img [src]="'assets/images/arrow.png'"  class="arrow">
+             </div>
+          </div>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+          <div class="cell_container">
+             <div class="cell cell-1"><span class="content">MDS/MPN</span>
+             </div>
+             <div class="cell cell-2">
+                <span>접수</span>
+             </div>
+             <div class="cell cell-3">
+                <span>{{getCount('MDS', 'register')}}명</span>
+              </div>
+             <div class="cell cell-4">
+                <img [src]="'assets/images/arrow.png'"  class="arrow">
+             </div>
+             <div class="cell cell-5">시작</div>
+             <div class="cell cell-6">{{getCount('MDS', 'start')}}명</div>
+             <div class="cell cell-7">
+               <img [src]="'assets/images/arrow.png'"  class="arrow">
+             </div>
+             <div class="cell cell-8">스크린판독</div>
+             <div class="cell cell-9">{{getCount('MDS', 'screenread')}}명</div>
+             <div class="cell cell-10">
+                <img [src]="'assets/images/arrow.png'"  class="arrow">
+             </div>
+
+             <div class="cell cell-11">판독완료</div>
+             <div class="cell cell-12">{{getCount('MDS', 'screenfinish')}}명</div>
+             <div class="cell cell-13">
+                <img [src]="'assets/images/arrow.png'"  class="arrow">
+             </div>
+             <div class="cell cell-14">EMR완료</div>
+             <div class="cell cell-15">{{getCount('MDS', 'emrsend')}}명</div>
+             <div class="cell cell-16">
+                <img [src]="'assets/images/arrow.png'"  class="arrow">
+             </div>
+          </div>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+          <div class="cell_container">
+             <div class="cell cell-1">
+                 <span class="content">악성림프종,형질세포종</span>
+             </div>
+             <div class="cell cell-2">
+                <span  >접수</span>
+             </div>
+             <div class="cell cell-3">
+                <span>{{getCount('LYM', 'register')}}명</span>
+              </div>
+             <div class="cell cell-4">
+                <img [src]="'assets/images/arrow.png'"  class="arrow">
+             </div>
+             <div class="cell cell-5">시작</div>
+             <div class="cell cell-6">{{getCount('LYM', 'start')}}명</div>
+             <div class="cell cell-7">
+               <img [src]="'assets/images/arrow.png'"  class="arrow">
+             </div>
+             <div class="cell cell-8">스크린판독</div>
+             <div class="cell cell-9">{{getCount('LYM', 'screenread')}}명</div>
+             <div class="cell cell-10">
+                <img [src]="'assets/images/arrow.png'"  class="arrow ">
+             </div>
+
+             <div class="cell cell-11">판독완료</div>
+             <div class="cell cell-12">{{getCount('LYM', 'screenfinish')}}명</div>
+             <div class="cell cell-13">
+                <img [src]="'assets/images/arrow.png'"  class="arrow">
+             </div>
+             <div class="cell cell-14">EMR완료</div>
+             <div class="cell cell-15">{{getCount('LYM', 'emrsend')}}명</div>
+             <div class="cell cell-16">
+                <img [src]="'assets/images/arrow.png'"  class="arrow">
+             </div>
+          </div>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+          <div class="cell_container">
+             <div class="cell cell-1">
+                 <span class="content">유전성유전질환</span>
+             </div>
+             <div class="cell cell-2">
+                <span  >접수</span>
+             </div>
+             <div class="cell cell-3">
+                <span>{{getCount('Genetic', 'register')}}명</span>
+              </div>
+             <div class="cell cell-4">
+                <img [src]="'assets/images/arrow.png'"  class="arrow"  class="arrow">
+             </div>
+             <div class="cell cell-5">시작</div>
+             <div class="cell cell-6">{{getCount('Genetic', 'start')}}명</div>
+             <div class="cell cell-7">
+               <img [src]="'assets/images/arrow.png'"  class="arrow">
+             </div>
+             <div class="cell cell-8">스크린판독</div>
+             <div class="cell cell-9">{{getCount('Genetic', 'screenread')}}명</div>
+             <div class="cell cell-10">
+                <img [src]="'assets/images/arrow.png'"  class="arrow"  class="arrow">
+             </div>
+
+             <div class="cell cell-11">판독완료</div>
+             <div class="cell cell-12">{{getCount('Genetic', 'screenfinish')}}명</div>
+             <div class="cell cell-13">
+                <img [src]="'assets/images/arrow.png'"  class="arrow">
+             </div>
+             <div class="cell cell-14">EMR완료</div>
+             <div class="cell cell-15">{{getCount('Genetic', 'emrsend')}}명</div>
+             <div class="cell cell-16">
+                <img [src]="'assets/images/arrow.png'"  class="arrow">
+             </div>
+          </div>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+          <div class="cell_container">
+             <div class="cell cell-1">
+                 <span class="content">Sequencing</span>
+             </div>
+             <div class="cell cell-2">
+                <span  >접수</span>
+             </div>
+             <div class="cell cell-3">
+                <span>{{getCount('SEQ', 'register')}}명</span>
+              </div>
+             <div class="cell cell-4">
+                <img [src]="'assets/images/arrow.png'"  class="arrow">
+             </div>
+             <div class="cell cell-5">시작</div>
+             <div class="cell cell-6">{{getCount('SEQ', 'start')}}명</div>
+             <div class="cell cell-7">
+               <img [src]="'assets/images/arrow.png'"  class="arrow">
+             </div>
+             <div class="cell cell-8">스크린판독</div>
+             <div class="cell cell-9">{{getCount('SEQ', 'screenread')}}명</div>
+             <div class="cell cell-10">
+                <img [src]="'assets/images/arrow.png'"  class="arrow">
+             </div>
+
+             <div class="cell cell-11">판독완료</div>
+             <div class="cell cell-12">{{getCount('SEQ', 'screenfinish')}}명</div>
+             <div class="cell cell-13">
+                <img [src]="'assets/images/arrow.png'"  class="arrow">
+             </div>
+             <div class="cell cell-14">EMR완료</div>
+             <div class="cell cell-15">{{getCount('SEQ', 'emrsend')}}명</div>
+             <div class="cell cell-16">
+                <img [src]="'assets/images/arrow.png'"  class="arrow">
+             </div>
+          </div>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+          <div class="cell_container">
+             <div class="cell cell-1">
+                 <span class="content">MLPA</span>
+             </div>
+             <div class="cell cell-2">
+                <span  >접수</span>
+             </div>
+             <div class="cell cell-3">
+                <span>{{getCount('MLPA', 'register')}}명</span>
+              </div>
+             <div class="cell cell-4">
+                <img [src]="'assets/images/arrow.png'" class="arrow">
+             </div>
+             <div class="cell cell-5">시작</div>
+             <div class="cell cell-6">{{getCount('MLPA', 'start')}}명</div>
+             <div class="cell cell-7">
+               <img [src]="'assets/images/arrow.png'"  class="arrow">
+             </div>
+             <div class="cell cell-8">스크린판독</div>
+             <div class="cell cell-9">{{getCount('MLPA', 'screenread')}}명</div>
+             <div class="cell cell-10">
+                <img [src]="'assets/images/arrow.png'"  class="arrow">
+             </div>
+
+             <div class="cell cell-11">판독완료</div>
+             <div class="cell cell-12">{{getCount('MLPA', 'screenfinish')}}명</div>
+             <div class="cell cell-13">
+                <img [src]="'assets/images/arrow.png'"  class="arrow">
+             </div>
+             <div class="cell cell-14">EMR완료</div>
+             <div class="cell cell-15">{{getCount('MLPA', 'emrsend')}}명</div>
+             <div class="cell cell-16">
+                <img [src]="'assets/images/arrow.png'"  class="arrow"  class="arrow">
+             </div>
+          </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+
+</div>
