@@ -1785,7 +1785,23 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
   goBack(): void {
     this.router.navigate(['/diag', 'mdsmpn']);
   }
+  ////////////////////////////////////////////////////////////
+  ///
+  // VUS 검사
+  checkVUS(): boolean {
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    const formData: IAFormVariant[] = control.getRawValue();
+    const vusIdx = formData.findIndex(list => list.functionalImpact === 'VUS');
+    if (vusIdx === -1) {
+      this.vusmsg = '';
+      return false;
+    }
+    this.vusmsg = `VUS는 ExAC, KRGDB등의 Population database에서 관찰되지 않았거나, 임상적 의의가 불분명합니다. 해당변이의 의의를 명확히 하기 위하여 환자의 buccal swab 검체로 germline variant 여부에 대한 확인이 필요 합니다.`;
+    return true;
 
+  }
+
+  /////////////////////////////////////////////////////////////////
   reCall(): void {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData: IAFormVariant[] = control.getRawValue();
