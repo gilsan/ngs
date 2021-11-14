@@ -73,3 +73,10 @@ label {
   min-height: 500px;
   height: calc(100vh - 300px);
 }
+
+.progressbar {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

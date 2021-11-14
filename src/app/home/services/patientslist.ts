@@ -1212,6 +1212,12 @@ export class PatientsListService {
     );
   }
 
+  public patientSearch(start: string, end: string): Observable<any[]> {
+    return this.http.post<any[]>(`${this.apiUrl}/searchpatient_diag/list`, { start, end, patientID: '', specimenNo: '' }).pipe(
+      shareReplay()
+    );
+  }
+
 
 
 

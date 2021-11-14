@@ -207,7 +207,7 @@ export class Form7Component implements OnInit, OnDestroy {
                 aminoAcidChange: item.aminoAcidChange,
                 zygosity: item.zygosity,
                 rsid: item.rsid,
-                genbankaccesion: item.genbankaccesion
+                genbankaccesion: item.reference
               }
             ));
           });
@@ -336,7 +336,7 @@ export class Form7Component implements OnInit, OnDestroy {
     const userid = localStorage.getItem('diaguser');
     const control = this.form.get('tableRows') as FormArray;
     const formData = control.getRawValue();
-
+    const gene = this.ngsTitle.split('Gene')[0].trim();
     if (parseInt(this.patientInfo.screenstatus, 10) > 3) {
       this.patientInfo.screenstatus = '3';
       this.screenstatus = '3';
@@ -345,7 +345,8 @@ export class Form7Component implements OnInit, OnDestroy {
 
     this.patientInfo.recheck = this.recheck;
     this.patientInfo.examin = this.examin;
-    // console.log('[1729][tempSave]patient,reform,comment]', this.patientInfo, formData, this.comments);
+
+    console.log('[1729][tempSave]patient,reform,comment]', this.patientInfo, formData,);
     this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimenNo)
       .subscribe(datas => console.log(datas));
     this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimenNo)
@@ -502,6 +503,7 @@ export class Form7Component implements OnInit, OnDestroy {
   // sequencingForm
   ////////////////////////////////////////////
   createRow(sequencing: ISequence): FormGroup {
+    const gene = this.ngsTitle.split('Gene')[0].trim();
     return this.fb.group({
       type: sequencing.type,
       exonintron: sequencing.exonintron,
@@ -509,11 +511,13 @@ export class Form7Component implements OnInit, OnDestroy {
       aminoAcidChange: sequencing.aminoAcidChange,
       zygosity: sequencing.zygosity,
       rsid: sequencing.rsid,
-      genbankaccesion: sequencing.genbankaccesion
+      genbankaccesion: sequencing.genbankaccesion,
+      gene
     });
   }
 
   newRow(): FormGroup {
+    const gene = this.ngsTitle.split('Gene')[0].trim();
     return this.fb.group({
       type: '',
       exonintron: '',
@@ -521,7 +525,8 @@ export class Form7Component implements OnInit, OnDestroy {
       aminoAcidChange: '',
       zygosity: '',
       rsid: '',
-      genbankaccesion: ''
+      genbankaccesion: '',
+      gene
     });
   }
 
