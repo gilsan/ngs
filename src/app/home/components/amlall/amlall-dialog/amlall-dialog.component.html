@@ -1,0 +1,135 @@
+
+<mat-dialog-content>
+<div id="wrap1111">
+  <app-research-upload [hidden]="isVisible" (onSelected)="onSelected($event)" (onCanceled)="onCanceled()"
+      [specimenNo]="specimenno">
+  </app-research-upload>
+
+  <div id="container">
+    <div id="content">
+      <div class="box">
+        <div class="box mg_b20 pd_20">
+            <button type="button" class="btn btn_02" style="margin-left: 10px;"
+             mat-raised-button color="primary"  (click)="addRow()">추가</button>
+        </div>
+        <form [formGroup]="tablerowForm">
+          <div class="box_100 fill" >
+              <table border="0" cellpadding="0" cellspacing="0" class="table_list  fixed_header table_resul_x">
+                <colgroup>
+                  <col width="3%">
+                  <col width="7%">
+                  <col width="5%">
+                  <col width="4%">
+                  <col width="4%">
+                  <col width="6%">
+                  <col width="5%">
+                  <col width="20%">
+                  <col width="8%">
+                  <col width="15%">
+                  <col width="10%">
+                  <col width="5%">
+                  <col width="8%">
+
+                 <!--  <col width="7%">
+                  <col width="2%"> -->
+
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th>No.</th>
+                    <th>접수일</th>
+                    <th>환자이름</th>
+                    <th>나이</th>
+                    <th>성별</th>
+                    <th>환자ID</th>
+                    <th>검사명</th>
+                    <th>결과지명</th>
+                    <th>검체번호</th>
+                    <th>TSV 파일</th>
+                    <th>BAM 파일</th>
+                    <th>진행상태</th>
+                    <th>&nbsp;</th>
+
+                  </tr>
+                </thead>
+                <div></div>
+                <tbody>
+                    <ng-container formArrayName="tableRows" *ngFor="let group of getFormControls.controls; let i=index">
+                      <tr [formGroupName]="i">
+                        <td class="txt_c">{{i+1}}</td>
+                        <td class="txt_c">
+                            <input type="text" size="10"  class="clr-input textcenter  tdbox" formControlName="regdate">
+                        </td>
+                        <td class="txt_c">
+                            <input type="text" size="10"  class="clr-input textcenter  tdbox" formControlName="name">
+                        </td>
+                        <td class="txt_c">
+                            <input type="text" size="10"  class="clr-input textcenter  tdbox" formControlName="age">
+                        </td>
+                        <td class="txt_c">
+                            <input type="text" size="10"  class="clr-input textcenter  tdbox" formControlName="gender">
+                        </td>
+                        <td class="txt_c">
+                            <input type="text" size="10"  class="clr-input textcenter  tdbox" formControlName="patientid">
+                        </td>
+                        <td class="txt_c">
+                            <input type="text" size="10"  class="clr-input textcenter  tdbox"
+                            [matAutocomplete]="auto" matInput placeholder="선택" (change) ="changetype(i)"
+                            formControlName="testname">
+                            <mat-autocomplete #auto="matAutocomplete">
+                               <mat-option *ngFor="let option of testname" [value]="option">
+                                    {{option}}
+                               </mat-option>
+                            </mat-autocomplete>
+
+                        </td>
+                        <td class="txt_c">
+                            <input type="text" size="25"  class="clr-input textcenter readonly tdbox" formControlName="sheetname">
+                        </td>
+                        <td class="txt_c">
+                            <input type="text" size="10"  class="clr-input textcenter  tdbox" formControlName="specimenno">
+                        </td>
+                        <td class="txt_c">
+                            <input type="text" size="25"  class="clr-input textcenter  readonly tdbox" formControlName="tsvname">
+                        </td>
+                         <td class="txt_c">
+
+                        </td>
+                         <td class="txt_c">
+                        </td>
+                        <ng-template #status><td></td></ng-template>
+                        <td class="txt_c">
+                          <button type="button" class="btn btn_03" (click)= "goSheet(i)">결과지/보고서</button>
+                          <!--
+                          <ng-template #printing>
+                            <button type="button" class="btn btn_03" (click)="goUploadpage(i)"
+                            >파일등록/변환</button>
+                          </ng-template>
+                          -->
+                        </td>
+                        <!--
+                        <td class="txt_c">
+                          <button type="button" class="btn btn_05" (click)="goUploadpage(i)"
+                             >재등록</button>
+                        </td>
+
+                        <td (click)="deleteRow(i)"><img [src]="'assets/images/cancel.png'"></td>
+                        <ng-template #reload><td></td></ng-template>
+                         -->
+                      </tr>
+                    </ng-container>
+                </tbody>
+              </table>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-raised-button color="primary"
+            (click)="close()">
+        닫기
+    </button>
+</mat-dialog-actions>

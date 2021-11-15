@@ -1,18 +1,20 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { from, Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { emrUrl } from 'src/app/config';
 import { StoreService } from 'src/app/forms/store.current';
 import { IPatient } from '../../models/patients';
-import { PatientsListService } from '../../services/patientslist';
 import { SubSink } from 'subsink';
 import * as moment from 'moment';
 import { geneTitles } from 'src/app/forms/commons/geneList';
 import { TestCodeTitleService } from 'src/app/home/services/testCodeTitle.service';
 import { AMLALL, LYM, SEQ, MDS, GENETIC, MLPA } from 'src/app/forms/commons/geneList';
+import { PatientsListService } from '../../services/patientslist';
 import { DashboardService } from '../../services/dashboard.service';
+import { AmlallDialogComponent } from './amlall-dialog/amlall-dialog.component';
 @Component({
   selector: 'app-amlall',
   templateUrl: './amlall.component.html',
@@ -51,6 +53,7 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
     private sanitizer: DomSanitizer,
     private titleService: TestCodeTitleService,
     private dashboardService: DashboardService,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -411,6 +414,18 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
       return true;
     }
     return false;
+  }
+
+  ////////// 연구용
+  openDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.maxWidth = '100vw';
+    dialogConfig.maxHeight = '100vh';
+    const dialogRef = this.dialog.open(AmlallDialogComponent, dialogConfig);
+
   }
 
 

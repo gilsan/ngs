@@ -35,6 +35,10 @@ import { TxtuploadComponent } from './components/txtupload/txtupload.component';
 import { ReportmgnComponent } from './components/reportmgn/reportmgn.component';
 import { SaintFormsModule } from '../forms/forms.module';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { AmlallDialogComponent } from './components/amlall/amlall-dialog/amlall-dialog.component';
+import { ResearchUploadComponent } from './components/research-upload/research-upload.component';
+import { ALLComponent } from './components/amlall/all/all.component';
+import { AMLComponent } from './components/amlall/aml/aml.component';
 
 
 @NgModule({
@@ -60,7 +64,10 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     TxtuploadComponent,
     ReportmgnComponent,
     DashboardComponent,
-
+    AmlallDialogComponent,
+    ResearchUploadComponent,
+    ALLComponent,
+    AMLComponent
   ],
   imports: [
     CommonModule,

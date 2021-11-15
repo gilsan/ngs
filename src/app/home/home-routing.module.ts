@@ -36,6 +36,9 @@ import { Form2Component } from '../forms/form2/form2.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 
+import { ALLComponent } from './components/amlall/all/all.component';
+import { AMLComponent } from './components/amlall/aml/aml.component';
+
 
 
 const routes: Routes = [
@@ -89,6 +92,9 @@ const routes: Routes = [
       { path: 'disease_test', component: DiseaseformComponent },
       { path: 'maindiag', component: MaindiagComponent },
       { path: 'typestatics', component: TypestaticsComponent },
+
+      { path: 'researchall', component: ALLComponent },
+      { path: 'researchaml', component: AMLComponent }
 
       // { path: '**', component: AmlallComponent },
 
