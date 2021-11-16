@@ -9,8 +9,10 @@
     <div id="content">
       <div class="box">
         <div class="box mg_b20 pd_20">
-            <button type="button" class="btn btn_02" style="margin-left: 10px;"
+            <button type="button"  style="margin-left: 10px;"
              mat-raised-button color="primary"  (click)="addRow()">추가</button>
+                <button mat-raised-button color="primary" style="margin-left: 10px;"
+              (click)="close()"> 닫기</button>
         </div>
         <form [formGroup]="tablerowForm">
           <div class="box_100 fill" >
@@ -127,9 +129,11 @@
   </div>
 </div>
 </mat-dialog-content>
+<!--
 <mat-dialog-actions>
     <button mat-raised-button color="primary"
             (click)="close()">
         닫기
     </button>
 </mat-dialog-actions>
+-->

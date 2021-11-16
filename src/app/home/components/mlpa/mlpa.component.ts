@@ -292,6 +292,8 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
       return '판독완료';
     } else if (parseInt(status, 10) === 3) {
       return '전송완료';
+    } else if (parseInt(status, 10) === 5) {
+      return '접수취소';
     }
   }
 
