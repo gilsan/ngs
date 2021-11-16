@@ -491,6 +491,16 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
           this.notecontents = data[0].notement;
         }
       });
+
+    ///////////////// Relevant Biomarkers
+    this.subs.sink = this.filteredService.getGemonic(pathologyNo)
+      .subscribe(gemoicVal => {
+        if (gemoicVal.length) {
+          this.genoLists = gemoicVal;
+        }
+      });
+
+    ///////////////////////////////////////
     this.subs.sink = this.searchService.getMutationC(pathologyNo) // mutation 리스트
       .subscribe(data => {
         if (data.message !== 'no data') {
