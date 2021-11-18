@@ -2630,5 +2630,69 @@ ${fuDNA}`;
     return Math.max(0, Math.min(max, value));
   }
 
-  ///////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  /// Clinically mutation ===>  Prevalent mutation 로 이동
+  fromClinicallyMuToPrevalentMu(i: number): void {
+
+    const muControl = this.mutationLists();
+    const muVal = muControl.at(i).value;
+    this.removeMutation(i);
+    const allmuVal = muControl.getRawValue();
+    for (let seq = 0; seq < allmuVal.length; seq++) {
+      muControl.at(seq).patchValue({ seq });
+    }
+    console.log('[2636]', i, allmuVal);
+
+    const imuControl = this.imutationLists();
+    const ilen = imuControl.getRawValue().length;
+    imuControl.push(this.createIMutaion(muVal, ilen.toString()));
+  }
+
+  /// Clinically fusion ===> Prevalent fusion 로 이동
+  fromClinicallyFuToPrevalentFu(i: number): void {
+    const fuControl = this.fusionLists();
+    const fuVal = fuControl.at(i).value;
+    this.removeFusion(i);
+    const allFuVal = fuControl.getRawValue();
+    for (let seq = 0; seq < allFuVal.length; seq++) {
+      fuControl.at(seq).patchValue({ seq });
+    }
+
+    const ifuControl = this.ifusionLists();
+    const ilen = ifuControl.getRawValue().length;
+    ifuControl.push(this.createIFusion(fuVal, ilen.toString()));
+
+  }
+
+  /// Prevalent mutation ===> Clinically mutation  로 이동
+  fromPrevalentMuToClinicallyMu(i: number): void {
+    const imuControl = this.imutationLists();
+    const imuVal = imuControl.at(i).value;
+    this.removeIMutation(i);
+    const allimuVal = imuControl.getRawValue();
+    for (let seq = 0; seq < allimuVal.length; seq++) {
+      imuControl.at(seq).patchValue({ seq });
+    }
+
+    const muControl = this.mutationLists();
+    const len = muControl.getRawValue().length;
+    muControl.push(this.createMutaion(imuVal, len.toString()));
+
+  }
+
+  /// Prevalent fusion ===> Clinically fusion  로 이동
+  fromPrevalentFuToClinicallyFu(i: number): void {
+    const ifuControl = this.ifusionLists();
+    const ifuVal = ifuControl.at(i).value;
+    this.removeIFusion(i);
+    const alliFuVal = ifuControl.getRawValue();
+    for (let seq = 0; seq < alliFuVal.length; seq++) {
+      ifuControl.at(seq).patchValue({ seq });
+    }
+
+    const fuControl = this.fusionLists();
+    const len = fuControl.getRawValue().length;
+    fuControl.push(this.createFusion(ifuVal, len.toString()));
+  }
+
 }

@@ -47,8 +47,11 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+
+
     this.codeDefaultValueService.getLists()
       .pipe(
+        // tap(data => console.log(data)),
         switchMap(data => from(data))
       )
       .subscribe(data => {

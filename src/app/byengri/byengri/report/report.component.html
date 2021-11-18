@@ -186,7 +186,7 @@
                     <col width="8%">
                     <col width="8%">
                     <col width="5%">
-
+                    <col width="5%">
                   </colgroup>
                 <thead>
                   <tr>
@@ -207,6 +207,7 @@
                     <th class="m-w-90">
                       <button class="btn btn_01" (click)="addMutation()">추가</button>
                     </th>
+                    <th></th>
                     <th></th>
 
                   </tr>
@@ -242,6 +243,9 @@
                                 <button type="button" class="drag-handle"  cdkDragHandle>
                                 <img [src]="'assets/baseline_unfold_more_black_18dp.png'">
                             </button>
+                      </td>
+                      <td>
+                        <button class="btn btn_01" (click)="fromClinicallyMuToPrevalentMu(i)">이동</button>
                       </td>
                     </tr>
                   </ng-container>
@@ -324,6 +328,7 @@
                   <col width="8%">
                   <col width="8%">
                   <col width="5%">
+                  <col width="5%">
                 </colgroup>
                 <thead>
                   <tr>
@@ -335,6 +340,7 @@
                     <th class="m-w-90">
                       <button class="btn btn_01" (click)="addFusion()">추가</button>
                     </th>
+                    <th></th>
                     <th></th>
                   </tr>
                 </thead>
@@ -363,6 +369,9 @@
                                 <button type="button" class="drag-handle"  cdkDragHandle>
                                 <img [src]="'assets/baseline_unfold_more_black_18dp.png'">
                             </button>
+                      </td>
+                      <td>
+                        <button class="btn btn_01" (click)="fromClinicallyFuToPrevalentFu(i)">이동</button>
                       </td>
                     </tr>
                   </ng-container>
@@ -426,6 +435,7 @@
                 <col width="8%">
                 <col width="8%">
                 <col width="5%">
+                <col width="5%">
               </colgroup>
               <thead>
                 <tr>
@@ -438,6 +448,7 @@
                   <th class="m-w-90">
                     <button class="btn btn_01" (click)="addIMutation()">추가</button>
                   </th>
+                  <th></th>
                   <th></th>
                 </tr>
               </thead>
@@ -472,6 +483,9 @@
                                 <button type="button" class="drag-handle"  cdkDragHandle>
                                 <img [src]="'assets/baseline_unfold_more_black_18dp.png'">
                             </button>
+                      </td>
+                      <td>
+                        <button class="btn btn_01" (click)="fromPrevalentMuToClinicallyMu(i)">이동</button>
                       </td>
                   </tr>
                 </ng-container>
@@ -558,6 +572,7 @@
                 <col width="8%">
                 <col width="8%">
                 <col width="5%">
+                <col width="5%">
               </colgroup>
               <thead>
                 <tr>
@@ -569,6 +584,7 @@
                   <th class="m-w-90">
                     <button class="btn btn_01" (click)="addIFusion()">추가</button>
                   </th>
+                  <th></th>
                   <th></th>
                 </tr>
               </thead>
@@ -597,6 +613,9 @@
                                 <button type="button" class="drag-handle"  cdkDragHandle>
                                 <img [src]="'assets/baseline_unfold_more_black_18dp.png'">
                             </button>
+                      </td>
+                      <td>
+                        <button class="btn btn_01" (click)="fromPrevalentFuToClinicallyFu(i)">이동</button>
                       </td>
                   </tr>
                 </ng-container>
