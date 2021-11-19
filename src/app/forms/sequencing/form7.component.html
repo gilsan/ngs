@@ -224,17 +224,17 @@
               </div>
 
                 <div class="pd_r20">
-                    <textarea class="textarea_01"  #comment0 (change)="saveComment(comment0.value)">{{comment}}</textarea>
+                    <textarea class="textarea_01"  [(ngModel)]="comment">{{comment}}</textarea>
                 </div>
 
                 <div class="sub_title" >일반코멘트1</div>
                 <div class="pd_r20">
-                    <textarea class="textarea_01" #comment10 (change)="saveComment1(comment10.value)">{{comment1}}</textarea>
+                    <textarea class="textarea_01" [(ngModel)]="comment1">{{comment1}}</textarea>
                 </div>
 
                 <div class="sub_title">일반코멘트2</div>
                 <div class="pd_r20">
-                    <textarea class="textarea_01" #comment20 (change)="saveComment2(comment20.value)">{{comment2}}</textarea>
+                    <textarea class="textarea_01" [(ngModel)]="comment2">{{comment2}}</textarea>
                 </div>
 
                 <hr class="mg_t30 mg_b20"/>

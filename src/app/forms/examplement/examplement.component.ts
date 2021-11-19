@@ -31,7 +31,7 @@ export class ExamplementComponent implements OnInit {
     this.defaultService.getCommentLists(this.type, this.code)
       .subscribe(data => {
         this.lists = data.sort((a, b) => parseInt(a.seq, 10) - parseInt(b.seq, 10));
-        // console.log('[36][받은데이터]', this.lists);
+        // console.log('[36][받은데이터][examplement]', this.type, this.code, this.lists);
         const control = this.tablerowForm.get('tableRows') as FormArray;
         this.lists.forEach(list => {
           control.push(this.createExam(list));

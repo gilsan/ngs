@@ -641,19 +641,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
 
   showDialog(): void {
     this.isExamVisible = true;
-    // const addDialogRef = this.dialog.open(ExamplementComponent, {
-    //   width: '1200px',
-    //   height: '900px',
-    //   disableClose: true,
-    //   data: {
-    //     code: this.patientInfo.test_code,
-    //     type: 'MLPA'
-    //   }
-    // });
 
-    // addDialogRef.afterClosed().subscribe(comment => {
-    //   this.mlpaData.comment = comment;
-    // });
 
   }
 

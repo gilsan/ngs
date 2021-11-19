@@ -145,18 +145,18 @@
 
 
                 <div class="pd_r20">
-                      <textarea class="textarea_01" #comment20 (change)="comment(comment20.value)">{{mlpaData.comment}}</textarea>
+                      <textarea class="textarea_01" [(ngModel)]="mlpaData.comment">{{mlpaData.comment}}</textarea>
                 </div>
 
 
                 <div class="sub_title">일반코멘트1</div>
                 <div class="pd_r20">
-                     <textarea class="textarea_01" #comment10 (change)="conclusion(comment10.value)">{{mlpaData.conclusion}}</textarea>
+                     <textarea class="textarea_01" [(ngModel)]="mlpaData.conclusion">{{mlpaData.conclusion}}</textarea>
                 </div>
 
                 <div class="sub_title">일반코멘트2</div>
                 <div class="pd_r20">
-                    <textarea class="textarea_01" #technique10 (change)="technique(technique10.value)">{{mlpaData.technique}}</textarea>
+                    <textarea class="textarea_01" [(ngModel)]="mlpaData.technique">{{mlpaData.technique}}</textarea>
                 </div>
 
                 <hr class="mg_t30 mg_b20"/>

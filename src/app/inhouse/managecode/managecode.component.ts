@@ -52,16 +52,21 @@ export class ManagecodeComponent implements OnInit {
     this.type = type;
     this.workingcode = '';
     this.reportLists = this.lists.filter(list => list.type === type);
+    // console.log('[48][TYPE]', type, this.reportLists);
     this.reportLists = this.reportLists.sort((a, b) => {
       const x = a.code; const y = b.code;
       return ((x < y) ? -1 : ((x > y) ? 1 : 0));
     });
 
     if (type !== 'none') {
-      this.commentsRows().push(this.createCommentRow(this.reportLists[0]));
-      // this.reportLists.forEach(list => {
-      //   this.commentsRows().push(this.createCommentRow(list));
-      // });
+      if (this.type === 'Genetic') {
+        this.commentsRows().push(this.createCommentRow(this.reportLists[0]));
+      } else {
+        this.reportLists.forEach(list => {
+          this.commentsRows().push(this.createCommentRow(list));
+        });
+      }
+
       this.disAble = false;
     } else {
       this.disAble = true;
@@ -121,23 +126,6 @@ export class ManagecodeComponent implements OnInit {
         });
     }
 
-    // const commentControl = this.tablerowForm.get('commentRows') as FormArray;
-    // const commentFormData: ICodecomment[] = commentControl.getRawValue();
-    // console.log('[110][저장]', commentFormData);
-    // commentFormData.forEach(list => {
-    //   if (list.id === 'N') {
-    //     list.code = rowData.code;
-    //     this.defaultService.commentinsertItem([list])
-    //       .subscribe(data => {
-    //         this.snackBar.open('저장 했습니다.', '닫기', { duration: 2000 });
-    //       });
-    //   } else {
-    //     this.defaultService.commentupdateItem([list])
-    //       .subscribe(data => {
-    //         this.snackBar.open('저장 했습니다.', '닫기', { duration: 2000 });
-    //       });
-    //   }
-    // });
     this.commentClear();
 
   }
@@ -184,12 +172,22 @@ export class ManagecodeComponent implements OnInit {
     });
   }
   createCommentRow(ment: ICodement): FormGroup {
-    return this.fb.group({
-      id: ment.id,
-      code: '전체',
-      report: ment.report,
-      type: ment.type,
-    });
+    if (this.type === 'Genetic') {
+      return this.fb.group({
+        id: ment.id,
+        code: '전체',
+        report: ment.report,
+        type: ment.type,
+      });
+    } else {
+      return this.fb.group({
+        id: ment.id,
+        code: ment.code,
+        report: ment.report,
+        type: ment.type,
+      });
+    }
+
   }
 
   newCommentRow(): FormGroup {

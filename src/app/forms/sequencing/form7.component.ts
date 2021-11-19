@@ -619,21 +619,6 @@ export class Form7Component implements OnInit, OnDestroy {
 
   showDialog(): void {
     this.isExamVisible = true;
-    // const addDialogRef = this.dialog.open(ExamplementComponent, {
-    //   width: '1200px',
-    //   height: '900px',
-    //   disableClose: true,
-    //   data: {
-    //     code: this.patientInfo.test_code,
-    //     type: 'SEQ'
-    //   }
-
-    // });
-
-    // addDialogRef.afterClosed().subscribe(comment => {
-    //   this.comment = comment;
-    // });
-
   }
 
   modalClose(): void {
@@ -642,6 +627,7 @@ export class Form7Component implements OnInit, OnDestroy {
 
   receiveMent(comment: string): void {
     this.comment = this.comment + ' ' + comment;
+    console.log('[630][멘트]', this.comment);
   }
 
 
