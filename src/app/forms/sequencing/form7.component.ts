@@ -641,7 +641,7 @@ export class Form7Component implements OnInit, OnDestroy {
   }
 
   receiveMent(comment: string): void {
-    this.comment = this.comment + '\n' + comment;
+    this.comment = this.comment + ' ' + comment;
   }
 
 

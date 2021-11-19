@@ -42,7 +42,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
   requestDate: string; // 검사의뢰일
   form2TestedId: string;
   filteredTSV$: Observable<IFilteredTSV[]>;
-
+  typeColor = [];
   tsvLists: IFilteredTSV[] = [];
   patientInfo: IPatient = {
     name: '',
@@ -1056,11 +1056,11 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const row = control.value[index];
 
-    if (this.selectedItem === 'mutation') {
-      (control.at(index) as FormGroup).get('type').patchValue('M');
-    } else if (this.selectedItem === 'artifacts') {
-      (control.at(index) as FormGroup).get('type').patchValue('A');
-    }
+    // if (this.selectedItem === 'mutation') {
+    //   (control.at(index) as FormGroup).get('type').patchValue('M');
+    // } else if (this.selectedItem === 'artifacts') {
+    //   (control.at(index) as FormGroup).get('type').patchValue('A');
+    // }
 
 
     // console.log('[1104][저장][mutation/artifacts] ', row, this.patientInfo);
@@ -2081,6 +2081,13 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
   }
 
   //////////////////////////////////////////////////////////////
+  colorType(i: number): any {
+    if (this.typeColor.includes(i)) {
+      return { color: 'red', 'font-weight': 600 };
+    }
+    return;
+  }
+
   reCall(): void {
 
     const control = this.tablerowForm.get('tableRows') as FormArray;
@@ -2093,7 +2100,12 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
         this.patientsListService.getMutationVariantsLists(item, list.nucleotideChange, 'AMLALL')
           .subscribe(data => {
             if (data.length > 0) {
-              console.log('[2080][호출]', data, index);
+              // console.log('[2080][호출]', list, data, index);
+              if (list.type === data[0].type &&
+                (list.reference !== data[0].reference || list.cosmic_id !== data[0].cosmic_id)) {
+                this.typeColor.push(index);
+              }
+
               control.at(index).patchValue({
                 type: data[0].type,
                 functionalImpact: data[0].functional_impact,

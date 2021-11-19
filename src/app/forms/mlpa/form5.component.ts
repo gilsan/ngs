@@ -662,7 +662,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
   }
 
   receiveMent(comment: string): void {
-    this.mlpaData.comment = this.mlpaData.comment + '\n' + comment;
+    this.mlpaData.comment = this.mlpaData.comment + ' ' + comment;
   }
 
 

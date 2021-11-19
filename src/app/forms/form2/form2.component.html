@@ -341,7 +341,7 @@
           -->
             <td><input type="text" size="10"
                 (keydown.enter)="$event.preventDefault()"
-                [matTooltip]="group.get('type').value"
+                [matTooltip]="group.get('type').value"  [ngStyle] = "colorType(i)"
                 class="clr-input textcenter tdbox"  formControlName="type"></td>
           <!--   <td><input type="text" size="20" formControlName="cnt" readonly></td>  -->
             <td ><input type="text" size="20" #gene  (keydown.enter)="$event.preventDefault()"

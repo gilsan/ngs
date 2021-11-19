@@ -149,7 +149,7 @@ export class Form3Component implements OnInit, OnDestroy {
   reportType: string; //
 
   genelists: IGeneList[] = [];
-
+  typeColor = [];
   deleteRowNumber: number;
   // variant detect 선택값 저장소
   vdcount = 0;
@@ -1004,12 +1004,6 @@ export class Form3Component implements OnInit, OnDestroy {
 
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const row = control.value[index];
-    if (this.selectedItem === 'mutation') {
-      (control.at(index) as FormGroup).get('type').patchValue('M');
-    } else if (this.selectedItem === 'artifacts') {
-      (control.at(index) as FormGroup).get('type').patchValue('A');
-    }
-
 
     if (this.selectedItem === 'mutation') {
       this.subs.sink = this.patientsListService.saveMutation(
@@ -1819,6 +1813,13 @@ export class Form3Component implements OnInit, OnDestroy {
 
 
   ///////////////////////////////////////////////////////////////////////////
+  colorType(i: number): any {
+    if (this.typeColor.includes(i)) {
+      return { color: 'red', 'font-weight': 600 };
+    }
+    return;
+  }
+
   reCall(): void {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData: IAFormVariant[] = control.getRawValue();
@@ -1828,7 +1829,12 @@ export class Form3Component implements OnInit, OnDestroy {
         this.patientsListService.getMutationVariantsLists(item, list.nucleotideChange, 'LYM')
           .subscribe(data => {
             if (data.length > 0) {
-              console.log('[1816][호출]', data);
+              // console.log('[1816][호출]', data);
+              if (data[0].type === 'M' &&
+                (list.reference !== data[0].reference || list.cosmic_id !== data[0].cosmic_id)) {
+                this.typeColor.push(index);
+              }
+
               control.at(index).patchValue({
                 type: data[0].type, functionalImpact: data[0].functional_impact,
                 reference: data[0].reference, cosmic_id: data[0].cosmic_id

@@ -151,7 +151,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
   reportType: string; //
 
   genelists: IGeneList[] = [];
-
+  typeColor = [];
   deleteRowNumber: number;
   // variant detect 선택값 저장소
   vdcount = 0;
@@ -1802,10 +1802,17 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
   }
 
   /////////////////////////////////////////////////////////////////
+  colorType(i: number): any {
+    if (this.typeColor.includes(i)) {
+      return { color: 'red', 'font-weight': 600 };
+    }
+    return;
+  }
+
   reCall(): void {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData: IAFormVariant[] = control.getRawValue();
-    console.log('[1776][호출][보낸것]', formData);
+    // console.log('[1776][호출][보낸것]', formData);
     formData.forEach((list, index) => {
       const gene = list.gene.split(',');
       gene.forEach(item => {
@@ -1813,7 +1820,12 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
           .subscribe(data => {
 
             if (data.length > 0) {
-              console.log('[1783][호출][받은데이터]', data);
+              // console.log('[1783][호출][받은데이터]', data);
+              if (data[0].type === 'M' &&
+                (list.reference !== data[0].reference || list.cosmic_id !== data[0].cosmic_id)) {
+                this.typeColor.push(index);
+              }
+
               control.at(index).patchValue({
                 type: data[0].type, functionalImpact: data[0].functional_impact,
                 reference: data[0].reference, cosmic_id: data[0].cosmic_id
