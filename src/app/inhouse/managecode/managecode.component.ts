@@ -58,9 +58,10 @@ export class ManagecodeComponent implements OnInit {
     });
 
     if (type !== 'none') {
-      this.reportLists.forEach(list => {
-        this.commentsRows().push(this.createCommentRow(list));
-      });
+      this.commentsRows().push(this.createCommentRow(this.reportLists[0]));
+      // this.reportLists.forEach(list => {
+      //   this.commentsRows().push(this.createCommentRow(list));
+      // });
       this.disAble = false;
     } else {
       this.disAble = true;
@@ -185,7 +186,7 @@ export class ManagecodeComponent implements OnInit {
   createCommentRow(ment: ICodement): FormGroup {
     return this.fb.group({
       id: ment.id,
-      code: ment.code,
+      code: '전체',
       report: ment.report,
       type: ment.type,
     });

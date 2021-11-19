@@ -1818,9 +1818,9 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       gene.forEach(item => {
         this.patientsListService.getMutationVariantsLists(item, list.nucleotideChange, 'MDS')
           .subscribe(data => {
-
+            console.log('[1823][호출][받은데이터]', data);
             if (data.length > 0) {
-              // console.log('[1783][호출][받은데이터]', data);
+
               if (data[0].type === 'M' &&
                 (list.reference !== data[0].reference || list.cosmic_id !== data[0].cosmic_id)) {
                 this.typeColor.push(index);
@@ -1837,19 +1837,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     });
 
 
-    // formData.forEach((list, index) => {
-    //   const gene = list.gene.split(',');
-    //   gene.forEach(item => {
-    //     this.patientsListService.getMutationInfoLists(item, list.nucleotideChange, 'MDS')
-    //       .subscribe(data => {
-    //         if (data.length > 0) {
-    //           console.log('[1783][디비에서 받은것]', data[0]);
-    //           control.at(index).patchValue({ type: 'M' });
-    //         }
-    //       });
-    //   });
 
-    // });
   }
 
 
