@@ -61,6 +61,7 @@ export class ManagecodeComponent implements OnInit {
     if (type !== 'none') {
       if (this.type === 'Genetic') {
         this.commentsRows().push(this.createCommentRow(this.reportLists[0]));
+        this.reportLists = [];
       } else {
         this.reportLists.forEach(list => {
           this.commentsRows().push(this.createCommentRow(list));
@@ -176,7 +177,7 @@ export class ManagecodeComponent implements OnInit {
       return this.fb.group({
         id: ment.id,
         code: '전체',
-        report: ment.report,
+        report: '전체',
         type: ment.type,
       });
     } else {

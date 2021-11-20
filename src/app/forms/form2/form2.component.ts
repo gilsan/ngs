@@ -2101,7 +2101,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
           .subscribe(data => {
             if (data.length > 0) {
               // console.log('[2080][호출]', list, data, index);
-              if (list.type === data[0].type &&
+              if (
                 (list.reference !== data[0].reference || list.cosmic_id !== data[0].cosmic_id)) {
                 this.typeColor.push(index);
               }

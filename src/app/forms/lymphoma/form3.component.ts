@@ -1830,7 +1830,7 @@ export class Form3Component implements OnInit, OnDestroy {
           .subscribe(data => {
             if (data.length > 0) {
               // console.log('[1816][호출]', data);
-              if (data[0].type === 'M' &&
+              if (
                 (list.reference !== data[0].reference || list.cosmic_id !== data[0].cosmic_id)) {
                 this.typeColor.push(index);
               }

@@ -1821,7 +1821,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
             console.log('[1823][호출][받은데이터]', data);
             if (data.length > 0) {
 
-              if (data[0].type === 'M' &&
+              if (
                 (list.reference !== data[0].reference || list.cosmic_id !== data[0].cosmic_id)) {
                 this.typeColor.push(index);
               }
