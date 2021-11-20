@@ -1829,9 +1829,9 @@ export class Form3Component implements OnInit, OnDestroy {
         this.patientsListService.getMutationVariantsLists(item, list.nucleotideChange, 'LYM')
           .subscribe(data => {
             if (data.length > 0) {
-              // console.log('[1816][호출]', data);
+              console.log('[1832][호출]', data);
               if (
-                (list.reference !== data[0].reference || list.cosmic_id !== data[0].cosmic_id)) {
+                list.reference !== data[0].reference || list.cosmic_id !== data[0].cosmic_id) {
                 this.typeColor.push(index);
               }
 

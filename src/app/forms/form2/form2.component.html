@@ -348,7 +348,7 @@
             [matTooltip]="group.get('gene').value"
                  class="clr-input textcenter tdbox" formControlName="gene"></td>
             <td><input type="text" size="10"  class="clr-input textcenter  tdbox"
-                (keydown.enter)="$event.preventDefault()"
+                (keydown.enter)="$event.preventDefault()" [ngStyle] = "colorType(i)"
                 matInput
                 [matAutocomplete]="auto"
                 [matTooltip]="group.get('functionalImpact').value"
@@ -360,47 +360,47 @@
                 </mat-autocomplete>
             </td>
             <td><input type="text" size="20"
-                (keydown.enter)="$event.preventDefault()"
+                (keydown.enter)="$event.preventDefault()" [ngStyle] = "colorType(i)"
                 [matTooltip]="group.get('transcript').value"
                 class="clr-input textcenter  tdbox" formControlName="transcript"></td>
             <td><input type="text" size="15"
-                (keydown.enter)="$event.preventDefault()"
+                (keydown.enter)="$event.preventDefault()" [ngStyle] = "colorType(i)"
                 [matTooltip]="group.get('exonIntro').value"
                 class="clr-input textcenter  tdbox" formControlName="exonIntro"></td>
             <td><input type="text" size="40"  class="clr-input textcenter  tdbox"
-                (keydown.enter)="$event.preventDefault()"
+                (keydown.enter)="$event.preventDefault()" [ngStyle] = "colorType(i)"
                 [matTooltip]="group.get('nucleotideChange').value"
                 formControlName="nucleotideChange"></td>
             <td><input type="text" size="40"  class="clr-input textcenter  tdbox"
-                (keydown.enter)="$event.preventDefault()"
+                (keydown.enter)="$event.preventDefault()" [ngStyle] = "colorType(i)"
                 [matTooltip]="group.get('aminoAcidChange').value"
                 formControlName="aminoAcidChange"></td>
             <td><input type="text" size="20"  class="clr-input textcenter  tdbox"
-                (keydown.enter)="$event.preventDefault()"
+                (keydown.enter)="$event.preventDefault()" [ngStyle] = "colorType(i)"
                 [matTooltip]="group.get('zygosity').value"
                 formControlName="zygosity"></td>
             <td>
                 <textarea class="textarea_01"
-                [matTooltip]="group.get('vafPercent').value"
+                [matTooltip]="group.get('vafPercent').value" [ngStyle] = "colorType(i)"
                  style="width: 100%; height: 100%; border: none" formControlName="vafPercent"></textarea>
 
             </td>
             <td><input type="text" size="10"  class="clr-input textcenter  tdbox"
-                (keydown.enter)="$event.preventDefault()"
+                (keydown.enter)="$event.preventDefault()" [ngStyle] = "colorType(i)"
                 [matTooltip]="group.get('reference').value"
                 formControlName="reference"></td>
             <td><input type="text" size="20"  class="clr-input textcenter  tdbox"
-                (keydown.enter)="$event.preventDefault()"
+                (keydown.enter)="$event.preventDefault()" [ngStyle] = "colorType(i)"
                 [matTooltip]="group.get('cosmic_id').value"
                 formControlName="cosmic_id"></td>
 
             <td><input type="text" size="10"
                 (keydown.enter)="$event.preventDefault()"
-                [matTooltip]="group.get('igv').value"
+                [matTooltip]="group.get('igv').value" [ngStyle] = "colorType(i)"
                 class="clr-input textcenter  tdbox"  formControlName="igv"></td>
             <td>
                 <textarea class="textarea_01"  style="width: 100%; height: 100%; border: none"
-                [matTooltip]="group.get('sanger').value"
+                [matTooltip]="group.get('sanger').value" [ngStyle] = "colorType(i)"
                 formControlName="sanger"></textarea>
             </td>
 
