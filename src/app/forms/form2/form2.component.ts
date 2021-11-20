@@ -2107,7 +2107,8 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
               }
 
               control.at(index).patchValue({
-                type: data[0].type,
+                // type: data[0].type,
+                type: 'M',
                 functionalImpact: data[0].functional_impact,
                 reference: data[0].reference, cosmic_id: data[0].cosmic_id
               });

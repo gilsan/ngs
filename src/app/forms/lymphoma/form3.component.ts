@@ -1836,7 +1836,9 @@ export class Form3Component implements OnInit, OnDestroy {
               }
 
               control.at(index).patchValue({
-                type: data[0].type, functionalImpact: data[0].functional_impact,
+                // type: data[0].type,
+                type: 'M',
+                functionalImpact: data[0].functional_impact,
                 reference: data[0].reference, cosmic_id: data[0].cosmic_id
               });
               this.snackBar.open('완료 했습니다.', '닫기', { duration: 3000 });
