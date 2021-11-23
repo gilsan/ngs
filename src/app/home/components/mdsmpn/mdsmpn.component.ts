@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { from, Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { emrUrl } from 'src/app/config';
@@ -39,7 +39,7 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
   storeEndDay: string;
   storePatientID: string;
   storeSpecimenID: string;
-
+  receivedType = 'none';
   private apiUrl = emrUrl;
 
   @ViewChild('dbox100', { static: true }) dbox100: ElementRef;
@@ -47,6 +47,7 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private patientsList: PatientsListService,
     private router: Router,
+    private route: ActivatedRoute,
     private store: StoreMDSService,
     private sanitizer: DomSanitizer,
     private titleService: TestCodeTitleService,
@@ -54,6 +55,13 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.route.paramMap.pipe(
+      filter(data => data !== null || data !== undefined),
+      map(route => route.get('type'))
+    ).subscribe(data => {
+      this.receivedType = data;
+    });
+
     this.checkStore();
     if (this.storeStartDay === null || this.storeEndDay === null) {
       this.init();
@@ -251,6 +259,7 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.setWhichstate('searchscreen');
     this.lists = [];
     const tempLists = [];
+    const templists: IPatient[] = [];
     //
     const startdate = start.toString().replace(/-/gi, '');
     const enddate = end.toString().replace(/-/gi, '');
@@ -267,17 +276,34 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
       .then(response => response.json())
       .then(data => {
         // console.log(data);
-        data.sort((a, b) => {
+        data.forEach(list => {
+          if (this.receivedType === 'register' && list.screenstatus === '') {
+            templists.push(list);
+          } else if (parseInt(this.receivedType, 10) === 0 && parseInt(list.screenstatus, 10) === 0) {
+            templists.push(list);
+          } else if (parseInt(this.receivedType, 10) === 1 && parseInt(list.screenstatus, 10) === 1) {
+            templists.push(list);
+          } else if (parseInt(this.receivedType, 10) === 2 && parseInt(list.screenstatus, 10) === 2) {
+            templists.push(list);
+          } else if (parseInt(this.receivedType, 10) === 3 && parseInt(list.screenstatus, 10) === 3) {
+            templists.push(list);
+          }
+        });
+
+
+
+
+        templists.sort((a, b) => {
           if (a.accept_date > b.accept_date) { return -1; }
           if (a.accept_date === b.accept_date) { return 0; }
           if (a.accept_date < b.accept_date) { return 1; }
         });
-        data.forEach(list => {
+        templists.forEach(list => {
           if (list.test_code === 'LPE473') {
             tempLists.push({ ...list, codetest: 'MDS/MPN' });
           }
         });
-        console.log(tempLists);
+        // console.log(tempLists);
         this.patientsList.setPatientID(tempLists);
         this.lists = tempLists;
         this.tempLists = tempLists;
@@ -400,6 +426,8 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-
+  goDashboard(): void {
+    this.router.navigate(['/diag', 'board']);
+  }
 
 }

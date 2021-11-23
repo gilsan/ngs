@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { from, Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { emrUrl } from 'src/app/config';
@@ -36,7 +36,7 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
   patientid = '';
   status = ''; // 시작, 스크린판독, 판독완료, EMR전송
   sheet = ''; // AML ALL LYN MDS
-
+  receivedType = 'none';
   storeStartDay: string;
   storeEndDay: string;
   storePatientID: string;
@@ -49,6 +49,7 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private patientsList: PatientsListService,
     private router: Router,
+    private route: ActivatedRoute,
     private store: StoreService,
     private sanitizer: DomSanitizer,
     private titleService: TestCodeTitleService,
@@ -57,6 +58,15 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.route.paramMap.pipe(
+      filter(data => data !== null || data !== undefined),
+      map(route => route.get('type'))
+    ).subscribe(data => {
+      this.receivedType = data;
+      console.log('[전송값]', this.receivedType);
+    });
+
+
     this.checkStore();
     if (this.storeStartDay === null || this.storeEndDay === null) {
       this.init();
@@ -327,6 +337,7 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
         }),
         switchMap(item => of(item)),
         switchMap(list => from(list)),
+        // tap(data => console.log(data)),
         filter(list => list.test_code === 'LPE545' || list.test_code === 'LPE472' || list.test_code === 'LPE471'),
         map(list => {
           if (list.test_code === 'LPE545' || list.test_code === 'LPE472') {
@@ -342,27 +353,58 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
             data.reportTitle = title;
           }
         }
-        // console.log('[297][sheet]', data);
-        if (sheet === 'TOTAL' || sheet.length === 0) {
-          this.lists.push(data);
-          this.tempLists.push(data);
-        } else if (sheet === 'AMLALL') {
-          if (data.test_code === 'AML') {
-            this.lists.push(data);
-            this.tempLists.push(data);
-          }
-        } else if (sheet === 'ETC') {
-          if (data.test_code === 'ALL') {
-            this.lists.push(data);
-            this.tempLists.push(data);
-          }
+
+        if (this.receivedType === 'register' && data.screenstatus === '') {
+          this.saveData(data, sheet);
+        } else if (parseInt(this.receivedType, 10) === 0 && parseInt(data.screenstatus, 10) === 0) {
+          this.saveData(data, sheet);
+        } else if (parseInt(this.receivedType, 10) === 1 && parseInt(data.screenstatus, 10) === 1) {
+          this.saveData(data, sheet);
+        } else if (parseInt(this.receivedType, 10) === 2 && parseInt(data.screenstatus, 10) === 2) {
+          this.saveData(data, sheet);
+        } else if (parseInt(this.receivedType, 10) === 3 && parseInt(data.screenstatus, 10) === 3) {
+          this.saveData(data, sheet);
         }
+
+        // console.log('[370][sheet]', data);
+        // if (sheet === 'TOTAL' || sheet.length === 0) {
+        //   this.lists.push(data);
+        //   this.tempLists.push(data);
+        // } else if (sheet === 'AMLALL') {
+        //   if (data.test_code === 'AML') {
+        //     this.lists.push(data);
+        //     this.tempLists.push(data);
+        //   }
+        // } else if (sheet === 'ETC') {
+        //   if (data.test_code === 'ALL') {
+        //     this.lists.push(data);
+        //     this.tempLists.push(data);
+        //   }
+        // }
 
         this.patientID = '';
         this.specimenNo = '';
       });
 
   }
+
+  saveData(data: IPatient, sheet: string): void {
+    if (sheet === 'TOTAL' || sheet.length === 0) {
+      this.lists.push(data);
+      this.tempLists.push(data);
+    } else if (sheet === 'AMLALL') {
+      if (data.test_code === 'AML') {
+        this.lists.push(data);
+        this.tempLists.push(data);
+      }
+    } else if (sheet === 'ETC') {
+      if (data.test_code === 'ALL') {
+        this.lists.push(data);
+        this.tempLists.push(data);
+      }
+    }
+  }
+
   // 환자ID
   getPatientID(id: string): void {
     this.patientID = id;
@@ -453,6 +495,10 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
     } else if (type === 'RESEARCH') {
       this.lists = this.tempLists.filter(list => list.gbn === 'RESEARCH');
     }
+  }
+
+  goDashboard(): void {
+    this.router.navigate(['/diag', 'board']);
   }
 
 

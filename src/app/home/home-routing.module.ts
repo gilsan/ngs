@@ -45,27 +45,35 @@ const routes: Routes = [
     path: '', component: HomeComponent, children: [
       { path: 'main', component: MainscreenComponent },
       { path: '', component: AmlallComponent },
+      // { path: '', component: DashboardComponent },
       { path: 'board', component: DashboardComponent },
       { path: 'amlall', component: AmlallComponent },
+      { path: 'amlall/:type', component: AmlallComponent },
       { path: 'amlall/form2', component: Form2Component },
       { path: 'amlall/form2/:type', component: Form2Component },
 
       { path: 'lymphoma', component: LymphomaComponent },
+      { path: 'lymphoma/:type', component: LymphomaComponent },
       { path: 'lymphoma/form3', component: Form3Component },
       { path: 'lymphoma/form3/:type', component: Form3Component },
 
       { path: 'mdsmpn', component: MdsmpnComponent },
+      { path: 'mdsmpn/:type', component: MdsmpnComponent },
       { path: 'mdsmpn/form4', component: Form4Component },
       { path: 'mdsmpn/form4/:type', component: Form4Component },
 
       { path: 'hereditary', component: HereditaryComponent },
+      { path: 'hereditary/:type', component: HereditaryComponent },
       { path: 'hereditary/form6', component: Form6Component },
       { path: 'hereditary/form6/:type', component: Form6Component },
 
       { path: 'sequencing', component: SequencingComponent },
+      { path: 'sequencing/:type', component: SequencingComponent },
       { path: 'sequencing/form7', component: Form7Component },
       { path: 'sequencing/form7/:type', component: Form7Component },
+
       { path: 'mlpa', component: MlpaComponent },
+      { path: 'mlpa/:type', component: MlpaComponent },
       { path: 'mlpa/form5', component: Form5Component },
       { path: 'mlpa/form5/:type', component: Form5Component },
       { path: 'fileupload', component: FileuploadComponent },

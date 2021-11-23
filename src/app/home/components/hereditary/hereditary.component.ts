@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { from, Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { emrUrl } from 'src/app/config';
@@ -40,7 +40,7 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
   storeEndDay: string;
   storePatientID: string;
   storeSpecimenID: string;
-
+  receivedType = 'none';
   private apiUrl = emrUrl;
 
   hereditaryLists = geneLists;
@@ -50,6 +50,7 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private patientsList: PatientsListService,
     private router: Router,
+    private route: ActivatedRoute,
     private store: StoreGENService,
     private sanitizer: DomSanitizer,
     private titleService: TestCodeTitleService,
@@ -58,6 +59,14 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.route.paramMap.pipe(
+      filter(data => data !== null || data !== undefined),
+      map(route => route.get('type'))
+    ).subscribe(data => {
+      this.receivedType = data;
+    });
+
+
     this.checkStore();
     if (this.storeStartDay === null || this.storeEndDay === null) {
       this.init();
@@ -263,7 +272,7 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.setSheet(sheet);
     this.store.setWhichstate('searchscreen');
     this.lists = [];
-
+    const tempLists: IPatient[] = [];
     //
     const startdate = start.toString().replace(/-/gi, '');
     const enddate = end.toString().replace(/-/gi, '');
@@ -278,39 +287,36 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.patientsList.hereditarySearch2(startdate, enddate, patientId, specimenNo, status, sheet)
       .then(response => response.json())
       .then(data => {
-        this.patientsList.setPatientID(data);
-        data.sort((a, b) => {
+
+        data.forEach(list => {
+          if (this.receivedType === 'register' && list.screenstatus === '') {
+            tempLists.push(list);
+          } else if (parseInt(this.receivedType, 10) === 0 && parseInt(list.screenstatus, 10) === 0) {
+            tempLists.push(list);
+          } else if (parseInt(this.receivedType, 10) === 1 && parseInt(list.screenstatus, 10) === 1) {
+            tempLists.push(list);
+          } else if (parseInt(this.receivedType, 10) === 2 && parseInt(list.screenstatus, 10) === 2) {
+            tempLists.push(list);
+          } else if (parseInt(this.receivedType, 10) === 3 && parseInt(list.screenstatus, 10) === 3) {
+            tempLists.push(list);
+          }
+        });
+
+
+        this.patientsList.setPatientID(tempLists);
+        tempLists.sort((a, b) => {
           if (a.accept_date > b.accept_date) { return -1; }
           if (a.accept_date === b.accept_date) { return 0; }
           if (a.accept_date < b.accept_date) { return 1; }
         });
-        this.lists = data;
-        this.tempLists = data;
+        this.lists = tempLists;
+        this.tempLists = tempLists;
+
         this.patientID = '';
         this.specimenNo = '';
       });
-
-    // this.lists$ = this.patientsList.hereditarySearch(startdate, enddate, patientId, specimenNo, status, sheet);
-    // this.subs.sink = this.lists$
-    //   .pipe(
-    //     switchMap(item => of(item)),
-    //     switchMap(list => from(list)),
-    //     filter(list => this.hereditaryLists.includes(list.test_code)),
-    //     // tap(list => console.log(list)),
-    //   ).subscribe((data: any) => {
-    //     if (data.reportTitle === '') {
-    //       const title = this.titleService.getMltaTitle(data.test_code);
-    //       if (title !== 'None') {
-    //         data.reportTitle = title;
-    //       }
-
-    //     }
-    //     this.lists.push(data);
-    //     this.patientID = '';
-    //     this.specimenNo = '';
-    //   });
-
   }
+
   // 환자ID
   getPatientID(id: string): void {
     this.patientID = id;
@@ -403,6 +409,10 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     } else if (type === 'RESEARCH') {
       this.lists = this.tempLists.filter(list => list.gbn === 'RESEARCH');
     }
+  }
+
+  goDashboard(): void {
+    this.router.navigate(['/diag', 'board']);
   }
 
 

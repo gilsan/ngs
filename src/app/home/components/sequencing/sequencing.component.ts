@@ -350,6 +350,10 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  goDashboard(): void {
+    this.router.navigate(['/diag', 'board']);
+  }
+
 
 
 }

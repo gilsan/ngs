@@ -342,6 +342,9 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
       this.lists = this.tempLists.filter(list => list.gbn === 'RESEARCH');
     }
   }
+  goDashboard(): void {
+    this.router.navigate(['/diag', 'board']);
+  }
 
 
 

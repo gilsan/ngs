@@ -149,20 +149,19 @@ export class DashboardComponent implements OnInit {
   }
 
   goResult(type: string, subtype: string): void {
-    console.log(type, subtype);
     this.dashboardService.dashBoardSetParmas(type, subtype);
     if (type === 'AMLALL') {
-      this.router.navigate(['/diag', 'amlall']);
+      this.router.navigate(['/diag', 'amlall', subtype]);
     } else if (type === 'LYM') {
-      this.router.navigate(['/diag', 'lymphoma']);
+      this.router.navigate(['/diag', 'lymphoma', subtype]);
     } else if (type === 'MDS') {
-      this.router.navigate(['/diag', 'mdsmpn']);
+      this.router.navigate(['/diag', 'mdsmpn', subtype]);
     } else if (type === 'Genetic') {
-      this.router.navigate(['/diag', 'hereditary']);
+      this.router.navigate(['/diag', 'hereditary', subtype]);
     } else if (type === 'SEQ') {
-      this.router.navigate(['/diag', 'sequencing']);
+      this.router.navigate(['/diag', 'sequencing', subtype]);
     } else if (type === 'MLPA') {
-      this.router.navigate(['/diag', 'mlpa']);
+      this.router.navigate(['/diag', 'mlpa', subtype]);
     }
 
   }

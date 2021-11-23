@@ -7,9 +7,9 @@ import * as moment from 'moment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PatientsListService } from 'src/app/home/services/patientslist';
 import { CodeDefaultValue } from 'src/app/services/codedefaultvalue';
-import { type } from 'os';
-import { concatMap, filter, map, switchMap, tap } from 'rxjs/operators';
-import { from } from 'rxjs';
+
+import { catchError, concatMap, filter, map, switchMap, tap } from 'rxjs/operators';
+import { from, throwError } from 'rxjs';
 import { IAMLALL, IGenetic, ILYM, IMDS, ISEQ } from './excel.model';
 import { DetectedVariantsService } from 'src/app/home/services/detectedVariants';
 
@@ -67,10 +67,12 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
     this.patientsList.patientSearch(start.replace(/-/g, ''), end.replace(/-/g, ''))
       .pipe(
         switchMap(data => from(data)),
+        tap(data => console.log('[TAP1]', this.types)),
         map(data => {
           const idx = this.types.findIndex(list => list.code === data.test_code);
           return { ...data, type: this.types[idx].type };
         }),
+        tap(data => console.log('[TAP2]', data)),
         concatMap(patientinfo => {
           return this.variantsService.screenSelect(patientinfo.specimenNo)
             .pipe(
@@ -79,9 +81,14 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
               }),
               filter(data => data.data.length)
             );
-        })
+        }),
+        catchError(err => {
+          console.log(err);
+          return throwError(err);
+        }),
       )
       .subscribe(data => {
+        console.log('[91]', data);
         if (data.type === 'AMLALL') {
           this.pushAmlAll(data);
         } else if (data.type === 'LYM') {
