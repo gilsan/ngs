@@ -382,7 +382,7 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         }
 
-        this.saveData(data, sheet);
+        // this.saveData(data, sheet);
 
         this.patientID = '';
         this.specimenNo = '';
