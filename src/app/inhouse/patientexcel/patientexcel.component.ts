@@ -169,7 +169,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         check = 'Not Detected';
       }
       this.amlall.push({
-        prescription: '',
+        prescription: list.test_code,
         title: list.reportTitle,
         name: list.name,
         gender: list.gender,
@@ -177,8 +177,8 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         patientID: list.patientID,
         barcode: list.specimenNo,
         acceptdate: list.accept_date,
-        reportdate: list.report_date,
-        researchPrescriptionCode: list.test_code,
+        reportdate: list.sendEMRDate,
+        researchPrescriptionCode: '',
         LeukemiaAssociatedFusion: list.leukemiaassociatedfusion,
         IKZF1deletion: list.IKZK1Deletion,
         ChromosomalAnalysis: list.chromosomalanalysis,
@@ -208,7 +208,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         check = 'Not Detected';
       }
       this.lym.push({
-        prescription: '',
+        prescription: list.test_code,
         title: list.reportTitle,
         name: list.name,
         gender: list.gender,
@@ -216,8 +216,8 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         patientID: list.patientID,
         barcode: list.specimenNo,
         acceptdate: list.accept_date,
-        reportdate: list.report_date,
-        researchPrescriptionCode: list.test_code,
+        reportdate: list.sendEMRDate,
+        researchPrescriptionCode: '',
         diagnosis: list.diagnosis,
         chromosomalAnalysis: list.chromosomalanalysis,
         tsvname: list.tsvFilteredFilename,
@@ -245,7 +245,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         check = 'Not Detected';
       }
       this.mds.push({
-        prescription: '',
+        prescription: list.test_code,
         title: list.reportTitle,
         name: list.name,
         gender: list.gender,
@@ -253,8 +253,8 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         patientID: list.patientID,
         barcode: list.specimenNo,
         acceptdate: list.accept_date,
-        reportdate: list.report_date,
-        researchPrescriptionCode: list.test_code,
+        reportdate: list.sendEMRDate,
+        researchPrescriptionCode: '',
         diagnosis: list.diagnosis,
         geneticTest: list.genetictest,
         chromosomalAnalysis: list.chromosomalanalysis,
@@ -283,7 +283,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         check = 'Not Detected';
       }
       this.genetic.push({
-        prescription: '',
+        prescription: list.test_code,
         title: list.reportTitle,
         name: list.name,
         gender: list.gender,
@@ -291,8 +291,8 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         patientID: list.patientID,
         barcode: list.specimenNo,
         acceptdate: list.accept_date,
-        reportdate: list.report_date,
-        researchPrescriptionCode: list.test_code,
+        reportdate: list.sendEMRDate,
+        researchPrescriptionCode: '',
         diagnosis: list.diagnosis,
         excelname: list.tsvFilteredFilename,
         result: check,
@@ -319,7 +319,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         check = 'Not Detected';
       }
       this.seq.push({
-        prescription: '',
+        prescription: list.test_code,
         title: list.reportTitle,
         name: list.name,
         gender: list.gender,
@@ -327,8 +327,8 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         patientID: list.patientID,
         barcode: list.specimenNo,
         acceptdate: list.accept_date,
-        reportdate: list.report_date,
-        researchPrescriptionCode: list.test_code,
+        reportdate: list.sendEMRDate,
+        researchPrescriptionCode: '',
         result: check,
         gene: item.gene,
         type: item.functional_impact,
