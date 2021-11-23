@@ -8,27 +8,23 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { IPatient } from 'src/app/home/models/patients';
 import { filter } from 'rxjs/operators';
 
-@Component({
-  selector: 'app-amlall-dialog',
-  templateUrl: './amlall-dialog.component.html',
-  styleUrls: ['./amlall-dialog.component.scss']
-})
-export class AmlallDialogComponent implements OnInit {
 
-  testcodeExist = false;
-  tsvFileExist = false;
-  testName = '';
+@Component({
+  selector: 'app-lym-dialog',
+  templateUrl: './lym-dialog.component.html',
+  styleUrls: ['./lym-dialog.component.scss']
+})
+export class LymDialogComponent implements OnInit {
+
   isVisible = true;
-  selectedRow: number;
-  specimenno = '';
-  patientid = '';
+
   tablerowForm: FormGroup;
-  resultName = ['AML', 'ALL'];
+  resultName = ['LPE474', 'LPE475'];
   gender = ['M', 'F'];
   lists: IRESARCHLIST[] = [];
   patientLists: IPatient[] = [];
   constructor(
-    private dialogRef: MatDialogRef<AmlallDialogComponent>,
+    private dialogRef: MatDialogRef<LymDialogComponent>,
     private fb: FormBuilder,
     private router: Router,
     private researchService: ResearchService,
@@ -55,11 +51,11 @@ export class AmlallDialogComponent implements OnInit {
           const control = this.tablerowForm.get('tableRows') as FormArray;
           this.patientLists = data;
           this.patientLists.forEach(list => {
-            if (list.test_code === 'LPE471' || list.test_code === 'LPE472') {
-              if (list.test_code === 'LPE471') {
-                resultName = 'AML';
-              } else if (list.test_code === 'LPE472') {
-                resultName = 'ALL';
+            if (list.test_code === 'LPE474' || list.test_code === 'LPE475') {
+              if (list.test_code === 'LPE474') {
+                resultName = '악성림프종 [NGS]';
+              } else if (list.test_code === 'LPE475') {
+                resultName = '형질세포종 [NGS]';
               }
               console.log('[64]=> ', data);
               control.push(this.createRow({
@@ -130,6 +126,7 @@ export class AmlallDialogComponent implements OnInit {
           this.snackBar.open('삭제 했습니다.', '닫기', { duration: 3000 });
         });
     }
+
   }
 
   cancelRow(index: number): void {
@@ -191,13 +188,15 @@ export class AmlallDialogComponent implements OnInit {
   changetype(i: number, option: string): void {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     // console.log('[200][changetype]', option);
-    if (option === 'AML') {
-      control.at(i).patchValue({ reportTitle: 'Acute Myeloid Leukemia NGS', test_code: 'LPE471', testname: option });
-    } else if (option === 'ALL') {
-      control.at(i).patchValue({ reportTitle: 'Acute Lymphoblastic Leukemia NGS', test_code: 'LPE472', testname: option });
+    if (option === 'LPE474') {
+      control.at(i).patchValue({ reportTitle: '악성림프종 [NGS]', test_code: 'LPE474', testname: option });
+    } else if (option === 'LPE475') {
+      control.at(i).patchValue({ reportTitle: '형질세포종 [NGS]', test_code: 'LPE475', testname: option });
     }
     console.log(control.at(i).value);
   }
+
+
 
 
 }

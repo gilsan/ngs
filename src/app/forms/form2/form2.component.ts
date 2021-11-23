@@ -69,7 +69,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     path: '',
     //  createDate:  0000-00-00,
     tsvFilteredStatus: '',
-    //  tsvFilteredDate: 0000-00-00,
+    gbn: '',
     bamFilename: '',
     sendEMRDate: '',
     report_date: '',
@@ -162,6 +162,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
   functionalimpact: string[] = ['Pathogenic', 'Likely Pathogenic', 'VUS'];
   tempCount: string;
   maxHeight = 500;
+  isResearch = false;
   @ViewChild('commentbox') private commentbox: TemplateRef<any>;
   @ViewChild('box100', { static: true }) box100: ElementRef;
   @ViewChild('table', { static: true }) table: ElementRef;
@@ -262,10 +263,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
   }
 
   initLoad(): void {
-
-
     this.form2TestedId = this.patientsListService.getTestedID();
-
     // 검사자 정보 가져오기
     if (this.form2TestedId === null || this.form2TestedId === undefined) {
       this.router.navigate(['/diag']);
@@ -273,7 +271,11 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     }
 
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
-    console.log('[275][환자정보]', this.patientInfo);
+    // console.log('[275][환자정보]', this.patientInfo, this.patientInfo.gbn, this.patientInfo.age);
+    if (this.patientInfo.gbn === 'RESEARCH') {
+      this.isResearch = true;
+      console.log('[275][환자정보]', this.patientInfo, this.patientInfo.gbn, this.isResearch);
+    }
     this.store.setPatientInfo(this.patientInfo); // 환자정보 저장
 
     // tsvFilteredFilename 분석

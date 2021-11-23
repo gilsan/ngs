@@ -33,8 +33,8 @@
         <button type="button" class="btn btn_02" style="margin-left: 10px;"
 
           (click)="search(start.value, end.value, testedID.value, patient.value, status.value, sheet.value)">조 회</button>
-        <!--  <button type="button" class="btn btn_02" style="margin-left: 10px;"
-          (click)="openDialog()">연구용</button> -->
+        <button type="button" class="btn btn_02" style="margin-left: 10px;"
+          (click)="openDialog()">연구용</button>
       </div>
       <div class="box">
         <div class="box_100 fill" [appDiagScrollMonitor]="'AML'" #dbox100>
@@ -70,6 +70,7 @@
             <col width="5%">
             <col width="8%">
             <col width="7%">
+            <col width="7%">
           </colgroup>
           <thead>
             <tr>
@@ -85,6 +86,7 @@
               <th>TSV 파일</th>
               <th>BAM 파일</th>
               <th>진행상태</th>
+              <th>&nbsp;</th>
               <th>&nbsp;</th>
               <th>&nbsp;</th>
             </tr>
@@ -115,11 +117,18 @@
                   >파일등록/변환</button>
                 </ng-template>
               </td>
+
               <td class="txt_c" *ngIf="list.codetest === 'AML' || list.codetest === 'ALL'  ||  processingSatus(list.codetest); else reload">
                 <button type="button" class="btn btn_05" *ngIf="list.tsvFilteredFilename;"
                   (click)="goUploadpage(list.specimenNo, list.patientID)">재등록</button>
               </td>
               <ng-template #reload><td></td></ng-template>
+
+              <td  class="txt_c" *ngIf="list.gbn === 'RESEARCH'; else research;">
+                <button type="button" class="btn btn_05" >연구용</button>
+              </td>
+              <ng-template #research><td></td></ng-template>
+
             </tr>
           </tbody>
         </table>

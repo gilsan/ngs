@@ -99,7 +99,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
   lastReportDay = '-';  // 수정보고일
   reportType: string; //
   sendEMR = 0; // EMR 보낸 수
-
+  isResearch = false;
   isVisible = false;
   isExamVisible = false;
   screenstatus: string;
@@ -137,7 +137,9 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
 
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
     console.log('[138][환자정보]', this.patientInfo);
-
+    if (this.patientInfo.gbn === 'RESEARCH') {
+      this.isResearch = true;
+    }
 
     this.testcode = this.patientInfo.test_code;
     this.specimenNo = this.patientInfo.specimenNo;

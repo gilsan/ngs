@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { from, Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
@@ -12,6 +13,7 @@ import * as moment from 'moment';
 import { geneTitles } from 'src/app/forms/commons/geneList';
 
 import { TestCodeTitleService } from 'src/app/home/services/testCodeTitle.service';
+import { MdsDialogComponent } from './mds-dialog/mds-dialog.component';
 @Component({
   selector: 'app-mdsmpn',
   templateUrl: './mdsmpn.component.html',
@@ -47,7 +49,8 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router,
     private store: StoreMDSService,
     private sanitizer: DomSanitizer,
-    private titleService: TestCodeTitleService
+    private titleService: TestCodeTitleService,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -367,7 +370,19 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
     return false;
   }
 
+  ////////// 연구용
+  openDialog(): void {
+    const dialogConfig = new MatDialogConfig();
 
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.maxWidth = '100vw';
+    dialogConfig.maxHeight = '100vh';
+    const dialogRef = this.dialog.open(MdsDialogComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(data => {
+      this.checkStore();
+    });
+  }
 
 
 

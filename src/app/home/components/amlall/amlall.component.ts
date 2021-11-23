@@ -427,7 +427,9 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
     dialogConfig.maxWidth = '100vw';
     dialogConfig.maxHeight = '100vh';
     const dialogRef = this.dialog.open(AmlallDialogComponent, dialogConfig);
-
+    dialogRef.afterClosed().subscribe(data => {
+      this.checkStore();
+    });
   }
 
 

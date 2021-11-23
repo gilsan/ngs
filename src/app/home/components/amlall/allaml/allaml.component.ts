@@ -28,16 +28,14 @@ import { ClrCommonFormsModule } from '@clr/angular';
 import { ExcelAddListService } from 'src/app/home/services/excelAddList';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ResearchService } from 'src/app/home/services/research.service';
-
-
+import { IRESARCHLIST } from 'src/app/home/models/research.model';
 
 @Component({
-  selector: 'app-all-dialog',
-  templateUrl: './all.component.html',
-  styleUrls: ['./all.component.scss']
+  selector: 'app-allaml',
+  templateUrl: './allaml.component.html',
+  styleUrls: ['./allaml.component.scss']
 })
-export class ALLComponent implements OnInit, OnDestroy {
-
+export class AllamlComponent implements OnInit, OnDestroy {
 
   @ViewChild('examine', { static: true }) examine: ElementRef;
   @ViewChild('rechecked', { static: true }) rechecked: ElementRef;
@@ -45,7 +43,7 @@ export class ALLComponent implements OnInit, OnDestroy {
   requestDate: string; // 검사의뢰일
   form2TestedId: string;
   filteredTSV$: Observable<IFilteredTSV[]>;
-
+  typeColor = [];
   tsvLists: IFilteredTSV[] = [];
   patientInfo: IPatient = {
     name: '',
@@ -129,7 +127,7 @@ export class ALLComponent implements OnInit, OnDestroy {
   tempCommentreference = '';
   tempCommentComment = '';
   vusstatus = false;
-  // preview = true;
+
   isVisible = false;
 
   examin = '김지혜 M.T./이건동 M.T./'; // 검사자
@@ -144,14 +142,14 @@ export class ALLComponent implements OnInit, OnDestroy {
 
   genelists: IGeneList[] = [];
   deleteRowNumber: number;
-  // variant detect 선택값 저장소
+
   vdcount = 0;
   vd: { sequence: number, selectedname: string, gene: string }[] = [];
-
-  // lastScrollTop = 0;
-  // lastScrollLeft = 0;
+  researchList: IRESARCHLIST;
+  lastScrollTop = 0;
+  lastScrollLeft = 0;
   topScroll = false;
-  // leftScroll = true;
+  leftScroll = true;
   tsvVersion = '510'; // v5.10, v5.16 버전확인
   // tslint:disable-next-line:max-line-length
   vusmsg = `VUS는 ExAC, KRGDB등의 Population database에서 관찰되지 않았거나, 임상적 의의가 불분명합니다. 해당변이의 의의를 명확히 하기 위하여 환자의 buccal swab 검체로 germline variant 여부에 대한 확인이 필요 합니다.`;
@@ -166,7 +164,7 @@ export class ALLComponent implements OnInit, OnDestroy {
   tempCount: string;
   maxHeight = 500;
   @ViewChild('commentbox') private commentbox: TemplateRef<any>;
-  // @ViewChild('box100', { static: true }) box100: ElementRef;
+
   @ViewChild('table', { static: true }) table: ElementRef;
   constructor(
     private patientsListService: PatientsListService,
@@ -185,24 +183,36 @@ export class ALLComponent implements OnInit, OnDestroy {
     private researchService: ResearchService
   ) { }
 
+
   ngOnInit(): void {
     this.findType();
-
-    // this.initLoad();
-    // if (parseInt(this.screenstatus, 10) >= 1 || parseInt(this.screenstatus, 10) === 2) {
-    //   this.recoverDetected();
-    // } else if (parseInt(this.screenstatus, 10) === 0) {
-
-    // } else {
-    //   this.firstReportDay = '-';
-    //   this.lastReportDay = '-';
-    // }
-
     this.loadForm();
-
   } // End of ngOninit
 
+  resizeHeight(): void { }
 
+  tableScroll(evt: Event): void {
+    const target = evt.target as Element;
+    const lastScrollTop = target.scrollTop;
+    const lastScrollLeft = target.scrollLeft;
+
+    if (this.lastScrollTop > lastScrollTop || this.lastScrollTop < lastScrollTop) {
+      this.topScroll = true;
+      this.leftScroll = false;
+    } else {
+      this.topScroll = false;
+    }
+
+    if (this.lastScrollLeft > lastScrollLeft || this.lastScrollLeft < lastScrollLeft) {
+      this.topScroll = false;
+      this.leftScroll = true;
+    } else {
+      this.leftScroll = false;
+    }
+
+    this.lastScrollTop = lastScrollTop <= 0 ? 0 : lastScrollTop;
+    this.lastScrollLeft = lastScrollLeft <= 0 ? 0 : lastScrollLeft;
+  }
 
   tableHeader(): {} {
     if (this.topScroll) {
@@ -217,24 +227,99 @@ export class ALLComponent implements OnInit, OnDestroy {
   }
 
   findType(): void {
-    const list = this.researchService.getData();
-    this.patientInfo.name = list.name;
-    this.patientInfo.age = list.age;
-    this.patientInfo.patientID = list.patientid;
-    this.patientInfo.gender = list.gender;
-    this.reportType = list.type;
-    this.getGeneList(this.reportType);
+    this.researchList = this.researchService.getData();
+    if (this.researchList === undefined || this.researchList === null) {
+      this.router.navigate(['/diag']);
+      return;
+    }
+    console.log('[248]', this.researchList);
+    this.patientsListService.getPatientInfo(this.researchList.specimenNo)
+      .subscribe(data => {
+        this.patientInfo = data;
+        this.reportType = this.researchList.testname;
+        this.getGeneList(this.reportType);
+        this.initLoad();
+        this.branch();
+      });
   }
 
   loadForm(): void {
-    // console.log('[205][loadForm] ', this.comments);
+
     this.tablerowForm = this.fb.group({
       tableRows: this.fb.array(this.mockData.map(list => this.createRow(list))),
       commentsRows: this.fb.array([])
     });
   }
 
+  initLoad(): void {
+    if (this.researchList) {
+      this.form2TestedId = this.researchList.specimenNo;
+    } else {
+      this.form2TestedId = null;
+    }
 
+    // 검사자 정보 가져오기 ///
+    if (this.form2TestedId === null || this.form2TestedId === undefined) {
+      this.router.navigate(['/diag']);
+      return;
+    }
+
+    console.log('[275][환자정보]', this.patientInfo);
+    this.store.setPatientInfo(this.patientInfo); // 환자정보 저장
+
+    // tsvFilteredFilename 분석
+    this.tsvFileVersion(this.patientInfo.verfile);
+
+    this.requestDate = this.patientInfo.accept_date;
+    if (this.patientInfo.specimen === '015') {
+      this.specimenMsg = 'Bone marrow';
+      this.specimenMessage = 'Genomic DNA isolated from Bone marrow';
+    } else if (this.patientInfo.specimen === '004') {
+      this.specimenMsg = 'EDTA blood';
+      this.specimenMessage = 'Genomic DNA isolated from EDTA blood';
+      this.store.setSpecimenMsg(this.specimenMsg);
+    }
+
+    // 검체 감염유부 확인
+    if (parseInt(this.patientInfo.detected, 10) === 0) {
+      this.resultStatus = 'Detected';
+    } else if (parseInt(this.patientInfo.detected, 10) === 1) {
+      this.resultStatus = 'Not Detected';
+    }
+
+    // 전송횟수, 검사보고일, 수정보고일  저장
+    this.setReportdaymgn(this.patientInfo);
+
+    this.screenstatus = this.patientInfo.screenstatus;
+    // specimen 015 인경우 Bon marrow
+    if (this.patientInfo.specimen === '015') {
+      this.specimenMsg = 'Bone marrow';
+      this.specimenMessage = 'Genomic DNA isolated from Bone marrow';
+      this.store.setSpecimenMsg(this.specimenMsg);
+    }
+
+    // 필터링된 tsv 파일 가져오기
+    this.filteredTSV$ = this.patientsListService.getFilteredTSVtList(this.form2TestedId)
+      .pipe(
+        shareReplay()
+      );
+    this.subs.sink = this.filteredTSV$.subscribe(data => {
+      // console.log('[312][form2][fileredTSVFile]', data);
+      this.tsvLists = data;
+    });
+
+  }
+
+  branch(): void {
+    if (parseInt(this.screenstatus, 10) >= 1 || parseInt(this.screenstatus, 10) === 2) {
+      this.recoverDetected();
+    } else if (parseInt(this.screenstatus, 10) === 0) {
+      this.init(this.form2TestedId);
+    } else {
+      this.firstReportDay = '-';
+      this.lastReportDay = '-';
+    }
+  }
   // ALL/AML 유전자 목록 가져오기
   getGeneList(type: string): any {
     this.utilsService.getGeneList(type).subscribe(data => {
@@ -277,9 +362,9 @@ export class ALLComponent implements OnInit, OnDestroy {
     this.subs.sink = this.variantsService.screenComment(this.form2TestedId)
       .subscribe(dbComments => {
         if (dbComments !== undefined && dbComments !== null && dbComments.length > 0) {
-
+          // console.log('[247][COMMENT 가져오기]', dbComments);
           dbComments.forEach(comment => {
-
+            // console.log('[291]', comment.reference);
             this.comments.push(
               {
                 gene: comment.gene, comment: comment.comment,
@@ -335,9 +420,11 @@ export class ALLComponent implements OnInit, OnDestroy {
 
   init(form2TestedId: string): void {
     if (this.form2TestedId) {
-
+      // console.log('[420][screen 번호] ', this.screenstatus);
+      // VUS 메제시 확인 2021.4.7 추가
       if (this.patientInfo.vusmsg.length) {
         this.vusmsg = this.patientInfo.vusmsg;
+        // console.log('[424][init][VUS메세지]', this.vusmsg);
       }
 
       this.variantsService.screenSelect(this.form2TestedId)
@@ -389,10 +476,14 @@ export class ALLComponent implements OnInit, OnDestroy {
                 }
               });
             ////////////////////////////////////
+          } else {
+
+            this.addDetectedVariant();
           }
         });
 
-
+      /*
+         */
       // 검사자 정보 가져오기
       if (this.reportType === 'AML') {
         this.analysisService.getAanlysisAMLInfo(this.form2TestedId)
@@ -428,6 +519,8 @@ export class ALLComponent implements OnInit, OnDestroy {
           });
       }
 
+
+
     } else {   // End of form2TestedId loop
       this.patientInfo = {
         id: 0,
@@ -452,6 +545,97 @@ export class ALLComponent implements OnInit, OnDestroy {
         recheck: ''
       };
     }
+  }
+
+
+  addDetectedVariant(): void {
+    this.subs.sink = this.patientsListService.filtering(this.form2TestedId, this.reportType)
+      .subscribe(data => {
+
+        let type: string;
+        let gene: string;
+        let dvariable: IAFormVariant;
+        let igv = '';
+        igv = data.igv;
+        // console.log('********** [필터링원시자료][553]', igv, data);
+
+        // 타입 분류
+        if (data.mtype === 'M') {  // mutation
+          type = 'M';
+          if (data.mutationList1.exonIntro !== 'none') {
+            dvariable = data.mutationList1;
+            // mutaion에 있으면 detected로 표시
+
+          }
+
+        } else if (parseInt(data.artifacts1Count, 10) > 0 ||
+          parseInt(data.artifacts2Count, 10) > 0) {
+          type = 'A';
+
+        }
+
+        else {
+          type = 'New';
+        }
+        if (dvariable) {
+          // console.log('[584][form2][dvariable]', dvariable.functional_impact);
+          if (dvariable.functional_impact === 'VUS') {
+            this.vusstatus = true;
+            this.store.setVUSStatus(this.vusstatus); // VUS 상태정보 저장
+          } else {
+            this.vusmsg = '';
+          }
+
+        }
+
+        // 유전자명
+        if (data.gene1 !== 'none' && data.gene2 !== 'none') {
+          gene = data.gene1 + ',' + data.gene2;
+        } else if (data.gene1 !== 'none' && data.gene2 === 'none') {
+          gene = data.gene1;
+        } else if (data.gene1 === 'none' && data.gene2 === 'none') {
+          gene = data.gene2;
+        }
+
+        // comments 분류
+        if (parseInt(data.comments1Count, 10) > 0) {
+          if (typeof data.commentList1 !== 'undefined' && data.commentList1 !== 'none') {
+            if (parseInt(data.comments1Count, 10) > 0) {
+
+              // tslint:disable-next-line:variable-name
+              const variant_id = data.tsv.amino_acid_change;
+              const comment = { ...data.commentList1, variant_id, type: this.reportType };
+
+              this.comments.push(comment);
+              this.store.setComments(this.comments); // 멘트 저장
+              let tempArray = new Array();
+              tempArray.push(comment);
+              tempArray.forEach(ment => {
+                this.commentsRows().push(this.createCommentRow(ment));
+              });
+              tempArray = [];
+            }
+          } else if (typeof data.commentList2 !== 'undefined' && data.commentList2 !== 'none') {
+            if (data.comments2Count > 0) {
+              const comment = { ...data.commentList2 as any, variant_id: '' };
+              this.comments.push(comment);
+              this.store.setComments(this.comments); // 멘트 저장
+              let tempArray = new Array();
+              tempArray.push(comment);
+              tempArray.forEach(ment => {
+                this.commentsRows().push(this.createCommentRow(ment));
+              });
+              tempArray = [];
+            }
+          }
+        }
+        this.vd.push({ sequence: this.vdcount, selectedname: 'mutation', gene });
+        this.vdcount++;
+        this.addVarient(type, dvariable, gene, data.coding, data.tsv, data.cnt, igv);
+
+      }); // End of Subscribe
+
+
   }
 
   // 검사일/검사보고일/수정보고일 관리
@@ -484,7 +668,9 @@ export class ALLComponent implements OnInit, OnDestroy {
           this.examin = data[0].checker;
           this.recheck = data[0].reader;
         });
+
     }
+
   }
 
   // tslint:disable-next-line: typedef
@@ -608,16 +794,18 @@ export class ALLComponent implements OnInit, OnDestroy {
 
   // 검사자 정보 가져오기
   // tslint:disable-next-line: typedef
-  getPatientinfo(testid: string) {
-    const tempInfo = this.patientsListService.patientInfo;
-    if (tempInfo) {
-      return tempInfo.filter(data => data.specimenNo === testid)[0];
-    }
-    return;
-  }
+  // getPatientinfo(testid: string) {
+  //   const tempInfo = this.patientsListService.researchPatientInfo;
+  //   console.log('[807][ getPatientinfo] ==>', tempInfo);
+  //   if (tempInfo) {
+  //     return tempInfo.filter(data => data.specimenNo === testid)[0];
+  //   }
+  //   return;
+  // }
 
   createRow(item: IAFormVariant): FormGroup {
     let checktype: boolean;
+
     if (String(item.checked) === 'false') {
       // console.log('==== [907][createRow]', item.id, item.gene, item.checked);
       checktype = false;
@@ -707,6 +895,8 @@ export class ALLComponent implements OnInit, OnDestroy {
   removeCommentRow(i: number): void {
     this.commentsRows().removeAt(i);
   }
+  //////////////////////////////////////////////////////////////
+
   /////////////////////////////////////////////////////////////
   get getFormControls(): any {
     const control = this.tablerowForm.get('tableRows') as FormArray;
@@ -795,6 +985,15 @@ export class ALLComponent implements OnInit, OnDestroy {
     this.maxHeight = rect.height - 60;
   }
   /////////////////////////////////////////////////////////////////////////////////
+  // tslint:disable-next-line: typedef
+  submit() {
+    console.log(this.tablerowForm.value.tableRows);
+  }
+
+  // tslint:disable-next-line: typedef
+  test() {
+    console.log(this.ment);
+  }
 
   addComments(type: string): void {
     const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
@@ -821,13 +1020,6 @@ export class ALLComponent implements OnInit, OnDestroy {
     console.log('[1154][저장] ', index, this.vd, this.selectedItem);
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const row = control.value[index];
-
-    if (this.selectedItem === 'mutation') {
-      (control.at(index) as FormGroup).get('type').patchValue('M');
-    } else if (this.selectedItem === 'artifacts') {
-      (control.at(index) as FormGroup).get('type').patchValue('A');
-    }
-
 
     // console.log('[1104][저장][mutation/artifacts] ', row, this.patientInfo);
     if (this.selectedItem === 'mutation') {
@@ -874,7 +1066,7 @@ export class ALLComponent implements OnInit, OnDestroy {
         item.selectedname = selecteditem;
       }
     });
-
+    // console.log('[923][saveInhouse][selectedItem] ', this.vd);
   }
 
   // tslint:disable-next-line: typedef
@@ -887,6 +1079,7 @@ export class ALLComponent implements OnInit, OnDestroy {
 
       if (idx === -1 && this.deleteRowNumber !== index) {
         this.vd.push({ sequence: index, selectedname: 'mutation', gene: row.gene });
+
       }
 
       return true;
@@ -897,23 +1090,105 @@ export class ALLComponent implements OnInit, OnDestroy {
 
   // 스크린 판독
   screenRead(): void {
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    const formData = control.getRawValue();
 
+    const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
+    this.comments = commentControl.getRawValue();
+
+
+    this.store.setComments(this.comments);
+
+    // console.log('[771][스크린 판독] ', this.form2TestedId, formData, this.comments, this.profile);
     const result = confirm('스크린완료 전송하시겠습니까?');
     if (result) {
-      this.screenstatus = '1';
-      this.patientInfo.screenstatus = this.screenstatus;
-      this.tempSave();
+      this.store.setRechecker(this.patientInfo.recheck);
+      this.store.setExamin(this.patientInfo.examin);
+      this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimenNo);
+      this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimenNo);
+
+      // tslint:disable-next-line:max-line-length
+      console.log('[1215][screenRead][profile] ', this.profile);
+      if (this.reportType === 'AML') {
+        this.analysisService.putAnalysisAML(
+          this.form2TestedId,
+          this.profile.leukemia,
+          this.profile.flt3itd,
+          this.profile.chron).subscribe(data => console.log('AML INSERT'));
+      } else if (this.reportType === 'ALL') {
+        this.analysisService.putAnalysisALL(
+          this.form2TestedId,
+          this.profile.leukemia,
+          this.profile.flt3itd,
+          this.profile.chron).subscribe(data => console.log('ALL INSERT'));
+      }
+
+
+
+      this.patientInfo.vusmsg = this.vusmsg;
+      this.subs.sink = this.variantsService.screenInsert(this.form2TestedId, formData,
+        this.comments, this.profile, this.resultStatus, this.patientInfo)
+        .pipe(
+          tap(data => {
+            // console.log('[986][screenRead] ', data);
+            alert('저장되었습니다.');
+          }),
+          concatMap(() => this.patientsListService.getScreenStatus(this.form2TestedId))
+        ).subscribe(msg => {
+          // console.log('[991][sendscreen]', msg[0].screenstatus);
+          this.screenstatus = msg[0].screenstatus;
+        });
     }
+
   }
 
   // 판독완료
   screenReadFinish(): void {
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    const formData = control.getRawValue();
+
+    const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
+    this.comments = commentControl.getRawValue();
+
+    this.store.setComments(this.comments);
+
+    this.store.setComments(this.comments);
+
     const result = confirm('판독완료 전송하시겠습니까?');
     if (result) {
-      this.screenstatus = '2';
-      this.patientInfo.screenstatus = this.screenstatus;
-      this.tempSave();
+      this.store.setRechecker(this.patientInfo.recheck);
+
+      this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimenNo);
+      this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimenNo);
+
+      if (this.reportType === 'AML') {
+        this.analysisService.putAnalysisAML(
+          this.form2TestedId,
+          this.profile.leukemia,
+          this.profile.flt3itd,
+          this.profile.chron).subscribe(data => console.log('AML INSERT'));
+      } else if (this.reportType === 'ALL') {
+        this.analysisService.putAnalysisALL(
+          this.form2TestedId,
+          this.profile.leukemia,
+          this.profile.flt3itd,
+          this.profile.chron).subscribe(data => console.log('ALL INSERT'));
+      }
+
+
+
+      this.patientInfo.vusmsg = this.vusmsg;
+      this.subs.sink = this.variantsService.screenUpdate(this.form2TestedId, formData, this.comments, this.profile, this.patientInfo)
+        .subscribe(data => {
+          console.log('[판독완료] screen Updated ....[1293]', data);
+          alert('저장되었습니다.');
+          this.patientsListService.getScreenStatus(this.form2TestedId)
+            .subscribe(msg => {
+              this.screenstatus = msg[0].screenstatus;
+            });
+        });
     }
+
   }
 
   getStatus(index): boolean {
@@ -985,6 +1260,8 @@ export class ALLComponent implements OnInit, OnDestroy {
     }
   }
 
+
+
   putCheckboxInit(): void {
     // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < this.detactedVariants.length; i++) {
@@ -1027,6 +1304,68 @@ export class ALLComponent implements OnInit, OnDestroy {
     this.tempCommentreference = ref;
   }
 
+  ///////////////////////////////////////////////////////////
+  excelDV(): void {
+    const excelData: IExcelData[] = [];
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    const formData = control.getRawValue();
+    // console.log(formData.length);
+    if (formData.length === 0) {
+      excelData.push({
+        tsvname: this.patientInfo.tsvFilteredFilename,
+        name: this.patientInfo.name,
+        gender: this.patientInfo.gender,
+        age: this.patientInfo.age,
+        patientID: this.patientInfo.patientID,
+        acceptdate: this.patientInfo.accept_date,
+        reportdate: this.today2(),
+        testcode: this.reportType,
+        gene: '',
+        functionalImpact: ' ',
+        transcript: '',
+        exonIntro: '',
+        nucleotideChange: '',
+        aminoAcidChange: '',
+        zygosity: '',
+        vafPercent: '',
+        reference: '',
+        cosmic_id: ''
+      });
+    } else {
+      formData.forEach(item => {
+        excelData.push({
+          name: this.patientInfo.name,
+          gender: this.patientInfo.gender,
+          age: this.patientInfo.age,
+          acceptdate: this.patientInfo.accept_date,
+          reportdate: this.today2(),
+          testcode: this.reportType,
+          patientID: this.patientInfo.patientID,
+          gene: item.gene,
+          functionalImpact: item.functionalImpact,
+          transcript: item.transcript,
+          exonIntro: item.exonIntro,
+          nucleotideChange: item.nucleotideChange,
+          aminoAcidChange: item.aminoAcidChange,
+          zygosity: item.zygosity,
+          vafPercent: item.vafPercent,
+          reference: item.reference,
+          cosmic_id: item.cosmic_id,
+          tsvname: this.patientInfo.tsvFilteredFilename
+        });
+      });
+    }
+    console.log(excelData, formData.length);
+    this.subs.sink = this.excelService.excelInsert(excelData, this.patientInfo.specimenNo)
+      .subscribe((data: { message: string }) => {
+
+        if (data.message === 'SUCCESS') {
+          this.snackBar.open('저장 했습니다.', '닫기', { duration: 3000 });
+        } else {
+          this.snackBar.open('저장하지 못했습니다.', '닫기', { duration: 3000 });
+        }
+      });
+  }
   ////////////////////////////////////////////////////////////
   today(): string {
     const today = new Date();
@@ -1042,6 +1381,22 @@ export class ALLComponent implements OnInit, OnDestroy {
     return now;
   }
 
+  today2(): string {
+    const today = new Date();
+
+    const year = today.getFullYear(); // 년도
+    const month = today.getMonth() + 1;  // 월
+    const date = today.getDate();  // 날짜
+    const hour = today.getHours();
+    const min = today.getMinutes();
+    const sec = today.getSeconds();
+
+    const newmon = ('0' + month).substr(-2);
+    const newday = ('0' + date).substr(-2);
+    const now = year + '-' + newmon + '-' + newday + ' ' + hour + ':' + min + ':' + sec;
+
+    return now;
+  }
   //////////////////////////////////////////////////////////
 
   exammatch(type: string, value: string): boolean {
@@ -1106,7 +1461,7 @@ export class ALLComponent implements OnInit, OnDestroy {
     this.patientInfo.examin = this.examin;
     this.patientInfo.vusmsg = this.vusmsg;
     console.log('[1654][tempSave]patient,reform,comment]', this.comments);
-    // console.log('[1730][tempSave]VUS 메세지]', this.vusmsg);
+
     this.store.setRechecker(this.patientInfo.recheck);
     this.store.setExamin(this.patientInfo.examin);
     this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimenNo);
@@ -1119,7 +1474,7 @@ export class ALLComponent implements OnInit, OnDestroy {
         this.profile.flt3itd,
         this.profile.chron).subscribe(data => console.log('AML INSERT'));
     } else if (this.reportType === 'ALL') {
-      // console.log('*****[1687][ALL]', this.profile);
+
       this.analysisService.putAnalysisALL(
         this.form2TestedId,
         this.profile.leukemia,
@@ -1130,7 +1485,7 @@ export class ALLComponent implements OnInit, OnDestroy {
     // tslint:disable-next-line:max-line-length
     this.subs.sink = this.variantsService.screenTempSave(this.form2TestedId, formData, this.comments, this.profile, this.resultStatus, this.patientInfo)
       .subscribe(data => {
-        // console.log('[1698]', data);
+
         alert('저장되었습니다.');
       });
   }
@@ -1161,15 +1516,16 @@ export class ALLComponent implements OnInit, OnDestroy {
   }
 
   ///////////////////////////////////////////////////////////////////////
+
   //
   findMutationBygene(gene: string): void {
     console.log('[1775][findMutationBygene]', this.resultStatus);
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
-    // console.log('[1411][tableerowForm]', formData);
+
     this.patientsListService.findMutationBygene(gene)
       .subscribe(data => {
-        // console.log('[1413][findMutationBygene]', data);
+
         if (data === 0) {
           this.resultStatus = 'Not Detected';
         } else {
@@ -1179,7 +1535,7 @@ export class ALLComponent implements OnInit, OnDestroy {
   }
   /////////////////////////////////////////////////////////////////////
   droped(event: CdkDragDrop<string[]>): void {
-    // this.formArray = this.ifusionLists()
+
     const from1 = event.previousIndex;
     const to = event.currentIndex;
 
@@ -1190,7 +1546,7 @@ export class ALLComponent implements OnInit, OnDestroy {
       }
     });
     const control = this.tablerowForm.get('tableRows') as FormArray;
-    // this.moveItemInFormArray(control, from1, to);
+
     this.moveItemInDetectedArray(control, from1, to);
   }
 
@@ -1332,7 +1688,7 @@ export class ALLComponent implements OnInit, OnDestroy {
   /////////////////////////////////////////////////////////
   showGroup(i): boolean {
     const control = this.tablerowForm.get('tableRows') as FormArray;
-    // console.log('\n***********************\n', control.at(i).value.checked, i);
+
     return control.at(i).value.checked;
   }
   checkboxuncheck(): boolean {
@@ -1387,7 +1743,7 @@ export class ALLComponent implements OnInit, OnDestroy {
         this.checkboxStatus = [];
         this.detactedVariants = [];
         this.recoverVariants = [];
-        // console.log('formData: ', formData);
+
         // tslint:disable-next-line:prefer-for-of
         for (let i = 0; i < formData.length; i++) {
           this.deleteRow(0);
@@ -1395,7 +1751,7 @@ export class ALLComponent implements OnInit, OnDestroy {
 
         this.recoverVariants = data;
         this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
-        // console.log('[1945][form2][Detected variant_id]', this.recoverVariants);
+
         this.store.setDetactedVariants(data);
         this.recoverVariants.forEach(item => {
           this.recoverVariant(item);
@@ -1406,7 +1762,7 @@ export class ALLComponent implements OnInit, OnDestroy {
   }
 
   tsvFileVersion(tsvfile: string): void {
-    // console.log('=========> tsvfile: ', tsvfile);
+
     if (tsvfile === '5.16') {
       this.tsvVersion = '516';
     } else if (tsvfile === '5.10') {
@@ -1418,8 +1774,6 @@ export class ALLComponent implements OnInit, OnDestroy {
   goBack(): void {
     this.router.navigate(['/diag', 'amlall']);
   }
-
-
 
   /////////////////////////////////////////////////////////////
   // VUS 검사
@@ -1437,6 +1791,13 @@ export class ALLComponent implements OnInit, OnDestroy {
   }
 
   //////////////////////////////////////////////////////////////
+  colorType(i: number): any {
+    if (this.typeColor.includes(i)) {
+      return { color: 'red', 'font-weight': 600 };
+    }
+    return;
+  }
+
   reCall(): void {
 
     const control = this.tablerowForm.get('tableRows') as FormArray;
@@ -1449,9 +1810,15 @@ export class ALLComponent implements OnInit, OnDestroy {
         this.patientsListService.getMutationVariantsLists(item, list.nucleotideChange, 'AMLALL')
           .subscribe(data => {
             if (data.length > 0) {
-              console.log('[2080][호출]', data, index);
+
+              if (
+                (list.reference !== data[0].reference || list.cosmic_id !== data[0].cosmic_id)) {
+                this.typeColor.push(index);
+              }
+
               control.at(index).patchValue({
-                type: data[0].type,
+
+                type: 'M',
                 functionalImpact: data[0].functional_impact,
                 reference: data[0].reference, cosmic_id: data[0].cosmic_id
               });
@@ -1461,6 +1828,7 @@ export class ALLComponent implements OnInit, OnDestroy {
       });
     });
   }
+
 
 
 

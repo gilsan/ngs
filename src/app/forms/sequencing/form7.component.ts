@@ -95,7 +95,7 @@ export class Form7Component implements OnInit, OnDestroy {
   private subs = new SubSink();
   indexNum = 0;
   selectedItem = 'mutation';
-
+  isResearch = false;
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -140,6 +140,9 @@ export class Form7Component implements OnInit, OnDestroy {
     // 임시변경
     // this.patientInfo.screenstatus = '0';
     console.log('[128] 환자정보: ', this.patientInfo);
+    if (this.patientInfo.gbn === 'RESEARCH') {
+      this.isResearch = true;
+    }
     this.resultname = this.patientInfo.worker; // 병명
     if (parseInt(this.screenstatus, 10) === 0) {
       // 전송횟수, 검사보고일, 수정보고일  저장

@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { from, Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
@@ -12,6 +13,7 @@ import * as moment from 'moment';
 import { geneTitles } from 'src/app/forms/commons/geneList';
 
 import { TestCodeTitleService } from 'src/app/home/services/testCodeTitle.service';
+import { LymDialogComponent } from './lym-dialog/lym-dialog.component';
 
 export const lymphomaLists = [
   'LPE474', 'LPE475'
@@ -52,7 +54,8 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router,
     private store: StoreLYMService,
     private sanitizer: DomSanitizer,
-    private titleService: TestCodeTitleService
+    private titleService: TestCodeTitleService,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -270,25 +273,7 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
         this.specimenNo = '';
       });
 
-    // this.lists$ = this.patientsList.lymphomaSearch(startdate, enddate, patientId, specimenNo, status, sheet);
-    // this.subs.sink = this.lists$
-    //   .pipe(
-    //     switchMap(item => of(item)),
-    //     switchMap(list => from(list)),
-    //     filter(list => lymphomaLists.includes(list.test_code)),
-    //   ).subscribe((data: any) => {
-    //     if (data.reportTitle === '') {
-    //       const title = this.titleService.getMltaTitle(data.test_code);
-    //       if (title !== 'None') {
-    //         data.reportTitle = title;
-    //       }
 
-    //     }
-
-    //     this.lists.push(data);
-    //     this.patientID = '';
-    //     this.specimenNo = '';
-    //   });
 
   }
   // 환자ID
@@ -354,6 +339,20 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
       return true;
     }
     return false;
+  }
+
+  ////////// 연구용
+  openDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.maxWidth = '100vw';
+    dialogConfig.maxHeight = '100vh';
+    const dialogRef = this.dialog.open(LymDialogComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(data => {
+      this.checkStore();
+    });
   }
 
 

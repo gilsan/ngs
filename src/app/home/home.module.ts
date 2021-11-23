@@ -35,10 +35,16 @@ import { TxtuploadComponent } from './components/txtupload/txtupload.component';
 import { ReportmgnComponent } from './components/reportmgn/reportmgn.component';
 import { SaintFormsModule } from '../forms/forms.module';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { AmlallDialogComponent } from './components/amlall/amlall-dialog/amlall-dialog.component';
 import { ResearchUploadComponent } from './components/research-upload/research-upload.component';
-import { ALLComponent } from './components/amlall/all/all.component';
-import { AMLComponent } from './components/amlall/aml/aml.component';
+
+
+import { AmlallDialogComponent } from './components/amlall/amlall-dialog/amlall-dialog.component';
+import { LymDialogComponent } from './components/lymphoma/lym-dialog/lym-dialog.component';
+import { MdsDialogComponent } from './components/mdsmpn/mds-dialog/mds-dialog.component';
+import { HereDialogComponent } from './components/hereditary/here-dialog/here-dialog.component';
+import { MlpaDialogComponent } from './components/mlpa/mlpa-dialog/mlpa-dialog.component';
+import { SeqDialogComponent } from './components/sequencing/seq-dialog/seq-dialog.component';
+
 
 
 @NgModule({
@@ -66,8 +72,14 @@ import { AMLComponent } from './components/amlall/aml/aml.component';
     DashboardComponent,
     AmlallDialogComponent,
     ResearchUploadComponent,
-    ALLComponent,
-    AMLComponent
+
+    LymDialogComponent,
+    MdsDialogComponent,
+    HereDialogComponent,
+    MlpaDialogComponent,
+    SeqDialogComponent,
+
+
   ],
   imports: [
     CommonModule,

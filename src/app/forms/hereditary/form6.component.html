@@ -283,7 +283,7 @@
 
 
           <br />
-          <div class="foot_btn mg_t30 pd_b30 txt_c main_btn"  *ngIf="preview">
+          <div class="foot_btn mg_t30 pd_b30 txt_c main_btn"  *ngIf="!isResearch">
             <ul>
                 <li>
                        <button type="button" class="btn btn_01" (click)="goBack()">HOME</button>
@@ -311,6 +311,32 @@
                 </li>
             </ul>
         </div>
+
+          <div class="foot_btn mg_t30 pd_b30 txt_c main_btn"  *ngIf="isResearch">
+            <ul>
+                <li>
+                       <button type="button" class="btn btn_01" (click)="goBack()">HOME</button>
+                    </li>
+                <li>
+                    <button type="button" class="btn btn_01" (click)="previewToggle()">미리보기</button>
+                </li>
+
+                <li>
+                    <button class="btn btn_01" (click)="reset()"
+                    [disabled]="getStatus(4)">수정</button>
+                </li>
+                <li>
+                    <button class="btn btn_01" (click)="tempSave()">임시저장</button>
+                </li>
+                <li>
+                    <button class="btn btn_01" (click)="screenRead()" [disabled]="getStatus(1)">스크린완료</button>
+                </li>
+                <li>
+                    <button class="btn btn_01" (click)="screenReadFinish()" [disabled]="getStatus(2)">판독완료</button>
+                </li>
+            </ul>
+        </div>
+
       </div>
   </div>
 

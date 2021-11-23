@@ -465,11 +465,11 @@ export class SequencingComponent implements OnInit, OnDestroy, AfterViewInit {
       pathologynum = pathologynum.trim();
     }
     // console.log('[530][main][search] [찿기]', startdate, enddate, patient, pathologynum);
-    this.lists$ = this.pathologyService.search(startdate, enddate, patient, pathologynum)
+    this.lists$ = this.pathologyService.searchSeq(startdate, enddate, patient, pathologynum)
       .pipe(
         take(1),
         filter(data => data.length > 0),
-        // tap(data => console.log(data))
+        tap(data => console.log(data))
       );
 
     this.subs.sink = this.lists$

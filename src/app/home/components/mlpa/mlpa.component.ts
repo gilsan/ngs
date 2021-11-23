@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { from, Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
@@ -13,6 +14,7 @@ import { geneTitles, mlpaLists, listMLPA } from 'src/app/forms/commons/geneList'
 import { MLPATLIST } from 'src/app/forms/commons/mlpa.data';
 import { MlpaService } from 'src/app/services/mlpa.service';
 import { TestCodeTitleService } from '../../services/testCodeTitle.service';
+import { MlpaDialogComponent } from './mlpa-dialog/mlpa-dialog.component';
 
 @Component({
   selector: 'app-mlpa',
@@ -51,7 +53,8 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
     private store: StoreMLPAService,
     private sanitizer: DomSanitizer,
     public mlpaService: MlpaService,
-    private titleService: TestCodeTitleService
+    private titleService: TestCodeTitleService,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -305,6 +308,20 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
       return { table_bg: true };
     }
     return { table_bg: false };
+  }
+
+  ////////// 연구용
+  openDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.maxWidth = '100vw';
+    dialogConfig.maxHeight = '100vh';
+    const dialogRef = this.dialog.open(MlpaDialogComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(data => {
+      this.checkStore();
+    });
   }
 
 

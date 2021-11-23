@@ -172,6 +172,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
   technique = `The analysis was optimised to identify base pair substitutions with a high sensitivity. The sensitivity for small insertions and deletions was lower. Deep-intronic mutations, mutations in the promoter region, repeats, large exonic deletions and duplications, and other structural variants were not detected by this test.`;
 
   maxHeight = 500;
+  isResearch = false;
   totalCount = 0; // 유전자와 nucleotidde change 을 가진 환자수
   savedDataExist = false;
 
@@ -287,7 +288,9 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     // tslint:disable-next-line:max-line-length
     this.profile.genetictest = 'JAK2 V617F :' + this.patientInfo.genetic1 + '\n' + 'JAK2 exon 12 :' + this.patientInfo.genetic2 + '\n' + 'CALR :' + this.patientInfo.genetic3 + '\n' + 'MPL :' + this.patientInfo.genetic4;
     console.log('[290][환자정보]', this.patientInfo, this.profile);
-
+    if (this.patientInfo.gbn === 'RESEARCH') {
+      this.isResearch = true;
+    }
     this.method = this.patientInfo.reportTitle.replace(/"/g, '');
     this.store.setPatientInfo(this.patientInfo); // 환자정보 저장
 

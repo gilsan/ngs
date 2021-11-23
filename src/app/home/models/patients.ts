@@ -46,6 +46,7 @@ export interface IPatient {
   genetic2?: string;
   genetic3?: string;
   genetic4?: string;
+  gbn?: string;
 }
 
 export interface IProfile {

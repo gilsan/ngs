@@ -1,6 +1,8 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { concatMap, tap } from 'rxjs/operators';
 import { UploadResponse } from '../../models/uploadfile';
 import { FileUploadService } from '../../services/file-upload.service';
+import { ResearchService } from '../../services/research.service';
 
 @Component({
   selector: 'app-research-upload',
@@ -17,16 +19,19 @@ export class ResearchUploadComponent implements OnInit {
 
   @Input() patientid: string;
   @Input() specimenNo: string;
-  // tslint:disable-next-line: no-output-on-prefix
+
+  // tslint:disable-next-line:no-output-on-prefix
   @Output() onSelected = new EventEmitter<string>();
   // tslint:disable-next-line: no-output-on-prefix
   @Output() onCanceled = new EventEmitter<void>();
 
   constructor(
-    private fileUploadService: FileUploadService) { }
+    private fileUploadService: FileUploadService,
+    private researchService: ResearchService,
+  ) { }
 
   ngOnInit(): void {
-    console.log('[28][ tsvupload][]', this.specimenNo);
+    // console.log('[28][ tsvupload][]', this.specimenNo, this.patientid);
   }
 
   onConfirm(): void {
@@ -75,11 +80,20 @@ export class ResearchUploadComponent implements OnInit {
 
     this.testedid = this.specimenNo;
     formData.append('testedID', this.testedid);
-
-    this.fileUploadService.fileUpload(formData)
+    console.log('[79][research-upload]', this.testedid);
+    this.researchService.insertPatientBySpecimenno(this.testedid, this.patientid)
+      .pipe(
+        tap(data => console.log('[86]==> ', data)),
+        concatMap(() => this.fileUploadService.fileUpload(formData))
+      )
       .subscribe(result => {
-        this.upload = result;
+        // this.upload = result;
       });
+
+    // this.fileUploadService.fileUpload(formData)
+    //   .subscribe(result => {
+    //     this.upload = result;
+    //   });
   }
 
 
@@ -141,3 +155,5 @@ export class ResearchUploadComponent implements OnInit {
   }
 
 }
+
+

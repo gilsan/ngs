@@ -33,6 +33,8 @@
           style="width:150px;">
         <button type="button" class="btn btn_02" style="margin-left: 10px;"
           (click)="search(mlpaStart.value, mlpaEnd.value, mlpaTestedID.value, mlpaPatient.value, mlpaStatus.value, mlpaSheet.value)">조 회</button>
+        <button type="button" class="btn btn_02" style="margin-left: 10px;"
+          (click)="openDialog()">연구용</button>
       </div>
       <div class="box">
         <div class="box_100 fill" [appDiagScrollMonitor]="'MLPA'" #dbox100>
@@ -48,7 +50,8 @@
             <col width="170px">
             <col width="90px">
             <col width="90px">
-            <col width="120px">
+            <col width="100px">
+            <col width="80px">
           </colgroup>
           <thead>
             <tr>
@@ -62,6 +65,7 @@
               <th>결과지명</th>
               <th>검체번호</th>
               <th>진행상태</th>
+              <th>&nbsp;</th>
               <th>&nbsp;</th>
             </tr>
           </thead>
@@ -82,6 +86,11 @@
                 <button type="button" class="btn btn_03"
                   (click)="goReporter(i)">결과지/보고서</button>
               </td>
+              <td  class="txt_c" *ngIf="list.gbn === 'RESEARCH'; else research;">
+                <button type="button" class="btn btn_05" >연구용</button>
+              </td>
+              <ng-template #research><td></td></ng-template>
+
             </tr>
           </tbody>
         </table>

@@ -167,6 +167,7 @@ export class Form6Component implements OnInit, OnDestroy {
   technique = '';
   commentdata = '';
   maxHeight = 500;
+  isResearch = false;
   totalCount = 0; // 유전자와 nucleotidde change 을 가진 환자수
 
   formTitle: string;
@@ -305,8 +306,10 @@ export class Form6Component implements OnInit, OnDestroy {
       }
       this.defaultCode();
     }
-    console.log('[303][환자정보]', this.patientInfo);
-
+    console.log('[309][환자정보]', this.patientInfo);
+    if (this.patientInfo.gbn === 'RESEARCH') {
+      this.isResearch = true;
+    }
     this.comment2 = this.patientInfo.worker;
     this.formTitle = this.patientInfo.reportTitle;
     this.findTitle(this.patientInfo.test_code);

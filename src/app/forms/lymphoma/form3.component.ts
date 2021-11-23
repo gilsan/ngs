@@ -170,6 +170,7 @@ export class Form3Component implements OnInit, OnDestroy {
   technique = `The analysis was optimised to identify base pair substitutions with a high sensitivity. The sensitivity for small insertions and deletions was lower. Deep-intronic mutations, mutations in the promoter region, repeats, large exonic deletions and duplications, and other structural variants were not detected by this test.`;
 
   maxHeight = 500;
+  isResearch = false;
   target: string;
   savedDataExist = false;
   @ViewChild('commentbox') private commentbox: TemplateRef<any>;
@@ -287,7 +288,10 @@ export class Form3Component implements OnInit, OnDestroy {
       this.target = 'Myeloma';
     }
 
-    console.log('[288][환자정보]', this.patientInfo, this.target);
+    console.log('[291][환자정보]', this.patientInfo, this.target);
+    if (this.patientInfo.gbn === 'RESEARCH') {
+      this.isResearch = true;
+    }
     this.method = this.patientInfo.reportTitle.replace(/"/g, '');
     this.store.setPatientInfo(this.patientInfo); // 환자정보 저장
 

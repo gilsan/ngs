@@ -9,26 +9,20 @@ import { IPatient } from 'src/app/home/models/patients';
 import { filter } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-amlall-dialog',
-  templateUrl: './amlall-dialog.component.html',
-  styleUrls: ['./amlall-dialog.component.scss']
+  selector: 'app-mds-dialog',
+  templateUrl: './mds-dialog.component.html',
+  styleUrls: ['./mds-dialog.component.scss']
 })
-export class AmlallDialogComponent implements OnInit {
+export class MdsDialogComponent implements OnInit {
 
-  testcodeExist = false;
-  tsvFileExist = false;
-  testName = '';
   isVisible = true;
-  selectedRow: number;
-  specimenno = '';
-  patientid = '';
+
   tablerowForm: FormGroup;
-  resultName = ['AML', 'ALL'];
   gender = ['M', 'F'];
   lists: IRESARCHLIST[] = [];
   patientLists: IPatient[] = [];
   constructor(
-    private dialogRef: MatDialogRef<AmlallDialogComponent>,
+    private dialogRef: MatDialogRef<MdsDialogComponent>,
     private fb: FormBuilder,
     private router: Router,
     private researchService: ResearchService,
@@ -55,11 +49,9 @@ export class AmlallDialogComponent implements OnInit {
           const control = this.tablerowForm.get('tableRows') as FormArray;
           this.patientLists = data;
           this.patientLists.forEach(list => {
-            if (list.test_code === 'LPE471' || list.test_code === 'LPE472') {
-              if (list.test_code === 'LPE471') {
-                resultName = 'AML';
-              } else if (list.test_code === 'LPE472') {
-                resultName = 'ALL';
+            if (list.test_code === 'LPE473') {
+              if (list.test_code === 'LPE473') {
+                resultName = 'MDS/MPN NGS';
               }
               console.log('[64]=> ', data);
               control.push(this.createRow({
@@ -67,9 +59,9 @@ export class AmlallDialogComponent implements OnInit {
                 name: list.name,
                 gender: list.gender,
                 patientID: list.patientID,
-                test_code: list.test_code,
-                testname: resultName,
-                reportTitle: list.reportTitle,
+                test_code: 'LPE473',
+                testname: 'LPE473',
+                reportTitle: 'MDS/MPN NGS',
                 specimenNo: list.specimenNo,
               }));
             }
@@ -130,6 +122,7 @@ export class AmlallDialogComponent implements OnInit {
           this.snackBar.open('삭제 했습니다.', '닫기', { duration: 3000 });
         });
     }
+
   }
 
   cancelRow(index: number): void {
@@ -167,9 +160,9 @@ export class AmlallDialogComponent implements OnInit {
       age: [''],
       gender: [''],
       patientID: [''],
-      test_code: [''],
-      testname: [''],
-      reportTitle: [''],
+      test_code: ['LPE473'],
+      testname: ['LPE473'],
+      reportTitle: ['MDS/MPN NGS'],
       specimenNo: [''],
       isSaved: [false]
     });
@@ -191,13 +184,12 @@ export class AmlallDialogComponent implements OnInit {
   changetype(i: number, option: string): void {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     // console.log('[200][changetype]', option);
-    if (option === 'AML') {
-      control.at(i).patchValue({ reportTitle: 'Acute Myeloid Leukemia NGS', test_code: 'LPE471', testname: option });
-    } else if (option === 'ALL') {
-      control.at(i).patchValue({ reportTitle: 'Acute Lymphoblastic Leukemia NGS', test_code: 'LPE472', testname: option });
+    if (option === 'LPE473') {
+      control.at(i).patchValue({ reportTitle: 'MDS/MPN NGS', test_code: 'LPE473', testname: option });
     }
     console.log(control.at(i).value);
   }
+
 
 
 }

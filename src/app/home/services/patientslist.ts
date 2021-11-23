@@ -19,6 +19,7 @@ export class PatientsListService {
   public listObservable$ = this.listSubject$.asObservable();
   private jimTestedID: string;
   public patientInfo: IPatient[] = [];
+  public researchPatientInfo: IPatient[] = [];
   testCode: string;
 
   geneCoding: IGeneCoding[];
@@ -76,7 +77,10 @@ export class PatientsListService {
 
   // 검진자 정보 가져오기 this.form2TestedId
   public getPatientInfo(specimenNo: string): Observable<IPatient> {
-    return this.http.post<IPatient>(`${this.apiUrl}/patients_diag/patientinfo`, { specimenNo });
+    return this.http.post<IPatient>(`${this.apiUrl}/patients_diag/patientinfo`, { specimenNo })
+      .pipe(
+        tap(data => this.researchPatientInfo[0] = data)
+      );
   }
   // 검사자 필터링된 검사 결과 가져오기
   public getFilteredTSVtList(testedID: string): Observable<IFilteredTSV[]> {

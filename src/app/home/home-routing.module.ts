@@ -35,9 +35,8 @@ import { Form3Component } from '../forms/lymphoma/form3.component';
 import { Form2Component } from '../forms/form2/form2.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 
-
-import { ALLComponent } from './components/amlall/all/all.component';
-import { AMLComponent } from './components/amlall/aml/aml.component';
+// import { AllamlComponent } from './components/amlall/allaml/allaml.component';
+// import { LymComponent } from './components/lymphoma/lym/lym.component';
 
 
 
@@ -93,8 +92,8 @@ const routes: Routes = [
       { path: 'maindiag', component: MaindiagComponent },
       { path: 'typestatics', component: TypestaticsComponent },
 
-      { path: 'researchall', component: ALLComponent },
-      { path: 'researchaml', component: AMLComponent }
+      // { path: 'researchamlall', component: AllamlComponent },
+      // { path: 'researchlym', component: LymComponent },
 
       // { path: '**', component: AmlallComponent },
 

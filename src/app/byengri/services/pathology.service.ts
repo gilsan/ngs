@@ -111,6 +111,25 @@ export class PathologyService {
     );
   }
 
+  public searchSeq(start: string, end: string, patientID: string = '', pathologyNo: string = ''): Observable<IPatient[]> {
+    // console.log('[97][searchService][병리검색]:', start, end, patientID, pathologyNo);
+    return this.http.post<IPatient[]>(`${this.apiUrl}/searchpatient_path/listSeq`, { start, end, patientID, pathologyNo }).pipe(
+      // tap(data => console.log('[검색서비스][환자정보]', data)),
+      tap(data => this.patientInfo = data),
+      map((datas: IPatient[]) => datas.map(data => {
+        if (data.recheck !== undefined) {
+          data.loginid = data.recheck.split('_')[0];
+          data.rechecker = data.recheck.split('_')[1];
+        }
+        return data;
+      })),
+      shareReplay()
+    );
+  }
+
+
+
+
   // 검체번호로 환자 찿기
   findPatientinfo(pathologyNum: string): Observable<IPatient> {
     return this.http.post<IPatient>(`${this.apiUrl}/patients_path/patient`, { pathologyNum });

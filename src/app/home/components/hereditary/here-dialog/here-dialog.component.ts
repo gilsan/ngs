@@ -3,32 +3,29 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ResearchService } from 'src/app/home/services/research.service';
-import { IRESARCHLIST } from 'src/app/home/models/research.model';
+import { IRESARCHLIST, ITYPE } from 'src/app/home/models/research.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IPatient } from 'src/app/home/models/patients';
-import { filter } from 'rxjs/operators';
+
+import { combineLatest, } from 'rxjs';
 
 @Component({
-  selector: 'app-amlall-dialog',
-  templateUrl: './amlall-dialog.component.html',
-  styleUrls: ['./amlall-dialog.component.scss']
+  selector: 'app-here-dialog',
+  templateUrl: './here-dialog.component.html',
+  styleUrls: ['./here-dialog.component.scss']
 })
-export class AmlallDialogComponent implements OnInit {
+export class HereDialogComponent implements OnInit {
 
-  testcodeExist = false;
-  tsvFileExist = false;
-  testName = '';
   isVisible = true;
-  selectedRow: number;
-  specimenno = '';
-  patientid = '';
+
   tablerowForm: FormGroup;
-  resultName = ['AML', 'ALL'];
+  typeLists: ITYPE[] = [];
+  resultName: string[] = [];
   gender = ['M', 'F'];
   lists: IRESARCHLIST[] = [];
   patientLists: IPatient[] = [];
   constructor(
-    private dialogRef: MatDialogRef<AmlallDialogComponent>,
+    private dialogRef: MatDialogRef<HereDialogComponent>,
     private fb: FormBuilder,
     private router: Router,
     private researchService: ResearchService,
@@ -38,6 +35,7 @@ export class AmlallDialogComponent implements OnInit {
   ngOnInit(): void {
     this.loadForm();
     this.loadLists();
+
   }
 
   loadForm(): void {
@@ -47,35 +45,38 @@ export class AmlallDialogComponent implements OnInit {
   }
 
   loadLists(): void {
-    let resultName = '';
-    this.researchService.getPatientLists()
-      .subscribe(data => {
-        this.patientLists = data;
-        if (data.length > 0) {
-          const control = this.tablerowForm.get('tableRows') as FormArray;
-          this.patientLists = data;
-          this.patientLists.forEach(list => {
-            if (list.test_code === 'LPE471' || list.test_code === 'LPE472') {
-              if (list.test_code === 'LPE471') {
-                resultName = 'AML';
-              } else if (list.test_code === 'LPE472') {
-                resultName = 'ALL';
-              }
-              console.log('[64]=> ', data);
+    const lists$ = this.researchService.getTestcodeByType('Genetic');
+    const patientLists$ = this.researchService.getPatientLists();
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    combineLatest([lists$, patientLists$])
+      .subscribe(([lists, patientLists]) => {
+        this.typeLists = lists;
+        this.typeLists.forEach(list => {
+          this.resultName.push(list.code);
+        });
+
+        if (patientLists.length > 0) {
+          patientLists.forEach(list => {
+            const idx = this.typeLists.findIndex(type => type.code === list.test_code);
+            if (idx !== -1) {
+              console.log(this.typeLists[idx]);
+              const { code, report } = this.typeLists[idx];
               control.push(this.createRow({
                 age: list.age,
                 name: list.name,
                 gender: list.gender,
                 patientID: list.patientID,
                 test_code: list.test_code,
-                testname: resultName,
-                reportTitle: list.reportTitle,
+                testname: code,
+                reportTitle: report,
                 specimenNo: list.specimenNo,
               }));
             }
           });
         }
       });
+
+
   }
 
   save(i: number): void {
@@ -130,6 +131,7 @@ export class AmlallDialogComponent implements OnInit {
           this.snackBar.open('삭제 했습니다.', '닫기', { duration: 3000 });
         });
     }
+
   }
 
   cancelRow(index: number): void {
@@ -190,14 +192,12 @@ export class AmlallDialogComponent implements OnInit {
 
   changetype(i: number, option: string): void {
     const control = this.tablerowForm.get('tableRows') as FormArray;
-    // console.log('[200][changetype]', option);
-    if (option === 'AML') {
-      control.at(i).patchValue({ reportTitle: 'Acute Myeloid Leukemia NGS', test_code: 'LPE471', testname: option });
-    } else if (option === 'ALL') {
-      control.at(i).patchValue({ reportTitle: 'Acute Lymphoblastic Leukemia NGS', test_code: 'LPE472', testname: option });
-    }
+    const idx = this.typeLists.findIndex(type => type.code === option);
+    const report = this.typeLists[idx].report;
+    control.at(i).patchValue({ reportTitle: report, test_code: option, testname: option });
     console.log(control.at(i).value);
   }
+
 
 
 }

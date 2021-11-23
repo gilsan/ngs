@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { from, Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
@@ -11,6 +12,7 @@ import { SubSink } from 'subsink';
 import * as moment from 'moment';
 import { listSequencing, sequencingLists } from 'src/app/forms/commons/geneList';
 import { TestCodeTitleService } from '../../services/testCodeTitle.service';
+import { SeqDialogComponent } from './seq-dialog/seq-dialog.component';
 
 
 @Component({
@@ -54,7 +56,8 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router,
     private store: StoreSEQService,
     private sanitizer: DomSanitizer,
-    private titleService: TestCodeTitleService
+    private titleService: TestCodeTitleService,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -314,7 +317,19 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
     return { table_bg: false };
   }
 
+  ////////// 연구용
+  openDialog(): void {
+    const dialogConfig = new MatDialogConfig();
 
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.maxWidth = '100vw';
+    dialogConfig.maxHeight = '100vh';
+    const dialogRef = this.dialog.open(SeqDialogComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(data => {
+      this.checkStore();
+    });
+  }
 
 
 
