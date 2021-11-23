@@ -67,10 +67,17 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
     this.patientsList.patientSearch(start.replace(/-/g, ''), end.replace(/-/g, ''))
       .pipe(
         switchMap(data => from(data)),
-        tap(data => console.log('[TAP1]', this.types)),
+        tap(data => console.log('[TAP1]', this.types, data)),
         map(data => {
           const idx = this.types.findIndex(list => list.code === data.test_code);
+          if (idx === -1) {
+            return { ...data, type: 'none' };
+          }
           return { ...data, type: this.types[idx].type };
+        }),
+        catchError(err => {
+          console.log(err);
+          return throwError(err);
         }),
         tap(data => console.log('[TAP2]', data)),
         concatMap(patientinfo => {
@@ -81,10 +88,6 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
               }),
               filter(data => data.data.length)
             );
-        }),
-        catchError(err => {
-          console.log(err);
-          return throwError(err);
         }),
       )
       .subscribe(data => {
