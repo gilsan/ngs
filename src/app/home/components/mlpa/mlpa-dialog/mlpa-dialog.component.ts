@@ -99,7 +99,7 @@ export class MlpaDialogComponent implements OnInit {
       return;
     }
 
-    if (row.isSave) {
+    if (row.isSaved) {
       // update
       this.researchService.updatePatientBySpecimenno(row)
         .subscribe(data => {
@@ -191,6 +191,15 @@ export class MlpaDialogComponent implements OnInit {
     const report = this.typeLists[idx].report;
     control.at(i).patchValue({ reportTitle: report, test_code: option, testname: option });
     console.log(control.at(i).value);
+  }
+
+  readonly(i: number): boolean {
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    const row = control.at(i).value;
+    if (row.isSaved) {
+      return true;
+    }
+    return false;
   }
 
 

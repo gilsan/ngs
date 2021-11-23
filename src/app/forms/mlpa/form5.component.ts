@@ -193,6 +193,9 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
           this.mlpaData.conclusion = data[0].conclusion;
           this.mlpaData.comment = data[0].comment;
           this.mlpaData.technique = data[0].technique;
+
+
+        } else {
           if (this.patientInfo.screenstatus === '0') {
             this.defaultService.getList(this.patientInfo.test_code)
               .subscribe(list => {
@@ -205,7 +208,6 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
                 this.mlpaData.technique = list[0].comment2;
               });
           }
-
         }
       });
   }

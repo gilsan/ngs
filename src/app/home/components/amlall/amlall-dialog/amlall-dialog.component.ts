@@ -103,13 +103,14 @@ export class AmlallDialogComponent implements OnInit {
 
     console.log('[85]', row);
 
-    if (row.isSave) {
-      // update
+    if (row.isSaved) {
+
       this.researchService.updatePatientBySpecimenno(row)
         .subscribe(data => {
           this.snackBar.open('저장 했습니다.', '닫기', { duration: 3000 });
         });
     } else {
+
       this.researchService.insertNewPatient(row)
         .subscribe(data => {
           this.snackBar.open('저장 했습니다.', '닫기', { duration: 3000 });
@@ -197,6 +198,15 @@ export class AmlallDialogComponent implements OnInit {
       control.at(i).patchValue({ reportTitle: 'Acute Lymphoblastic Leukemia NGS', test_code: 'LPE472', testname: option });
     }
     console.log(control.at(i).value);
+  }
+
+  readonly(i: number): boolean {
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    const row = control.at(i).value;
+    if (row.isSaved) {
+      return true;
+    }
+    return false;
   }
 
 

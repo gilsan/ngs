@@ -1786,27 +1786,27 @@ export class Form6Component implements OnInit, OnDestroy {
     if (this.resultStatus === 'Detected') {
       const control = this.tablerowForm.get('tableRows') as FormArray;
       const lists = control.getRawValue();
-      console.log(lists);
+      console.log('[자동입력 데이터]', lists);
       this.commentdata = '';
       let comment = '';
 
       lists.forEach(list => {
-        if (list.functionalImpact.length > 0) {
-          console.log(list.aminoAcidChange);
+        // if (list.functionalImpact.length > 0) {
+        console.log('[자동입력]', list.aminoAcidChange);
 
-          const aminoAcidChange = list.aminoAcidChange.split(',');
-          aminoAcidChange.forEach((item) => {
-            const zygosity = list.zygosity.split(',');
-            zygosity.forEach((zigo) => {
-              comment = comment + `본 환자에서 ${this.target} 에 대한 targeted panel sequencing 결과, ${list.gene} 유전자에서 ${list.functionalImpact}로 분류되는 ${list.nucleotideChange}, ${item} 변이가 ${zigo}로 관찰되었습니다.\n`;
-            });
+        const aminoAcidChange = list.aminoAcidChange.split(',');
+        aminoAcidChange.forEach((item) => {
+          const zygosity = list.zygosity.split(',');
+          zygosity.forEach((zigo) => {
+            comment = comment + `본 환자에서 ${this.target} 에 대한 targeted panel sequencing 결과, ${list.gene} 유전자에서 ${list.functionalImpact}로 분류되는 ${list.nucleotideChange}, ${item} 변이가 ${zigo}로 관찰되었습니다.\n`;
           });
-          if (list.functionalImpact.toLowerCase() === 'vus') {
-            comment = comment + `또한,  ${list.gene} 유전자에서 VUS (Variant of Unknown Significance) 로 분류되는  ${list.nucleotideChange}, ${list.aminoAcidChange} 변이가 ${list.zygosity}로 관찰되었습니다.\n`;
-          }
+        });
+        if (list.functionalImpact.toLowerCase() === 'vus') {
+          comment = comment + `또한,  ${list.gene} 유전자에서 VUS (Variant of Unknown Significance) 로 분류되는  ${list.nucleotideChange}, ${list.aminoAcidChange} 변이가 ${list.zygosity}로 관찰되었습니다.\n`;
         }
+        //  }
       });
-
+      console.log('[자동입력]', comment);
       this.commentdata = comment;
     } else if (this.resultStatus === 'Not Detected') {
       this.commentdata = `본 환자에서 ${this.target} 에 대한 targeted panel sequencing 결과, 질환 관련 돌연변이는 관찰되지 않았습니다`;

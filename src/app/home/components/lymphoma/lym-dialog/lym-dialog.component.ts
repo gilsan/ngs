@@ -99,7 +99,7 @@ export class LymDialogComponent implements OnInit {
 
     console.log('[85]', row);
 
-    if (row.isSave) {
+    if (row.isSaved) {
       // update
       this.researchService.updatePatientBySpecimenno(row)
         .subscribe(data => {
@@ -194,6 +194,15 @@ export class LymDialogComponent implements OnInit {
       control.at(i).patchValue({ reportTitle: '형질세포종 [NGS]', test_code: 'LPE475', testname: option });
     }
     console.log(control.at(i).value);
+  }
+
+  readonly(i: number): boolean {
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    const row = control.at(i).value;
+    if (row.isSaved) {
+      return true;
+    }
+    return false;
   }
 
 
