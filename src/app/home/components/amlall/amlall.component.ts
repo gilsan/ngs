@@ -318,6 +318,13 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.lists$ = this.patientsList.search(startdate, enddate, patientId, specimenNo, status, type);
     this.subs.sink = this.lists$
       .pipe(
+        map(lists => {
+          return lists.sort((a, b) => {
+            if (a.accept_date > b.accept_date) { return -1; }
+            if (a.accept_date === b.accept_date) { return 0; }
+            if (a.accept_date < b.accept_date) { return 1; }
+          });
+        }),
         switchMap(item => of(item)),
         switchMap(list => from(list)),
         filter(list => list.test_code === 'LPE545' || list.test_code === 'LPE472' || list.test_code === 'LPE471'),
@@ -338,13 +345,16 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
         // console.log('[297][sheet]', data);
         if (sheet === 'TOTAL' || sheet.length === 0) {
           this.lists.push(data);
+          this.tempLists.push(data);
         } else if (sheet === 'AMLALL') {
           if (data.test_code === 'AML') {
             this.lists.push(data);
+            this.tempLists.push(data);
           }
         } else if (sheet === 'ETC') {
           if (data.test_code === 'ALL') {
             this.lists.push(data);
+            this.tempLists.push(data);
           }
         }
 
@@ -430,6 +440,19 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
     dialogRef.afterClosed().subscribe(data => {
       this.checkStore();
     });
+  }
+
+  newList(type: string): IPatient[] {
+
+    this.lists = [];
+    if (type === 'TOTAL') {
+      this.lists = this.tempLists;
+      return this.lists;
+    } else if (type === 'PATIENT') {
+      this.lists = this.tempLists.filter(list => list.gbn !== 'RESEARCH');
+    } else if (type === 'RESEARCH') {
+      this.lists = this.tempLists.filter(list => list.gbn === 'RESEARCH');
+    }
   }
 
 

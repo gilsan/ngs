@@ -34,6 +34,14 @@
           style="width:150px;">
         <button type="button" class="btn btn_02" style="margin-left: 10px;"
           (click)="search(seqStart.value, seqEnd.value, seqTestedID.value, seqPatient.value, seqStatus.value, seqSheet.value)">조 회</button>
+        &nbsp;&nbsp;
+        <select class="select_01 select_001" #research  (change)="newList(research.value)">
+          <option value="none">선택</option>
+          <option value="TOTAL">전체</option>
+          <option value="PATIENT">환자용</option>
+          <option value="RESEARCH">연구용</option>
+        </select>&nbsp;&nbsp;
+
         <button type="button" class="btn btn_02" style="margin-left: 10px;"
           (click)="openDialog()">연구용</button>
       </div>

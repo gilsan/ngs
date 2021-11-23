@@ -266,7 +266,12 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
     this.patientsList.mdsmpnSearch2(startdate, enddate, patientId, specimenNo, status, sheet)
       .then(response => response.json())
       .then(data => {
-        console.log(data);
+        // console.log(data);
+        data.sort((a, b) => {
+          if (a.accept_date > b.accept_date) { return -1; }
+          if (a.accept_date === b.accept_date) { return 0; }
+          if (a.accept_date < b.accept_date) { return 1; }
+        });
         data.forEach(list => {
           if (list.test_code === 'LPE473') {
             tempLists.push({ ...list, codetest: 'MDS/MPN' });
@@ -275,12 +280,10 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log(tempLists);
         this.patientsList.setPatientID(tempLists);
         this.lists = tempLists;
+        this.tempLists = tempLists;
         this.patientID = '';
         this.specimenNo = '';
       });
-
-
-
 
 
     // this.lists$ = this.patientsList.mdsmpnSearch(startdate, enddate, patientId, specimenNo, status, sheet);
@@ -382,6 +385,19 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
     dialogRef.afterClosed().subscribe(data => {
       this.checkStore();
     });
+  }
+
+  newList(type: string): IPatient[] {
+
+    this.lists = [];
+    if (type === 'TOTAL') {
+      this.lists = this.tempLists;
+      return this.lists;
+    } else if (type === 'PATIENT') {
+      this.lists = this.tempLists.filter(list => list.gbn !== 'RESEARCH');
+    } else if (type === 'RESEARCH') {
+      this.lists = this.tempLists.filter(list => list.gbn === 'RESEARCH');
+    }
   }
 
 

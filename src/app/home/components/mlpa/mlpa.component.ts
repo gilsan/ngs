@@ -255,7 +255,13 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
       .then(response => response.json())
       .then(data => {
         this.patientsList.setPatientID(data);
+        data.sort((a, b) => {
+          if (a.accept_date > b.accept_date) { return -1; }
+          if (a.accept_date === b.accept_date) { return 0; }
+          if (a.accept_date < b.accept_date) { return 1; }
+        });
         this.lists = data;
+        this.tempLists = data;
         this.patientID = '';
         this.specimenNo = '';
       });
@@ -322,6 +328,19 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
     dialogRef.afterClosed().subscribe(data => {
       this.checkStore();
     });
+  }
+
+  newList(type: string): IPatient[] {
+
+    this.lists = [];
+    if (type === 'TOTAL') {
+      this.lists = this.tempLists;
+      return this.lists;
+    } else if (type === 'PATIENT') {
+      this.lists = this.tempLists.filter(list => list.gbn !== 'RESEARCH');
+    } else if (type === 'RESEARCH') {
+      this.lists = this.tempLists.filter(list => list.gbn === 'RESEARCH');
+    }
   }
 
 

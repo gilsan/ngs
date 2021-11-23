@@ -20,6 +20,7 @@ export interface IPatient {
   method: string;
   reportTitle?: string;
   accept_date: string;
+  accept_date2?: string;
   specimen: string;
   detected?: string;
   request: string;

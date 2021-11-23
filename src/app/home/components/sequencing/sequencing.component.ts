@@ -258,8 +258,14 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
       .then(response => response.json())
       .then(data => {
         this.patientsList.setPatientID(data);
+        data.sort((a, b) => {
+          if (a.accept_date > b.accept_date) { return -1; }
+          if (a.accept_date === b.accept_date) { return 0; }
+          if (a.accept_date < b.accept_date) { return 1; }
+        });
         data.forEach(list => {
           this.lists.push(list);
+          this.tempLists.push(list);
           this.patientID = '';
           this.specimenNo = '';
 
@@ -329,6 +335,19 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
     dialogRef.afterClosed().subscribe(data => {
       this.checkStore();
     });
+  }
+
+  newList(type: string): IPatient[] {
+
+    this.lists = [];
+    if (type === 'TOTAL') {
+      this.lists = this.tempLists;
+      return this.lists;
+    } else if (type === 'PATIENT') {
+      this.lists = this.tempLists.filter(list => list.gbn !== 'RESEARCH');
+    } else if (type === 'RESEARCH') {
+      this.lists = this.tempLists.filter(list => list.gbn === 'RESEARCH');
+    }
   }
 
 
