@@ -160,9 +160,14 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
 
 
   pushAmlAll(list): void {
-
+    let check = '';
     list.data.forEach(item => {
-      
+
+      if (parseInt(list.detected, 10) === 0) {
+        check = 'Detected';
+      } else if (parseInt(list.detected, 10) === 1) {
+        check = 'Not Detected';
+      }
       this.amlall.push({
         prescription: '',
         title: list.reportTitle,
@@ -178,7 +183,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         IKZF1deletion: list.IKZK1Deletion,
         ChromosomalAnalysis: list.chromosomalanalysis,
         tsvname: list.tsvFilteredFilename,
-        result: list.detected,
+        result: check,
         gene: item.gene,
         functionalImpact: item.functional_impact,
         transcript: item.transcript,
