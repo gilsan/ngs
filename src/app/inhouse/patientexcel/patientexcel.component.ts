@@ -191,7 +191,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         nucleotideChange: item.nucleotide_change,
         aminoAcidChange: item.amino_acid_change,
         zygosity: item.zygosity,
-        vafPercent: item.vafPercent,
+        vafPercent: item.vaf,
         reference: item.reference,
         cosmic_id: item.cosmic_id,
       });
@@ -200,7 +200,13 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
   }
 
   pushLym(list): void {
+    let check = '';
     list.data.forEach(item => {
+      if (parseInt(list.detected, 10) === 0) {
+        check = 'Detected';
+      } else if (parseInt(list.detected, 10) === 1) {
+        check = 'Not Detected';
+      }
       this.lym.push({
         prescription: '',
         title: list.reportTitle,
@@ -215,7 +221,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         diagnosis: list.diagnosis,
         chromosomalAnalysis: list.chromosomalanalysis,
         tsvname: list.tsvFilteredFilename,
-        result: list.detected,
+        result: check,
         gene: item.gene,
         functionalImpact: item.functional_impact,
         transcript: item.transcript,
@@ -223,7 +229,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         nucleotideChange: item.nucleotide_change,
         aminoAcidChange: item.amino_acid_change,
         zygosity: item.zygosity,
-        vafPercent: item.vafPercent,
+        vafPercent: item.vaf,
         reference: item.reference,
         cosmic_id: item.cosmic_id,
       });
@@ -231,7 +237,13 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
   }
 
   pushMds(list): void {
+    let check = '';
     list.data.forEach(item => {
+      if (parseInt(list.detected, 10) === 0) {
+        check = 'Detected';
+      } else if (parseInt(list.detected, 10) === 1) {
+        check = 'Not Detected';
+      }
       this.mds.push({
         prescription: '',
         title: list.reportTitle,
@@ -247,7 +259,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         geneticTest: list.genetictest,
         chromosomalAnalysis: list.chromosomalanalysis,
         excelname: list.tsvFilteredFilename,
-        result: list.detected,
+        result: check,
         gene: item.gene,
         functionalImpact: item.functional_impact,
         transcript: item.transcript,
@@ -255,7 +267,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         nucleotideChange: item.nucleotide_change,
         aminoAcidChange: item.amino_acid_change,
         zygosity: item.zygosity,
-        vafPercent: item.vafPercent,
+        vafPercent: item.vaf,
         reference: item.reference,
         cosmic_id: item.cosmic_id,
       });
@@ -263,7 +275,13 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
   }
 
   pushGenetic(list): void {
+    let check = '';
     list.data.forEach(item => {
+      if (parseInt(list.detected, 10) === 0) {
+        check = 'Detected';
+      } else if (parseInt(list.detected, 10) === 1) {
+        check = 'Not Detected';
+      }
       this.genetic.push({
         prescription: '',
         title: list.reportTitle,
@@ -277,7 +295,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         researchPrescriptionCode: list.test_code,
         diagnosis: list.diagnosis,
         excelname: list.tsvFilteredFilename,
-        result: list.detected,
+        result: check,
         gene: item.gene,
         functionalImpact: item.functional_impact,
         transcript: item.transcript,
@@ -293,7 +311,13 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
   }
 
   pushSeq(list): void {
+    let check = '';
     list.data.forEach(item => {
+      if (parseInt(list.detected, 10) === 0) {
+        check = 'Detected';
+      } else if (parseInt(list.detected, 10) === 1) {
+        check = 'Not Detected';
+      }
       this.seq.push({
         prescription: '',
         title: list.reportTitle,
@@ -305,7 +329,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         acceptdate: list.accept_date,
         reportdate: list.report_date,
         researchPrescriptionCode: list.test_code,
-        result: list.detected,
+        result: check,
         gene: item.gene,
         type: item.functional_impact,
         exonIntro: item.exon,
