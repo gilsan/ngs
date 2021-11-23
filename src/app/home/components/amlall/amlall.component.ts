@@ -353,7 +353,7 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
             data.reportTitle = title;
           }
         }
-
+        /*
         if (this.receivedType === 'register' && data.screenstatus === '') {
           this.saveData(data, sheet);
         } else if (parseInt(this.receivedType, 10) === 0 && parseInt(data.screenstatus, 10) === 0) {
@@ -365,22 +365,24 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
         } else if (parseInt(this.receivedType, 10) === 3 && parseInt(data.screenstatus, 10) === 3) {
           this.saveData(data, sheet);
         }
+        */
+        console.log('[370][sheet]', data);
+        if (sheet === 'TOTAL' || sheet.length === 0) {
+          this.lists.push(data);
+          this.tempLists.push(data);
+        } else if (sheet === 'AMLALL') {
+          if (data.test_code === 'AML') {
+            this.lists.push(data);
+            this.tempLists.push(data);
+          }
+        } else if (sheet === 'ETC') {
+          if (data.test_code === 'ALL') {
+            this.lists.push(data);
+            this.tempLists.push(data);
+          }
+        }
 
-        // console.log('[370][sheet]', data);
-        // if (sheet === 'TOTAL' || sheet.length === 0) {
-        //   this.lists.push(data);
-        //   this.tempLists.push(data);
-        // } else if (sheet === 'AMLALL') {
-        //   if (data.test_code === 'AML') {
-        //     this.lists.push(data);
-        //     this.tempLists.push(data);
-        //   }
-        // } else if (sheet === 'ETC') {
-        //   if (data.test_code === 'ALL') {
-        //     this.lists.push(data);
-        //     this.tempLists.push(data);
-        //   }
-        // }
+        this.saveData(data, sheet);
 
         this.patientID = '';
         this.specimenNo = '';

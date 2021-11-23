@@ -276,6 +276,7 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
       .then(response => response.json())
       .then(data => {
         // console.log(data);
+        /*
         data.forEach(list => {
           if (this.receivedType === 'register' && list.screenstatus === '') {
             templists.push(list);
@@ -289,16 +290,16 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
             templists.push(list);
           }
         });
+        */
 
 
 
-
-        templists.sort((a, b) => {
+        data.sort((a, b) => {
           if (a.accept_date > b.accept_date) { return -1; }
           if (a.accept_date === b.accept_date) { return 0; }
           if (a.accept_date < b.accept_date) { return 1; }
         });
-        templists.forEach(list => {
+        data.forEach(list => {
           if (list.test_code === 'LPE473') {
             tempLists.push({ ...list, codetest: 'MDS/MPN' });
           }

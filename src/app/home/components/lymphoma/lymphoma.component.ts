@@ -275,6 +275,7 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
       .then(response => response.json())
       .then(data => {
         // console.log('[LYM]', data);
+        /*
         data.forEach(list => {
           if (this.receivedType === 'register' && list.screenstatus === '') {
             tempLists.push(list);
@@ -288,17 +289,17 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
             tempLists.push(list);
           }
         });
+        */
 
-
-        this.patientsList.setPatientID(tempLists);
-        tempLists.sort((a, b) => {
+        this.patientsList.setPatientID(data);
+        data.sort((a, b) => {
           if (a.accept_date > b.accept_date) { return -1; }
           if (a.accept_date === b.accept_date) { return 0; }
           if (a.accept_date < b.accept_date) { return 1; }
         });
 
-        this.lists = tempLists;
-        this.tempLists = tempLists;
+        this.lists = data;
+        this.tempLists = data;
         this.patientID = '';
         this.specimenNo = '';
       });

@@ -287,7 +287,7 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.patientsList.hereditarySearch2(startdate, enddate, patientId, specimenNo, status, sheet)
       .then(response => response.json())
       .then(data => {
-
+        /*
         data.forEach(list => {
           if (this.receivedType === 'register' && list.screenstatus === '') {
             tempLists.push(list);
@@ -301,16 +301,16 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
             tempLists.push(list);
           }
         });
+        */
 
-
-        this.patientsList.setPatientID(tempLists);
-        tempLists.sort((a, b) => {
+        this.patientsList.setPatientID(data);
+        data.sort((a, b) => {
           if (a.accept_date > b.accept_date) { return -1; }
           if (a.accept_date === b.accept_date) { return 0; }
           if (a.accept_date < b.accept_date) { return 1; }
         });
-        this.lists = tempLists;
-        this.tempLists = tempLists;
+        this.lists = data;
+        this.tempLists = data;
 
         this.patientID = '';
         this.specimenNo = '';

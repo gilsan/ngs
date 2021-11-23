@@ -67,7 +67,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
     this.patientsList.patientSearch(start.replace(/-/g, ''), end.replace(/-/g, ''))
       .pipe(
         switchMap(data => from(data)),
-        tap(data => console.log('[TAP1]', this.types, data)),
+        // tap(data => console.log('[TAP1]', this.types, data)),
         map(data => {
           const idx = this.types.findIndex(list => list.code === data.test_code);
           if (idx === -1) {
@@ -91,9 +91,11 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         }),
       )
       .subscribe(data => {
-        console.log('[91]', data);
+        console.log('[94][받음]', data);
         if (data.type === 'AMLALL') {
+          console.log('[96][AMLALL][입력]', data);
           this.pushAmlAll(data);
+
         } else if (data.type === 'LYM') {
           this.pushLym(data);
         } else if (data.type === 'MDS') {
@@ -158,6 +160,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
 
 
   pushAmlAll(list): void {
+
     list.data.forEach(item => {
       this.amlall.push({
         prescription: '',
@@ -187,6 +190,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         cosmic_id: item.cosmic_id,
       });
     });
+    console.log('[163][pushAmlAll]', this.amlall);
   }
 
   pushLym(list): void {
