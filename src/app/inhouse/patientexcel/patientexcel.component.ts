@@ -180,6 +180,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         reportdate: list.sendEMRDate,
         researchPrescriptionCode: '',
         LeukemiaAssociatedFusion: list.leukemiaassociatedfusion,
+        FLT3ITD:list.FLT3ITD,
         IKZF1deletion: list.IKZK1Deletion,
         ChromosomalAnalysis: list.chromosomalanalysis,
         tsvname: list.tsvFilteredFilename,
@@ -358,6 +359,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
 
       LeukemiaAssociatedFusion: 'Leukemia associated fusion',
       IKZF1deletion: 'IKZF1 deletion',
+      FLT3ITD:'FLT3-ITD',
       ChromosomalAnalysis: 'Chromosomal analysis',
       tsvname: 'TSV파일명',
       result: 'Result',
@@ -375,7 +377,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
     });
 
     const width = [{ width: 9 }, { width: 39 }, { width: 9 }, { width: 9 }, { width: 9 },
-    { width: 11 }, { width: 12 }, { width: 12 }, { width: 12 }, { width: 16 },
+    { width: 11 }, { width: 12 }, { width: 12 }, { width: 12 }, { width: 12 }, { width: 16 },
     { width: 25 }, { width: 30 }, { width: 21 }, { width: 27 },
     { width: 16 }, { width: 18 }, { width: 18 }, { width: 34 }, { width: 13 },
     { width: 28 }, { width: 37 }, { width: 14 }, { width: 12 }, { width: 14 },
