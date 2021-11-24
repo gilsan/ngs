@@ -64,6 +64,16 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
   }
 
   getPatientLists(start: string, end: string, gubun: string): void {
+
+    this.patientInfo = [];
+    this.types = [];
+
+    this.amlall = [];
+    this.lym = [];
+    this.mds = [];
+    this.genetic = [];
+    this.seq = [];
+    
     this.patientsList.patientSearch(start.replace(/-/g, ''), end.replace(/-/g, ''))
       .pipe(
         switchMap(data => from(data)),
