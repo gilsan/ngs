@@ -91,17 +91,12 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         }),
         tap(data => console.log('[TAP2]', data)),
         concatMap(patientinfo => {
-          if (parseInt(patientinfo.detected, 10) === 1) 
-          {
-
-          }
-          else {
           return this.variantsService.screenSelect(patientinfo.specimenNo)
             .pipe(
               map(data => {
                 console.log(data);
                 
-                if (data.length !== null && data.length !== 0 && data.length !== undefined) {
+                if (data.length !== null && data.length !== 0 ) {
                   return { ...patientinfo, data };
                 }
 
@@ -122,7 +117,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
               }),
               filter(data => data.data.length)
             );
-          }
+          
         }),
       )
       .subscribe(data => {
