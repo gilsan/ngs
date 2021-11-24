@@ -95,26 +95,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
             .pipe(
               map(data => {
                 console.log(data);
-                
-                if( data == "" || data == null || data == undefined || ( data != null && typeof data == "object" && !Object.keys(data).length ) ) {
-                  
-                  return { ...patientinfo,  gene: '',
-                    functionalImpact: '',
-                    transcript: '',
-                    exonIntro: '',
-                    nucleotideChange: '',
-                    aminoAcidChange: '',
-                    zygosity: '',
-                    vafPercent: '',
-                    reference: '',
-                    cosmic_id: '' };
-                }
-
-                 else {
                   return { ...patientinfo, data };
-                }
-              
-              //  return { ...patientinfo, data };
               }),
               filter(data => data.data.length)
             );
