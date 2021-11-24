@@ -94,7 +94,9 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
           return this.variantsService.screenSelect(patientinfo.specimenNo)
             .pipe(
               map(data => {
-                if (data.length === 0){
+                console.log(data);
+                /*
+                if (data === 0){
                   return { ...patientinfo,  gene: '',
                     functionalImpact: '',
                     transcript: '',
@@ -110,6 +112,8 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
 
                   return { ...patientinfo, data };
                 }
+                */
+                return { ...patientinfo, data };
               }),
               filter(data => data.data.length)
             );
