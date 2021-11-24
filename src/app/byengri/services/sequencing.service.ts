@@ -4,6 +4,7 @@ import { emrUrl } from 'src/app/config';
 import { Observable, Subject } from 'rxjs';
 import { filter, shareReplay, tap } from 'rxjs/operators';
 import { IESS, IFilteredOriginData, ILIST, IPatient, Ipolymorphism, IStateControl } from '../models/patients';
+import { IITEM } from '../models/item-move.model';
 
 
 export interface ISequencing {
@@ -109,6 +110,27 @@ export class SequencingService {
     return this.http.post(`${this.apiUrl}/mutation/essdelete`, { id });
   }
 
+  ///// 자리이동 내역
+
+  /// 목록
+  listMoveHistory(pathologyNum: string): Observable<IITEM[]> {
+    return this.http.post<IITEM[]>(`${this.apiUrl}/sequencingdiag/listMoveHistory`, { pathologyNum });
+  }
+
+  //// 입력
+  insertMoveHistory(item: IITEM): Observable<any> {
+    return this.http.post(`${this.apiUrl}/sequencingdiag/insertMoveHistory`, { ...item });
+  }
+
+  // 수정
+  updateMoveHistory(item: IITEM): Observable<any> {
+    return this.http.post(`${this.apiUrl}/sequencingdiag/updateMoveHistory`, { ...item });
+  }
+
+  /// 삭제
+  deleteMoveHistory(id: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/sequencingdiag/deleteMoveHistory`, { id });
+  }
 
 
 

@@ -59,7 +59,7 @@ export class HereDialogComponent implements OnInit {
           patientLists.forEach(list => {
             const idx = this.typeLists.findIndex(type => type.code === list.test_code);
             if (idx !== -1) {
-              console.log(this.typeLists[idx]);
+              // console.log(this.typeLists[idx]);
               const { code, report } = this.typeLists[idx];
               control.push(this.createRow({
                 age: list.age,

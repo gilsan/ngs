@@ -61,7 +61,7 @@ export class AmlallDialogComponent implements OnInit {
               } else if (list.test_code === 'LPE472') {
                 resultName = 'ALL';
               }
-              console.log('[64]=> ', data);
+              // console.log('[64]=> ', data);
               control.push(this.createRow({
                 age: list.age,
                 name: list.name,
@@ -101,7 +101,7 @@ export class AmlallDialogComponent implements OnInit {
       return;
     }
 
-    console.log('[85]', row);
+    // console.log('[85]', row);
 
     if (row.isSaved) {
 

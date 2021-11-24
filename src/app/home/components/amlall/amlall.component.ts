@@ -62,8 +62,10 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
       filter(data => data !== null || data !== undefined),
       map(route => route.get('type'))
     ).subscribe(data => {
-      this.receivedType = data;
-      console.log('[전송값]', this.receivedType);
+      if (data !== null) {
+        this.receivedType = data;
+      }
+      console.log('[69][전송값]', this.receivedType);
     });
 
 
@@ -328,16 +330,8 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.lists$ = this.patientsList.search(startdate, enddate, patientId, specimenNo, status, type);
     this.subs.sink = this.lists$
       .pipe(
-        map(lists => {
-          return lists.sort((a, b) => {
-            if (a.accept_date > b.accept_date) { return -1; }
-            if (a.accept_date === b.accept_date) { return 0; }
-            if (a.accept_date < b.accept_date) { return 1; }
-          });
-        }),
         switchMap(item => of(item)),
         switchMap(list => from(list)),
-        // tap(data => console.log(data)),
         filter(list => list.test_code === 'LPE545' || list.test_code === 'LPE472' || list.test_code === 'LPE471'),
         map(list => {
           if (list.test_code === 'LPE545' || list.test_code === 'LPE472') {
@@ -346,6 +340,7 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
             return { ...list, codetest: 'AML', original_code: list.test_code };
           }
         }),
+        // tap(data => console.log('[343]', data)),
       ).subscribe((data: any) => {
         if (data.reportTitle === '') {
           const title = this.titleService.getMltaTitle(data.original_code);
@@ -353,37 +348,55 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
             data.reportTitle = title;
           }
         }
-        /*
-        if (this.receivedType === 'register' && data.screenstatus === '') {
-          this.saveData(data, sheet);
-        } else if (parseInt(this.receivedType, 10) === 0 && parseInt(data.screenstatus, 10) === 0) {
-          this.saveData(data, sheet);
-        } else if (parseInt(this.receivedType, 10) === 1 && parseInt(data.screenstatus, 10) === 1) {
-          this.saveData(data, sheet);
-        } else if (parseInt(this.receivedType, 10) === 2 && parseInt(data.screenstatus, 10) === 2) {
-          this.saveData(data, sheet);
-        } else if (parseInt(this.receivedType, 10) === 3 && parseInt(data.screenstatus, 10) === 3) {
-          this.saveData(data, sheet);
+
+
+        if (this.receivedType !== 'none') {
+          if (this.receivedType === 'register' && data.screenstatus === '') {
+            this.saveData(data, sheet);
+          } else if (parseInt(this.receivedType, 10) === 0 && parseInt(data.screenstatus, 10) === 0) {
+            this.saveData(data, sheet);
+          } else if (parseInt(this.receivedType, 10) === 1 && parseInt(data.screenstatus, 10) === 1) {
+            this.saveData(data, sheet);
+          } else if (parseInt(this.receivedType, 10) === 2 && parseInt(data.screenstatus, 10) === 2) {
+            this.saveData(data, sheet);
+          } else if (parseInt(this.receivedType, 10) === 3 && parseInt(data.screenstatus, 10) === 3) {
+            this.saveData(data, sheet);
+          }
+        } else if (this.receivedType === 'none') {
+          // console.log('[370][sheet]', data);
+          if (sheet === 'TOTAL' || sheet.length === 0) {
+            this.lists.push(data);
+            this.tempLists.push(data);
+          } else if (sheet === 'AMLALL') {
+            if (data.test_code === 'LPE471') {
+              this.lists.push(data);
+              this.tempLists.push(data);
+            }
+          } else if (sheet === 'ETC') {
+            if (data.test_code === 'LPE472') {
+              this.lists.push(data);
+              this.tempLists.push(data);
+            }
+          }
         }
-        */
-        console.log('[370][sheet]', data);
+
+        /*
+        console.log('[370][sheet]', sheet, data);
         if (sheet === 'TOTAL' || sheet.length === 0) {
           this.lists.push(data);
           this.tempLists.push(data);
         } else if (sheet === 'AMLALL') {
-          if (data.test_code === 'AML') {
+          if (data.test_code === 'LPE471') {
             this.lists.push(data);
             this.tempLists.push(data);
           }
         } else if (sheet === 'ETC') {
-          if (data.test_code === 'ALL') {
+          if (data.test_code === 'LPE472') {
             this.lists.push(data);
             this.tempLists.push(data);
           }
         }
-
-        // this.saveData(data, sheet);
-
+        */
         this.patientID = '';
         this.specimenNo = '';
       });

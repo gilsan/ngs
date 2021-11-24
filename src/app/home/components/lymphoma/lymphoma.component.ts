@@ -64,7 +64,9 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
       filter(data => data !== null || data !== undefined),
       map(route => route.get('type'))
     ).subscribe(data => {
-      this.receivedType = data;
+      if (data !== null) {
+        this.receivedType = data;
+      }
     });
 
     this.checkStore();
@@ -137,7 +139,7 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.patientsList.setTestedID(this.lists[i].specimenNo); // 검체번호
     this.patientsList.setTestcode(this.lists[i].test_code);  // 검사지 타입 AML ALL
-    // this.router.navigate(['/diag', 'jingum', this.lists[i].test_code]);
+
     this.router.navigate(['/diag', 'lymphoma', 'form3', this.lists[i].test_code]);
 
   }
@@ -183,9 +185,7 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
     const dd = oneMonthsAgo.format('DD');
 
     const now1 = yy + '-' + mm + '-' + dd;
-    // if (this.storeStartDay) {
-    //   return this.storeStartDay;
-    // }
+
     return now1;
   }
 
@@ -200,9 +200,7 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
     const newday = ('0' + date).substr(-2);
     const now = year + '-' + newmon + '-' + newday;
 
-    // if (this.storeEndDay) {
-    //   return this.storeEndDay;
-    // }
+
     return now;
   }
 
@@ -275,35 +273,33 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
       .then(response => response.json())
       .then(data => {
         // console.log('[LYM]', data);
-        /*
-        data.forEach(list => {
-          if (this.receivedType === 'register' && list.screenstatus === '') {
-            tempLists.push(list);
-          } else if (parseInt(this.receivedType, 10) === 0 && parseInt(list.screenstatus, 10) === 0) {
-            tempLists.push(list);
-          } else if (parseInt(this.receivedType, 10) === 1 && parseInt(list.screenstatus, 10) === 1) {
-            tempLists.push(list);
-          } else if (parseInt(this.receivedType, 10) === 2 && parseInt(list.screenstatus, 10) === 2) {
-            tempLists.push(list);
-          } else if (parseInt(this.receivedType, 10) === 3 && parseInt(list.screenstatus, 10) === 3) {
-            tempLists.push(list);
-          }
-        });
-        */
+        if (this.receivedType !== 'none') {
+          data.forEach(list => {
+            if (this.receivedType === 'register' && list.screenstatus === '') {
+              tempLists.push(list);
+            } else if (parseInt(this.receivedType, 10) === 0 && parseInt(list.screenstatus, 10) === 0) {
+              tempLists.push(list);
+            } else if (parseInt(this.receivedType, 10) === 1 && parseInt(list.screenstatus, 10) === 1) {
+              tempLists.push(list);
+            } else if (parseInt(this.receivedType, 10) === 2 && parseInt(list.screenstatus, 10) === 2) {
+              tempLists.push(list);
+            } else if (parseInt(this.receivedType, 10) === 3 && parseInt(list.screenstatus, 10) === 3) {
+              tempLists.push(list);
+            }
+          });
 
-        this.patientsList.setPatientID(data);
-        data.sort((a, b) => {
-          if (a.accept_date > b.accept_date) { return -1; }
-          if (a.accept_date === b.accept_date) { return 0; }
-          if (a.accept_date < b.accept_date) { return 1; }
-        });
+          this.patientsList.setPatientID(tempLists);
+          this.lists = tempLists;
+          this.tempLists = tempLists;
+        } else if (this.receivedType === 'none') {
+          this.patientsList.setPatientID(data);
+          this.lists = data;
+          this.tempLists = data;
+        }
 
-        this.lists = data;
-        this.tempLists = data;
         this.patientID = '';
         this.specimenNo = '';
       });
-
 
   }
   // 환자ID

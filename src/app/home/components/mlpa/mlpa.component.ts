@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { from, Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { emrUrl } from 'src/app/config';
@@ -41,7 +41,7 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
   storeEndDay: string;
   storePatientID: string;
   storeSpecimenID: string;
-
+  receivedType = 'none';
   private apiUrl = emrUrl;
   mlpaLists = mlpaLists;
   listsMLPA = listMLPA;
@@ -50,6 +50,7 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private patientsList: PatientsListService,
     private router: Router,
+    private route: ActivatedRoute,
     private store: StoreMLPAService,
     private sanitizer: DomSanitizer,
     public mlpaService: MlpaService,
@@ -58,6 +59,15 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.route.paramMap.pipe(
+      filter(data => data !== null || data !== undefined),
+      map(route => route.get('type'))
+    ).subscribe(data => {
+      if (data !== null) {
+        this.receivedType = data;
+      }
+    });
+
     this.checkStore();
     if (this.storeStartDay === null || this.storeEndDay === null) {
       this.init();
@@ -237,7 +247,7 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.setSheet(sheet);
     this.store.setWhichstate('searchscreen');
     this.lists = [];
-
+    const tempLists: IPatient[] = [];
     //
     const startdate = start.toString().replace(/-/gi, '');
     const enddate = end.toString().replace(/-/gi, '');
@@ -255,13 +265,28 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
       .then(response => response.json())
       .then(data => {
         this.patientsList.setPatientID(data);
-        data.sort((a, b) => {
-          if (a.accept_date > b.accept_date) { return -1; }
-          if (a.accept_date === b.accept_date) { return 0; }
-          if (a.accept_date < b.accept_date) { return 1; }
-        });
-        this.lists = data;
-        this.tempLists = data;
+        if (this.receivedType !== 'none') {
+          data.forEach(list => {
+            if (this.receivedType === 'register' && list.screenstatus === '') {
+              tempLists.push(list);
+            } else if (parseInt(this.receivedType, 10) === 0 && parseInt(list.screenstatus, 10) === 0) {
+              tempLists.push(list);
+            } else if (parseInt(this.receivedType, 10) === 1 && parseInt(list.screenstatus, 10) === 1) {
+              tempLists.push(list);
+            } else if (parseInt(this.receivedType, 10) === 2 && parseInt(list.screenstatus, 10) === 2) {
+              tempLists.push(list);
+            } else if (parseInt(this.receivedType, 10) === 3 && parseInt(list.screenstatus, 10) === 3) {
+              tempLists.push(list);
+            }
+          });
+
+          this.lists = tempLists;
+          this.tempLists = tempLists;
+        } else if (this.receivedType === 'none') {
+          this.lists = data;
+          this.tempLists = data;
+        }
+
         this.patientID = '';
         this.specimenNo = '';
       });

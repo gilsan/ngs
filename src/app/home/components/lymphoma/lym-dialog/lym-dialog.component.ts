@@ -57,7 +57,7 @@ export class LymDialogComponent implements OnInit {
               } else if (list.test_code === 'LPE475') {
                 resultName = '형질세포종 [NGS]';
               }
-              console.log('[64]=> ', data);
+              // console.log('[64]=> ', data);
               control.push(this.createRow({
                 age: list.age,
                 name: list.name,
@@ -97,7 +97,7 @@ export class LymDialogComponent implements OnInit {
       return;
     }
 
-    console.log('[85]', row);
+    // console.log('[85]', row);
 
     if (row.isSaved) {
       // update
@@ -193,7 +193,7 @@ export class LymDialogComponent implements OnInit {
     } else if (option === 'LPE475') {
       control.at(i).patchValue({ reportTitle: '형질세포종 [NGS]', test_code: 'LPE475', testname: option });
     }
-    console.log(control.at(i).value);
+    // console.log(control.at(i).value);
   }
 
   readonly(i: number): boolean {

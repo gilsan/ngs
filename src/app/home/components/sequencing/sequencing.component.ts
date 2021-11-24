@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { from, Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { emrUrl } from 'src/app/config';
@@ -35,7 +35,7 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
   patientid = '';
   status = ''; // 시작, 스크린판독, 판독완료, EMR전송
   sheet = ''; // AML ALL LYN MDS
-
+  receivedType = 'none';
   storeStartDay: string;
   storeEndDay: string;
   storePatientID: string;
@@ -54,6 +54,7 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private patientsList: PatientsListService,
     private router: Router,
+    private route: ActivatedRoute,
     private store: StoreSEQService,
     private sanitizer: DomSanitizer,
     private titleService: TestCodeTitleService,
@@ -61,6 +62,15 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.route.paramMap.pipe(
+      filter(data => data !== null || data !== undefined),
+      map(route => route.get('type'))
+    ).subscribe(data => {
+      if (data !== null) {
+        this.receivedType = data;
+      }
+    });
+
     this.checkStore();
     if (this.storeStartDay === null || this.storeEndDay === null) {
       this.init();
@@ -241,11 +251,10 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.setSheet(sheet);
     this.store.setWhichstate('searchscreen');
     this.lists = [];
-
+    const tempLists: IPatient[] = [];
     //
     const startdate = start.toString().replace(/-/gi, '');
     const enddate = end.toString().replace(/-/gi, '');
-    // console.log('[270][진검검색]', startdate, enddate, specimenNo, patientId, sheet);
 
     if (patientId !== undefined) {
       patientId = patientId.trim();
@@ -257,19 +266,50 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
     this.patientsList.sequencingSearch2(startdate, enddate, patientId, specimenNo, status, sheet)
       .then(response => response.json())
       .then(data => {
-        this.patientsList.setPatientID(data);
-        data.sort((a, b) => {
-          if (a.accept_date > b.accept_date) { return -1; }
-          if (a.accept_date === b.accept_date) { return 0; }
-          if (a.accept_date < b.accept_date) { return 1; }
-        });
-        data.forEach(list => {
-          this.lists.push(list);
-          this.tempLists.push(list);
-          this.patientID = '';
-          this.specimenNo = '';
+        if (this.receivedType !== 'none') {
+          data.forEach(list => {
+            if (this.receivedType === 'register' && list.screenstatus === '') {
+              tempLists.push(list);
+            } else if (parseInt(this.receivedType, 10) === 0 && parseInt(list.screenstatus, 10) === 0) {
+              tempLists.push(list);
+            } else if (parseInt(this.receivedType, 10) === 1 && parseInt(list.screenstatus, 10) === 1) {
+              tempLists.push(list);
+            } else if (parseInt(this.receivedType, 10) === 2 && parseInt(list.screenstatus, 10) === 2) {
+              tempLists.push(list);
+            } else if (parseInt(this.receivedType, 10) === 3 && parseInt(list.screenstatus, 10) === 3) {
+              tempLists.push(list);
+            }
+          });
+          this.patientsList.setPatientID(tempLists);
+          tempLists.forEach(list => {
+            this.lists.push(list);
+            this.tempLists.push(list);
+            this.patientID = '';
+            this.specimenNo = '';
+          });
+        } else if (this.receivedType === 'none') {
+          this.patientsList.setPatientID(data);
+          data.forEach(list => {
+            this.lists.push(list);
+            this.tempLists.push(list);
+            this.patientID = '';
+            this.specimenNo = '';
+          });
+        }
 
-        });
+        // this.patientsList.setPatientID(data);
+        // data.sort((a, b) => {
+        //   if (a.accept_date > b.accept_date) { return -1; }
+        //   if (a.accept_date === b.accept_date) { return 0; }
+        //   if (a.accept_date < b.accept_date) { return 1; }
+        // });
+        // data.forEach(list => {
+        //   this.lists.push(list);
+        //   this.tempLists.push(list);
+        //   this.patientID = '';
+        //   this.specimenNo = '';
+
+        // });
       });
 
 

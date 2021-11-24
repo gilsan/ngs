@@ -59,7 +59,10 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
       filter(data => data !== null || data !== undefined),
       map(route => route.get('type'))
     ).subscribe(data => {
-      this.receivedType = data;
+      if (data !== null) {
+        this.receivedType = data;
+      }
+
     });
 
     this.checkStore();
@@ -276,63 +279,47 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
       .then(response => response.json())
       .then(data => {
         // console.log(data);
-        /*
-        data.forEach(list => {
-          if (this.receivedType === 'register' && list.screenstatus === '') {
-            templists.push(list);
-          } else if (parseInt(this.receivedType, 10) === 0 && parseInt(list.screenstatus, 10) === 0) {
-            templists.push(list);
-          } else if (parseInt(this.receivedType, 10) === 1 && parseInt(list.screenstatus, 10) === 1) {
-            templists.push(list);
-          } else if (parseInt(this.receivedType, 10) === 2 && parseInt(list.screenstatus, 10) === 2) {
-            templists.push(list);
-          } else if (parseInt(this.receivedType, 10) === 3 && parseInt(list.screenstatus, 10) === 3) {
-            templists.push(list);
-          }
-        });
-        */
+        if (this.receivedType !== 'none') {
+          data.forEach(list => {
+            if (this.receivedType === 'register' && list.screenstatus === '') {
+              templists.push(list);
+            } else if (parseInt(this.receivedType, 10) === 0 && parseInt(list.screenstatus, 10) === 0) {
+              templists.push(list);
+            } else if (parseInt(this.receivedType, 10) === 1 && parseInt(list.screenstatus, 10) === 1) {
+              templists.push(list);
+            } else if (parseInt(this.receivedType, 10) === 2 && parseInt(list.screenstatus, 10) === 2) {
+              templists.push(list);
+            } else if (parseInt(this.receivedType, 10) === 3 && parseInt(list.screenstatus, 10) === 3) {
+              templists.push(list);
+            }
+          });
 
+          templists.forEach(list => {
+            if (list.test_code === 'LPE473') {
+              tempLists.push({ ...list, codetest: 'MDS/MPN' });
+            }
+          });
+          // console.log(tempLists);
+          this.patientsList.setPatientID(tempLists);
+          this.lists = tempLists;
+          this.tempLists = tempLists;
 
+        } else if (this.receivedType === 'none') {
+          data.forEach(list => {
+            if (list.test_code === 'LPE473') {
+              tempLists.push({ ...list, codetest: 'MDS/MPN' });
+            }
+          });
+          // console.log(tempLists);
+          this.patientsList.setPatientID(tempLists);
+          this.lists = tempLists;
+          this.tempLists = tempLists;
+        }
 
-        data.sort((a, b) => {
-          if (a.accept_date > b.accept_date) { return -1; }
-          if (a.accept_date === b.accept_date) { return 0; }
-          if (a.accept_date < b.accept_date) { return 1; }
-        });
-        data.forEach(list => {
-          if (list.test_code === 'LPE473') {
-            tempLists.push({ ...list, codetest: 'MDS/MPN' });
-          }
-        });
-        // console.log(tempLists);
-        this.patientsList.setPatientID(tempLists);
-        this.lists = tempLists;
-        this.tempLists = tempLists;
         this.patientID = '';
         this.specimenNo = '';
       });
 
-
-    // this.lists$ = this.patientsList.mdsmpnSearch(startdate, enddate, patientId, specimenNo, status, sheet);
-    // this.subs.sink = this.lists$
-    //   .pipe(
-    //     switchMap(item => of(item)),
-    //     switchMap(list => from(list)),
-    //     filter(list => list.test_code === 'LPE473'),
-    //     map(list => {
-    //       if (list.test_code === 'LPE473') {
-    //         return { ...list, test_code: 'MDS/MPN' };
-    //       }
-    //     }),
-    //     // tap(list => console.log(list)),
-    //   ).subscribe((data: any) => {
-    //     if (data.reportTitle === '') {
-    //       data.reportTitle = this.titleService.getMltaTitle('LPE473');
-    //     }
-    //     this.lists.push(data);
-    //     this.patientID = '';
-    //     this.specimenNo = '';
-    //   });
 
   }
   // 환자ID

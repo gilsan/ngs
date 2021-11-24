@@ -29,6 +29,7 @@ import { PatientexcelComponent } from './inhouse/patientexcel/patientexcel.compo
 import { EssgeneComponent } from './inhouse/essgene/essgene.component';
 import { GeneComponent } from './inhouse/essgene/gene/gene.component';
 import { TierComponent } from './inhouse/tier/tier.component';
+import { ReportDialogComponent } from './byengri/report/report-dialog/report-dialog.component';
 
 
 @NgModule({
@@ -55,6 +56,7 @@ import { TierComponent } from './inhouse/tier/tier.component';
     EssgeneComponent,
     GeneComponent,
     TierComponent,
+    ReportDialogComponent,
   ],
   imports: [
 

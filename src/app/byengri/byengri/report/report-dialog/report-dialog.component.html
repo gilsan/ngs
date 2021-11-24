@@ -1,0 +1,78 @@
+<mat-dialog-content>
+<div id="wrap1111">
+
+
+  <div id="container">
+    <div id="content">
+      <div class="box">
+        <div class="box mg_b20 pd_10 box_align">
+              <div><h3>{{title}}</h3></div>
+              <div>
+                  <button mat-raised-button color="primary" style="margin-left: 50px;"
+                    (click)="moveItem()">확인</button>
+                  <button mat-raised-button color="primary" style="margin-left: 50px;"
+                    (click)="close()">취소</button>
+              </div>
+        </div>
+        <form [formGroup]="tablerowForm">
+          <div class="box_100 fill" >
+              <table border="0" cellpadding="0" cellspacing="0" class="table_list no_padding fixed_header table_resul_x">
+                <colgroup>
+                  <col width="2%">
+                  <col width="15%">
+                  <col width="10%">
+                  <col width="15%">
+                  <col width="5%">
+                  <col width="30%">
+                  <col width="5%">
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th>No.</th>
+                    <th>일시</th>
+                    <th>Gene</th>
+                    <th>Amino Acide Change</th>
+                    <th>방향</th>
+                    <th>Comment</th>
+                    <th>수정/삭제</th>
+                  </tr>
+                </thead>
+                <div></div>
+                <tbody>
+                    <ng-container formArrayName="tableRows" *ngFor="let group of getFormControls.controls; let i=index">
+                      <tr [formGroupName]="i">
+                        <td class="txt_c">{{i+1}}</td>
+                        <td class="txt_c">
+                            <input type="text" size="20"  class="clr-input textcenter  tdbox" formControlName="date" readonly>
+                        </td>
+                        <td class="txt_c">
+                            <input type="text" size="15"  class="clr-input textcenter  tdbox" formControlName="gene" readonly>
+                        </td>
+                        <td class="txt_c">
+                            <input type="text" size="20"  class="clr-input textcenter  tdbox" formControlName="amino"  readonly>
+                        </td>
+                        <td class="txt_c">
+                            <input type="text" size="15"  class="clr-input textcenter  tdbox" formControlName="direction" readonly>
+                        </td>
+                        <td class="txt_c">
+                            <textarea class="textarea_01  " formControlName="comment"
+                                   row=2 style="width: 100%; height: 100%; border: none">
+                            </textarea>
+                        </td>
+                        <td  class="txt_c">
+                            <img [src]="'assets/images/save.png'" id="btn_button" (click)="save(i)"
+                            width="20px" height="20px">&nbsp;&nbsp;
+                            <img [src]="'assets/images/trash.png'" id="btn_button" (click)="delete(i)" >&nbsp;&nbsp;
+
+                         </td>
+                      </tr>
+                    </ng-container>
+                </tbody>
+              </table>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+</mat-dialog-content>

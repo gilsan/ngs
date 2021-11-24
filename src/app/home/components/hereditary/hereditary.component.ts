@@ -63,9 +63,10 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
       filter(data => data !== null || data !== undefined),
       map(route => route.get('type'))
     ).subscribe(data => {
-      this.receivedType = data;
+      if (data !== null) {
+        this.receivedType = data;
+      }
     });
-
 
     this.checkStore();
     if (this.storeStartDay === null || this.storeEndDay === null) {
@@ -135,7 +136,7 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.patientID = patientid;
     this.store.setPatientID(patientid);
     this.store.setSpecimentNo(specimenNo);
-    // this.router.navigate(['/diag', 'fileupload', specimenNo]);  // 기존
+
     this.isVisible = !this.isVisible;  // 신규
   }
 
@@ -154,8 +155,6 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.patientsList.setTestcode(this.lists[i].test_code);  // 검사지 타입 AML ALL
     this.router.navigate(['/diag', 'hereditary', 'form6', 'direct']);
   }
-
-
 
   goReporterClass(idx: number): any {
     const specimenno = this.store.getSpecimenNo();
@@ -198,9 +197,7 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     const dd = oneMonthsAgo.format('DD');
 
     const now1 = yy + '-' + mm + '-' + dd;
-    // if (this.storeStartDay) {
-    //   return this.storeStartDay;
-    // }
+
     return now1;
   }
 
@@ -287,30 +284,30 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.patientsList.hereditarySearch2(startdate, enddate, patientId, specimenNo, status, sheet)
       .then(response => response.json())
       .then(data => {
-        /*
-        data.forEach(list => {
-          if (this.receivedType === 'register' && list.screenstatus === '') {
-            tempLists.push(list);
-          } else if (parseInt(this.receivedType, 10) === 0 && parseInt(list.screenstatus, 10) === 0) {
-            tempLists.push(list);
-          } else if (parseInt(this.receivedType, 10) === 1 && parseInt(list.screenstatus, 10) === 1) {
-            tempLists.push(list);
-          } else if (parseInt(this.receivedType, 10) === 2 && parseInt(list.screenstatus, 10) === 2) {
-            tempLists.push(list);
-          } else if (parseInt(this.receivedType, 10) === 3 && parseInt(list.screenstatus, 10) === 3) {
-            tempLists.push(list);
-          }
-        });
-        */
+        if (this.receivedType !== 'none') {
+          data.forEach(list => {
+            if (this.receivedType === 'register' && list.screenstatus === '') {
+              tempLists.push(list);
+            } else if (parseInt(this.receivedType, 10) === 0 && parseInt(list.screenstatus, 10) === 0) {
+              tempLists.push(list);
+            } else if (parseInt(this.receivedType, 10) === 1 && parseInt(list.screenstatus, 10) === 1) {
+              tempLists.push(list);
+            } else if (parseInt(this.receivedType, 10) === 2 && parseInt(list.screenstatus, 10) === 2) {
+              tempLists.push(list);
+            } else if (parseInt(this.receivedType, 10) === 3 && parseInt(list.screenstatus, 10) === 3) {
+              tempLists.push(list);
+            }
+          });
 
-        this.patientsList.setPatientID(data);
-        data.sort((a, b) => {
-          if (a.accept_date > b.accept_date) { return -1; }
-          if (a.accept_date === b.accept_date) { return 0; }
-          if (a.accept_date < b.accept_date) { return 1; }
-        });
-        this.lists = data;
-        this.tempLists = data;
+          this.patientsList.setPatientID(tempLists);
+          this.lists = tempLists;
+          this.tempLists = tempLists;
+
+        } else if (this.receivedType === 'none') {
+          this.patientsList.setPatientID(data);
+          this.lists = data;
+          this.tempLists = data;
+        }
 
         this.patientID = '';
         this.specimenNo = '';

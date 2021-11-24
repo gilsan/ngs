@@ -23,6 +23,8 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { NavigationServie } from 'src/app/services/navigation.service';
 import { moveItemInArray, CdkDragDrop } from '@angular/cdk/drag-drop';
 import { essentialDNAMentList } from '../essensDNAMent';
+import { ReportDialogComponent } from './report-dialog/report-dialog.component';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-report',
@@ -197,7 +199,8 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     private route: ActivatedRoute,
     private filteredService: FilteredService,
     private sanitizer: DomSanitizer,
-    private navigationServie: NavigationServie
+    private navigationServie: NavigationServie,
+    public dialog: MatDialog,
   ) {
     this.getParams();
   }
@@ -2372,15 +2375,12 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   // polymorphismList에 3개가 동일하면 삭제
   removeGeneCheck(gene: string, amino: string, nucleotide: string): number {
-    // console.log(gene, amino, nucleotide);
-    // console.log(this.polymorphismList);
     const result = this.polymorphismList.findIndex(item =>
       item.gene === gene && item.amino_acid_change === amino && item.nucleotide_change === nucleotide
     );
 
     return result;
-    // 검증완료후 삭제 1.17 => 2021.03.01 적용
-    // return -1;
+
   }
 
   tumormutationalburdenChange(burden: string): void {
@@ -2648,6 +2648,22 @@ ${fuDNA}`;
     imuControl.push(this.createIMutaion(muVal, ilen.toString()));
   }
 
+  // Clinically Copy number alteration ===> Prevalent Copy number alteration 로 이동
+  fromClinicallyCopynumberToPrevalentCopynumber(i: number): void {
+    const cyControl = this.amplificationsLists();
+    const cyVal = cyControl.at(i).value;
+    this.removeAmplifications(i);
+    const allcyVal = cyControl.getRawValue();
+    for (let seq = 0; seq < allcyVal.length; seq++) {
+      cyControl.at(seq).patchValue({ seq });
+    }
+    console.log('[2660]', i, allcyVal);
+
+    const icyControl = this.iamplificationsLists();
+    const ilen = icyControl.getRawValue().length;
+    icyControl.push(this.createIAmplifications(cyVal, ilen.toString()));
+  }
+
   /// Clinically fusion ===> Prevalent fusion 로 이동
   fromClinicallyFuToPrevalentFu(i: number): void {
     const fuControl = this.fusionLists();
@@ -2680,7 +2696,12 @@ ${fuDNA}`;
 
   }
 
-  /// Prevalent fusion ===> Clinically fusion  로 이동
+  /// Prevalent Copy number alteration ===> Clinically Copy number alteration  로 이동
+  fromPrevalenCopynumberTotClinicallyCopynumber(i: number): void {
+
+  }
+
+  /// Prevalent fusion ===> Clinically fusion  로 이동  2288
   fromPrevalentFuToClinicallyFu(i: number): void {
     const ifuControl = this.ifusionLists();
     const ifuVal = ifuControl.at(i).value;
@@ -2692,7 +2713,64 @@ ${fuDNA}`;
 
     const fuControl = this.fusionLists();
     const len = fuControl.getRawValue().length;
-    fuControl.push(this.createFusion(ifuVal, len.toString()));
+    fuControl.push(this.createIAmplifications(ifuVal, len.toString()));
   }
+
+  openDialog(i: number, type: string): void {
+    let rowData;
+    let direction = '';
+    let itemType = '';
+    if (type === 'cMu') {
+      const muControl = this.mutationLists();
+      rowData = muControl.at(i).value;
+      direction = 'C -> P';
+      itemType = 'MU';
+    } else if (type === 'cCy') {
+      const cpControl = this.amplificationsLists();
+      rowData = cpControl.at(i).value;
+      direction = 'C -> P';
+      itemType = 'CP';
+    } else if (type === 'cFu') {
+      const fuControl = this.fusionLists();
+      rowData = fuControl.at(i).value;
+      direction = 'C -> P';
+      itemType = 'FU';
+    } else if (type === 'pMu') {
+      const imuControl = this.imutationLists();
+      rowData = imuControl.at(i).value;
+      direction = 'P -> C';
+      itemType = 'MU';
+    } else if (type === 'pCy') {
+      const icpControl = this.iamplificationsLists();
+      rowData = icpControl.at(i).value;
+      direction = 'P -> C';
+      itemType = 'CP';
+    } else if (type === 'pFu') {
+      const imuControl = this.imutationLists();
+      rowData = imuControl.at(i).value;
+      direction = 'P -> C';
+      itemType = 'FU';
+    }
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      ...rowData, direction, itemType, pathologyNum: this.patientInfo.pathology_num
+    };
+    dialogConfig.maxWidth = '100vw';
+    dialogConfig.maxHeight = '100vh';
+
+    const dialogRef = this.dialog.open(ReportDialogComponent, dialogConfig);
+    dialogRef.afterClosed()
+      .pipe(
+        filter(val => !!val)
+      ).subscribe(data => {
+        console.log('[2478][다이얼로그]', data);
+
+      });
+  }
+
+
 
 }

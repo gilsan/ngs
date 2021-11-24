@@ -58,7 +58,7 @@ export class MlpaDialogComponent implements OnInit {
           patientLists.forEach(list => {
             const idx = this.typeLists.findIndex(type => type.code === list.test_code);
             if (idx !== -1) {
-              console.log(this.typeLists[idx]);
+              // console.log(this.typeLists[idx]);
               const { code, report } = this.typeLists[idx];
               control.push(this.createRow({
                 age: list.age,
@@ -190,7 +190,7 @@ export class MlpaDialogComponent implements OnInit {
     const idx = this.typeLists.findIndex(type => type.code === option);
     const report = this.typeLists[idx].report;
     control.at(i).patchValue({ reportTitle: report, test_code: option, testname: option });
-    console.log(control.at(i).value);
+    // console.log(control.at(i).value);
   }
 
   readonly(i: number): boolean {

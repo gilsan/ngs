@@ -33,15 +33,15 @@
         <button type="button" class="btn btn_02" style="margin-left: 10px;"
           (click)="search(mdsStart.value, mdsEnd.value, mdsTestedID.value, mdsPatient.value, mdsStatus.value, mdsSheet.value)">조 회</button>
         &nbsp;&nbsp;
+        <!--
         <select class="select_01 select_001" #research  (change)="newList(research.value)">
-          <option value="none">선택</option>
           <option value="TOTAL">전체</option>
           <option value="PATIENT">환자용</option>
           <option value="RESEARCH">연구용</option>
-        </select>&nbsp;&nbsp;
-        <!--
+        </select>&nbsp;&nbsp;&nbsp;
+
         <button type="button" class="btn btn_02" style="margin-left: 10px;"
-          (click)="openDialog()">연구용</button>&nbsp;&nbsp;
+          (click)="openDialog()">연구용추가</button>&nbsp;&nbsp;
 
         <button type="button" class="btn btn_02" style="margin-left: 10px;"
           (click)="goDashboard()">DashBoard</button>
@@ -81,7 +81,7 @@
             <col width="5%">
             <col width="8%">
             <col width="7%">
-            <col width="7%">
+          <!--  <col width="7%">  -->
           </colgroup>
           <thead>
             <tr>
@@ -99,7 +99,7 @@
               <th>진행상태</th>
               <th>&nbsp;</th>
               <th>&nbsp;</th>
-              <th>&nbsp;</th>
+             <!--  <th>연구용</th>  -->
             </tr>
           </thead>
           <div></div>
@@ -133,11 +133,12 @@
                   (click)="goUploadpage(list.specimenNo, list.patientID)">재등록</button>
               </td>
               <ng-template #reload><td></td></ng-template>
+              <!--
               <td  class="txt_c" *ngIf="list.gbn === 'RESEARCH'; else research;">
-                <button type="button" class="btn btn_05" >연구용</button>
+                <span>연구용</span>
               </td>
               <ng-template #research><td></td></ng-template>
-
+              -->
             </tr>
           </tbody>
         </table>
