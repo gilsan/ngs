@@ -94,7 +94,22 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
           return this.variantsService.screenSelect(patientinfo.specimenNo)
             .pipe(
               map(data => {
-                return { ...patientinfo, data };
+                if (data.length === 0){
+                  return { ...patientinfo,  gene: '',
+                    functionalImpact: '',
+                    transcript: '',
+                    exonIntro: '',
+                    nucleotideChange: '',
+                    aminoAcidChange: '',
+                    zygosity: '',
+                    vafPercent: '',
+                    reference: '',
+                    cosmic_id: '' };
+                }
+                else {
+
+                  return { ...patientinfo, data };
+                }
               }),
               filter(data => data.data.length)
             );
