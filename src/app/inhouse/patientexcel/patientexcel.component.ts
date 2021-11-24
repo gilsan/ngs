@@ -96,7 +96,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
               map(data => {
                 console.log(data);
                 
-                if (data.length !== null && data.length !== 0 ) {
+                if( data == "" || data == null || data == undefined || ( data != null && typeof data == "object" && !Object.keys(data).length ) ) {
                   return { ...patientinfo, data };
                 }
 
