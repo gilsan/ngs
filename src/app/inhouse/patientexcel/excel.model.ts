@@ -24,6 +24,7 @@ export interface IAMLALL {
   LeukemiaAssociatedFusion: string;
   IKZF1deletion: string;
   ChromosomalAnalysis: string;
+  FLT3ITD:string,
 };
 
 export interface ILYM {
