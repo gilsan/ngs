@@ -66,7 +66,6 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
   getPatientLists(start: string, end: string, gubun: string): void {
 
     this.patientInfo = [];
-    this.types = [];
 
     this.amlall = [];
     this.lym = [];
