@@ -101,7 +101,11 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
               map(data => {
                 console.log(data);
                 
-                if (data.length == 0){
+                if (data.length !== null && data.length !== 0 && data.length !== undefined) {
+                  return { ...patientinfo, data };
+                }
+
+                 else {
                   return { ...patientinfo,  gene: '',
                     functionalImpact: '',
                     transcript: '',
@@ -112,10 +116,6 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
                     vafPercent: '',
                     reference: '',
                     cosmic_id: '' };
-                }
-                else {
-
-                  return { ...patientinfo, data };
                 }
               
               //  return { ...patientinfo, data };
