@@ -2696,8 +2696,19 @@ ${fuDNA}`;
 
   }
 
-  /// Prevalent Copy number alteration ===> Clinically Copy number alteration  로 이동
+  /// Prevalent Copy number alteration ===> Clinically Copy number alteration  2700 줄로 이동
   fromPrevalenCopynumberTotClinicallyCopynumber(i: number): void {
+    const icyControl = this.iamplificationsLists();
+    const icyVal = icyControl.at(i).value;
+    this.removeIAmplifications(i);
+    const allicyVal = icyControl.getRawValue();
+    for (let seq = 0; seq < allicyVal.length; seq++) {
+      icyControl.at(seq).patchValue({ seq });
+    }
+
+    const cyControl = this.amplificationsLists();
+    const len = cyControl.getRawValue().length;
+    cyControl.push(this.createAmplifications(icyVal, len.toString()));
 
   }
 
@@ -2726,8 +2737,8 @@ ${fuDNA}`;
       direction = 'C -> P';
       itemType = 'MU';
     } else if (type === 'cCy') {
-      const cpControl = this.amplificationsLists();
-      rowData = cpControl.at(i).value;
+      const cyControl = this.amplificationsLists();
+      rowData = cyControl.at(i).value;
       direction = 'C -> P';
       itemType = 'CP';
     } else if (type === 'cFu') {
@@ -2766,6 +2777,20 @@ ${fuDNA}`;
       .pipe(
         filter(val => !!val)
       ).subscribe(data => {
+
+        if (type === 'cMu') {
+          this.fromClinicallyCopynumberToPrevalentCopynumber(i);
+        } else if (type === 'cCy') {
+          this.fromClinicallyCopynumberToPrevalentCopynumber(i);
+        } else if (type === 'cFu') {
+          this.fromClinicallyFuToPrevalentFu(i);
+        } else if (type === 'pMu') {
+          this.fromPrevalentMuToClinicallyMu(i);
+        } else if (type === 'pCy') {
+          this.fromPrevalenCopynumberTotClinicallyCopynumber(i);
+        } else if (type === 'pFu') {
+          this.fromPrevalentFuToClinicallyFu(i);
+        }
         console.log('[2478][다이얼로그]', data);
 
       });
