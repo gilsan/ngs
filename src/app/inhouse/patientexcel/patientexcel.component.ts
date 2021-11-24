@@ -97,10 +97,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
                 console.log(data);
                 
                 if( data == "" || data == null || data == undefined || ( data != null && typeof data == "object" && !Object.keys(data).length ) ) {
-                  return { ...patientinfo, data };
-                }
-
-                 else {
+                  
                   return { ...patientinfo,  gene: '',
                     functionalImpact: '',
                     transcript: '',
@@ -111,6 +108,10 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
                     vafPercent: '',
                     reference: '',
                     cosmic_id: '' };
+                }
+
+                 else {
+                  return { ...patientinfo, data };
                 }
               
               //  return { ...patientinfo, data };
