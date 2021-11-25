@@ -690,11 +690,11 @@ export class PatientsListService {
           let tempTestType;
           let tempGene;
           const tempCoding = item.coding.split(',')[0];
-          // console.log('[693][뮤테이션]', item);
+          console.log('[693][뮤테이션]', item);
           // if (item.gene1.split(',')[0] === 'NRAS') {
           //   tempGene = item.gene1.split(',')[0];
-          // } else if (item.gene1.split(',')[1] === 'NRAS') {
-          //   tempGene = item.gene1.split(',')[1];
+          // } else if (item.gene2.split(',')[1] === 'NRAS') {
+          //   tempGene = item.gene2.split(',')[1];
           // } else {
           //   tempGene = item.multigenes;
           // }
