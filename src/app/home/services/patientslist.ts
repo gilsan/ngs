@@ -621,25 +621,26 @@ export class PatientsListService {
             );
           } else {
             // CSDE1,NRAS 인경우 NRAS로 찿는다.
+            // 유전자가 2개인 경우 통으로 찿음 분리안함. 21.11.25 목요일
             let tempGene;
-            const tempCoding = item.coding.split(',')[0];
-
-            if (item.gene1.split(',')[0] === 'NRAS') {
-              tempGene = item.gene1.split(',')[0];
-            } else if (item.gene1.split(',')[1] === 'NRAS') {
-              tempGene = item.gene1.split(',')[1];
-            } else {
-              tempGene = item.multigenes;
-            }
-
+            // const tempCoding = item.coding.split(',')[0];
+            const tempCoding = item.coding;
+            // if (item.gene1.split(',')[0] === 'NRAS') {
+            //   tempGene = item.gene1.split(',')[0];
+            // } else if (item.gene1.split(',')[1] === 'NRAS') {
+            //   tempGene = item.gene1.split(',')[1];
+            // } else {
+            //   tempGene = item.multigenes;
+            // }
+            tempGene = item.multigenes;
             if (testType === 'AML' || testType === 'ALL') {
               tempTestType = 'AMLALL';
             } else {
               tempTestType = testType;
             }
-            console.log('[640][뮤테이션]', item, tempGene, tempCoding);
+            // console.log('[640][뮤테이션]', item, tempGene, tempCoding);
             return this.getMutationInfoLists(tempGene, tempCoding, tempTestType).pipe(
-              tap(data => console.log('[patientslist][642][서버에서 받음][뮤테이션]', data)),
+              // tap(data => console.log('[patientslist][642][서버에서 받음][뮤테이션]', data)),
               map(lists => {
                 if (Array.isArray(lists) && lists.length) {
                   return { ...item, mutationList1: lists[0], mutationList2: 'none', mtype: 'M' };
@@ -687,10 +688,12 @@ export class PatientsListService {
           // );
         } else {
           // CSDE1,NRAS 인경우 NRAS로 찿는다.
+          // 위 경우도 NRAS로 찿지않고 통으로 찻는다.
           let tempTestType;
           let tempGene;
-          const tempCoding = item.coding.split(',')[0];
-          console.log('[693][뮤테이션]', item);
+          // const tempCoding = item.coding.split(',')[0];
+          const tempCoding = item.coding;
+          //console.log('[693][뮤테이션]', item);
           // if (item.gene1.split(',')[0] === 'NRAS') {
           //   tempGene = item.gene1.split(',')[0];
           // } else if (item.gene2.split(',')[1] === 'NRAS') {
@@ -698,14 +701,8 @@ export class PatientsListService {
           // } else {
           //   tempGene = item.multigenes;
           // }
-          if (item.gene1 === 'NRAS') {
-            tempGene = item.gene1;
-          } else if (item.gene2 === 'NRAS') {
-            tempGene = item.gene2;
-          } else {
-            tempGene = item.multigenes;
-          }
 
+          tempGene = item.multigenes;
           if (testType === 'AML' || testType === 'ALL') {
             tempTestType = 'AMLALL';
           } else {
@@ -713,9 +710,9 @@ export class PatientsListService {
           }
           // console.log('[707][Mutation]', tempGene, tempCoding, tempTestType);
           return this.getMutationInfoLists(tempGene, tempCoding, tempTestType).pipe(
-            tap(data => console.log(data)),
+            // tap(data => console.log(data)),
             map(lists => {
-              console.log('[710][Mutation][결과값]', lists);
+              // console.log('[710][Mutation][결과값]', lists);
               if (Array.isArray(lists) && lists.length) {
                 return { ...item, mutationList1: lists[0], mutationList2: 'none', mtype: 'M' };
               } else {
