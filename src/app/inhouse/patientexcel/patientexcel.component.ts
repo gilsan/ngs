@@ -158,7 +158,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
 
   search(start: string, end: string, gubun: string): void {
     if (gubun === 'none') {
-      alert('결과지을 선택해 주십시요.');
+      alert('결과지를 선택해 주십시요.');
     } else {
       this.getPatientLists(start, end, gubun);
       this.processing = true;

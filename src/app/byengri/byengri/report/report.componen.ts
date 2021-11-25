@@ -2661,7 +2661,10 @@ ${fuDNA}`;
 
     const icyControl = this.iamplificationsLists();
     const ilen = icyControl.getRawValue().length;
-    icyControl.push(this.createIAmplifications(cyVal, ilen.toString()));
+    icyControl.push(this.createIAmplifications({
+      ...cyVal, note: cyVal.tier
+    }, ilen.toString()));
+    // icyControl.push(this.createIAmplifications(cyVal, ilen.toString()));
   }
 
   /// Clinically fusion ===> Prevalent fusion 로 이동
@@ -2708,7 +2711,7 @@ ${fuDNA}`;
 
     const cyControl = this.amplificationsLists();
     const len = cyControl.getRawValue().length;
-    cyControl.push(this.createAmplifications(icyVal, len.toString()));
+    cyControl.push(this.createAmplifications({ ...icyVal, tier: icyVal.note }, len.toString()));
 
   }
 
@@ -2724,7 +2727,7 @@ ${fuDNA}`;
 
     const fuControl = this.fusionLists();
     const len = fuControl.getRawValue().length;
-    fuControl.push(this.createIAmplifications(ifuVal, len.toString()));
+    fuControl.push(this.createFusion(ifuVal, len.toString()));
   }
 
   openDialog(i: number, type: string): void {
@@ -2752,13 +2755,13 @@ ${fuDNA}`;
       direction = 'P -> C';
       itemType = 'MU';
     } else if (type === 'pCy') {
-      const icpControl = this.iamplificationsLists();
-      rowData = icpControl.at(i).value;
+      const icyControl = this.iamplificationsLists();
+      rowData = icyControl.at(i).value;
       direction = 'P -> C';
       itemType = 'CP';
     } else if (type === 'pFu') {
-      const imuControl = this.imutationLists();
-      rowData = imuControl.at(i).value;
+      const ifuControl = this.ifusionLists();
+      rowData = ifuControl.at(i).value;
       direction = 'P -> C';
       itemType = 'FU';
     }

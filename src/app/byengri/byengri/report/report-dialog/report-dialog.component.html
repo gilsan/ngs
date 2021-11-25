@@ -8,7 +8,7 @@
         <div class="box mg_b20 pd_10 box_align">
               <div><h3>{{title}}</h3></div>
               <div>
-                  <button mat-raised-button color="primary" style="margin-left: 50px;"
+                  <button mat-raised-button color="primary" style="margin-left: 50px;" [disabled]="disabled"
                     (click)="moveItem()">확인</button>
                   <button mat-raised-button color="primary" style="margin-left: 50px;"
                     (click)="close()">취소</button>
@@ -56,6 +56,7 @@
                         </td>
                         <td class="txt_c">
                             <textarea class="textarea_01  " formControlName="comment"
+                               placeholder="멘트를 입력후, 저장을 해 주십시요."
                                    row=2 style="width: 100%; height: 100%; border: none">
                             </textarea>
                         </td>

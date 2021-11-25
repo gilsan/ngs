@@ -16,7 +16,7 @@ export class ReportDialogComponent implements OnInit {
   tablerowForm: FormGroup;
   mufuLists: IITEM[] = [];
   title = '';
-
+  disabled = true;
   constructor(
     private dialogRef: MatDialogRef<ReportDialogComponent>,
     @Inject(MAT_DIALOG_DATA) private rowData: any,
@@ -153,7 +153,7 @@ export class ReportDialogComponent implements OnInit {
       this.sequencingService.updateMoveHistory(rowdata)
         .subscribe(data => {
           this.snackBar.open('저장 했습니다.', '닫기', { duration: 3000 });
-
+          this.disabled = false;
         });
     } else {
       rowdata.isSaved = true;
@@ -161,6 +161,7 @@ export class ReportDialogComponent implements OnInit {
         .subscribe(data => {
           this.snackBar.open('저장 했습니다.', '닫기', { duration: 3000 });
           control.at(i).patchValue({ isSaved: true });
+          this.disabled = false;
         });
     }
   }
