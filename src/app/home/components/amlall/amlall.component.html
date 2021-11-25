@@ -34,7 +34,7 @@
           (click)="search(start.value, end.value, testedID.value, patient.value, status.value, sheet.value)">조 회</button>
         &nbsp;&nbsp;
 
-        <!--
+
         <select class="select_01 select_001" #research  (change)="newList(research.value)">
           <option value="TOTAL">전체</option>
           <option value="PATIENT">환자용</option>
@@ -46,7 +46,7 @@
 
         <button type="button" class="btn btn_02" style="margin-left: 10px;"
           (click)="goDashboard()">DashBoard</button>
-        -->
+
       </div>
       <div class="box">
         <div class="box_100 fill" [appDiagScrollMonitor]="'AML'" #dbox100>
@@ -82,7 +82,7 @@
             <col width="7%">
             <col width="8%">
             <col width="6%">
-          <!--   <col width="4%">  -->
+            <col width="4%">
           </colgroup>
           <thead>
             <tr>
@@ -135,12 +135,12 @@
                   (click)="goUploadpage(list.specimenNo, list.patientID)">재등록</button>
               </td>
               <ng-template #reload><td></td></ng-template>
-              <!--
+
               <td  class="txt_c" *ngIf="list.gbn === 'RESEARCH'; else research;">
                 <span>연구용</span>
               </td>
               <ng-template #research><td></td></ng-template>
-              -->
+
             </tr>
           </tbody>
         </table>

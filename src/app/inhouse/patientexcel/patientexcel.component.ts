@@ -64,10 +64,23 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
   }
 
   getPatientLists(start: string, end: string, gubun: string): void {
+    if (gubun === 'AMLALL') {
+      this.amlall = [];
+    } else if (gubun === 'LYM') {
+      this.lym = [];
+    } else if (gubun === 'MDS') {
+      this.mds = [];
+    } else if (gubun === 'Genetic') {
+      this.genetic = [];
+    } else if (gubun === 'SEQ') {
+      this.seq = [];
+    }
+
+
     this.patientsList.patientSearch(start.replace(/-/g, ''), end.replace(/-/g, ''))
       .pipe(
         switchMap(data => from(data)),
-        tap(data => console.log('[TAP1]', this.types, data.test_code)),
+        // tap(data => console.log('[TAP1]', this.types, data.test_code)),
         map(data => {
           const idx = this.types.findIndex(list => list.code === data.test_code);
           if (idx === -1) {
@@ -79,7 +92,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
           console.log(err);
           return throwError(err);
         }),
-        tap(data => console.log('[TAP2]', data)),
+        // tap(data => console.log('[TAP2]', data)),
         concatMap(patientinfo => {
           return this.variantsService.screenSelect(patientinfo.specimenNo)
             .pipe(
@@ -91,9 +104,9 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         }),
       )
       .subscribe(data => {
-        console.log('[94][받음]', data);
+        console.log('[107][받음]', data);
         if (data.type === 'AMLALL') {
-          console.log('[96][AMLALL][입력]', data);
+          // console.log('[96][AMLALL][입력]', data);
           this.pushAmlAll(data);
 
         } else if (data.type === 'LYM') {
@@ -109,6 +122,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         err => console.log(err),
         () => {
           if (gubun === 'AMLALL') {
+
             this.excelAMLALL();
           } else if (gubun === 'LYM') {
             this.excelLYM();
@@ -161,6 +175,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
 
   pushAmlAll(list): void {
     let check = '';
+    // this.amlall = [];
     list.data.forEach(item => {
 
       if (parseInt(list.detected, 10) === 0) {
@@ -180,7 +195,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         reportdate: list.sendEMRDate,
         researchPrescriptionCode: '',
         LeukemiaAssociatedFusion: list.leukemiaassociatedfusion,
-        FLT3ITD:list.FLT3ITD,
+        FLT3ITD: list.FLT3ITD,
         IKZF1deletion: list.IKZK1Deletion,
         ChromosomalAnalysis: list.chromosomalanalysis,
         tsvname: list.tsvFilteredFilename,
@@ -359,7 +374,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
 
       LeukemiaAssociatedFusion: 'Leukemia associated fusion',
       IKZF1deletion: 'IKZF1 deletion',
-      FLT3ITD:'FLT3-ITD',
+      FLT3ITD: 'FLT3-ITD',
       ChromosomalAnalysis: 'Chromosomal analysis',
       tsvname: 'TSV파일명',
       result: 'Result',
