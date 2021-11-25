@@ -64,6 +64,13 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
   }
 
   getPatientLists(start: string, end: string, gubun: string): void {
+
+    this.amlall = [];
+    this.lym = [];
+    this.mds = [];
+    this.genetic = [];
+    this.seq = [];
+    
     this.patientsList.patientSearch(start.replace(/-/g, ''), end.replace(/-/g, ''))
       .pipe(
         switchMap(data => from(data)),
@@ -84,10 +91,12 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
           return this.variantsService.screenSelect(patientinfo.specimenNo)
             .pipe(
               map(data => {
-                return { ...patientinfo, data };
+                console.log(data);
+                  return { ...patientinfo, data };
               }),
               filter(data => data.data.length)
             );
+          
         }),
       )
       .subscribe(data => {
