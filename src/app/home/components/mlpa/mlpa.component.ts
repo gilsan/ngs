@@ -15,6 +15,8 @@ import { MLPATLIST } from 'src/app/forms/commons/mlpa.data';
 import { MlpaService } from 'src/app/services/mlpa.service';
 import { TestCodeTitleService } from '../../services/testCodeTitle.service';
 import { MlpaDialogComponent } from './mlpa-dialog/mlpa-dialog.component';
+import { CodeDefaultValue } from 'src/app/services/codedefaultvalue';
+import { ICodement } from 'src/app/inhouse/models/comments';
 
 @Component({
   selector: 'app-mlpa',
@@ -44,7 +46,8 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
   receivedType = 'none';
   private apiUrl = emrUrl;
   mlpaLists = mlpaLists;
-  listsMLPA = listMLPA;
+  // listsMLPA = listMLPA;
+  listsMLPA: ICodement[] = [];
   @ViewChild('dbox100', { static: true }) dbox100: ElementRef;
 
   constructor(
@@ -56,6 +59,7 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
     public mlpaService: MlpaService,
     private titleService: TestCodeTitleService,
     public dialog: MatDialog,
+    private codeDefaultValueService: CodeDefaultValue
   ) { }
 
   ngOnInit(): void {
@@ -73,6 +77,7 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
       this.init();
     }
 
+    this.loadCode();
   }
 
   ngAfterViewInit(): void {
@@ -84,6 +89,24 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();
+  }
+
+  loadCode(): void {
+    this.codeDefaultValueService.getCodeLists()
+      .pipe(
+        map(lists => {
+          return lists.sort((a, b) => {
+            if (a.code < b.code) { return -1; }
+            if (a.code > b.code) { return 1; }
+            if (a.code === b.code) { return 0; }
+          });
+        }),
+        switchMap(data => from(data)),
+        filter(list => list.type === 'MLPA')
+      )
+      .subscribe(data => {
+        this.listsMLPA.push(data);
+      });
   }
 
   init(): void {

@@ -14,6 +14,8 @@ import { geneTitles, geneLists } from 'src/app/forms/commons/geneList';
 
 import { TestCodeTitleService } from 'src/app/home/services/testCodeTitle.service';
 import { HereDialogComponent } from './here-dialog/here-dialog.component';
+import { ICodement } from 'src/app/inhouse/models/comments';
+import { CodeDefaultValue } from 'src/app/services/codedefaultvalue';
 
 @Component({
   selector: 'app-hereditary',
@@ -44,7 +46,8 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
   private apiUrl = emrUrl;
 
   hereditaryLists = geneLists;
-  listHereditary = geneTitles;
+  // listHereditary = geneTitles;
+  listHereditary: ICodement[] = [];
   @ViewChild('dbox100', { static: true }) dbox100: ElementRef;
 
   constructor(
@@ -55,7 +58,7 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     private sanitizer: DomSanitizer,
     private titleService: TestCodeTitleService,
     public dialog: MatDialog,
-
+    private codeDefaultValueService: CodeDefaultValue
   ) { }
 
   ngOnInit(): void {
@@ -72,6 +75,8 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.storeStartDay === null || this.storeEndDay === null) {
       this.init();
     }
+
+    this.loadCode();
   }
 
   ngAfterViewInit(): void {
@@ -83,6 +88,24 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();
+  }
+
+  loadCode(): void {
+    this.codeDefaultValueService.getCodeLists()
+      .pipe(
+        map(lists => {
+          return lists.sort((a, b) => {
+            if (a.code < b.code) { return -1; }
+            if (a.code > b.code) { return 1; }
+            if (a.code === b.code) { return 0; }
+          });
+        }),
+        switchMap(data => from(data)),
+        filter(list => list.type === 'Genetic')
+      )
+      .subscribe(data => {
+        this.listHereditary.push(data);
+      });
   }
 
   init(): void {

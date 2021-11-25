@@ -13,6 +13,8 @@ import * as moment from 'moment';
 import { listSequencing, sequencingLists } from 'src/app/forms/commons/geneList';
 import { TestCodeTitleService } from '../../services/testCodeTitle.service';
 import { SeqDialogComponent } from './seq-dialog/seq-dialog.component';
+import { CodeDefaultValue } from 'src/app/services/codedefaultvalue';
+import { ICodement } from 'src/app/inhouse/models/comments';
 
 
 @Component({
@@ -43,11 +45,12 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private apiUrl = emrUrl;
 
-  sequencingLists = sequencingLists;
-  listSequencing = listSequencing.sort((a, b) => {
-    const x = a.gene; const y = b.gene;
-    return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-  });
+  // sequencingLists = sequencingLists;
+  // listSequencing = listSequencing.sort((a, b) => {
+  //   const x = a.gene; const y = b.gene;
+  //   return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+  // });
+  listSequencing: ICodement[] = [];
 
   @ViewChild('dbox100', { static: true }) dbox100: ElementRef;
 
@@ -59,6 +62,7 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
     private sanitizer: DomSanitizer,
     private titleService: TestCodeTitleService,
     public dialog: MatDialog,
+    private codeDefaultValueService: CodeDefaultValue
   ) { }
 
   ngOnInit(): void {
@@ -75,6 +79,8 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.storeStartDay === null || this.storeEndDay === null) {
       this.init();
     }
+
+    this.loadCode();
   }
 
   ngAfterViewInit(): void {
@@ -87,6 +93,25 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.subs.unsubscribe();
   }
+
+  loadCode(): void {
+    this.codeDefaultValueService.getCodeLists()
+      .pipe(
+        map(lists => {
+          return lists.sort((a, b) => {
+            if (a.code < b.code) { return -1; }
+            if (a.code > b.code) { return 1; }
+            if (a.code === b.code) { return 0; }
+          });
+        }),
+        switchMap(data => from(data)),
+        filter(list => list.type === 'SEQ')
+      )
+      .subscribe(data => {
+        this.listSequencing.push(data);
+      });
+  }
+
 
   init(): void {
     this.patientsList.getPatientList2()

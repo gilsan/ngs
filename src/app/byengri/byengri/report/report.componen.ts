@@ -2779,7 +2779,7 @@ ${fuDNA}`;
       ).subscribe(data => {
 
         if (type === 'cMu') {
-          this.fromClinicallyCopynumberToPrevalentCopynumber(i);
+          this.fromClinicallyMuToPrevalentMu(i);
         } else if (type === 'cCy') {
           this.fromClinicallyCopynumberToPrevalentCopynumber(i);
         } else if (type === 'cFu') {
