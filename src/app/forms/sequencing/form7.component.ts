@@ -200,7 +200,7 @@ export class Form7Component implements OnInit, OnDestroy {
           this.comment1 = data[0].comment1;
           this.comment2 = data[0].comment2;
           this.seqcomment = data[0].seqcomment;
-          console.log('[197][받은데이터]', this.comment1, this.comment2);
+
           data.forEach(item => {
             this.sequencingRows().push(this.createRow(
               {
@@ -221,7 +221,7 @@ export class Form7Component implements OnInit, OnDestroy {
 
     this.subs.sink = this.variantsService.contentTestScreen7(this.form2TestedId)
       .subscribe(data => {
-        console.log('[224][Test Information]', data);
+        console.log('[224][저장된 Test Information]', data);
         if (data.length > 0) {
           this.resultname = data[0].result;
           this.targetdisease = data[0].target;
@@ -241,7 +241,7 @@ export class Form7Component implements OnInit, OnDestroy {
             this.variations = '';
             this.defaultService.getList(this.patientInfo.test_code)
               .subscribe(list => {
-                console.log('[244][Test Info]', list);
+                console.log('[244][디폴트Test Info]', list);
                 this.targetdisease = list[0].target;
                 this.method = list[0].method;
                 this.analyzedgene = list[0].analyzedgene;

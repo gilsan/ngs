@@ -623,7 +623,7 @@ export class PatientsListService {
             // CSDE1,NRAS 인경우 NRAS로 찿는다.
             let tempGene;
             const tempCoding = item.coding.split(',')[0];
-            // console.log('[420][뮤테이션]', item);
+
             if (item.gene1.split(',')[0] === 'NRAS') {
               tempGene = item.gene1.split(',')[0];
             } else if (item.gene1.split(',')[1] === 'NRAS') {
@@ -637,9 +637,9 @@ export class PatientsListService {
             } else {
               tempTestType = testType;
             }
-            // console.log('[519][뮤테이션]', item, tempGene, tempCoding);
+            console.log('[640][뮤테이션]', item, tempGene, tempCoding);
             return this.getMutationInfoLists(tempGene, tempCoding, tempTestType).pipe(
-              // tap(data => console.log('[patientslist][615][뮤테이션]', data)),
+              tap(data => console.log('[patientslist][642][서버에서 받음][뮤테이션]', data)),
               map(lists => {
                 if (Array.isArray(lists) && lists.length) {
                   return { ...item, mutationList1: lists[0], mutationList2: 'none', mtype: 'M' };
@@ -690,11 +690,18 @@ export class PatientsListService {
           let tempTestType;
           let tempGene;
           const tempCoding = item.coding.split(',')[0];
-          // console.log('[574][뮤테이션]', item);
-          if (item.gene1.split(',')[0] === 'NRAS') {
-            tempGene = item.gene1.split(',')[0];
-          } else if (item.gene1.split(',')[1] === 'NRAS') {
-            tempGene = item.gene1.split(',')[1];
+          // console.log('[693][뮤테이션]', item);
+          // if (item.gene1.split(',')[0] === 'NRAS') {
+          //   tempGene = item.gene1.split(',')[0];
+          // } else if (item.gene1.split(',')[1] === 'NRAS') {
+          //   tempGene = item.gene1.split(',')[1];
+          // } else {
+          //   tempGene = item.multigenes;
+          // }
+          if (item.gene1 === 'NRAS') {
+            tempGene = item.gene1;
+          } else if (item.gene2 === 'NRAS') {
+            tempGene = item.gene2;
           } else {
             tempGene = item.multigenes;
           }
@@ -704,8 +711,11 @@ export class PatientsListService {
           } else {
             tempTestType = testType;
           }
+          // console.log('[707][Mutation]', tempGene, tempCoding, tempTestType);
           return this.getMutationInfoLists(tempGene, tempCoding, tempTestType).pipe(
+            tap(data => console.log(data)),
             map(lists => {
+              console.log('[710][Mutation][결과값]', lists);
               if (Array.isArray(lists) && lists.length) {
                 return { ...item, mutationList1: lists[0], mutationList2: 'none', mtype: 'M' };
               } else {
