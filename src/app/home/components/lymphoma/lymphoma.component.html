@@ -34,7 +34,7 @@
         <button type="button" class="btn btn_02" style="margin-left: 10px;"
           (click)="search(lymStart.value, lymEnd.value, lymTestedID.value, lymPatient.value, lymStatus.value, lymSheet.value)">조 회</button>
         &nbsp;&nbsp;
-        <!--
+
         <select class="select_01 select_001" #research  (change)="newList(research.value)">
           <option value="TOTAL">전체</option>
           <option value="PATIENT">환자용</option>
@@ -46,28 +46,13 @@
 
         <button type="button" class="btn btn_02" style="margin-left: 10px;"
           (click)="goDashboard()">DashBoard</button>
-        -->
+
       </div>
       <div class="box">
         <div class="box_100 fill" [appDiagScrollMonitor]="'LYM'" #dbox100>
         <table border="0" cellpadding="0" cellspacing="0" class="table_list  fixed_header table_resul_x">
           <colgroup>
-          <!--
-            <col width="40px">
-            <col width="100px">
-            <col width="80px">
-            <col width="50px">
-            <col width="50px">
-            <col width="80px">
-            <col width="60px">
-            <col width="170px">
-            <col width="90px">
-            <col width="*">
-            <col width="*">
-            <col width="90px">
-            <col width="120px">
-            <col width="95px">
-          -->
+
             <col width="3%">
             <col width="7%">
             <col width="5%">
@@ -82,7 +67,7 @@
             <col width="5%">
             <col width="8%">
             <col width="7%">
-          <!--   <col width="7%"> -->
+            <col width="7%">
 
           </colgroup>
           <thead>
@@ -101,7 +86,7 @@
               <th>진행상태</th>
               <th>&nbsp;</th>
               <th>&nbsp;</th>
-            <!--  <th>연구용</th>  -->
+              <th>연구용</th>
             </tr>
           </thead>
           <div></div>
@@ -135,12 +120,12 @@
                   (click)="goUploadpage(list.specimenNo, list.patientID)">재등록</button>
               </td>
               <ng-template #reload><td></td></ng-template>
-              <!--
+
               <td  class="txt_c" *ngIf="list.gbn === 'RESEARCH'; else research;">
                 <span>연구용</span>
               </td>
               <ng-template #research><td></td></ng-template>
-              -->
+
             </tr>
           </tbody>
         </table>

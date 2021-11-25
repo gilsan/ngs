@@ -1813,6 +1813,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
   }
 
   reCall(): void {
+    let count = 0;
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData: IAFormVariant[] = control.getRawValue();
     // console.log('[1776][호출][보낸것]', formData);
@@ -1820,6 +1821,17 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       const gene = list.gene.split(',');
       gene.forEach(item => {
         this.patientsListService.getMutationVariantsLists(item, list.nucleotideChange, 'MDS')
+          .pipe(
+            filter(val => !!val),
+            tap(data => {
+              if (data.length > 0) {
+                if (list.reference !== data[0].reference || list.cosmic_id !== data[0].cosmic_id) {
+                  count++;
+                  this.snackBar.open('완료 했습니다. 갱신수: ' + count + '건', '닫기', { duration: 3000 });
+                }
+              }
+            })
+          )
           .subscribe(data => {
             console.log('[1823][호출][받은데이터]', data);
             if (data.length > 0) {

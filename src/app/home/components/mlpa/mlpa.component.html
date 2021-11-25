@@ -34,7 +34,7 @@
         <button type="button" class="btn btn_02" style="margin-left: 10px;"
           (click)="search(mlpaStart.value, mlpaEnd.value, mlpaTestedID.value, mlpaPatient.value, mlpaStatus.value, mlpaSheet.value)">조 회</button>
         &nbsp;&nbsp;
-        <!--
+
         <select class="select_01 select_001" #research  (change)="newList(research.value)">
           <option value="TOTAL">전체</option>
           <option value="PATIENT">환자용</option>
@@ -46,7 +46,7 @@
 
         <button type="button" class="btn btn_02" style="margin-left: 10px;"
           (click)="goDashboard()">DashBoard</button>
-        -->
+
       </div>
       <div class="box">
         <div class="box_100 fill" [appDiagScrollMonitor]="'MLPA'" #dbox100>
@@ -63,7 +63,7 @@
             <col width="90px">
             <col width="90px">
             <col width="100px">
-          <!--  <col width="80px">   -->
+            <col width="80px">
           </colgroup>
           <thead>
             <tr>
@@ -78,7 +78,7 @@
               <th>검체번호</th>
               <th>진행상태</th>
               <th>&nbsp;</th>
-            <!--  <th>연구용</th>  -->
+              <th>연구용</th>
             </tr>
           </thead>
           <div></div>
@@ -99,12 +99,12 @@
                   (click)="goReporter(i)">결과지/보고서</button>
               </td>
 
-              <!--
+
               <td  class="txt_c" *ngIf="list.gbn === 'RESEARCH'; else research;">
                 <span>연구용</span>
               </td>
               <ng-template #research><td></td></ng-template>
-              -->
+
             </tr>
           </tbody>
         </table>

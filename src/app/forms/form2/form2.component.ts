@@ -2091,7 +2091,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
   }
 
   reCall(): void {
-
+    let count = 0;
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData: IAFormVariant[] = control.getRawValue();
 
@@ -2100,9 +2100,20 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       const gene = list.gene.split(',');
       gene.forEach(item => {
         this.patientsListService.getMutationVariantsLists(item, list.nucleotideChange, 'AMLALL')
+          .pipe(
+            filter(val => !!val),
+            tap(data => {
+              if (data.length > 0) {
+                if (list.reference !== data[0].reference || list.cosmic_id !== data[0].cosmic_id) {
+                  count++;
+                  this.snackBar.open('완료 했습니다. 갱신수: ' + count + '건', '닫기', { duration: 3000 });
+                }
+              }
+            })
+          )
           .subscribe(data => {
             if (data.length > 0) {
-              // console.log('[2080][호출]', list, data, index);
+
               if (
                 (list.reference !== data[0].reference || list.cosmic_id !== data[0].cosmic_id)) {
                 this.typeColor.push(index);
@@ -2114,11 +2125,13 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
                 functionalImpact: data[0].functional_impact,
                 reference: data[0].reference, cosmic_id: data[0].cosmic_id
               });
-              this.snackBar.open('완료 했습니다.', '닫기', { duration: 3000 });
+
             }
           });
       });
+
     });
+
   }
 
 
