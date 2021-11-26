@@ -44,8 +44,8 @@ const routes: Routes = [
   {
     path: '', component: HomeComponent, children: [
       { path: 'main', component: MainscreenComponent },
-      { path: '', component: AmlallComponent },
-      // { path: '', component: DashboardComponent },
+      //{ path: '', component: AmlallComponent },
+       { path: '', component: DashboardComponent },
       { path: 'board', component: DashboardComponent },
       { path: 'amlall', component: AmlallComponent },
       { path: 'amlall/:type', component: AmlallComponent },
