@@ -49,7 +49,7 @@ export class MentmanageComponent implements OnInit, OnDestroy {
   loadData(): void {
     this.defaultService.getLists()
       .subscribe(lists => {
-        console.log('[47]', lists);
+        // console.log('[47]', lists);
         this.lists = lists;
         this.findLists(this.type);
       });

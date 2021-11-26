@@ -340,9 +340,14 @@ export class Form6Component implements OnInit, OnDestroy {
 
   // test_code로 제목찿기
   findTitle(testCode: string): void {
+    this.defaultService.getList(this.patientInfo.test_code)
+      .subscribe(info => {
+        console.log('[345][인하우스] ', info);
+        this.method = info[0].method;
+      });
     this.utilsService.getTargetDisease('genetic', testCode)
       .subscribe(data => {
-        // console.log('[][]', data[0]);
+        // console.log('[345][initLoad]', data[0]);
         this.target = data[0].disease;
         this.getGeneList();
       });
