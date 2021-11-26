@@ -1822,18 +1822,21 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       gene.forEach(item => {
         this.patientsListService.getMutationVariantsLists(item, list.nucleotideChange, 'MDS')
           .pipe(
-            filter(val => !!val),
+            // filter(val => !!val),
             tap(data => {
               if (data.length > 0) {
                 if (list.reference !== data[0].reference || list.cosmic_id !== data[0].cosmic_id) {
                   count++;
-                  this.snackBar.open('완료 했습니다. 갱신수: ' + count + '건', '닫기', { duration: 3000 });
+                  // this.snackBar.open('완료 했습니다. 갱신수: ' + count + '건', '닫기', { duration: 3000 });
                 }
+              }
+              if (formData.length === index + 1) {
+                this.snackBar.open('완료 했습니다. 갱신수: ' + count + '건', '닫기', { duration: 3000 });
               }
             })
           )
           .subscribe(data => {
-            console.log('[1823][호출][받은데이터]', data);
+            // console.log('[1823][호출][받은데이터]', data);
             if (data.length > 0) {
 
               if (
@@ -1847,8 +1850,10 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
                 functionalImpact: data[0].functional_impact,
                 reference: data[0].reference, cosmic_id: data[0].cosmic_id
               });
-              this.snackBar.open('완료 했습니다.', '닫기', { duration: 3000 });
+              // this.snackBar.open('완료 했습니다.', '닫기', { duration: 3000 });
             }
+
+
           });
       });
     });

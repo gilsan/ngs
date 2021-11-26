@@ -296,7 +296,7 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     //
     const startdate = start.toString().replace(/-/gi, '');
     const enddate = end.toString().replace(/-/gi, '');
-    // console.log('[97][진검검색]', startdate, enddate, specimenNo, patientId);
+    // console.log('[299][진검검색]', status, sheet);
 
     if (patientId !== undefined) {
       patientId = patientId.trim();
@@ -307,6 +307,7 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.patientsList.hereditarySearch2(startdate, enddate, patientId, specimenNo, status, sheet)
       .then(response => response.json())
       .then(data => {
+
         if (this.receivedType !== 'none') {
           data.forEach(list => {
             if (this.receivedType === 'register' && list.screenstatus === '') {

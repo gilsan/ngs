@@ -2106,9 +2106,13 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
               if (data.length > 0) {
                 if (list.reference !== data[0].reference || list.cosmic_id !== data[0].cosmic_id) {
                   count++;
-                  this.snackBar.open('완료 했습니다. 갱신수: ' + count + '건', '닫기', { duration: 3000 });
+                  // this.snackBar.open('완료 했습니다. 갱신수: ' + count + '건', '닫기', { duration: 3000 });
                 }
               }
+              if (formData.length === index + 1) {
+                this.snackBar.open('완료 했습니다. 갱신수: ' + count + '건', '닫기', { duration: 3000 });
+              }
+
             })
           )
           .subscribe(data => {

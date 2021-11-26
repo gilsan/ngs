@@ -1067,6 +1067,7 @@ export class PatientsListService {
   public hereditarySearch2(start: string, end: string, patientID: string = '',
     specimenNo: string = '',
     status: string = '', sheet: string = '') {
+
     return fetch(`${this.apiUrl}/searchpatient_diag/listGenetic`, {
       method: 'POST',
       headers: {
