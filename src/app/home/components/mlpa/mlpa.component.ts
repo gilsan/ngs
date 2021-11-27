@@ -105,6 +105,7 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
         filter(list => list.type === 'MLPA')
       )
       .subscribe(data => {
+        console.log(data);
         this.listsMLPA.push(data);
       });
   }
