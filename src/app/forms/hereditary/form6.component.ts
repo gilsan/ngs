@@ -1799,15 +1799,20 @@ export class Form6Component implements OnInit, OnDestroy {
       this.commentdata = '';
       let comment = '';
 
-      lists.forEach(list => {
+      lists.forEach((list, index) => {
         // if (list.functionalImpact.length > 0) {
-        console.log('[자동입력]', list.aminoAcidChange);
+        console.log('[자동입력]', list.aminoAcidChange, index);
 
         const aminoAcidChange = list.aminoAcidChange.split(',');
         aminoAcidChange.forEach((item) => {
           const zygosity = list.zygosity.split(',');
           zygosity.forEach((zigo) => {
-            comment = comment + `본 환자에서 ${this.target} 에 대한 targeted panel sequencing 결과, ${list.gene} 유전자에서 ${list.functionalImpact}로 분류되는 ${list.nucleotideChange}, ${item} 변이가 ${zigo}로 관찰되었습니다.\n`;
+            if (index === 0) {
+              comment = comment + `본 환자에서 ${this.target} 에 대한 targeted panel sequencing 결과, ${list.gene} 유전자에서 ${list.functionalImpact}로 분류되는 ${list.nucleotideChange}, ${item} 변이가 ${zigo}로 관찰되었습니다.\n`;
+            } else {
+              comment = comment + `또한, ${list.gene} 유전자에서 ${list.functionalImpact}로 분류되는 ${list.nucleotideChange}, ${item} 변이가 ${zigo}로 관찰되었습니다.\n`;
+            }
+
           });
         });
         if (list.functionalImpact.toLowerCase() === 'vus') {
