@@ -341,17 +341,22 @@ export class Form7Component implements OnInit, OnDestroy {
     const userid = localStorage.getItem('diaguser');
     const control = this.form.get('tableRows') as FormArray;
     const formData = control.getRawValue();
+    if (formData.length === 0) {
+      alert('Mutation 내용이 없습니다.');
+      return;
+    }
+
     const gene = this.ngsTitle.split('Gene')[0].trim();
     if (parseInt(this.patientInfo.screenstatus, 10) > 3) {
       this.patientInfo.screenstatus = '3';
       this.screenstatus = '3';
     }
-    console.log('[347][임시저장][screenstatus]', this.screenstatus);
+    console.log('[354][임시저장][screenstatus]', this.screenstatus);
 
     this.patientInfo.recheck = this.recheck;
     this.patientInfo.examin = this.examin;
 
-    console.log('[352][tempSave]patient,reform,comment]', this.patientInfo, formData,);
+    console.log('[359][tempSave]patient,reform,comment]', this.patientInfo, formData,);
     this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimenNo)
       .subscribe(datas => console.log(datas));
     this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimenNo)

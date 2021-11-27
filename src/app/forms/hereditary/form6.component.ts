@@ -433,8 +433,9 @@ export class Form6Component implements OnInit, OnDestroy {
   getComment(): void {
     this.subs.sink = this.variantsService.screenComment(this.form2TestedId)
       .subscribe(dbComments => {
+        console.log('[436][COMMENT 가져오기]', dbComments);
         if (dbComments !== undefined && dbComments !== null && dbComments.length > 0) {
-          console.log('[472][COMMENT 가져오기]', dbComments);
+          console.log('[438][COMMENT 가져오기]', dbComments);
           this.commentdata = dbComments[0].comment;
           this.comment2 = dbComments[0].reference;
           this.resultname = dbComments[0].variants;
@@ -1492,18 +1493,21 @@ export class Form6Component implements OnInit, OnDestroy {
     const userid = localStorage.getItem('diaguser');
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
+    if (formData.length === 0) {
+      alert('Mutation 내용이 없습니다.');
+      return;
+    }
 
-    console.log('[1462][Detected variants]', formData);
     this.comments.push({
       gene: '', comment: this.commentdata, reference: this.comment2, type: '', variant_id: this.resultname,
       methods: this.methods, technique: this.technique
     });
-
+    console.log('[1501][Detected variants]', formData, this.comments);
     this.patientInfo.recheck = this.recheck;
     this.patientInfo.examin = this.examin;
     this.patientInfo.vusmsg = this.vusmsg;
 
-    console.log('[1472][tempSave]patient,reform,comment]', this.patientInfo, formData, this.comments);
+    console.log('[1506][tempSave]patient,reform,comment]', this.patientInfo, formData, this.comments);
 
     this.store.setRechecker(this.patientInfo.recheck);
     this.store.setExamin(this.patientInfo.examin);

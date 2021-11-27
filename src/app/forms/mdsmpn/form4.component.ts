@@ -408,7 +408,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     // 코멘트 가져오기
     this.subs.sink = this.variantsService.screenComment(this.form2TestedId)
       .subscribe(dbComments => {
-        console.log('[393][COMMENT 가져오기]', dbComments);
+        console.log('[411][COMMENT 가져오기]', dbComments);
         if (dbComments !== undefined && dbComments !== null && dbComments.length > 0) {
 
           dbComments.forEach(comment => {
@@ -426,7 +426,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
               }
             ));
           });
-          console.log('[424][COMMENT 가져오기]', this.comments);
+          // console.log('[424][COMMENT 가져오기]', this.comments);
           this.store.setComments(this.comments); // comments 저장
         }
       });
