@@ -1833,7 +1833,6 @@ export class Form3Component implements OnInit, OnDestroy {
       gene.forEach(item => {
         this.patientsListService.getMutationVariantsLists(item, list.nucleotideChange, 'LYM')
           .pipe(
-            filter(val => !!val),
             tap(data => {
               if (data.length > 0) {
                 if (list.reference !== data[0].reference || list.cosmic_id !== data[0].cosmic_id) {
@@ -1861,7 +1860,7 @@ export class Form3Component implements OnInit, OnDestroy {
                 functionalImpact: data[0].functional_impact,
                 reference: data[0].reference, cosmic_id: data[0].cosmic_id
               });
-              this.snackBar.open('완료 했습니다.', '닫기', { duration: 3000 });
+              // this.snackBar.open('완료 했습니다.', '닫기', { duration: 3000 });
             }
           });
       });
