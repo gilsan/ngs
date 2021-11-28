@@ -721,14 +721,14 @@ export class Form7Component implements OnInit, OnDestroy {
         // if (list.type.length > 0) {
         aminoAcidChange.forEach((item, index) => {
           if (idx === 0) {
-            comment = comment + `본 환자에서 ${this.targetdisease} 에 대한 direct sequencing  결과, ${gene} 유전자에서 ${list.type}로 분류되는 ${list.nucleotideChange}, ${item} 변이가 ${list.zygosity}로 관찰되었습니다.\n`;
+            comment = comment + `본 환자에서 ${this.targetdisease} 에 대한 direct sequencing  결과, VUS (Variant of Unknown Significance)로 분류되는 ${list.nucleotideChange}, ${item} 변이가 ${list.zygosity}로 관찰되었습니다.\n`;
           } else {
-            comment = comment + `또한, ${gene} 유전자에서 ${list.type}로 분류되는 ${list.nucleotideChange}, ${item} 변이가 ${list.zygosity}로 관찰되었습니다.\n`;
+            comment = comment + `또한, ${gene} 유전자에서 VUS (Variant of Unknown Significance)로 분류되는 ${list.nucleotideChange}, ${item} 변이가 ${list.zygosity}로 관찰되었습니다.\n`;
           }
 
 
           if (list.type.toLowerCase() === 'vus' && (index === aminoAcidChange.length - 1)) {
-            comment = comment + `또한,  ${gene} 유전자에서 VUS (Variant of Unknown Significance) 로 분류되는  ${list.nucleotideChange}, ${item} 변이가 ${list.zygosity}로 관찰되었습니다.\n`;
+            comment = comment + `또한,  ${gene} 유전자에서 VUS (Variant of Unknown Significance)로 분류되는  ${list.nucleotideChange}, ${item} 변이가 ${list.zygosity}로 관찰되었습니다.\n`;
           }
         });
         // }
