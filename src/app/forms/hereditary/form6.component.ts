@@ -1721,6 +1721,13 @@ export class Form6Component implements OnInit, OnDestroy {
   }
 
   showDialog(): void {
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    const formData = control.getRawValue();
+    console.log('[1726]', formData);
+    if (formData.length === 0) {
+      alert('Mutation 내용이 없습니다.');
+      return;
+    }
     this.isExamVisible = true;
 
   }
@@ -1791,10 +1798,15 @@ export class Form6Component implements OnInit, OnDestroy {
   }
 
   autoComment(): void {
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    const lists = control.getRawValue();
+    if (lists.length === 0) {
+      alert('Mutation 내용이 없습니다.');
+      return;
+    }
 
     if (this.resultStatus === 'Detected') {
-      const control = this.tablerowForm.get('tableRows') as FormArray;
-      const lists = control.getRawValue();
+
       console.log('[자동입력 데이터]', lists);
       this.commentdata = '';
       let comment = '';

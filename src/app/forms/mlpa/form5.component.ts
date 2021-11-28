@@ -644,6 +644,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
   }
 
   showDialog(): void {
+
     this.isExamVisible = true;
 
 

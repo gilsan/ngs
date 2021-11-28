@@ -623,11 +623,15 @@ export class Form7Component implements OnInit, OnDestroy {
       }
     }
 
-
-
   }
 
   showDialog(): void {
+    const control = this.form.get('tableRows') as FormArray;
+    const formData = control.getRawValue();
+    if (formData.length === 0) {
+      alert('Mutation 내용이 없습니다.');
+      return;
+    }
     this.isExamVisible = true;
   }
 
@@ -709,11 +713,17 @@ export class Form7Component implements OnInit, OnDestroy {
   //////////////////////////////////////////////////////////////////////////////////////
 
   autoComment(): void {
+    const control = this.form.get('tableRows') as FormArray;
+    const lists = control.getRawValue();
+    if (lists.length === 0) {
+      alert('Mutation 내용이 없습니다.');
+      return;
+    }
+
     const gene = this.ngsTitle.split('Gene')[0].trim();
     this.comment = '';
     if (this.resultStatus === 'Detected') {
-      const control = this.form.get('tableRows') as FormArray;
-      const lists = control.getRawValue();
+
       console.log(lists);
       let comment = '';
       lists.forEach((list, idx) => {
