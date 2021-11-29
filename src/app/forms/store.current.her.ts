@@ -203,6 +203,7 @@ export class StoreGENService {
   // status 상태관리  시작, 스크린판독, 판독완료, EMR전송
   setStatus(status: string): void {
     this.status = status;
+    console.log('[스토어][status]', this.status);
   }
 
   getStatus(): string {

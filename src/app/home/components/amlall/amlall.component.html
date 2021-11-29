@@ -13,12 +13,12 @@
       <div class="box mg_b20 pd_20">
         <input type="text" class="input_01" #testedID placeholder="검체번호" />&nbsp;&nbsp;
         <input name="" type="text" placeholder="환자ID" #patient class="input_01" />&nbsp;&nbsp;
-        <select class="select_01 select_001"  #status>
+        <select class="select_01 select_001"  #status (change)="selectOption(status.value)">
           <option value="100">전체</option>
-          <option value="0">시작</option>
-          <option value="1">스크린판독</option>
-          <option value="2">판독완료</option>
-          <option value="3">EMR전송</option>
+          <option value="0" [selected]= "select0">시작</option>
+          <option value="1" [selected]= "select1">스크린판독</option>
+          <option value="2" [selected]= "select2">판독완료</option>
+          <option value="3" [selected]= "select3">EMR전송</option>
         </select>&nbsp;&nbsp;
         <select class="select_01 select_001" #sheet>
           <option value="TOTAL">전체</option>
@@ -43,10 +43,10 @@
 
         <button type="button" class="btn btn_02" style="margin-left: 10px;"
           (click)="openDialog()">연구용추가</button>&nbsp;&nbsp;
-
+         -->
         <button type="button" class="btn btn_02" style="margin-left: 10px;"
           (click)="goDashboard()">DashBoard</button>
-        -->
+
       </div>
       <div class="box">
         <div class="box_100 fill" [appDiagScrollMonitor]="'AML'" #dbox100>

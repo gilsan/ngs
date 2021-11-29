@@ -43,7 +43,10 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
   storeSpecimenID: string;
 
   private apiUrl = emrUrl;
-
+  select0 = false;
+  select1 = false;
+  select2 = false;
+  select3 = false;
   @ViewChild('dbox100', { static: true }) dbox100: ElementRef;
 
   constructor(
@@ -65,13 +68,38 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
       if (data !== null) {
         this.receivedType = data;
       }
-      console.log('[69][전송값]', this.receivedType);
+      // console.log('[69][전송값]', this.receivedType);
+      if (parseInt(this.receivedType, 10) === 0) {
+        this.select0 = true;
+      } else if (parseInt(this.receivedType, 10) === 1) {
+        this.select1 = true;
+      } else if (parseInt(this.receivedType, 10) === 2) {
+        this.select2 = true;
+      } else if (parseInt(this.receivedType, 10) === 3) {
+        this.select3 = true;
+      }
     });
 
 
     this.checkStore();
     if (this.storeStartDay === null || this.storeEndDay === null) {
       this.init();
+    }
+  }
+
+  selectOption(status: string): void {
+    this.select0 = false;
+    this.select1 = false;
+    this.select2 = false;
+    this.select3 = false;
+    if (parseInt(status, 10) === 0) {
+      this.select0 = true;
+    } else if (parseInt(status, 10) === 1) {
+      this.select1 = true;
+    } else if (parseInt(status, 10) === 2) {
+      this.select2 = true;
+    } else if (parseInt(status, 10) === 3) {
+      this.select3 = true;
     }
   }
 
@@ -276,7 +304,7 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.specimenno = this.storeSpecimenID;
     this.patientid = this.storePatientID;
 
-
+    console.log('[307][AMLALL]][상태 가져오기]', whichstate, this.status);
     this.lists = [];
     if (whichstate === 'searchscreen') {
       this.search(this.storeStartDay, this.storeEndDay, this.storeSpecimenID, this.storePatientID, this.status, this.sheet);
@@ -310,7 +338,7 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
     const startdate = start.toString().replace(/-/gi, '');
     const enddate = end.toString().replace(/-/gi, '');
     // console.log('[97][진검검색]', startdate, enddate, specimenNo, patientId);
-
+    console.log('[341][AMLALL]][상태 가져오기]', status, sheet);
     if (patientId !== undefined) {
       patientId = patientId.trim();
     }
@@ -342,6 +370,7 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
         }),
         // tap(data => console.log('[343]', data)),
       ).subscribe((data: any) => {
+        console.log('[373][AMLALL]', this.receivedType, sheet);
         if (data.reportTitle === '') {
           const title = this.titleService.getMltaTitle(data.original_code);
           if (title !== 'None') {
@@ -418,6 +447,7 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
         this.tempLists.push(data);
       }
     }
+    this.receivedType = 'none';
   }
 
   // 환자ID
@@ -513,6 +543,7 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   goDashboard(): void {
+    this.receivedType = 'none';
     this.router.navigate(['/diag', 'board']);
   }
 

@@ -4,6 +4,12 @@ import { CodeDefaultValue } from 'src/app/services/codedefaultvalue';
 import { DashboardService } from '../../services/dashboard.service';
 import { PatientsListService } from '../../services/patientslist';
 
+import { StoreService } from 'src/app/forms/store.current';
+import { StoreGENService } from 'src/app/forms/store.current.her';
+import { StoreLYMService } from 'src/app/forms/store.current.lym';
+import { StoreMDSService } from 'src/app/forms/store.current.mds';
+import { StoreMLPAService } from 'src/app/forms/store.current.mlpa';
+import { StoreSEQService } from 'src/app/forms/store.current.seq';
 export interface IBOARD {
   type: string;
   register: number;
@@ -35,6 +41,12 @@ export class DashboardComponent implements OnInit {
     private codeDefaultValueService: CodeDefaultValue,
     private dashboardService: DashboardService,
     private router: Router,
+    private amlallStore: StoreService,
+    private geneStore: StoreGENService,
+    private lymStore: StoreLYMService,
+    private mdsStore: StoreMDSService,
+    private mlpaStore: StoreMLPAService,
+    private seqStore: StoreSEQService
   ) { }
 
   ngOnInit(): void {
@@ -50,16 +62,18 @@ export class DashboardComponent implements OnInit {
 
   collections(): void {
     this.codeDefaultValueService.getLists().subscribe(data => {
+      // console.log('[대쉬보드]', data);
       data.forEach(item => {
         this.lists.push({ type: item.type, code: item.code });
       });
-      // console.log(this.lists);
 
       this.patientsList.boardSearch(this.threemonthage(), this.today())
         .subscribe(item => {
-          // console.log(data);
           const temp = this.lists.filter(list => list.code === item.test_code);
-          this.split(temp[0].type, item.screenstatus);
+          // console.log('[61][대쉬보드]', temp);
+          if (temp.length > 0) {
+            this.split(temp[0].type, item.screenstatus);
+          }
         },
           err => console.log(err),
           () => {
@@ -150,17 +164,31 @@ export class DashboardComponent implements OnInit {
 
   goResult(type: string, subtype: string): void {
     this.dashboardService.dashBoardSetParmas(type, subtype);
+
+
     if (type === 'AMLALL') {
+      this.amlallStore.setStatus(subtype);
+      this.amlallStore.setWhichstate('searchscreen');
       this.router.navigate(['/diag', 'amlall', subtype]);
     } else if (type === 'LYM') {
+      this.lymStore.setStatus(subtype);
+      this.lymStore.setWhichstate('searchscreen');
       this.router.navigate(['/diag', 'lymphoma', subtype]);
     } else if (type === 'MDS') {
+      this.mdsStore.setStatus(subtype);
+      this.mdsStore.setWhichstate('searchscreen');
       this.router.navigate(['/diag', 'mdsmpn', subtype]);
     } else if (type === 'Genetic') {
+      this.geneStore.setStatus(subtype);
+      this.geneStore.setWhichstate('searchscreen');
       this.router.navigate(['/diag', 'hereditary', subtype]);
     } else if (type === 'SEQ') {
+      this.seqStore.setStatus(subtype);
+      this.seqStore.setWhichstate('searchscreen');
       this.router.navigate(['/diag', 'sequencing', subtype]);
     } else if (type === 'MLPA') {
+      this.mlpaStore.setStatus(subtype);
+      this.mlpaStore.setWhichstate('searchscreen');
       this.router.navigate(['/diag', 'mlpa', subtype]);
     }
 

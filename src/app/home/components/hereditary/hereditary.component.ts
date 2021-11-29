@@ -48,6 +48,10 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
   hereditaryLists = geneLists;
   // listHereditary = geneTitles;
   listHereditary: ICodement[] = [];
+  hselect0 = false;
+  hselect1 = false;
+  hselect2 = false;
+  hselect3 = false;
   @ViewChild('dbox100', { static: true }) dbox100: ElementRef;
 
   constructor(
@@ -64,10 +68,20 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.route.paramMap.pipe(
       filter(data => data !== null || data !== undefined),
-      map(route => route.get('type'))
+      map(route => route.get('type')),
     ).subscribe(data => {
       if (data !== null) {
         this.receivedType = data;
+        if (parseInt(this.receivedType, 10) === 0) {
+          this.hselect0 = true;
+        } else if (parseInt(this.receivedType, 10) === 1) {
+          this.hselect1 = true;
+        } else if (parseInt(this.receivedType, 10) === 2) {
+          this.hselect2 = true;
+        } else if (parseInt(this.receivedType, 10) === 3) {
+          this.hselect3 = true;
+        }
+
       }
     });
 
@@ -89,6 +103,20 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.subs.unsubscribe();
   }
+
+  selectOption(status: string): void {
+    if (parseInt(status, 10) === 0) {
+      this.hselect0 = true;
+    } else if (parseInt(status, 10) === 1) {
+      this.hselect1 = true;
+    } else if (parseInt(status, 10) === 2) {
+      this.hselect2 = true;
+    } else if (parseInt(status, 10) === 3) {
+      this.hselect3 = true;
+    }
+  }
+
+
 
   loadCode(): void {
     this.codeDefaultValueService.getCodeLists()
@@ -264,7 +292,7 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.specimenno = this.storeSpecimenID;
     this.patientid = this.storePatientID;
 
-
+    console.log('[295][]', whichstate);
     this.lists = [];
     if (whichstate === 'searchscreen') {
       this.search(this.storeStartDay, this.storeEndDay, this.storeSpecimenID, this.storePatientID, this.status, this.sheet);
@@ -296,7 +324,7 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     //
     const startdate = start.toString().replace(/-/gi, '');
     const enddate = end.toString().replace(/-/gi, '');
-    // console.log('[299][진검검색]', status, sheet);
+    console.log('[327][유전성]][상태]', status, sheet);
 
     if (patientId !== undefined) {
       patientId = patientId.trim();
@@ -307,7 +335,7 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.patientsList.hereditarySearch2(startdate, enddate, patientId, specimenNo, status, sheet)
       .then(response => response.json())
       .then(data => {
-
+        console.log('[338][검색]', this.receivedType, data);
         if (this.receivedType !== 'none') {
           data.forEach(list => {
             if (this.receivedType === 'register' && list.screenstatus === '') {
@@ -326,7 +354,7 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
           this.patientsList.setPatientID(tempLists);
           this.lists = tempLists;
           this.tempLists = tempLists;
-
+          this.receivedType = 'none';
         } else if (this.receivedType === 'none') {
           this.patientsList.setPatientID(data);
           this.lists = data;
@@ -433,6 +461,7 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   goDashboard(): void {
+    this.receivedType = 'none';
     this.router.navigate(['/diag', 'board']);
   }
 

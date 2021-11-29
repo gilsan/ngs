@@ -46,7 +46,10 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
   storeSpecimenID: string;
   receivedType = 'none';
   private apiUrl = emrUrl;
-
+  lselect0 = false;
+  lselect1 = false;
+  lselect2 = false;
+  lselect3 = false;
   @ViewChild('dbox100', { static: true }) dbox100: ElementRef;
 
   constructor(
@@ -66,6 +69,17 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
     ).subscribe(data => {
       if (data !== null) {
         this.receivedType = data;
+
+        if (parseInt(this.receivedType, 10) === 0) {
+          this.lselect0 = true;
+        } else if (parseInt(this.receivedType, 10) === 1) {
+          this.lselect1 = true;
+        } else if (parseInt(this.receivedType, 10) === 2) {
+          this.lselect2 = true;
+        } else if (parseInt(this.receivedType, 10) === 3) {
+          this.lselect3 = true;
+        }
+
       }
     });
 
@@ -85,6 +99,20 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.subs.unsubscribe();
   }
+
+  selectOption(status: string): void {
+    if (parseInt(status, 10) === 0) {
+      this.lselect0 = true;
+    } else if (parseInt(status, 10) === 1) {
+      this.lselect1 = true;
+    } else if (parseInt(status, 10) === 2) {
+      this.lselect2 = true;
+    } else if (parseInt(status, 10) === 3) {
+      this.lselect3 = true;
+    }
+  }
+
+
 
   init(): void {
     this.lists$ = this.patientsList.getPatientList();
@@ -291,6 +319,7 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
           this.patientsList.setPatientID(tempLists);
           this.lists = tempLists;
           this.tempLists = tempLists;
+          this.receivedType = 'none';
         } else if (this.receivedType === 'none') {
           this.patientsList.setPatientID(data);
           this.lists = data;
@@ -395,6 +424,7 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   goDashboard(): void {
+    this.receivedType = 'none';
     this.router.navigate(['/diag', 'board']);
   }
 

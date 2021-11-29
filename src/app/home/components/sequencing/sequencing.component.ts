@@ -52,6 +52,11 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
   // });
   listSequencing: ICodement[] = [];
 
+  qselect0 = false;
+  qselect1 = false;
+  qselect2 = false;
+  qselect3 = false;
+
   @ViewChild('dbox100', { static: true }) dbox100: ElementRef;
 
   constructor(
@@ -72,6 +77,18 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
     ).subscribe(data => {
       if (data !== null) {
         this.receivedType = data;
+
+        if (parseInt(this.receivedType, 10) === 0) {
+          this.qselect0 = true;
+        } else if (parseInt(this.receivedType, 10) === 1) {
+          this.qselect1 = true;
+        } else if (parseInt(this.receivedType, 10) === 2) {
+          this.qselect2 = true;
+        } else if (parseInt(this.receivedType, 10) === 3) {
+          this.qselect3 = true;
+        }
+
+
       }
     });
 
@@ -93,6 +110,21 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.subs.unsubscribe();
   }
+
+  selectOption(status: string): void {
+    if (parseInt(status, 10) === 0) {
+      this.qselect0 = true;
+    } else if (parseInt(status, 10) === 1) {
+      this.qselect1 = true;
+    } else if (parseInt(status, 10) === 2) {
+      this.qselect2 = true;
+    } else if (parseInt(status, 10) === 3) {
+      this.qselect3 = true;
+    }
+  }
+
+
+
 
   loadCode(): void {
     this.codeDefaultValueService.getCodeLists()
@@ -312,6 +344,7 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
             this.patientID = '';
             this.specimenNo = '';
           });
+          this.receivedType = 'none';
         } else if (this.receivedType === 'none') {
           this.patientsList.setPatientID(data);
           data.forEach(list => {
@@ -416,6 +449,7 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   goDashboard(): void {
+    this.receivedType = 'none';
     this.router.navigate(['/diag', 'board']);
   }
 

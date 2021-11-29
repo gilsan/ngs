@@ -14,12 +14,12 @@
       <div class="box mg_b20 pd_20">
         <input type="text" class="input_01" #mdsTestedID placeholder="검체번호" />&nbsp;&nbsp;
         <input name="" type="text" placeholder="환자ID" #mdsPatient class="input_01" />&nbsp;&nbsp;
-        <select class="select_01 select_001"  #mdsStatus>
+        <select class="select_01 select_001"  #mdsStatus  (change)="selectOption(mdsStatus.value)">
           <option value="100">전체</option>
-          <option value="0">시작</option>
-          <option value="1">스크린판독</option>
-          <option value="2">판독완료</option>
-          <option value="3">EMR전송</option>
+          <option value="0" [selected]= "mselect0">시작</option>
+          <option value="1" [selected]= "mselect1">스크린판독</option>
+          <option value="2" [selected]= "mselect2">판독완료</option>
+          <option value="3" [selected]= "mselect3">EMR전송</option>
         </select>&nbsp;&nbsp;
         <select class="select_01 select_001" #mdsSheet>
           <option value="MDS">전체</option>
@@ -42,10 +42,10 @@
 
         <button type="button" class="btn btn_02" style="margin-left: 10px;"
           (click)="openDialog()">연구용추가</button>&nbsp;&nbsp;
-
+        -->
         <button type="button" class="btn btn_02" style="margin-left: 10px;"
           (click)="goDashboard()">DashBoard</button>
-        -->
+
       </div>
       <div class="box">
         <div class="box_100 fill" [appDiagScrollMonitor]="'MDS'" #dbox100>

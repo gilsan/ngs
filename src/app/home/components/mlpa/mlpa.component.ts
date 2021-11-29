@@ -48,6 +48,12 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
   mlpaLists = mlpaLists;
   // listsMLPA = listMLPA;
   listsMLPA: ICodement[] = [];
+
+  mlpaselect0 = false;
+  mlpaselect1 = false;
+  mlpaselect2 = false;
+  mlpaselect3 = false;
+
   @ViewChild('dbox100', { static: true }) dbox100: ElementRef;
 
   constructor(
@@ -69,6 +75,17 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
     ).subscribe(data => {
       if (data !== null) {
         this.receivedType = data;
+
+        if (parseInt(this.receivedType, 10) === 0) {
+          this.mlpaselect0 = true;
+        } else if (parseInt(this.receivedType, 10) === 1) {
+          this.mlpaselect1 = true;
+        } else if (parseInt(this.receivedType, 10) === 2) {
+          this.mlpaselect2 = true;
+        } else if (parseInt(this.receivedType, 10) === 3) {
+          this.mlpaselect3 = true;
+        }
+
       }
     });
 
@@ -91,6 +108,19 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
     this.subs.unsubscribe();
   }
 
+  selectOption(status: string): void {
+    if (parseInt(status, 10) === 0) {
+      this.mlpaselect0 = true;
+    } else if (parseInt(status, 10) === 1) {
+      this.mlpaselect1 = true;
+    } else if (parseInt(status, 10) === 2) {
+      this.mlpaselect2 = true;
+    } else if (parseInt(status, 10) === 3) {
+      this.mlpaselect3 = true;
+    }
+  }
+
+
   loadCode(): void {
     this.codeDefaultValueService.getCodeLists()
       .pipe(
@@ -105,7 +135,7 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
         filter(list => list.type === 'MLPA')
       )
       .subscribe(data => {
-        console.log(data);
+        // console.log(data);
         this.listsMLPA.push(data);
       });
   }
@@ -306,6 +336,7 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
 
           this.lists = tempLists;
           this.tempLists = tempLists;
+          this.receivedType = 'none';
         } else if (this.receivedType === 'none') {
           this.lists = data;
           this.tempLists = data;
@@ -392,6 +423,7 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   goDashboard(): void {
+    this.receivedType = 'none';
     this.router.navigate(['/diag', 'board']);
   }
 
