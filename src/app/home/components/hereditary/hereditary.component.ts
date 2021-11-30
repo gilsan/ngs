@@ -48,6 +48,7 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
   hereditaryLists = geneLists;
   // listHereditary = geneTitles;
   listHereditary: ICodement[] = [];
+  hselect10 = false;
   hselect0 = false;
   hselect1 = false;
   hselect2 = false;
@@ -80,6 +81,8 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
           this.hselect2 = true;
         } else if (parseInt(this.receivedType, 10) === 3) {
           this.hselect3 = true;
+        } else if (this.receivedType === 'register') {
+          this.hselect10 = true;
         }
 
       }
@@ -102,6 +105,8 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();
+    this.store.setStatus('100');
+    this.store.setSheet('genetic');
   }
 
   selectOption(status: string): void {
@@ -113,6 +118,8 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
       this.hselect2 = true;
     } else if (parseInt(status, 10) === 3) {
       this.hselect3 = true;
+    } else if (parseInt(status, 10) === 10) {
+      this.hselect10 = true;
     }
   }
 
@@ -335,6 +342,10 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (research === 'TOTAL') {
       research = '';
+    }
+
+    if (parseInt(status, 10) === 10 || this.receivedType === 'register') {
+      status = '10';
     }
 
     this.patientsList.hereditarySearch2(startdate, enddate, patientId, specimenNo, status, sheet, research)

@@ -16,6 +16,7 @@
         <input name="" type="text" placeholder="환자ID" #mdsPatient class="input_01" />&nbsp;&nbsp;
         <select class="select_01 select_001"  #mdsStatus  (change)="selectOption(mdsStatus.value)">
           <option value="100">전체</option>
+          <option value="10" [selected]= "mselect10">접수</option>
           <option value="0" [selected]= "mselect0">시작</option>
           <option value="1" [selected]= "mselect1">스크린판독</option>
           <option value="2" [selected]= "mselect2">판독완료</option>

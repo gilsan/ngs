@@ -46,6 +46,7 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
   storeSpecimenID: string;
   receivedType = 'none';
   private apiUrl = emrUrl;
+  lselect10 = false;
   lselect0 = false;
   lselect1 = false;
   lselect2 = false;
@@ -78,6 +79,8 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
           this.lselect2 = true;
         } else if (parseInt(this.receivedType, 10) === 3) {
           this.lselect3 = true;
+        } else if (this.receivedType === 'rgister') {
+          this.lselect10 = true;
         }
 
       }
@@ -98,6 +101,8 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();
+    this.store.setStatus('100');
+    this.store.setSheet('lymphoma');
   }
 
   selectOption(status: string): void {
@@ -109,6 +114,8 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
       this.lselect2 = true;
     } else if (parseInt(status, 10) === 3) {
       this.lselect3 = true;
+    } else if (parseInt(status, 10) === 10) {
+      this.lselect10 = true;
     }
   }
 
@@ -298,6 +305,10 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (research === 'TOTAL') {
       research = '';
+    }
+
+    if (parseInt(status, 10) === 10 || this.receivedType === 'register') {
+      status = '10';
     }
 
     // MDS/MPN [NGS]  : LPE473 (골수형성이상, 골수증식종양)

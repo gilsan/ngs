@@ -45,6 +45,7 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
   mselect1 = false;
   mselect2 = false;
   mselect3 = false;
+  mselect10 = false;
   @ViewChild('dbox100', { static: true }) dbox100: ElementRef;
 
   constructor(
@@ -73,6 +74,8 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
           this.mselect2 = true;
         } else if (parseInt(this.receivedType, 10) === 3) {
           this.mselect3 = true;
+        } else if (this.receivedType === 'register') {
+          this.mselect10 = true;
         }
 
       }
@@ -94,6 +97,8 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();
+    this.store.setStatus('100');
+    this.store.setSheet('MDS');
   }
 
   selectOption(status: string): void {
@@ -105,6 +110,8 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
       this.mselect2 = true;
     } else if (parseInt(status, 10) === 3) {
       this.mselect3 = true;
+    } else if (parseInt(status, 10) === 10) {
+      this.mselect10 = true;
     }
   }
 
@@ -305,6 +312,10 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (research === 'TOTAL') {
       research = '';
+    }
+
+    if (parseInt(status, 10) === 10 || this.receivedType === 'register') {
+      status = '10';
     }
 
     this.patientsList.mdsmpnSearch2(startdate, enddate, patientId, specimenNo, status, sheet, research)

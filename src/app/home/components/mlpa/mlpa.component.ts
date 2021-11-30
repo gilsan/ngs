@@ -48,7 +48,7 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
   mlpaLists = mlpaLists;
   // listsMLPA = listMLPA;
   listsMLPA: ICodement[] = [];
-
+  mlpaselect10 = false;
   mlpaselect0 = false;
   mlpaselect1 = false;
   mlpaselect2 = false;
@@ -84,6 +84,8 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
           this.mlpaselect2 = true;
         } else if (parseInt(this.receivedType, 10) === 3) {
           this.mlpaselect3 = true;
+        } else if (this.receivedType === 'register') {
+          this.mlpaselect10 = true;
         }
 
       }
@@ -106,6 +108,8 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();
+    this.store.setStatus('100');
+    this.store.setSheet('MLPA');
   }
 
   selectOption(status: string): void {
@@ -117,6 +121,8 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
       this.mlpaselect2 = true;
     } else if (parseInt(status, 10) === 3) {
       this.mlpaselect3 = true;
+    } else if (parseInt(status, 10) === 10) {
+      this.mlpaselect10 = true;
     }
   }
 
@@ -317,6 +323,10 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (research === 'TOTAL') {
       research = '';
+    }
+
+    if (parseInt(status, 10) === 10 || this.receivedType === 'register') {
+      status = '10';
     }
 
     this.patientsList.mlpaSearch2(startdate, enddate, patientId, specimenNo, status, sheet, research)

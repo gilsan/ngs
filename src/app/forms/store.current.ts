@@ -47,7 +47,7 @@ export class StoreService {
   // 시작날자, 종료날자, 검체번호, 환자번호
   public setSearchStartDay(day: string): void {
     this.amlStartDay = day;
-    console.log('[AMLALL store][setSearchStartDay]', this.amlStartDay);
+    // console.log('[AMLALL store][setSearchStartDay]', this.amlStartDay);
   }
 
   public getSearchStartDay(): string {

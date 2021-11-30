@@ -47,6 +47,7 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
   select1 = false;
   select2 = false;
   select3 = false;
+  select10 = false;
   @ViewChild('dbox100', { static: true }) dbox100: ElementRef;
 
   constructor(
@@ -77,6 +78,8 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
         this.select2 = true;
       } else if (parseInt(this.receivedType, 10) === 3) {
         this.select3 = true;
+      } else if (this.receivedType === 'register') {
+        this.select10 = true;
       }
     });
 
@@ -92,6 +95,7 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.select1 = false;
     this.select2 = false;
     this.select3 = false;
+    this.select10 = false;
     if (parseInt(status, 10) === 0) {
       this.select0 = true;
     } else if (parseInt(status, 10) === 1) {
@@ -100,6 +104,8 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
       this.select2 = true;
     } else if (parseInt(status, 10) === 3) {
       this.select3 = true;
+    } else if (parseInt(status, 10) === 10) {
+      this.select10 = true;
     }
   }
 
@@ -140,11 +146,11 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();
+    this.store.setStatus('100');
+    this.store.setSheet('TOTAL');
   }
 
   init(): void {
-
-
     this.lists$ = this.patientsList.getPatientList();
     this.subs.sink = this.lists$
       .pipe(
@@ -299,7 +305,6 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.specimenno = this.storeSpecimenID;
     this.patientid = this.storePatientID;
 
-    console.log('[307][AMLALL]][상태 가져오기]', this.storeStartDay, this.storeEndDay, this.storeSpecimenID, this.storePatientID, this.status, this.sheet);
     this.lists = [];
     if (whichstate === 'searchscreen') {
       this.search(this.storeStartDay, this.storeEndDay, this.storeSpecimenID, this.storePatientID, this.status, this.sheet);
@@ -307,7 +312,7 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
       this.search(this.startToday(), this.endToday(), '', '');
     }
 
-
+    console.log('[315][checkstore][검색 ]', this.status);
   }
 
   // tslint:disable-next-line: typedef
@@ -352,6 +357,12 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
     if (research === 'TOTAL') {
       research = '';
     }
+    if (parseInt(status, 10) === 10 || this.receivedType === 'register') {
+      status = '10';
+    }
+
+    console.log('[364][검색 ]', startdate, enddate, patientId, specimenNo, status, type, research);
+
     this.lists = []; // 초기화
     this.lists$ = this.patientsList.search(startdate, enddate, patientId, specimenNo, status, type, research);
     this.subs.sink = this.lists$

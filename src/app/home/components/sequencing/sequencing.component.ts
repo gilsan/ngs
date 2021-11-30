@@ -51,7 +51,7 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
   //   return ((x < y) ? -1 : ((x > y) ? 1 : 0));
   // });
   listSequencing: ICodement[] = [];
-
+  qselect10 = false;
   qselect0 = false;
   qselect1 = false;
   qselect2 = false;
@@ -86,6 +86,8 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
           this.qselect2 = true;
         } else if (parseInt(this.receivedType, 10) === 3) {
           this.qselect3 = true;
+        } else if (this.receivedType === 'register') {
+          this.qselect10 = true;
         }
 
 
@@ -109,6 +111,8 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();
+    this.store.setStatus('100');
+    this.store.setSheet('Sequencing');
   }
 
   selectOption(status: string): void {
@@ -120,6 +124,8 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
       this.qselect2 = true;
     } else if (parseInt(status, 10) === 3) {
       this.qselect3 = true;
+    } else if (parseInt(status, 10) === 10) {
+      this.qselect10 = true;
     }
   }
 
@@ -323,6 +329,10 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (research === 'TOTAL') {
       research = '';
+    }
+
+    if (parseInt(status, 10) === 10 || this.receivedType === 'register') {
+      status = '10';
     }
 
     this.patientsList.sequencingSearch2(startdate, enddate, patientId, specimenNo, status, sheet, research)

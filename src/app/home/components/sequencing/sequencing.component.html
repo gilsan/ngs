@@ -16,6 +16,7 @@
         <input name="" type="text" placeholder="환자ID" #seqPatient class="input_01" />&nbsp;&nbsp;
         <select class="select_01 select_001"  #seqStatus   (change)="selectOption(seqStatus.value)">
           <option value="100">전체</option>
+          <option value="10" [selected]= "qselect10">접수</option>
           <option value="0" [selected]= "qselect0">시작</option>
           <option value="1" [selected]= "qselect1">스크린판독</option>
           <option value="2" [selected]= "qselect2">판독완료</option>

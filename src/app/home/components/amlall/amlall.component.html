@@ -15,6 +15,7 @@
         <input name="" type="text" placeholder="환자ID" #patient class="input_01" />&nbsp;&nbsp;
         <select class="select_01 select_001"  #status (change)="selectOption(status.value)">
           <option value="100">전체</option>
+          <option value="10" [selected]= "select10">접수</option>
           <option value="0" [selected]= "select0">시작</option>
           <option value="1" [selected]= "select1">스크린판독</option>
           <option value="2" [selected]= "select2">판독완료</option>
