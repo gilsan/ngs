@@ -292,7 +292,6 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.specimenno = this.storeSpecimenID;
     this.patientid = this.storePatientID;
 
-    console.log('[295][]', whichstate);
     this.lists = [];
     if (whichstate === 'searchscreen') {
       this.search(this.storeStartDay, this.storeEndDay, this.storeSpecimenID, this.storePatientID, this.status, this.sheet);
@@ -304,7 +303,8 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   // tslint:disable-next-line: typedef
-  search(start: string, end: string, specimenNo: string, patientId: string, status: string = '', sheet: string = '') {
+  search(start: string, end: string, specimenNo: string, patientId: string,
+    status: string = '', sheet: string = '', research: string = '') {
     this.startday = start;
     this.endday = end;
     this.specimenno = specimenNo;
@@ -321,10 +321,10 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.setWhichstate('searchscreen');
     this.lists = [];
     const tempLists: IPatient[] = [];
-    //
+
     const startdate = start.toString().replace(/-/gi, '');
     const enddate = end.toString().replace(/-/gi, '');
-    console.log('[327][유전성]][상태]', status, sheet);
+
 
     if (patientId !== undefined) {
       patientId = patientId.trim();
@@ -332,10 +332,14 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     if (specimenNo !== undefined) {
       specimenNo = specimenNo.trim();
     }
-    this.patientsList.hereditarySearch2(startdate, enddate, patientId, specimenNo, status, sheet)
+
+    if (research === 'TOTAL') {
+      research = '';
+    }
+
+    this.patientsList.hereditarySearch2(startdate, enddate, patientId, specimenNo, status, sheet, research)
       .then(response => response.json())
       .then(data => {
-        console.log('[338][검색]', this.receivedType, data);
         if (this.receivedType !== 'none') {
           data.forEach(list => {
             if (this.receivedType === 'register' && list.screenstatus === '') {

@@ -267,7 +267,8 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   // tslint:disable-next-line: typedef
-  search(start: string, end: string, specimenNo: string, patientId: string, status: string = '', sheet: string = '') {
+  search(start: string, end: string, specimenNo: string, patientId: string,
+    status: string = '', sheet: string = '', research: string = '') {
     this.startday = start;
     this.endday = end;
     this.specimenno = specimenNo;
@@ -295,9 +296,13 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
       specimenNo = specimenNo.trim();
     }
 
+    if (research === 'TOTAL') {
+      research = '';
+    }
+
     // MDS/MPN [NGS]  : LPE473 (골수형성이상, 골수증식종양)
     // Lymphoma [NGS] : LPE474-악성림프종, LPE475-형질세포종
-    this.patientsList.lymphomaSearch2(startdate, enddate, patientId, specimenNo, status, sheet)
+    this.patientsList.lymphomaSearch2(startdate, enddate, patientId, specimenNo, status, sheet, research)
       .then(response => response.json())
       .then(data => {
         // console.log('[LYM]', data);
@@ -410,18 +415,6 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  newList(type: string): IPatient[] {
-
-    this.lists = [];
-    if (type === 'TOTAL') {
-      this.lists = this.tempLists;
-      return this.lists;
-    } else if (type === 'PATIENT') {
-      this.lists = this.tempLists.filter(list => list.gbn !== 'RESEARCH');
-    } else if (type === 'RESEARCH') {
-      this.lists = this.tempLists.filter(list => list.gbn === 'RESEARCH');
-    }
-  }
 
   goDashboard(): void {
     this.receivedType = 'none';

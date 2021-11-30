@@ -427,30 +427,30 @@ export class PatientsListService {
   // 날자별 환자ID, 검사ID 검사인 찿기
   public search(start: string, end: string, patientID: string = '',
     // tslint:disable-next-line:align
-    specimenNo: string = '', status: string = '', sheet: string = ''): Observable<IPatient[]> {
-    // console.log('[265][searchService][진검검색]:', start, end, patientID, specimenNo);
-    return this.http.post<IPatient[]>(`${this.apiUrl}/searchpatient_diag/list`, { start, end, patientID, specimenNo, status, sheet }).pipe(
-      map((items: any) => {
-        return items.map(item => {
-          let genetictest = '';
-          if (item.genetic1.length > 0) {
-            genetictest = 'JAK2 V617F:' + item.genetic1 + '\n';
-          }
-          if (item.genetic2.length > 0) {
-            genetictest += 'MPL:' + item.genetic2 + '\n';
-          }
-          if (item.genetic3.length > 0) {
-            genetictest += 'CALR:' + item.genetic3 + '\n';
-          }
-          if (item.genetic4.length > 0) {
-            genetictest += 'JAK2 exon 12:' + item.genetic4;
-          }
-          return { ...item, genetictest };
-        });
-      }),
-      tap(data => this.patientInfo = data),
-      shareReplay()
-    );
+    specimenNo: string = '', status: string = '', sheet: string = '', research: string = ''): Observable<IPatient[]> {
+    return this.http.post<IPatient[]>(`${this.apiUrl}/searchpatient_diag/list`,
+      { start, end, patientID, specimenNo, status, sheet, research }).pipe(
+        map((items: any) => {
+          return items.map(item => {
+            let genetictest = '';
+            if (item.genetic1.length > 0) {
+              genetictest = 'JAK2 V617F:' + item.genetic1 + '\n';
+            }
+            if (item.genetic2.length > 0) {
+              genetictest += 'MPL:' + item.genetic2 + '\n';
+            }
+            if (item.genetic3.length > 0) {
+              genetictest += 'CALR:' + item.genetic3 + '\n';
+            }
+            if (item.genetic4.length > 0) {
+              genetictest += 'JAK2 exon 12:' + item.genetic4;
+            }
+            return { ...item, genetictest };
+          });
+        }),
+        tap(data => this.patientInfo = data),
+        shareReplay()
+      );
   }
 
   // muation, gene , amino-acid-change 숫자
@@ -1015,14 +1015,14 @@ export class PatientsListService {
 
   public lymphomaSearch2(start: string, end: string, patientID: string = '',
     specimenNo: string = '',
-    status: string = '', sheet: string = '') {
+    status: string = '', sheet: string = '', research: string = '') {
     return fetch(`${this.apiUrl}/searchpatient_diag/listLymphoma`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        start, end, patientID, specimenNo, status, sheet,
+        start, end, patientID, specimenNo, status, sheet, research
       }),
     });
   }
@@ -1040,14 +1040,14 @@ export class PatientsListService {
   }
   public mdsmpnSearch2(start: string, end: string, patientID: string = '',
     specimenNo: string = '',
-    status: string = '', sheet: string = '') {
+    status: string = '', sheet: string = '', research: string = '') {
     return fetch(`${this.apiUrl}/searchpatient_diag/listMdsMpn`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        start, end, patientID, specimenNo, status, sheet,
+        start, end, patientID, specimenNo, status, sheet, research
       }),
     });
   }
@@ -1066,7 +1066,7 @@ export class PatientsListService {
 
   public hereditarySearch2(start: string, end: string, patientID: string = '',
     specimenNo: string = '',
-    status: string = '', sheet: string = '') {
+    status: string = '', sheet: string = '', research: string = '') {
 
     return fetch(`${this.apiUrl}/searchpatient_diag/listGenetic`, {
       method: 'POST',
@@ -1074,7 +1074,7 @@ export class PatientsListService {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        start, end, patientID, specimenNo, status, sheet,
+        start, end, patientID, specimenNo, status, sheet, research
       }),
     });
   }
@@ -1083,10 +1083,10 @@ export class PatientsListService {
   // sequencing
   public sequencingSearch(start: string, end: string, patientID: string = '',
     specimenNo: string = '',
-    status: string = '', sheet: string = ''): Observable<IPatient[]> {
+    status: string = '', sheet: string = '', research: string = ''): Observable<IPatient[]> {
     this.patientInfo = [];
     return this.http.post<IPatient[]>(`${this.apiUrl}/searchpatient_diag/listSequencing`,
-      { start, end, patientID, specimenNo, status, sheet }).pipe(
+      { start, end, patientID, specimenNo, status, sheet, research }).pipe(
         tap(data => this.patientInfo = data),
         shareReplay()
       );
@@ -1094,14 +1094,14 @@ export class PatientsListService {
 
   public sequencingSearch2(start: string, end: string, patientID: string = '',
     specimenNo: string = '',
-    status: string = '', sheet: string = '') {
+    status: string = '', sheet: string = '', research: string = '') {
     return fetch(`${this.apiUrl}/searchpatient_diag/listSequencing`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        start, end, patientID, specimenNo, status, sheet,
+        start, end, patientID, specimenNo, status, sheet, research
       }),
     });
   }
@@ -1129,14 +1129,14 @@ export class PatientsListService {
 
   public mlpaSearch2(start: string, end: string, patientID: string = '',
     specimenNo: string = '',
-    status: string = '', sheet: string = '') {
+    status: string = '', sheet: string = '', research: string = '') {
     return fetch(`${this.apiUrl}/searchpatient_diag/listMlpa`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        start, end, patientID, specimenNo, status, sheet,
+        start, end, patientID, specimenNo, status, sheet, research
       }),
     });
   }

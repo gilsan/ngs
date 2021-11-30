@@ -292,7 +292,8 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   // tslint:disable-next-line: typedef
-  search(start: string, end: string, specimenNo: string, patientId: string, status: string = '', sheet: string = '') {
+  search(start: string, end: string, specimenNo: string, patientId: string,
+    status: string = '', sheet: string = '', research: string = '') {
     this.startday = start;
     this.endday = end;
     this.specimenno = specimenNo;
@@ -309,7 +310,7 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.setWhichstate('searchscreen');
     this.lists = [];
     const tempLists: IPatient[] = [];
-    //
+
     const startdate = start.toString().replace(/-/gi, '');
     const enddate = end.toString().replace(/-/gi, '');
 
@@ -320,7 +321,11 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
       specimenNo = specimenNo.trim();
     }
 
-    this.patientsList.sequencingSearch2(startdate, enddate, patientId, specimenNo, status, sheet)
+    if (research === 'TOTAL') {
+      research = '';
+    }
+
+    this.patientsList.sequencingSearch2(startdate, enddate, patientId, specimenNo, status, sheet, research)
       .then(response => response.json())
       .then(data => {
         if (this.receivedType !== 'none') {

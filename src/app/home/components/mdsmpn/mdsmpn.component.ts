@@ -273,7 +273,8 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   // tslint:disable-next-line: typedef
-  search(start: string, end: string, specimenNo: string, patientId: string, status: string = '', sheet: string = '') {
+  search(start: string, end: string, specimenNo: string,
+    patientId: string, status: string = '', sheet: string = '', research: string = '') {
     this.startday = start;
     this.endday = end;
     this.specimenno = specimenNo;
@@ -291,10 +292,9 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
     this.lists = [];
     const tempLists = [];
     const templists: IPatient[] = [];
-    //
+
     const startdate = start.toString().replace(/-/gi, '');
     const enddate = end.toString().replace(/-/gi, '');
-    // console.log('[97][진검검색]', startdate, enddate, specimenNo, patientId);
 
     if (patientId !== undefined) {
       patientId = patientId.trim();
@@ -303,10 +303,13 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
       specimenNo = specimenNo.trim();
     }
 
-    this.patientsList.mdsmpnSearch2(startdate, enddate, patientId, specimenNo, status, sheet)
+    if (research === 'TOTAL') {
+      research = '';
+    }
+
+    this.patientsList.mdsmpnSearch2(startdate, enddate, patientId, specimenNo, status, sheet, research)
       .then(response => response.json())
       .then(data => {
-        // console.log(data);
         if (this.receivedType !== 'none') {
           data.forEach(list => {
             if (this.receivedType === 'register' && list.screenstatus === '') {
@@ -429,18 +432,6 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  newList(type: string): IPatient[] {
-
-    this.lists = [];
-    if (type === 'TOTAL') {
-      this.lists = this.tempLists;
-      return this.lists;
-    } else if (type === 'PATIENT') {
-      this.lists = this.tempLists.filter(list => list.gbn !== 'RESEARCH');
-    } else if (type === 'RESEARCH') {
-      this.lists = this.tempLists.filter(list => list.gbn === 'RESEARCH');
-    }
-  }
 
   goDashboard(): void {
     this.receivedType = 'none';

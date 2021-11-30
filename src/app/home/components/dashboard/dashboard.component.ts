@@ -10,6 +10,8 @@ import { StoreLYMService } from 'src/app/forms/store.current.lym';
 import { StoreMDSService } from 'src/app/forms/store.current.mds';
 import { StoreMLPAService } from 'src/app/forms/store.current.mlpa';
 import { StoreSEQService } from 'src/app/forms/store.current.seq';
+
+import * as moment from 'moment';
 export interface IBOARD {
   type: string;
   register: number;
@@ -169,30 +171,68 @@ export class DashboardComponent implements OnInit {
     if (type === 'AMLALL') {
       this.amlallStore.setStatus(subtype);
       this.amlallStore.setWhichstate('searchscreen');
+      this.amlallStore.setSearchStartDay(this.startToday());
+      this.amlallStore.setSearchEndDay(this.endToday());
       this.router.navigate(['/diag', 'amlall', subtype]);
     } else if (type === 'LYM') {
       this.lymStore.setStatus(subtype);
       this.lymStore.setWhichstate('searchscreen');
+      this.lymStore.setSearchStartDay(this.startToday());
+      this.lymStore.setSearchEndDay(this.endToday());
       this.router.navigate(['/diag', 'lymphoma', subtype]);
     } else if (type === 'MDS') {
       this.mdsStore.setStatus(subtype);
       this.mdsStore.setWhichstate('searchscreen');
+      this.mdsStore.setSearchStartDay(this.startToday());
+      this.mdsStore.setSearchEndDay(this.endToday());
       this.router.navigate(['/diag', 'mdsmpn', subtype]);
     } else if (type === 'Genetic') {
       this.geneStore.setStatus(subtype);
       this.geneStore.setWhichstate('searchscreen');
+      this.geneStore.setSearchStartDay(this.startToday());
+      this.geneStore.setSearchEndDay(this.endToday());
       this.router.navigate(['/diag', 'hereditary', subtype]);
     } else if (type === 'SEQ') {
       this.seqStore.setStatus(subtype);
       this.seqStore.setWhichstate('searchscreen');
+      this.seqStore.setSearchStartDay(this.startToday());
+      this.seqStore.setSearchEndDay(this.endToday());
       this.router.navigate(['/diag', 'sequencing', subtype]);
     } else if (type === 'MLPA') {
       this.mlpaStore.setStatus(subtype);
       this.mlpaStore.setWhichstate('searchscreen');
+      this.mlpaStore.setSearchStartDay(this.startToday());
+      this.mlpaStore.setSearchEndDay(this.endToday());
       this.router.navigate(['/diag', 'mlpa', subtype]);
     }
 
   }
+
+  startToday(): string {
+    const oneMonthsAgo = moment().subtract(3, 'months');
+
+    const yy = oneMonthsAgo.format('YYYY');
+    const mm = oneMonthsAgo.format('MM');
+    const dd = oneMonthsAgo.format('DD');
+
+    const now1 = yy + '-' + mm + '-' + dd;
+    return now1;
+  }
+
+  endToday(): string {
+    const today = new Date();
+
+    const year = today.getFullYear(); // 년도
+    const month = today.getMonth() + 1;  // 월
+    const date = today.getDate();  // 날짜
+    const day = today.getDay() - 1;  // 요일
+    const newmon = ('0' + month).substr(-2);
+    const newday = ('0' + date).substr(-2);
+    const now = year + '-' + newmon + '-' + newday;
+
+    return now;
+  }
+
 
 
 

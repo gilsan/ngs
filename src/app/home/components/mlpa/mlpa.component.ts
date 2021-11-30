@@ -285,7 +285,8 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   // tslint:disable-next-line: typedef
-  search(start: string, end: string, specimenNo: string, patientId: string, status: string = '', sheet: string = '') {
+  search(start: string, end: string, specimenNo: string, patientId: string,
+    status: string = '', sheet: string = '', research: string = '') {
     this.startday = start;
     this.endday = end;
     this.specimenno = specimenNo;
@@ -302,10 +303,10 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.setWhichstate('searchscreen');
     this.lists = [];
     const tempLists: IPatient[] = [];
-    //
+
     const startdate = start.toString().replace(/-/gi, '');
     const enddate = end.toString().replace(/-/gi, '');
-    // console.log('[97][진검검색]', startdate, enddate, specimenNo, patientId);
+
 
     if (patientId !== undefined) {
       patientId = patientId.trim();
@@ -314,8 +315,11 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
       specimenNo = specimenNo.trim();
     }
 
+    if (research === 'TOTAL') {
+      research = '';
+    }
 
-    this.patientsList.mlpaSearch2(startdate, enddate, patientId, specimenNo, status, sheet)
+    this.patientsList.mlpaSearch2(startdate, enddate, patientId, specimenNo, status, sheet, research)
       .then(response => response.json())
       .then(data => {
         this.patientsList.setPatientID(data);
@@ -348,25 +352,6 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
 
-    // this.lists$ = this.patientsList.mlpaSearch(startdate, enddate, patientId, specimenNo, status, sheet);
-    // this.subs.sink = this.lists$
-    //   .pipe(
-    //     switchMap(item => of(item)),
-    //     switchMap(list => from(list)),
-    //     filter(list => this.mlpaLists.includes(list.test_code)),
-    //     // tap(data => console.log('[MLPA][267]', data))
-    //   ).subscribe((data: any) => {
-    //     if (data.reportTitle === '') {
-    //       const title = this.titleService.getMltaTitle(data.test_code);
-    //       if (title !== 'None') {
-    //         data.reportTitle = title;
-    //       }
-
-    //     }
-    //     this.lists.push(data);
-    //     this.patientID = '';
-    //     this.specimenNo = '';
-    //   });
 
   }
 
@@ -410,18 +395,7 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  newList(type: string): IPatient[] {
 
-    this.lists = [];
-    if (type === 'TOTAL') {
-      this.lists = this.tempLists;
-      return this.lists;
-    } else if (type === 'PATIENT') {
-      this.lists = this.tempLists.filter(list => list.gbn !== 'RESEARCH');
-    } else if (type === 'RESEARCH') {
-      this.lists = this.tempLists.filter(list => list.gbn === 'RESEARCH');
-    }
-  }
   goDashboard(): void {
     this.receivedType = 'none';
     this.router.navigate(['/diag', 'board']);
