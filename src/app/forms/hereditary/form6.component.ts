@@ -1509,8 +1509,6 @@ export class Form6Component implements OnInit, OnDestroy {
       }
     }
 
-
-
     this.comments.push({
       gene: '', comment: this.commentdata, reference: this.comment2, type: '', variant_id: this.resultname,
       methods: this.methods, technique: this.technique
@@ -1537,7 +1535,7 @@ export class Form6Component implements OnInit, OnDestroy {
         this.patientsListService.changescreenstatus(this.form2TestedId, this.screenstatus, userid, 'Generic')
           .subscribe();
         alert('저장되었습니다.');
-
+        this.comments = [];
       });
   }
 
