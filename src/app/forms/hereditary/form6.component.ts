@@ -1493,10 +1493,7 @@ export class Form6Component implements OnInit, OnDestroy {
     const userid = localStorage.getItem('diaguser');
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
-    if (formData.length === 0) {
-      alert('Mutation 내용이 없습니다.');
-      return;
-    }
+
 
     this.comments.push({
       gene: '', comment: this.commentdata, reference: this.comment2, type: '', variant_id: this.resultname,

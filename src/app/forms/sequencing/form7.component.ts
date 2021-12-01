@@ -341,10 +341,7 @@ export class Form7Component implements OnInit, OnDestroy {
     const userid = localStorage.getItem('diaguser');
     const control = this.form.get('tableRows') as FormArray;
     const formData = control.getRawValue();
-    if (formData.length === 0) {
-      alert('Mutation 내용이 없습니다.');
-      return;
-    }
+
 
     const gene = this.ngsTitle.split('Gene')[0].trim();
     if (parseInt(this.patientInfo.screenstatus, 10) > 3) {
