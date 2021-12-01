@@ -308,6 +308,8 @@ export class Form6Component implements OnInit, OnDestroy {
         this.screenstatus = this.patientInfo.screenstatus;
       }
       this.defaultCode();
+    } else {
+      this.screenstatus = this.patientInfo.screenstatus;
     }
     console.log('[309][환자정보]', this.patientInfo);
     if (this.patientInfo.gbn === 'RESEARCH') {
