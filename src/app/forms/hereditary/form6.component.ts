@@ -301,8 +301,11 @@ export class Form6Component implements OnInit, OnDestroy {
 
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
     if (this.isDirect) {
-      if (this.patientInfo.screenstatus === null || this.patientInfo.screenstatus === undefined) {
-        this.patientInfo.screenstatus = '0';
+      if (this.patientInfo.screenstatus === null || this.patientInfo.screenstatus === undefined ||
+        this.patientInfo.screenstatus === '') {
+        this.screenstatus = '0';
+      } else {
+        this.screenstatus = this.patientInfo.screenstatus;
       }
       this.defaultCode();
     }
@@ -326,7 +329,7 @@ export class Form6Component implements OnInit, OnDestroy {
 
     // 전송횟수, 검사보고일, 수정보고일  저장
     this.setReportdaymgn(this.patientInfo);
-    this.screenstatus = this.patientInfo.screenstatus;
+    // this.screenstatus = this.patientInfo.screenstatus;
     if (this.patientInfo.specimen === '015') {
       this.specimenMsg = 'Bone marrow';
       this.specimenMessage = 'Genomic DNA isolated from Bone marrow';
@@ -1144,7 +1147,7 @@ export class Form6Component implements OnInit, OnDestroy {
   }
 
   getStatus(index): boolean {
-    // console.log('[834][getStatus]', index, this.screenstatus);
+    // console.log('[1148][getStatus]', index, this.screenstatus);
     if (index === 1) {
       if (parseInt(this.screenstatus, 10) === 0) {
         return false;
@@ -1493,6 +1496,17 @@ export class Form6Component implements OnInit, OnDestroy {
     const userid = localStorage.getItem('diaguser');
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
+
+    if (this.isDirect) {
+      if (this.patientInfo.screenstatus === null || this.patientInfo.screenstatus === undefined ||
+        this.patientInfo.screenstatus === '') {
+        this.patientsListService.resetscreenstatus(this.form2TestedId, '0', userid, this.reportType)
+          .subscribe(() => {
+            this.patientInfo.screenstatus = '0';
+          });
+      }
+    }
+
 
 
     this.comments.push({
