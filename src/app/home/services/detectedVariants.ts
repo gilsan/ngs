@@ -243,7 +243,8 @@ export class DetectedVariantsService {
   // Sequencing 내용 가져오기
   public contentScreen7(specimenNo: string): Observable<any> {
     // screen/listScreen7
-    return this.http.post(`${this.apiUrl}/screen/listScreen7`, { specimenNo });
+    //  return this.http.post(`${this.apiUrl}/screen/listScreen7`, { specimenNo });
+    return this.http.post(`${this.apiUrl}/screen/listPatientSequential`, { specimenNo });
   }
 
   // Sequencing result test information 가져오기
