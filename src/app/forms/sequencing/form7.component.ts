@@ -223,6 +223,11 @@ export class Form7Component implements OnInit, OnDestroy {
       .subscribe(data => {
         console.log('[224][저장된 Test Information]', data);
         if (data.length > 0) {
+          this.comment = data[0].comment;
+          this.comment1 = data[0].comment1;
+          this.comment2 = data[0].comment2;
+          this.seqcomment = data[0].seqcomment;
+
           this.resultname = data[0].result;
           this.targetdisease = data[0].target;
           this.method = data[0].method;
