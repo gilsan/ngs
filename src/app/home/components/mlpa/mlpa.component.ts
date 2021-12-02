@@ -130,7 +130,6 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
   loadCode(): void {
     this.codeDefaultValueService.getCodeLists()
       .pipe(
-        tap(data => console.log(data)),
         map(lists => {
           return lists.sort((a, b) => {
             if (a.report < b.report) { return -1; }
