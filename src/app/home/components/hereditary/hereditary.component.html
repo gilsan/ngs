@@ -24,7 +24,7 @@
         </select>&nbsp;&nbsp;
         <select class="select_01 select_001" #herSheet>
           <option value="genetic">전체</option>
-          <option  *ngFor="let list of listHereditary"  [value]="list.code">{{list.code}} ({{list.report}})</option>
+          <option  *ngFor="let list of listHereditary"  [value]="list.code">{{list.report}} ({{list.code}})</option>
         </select>&nbsp;&nbsp;
 
         <select class="select_01 select_001" #herResearch >

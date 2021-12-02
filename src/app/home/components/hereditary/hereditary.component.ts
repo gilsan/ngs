@@ -130,9 +130,9 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(
         map(lists => {
           return lists.sort((a, b) => {
-            if (a.code < b.code) { return -1; }
-            if (a.code > b.code) { return 1; }
-            if (a.code === b.code) { return 0; }
+            if (a.report < b.report) { return -1; }
+            if (a.report > b.report) { return 1; }
+            if (a.report === b.report) { return 0; }
           });
         }),
         switchMap(data => from(data)),
