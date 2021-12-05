@@ -93,7 +93,7 @@ export class Form6Component implements OnInit, OnDestroy {
   ngsData = [];
   private subs = new SubSink();
 
-  resultStatus = 'Detected';
+  resultStatus = 'Not Detected';
 
   method: string;
   general = GENERAL;
@@ -166,6 +166,7 @@ export class Form6Component implements OnInit, OnDestroy {
 
   technique = '';
   commentdata = '';
+  tempcommentdata = '';
   maxHeight = 500;
   isResearch = false;
   totalCount = 0; // 유전자와 nucleotidde change 을 가진 환자수
@@ -438,17 +439,18 @@ export class Form6Component implements OnInit, OnDestroy {
   getComment(): void {
     this.subs.sink = this.variantsService.screenComment(this.form2TestedId)
       .subscribe(dbComments => {
-        console.log('[436][COMMENT 가져오기]', dbComments);
+        // console.log('[436][COMMENT 가져오기]', dbComments);
         if (dbComments !== undefined && dbComments !== null && dbComments.length > 0) {
-          console.log('[438][COMMENT 가져오기]', dbComments);
+          // console.log('[438][COMMENT 가져오기]', dbComments);
           this.commentdata = dbComments[0].comment;
+          this.tempcommentdata = dbComments[0].comment;
           this.comment2 = dbComments[0].reference;
           this.resultname = dbComments[0].variants;
           const methods = dbComments[0].methods;
           const technique = dbComments[0].technique;
 
           if (methods.length > 0) {
-            console.log('[437][COMMENT 가져오기]', methods.length);
+            // console.log('[437][COMMENT 가져오기]', methods.length);
             this.methods = methods;
           }
 
@@ -463,7 +465,7 @@ export class Form6Component implements OnInit, OnDestroy {
   recoverDetected(): void {
     // 디비에서 Detected variant_id 가져오기
     this.subs.sink = this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {
-      console.log('[426]', data);
+      console.log('[468][디비에 저장된 데이터]', data);
       this.recoverVariants = data;
       this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
 
@@ -476,52 +478,33 @@ export class Form6Component implements OnInit, OnDestroy {
       const tempVUS = [];
       this.recoverVariants.forEach(item => {
         this.recoverVariant(item);  // 354
-
-        tempVUS.push(item.functional_impact);
+        // tempVUS.push(item.functional_impact);
       });
 
-      if (tempVUS.includes('VUS')) {
-        this.vusstatus = true;
-        if (this.patientInfo.vusmsg.length) {
-          this.vusmsg = this.patientInfo.vusmsg;
-        }
-      } else {
-        this.vusstatus = false;
-      }
+      // VUS 문구 자동 표시기능 불필요. VUS 표시란 삭제
+      // if (tempVUS.includes('VUS')) {
+      //   this.vusstatus = true;
+      //   if (this.patientInfo.vusmsg.length) {
+      //     this.vusmsg = this.patientInfo.vusmsg;
+      //   }
+      // } else {
+      //   this.vusstatus = false;
+      // }
       this.reCall();
       this.putCheckboxInit(); // 체크박스 초기화
     });
 
     // 코멘트 가져오기
     this.getComment();
-    // this.subs.sink = this.variantsService.screenComment(this.form2TestedId)
-    //   .subscribe(dbComments => {
-    //     if (dbComments !== undefined && dbComments !== null && dbComments.length > 0) {
-    //       console.log('[472][COMMENT 가져오기]', dbComments);
-    //       this.commentdata = dbComments[0].comment;
-    //       this.comment2 = dbComments[0].reference;
-    //       this.resultname = dbComments[0].variants;
-    //       const methods = dbComments[0].methods;
-    //       const technique = dbComments[0].technique;
 
-    //       if (methods.length > 0) {
-    //         console.log('[477][COMMENT 가져오기]', methods.length);
-    //         this.methods = methods;
-    //       }
-
-    //       if (technique.length > 0) {
-    //         this.technique = technique;
-    //       }
-    //     }
-    //   });
   }
 
   init(form2TestedId: string): void {
     // VUS 메제시 확인 2021.4.7 추가
-    if (this.patientInfo.vusmsg.length) {
-      this.vusmsg = this.patientInfo.vusmsg;
-      console.log('[495][init][VUS메세지]', this.vusmsg);
-    }
+    // if (this.patientInfo.vusmsg.length) {
+    //   this.vusmsg = this.patientInfo.vusmsg;
+    //   console.log('[495][init][VUS메세지]', this.vusmsg);
+    // }
 
     if (this.form2TestedId) {
       this.patientsListService.mlpafiltering(this.form2TestedId, this.reportType, this.patientInfo.specimenNo).subscribe(data => {
@@ -532,11 +515,11 @@ export class Form6Component implements OnInit, OnDestroy {
           this.recoverVariants.forEach(item => {
             this.recoverVariant(item);  // 데이터 입력
             // VUS 메제시 확인
-            this.vusmsg = this.patientInfo.vusmsg;
-            if (item.functional_impact === 'VUS') {
-              this.vusstatus = true;
-              this.store.setVUSStatus(this.vusstatus);
-            }
+            // this.vusmsg = this.patientInfo.vusmsg;
+            // if (item.functional_impact === 'VUS') {
+            //   this.vusstatus = true;
+            //   this.store.setVUSStatus(this.vusstatus);
+            // }
           });
           this.putCheckboxInit(); // 체크박스 초기화
         }
@@ -604,36 +587,7 @@ export class Form6Component implements OnInit, OnDestroy {
           this.recheck = data[0].reader;
         });
 
-      /*
-      const lists$ = this.utilsService.getDiagList()
-        .pipe(shareReplay());
 
-      lists$.pipe(
-        map(lists => lists.filter(list => list.part === 'D'))
-      ).subscribe(data => {
-        const len = data.length - 1;
-        data.forEach((list, index) => {
-          if (index === len) {
-            this.recheck = this.recheck + list.user_nm + ' M.D.';
-          } else {
-            this.recheck = this.recheck + list.user_nm + ' M.D./';
-          }
-        });
-      });
-
-      lists$.pipe(
-        map(lists => lists.filter(list => list.part === 'T'))
-      ).subscribe(data => {
-        const len = data.length - 1;
-        data.forEach((list, index) => {
-          if (index === len) {
-            this.examin = this.examin + list.user_nm + ' M.T.';
-          } else {
-            this.examin = this.examin + list.user_nm + ' M.T./';
-          }
-        });
-      });
-      */
     }
 
   }
@@ -657,9 +611,16 @@ export class Form6Component implements OnInit, OnDestroy {
 
   // tslint:disable-next-line:typedef
   result(event) {
-    console.log(event);
+    console.log('[614][result]', event.srcElement.defaultValue);
     this.resultStatus = event.srcElement.defaultValue;
-    console.log('[590][라디오 검체]', this.resultStatus);
+    let commentdata = '';
+    if (this.resultStatus === 'Not Detected') {
+      commentdata = `본 환자에서  ${this.target}에 대한 targeted panel sequencing 결과, 질환 관련 돌연변이는 관찰되지 않았습니다.`;
+      this.commentdata = commentdata;
+    } else {
+      this.commentdata = this.tempcommentdata;
+    }
+    // console.log('[590][라디오 검체]', this.resultStatus);
   }
 
   resultName(result: string): void {
@@ -1074,37 +1035,7 @@ export class Form6Component implements OnInit, OnDestroy {
       this.tempSave();
     }
 
-    // const control = this.tablerowForm.get('tableRows') as FormArray;
-    // const formData = control.getRawValue();
 
-    // this.patientInfo.worker = this.comment2;
-    // // console.log(this.patientInfo);
-    // this.comments.push({
-    //   gene: '', comment: this.commentdata, reference: this.comment2, type: '', variant_id: this.resultname
-    // });
-    // const result = confirm('스크린완료 전송하시겠습니까?');
-    // if (result) {
-    //   this.store.setRechecker(this.patientInfo.recheck);
-    //   this.store.setExamin(this.patientInfo.examin);
-    //   this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimenNo)
-    //     .subscribe(datas => console.log(datas));
-    //   this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimenNo)
-    //     .subscribe(datas => console.log(datas));
-
-    //   this.patientInfo.vusmsg = this.vusmsg;
-    //   this.subs.sink = this.variantsService.screenInsert(this.form2TestedId, formData,
-    //     this.comments, this.profile, this.resultStatus, this.patientInfo)
-    //     .pipe(
-    //       tap(data => {
-    //         // console.log('[843][screenRead] ', data);
-    //         alert('저장되었습니다.');
-    //       }),
-    //       concatMap(() => this.patientsListService.getScreenStatus(this.form2TestedId))
-    //     ).subscribe(msg => {
-    //       // console.log('[845][sendscreen]', msg[0].screenstatus);
-    //       this.screenstatus = msg[0].screenstatus;
-    //     });
-    // }
 
   }
 
@@ -1117,34 +1048,7 @@ export class Form6Component implements OnInit, OnDestroy {
       this.tempSave();
     }
 
-    // const control = this.tablerowForm.get('tableRows') as FormArray;
-    // const formData = control.getRawValue();
 
-    // this.patientInfo.worker = this.comment2;
-
-    // this.comments.push({
-    //   gene: '', comment: this.commentdata, reference: this.comment2, type: '', variant_id: this.resultname
-    // });
-    // const result = confirm('판독완료 전송하시겠습니까?');
-    // if (result) {
-    //   this.store.setRechecker(this.patientInfo.recheck);
-    //   this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimenNo)
-    //     .subscribe(datas => console.log(datas));
-    //   this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimenNo)
-    //     .subscribe(datas => console.log(datas));
-
-
-    //   this.patientInfo.vusmsg = this.vusmsg;
-    //   this.subs.sink = this.variantsService.screenUpdate(this.form2TestedId, formData, this.comments, this.profile, this.patientInfo)
-    //     .subscribe(data => {
-    //       // console.log('[판독완료] screen Updated ....[566]', data);
-    //       alert('저장되었습니다.');
-    //       this.patientsListService.getScreenStatus(this.form2TestedId)
-    //         .subscribe(msg => {
-    //           this.screenstatus = msg[0].screenstatus;
-    //         });
-    //     });
-    // }
 
   }
 
@@ -1527,12 +1431,12 @@ export class Form6Component implements OnInit, OnDestroy {
     this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimenNo)
       .subscribe(datas => console.log(datas));
 
-    // tslint:disable-next-line:max-line-length
+    // tslint:disable-next-line:max-line-lengthinsertHandler
     this.subs.sink = this.variantsService.screenTempSave(this.form2TestedId, formData, this.comments,
-      this.profile, this.resultStatus, this.patientInfo)
+      this.profile, this.resultStatus, this.patientInfo, 'Genetic')
       .subscribe(data => {
         // console.log('[1065]', data);
-        this.patientsListService.changescreenstatus(this.form2TestedId, this.screenstatus, userid, 'Generic')
+        this.patientsListService.changescreenstatus(this.form2TestedId, this.screenstatus, userid, 'Genetic')
           .subscribe();
         alert('저장되었습니다.');
         this.comments = [];
@@ -1778,15 +1682,19 @@ export class Form6Component implements OnInit, OnDestroy {
             take(1)
           )
           .subscribe(([data1, data2]) => {
-            console.log('[1665][디비에서 받은 데이터]', data1, data2);
-            if (data1.length > 0) {
 
+            if (data1.length > 0) {
+              // console.log('[1685][호출]', gene, data1, data2);
               if (data2.length > 0) {
                 control.at(index).patchValue(
                   {
                     type: 'M',
                     functionalImpact: data2[0].functionalImpact,
-                    dbSNPHGMD: data2[0].dbSNPHGMD, gnomADEAS: data2[0].gnomADEAS
+                    dbSNPHGMD: data2[0].dbSNPHGMD, gnomADEAS: data2[0].gnomADEAS,
+                    transcript: data2[0].transcript,
+                    exonIntro: data2[0].exon,
+                    aminoAcidChange: data2[0].amino_acid_change,
+                    OMIM: data1[0].OMIM
                   });
               } else {
                 control.at(index).patchValue({ type: 'New', OMIM: data1[0].OMIM });
@@ -1823,25 +1731,35 @@ export class Form6Component implements OnInit, OnDestroy {
       let comment = '';
 
       lists.forEach((list, index) => {
-        // if (list.functionalImpact.length > 0) {
-        console.log('[자동입력]', list.aminoAcidChange, index);
-
+        //  console.log('[자동입력]', list, index);
         const aminoAcidChange = list.aminoAcidChange.split(',');
         aminoAcidChange.forEach((item) => {
           const zygosity = list.zygosity.split(',');
           zygosity.forEach((zigo) => {
             if (index === 0) {
-              comment = comment + `본 환자에서 ${this.target} 에 대한 targeted panel sequencing 결과, ${list.gene} 유전자에서 ${list.functionalImpact}로 분류되는 ${list.nucleotideChange}, ${item} 변이가 ${zigo}로 관찰되었습니다.\n`;
+              if (list.functionalImpact) {
+                if (list.functionalImpact.toLowerCase() === 'vus') {
+                  list.functionalImpact = 'VUS (Variant of Unknown Significance)';
+                }
+                comment = comment + `본 환자에서 ${this.target} 에 대한 targeted panel sequencing 결과, ${list.gene} 유전자에서 ${list.functionalImpact}로 분류되는 ${list.nucleotideChange}, ${item} 변이가 ${zigo}로 관찰되었습니다.`;
+              } else {
+                comment = comment + `본 환자에서 ${this.target} 에 대한 targeted panel sequencing 결과, ${list.gene} 유전자에서   ${list.nucleotideChange}, ${item} 변이가 ${zigo}로 관찰되었습니다.`;
+              }
             } else {
-              comment = comment + `또한, ${list.gene} 유전자에서  VUS (Variant of Unknown Significance)로 분류되는 ${list.nucleotideChange}, ${item} 변이가 ${zigo}로 관찰되었습니다.\n`;
+              if (list.functionalImpact) {
+                if (list.functionalImpact.toLowerCase() === 'vus') {
+                  list.functionalImpact = 'VUS (Variant of Unknown Significance)';
+                }
+                comment = comment + ` 또한, ${list.gene} 유전자에서  ${list.functionalImpact}로 분류되는 ${list.nucleotideChange}, ${item} 변이가 ${zigo}로 관찰되었습니다.`;
+              } else {
+                comment = comment + ` 또한, ${list.gene} 유전자에서   ${list.nucleotideChange}, ${item} 변이가 ${zigo}로 관찰되었습니다.`;
+              }
             }
 
           });
         });
-        if (list.functionalImpact.toLowerCase() === 'vus') {
-          comment = comment + `또한,  ${list.gene} 유전자에서 VUS (Variant of Unknown Significance) 로 분류되는  ${list.nucleotideChange}, ${list.aminoAcidChange} 변이가 ${list.zygosity}로 관찰되었습니다.\n`;
-        }
-        //  }
+
+
       });
       console.log('[자동입력]', comment);
       this.commentdata = comment;
@@ -1849,4 +1767,9 @@ export class Form6Component implements OnInit, OnDestroy {
       this.commentdata = `본 환자에서 ${this.target} 에 대한 targeted panel sequencing 결과, 질환 관련 돌연변이는 관찰되지 않았습니다`;
     }
   }
+
+
+
+
+
 }

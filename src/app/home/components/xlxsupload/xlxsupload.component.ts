@@ -201,7 +201,7 @@ export class XlxsuploadComponent implements OnInit, OnDestroy {
 
 
       this.subs.sink = this.variantsService.screenTempSave(this.specimenNo, this.formData,
-        this.comments, this.profile, '', this.patientInfo)
+        this.comments, this.profile, '', this.patientInfo, 'EXCEL')
         .subscribe(data => {
           console.log(data);
           console.log(this.formData);

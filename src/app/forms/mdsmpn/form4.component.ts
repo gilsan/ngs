@@ -1561,7 +1561,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       this.profile.genetictest,
       this.profile.chron).subscribe(data => console.log('MDS INSERT'));
     // tslint:disable-next-line:max-line-length
-    this.subs.sink = this.variantsService.screenTempSave(this.form2TestedId, formData, this.comments, this.profile, this.resultStatus, this.patientInfo)
+    this.subs.sink = this.variantsService.screenTempSave(this.form2TestedId, formData, this.comments, this.profile, this.resultStatus, this.patientInfo, 'MDS')
       .subscribe(data => {
         // console.log('[1065]', data);
         this.patientsListService.changescreenstatus(this.form2TestedId, this.screenstatus, userid, 'MDS')

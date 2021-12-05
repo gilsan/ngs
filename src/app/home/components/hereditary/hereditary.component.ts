@@ -404,8 +404,9 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
       return '전송완료';
     } else if (parseInt(status, 10) === 5) {
       return '접수취소';
+    } else {
+      return '접수';
     }
-    return;
   }
 
   isDisabled(i: number): boolean {

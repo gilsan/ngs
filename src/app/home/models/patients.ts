@@ -217,6 +217,7 @@ export interface IAFormVariant {
   functionalImpact: string;
   transcript: string;
   exonIntro: string;
+  exon?: string;
   nucleotideChange: string;
   aminoAcidChange: string;
   zygosity: string;
@@ -233,6 +234,7 @@ export interface IAFormVariant {
   dbSNPHGMD?: string;
   gnomADEAS?: string;
   OMIM?: string;
+  gubun?: string;
 }
 
 export interface IHereditary {
@@ -413,6 +415,8 @@ export interface IImmundefi {
   exonIntro: string;
   nucleotideChange: string;
   aminoAcidChange: string;
+  exon?: string,
+  amino_acid_change?: string,
   zygosity: string;
   dbSNPHGMD?: string;
   gnomADEAS?: string;

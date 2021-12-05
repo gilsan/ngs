@@ -1483,7 +1483,7 @@ export class Form1Component implements OnInit, OnDestroy {
       this.profile.leukemia,
       this.profile.chron).subscribe(data => console.log('LYM INSERT'));
     // tslint:disable-next-line:max-line-length
-    this.subs.sink = this.variantsService.screenTempSave(this.form2TestedId, formData, this.comments, this.profile, this.resultStatus, this.patientInfo)
+    this.subs.sink = this.variantsService.screenTempSave(this.form2TestedId, formData, this.comments, this.profile, this.resultStatus, this.patientInfo, '')
       .subscribe(data => {
         // console.log('[1065]', data);
         alert('저장되었습니다.');

@@ -296,7 +296,7 @@ export class PatientsListService {
       igv,
       sanger,
       name,
-      patientID,
+      registerNumber: patientID,
       gene,
       functionalImpact,
       transcript,
@@ -1216,6 +1216,7 @@ export class PatientsListService {
 
   public boardSearch(start: string, end: string): Observable<any> {
     return this.http.post<any[]>(`${this.apiUrl}/searchpatient_diag/list`, { start, end, patientID: '', specimenNo: '' }).pipe(
+      // tap(data => console.log(data)),
       switchMap(data => from(data)),
       map((data: any) => {
         return { screenstatus: data.screenstatus, test_code: data.test_code };

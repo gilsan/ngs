@@ -69,7 +69,7 @@ export class Form7Component implements OnInit, OnDestroy {
   lastReportDay = '-';  // 수정보고일
   reportType: string; //
 
-  resultStatus = 'Detected';
+  resultStatus = 'Not Detected';
   vusmsg = '';
   screenstatus: string;
   mockData: ISequence[] = [];
@@ -79,7 +79,8 @@ export class Form7Component implements OnInit, OnDestroy {
   // comment = `수기입력.  APC 유전자 분석결과, 가족성 선종성 용종증과 관련되어 기존에 보고된 nonsense mutation인 p.(Tyr493*) 이 관찰되었습니다. 가족성 선종성 용종증은 상염색체 우성 유전질환으로 환자의 75%-85%에서 이환된 부모의 가족력이 있습니다. 환자의 가족검사를 추천합니다`;
   // comment1 = `대장암의 약 70% 정도에서 adenoma-cancer carcinogenesis에 의하여 생기며, 이러한 대장암의 발생`;
   // comment2 = `본 검사는 reference sequence NM_000038.5를 기준으로 APC 유전자의 coding exon 및 인접 flanking region을 직접염기서열법으로 분석하는 방법입니다.`;
-  comment = '';
+  comment = '';  // 판독 코멘트
+  tempcomment = '';
   comment1 = '';
   comment2 = '';
   resultname = '';
@@ -197,6 +198,7 @@ export class Form7Component implements OnInit, OnDestroy {
         console.log('[192][받은데이터]', data);
         if (data.length > 0) {
           this.comment = data[0].comment;
+          this.tempcomment = data[0].comment;
           this.comment1 = data[0].comment1;
           this.comment2 = data[0].comment2;
           this.seqcomment = data[0].seqcomment;
@@ -472,8 +474,17 @@ export class Form7Component implements OnInit, OnDestroy {
 
   // tslint:disable-next-line:typedef
   result(event) {
-    console.log(event);
+    // console.log(event);
     this.resultStatus = event.srcElement.defaultValue;
+    const gene = this.ngsTitle.split('Gene')[0].trim();
+    let commentdata = '';
+    if (this.resultStatus === 'Not Detected') {
+      commentdata = `본 환자에서  ${gene}에 대한 targeted panel sequencing 결과, 질환 관련 돌연변이는 관찰되지 않았습니다.`;
+      this.comment = commentdata;
+    } else {
+      this.comment = this.tempcomment;
+    }
+
     // console.log('[556][라디오 검체]', this.resultStatus);
   }
 
@@ -698,8 +709,9 @@ export class Form7Component implements OnInit, OnDestroy {
     formData.forEach((list, index) => {
       this.patientsListService.getMutationSeqInfoLists(gene, list.nucleotideChange, 'SEQ')
         .subscribe(data => {
+          console.log('[713][디비에서호출 받은것]', data);
           if (data.length > 0) {
-            console.log('[680][디비에서 받은것]', data[0]);
+
             control.at(index).patchValue({
               type: data[0].type, exonintron: data[0].exonintron,
               aminoAcidChange: data[0].aminoAcidChange, rsid: data[0].rsid,
@@ -733,17 +745,30 @@ export class Form7Component implements OnInit, OnDestroy {
         // if (list.type.length > 0) {
         aminoAcidChange.forEach((item, index) => {
           if (idx === 0) {
-            comment = comment + `본 환자에서 ${this.targetdisease} 에 대한 direct sequencing  결과, VUS (Variant of Unknown Significance)로 분류되는 ${list.nucleotideChange}, ${item} 변이가 ${list.zygosity}로 관찰되었습니다.\n`;
+            if (list.type) {
+              if (list.type.toLowerCase() === 'vus') {
+                list.type = 'VUS (Variant of Unknown Significance)';
+              }
+              comment = comment + `본 환자에서 ${this.targetdisease} 에 대한 direct sequencing  결과, ${list.type}로 분류되는 ${list.nucleotideChange}, ${item} 변이가 ${list.zygosity}로 관찰되었습니다.`;
+            } else {
+              comment = comment + `본 환자에서 ${this.targetdisease} 에 대한 direct sequencing  결과,  ${list.nucleotideChange}, ${item} 변이가 ${list.zygosity}로 관찰되었습니다.`;
+            }
+
           } else {
-            comment = comment + `또한, ${gene} 유전자에서 VUS (Variant of Unknown Significance)로 분류되는 ${list.nucleotideChange}, ${item} 변이가 ${list.zygosity}로 관찰되었습니다.\n`;
+            if (list.type) {
+              if (list.type.toLowerCase() === 'vus') {
+                list.type = 'VUS (Variant of Unknown Significance)';
+              }
+              comment = comment + `또한, ${gene} 유전자에서 ${list.type}로 분류되는 ${list.nucleotideChange}, ${item} 변이가 ${list.zygosity}로 관찰되었습니다.`;
+            } else {
+              comment = comment + `또한, ${gene} 유전자에서   ${list.nucleotideChange}, ${item} 변이가 ${list.zygosity}로 관찰되었습니다.`;
+            }
+
           }
 
 
-          if (list.type.toLowerCase() === 'vus' && (index === aminoAcidChange.length - 1)) {
-            comment = comment + `또한,  ${gene} 유전자에서 VUS (Variant of Unknown Significance)로 분류되는  ${list.nucleotideChange}, ${item} 변이가 ${list.zygosity}로 관찰되었습니다.\n`;
-          }
         });
-        // }
+
 
       });
 

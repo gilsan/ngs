@@ -1742,7 +1742,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     }
 
     // tslint:disable-next-line:max-line-length
-    this.subs.sink = this.variantsService.screenTempSave(this.form2TestedId, formData, this.comments, this.profile, this.resultStatus, this.patientInfo)
+    this.subs.sink = this.variantsService.screenTempSave(this.form2TestedId, formData, this.comments, this.profile, this.resultStatus, this.patientInfo, 'AMLALL')
       .subscribe(data => {
         // console.log('[1698]', data);
         alert('저장되었습니다.');
@@ -2103,6 +2103,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
           .pipe(
             filter(val => !!val),
             tap(data => {
+              console.log(data);
               if (data.length > 0) {
                 if (list.reference !== data[0].reference || list.cosmic_id !== data[0].cosmic_id) {
                   count++;
@@ -2127,7 +2128,10 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
                 // type: data[0].type,
                 type: 'M',
                 functionalImpact: data[0].functional_impact,
-                reference: data[0].reference, cosmic_id: data[0].cosmic_id
+                reference: data[0].reference, cosmic_id: data[0].cosmic_id,
+                transcript: data[0].transcript,
+                exonIntro: data[0].exon,
+                aminoAcidChange: data[0].amino_acid_change
               });
 
             }

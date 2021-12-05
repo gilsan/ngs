@@ -1576,7 +1576,7 @@ export class Form3Component implements OnInit, OnDestroy {
       this.profile.leukemia,
       this.profile.chron).subscribe(data => console.log('LYM INSERT'));
     // tslint:disable-next-line:max-line-length
-    this.subs.sink = this.variantsService.screenTempSave(this.form2TestedId, formData, this.comments, this.profile, this.resultStatus, this.patientInfo)
+    this.subs.sink = this.variantsService.screenTempSave(this.form2TestedId, formData, this.comments, this.profile, this.resultStatus, this.patientInfo, 'LYM')
       .subscribe(data => {
         // console.log('[1065]', data);
         alert('저장되었습니다.');
@@ -1837,7 +1837,6 @@ export class Form3Component implements OnInit, OnDestroy {
               if (data.length > 0) {
                 if (list.reference !== data[0].reference || list.cosmic_id !== data[0].cosmic_id) {
                   count++;
-                  // this.snackBar.open('완료 했습니다. 갱신수: ' + count + '건', '닫기', { duration: 3000 });
                 }
               }
               if (formData.length === index + 1) {
@@ -1847,20 +1846,23 @@ export class Form3Component implements OnInit, OnDestroy {
             })
           )
           .subscribe(data => {
+            console.log('[1850][호출]', data);
             if (data.length > 0) {
-              console.log('[1832][호출]', data);
+
               if (
                 list.reference !== data[0].reference || list.cosmic_id !== data[0].cosmic_id) {
                 this.typeColor.push(index);
               }
 
               control.at(index).patchValue({
-                // type: data[0].type,
                 type: 'M',
                 functionalImpact: data[0].functional_impact,
-                reference: data[0].reference, cosmic_id: data[0].cosmic_id
+                reference: data[0].reference, cosmic_id: data[0].cosmic_id,
+                transcript: data[0].transcript,
+                exonIntro: data[0].exon,
+                aminoAcidChange: data[0].amino_acid_change
               });
-              // this.snackBar.open('완료 했습니다.', '닫기', { duration: 3000 });
+
             }
           });
       });

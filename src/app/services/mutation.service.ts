@@ -121,7 +121,7 @@ export class MutationService {
 
   // Sequencing 삭제
   public deleteSequencing(id: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/mutation/sseqdelete`, { id });
+    return this.http.post(`${this.apiUrl}/mutation/seqdelete`, { id });
   }
 
   // AML 입력

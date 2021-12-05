@@ -71,6 +71,7 @@ export class DashboardComponent implements OnInit {
 
       this.patientsList.boardSearch(this.threemonthage(), this.today())
         .subscribe(item => {
+          // console.log('[61][대쉬보드]', item);
           const temp = this.lists.filter(list => list.code === item.test_code);
           // console.log('[61][대쉬보드]', temp);
           if (temp.length > 0) {
@@ -81,7 +82,7 @@ export class DashboardComponent implements OnInit {
           () => {
             // console.log(this.board);
           });
-    })
+    });
 
   }
 
@@ -144,7 +145,7 @@ export class DashboardComponent implements OnInit {
 
     const newmon = ('0' + month).substr(-2);
     const newday = ('0' + date).substr(-2);
-    const now = year + newmon + + newday;
+    const now = year + newmon + newday;
 
     return now;
   }
