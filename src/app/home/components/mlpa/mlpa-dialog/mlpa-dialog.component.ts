@@ -51,7 +51,7 @@ export class MlpaDialogComponent implements OnInit {
       .subscribe(([lists, patientLists]) => {
         this.typeLists = lists;
         this.typeLists.forEach(list => {
-          this.resultName.push(list.code);
+          this.resultName.push(list.report);
         });
 
         if (patientLists.length > 0) {
@@ -187,10 +187,11 @@ export class MlpaDialogComponent implements OnInit {
 
   changetype(i: number, option: string): void {
     const control = this.tablerowForm.get('tableRows') as FormArray;
-    const idx = this.typeLists.findIndex(type => type.code === option);
-    const report = this.typeLists[idx].report;
-    control.at(i).patchValue({ reportTitle: report, test_code: option, testname: option });
-    // console.log(control.at(i).value);
+    console.log(i, option);
+    const idx = this.typeLists.findIndex(type => type.report === option);
+    const code = this.typeLists[idx].code;
+    control.at(i).patchValue({ reportTitle: option, test_code: code, testname: code });
+    console.log(control.at(i).value);
   }
 
   readonly(i: number): boolean {

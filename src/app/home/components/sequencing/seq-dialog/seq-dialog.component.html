@@ -20,8 +20,8 @@
                   <col width="5%">
                   <col width="4%">
                   <col width="6%">
-                  <col width="5%">
                   <col width="10%">
+                  <col width="5%">
                   <col width="5%">
                   <col width="4%">
                 </colgroup>
@@ -32,8 +32,8 @@
                     <th>나이</th>
                     <th>성별</th>
                     <th>환자ID</th>
-                    <th>검사명</th>
                     <th>결과지명</th>
+                    <th>검사명</th>
                     <th>검체번호</th>
                     <th>저장/삭제/취소</th>
                   </tr>
@@ -61,20 +61,22 @@
                         <td class="txt_c">
                             <input type="text" size="15"  class="clr-input textcenter  tdbox" formControlName="patientID">
                         </td>
-                        <td class="txt_c">
-                            <input type="text" size="10"  class="clr-input textcenter  tdbox"
-                            [matAutocomplete]="type" matInput placeholder="선택"
-                            formControlName="testname">
-                            <mat-autocomplete #type="matAutocomplete">
-                               <mat-option *ngFor="let option of resultName" (onSelectionChange)="changetype(i,option)" [value]="option">
-                                    {{option}}
-                               </mat-option>
-                            </mat-autocomplete>
 
-                        </td>
                         <td class="txt_c">
-                            <input type="text" size="35"  class="clr-input textcenter  tdbox" formControlName="reportTitle" readonly>
+                          <input type="text" size="45"  class="clr-input textcenter  tdbox" formControlName="reportTitle"
+                          [matAutocomplete]="type" matInput placeholder="선택" >
+                          <mat-autocomplete #type="matAutocomplete">
+                            <mat-option *ngFor="let option of resultName" (onSelectionChange)="changetype(i,option)" [value]="option">
+                                 {{option}}
+                            </mat-option>
+                         </mat-autocomplete>
+                      </td>
+
+                        <td class="txt_c">
+                            <input type="text" size="10"  class="clr-input textcenter  tdbox" readonly
+                            formControlName="testname">
                         </td>
+
                         <td class="txt_c">
                             <input type="text" size="15"  class="clr-input textcenter  tdbox"  formControlName="specimenNo" [readonly]="readonly(i)">
                         </td>

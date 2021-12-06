@@ -50,9 +50,10 @@ export class HereDialogComponent implements OnInit {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     combineLatest([lists$, patientLists$])
       .subscribe(([lists, patientLists]) => {
+        console.log(lists);
         this.typeLists = lists;
         this.typeLists.forEach(list => {
-          this.resultName.push(list.code);
+          this.resultName.push(list.report);
         });
 
         if (patientLists.length > 0) {
@@ -82,6 +83,7 @@ export class HereDialogComponent implements OnInit {
   save(i: number): void {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const row = control.value[i];
+
     if (row.age === null || row.age.length === 0) {
       alert('나이 값은 필수 입니다.');
       return;
@@ -104,8 +106,7 @@ export class HereDialogComponent implements OnInit {
 
     console.log('[85]', row);
 
-    if (row.isSaved) {
-      // update
+    if (row.isSaved) { // update
       this.researchService.updatePatientBySpecimenno(row)
         .subscribe(data => {
           this.snackBar.open('저장 했습니다.', '닫기', { duration: 3000 });
@@ -192,9 +193,9 @@ export class HereDialogComponent implements OnInit {
 
   changetype(i: number, option: string): void {
     const control = this.tablerowForm.get('tableRows') as FormArray;
-    const idx = this.typeLists.findIndex(type => type.code === option);
-    const report = this.typeLists[idx].report;
-    control.at(i).patchValue({ reportTitle: report, test_code: option, testname: option });
+    const idx = this.typeLists.findIndex(type => type.report === option);
+    const code = this.typeLists[idx].code;
+    control.at(i).patchValue({ reportTitle: option, test_code: code, testname: code });
     console.log(control.at(i).value);
   }
 
