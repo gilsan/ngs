@@ -455,10 +455,10 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
       .subscribe(datas => console.log(datas));
     this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimenNo)
       .subscribe(datas => console.log(datas));
-    if (this.firstReportDay === '-') {
-      this.firstReportDay = this.today().replace(/-/g, '.');
-      this.lastReportDay = this.today().replace(/-/g, '.');
-    }
+    // if (this.firstReportDay === '-') {
+    //   this.firstReportDay = this.today().replace(/-/g, '.');
+    //   this.lastReportDay = this.today().replace(/-/g, '.');
+    // }
 
     console.log('[445][임시저장][screenstatus]', this.screenstatus);
     // specimenNo, comment, data, result, technique, title, type
