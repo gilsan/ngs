@@ -164,7 +164,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
   tsvVersion = '510'; // v5.16 버전확인
   // tslint:disable-next-line:max-line-length
   vusmsg = `VUS는 ExAC, KRGDB등의 Population database에서 관찰되지 않았거나, 임상적 의의가 불분명합니다. 해당변이의 의의를 명확히 하기 위하여 환자의 buccal swab 검체로 germline variant 여부에 대한 확인이 필요 합니다.`;
-
+  tempvusmsg = '';
   functionalimpact: string[] = ['Pathogenic', 'Likely Pathogenic', 'VUS'];
   zygosity: string[] = ['Heterozygous', 'Homozygous'];
   methodmsg = `Total genomic DNA was extracted from the each sample.  The TruSeq DNA Sample Preparation kit of Illumina was used to make the library. The Agilent SureSelect Target enrichment kit was used for in-solution enrichment of target regions. The enriched fragments were then amplified and sequenced on the MiSeqDx system (illumina). After demultiplexing, the reads were aligned to the human reference genome hg19 (GRCh37) using BWA (0.7.12) and duplicate reads were removed with Picard MarkDuplicates (1.98). Local realignment, score recalibiration and filtering sequence data were performed with GATK (2.3-9). Variants were annotated using SnpEff (4.2).`;
@@ -386,21 +386,29 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
 
       // VUS 메제시 확인
       // this.vusmsg = this.patientInfo.vusmsg;
-      console.log('[385][recoverDetected][VUS메세지]', this.patientInfo.vusmsg);
-      const tempVUS = [];
+      // console.log('[385][recoverDetected][VUS메세지]', this.patientInfo.vusmsg);
+      // const tempVUS = [];
+
+      const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
+      if (vusIdx !== -1) {
+        this.vusmsg = this.patientInfo.vusmsg;
+        this.tempvusmsg = this.patientInfo.vusmsg;
+
+      }
+
       this.recoverVariants.forEach(item => {
         this.recoverVariant(item);  // 354
         // VUS 메제시 확인
-        tempVUS.push(item.functional_impact);
+        // tempVUS.push(item.functional_impact);
       });
-      if (tempVUS.includes('VUS')) {
-        this.vusstatus = true;
-        if (this.patientInfo.vusmsg.length) {
-          this.vusmsg = this.patientInfo.vusmsg;
-        }
-      } else {
-        this.vusstatus = false;
-      }
+      // if (tempVUS.includes('VUS')) {
+      //   this.vusstatus = true;
+      //   if (this.patientInfo.vusmsg.length) {
+      //     this.vusmsg = this.patientInfo.vusmsg;
+      //   }
+      // } else {
+      //   this.vusstatus = false;
+      // }
       //  console.log('[391][vusstatus]', tempVUS);
       this.putCheckboxInit(); // 체크박스 초기화
     });
@@ -458,11 +466,6 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
 
   init(form2TestedId: string): void {
 
-    // VUS 메제시 확인 2021.4.7 추가
-    if (this.patientInfo.vusmsg.length) {
-      this.vusmsg = this.patientInfo.vusmsg;
-      console.log('[445][init][VUS메세지]', this.vusmsg);
-    }
 
     if (this.form2TestedId) {
       // this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {
@@ -473,14 +476,15 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
           this.vd.push({ sequence: this.vd.length, selectedname: 'mutation', gene: data[0].gene });
 
           this.store.setDetactedVariants(data); // Detected variant 저장
-          this.recoverVariants.forEach(item => {
-            this.recoverVariant(item);  // 354
-            // VUS 메제시 확인
+
+          const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
+          if (vusIdx !== -1) {
             this.vusmsg = this.patientInfo.vusmsg;
-            if (item.functional_impact === 'VUS') {
-              this.vusstatus = true;
-              this.store.setVUSStatus(this.vusstatus);
-            }
+            this.tempvusmsg = this.patientInfo.vusmsg;
+          }
+
+          this.recoverVariants.forEach(item => {
+            this.recoverVariant(item);
           });
 
           // COMMENTS 가져오기
@@ -1245,9 +1249,10 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       this.comments = [];
     }
 
-    // if (this.vusmsg.length === 0) {
-    //   this.vusmsg = '';
-    // }
+    const vusIdx = formData.findIndex(list => list.functionalImpact === 'VUS');
+    if (vusIdx === -1) {
+      this.vusmsg = '';
+    }
 
     if (this.firstReportDay === '-') {
       this.firstReportDay = this.today().replace(/-/g, '.');
@@ -1265,9 +1270,9 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     // } else if (this.tsvVersion === '516') {
     //   tsvVersionContents = this.methods516;
     // }
-    if (!this.vusstatus) {
-      this.vusmsg = '';
-    }
+    // if (!this.vusstatus) {
+    //   this.vusmsg = '';
+    // }
 
     const makeForm = makeDForm(
       this.method,
@@ -1305,6 +1310,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
         alert('EMR로 전송했습니다.');
         // this.excelDV();
         // 환자정보 가져오기
+        this.vusmsg = this.tempvusmsg;
         this.patientsListService.getPatientInfo(this.form2TestedId)
           .subscribe(patient => {
             // console.log('[999][MDS EMR][검체정보]', this.sendEMR, patient);
@@ -1543,6 +1549,8 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     this.patientInfo.recheck = this.recheck;
     this.patientInfo.examin = this.examin;
     this.patientInfo.vusmsg = this.vusmsg;
+    this.tempvusmsg = this.vusmsg;
+
     console.log('[1054][tempSave]patient,reform,comment]', this.patientInfo, formData, this.comments);
 
     this.store.setRechecker(this.patientInfo.recheck);
@@ -1796,12 +1804,16 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     const formData: IAFormVariant[] = control.getRawValue();
     const vusIdx = formData.findIndex(list => list.functionalImpact === 'VUS');
     if (vusIdx === -1) {
-      this.vusmsg = '';
       return false;
     }
-    this.vusmsg = `VUS는 ExAC, KRGDB등의 Population database에서 관찰되지 않았거나, 임상적 의의가 불분명합니다. 해당변이의 의의를 명확히 하기 위하여 환자의 buccal swab 검체로 germline variant 여부에 대한 확인이 필요 합니다.`;
     return true;
 
+  }
+
+  changeVUS(val: string): void {
+    console.log('[1814]', val);
+    this.vusmsg = val;
+    this.tempvusmsg = val;
   }
 
   /////////////////////////////////////////////////////////////////

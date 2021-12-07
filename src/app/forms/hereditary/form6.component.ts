@@ -1402,7 +1402,7 @@ export class Form6Component implements OnInit, OnDestroy {
     const userid = localStorage.getItem('diaguser');
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
-
+    console.log('[1405]', this.commentdata);
     if (this.isDirect) {
       if (this.patientInfo.screenstatus === null || this.patientInfo.screenstatus === undefined ||
         this.patientInfo.screenstatus === '') {

@@ -162,7 +162,7 @@ export class Form3Component implements OnInit, OnDestroy {
   tsvVersion = '510'; // v5.16 버전확인
   // tslint:disable-next-line:max-line-length
   vusmsg = `VUS는 ExAC, KRGDB등의 Population database에서 관찰되지 않았거나, 임상적 의의가 불분명합니다. 해당변이의 의의를 명확히 하기 위하여 환자의 buccal swab 검체로 germline variant 여부에 대한 확인이 필요 합니다.`;
-
+  tempvusmsg = '';
   functionalimpact: string[] = ['Pathogenic', 'Likely Pathogenic', 'VUS'];
 
   methodmsg = `Total genomic DNA was extracted from the each sample.  The TruSeq DNA Sample Preparation kit of Illumina was used to make the library. The Agilent SureSelect Target enrichment kit was used for in-solution enrichment of target regions. The enriched fragments were then amplified and sequenced on the MiSeqDx system (illumina). After demultiplexing, the reads were aligned to the human reference genome hg19 (GRCh37) using BWA (0.7.12) and duplicate reads were removed with Picard MarkDuplicates (1.98). Local realignment, score recalibiration and filtering sequence data were performed with GATK (2.3-9). Variants were annotated using SnpEff (4.2).`;
@@ -211,10 +211,6 @@ export class Form3Component implements OnInit, OnDestroy {
     this.loadForm();
 
   } // End of ngOninit
-
-  // ngAfterViewInit(): void {
-  //   // this.checker();
-  // }
 
 
   resizeHeight(): any {
@@ -299,14 +295,7 @@ export class Form3Component implements OnInit, OnDestroy {
     this.tsvFileVersion(this.patientInfo.verfile);
 
     this.requestDate = this.patientInfo.accept_date;
-    // if (this.patientInfo.specimen === '015') {
-    //   this.specimenMsg = 'Bone marrow';
-    //   this.specimenMessage = 'Genomic DNA isolated from Bone marrow';
-    // } else if (this.patientInfo.specimen === '004') {
-    //   this.specimenMsg = 'EDTA blood';
-    //   this.specimenMessage = 'Genomic DNA isolated from peripheral blood';
-    //   this.store.setSpecimenMsg(this.specimenMsg);
-    // }
+
 
     // 검체 감염유부 확인
     if (parseInt(this.patientInfo.detected, 10) === 0) {
@@ -382,21 +371,14 @@ export class Form3Component implements OnInit, OnDestroy {
       this.store.setDetactedVariants(data); // Detected variant 저장
 
       // VUS 메제시 확인
-      this.vusmsg = this.patientInfo.vusmsg;
-      // console.log('[369][recoverDetected][VUS메세지]', this.patientInfo.vusmsg, this.vusmsg);
+      const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
+      if (vusIdx !== -1) {
+        this.vusmsg = this.patientInfo.vusmsg;
+        this.tempvusmsg = this.patientInfo.vusmsg;
+      }
 
       this.recoverVariants.forEach(item => {
         this.recoverVariant(item);  // 354
-
-        // VUS 메제시 확인
-        this.vusmsg = this.patientInfo.vusmsg;
-        if (item.functional_impact === 'VUS') {
-          this.vusstatus = true;
-          this.store.setVUSStatus(this.vusstatus);
-        } else {
-          this.store.setVUSStatus(this.vusstatus);
-          this.vusstatus = false;
-        }
       });
       this.putCheckboxInit(); // 체크박스 초기화
     });
@@ -444,30 +426,28 @@ export class Form3Component implements OnInit, OnDestroy {
 
   init(form2TestedId: string): void {
 
-    // VUS 메제시 확인 2021.4.7 추가
-    if (this.patientInfo.vusmsg.length) {
-      this.vusmsg = this.patientInfo.vusmsg;
-      console.log('[469][init][VUS메세지]', this.vusmsg);
-    }
-
     if (this.form2TestedId) {
       this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {
         if (data.length > 0) {
           this.recoverVariants = data;
           this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
           this.store.setDetactedVariants(data); // Detected variant 저장
+
+          const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
+          if (vusIdx !== -1) {
+            this.vusmsg = this.patientInfo.vusmsg;
+            this.tempvusmsg = this.patientInfo.vusmsg;
+          }
+
           this.recoverVariants.forEach(item => {
             this.recoverVariant(item);  // 354
-            // VUS 메제시 확인
-            this.vusmsg = this.patientInfo.vusmsg;
-            if (item.functional_impact === 'VUS') {
-              this.vusstatus = true;
-              this.store.setVUSStatus(this.vusstatus);
-            }
           });
           this.putCheckboxInit(); // 체크박스 초기화
-
         } else {
+          if (this.patientInfo.vusmsg.length > 0) {
+            this.vusmsg = this.patientInfo.vusmsg;
+            this.tempvusmsg = this.patientInfo.vusmsg;
+          }
           this.addDetectedVariant();
         }
       });
@@ -1117,6 +1097,7 @@ export class Form3Component implements OnInit, OnDestroy {
         this.profile.chron).subscribe(data => console.log('LYM INSERT'));
 
       this.patientInfo.vusmsg = this.vusmsg;
+      this.tempvusmsg = this.vusmsg;
       this.subs.sink = this.variantsService.screenInsert(this.form2TestedId, formData,
         this.comments, this.profile, this.resultStatus, this.patientInfo)
         .pipe(
@@ -1158,6 +1139,7 @@ export class Form3Component implements OnInit, OnDestroy {
         this.profile.chron).subscribe(data => console.log('LYM INSERT'));
 
       this.patientInfo.vusmsg = this.vusmsg;
+      this.tempvusmsg = this.vusmsg;
       this.subs.sink = this.variantsService.screenUpdate(this.form2TestedId, formData, this.comments, this.profile, this.patientInfo)
         .subscribe(data => {
           // console.log('[판독완료] screen Updated ....[566]', data);
@@ -1260,9 +1242,10 @@ export class Form3Component implements OnInit, OnDestroy {
       this.comments = [];
     }
 
-    // if (this.vusmsg.length === 0) {
-    //   this.vusmsg = '';
-    // }
+    const vusIdx = formData.findIndex(list => list.functionalImpact === 'VUS');
+    if (vusIdx === -1) {
+      this.vusmsg = '';
+    }
 
     if (this.firstReportDay === '-') {
       this.firstReportDay = this.today().replace(/-/g, '.');
@@ -1281,9 +1264,6 @@ export class Form3Component implements OnInit, OnDestroy {
       tsvVersionContents = this.methods516;
     }
 
-    if (!this.vusstatus) {
-      this.vusmsg = '';
-    }
 
     const makeForm = makeCForm(
       this.method,
@@ -1321,6 +1301,7 @@ export class Form3Component implements OnInit, OnDestroy {
         alert('EMR로 전송했습니다.');
         // this.excelDV();
         // 환자정보 가져오기
+        this.vusmsg = this.tempvusmsg;
         this.patientsListService.getPatientInfo(this.form2TestedId)
           .subscribe(patient => {
             // console.log('[999][LYM EMR][검체정보]', this.sendEMR, patient);
@@ -1548,17 +1529,17 @@ export class Form3Component implements OnInit, OnDestroy {
     // console.log('[1040][tableerowForm]', formData);
     // console.log('[1041][checkbox]', this.checkboxStatus);
     // const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
-    console.log('[1043][Detected variants]', formData);
+    console.log('[1522][Detected variants]', formData);
     // if (this.comments.length) {
     const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
     this.comments = commentControl.getRawValue();
     // }
     // this.store.setComments(this.comments);
-
+    console.log('[1528][vusmsg]', this.vusmsg);
     this.patientInfo.recheck = this.recheck;
     this.patientInfo.examin = this.examin;
     this.patientInfo.vusmsg = this.vusmsg;
-    console.log('[1054][tempSave]patient,reform,comment]', this.patientInfo, formData, this.comments);
+    console.log('[1532][tempSave]patient,reform,comment]', this.patientInfo, formData, this.comments);
 
     this.store.setRechecker(this.patientInfo.recheck);
     this.store.setExamin(this.patientInfo.examin);
@@ -1570,7 +1551,7 @@ export class Form3Component implements OnInit, OnDestroy {
     // leukemia: string,
     // genetictest: string,
     // chromosomalanalysis: string
-    console.log('[1510][임시저장]', this.profile);
+    console.log('[1544][임시저장]', this.profile);
     this.analysisService.putAnalysisLYM(
       this.form2TestedId,
       this.profile.leukemia,
@@ -1806,14 +1787,16 @@ export class Form3Component implements OnInit, OnDestroy {
     const formData: IAFormVariant[] = control.getRawValue();
     const vusIdx = formData.findIndex(list => list.functionalImpact === 'VUS');
     if (vusIdx === -1) {
-      this.vusmsg = '';
       return false;
     }
-    this.vusmsg = `VUS는 ExAC, KRGDB등의 Population database에서 관찰되지 않았거나, 임상적 의의가 불분명합니다. 해당변이의 의의를 명확히 하기 위하여 환자의 buccal swab 검체로 germline variant 여부에 대한 확인이 필요 합니다.`;
     return true;
 
   }
 
+  changeVUS(val: string): void {
+    this.vusmsg = val;
+    this.tempvusmsg = val;
+  }
 
 
   ///////////////////////////////////////////////////////////////////////////
