@@ -35,19 +35,22 @@ export class ReportDialogComponent implements OnInit {
     if (this.rowData.itemType === 'MU') {
       this.mufuLists.push({
         id: null, date: this.today(), gene: this.rowData.gene, amino: this.rowData.aminoAcidChange,
-        direction: this.rowData.direction, comment: '', isSaved: false, pathologyNum: this.rowData.pathologyNum
+        direction: this.rowData.direction, comment: '', isSaved: false, pathologyNum: this.rowData.pathologyNum,
+        type: this.rowData.itemType
       });
       this.title = 'Mutation';
     } else if (this.rowData.itemType === 'CP') {
       this.mufuLists.push({
         id: null, date: this.today(), gene: this.rowData.gene, amino: this.rowData.copynumber,
-        direction: this.rowData.direction, comment: '', isSaved: false, pathologyNum: this.rowData.pathologyNum
+        direction: this.rowData.direction, comment: '', isSaved: false, pathologyNum: this.rowData.pathologyNum,
+        type: this.rowData.itemType
       });
       this.title = 'Copy number alteration';
     } else if (this.rowData.itemType === 'FU') {
       this.mufuLists.push({
         id: null, date: this.today(), gene: this.rowData.gene, amino: this.rowData.breakpoint,
-        direction: this.rowData.direction, comment: '', isSaved: false, pathologyNum: this.rowData.pathologyNum
+        direction: this.rowData.direction, comment: '', isSaved: false, pathologyNum: this.rowData.pathologyNum,
+        type: this.rowData.itemType
       });
       this.title = 'Fusion';
     }
@@ -55,17 +58,18 @@ export class ReportDialogComponent implements OnInit {
     this.mufuLists.forEach(list => {
       this.formControls().push(this.createRow(list));
     });
-    this.loadStoredData(this.rowData.pathologyNum);
+    this.loadStoredData(this.rowData.pathologyNum, this.rowData.itemType);
   }
 
-  loadStoredData(pathologyNum: string): void {
-    this.sequencingService.listMoveHistory(pathologyNum)
+  loadStoredData(pathologyNum: string, type: string): void {
+    this.sequencingService.listMoveHistory(pathologyNum, type)
       .subscribe(data => {
         console.log('[디비에서 가져오기]', data);
         data.forEach(list => {
           this.formControls().push(this.createRow({
             id: list.id, date: list.date.replace(/T/g, ' '), gene: list.gene, amino: list.amino,
-            direction: list.direction, comment: list.comment, isSaved: list.isSaved, pathologyNum: list.pathologyNum
+            direction: list.direction, comment: list.comment, isSaved: list.isSaved, pathologyNum: list.pathologyNum,
+            type: this.rowData.itemType
           }));
         })
       });
@@ -87,7 +91,8 @@ export class ReportDialogComponent implements OnInit {
       direction: [list.direction],
       comment: [list.comment],
       pathologyNum: [list.pathologyNum],
-      isSaved: [list.isSaved]
+      isSaved: [list.isSaved],
+      type: [list.type]
     });
 
   }
@@ -109,7 +114,8 @@ export class ReportDialogComponent implements OnInit {
       amino: [''],
       direction: [''],
       comment: [''],
-      isSaved: [false]
+      isSaved: [false],
+      type: ['']
     });
   }
 
@@ -144,11 +150,11 @@ export class ReportDialogComponent implements OnInit {
     return date.getFullYear() + '-' + newmonth + '-' + newday + ' ' + newhour + ':' + newminute + ':' + newsecond;
   }
 
-  save(i: number): void {
+  save(i: number, type: string): void {
     const pathologyNum = this.rowData.pathologyNum;
     const control = this.formControls();
     const rowdata: IITEM = control.at(i).value;
-    console.log('[151][저장]', control.value);
+    console.log('[151][저장]', rowdata);
     if (rowdata.id !== null) {
       this.sequencingService.updateMoveHistory(rowdata)
         .subscribe(data => {

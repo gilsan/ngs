@@ -7,6 +7,7 @@ export interface IITEM {
   comment?: string;
   pathologyNum?: string;
   isSaved?: boolean;
+  type: string;
 }
 
 export interface IMU {

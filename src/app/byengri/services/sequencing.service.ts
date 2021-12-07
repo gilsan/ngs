@@ -113,8 +113,8 @@ export class SequencingService {
   ///// 자리이동 내역
 
   /// 목록
-  listMoveHistory(pathologyNum: string): Observable<IITEM[]> {
-    return this.http.post<IITEM[]>(`${this.apiUrl}/sequencingdiag/listMoveHistory`, { pathologyNum });
+  listMoveHistory(pathologyNum: string, type: string): Observable<IITEM[]> {
+    return this.http.post<IITEM[]>(`${this.apiUrl}/sequencingdiag/listMoveHistory`, { pathologyNum, type });
   }
 
   //// 입력

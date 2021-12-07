@@ -61,7 +61,7 @@
                             </textarea>
                         </td>
                         <td  class="txt_c">
-                            <img [src]="'assets/images/save.png'" id="btn_button" (click)="save(i)"
+                            <img [src]="'assets/images/save.png'" id="btn_button" (click)="save(i,group.get('type').value)"
                             width="20px" height="20px">&nbsp;&nbsp;
                             <img [src]="'assets/images/trash.png'" id="btn_button" (click)="delete(i)" >&nbsp;&nbsp;
 
