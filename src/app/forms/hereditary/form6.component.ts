@@ -1719,8 +1719,13 @@ export class Form6Component implements OnInit, OnDestroy {
   autoComment(): void {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const lists = control.getRawValue();
-    if (lists.length === 0) {
+    let commentdata = '';
+    if (lists.length === 0 && this.resultStatus === 'Detected') {
       alert('Mutation 내용이 없습니다.');
+      return;
+    } else if (lists.length === 0 && this.resultStatus === 'Not Detected') {
+      commentdata = `본 환자에서  ${this.target}에 대한 targeted panel sequencing 결과, 질환 관련 돌연변이는 관찰되지 않았습니다.`;
+      this.commentdata = commentdata;
       return;
     }
 

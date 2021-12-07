@@ -476,10 +476,12 @@ export class Form7Component implements OnInit, OnDestroy {
   result(event) {
     // console.log(event);
     this.resultStatus = event.srcElement.defaultValue;
-    const gene = this.ngsTitle.split('Gene')[0].trim();
+    // const gene = this.ngsTitle.split('Gene')[0].trim();
+    const geneTemp = this.ngsTitle.split('Gene');
+    const gene = geneTemp[0].trim();
     let commentdata = '';
     if (this.resultStatus === 'Not Detected') {
-      commentdata = `본 환자에서  ${gene}에 대한 targeted panel sequencing 결과, 질환 관련 돌연변이는 관찰되지 않았습니다.`;
+      commentdata = `본 환자에서  ${gene}에 대한 direct sequencing 결과, 질환 관련 돌연변이는 관찰되지 않았습니다.`;
       this.comment = commentdata;
     } else {
       this.comment = this.tempcomment;
@@ -729,12 +731,21 @@ export class Form7Component implements OnInit, OnDestroy {
   autoComment(): void {
     const control = this.form.get('tableRows') as FormArray;
     const lists = control.getRawValue();
-    if (lists.length === 0) {
+
+    const geneTemp = this.ngsTitle.split('Gene');
+    const gene = geneTemp[0].trim();
+    console.log(this.ngsTitle, this.ngsTitle.split('Gene'), geneTemp, gene);
+    let commentdata = '';
+    if (lists.length === 0 && this.resultStatus === 'Detected') {
       alert('Mutation 내용이 없습니다.');
+      return;
+    } else if (lists.length === 0 && this.resultStatus === 'Not Detected') {
+      commentdata = `본 환자에서 ${gene} 에 대한 direct sequencing 결과, 질환 관련 돌연변이는 관찰되지 않았습니다`;
+      this.comment = commentdata;
       return;
     }
 
-    const gene = this.ngsTitle.split('Gene')[0].trim();
+    //   const gene = this.ngsTitle.split('Gene')[0].trim();
     this.comment = '';
     if (this.resultStatus === 'Detected') {
 
@@ -774,7 +785,7 @@ export class Form7Component implements OnInit, OnDestroy {
 
       this.comment = comment;
     } else if (this.resultStatus === 'Not Detected') {
-      this.comment = `본 환자에서 ${this.targetdisease} 에 대한 targeted panel sequencing 결과, 질환 관련 돌연변이는 관찰되지 않았습니다`;
+      this.comment = `본 환자에서 ${gene} 에 대한 direct sequencing 결과, 질환 관련 돌연변이는 관찰되지 않았습니다`;
     }
   }
 
