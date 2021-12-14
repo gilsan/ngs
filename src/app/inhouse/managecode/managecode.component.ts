@@ -54,7 +54,7 @@ export class ManagecodeComponent implements OnInit {
     this.reportLists = this.lists.filter(list => list.type === type);
     // console.log('[48][TYPE]', type, this.reportLists);
     this.reportLists = this.reportLists.sort((a, b) => {
-      const x = a.code; const y = b.code;
+      const x = a.report; const y = b.report;
       return ((x < y) ? -1 : ((x > y) ? 1 : 0));
     });
 
