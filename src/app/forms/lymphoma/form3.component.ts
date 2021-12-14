@@ -1790,7 +1790,16 @@ export class Form3Component implements OnInit, OnDestroy {
       return false;
     }
     return true;
+  }
 
+  subcheckVUS(): string {
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    const formData: IAFormVariant[] = control.getRawValue();
+    const vusIdx = formData.findIndex(list => list.functionalImpact === 'VUS');
+    if (vusIdx === -1) {
+      return null;
+    }
+    return this.vusmsg;
   }
 
   changeVUS(val: string): void {

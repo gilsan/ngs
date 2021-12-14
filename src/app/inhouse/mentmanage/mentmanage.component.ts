@@ -60,7 +60,7 @@ export class MentmanageComponent implements OnInit, OnDestroy {
     this.type = type;
     this.reportLists = this.lists.filter(list => list.type === type);
     this.reportLists = this.reportLists.sort((a, b) => {
-      const x = a.code; const y = b.code;
+      const x = a.report; const y = b.report;
       return ((x < y) ? -1 : ((x > y) ? 1 : 0));
     });
 

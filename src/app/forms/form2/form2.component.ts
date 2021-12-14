@@ -152,7 +152,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
   tsvVersion = '510'; // v5.10, v5.16 버전확인
   // tslint:disable-next-line:max-line-length
   vusmsg = 'VUS는 ExAC, KRGDB등의 Population database에서 관찰되지 않았거나, 임상적 의의가 불분명합니다. 해당변이의 의의를 명확히 하기 위하여 환자의 buccal swab 검체로 germline variant 여부에 대한 확인이 필요 합니다.';
-  tempvusmsg = '';
+  tempvusmsg = 'VUS는 ExAC, KRGDB등의 Population database에서 관찰되지 않았거나, 임상적 의의가 불분명합니다. 해당변이의 의의를 명확히 하기 위하여 환자의 buccal swab 검체로 germline variant 여부에 대한 확인이 필요 합니다.';
   amlLuk: string[] = ['RUNX1-RUNX1T1', 'CBFB-MYH11', 'PML-RARA(bcr1)', 'PML-RARA(bcr2)',
     'PML-RARA(bcr3)', 'PML-RARA', 'KMT2A-MLLT3', 'DEK-NUP214', 'PBM15-MKL1', 'BCR-ABL1(e1a2)',
     'BCR-ABL1(b2a2)', 'BCR-ABL1(b3a2)', 'BCR-ABL1'];
@@ -2070,9 +2070,18 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       return false;
     }
     return true;
-
   }
 
+
+  subcheckVUS(): string {
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    const formData: IAFormVariant[] = control.getRawValue();
+    const vusIdx = formData.findIndex(list => list.functionalImpact === 'VUS');
+    if (vusIdx === -1) {
+      return null;
+    }
+    return this.vusmsg;
+  }
 
   changeVUS(val: string): void {
     this.vusmsg = val;

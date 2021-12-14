@@ -394,7 +394,7 @@
   <!-- -----------------------------------------------------------  -->
    <div class="modal-overlay" *ngIf="isVisible">
        <div class="modal-body">
-           <app-preview  [result]="resultStatus" [vusmsg]="vusmsg"
+           <app-preview  [result]="resultStatus" [vusmsg]="subcheckVUS()"
            (closemodal)="previewToggle()"
            [specimenMessage]="specimenMessage"
            [comments]="comments"

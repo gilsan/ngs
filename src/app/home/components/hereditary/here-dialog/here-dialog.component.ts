@@ -50,8 +50,11 @@ export class HereDialogComponent implements OnInit {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     combineLatest([lists$, patientLists$])
       .subscribe(([lists, patientLists]) => {
-        console.log(lists);
-        this.typeLists = lists;
+        // console.log(lists);
+        this.typeLists = lists.sort((a, b) => {
+          const x = a.report; const y = b.report;
+          return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+        });
         this.typeLists.forEach(list => {
           this.resultName.push(list.report);
         });

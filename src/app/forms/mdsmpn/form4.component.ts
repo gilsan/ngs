@@ -1810,6 +1810,16 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
 
   }
 
+  subcheckVUS(): string {
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    const formData: IAFormVariant[] = control.getRawValue();
+    const vusIdx = formData.findIndex(list => list.functionalImpact === 'VUS');
+    if (vusIdx === -1) {
+      return null;
+    }
+    return this.vusmsg;
+  }
+
   changeVUS(val: string): void {
     console.log('[1814]', val);
     this.vusmsg = val;
