@@ -17,6 +17,10 @@ export class ImmundefiComponent implements OnInit {
   @Input() title: string;
   @Input() resultname: string;
   @Input() method: string;
+  @Input() commentdata: string;
+  @Input() methods: string;
+  @Input() technique: string;
+  @Input() comment2: string;
   @Output() closemodal = new EventEmitter<void>();
   constructor() { }
 
