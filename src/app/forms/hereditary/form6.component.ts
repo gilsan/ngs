@@ -1703,7 +1703,8 @@ export class Form6Component implements OnInit, OnDestroy {
     formData.forEach((list, index) => {
       const gene = list.gene.split(',');
       gene.forEach(item => {
-        const first$ = this.patientsListService.getMutationGeneticInfoLists1(item, 'Genetic');
+        // if (item.length > 0) {
+        const first$ = this.patientsListService.getMutationGeneticInfoLists1(item, 'Genetic')
         const second$ = this.patientsListService.getMutationGeneticInfoLists22(item, list.nucleotideChange, 'Genetic');
         combineLatest([first$, second$])
           .pipe(
@@ -1721,16 +1722,15 @@ export class Form6Component implements OnInit, OnDestroy {
                     functionalImpact: data2[0].FunctionalImpact,
                     dbSNPHGMD: data2[0].dbSNPHGMD,
                     gnomADEAS: data2[0].gnomADEAS,
-                    // transcript: data2[0].transcript,
-                    // exonIntro: data2[0].exon,
-                    // aminoAcidChange: data2[0].amino_acid_change,
                     OMIM: data1[0].OMIM
                   });
               } else {
                 control.at(index).patchValue({ type: 'New', OMIM: data1[0].OMIM });
               }
             } else {
+
               if (data2.length > 0) {
+                console.log('[1733][호출]', data2);
                 control.at(index).patchValue(
                   {
                     type: 'New',
@@ -1744,6 +1744,8 @@ export class Form6Component implements OnInit, OnDestroy {
 
             }
           });
+        //  }
+
       });
     });
 

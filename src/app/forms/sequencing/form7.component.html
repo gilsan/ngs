@@ -327,6 +327,9 @@
             [analyzedgene]= "analyzedgene"
             [specimen]= "specimen"
             [variations]= "variations"
+            [comment]="comment"
+           [comment1]="comment1"
+           [comment2]="comment2"
             (closemodal)="closeModal()">
           </app-sequencing>
        </div>
@@ -338,9 +341,6 @@
            [type]="'SEQ'"
            [code]="patientInfo.test_code"
            [seqcomment]="seqcomment"
-           [comment]="comment"
-           [comment1]="comment1"
-           [comment2]="comment2"
             (closemodal)="modalClose()"
             (sendMent)="receiveMent($event)"></app-examplement>
        </div>
