@@ -23,6 +23,7 @@ export class MlpapreviewComponent implements OnInit {
   @Input() conclusion: string;
   @Input() comment: string;
   @Input() specimen: string;
+  @Input() technique: string;
   @Output() closemodal = new EventEmitter<void>();
   type = 'type3';
   constructor() { }

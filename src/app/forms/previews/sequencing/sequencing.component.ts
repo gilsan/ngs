@@ -18,6 +18,10 @@ export class SequencingComponent implements OnInit {
   @Input() specimen: string;
   @Input() analyzedgene: string;
   @Input() variations: string;
+  @Input() seqcomment: string;
+  @Input() comment: string;
+  @Input() comment1: string;
+  @Input() comment2: string;
   @Output() closemodal = new EventEmitter<void>();
   constructor() { }
 

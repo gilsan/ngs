@@ -479,7 +479,7 @@ export class Form6Component implements OnInit, OnDestroy {
         this.recoverVariant(item);  // 354
       });
 
-      // this.reCall2();
+      this.reCall2();
       this.putCheckboxInit(); // 체크박스 초기화
     });
 
@@ -1711,7 +1711,7 @@ export class Form6Component implements OnInit, OnDestroy {
             take(1)
           )
           .subscribe(([data1, data2]) => {
-            console.log('[1716][호출]', data1, data2);
+            // console.log('[1716][호출]', data1, data2);
             if (data1.length > 0) {
               // console.log('[1716][호출]', gene, data1, data2);
               if (data2.length > 0) {
