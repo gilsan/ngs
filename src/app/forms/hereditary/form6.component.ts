@@ -1719,7 +1719,7 @@ export class Form6Component implements OnInit, OnDestroy {
                 control.at(index).patchValue(
                   {
                     type: 'M',
-                    functionalImpact: data2[0].FunctionalImpact,
+                    functionalImpact: data2[0].functionalImpact,
                     dbSNPHGMD: data2[0].dbSNPHGMD,
                     gnomADEAS: data2[0].gnomADEAS,
                     OMIM: data1[0].OMIM
@@ -1734,7 +1734,7 @@ export class Form6Component implements OnInit, OnDestroy {
                 control.at(index).patchValue(
                   {
                     type: 'New',
-                    functionalImpact: data2[0].FunctionalImpact,
+                    functionalImpact: data2[0].functionalImpact,
                     dbSNPHGMD: data2[0].dbSNPHGMD,
                     gnomADEAS: data2[0].gnomADEAS,
                   });
