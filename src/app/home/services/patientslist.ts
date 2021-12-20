@@ -125,6 +125,7 @@ export class PatientsListService {
 
 
   // 유전성유전  유전체   로 mutation 레코드에서 정보 가져오기
+  // http://211.104.56.34:3000/mutation/geneticcall1
   public getMutationGeneticInfoLists1(gene: string, type: string): Observable<IImmundefi[]> {
     return this.http.post<IImmundefi[]>(`${this.apiUrl}/mutation/geneticcall1`, { gene, type }).pipe(
       shareReplay()
@@ -136,6 +137,15 @@ export class PatientsListService {
       shareReplay()
     );
   }
+
+
+  // mutation/callbygeneGenetic
+  public getMutationGeneticInfoLists22(gene: string, coding: string, gubun: string): Observable<IImmundefi[]> {
+    return this.http.post<IImmundefi[]>(`${this.apiUrl}/mutation/callbygeneGenetic`, { gene, coding, gubun }).pipe(
+      shareReplay()
+    );
+  }
+
 
   // 유전서유전체 mutation에 등록하기
   public getMutationGeneticSave(igv: string, sanger: string, name: string,

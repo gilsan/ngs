@@ -477,10 +477,9 @@ export class Form6Component implements OnInit, OnDestroy {
       const tempVUS = [];
       this.recoverVariants.forEach(item => {
         this.recoverVariant(item);  // 354
-
       });
 
-      // this.reCall();
+      // this.reCall2();
       this.putCheckboxInit(); // 체크박스 초기화
     });
 
@@ -1705,32 +1704,44 @@ export class Form6Component implements OnInit, OnDestroy {
       const gene = list.gene.split(',');
       gene.forEach(item => {
         const first$ = this.patientsListService.getMutationGeneticInfoLists1(item, 'Genetic');
-        const second$ = this.patientsListService.getMutationGeneticInfoLists2(item, list.nucleotideChange, 'Genetic');
+        const second$ = this.patientsListService.getMutationGeneticInfoLists22(item, list.nucleotideChange, 'Genetic');
         combineLatest([first$, second$])
           .pipe(
             first(),
             take(1)
           )
           .subscribe(([data1, data2]) => {
-
+            console.log('[1716][호출]', data1, data2);
             if (data1.length > 0) {
-              // console.log('[1685][호출]', gene, data1, data2);
+              // console.log('[1716][호출]', gene, data1, data2);
               if (data2.length > 0) {
                 control.at(index).patchValue(
                   {
                     type: 'M',
-                    functionalImpact: data2[0].functionalImpact,
-                    dbSNPHGMD: data2[0].dbSNPHGMD, gnomADEAS: data2[0].gnomADEAS,
-                    transcript: data2[0].transcript,
-                    exonIntro: data2[0].exon,
-                    aminoAcidChange: data2[0].amino_acid_change,
+                    functionalImpact: data2[0].FunctionalImpact,
+                    dbSNPHGMD: data2[0].dbSNPHGMD,
+                    gnomADEAS: data2[0].gnomADEAS,
+                    // transcript: data2[0].transcript,
+                    // exonIntro: data2[0].exon,
+                    // aminoAcidChange: data2[0].amino_acid_change,
                     OMIM: data1[0].OMIM
                   });
               } else {
                 control.at(index).patchValue({ type: 'New', OMIM: data1[0].OMIM });
               }
             } else {
-              control.at(index).patchValue({ type: 'New' });
+              if (data2.length > 0) {
+                control.at(index).patchValue(
+                  {
+                    type: 'New',
+                    functionalImpact: data2[0].FunctionalImpact,
+                    dbSNPHGMD: data2[0].dbSNPHGMD,
+                    gnomADEAS: data2[0].gnomADEAS,
+                  });
+              } else {
+                control.at(index).patchValue({ type: 'New' });
+              }
+
             }
           });
       });

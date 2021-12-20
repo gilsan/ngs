@@ -411,6 +411,7 @@ export interface ILymphoma {
 export interface IImmundefi {
   gene: string;
   functionalImpact?: string;
+  FunctionalImpact?: string;
   transcript: string;
   exonIntro: string;
   nucleotideChange: string;
