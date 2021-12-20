@@ -130,6 +130,7 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
   loadCode(): void {
     this.codeDefaultValueService.getCodeLists()
       .pipe(
+        // tap(data => console.log('[133][MLPA]', data)),
         map(lists => {
           return lists.sort((a, b) => {
             if (a.report < b.report) { return -1; }
@@ -141,7 +142,7 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
         filter(list => list.type === 'MLPA')
       )
       .subscribe(data => {
-        // console.log(data);
+        // console.log('[144]', data);
         this.listsMLPA.push(data);
       });
   }

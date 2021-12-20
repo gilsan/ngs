@@ -15,9 +15,15 @@
       <div id="menu">
           <table border="0" cellspacing="0" cellpadding="0">
               <tr>
-                 <td></td>
+                <!--
+                 <td>
+                  <button mat-button [matMenuTriggerFor]="menu00" id="menu000">LIMS</button>
+                  <mat-menu #menu00="matMenu">
+                    <button mat-menu-item (click)="link('lims')">LIMS</button>
+                  </mat-menu>
+                 </td>
+                 -->
                  <td class="menu01">
-
                   <!--a routerLink="/pathology"><span class="nav-text"></span></a-->
                      <button mat-button [matMenuTriggerFor]="menu01" id="menu010"></button>
                       <mat-menu #menu01="matMenu">

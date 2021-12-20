@@ -95,7 +95,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         concatMap(patientinfo => {
           return this.variantsService.screenSelect(patientinfo.specimenNo)
             .pipe(
-              // tap(data => console.log('[97]', data)),
+              tap(data => console.log('[97]', data)),
               map(data => {
                 // console.log('[99]', patientinfo.name, data);
                 return { ...patientinfo, data };
@@ -469,7 +469,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
                 genetictest = 'JAK2 V617F :' + list.genetic1 + ';' + 'JAK2 exon 12 :' + list.genetic2 + ';' + 'CALR :' + list.genetic3 + ';' + 'MPL :' + list.genetic4;
                 chron = list.chromosomalanalysis;
               }
-
+              console.log('[472]', leukemia, genetictest, chron);
               if (parseInt(list.detected, 10) === 0) {
                 check = 'Detected';
               } else if (parseInt(list.detected, 10) === 1) {

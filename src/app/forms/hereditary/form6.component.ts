@@ -474,23 +474,13 @@ export class Form6Component implements OnInit, OnDestroy {
 
       // VUS 메제시 확인
       this.vusmsg = this.patientInfo.vusmsg;
-      // console.log('[412][recoverDetected][VUS메세지]', this.patientInfo.vusmsg, this.vusmsg);
       const tempVUS = [];
       this.recoverVariants.forEach(item => {
         this.recoverVariant(item);  // 354
-        // tempVUS.push(item.functional_impact);
+
       });
 
-      // VUS 문구 자동 표시기능 불필요. VUS 표시란 삭제
-      // if (tempVUS.includes('VUS')) {
-      //   this.vusstatus = true;
-      //   if (this.patientInfo.vusmsg.length) {
-      //     this.vusmsg = this.patientInfo.vusmsg;
-      //   }
-      // } else {
-      //   this.vusstatus = false;
-      // }
-      this.reCall();
+      // this.reCall();
       this.putCheckboxInit(); // 체크박스 초기화
     });
 
@@ -1639,10 +1629,10 @@ export class Form6Component implements OnInit, OnDestroy {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
     console.log('[1726]', formData);
-    if (formData.length === 0) {
-      alert('Mutation 내용이 없습니다.');
-      return;
-    }
+    // if (formData.length === 0) {
+    //   alert('Mutation 내용이 없습니다.');
+    //   return;
+    // }
     this.isExamVisible = true;
 
   }
@@ -1661,8 +1651,6 @@ export class Form6Component implements OnInit, OnDestroy {
     return true;
 
   }
-
-
 
 
 
@@ -1708,6 +1696,50 @@ export class Form6Component implements OnInit, OnDestroy {
 
   }
 
+  ///////// mutation 에서 찿기
+  reCall2(): void {
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    const formData: IAFormVariant[] = control.getRawValue();
+
+    formData.forEach((list, index) => {
+      const gene = list.gene.split(',');
+      gene.forEach(item => {
+        const first$ = this.patientsListService.getMutationGeneticInfoLists1(item, 'Genetic');
+        const second$ = this.patientsListService.getMutationGeneticInfoLists2(item, list.nucleotideChange, 'Genetic');
+        combineLatest([first$, second$])
+          .pipe(
+            first(),
+            take(1)
+          )
+          .subscribe(([data1, data2]) => {
+
+            if (data1.length > 0) {
+              // console.log('[1685][호출]', gene, data1, data2);
+              if (data2.length > 0) {
+                control.at(index).patchValue(
+                  {
+                    type: 'M',
+                    functionalImpact: data2[0].functionalImpact,
+                    dbSNPHGMD: data2[0].dbSNPHGMD, gnomADEAS: data2[0].gnomADEAS,
+                    transcript: data2[0].transcript,
+                    exonIntro: data2[0].exon,
+                    aminoAcidChange: data2[0].amino_acid_change,
+                    OMIM: data1[0].OMIM
+                  });
+              } else {
+                control.at(index).patchValue({ type: 'New', OMIM: data1[0].OMIM });
+              }
+            } else {
+              control.at(index).patchValue({ type: 'New' });
+            }
+          });
+      });
+    });
+
+  }
+
+
+  ///////
   modalClose(): void {
     this.isExamVisible = false;
   }
@@ -1720,14 +1752,14 @@ export class Form6Component implements OnInit, OnDestroy {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const lists = control.getRawValue();
     let commentdata = '';
-    if (lists.length === 0 && this.resultStatus === 'Detected') {
-      alert('Mutation 내용이 없습니다.');
-      return;
-    } else if (lists.length === 0 && this.resultStatus === 'Not Detected') {
-      commentdata = `본 환자에서  ${this.target}에 대한 targeted panel sequencing 결과, 질환 관련 돌연변이는 관찰되지 않았습니다.`;
-      this.commentdata = commentdata;
-      return;
-    }
+    // if (lists.length === 0 && this.resultStatus === 'Detected') {
+    //   alert('Mutation 내용이 없습니다.');
+    //   return;
+    // } else if (lists.length === 0 && this.resultStatus === 'Not Detected') {
+    //   commentdata = `본 환자에서  ${this.target}에 대한 targeted panel sequencing 결과, 질환 관련 돌연변이는 관찰되지 않았습니다.`;
+    //   this.commentdata = commentdata;
+    //   return;
+    // }
 
     if (this.resultStatus === 'Detected') {
 
@@ -1773,7 +1805,7 @@ export class Form6Component implements OnInit, OnDestroy {
     }
   }
 
-
+  //
 
 
 

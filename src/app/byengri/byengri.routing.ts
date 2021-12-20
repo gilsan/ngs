@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ByengriComponent } from './byengri/byengri.component';
+import { LimsComponent } from './byengri/lims/lims.component';
 import { ManageStatisticsComponent } from './byengri/manage-statistics/manage-statistics.component';
 import { ManageUsersComponent } from './byengri/manage-users/manage-users.component';
 import { ReportComponent } from './byengri/report/report.componen';
@@ -49,7 +50,8 @@ const routes: Routes = [
       { path: 'research/:id', component: ResearchComponent, resolve: { patientinfo: ReportResolver } },
       { path: 'ngsexcel', component: NgsexcelComponent },
       { path: 'patientexcel', component: PatientexcelComponent },
-      { path: 'EssGene', component: TierComponent }
+      { path: 'EssGene', component: TierComponent },
+      { path: 'lims', component: LimsComponent }
 
     ]
   }

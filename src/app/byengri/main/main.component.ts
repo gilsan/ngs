@@ -129,6 +129,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.subs.sink = this.lists$
       .subscribe((data) => {
+
         this.lists = data;
       });
 
@@ -661,7 +662,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.lists$ = this.pathologyService.search(startdate, enddate, patient, pathologynum);
     this.subs.sink = this.lists$.subscribe((data) => {
-      // console.log('[636][병리검색]', data);
+      console.log('[636][병리검색]', data);
       this.lists = data;
       // console.log('[638][MAIN][SEARCH][리스트수]: ', this.lists.length);
     });

@@ -643,10 +643,10 @@ export class Form7Component implements OnInit, OnDestroy {
   showDialog(): void {
     const control = this.form.get('tableRows') as FormArray;
     const formData = control.getRawValue();
-    if (formData.length === 0) {
-      alert('Mutation 내용이 없습니다.');
-      return;
-    }
+    // if (formData.length === 0) {
+    //   alert('Mutation 내용이 없습니다.');
+    //   return;
+    // }
     this.isExamVisible = true;
   }
 
@@ -736,14 +736,14 @@ export class Form7Component implements OnInit, OnDestroy {
     const gene = geneTemp[0].trim();
     console.log(this.ngsTitle, this.ngsTitle.split('Gene'), geneTemp, gene);
     let commentdata = '';
-    if (lists.length === 0 && this.resultStatus === 'Detected') {
-      alert('Mutation 내용이 없습니다.');
-      return;
-    } else if (lists.length === 0 && this.resultStatus === 'Not Detected') {
-      commentdata = `본 환자에서 ${gene} 에 대한 direct sequencing 결과, 질환 관련 돌연변이는 관찰되지 않았습니다`;
-      this.comment = commentdata;
-      return;
-    }
+    // if (lists.length === 0 && this.resultStatus === 'Detected') {
+    //   alert('Mutation 내용이 없습니다.');
+    //   return;
+    // } else if (lists.length === 0 && this.resultStatus === 'Not Detected') {
+    //   commentdata = `본 환자에서 ${gene} 에 대한 direct sequencing 결과, 질환 관련 돌연변이는 관찰되지 않았습니다`;
+    //   this.comment = commentdata;
+    //   return;
+    // }
 
     //   const gene = this.ngsTitle.split('Gene')[0].trim();
     this.comment = '';
