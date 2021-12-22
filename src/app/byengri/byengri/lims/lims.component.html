@@ -12,30 +12,36 @@
           <div class="box mg_b20 pd_20">
               <span>접수일자</span>&nbsp;&nbsp;
               <input type="date"   class="input_01" #end  style="width:150px;"/> &nbsp;&nbsp;
-              <button type="button" class="btn btn_02"
+              <button type="button" class="btn btn_02" (click)="search()"
                style="margin-right: 15px;">조회</button>
                <select class="select_01 select_001" #sheet>
-                <option value="TOTAL">전체</option>
-                <option value="AMLALL">의사1</option>
-                <option value="ETC">의사2</option>
+                <option value="TOTAL">의사</option>
+                <option value="exam.id" *ngFor="let exam of doctorList">{{exam.name}}</option>
               </select>&nbsp;&nbsp;
               <select class="select_01 select_001" #research>
-                <option value="TOTAL">전체</option>
-                <option value="PATIENT">기상1</option>
-                <option value="RESEARCH">기사2</option>
+                <option value="TOTAL">병리기사</option>
+                <option value="exam.id" *ngFor="let exam of examinList">{{exam.name}}</option>
               </select>&nbsp;&nbsp;&nbsp;
               <button type="button" class="btn btn_02"
               style="margin-right: 15px;">저장</button>
               <button type="button" class="btn btn_02"
-               style="margin-right: 15px;">Nano 엑셀읽기</button>
+               style="margin-right: 15px;" (click)="fileInput.click()">Nano 엑셀읽기</button>
+               <input style="display: none" type="file"
+                 (change)="onFileSelected($event)"
+                 #fileInput>
                <button type="button" class="btn btn_02"
                style="margin-right: 15px;">엑셀출력</button>
           </div>
           <div class="box big_box">
+
+
               <div class="box_100 fill"  appScrollMonitor  #pbox100>
+             <form [formGroup]="dnaForm">
               <table border="0" cellpadding="0" cellspacing="0" class="table_list  fixed_header table_resul_x">
                   <colgroup>
                       <col width="40px">
+                      <col width="90px">
+                      <col width="90px">
                       <col width="80px">
                       <col width="80px">
                       <col width="80px">
@@ -44,9 +50,7 @@
                       <col width="80px">
                       <col width="80px">
                       <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
+                      <col width="150px">
                       <col width="80px">
                       <col width="80px">
                       <col width="80px">
@@ -112,51 +116,150 @@
                           <th>No</th>
                       </tr>
                   </thead>
-                  <tbody class="bodytable"  >
-                      <tr>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
+                  <tbody class="bodytable">
+                   <ng-container formArrayName="dnaFormgroup"
+                    *ngFor="let group of dnaFormLists().controls; let i=index">
+                      <tr  [formGroupName]="i">
+                          <td class="txt_c">
+                          <input type="text" size="10" class="clr-input" formControlName="id" readonly>
+                          </td>
+                          <td class="txt_c">
+                           <input type="text" size="10" class="clr-input" formControlName="pathology_num" readonly>
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="rel_pathology_num" readonly>
+                          </td>
+                          <td class="txt_c">
+                           <input type="text" size="10" class="clr-input" formControlName="prescription_date" readonly>
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="patientID" readonly>
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="name" readonly>
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="gender" readonly>
+                          </td>
+
+                          <td class="txt_c">
+                             <input type="text" size="10"  class="clr-input  tdbox"
+                              matInput  [matAutocomplete]="dnaauto" formControlName="path_type">
+                              <mat-autocomplete #dnaauto="matAutocomplete">
+                                <mat-option>BX</mat-option>
+                                <mat-option>OP</mat-option>
+                              </mat-autocomplete>
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="20"  class="clr-input  tdbox"
+                            matInput  [matAutocomplete]="dnablock" formControlName="block_cnt">
+                            <mat-autocomplete #dnablock="matAutocomplete">
+                               <mat-option>1개</mat-option>
+                               <mat-option>2개</mat-option>
+                               <mat-option>3개이상</mat-option>
+                            </mat-autocomplete>
+
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="key_block">
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="prescription_code">
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="30"  class="clr-input  tdbox"
+                            matInput  [matAutocomplete]="dnacancel" formControlName="test_code">
+                            <mat-autocomplete #dnacancel="matAutocomplete">
+                              <mat-option *ngFor="let option of LISTS" [value]="option">
+                                   {{option}}
+                              </mat-option>
+                            </mat-autocomplete>
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="tumorburden">
+                          </td>
+                          <td class="txt_c">
+                              <input type="text" size="10" class="clr-input" formControlName="nano_ng">
+                          </td>
+                          <td class="txt_c">
+                              <input type="text" size="10" class="clr-input" formControlName="nano_280">
+                          </td>
+                          <td class="txt_c">
+                              <input type="text" size="10" class="clr-input" formControlName="nano_230">
+                          </td>
+                          <td class="txt_c">
+                             <input type="text" size="10" class="clr-input" formControlName="nano_dil">
+                          </td>
+                          <td class="txt_c">
+                              <input type="text" size="10" class="clr-input" formControlName="ng_ui" #dnaNgUl (change)="dnaNgUl(i, dnaNgUl.value)">
+                          </td>
+                          <td class="txt_c">
+                              <input type="text" size="10" class="clr-input" formControlName="dan_rna"
+                              #dnaDanRna (change)="dnaDanRna(i, dnaDanRna.value)">
+                          </td>
+                          <td class="txt_c">
+                              <input type="text" size="10" class="clr-input" formControlName="dw" >
+                          </td>
+                          <td class="txt_c">
+                              <input type="text" size="10" class="clr-input" formControlName="tot_ct">
+                          </td>
+                          <td class="txt_c">
+                              <input type="text" size="10" class="clr-input" formControlName="ct">
+                          </td>
+                          <td class="txt_c">
+                              <input type="text" size="10" class="clr-input" formControlName="quantity" #dnaQuatity (change)="dnaQuatity(i,dnaQuatity.value)">
+                          </td>
+                          <td class="txt_c">
+                              <input type="text" size="10" class="clr-input" formControlName="quantity_2" #dnaQuatity2 (change)="dnaQuatity2(i, dnaQuatity2.vlaue)">
+                          </td>
+                          <td class="txt_c">
+                              <input type="text" size="10" class="clr-input" formControlName="quan_dna" #dnaQuanDna (change)="dnaQuanDna(i, dnaQuanDna.value)">
+                          </td>
+                          <td class="txt_c">
+                              <input type="text" size="10" class="clr-input" formControlName="te">
+                          </td>
+                          <td class="txt_c">
+                              <input type="text" size="10" class="clr-input" formControlName="quan_tot_vol">
+                          </td>
+                          <td class="txt_c">
+                              <input type="text" size="10" class="clr-input" formControlName="lib_hifi">
+                          </td>
+                          <td class="txt_c">
+                              <input type="text" size="10" class="clr-input" formControlName="pm" #dnaPm (change)="dnaPm(i, dnaPm.value)">
+                          </td>
+                          <td class="txt_c">
+                              <input type="text" size="10" class="clr-input" formControlName="x100" #dnax100 (change)="dnax100(i, dnax100.value)">
+                          </td>
+                          <td class="txt_c">
+                              <input type="text" size="10" class="clr-input" formControlName="lib">
+                          </td>
+                          <td class="txt_c">
+                              <input type="text" size="10" class="clr-input" formControlName="lib_dw"  #dnalibdw (change)="dnalibdw(i, dnalibdw.value)">
+                          </td>
+                          <td class="txt_c">
+                              <input type="text" size="10" class="clr-input" formControlName="lib2">
+                          </td>
+                          <td class="txt_c">
+                              <input type="text" size="10" class="clr-input" formControlName="lib2_dw">
+                          </td>
+                          <td class="txt_c">
+                              <input type="text" size="10" class="clr-input" formControlName="pathology_num">
+                          </td>
+                          <td class="txt_c">
+                              <input type="text" size="10" class="clr-input" formControlName="id">
+                          </td>
                       </tr>
+                    </ng-container>
                   </tbody>
               </table>
+            </form>
 
+            <form [formGroup]="rnaForm">
               <table border="0" cellpadding="0" cellspacing="0" class="table_list  fixed_header table_resul_x">
                   <colgroup>
                       <col width="40px">
+                      <col width="90px">
+                      <col width="90px">
                       <col width="80px">
                       <col width="80px">
                       <col width="80px">
@@ -165,9 +268,7 @@
                       <col width="80px">
                       <col width="80px">
                       <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
+                      <col width="150px">
                       <col width="80px">
                       <col width="80px">
                       <col width="80px">
@@ -194,7 +295,7 @@
                       <col width="40px">
                   </colgroup>
                   <thead class="fixheader">
-                      <tr>
+                      <tr >
                           <th>No.</th>
                           <th>병리번호</th>
                           <th>관련병리번호</th>
@@ -234,46 +335,146 @@
                       </tr>
                   </thead>
                   <tbody class="bodytable"  >
-                      <tr>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
-                          <td class="txt_c"></td>
+                    <ng-container formArrayName="rnaFormgroup"
+                    *ngFor="let group of rnaFormLists().controls; let i=index">
+                      <tr   [formGroupName]="i">
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="id" readonly>
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="pathology_num" readonly>
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="rel_pathology_num" readonly>
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="prescription_date" readonly>
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="patientID" readonly>
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="name" readonly>
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="gender" readonly>
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10"  class="clr-input  tdbox"
+                            matInput  [matAutocomplete]="rnaauto" formControlName="path_type">
+                            <mat-autocomplete #rnaauto="matAutocomplete">
+                               <mat-option>BX</mat-option>
+                               <mat-option>OP</mat-option>
+                            </mat-autocomplete>
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="20"  class="clr-input  tdbox"
+                            matInput  [matAutocomplete]="rnablock" formControlName="block_cnt">
+                            <mat-autocomplete #rnablock="matAutocomplete">
+                               <mat-option>1개</mat-option>
+                               <mat-option>2개</mat-option>
+                               <mat-option>3개이상</mat-option>
+                            </mat-autocomplete>
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="key_block">
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="prescription_code">
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="30"  class="clr-input  tdbox"
+                            matInput  [matAutocomplete]="rnacancel" formControlName="test_code">
+                            <mat-autocomplete #rnacancel="matAutocomplete">
+                              <mat-option *ngFor="let option of LISTS" [value]="option">
+                                   {{option}}
+                              </mat-option>
+                            </mat-autocomplete>
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="tumorburden">
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="nano_ng">
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="nano_280">
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="nano_230">
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="nano_dil">
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="ng_ui" #rnaNgUl (change)="rnaNgUl(i, rnaNgUl.value)">
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="dan_rna"
+                            #rnaDanRna (change)="rnaDanRna(i, rnaDanRna.value)">
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="dw">
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="tot_ct">
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="ct">
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="quantity"
+                            #rnaQuatity (change)="rnaQuatity(i,rnaQuatity.value)">
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="quantity_2"
+                            #rnaQuatity2 (change)="rnaQuatity2(i, rnaQuatity2.vlaue)">
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="quan_dna"
+                            #rnaQuanDna (change)="rnaQuanDna(i, rnaQuanDna.value)">
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="te">
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="quan_tot_vol">
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="lib_hifi">
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="pm"
+                            #rnaPm (change)="rnaPm(i, rnaPm.value)">
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="x100"
+                            #rnax100 (change)="rnax100(i, rnax100.value)">
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="lib">
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="lib_dw"
+                            #rnalibdw (change)="rnalibdw(i, rnalibdw.value)">
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="lib2">
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="lib2_dw">
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="pathology_num">
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="id">
+                          </td>
                       </tr>
+                    </ng-container>
                   </tbody>
               </table>
+            </form>
             </div>
 
           </div>

@@ -36,7 +36,7 @@ export class ManageUsersComponent implements OnInit {
   ngOnInit(): void {
     // if (this.storeStartDay === null || this.storeEndDay === null) {
     this.init();
-    // } 
+    // }
   }
 
 
@@ -133,7 +133,7 @@ export class ManageUsersComponent implements OnInit {
   }
 
   confirm(id: string, approved: string): void {
-    debugger;
+    //  debugger;
     let approve = (approved == "Y" ? "승인" : "미승인");
     let result = confirm(approve + " 하시겠습니까?");
     if (result == true) {

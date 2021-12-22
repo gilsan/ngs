@@ -437,9 +437,9 @@ export class PatientsListService {
   // 날자별 환자ID, 검사ID 검사인 찿기
   public search(start: string, end: string, patientID: string = '',
     // tslint:disable-next-line:align
-    specimenNo: string = '', status: string = '', sheet: string = '', research: string = ''): Observable<IPatient[]> {
+    specimenNo: string = '', status: string = '', sheet: string = '', research1: string = ''): Observable<IPatient[]> {
     return this.http.post<IPatient[]>(`${this.apiUrl}/searchpatient_diag/list`,
-      { start, end, patientID, specimenNo, status, sheet, research }).pipe(
+      { start, end, patientID, specimenNo, status, sheet, research1 }).pipe(
         map((items: any) => {
           return items.map(item => {
             let genetictest = '';
