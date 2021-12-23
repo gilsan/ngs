@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { filter, map, shareReplay, tap } from 'rxjs/operators';
@@ -42,7 +42,8 @@ export class LimsComponent implements OnInit, OnChanges {
     'Columnar cell variant thyroid gland papillary carcinoma', 'Tall cell variant thyroid gland papillary carcinoma',
     'Triple negative breast cancer', 'Unknown primary origin', 'Other soilid tumor',
   ];
-
+  BLOCKCNT = ['1개', '2개', '3개이상'];
+  BXOP = ['BX', 'OP'];
   dnaLists: ILIMS[] = [];
   rnaLists: ILIMS[] = [];
 
@@ -52,6 +53,8 @@ export class LimsComponent implements OnInit, OnChanges {
   dnaObservable$: Observable<ILIMS[]>;
   exminObservable$: Observable<IUSER[]>;
 
+  examiner = '';
+  rechecker = '';
   // dnaFileLists: IDNATYPE[] = [];
   // rnaFileLists: IRNATYPE[] = [];
 
@@ -63,6 +66,12 @@ export class LimsComponent implements OnInit, OnChanges {
     rnaFormgroup: this.fb.array([]),
   });
 
+  lastScrollTop = 0;
+  lastScrollLeft = 0;
+  topScroll = false;
+  leftScroll = true;
+  @ViewChild('table', { static: true }) table: ElementRef;
+
   constructor(
     private limsService: LimsService,
     private searchService: SearchService,
@@ -71,7 +80,7 @@ export class LimsComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnInit(): void {
-    this.search();
+    this.search(this.endToday());
     this.exminObservable$ = this.manageUsersService.getManageUsersList(this.startToday2(), this.endToday(), '', '', 'P')
       .pipe(
         // tap(data => console.log(data)),
@@ -103,60 +112,71 @@ export class LimsComponent implements OnInit, OnChanges {
     console.log(changes);
   }
 
-  search(): void {
-    this.dnaObservable$ = this.limsService.search('2021-05-20');
-    this.dnaObservable$.subscribe(data => {
-      // console.log(data);
-      data.forEach(i => {
-        const val = {
-          id: i.id,
-          pathology_num: i.pathology_num,
-          rel_pathology_num: i.rel_pathology_num,
-          prescription_date: i.prescription_date,
-          patientID: i.patientID,
-          name: i.name,
-          gender: '(' + i.gender + '/' + i.age + ')',
-          path_type: i.path_type,
-          block_cnt: i.block_cnt,
-          key_block: i.key_block,
-          prescription_code: i.prescription_code,
-          test_code: i.test_code,
-          tumorburden: i.tumorburden,
-          nano_ng: i.nano_ng,
-          nano_280: i.nano_280,
-          nano_230: i.nano_230,
-          nano_dil: i.nano_dil,
-          ng_ui: i.ng_ui,
-          dan_rna: 0,
-          dw: 0,
-          tot_ct: i.tot_ct,
-          ct: i.ct,
-          quantity: i.quantity,
-          quantity_2: 0,
-          quan_dna: 0,
-          te: 0,
-          quan_tot_vol: i.quan_tot_vol,
-          lib_hifi: i.lib_hifi,
-          pm: i.pm,
-          x100: 0,
-          lib: i.lib,
-          lib_dw: 0,
-          lib2: i.lib2,
-          lib2_dw: 0,
-        };
+  search(searchdate: string): void {
+    // 2021-05-20
+    this.dnaObservable$ = this.limsService.search(searchdate);
+    this.dnaObservable$
+      .pipe(
+        map(lists => {
+          return lists.sort((a, b) => {
+            if (a.id < b.id) { return -1; }
+            if (a.id > b.id) { return 1; }
+            if (a.id === b.id) { return 0; }
+          });
+        }),
+      )
+      .subscribe(data => {
 
-        this.dnaLists.push(val);
-      });
-      // console.log(this.dnaLists);
-      this.dnaLists.forEach(list => {
-        this.dnaFormLists().push(this.createDNA(list));
-      });
+        data.forEach(i => {
+          const val = {
+            id: i.id,
+            pathology_num: i.pathology_num,
+            rel_pathology_num: i.rel_pathology_num,
+            prescription_date: i.prescription_date,
+            patientID: i.patientID,
+            name: i.name,
+            gender: '(' + i.gender + '/' + i.age + ')',
+            path_type: i.path_type,
+            block_cnt: i.block_cnt,
+            key_block: i.key_block,
+            prescription_code: i.prescription_code,
+            test_code: i.test_code,
+            tumorburden: i.tumorburden,
+            nano_ng: i.nano_ng,
+            nano_280: i.nano_280,
+            nano_230: i.nano_230,
+            nano_dil: i.nano_dil,
+            ng_ui: i.ng_ui,
+            dan_rna: 0,
+            dw: 0,
+            tot_ct: i.tot_ct,
+            ct: i.ct,
+            quantity: i.quantity,
+            quantity_2: 0,
+            quan_dna: 0,
+            te: 0,
+            quan_tot_vol: i.quan_tot_vol,
+            lib_hifi: i.lib_hifi,
+            pm: i.pm,
+            x100: 0,
+            lib: i.lib,
+            lib_dw: 0,
+            lib2: i.lib2,
+            lib2_dw: 0,
+          };
 
-      this.dnaLists.forEach(list => {
-        this.rnaFormLists().push(this.createRNA(list));
-      });
+          this.dnaLists.push(val);
+        });
+        // console.log(this.dnaLists);
+        this.dnaLists.forEach(list => {
+          this.dnaFormLists().push(this.createDNA(list));
+        });
 
-    });
+        this.dnaLists.forEach(list => {
+          this.rnaFormLists().push(this.createRNA(list));
+        });
+
+      });
 
   }
 
@@ -195,7 +215,10 @@ export class LimsComponent implements OnInit, OnChanges {
       lib: i.lib,
       lib_dw: 0,
       lib2: i.lib2,
-      lib2_dw: 0
+      lib2_dw: 0,
+      dna_rna_gbn: '0',
+      pathology_num2: i.pathology_num,
+      id2: i.id,
     });
   }
 
@@ -238,7 +261,10 @@ export class LimsComponent implements OnInit, OnChanges {
       lib: i.lib,
       lib_dw: 0,
       lib2: i.lib2,
-      lib2_dw: 0
+      lib2_dw: 0,
+      dna_rna_gbn: '1',
+      pathology_num2: i.pathology_num,
+      id2: i.id,
     });
   }
 
@@ -350,14 +376,15 @@ export class LimsComponent implements OnInit, OnChanges {
 
   updateRNAScreen(lists: IDNATYPE[]): void {
     const control = this.rnaForm.get('rnaFormgroup') as FormArray;
-    const formData: IDNATYPE[] = control.getRawValue();
-
+    const formData: ILIMS[] = control.getRawValue();
     formData.forEach((data, index) => {
       const idx = lists.findIndex(list => list.pathology_num.trim() === data.pathology_num.trim());
       if (idx !== -1) {
         const { pathology_num, nano_280, nano_230, ng_ui } = lists[idx];
+        const danRna = (20 / parseFloat(ng_ui)) * 5;
+        const dwVal = 20 - danRna;
         control.at(index).patchValue({
-          nano_ng: ng_ui, nano_280, nano_230
+          ng_ui, nano_280, nano_230, dan_rna: danRna.toFixed(2), dw: dwVal.toFixed(2)
         });
       }
     });
@@ -476,9 +503,6 @@ export class LimsComponent implements OnInit, OnChanges {
     });
   }
 
-
-
-
   dnaPm(i: number, val: string): void {
     const control = this.dnaForm.get('dnaFormgroup') as FormArray;
     const x100 = parseFloat(val) * 100;
@@ -538,5 +562,166 @@ export class LimsComponent implements OnInit, OnChanges {
     });
   }
 
+  selectedExamin(id: string): void {
+    this.examiner = id;
+
+    console.log(id);
+  }
+
+  selectedRecheck(id: string): void {
+    this.rechecker = id;
+    console.log(id);
+  }
+
+  save(): void {
+    const dnacontrol = this.dnaForm.get('dnaFormgroup') as FormArray;
+    const dnaFormData = dnacontrol.getRawValue();
+    const rnacontrol = this.rnaForm.get('rnaFormgroup') as FormArray;
+    const rnaFormData = rnacontrol.getRawValue();
+
+    const allData: ILIMS[] = [...dnaFormData, ...rnaFormData];
+    console.log('[583][save]', allData);
+    this.limsService.save(allData, this.examiner, this.rechecker)
+      .subscribe();
+  }
+
+
+  printexcel(): void {
+    const dnacontrol = this.dnaForm.get('dnaFormgroup') as FormArray;
+    const dnaFormData = dnacontrol.getRawValue();
+    dnaFormData.unshift({
+      id: 'No.',
+      pathology_num: '병리번호',
+      rel_pathology_num: '관련병리번호',
+      prescription_date: '접수일자',
+      patientID: '등록번호',
+      name: '환자명',
+      gender: '성별(F/M)',
+      path_type: '구분(bx,op)',
+      block_cnt: '블록수',
+      key_block: 'key block',
+      prescription_code: '검체',
+      test_code: '암종',
+      tumorburden: 'tumor %',
+      nano_ng: 'ng/ul',
+      nano_280: '260/280',
+      nano_230: '260/280',
+      nano_dil: 'dil비율',
+      ng_ui: 'ng/ul',
+      dan_rna: 'DNA',
+      dw: 'dw',
+      tot_ct: 'toal Vol',
+      ct: 'Ct값',
+      quantity: 'quantity',
+      quantity_2: 'quantity/2(농도)',
+      quan_dna: 'DNA',
+      te: 'TE',
+      quan_tot_vol: 'toal Vol',
+      lib_hifi: 'Lib HIFI PCR Cycle',
+      pm: 'pM',
+      x100: 'x100',
+      lib: 'library',
+      lib_dw: 'DW (50pm)',
+      lib2: 'library',
+      lib2_dw: 'library',
+      pathology_num2: '병리번호',
+      id2: 'No.',
+    });
+
+    const rnacontrol = this.rnaForm.get('rnaFormgroup') as FormArray;
+    const rnaFormData = rnacontrol.getRawValue();
+    rnaFormData.unshift({
+      id: 'No.',
+      pathology_num: '병리번호',
+      rel_pathology_num: '관련병리번호',
+      prescription_date: '접수일자',
+      patientID: '등록번호',
+      name: '등록번호',
+      gender: '성별(F/M)',
+      path_type: '구분(bx,op)',
+      block_cnt: '블록수',
+      key_block: 'key block',
+      prescription_code: '검체',
+      test_code: '암종',
+      tumorburden: 'tumor %',
+      nano_ng: 'ng/ul',
+      nano_280: '260/280',
+      nano_230: '260/280',
+      nano_dil: 'dil비율',
+      ng_ui: 'ng/ul',
+      dan_rna: 'RNA',
+      dw: 'dw',
+      tot_ct: 'toal Vol',
+      ct: 'Ct값',
+      quantity: 'quantity',
+      quantity_2: 'quantity/2(농도)',
+      quan_dna: 'DNA',
+      te: 'TE',
+      quan_tot_vol: 'toal Vol',
+      lib_hifi: 'Lib HIFI PCR Cycle',
+      pm: 'pM',
+      x100: 'x100',
+      lib: 'library',
+      lib_dw: 'DW (50pm)',
+      lib2: 'library',
+      lib2_dw: 'library',
+      pathology_num2: '병리번호',
+      id2: 'No.',
+    });
+    const tempDNA = [];
+    const tempRNA = [];
+
+    dnaFormData.forEach(list => {
+      const { dna_rna_gbn, ...temp } = list;
+      tempDNA.push(temp);
+    });
+
+    rnaFormData.forEach(list => {
+      const { dna_rna_gbn, ...temp } = list;
+      tempRNA.push(temp);
+    });
+
+    const allData: ILIMS[] = [...tempDNA, ...tempRNA];
+    console.log('[672][Excel]', allData);
+    const width = [{ width: 4 }, { width: 16 }, { width: 13 }, { width: 12 }, { width: 11 },
+    { width: 8 }, { width: 9 }, { width: 5 }, { width: 8 }, { width: 9 },
+    { width: 19 }, { width: 18 }, { width: 5 }, { width: 8 }, { width: 8 },
+    { width: 8 }, { width: 14 }, { width: 8 }, { width: 8 }, { width: 8 },
+    { width: 7 }, { width: 9 }, { width: 9 }, { width: 8 }, { width: 8 },
+    { width: 8 }, { width: 8 }, { width: 9 }, { width: 9 }, { width: 9 },
+    { width: 6 }, { width: 9 }, { width: 7 }, { width: 9 }, { width: 15 }, { width: 5 }
+    ];
+    this.limsService.exportAsExcelFile(allData, 'LIMS', width);
+  }
+
+  tableScroll(evt: Event): void {
+    const target = evt.target as Element;
+    const lastScrollTop = target.scrollTop;
+    const lastScrollLeft = target.scrollLeft;
+
+    if (this.lastScrollTop > lastScrollTop || this.lastScrollTop < lastScrollTop) {
+      this.topScroll = true;
+      this.leftScroll = false;
+    } else {
+      this.topScroll = false;
+    }
+
+    if (this.lastScrollLeft > lastScrollLeft || this.lastScrollLeft < lastScrollLeft) {
+      this.topScroll = false;
+      this.leftScroll = true;
+    } else {
+      this.leftScroll = false;
+    }
+
+    this.lastScrollTop = lastScrollTop <= 0 ? 0 : lastScrollTop;
+    this.lastScrollLeft = lastScrollLeft <= 0 ? 0 : lastScrollLeft;
+  }
+
+  tableHeader(): {} {
+    if (this.topScroll) {
+      return { 'header-fix': true, 'td-fix': false };
+    }
+    return { 'header-fix': false, 'td-fix': true };
+  }
 
 }

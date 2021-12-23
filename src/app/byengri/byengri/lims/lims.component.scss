@@ -94,3 +94,36 @@ table {
   min-height: 500px;
   height: calc(100vh - 300px);
 }
+
+/*
+.table_list.td-fix tr td:first-child {
+  position: sticky;
+  left: 0;
+  background-color: #fff;
+}
+
+.table_list.td-fix tr td:first-child+td {
+  position: sticky;
+  left: 50px;
+  background-color: #fff;
+}
+
+.table_list.td-fix tr td:first-child+td+td {
+  position: sticky;
+  left: 130px;
+  background-color: #fff;
+}
+
+.table_list.td-fix tr td:first-child+td+td+td {
+  position: sticky;
+  left: 170px;
+  background-color: #fff;
+}
+
+.table_list.td-fix tr td:first-child+td+td+td+td {
+  position: sticky;
+
+  left: 230px;
+  background-color: #fff;
+}
+*/

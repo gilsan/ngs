@@ -36,7 +36,8 @@ export interface ILIMS {
   lib_dw: number;               // DW (50pm)  함수: (x100/50) - 1
   lib2: string;                 // library
   lib2_dw: number;              // DW (50pm)  함수: lib_dw * 3
-
+  pathology_num2?: string;
+  id2?: string;                   // lims id
 }
 
 export interface IUSER {
