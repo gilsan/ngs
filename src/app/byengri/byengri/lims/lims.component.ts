@@ -450,6 +450,7 @@ export class LimsComponent implements OnInit {
   }
 
   dnaQuatity(i: number, val: string): void {
+    console.log('[453]', i, val);
     const control = this.dnaForm.get('dnaFormgroup') as FormArray;
     const quantity2 = parseFloat(val) / 2;
     const quanDna = 20 / quantity2;
