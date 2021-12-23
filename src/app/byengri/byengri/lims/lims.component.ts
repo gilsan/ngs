@@ -115,6 +115,12 @@ export class LimsComponent implements OnInit {
 
   search(searchdate: string): void {
     // 2021-05-20
+    const controlDNA = this.dnaForm.get('dnaFormgroup') as FormArray;
+    const controlRNA = this.rnaForm.get('rnaFormgroup') as FormArray;
+    controlDNA.clear();
+    controlRNA.clear();
+
+
     this.processing = true;
     this.dnaObservable$ = this.limsService.search(searchdate);
     this.dnaObservable$
@@ -219,8 +225,6 @@ export class LimsComponent implements OnInit {
       lib2: i.lib2,
       lib2_dw: i.lib2_dw,
       dna_rna_gbn: '0',
-      pathology_num2: i.pathology_num,
-      id2: i.id,
     });
   }
 
@@ -265,8 +269,6 @@ export class LimsComponent implements OnInit {
       lib2: i.lib2,
       lib2_dw: i.lib2_dw,
       dna_rna_gbn: '1',
-      pathology_num2: i.pathology_num,
-      id2: i.id,
     });
   }
 

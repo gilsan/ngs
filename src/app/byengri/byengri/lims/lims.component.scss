@@ -111,26 +111,37 @@ table {
 
 .table_list.td-fix tr td:first-child+td {
   position: sticky;
-  left: 50px;
+  left: 40px;
   background-color: #fff;
 }
 
 .table_list.td-fix tr td:first-child+td+td {
   position: sticky;
-  left: 130px;
+  left: 140px;
   background-color: #fff;
 }
 
 .table_list.td-fix tr td:first-child+td+td+td {
   position: sticky;
-  left: 170px;
+  left: 240px;
   background-color: #fff;
 }
 
 .table_list.td-fix tr td:first-child+td+td+td+td {
   position: sticky;
+  left: 320px;
+  background-color: #fff;
+}
 
-  left: 230px;
+.table_list.td-fix tr td:first-child+td+td+td+td+td {
+  position: sticky;
+  left: 400px;
+  background-color: #fff;
+}
+
+.table_list.td-fix tr td:first-child+td+td+td+td+td+td {
+  position: sticky;
+  left: 480px;
   background-color: #fff;
 }
 
