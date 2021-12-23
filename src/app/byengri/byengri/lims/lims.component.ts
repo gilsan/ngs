@@ -87,7 +87,7 @@ export class LimsComponent implements OnInit {
     this.exminObservable$ = this.manageUsersService.getManageUsersList(this.startToday2(), this.endToday(), '', '', 'P')
       .pipe(
         // tap(data => console.log(data)),
-        shareReplay()
+        // shareReplay()
       );
 
     this.exminObservable$
@@ -119,12 +119,14 @@ export class LimsComponent implements OnInit {
     const controlRNA = this.rnaForm.get('rnaFormgroup') as FormArray;
     controlDNA.clear();
     controlRNA.clear();
+    this.dnaLists = [];
 
 
     this.processing = true;
     this.dnaObservable$ = this.limsService.search(searchdate);
     this.dnaObservable$
       .pipe(
+        tap(data => console.log(data)),
         map(lists => {
           return lists.sort((a, b) => {
             if (a.id < b.id) { return -1; }
@@ -135,6 +137,7 @@ export class LimsComponent implements OnInit {
       )
       .subscribe(data => {
         this.processing = false;
+
         data.forEach(i => {
           const val = {
             id: i.id,

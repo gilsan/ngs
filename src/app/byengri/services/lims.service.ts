@@ -27,7 +27,7 @@ export class LimsService {
   search(start: string): Observable<ILIMS[]> {
     return this.http.post<ILIMS[]>(`${this.apiUrl}/lims/lists`, { start })
       .pipe(
-        shareReplay()
+        // shareReplay()
       );
   }
 
