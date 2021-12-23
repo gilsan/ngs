@@ -95,6 +95,13 @@ table {
   height: calc(100vh - 300px);
 }
 
+.progressbar {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 /*
 .table_list.td-fix tr td:first-child {
   position: sticky;

@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { map, shareReplay, tap } from 'rxjs/operators';
 import { IDNATYPE, ILIMS, IRNATYPE, IUSER } from '../../models/lims.model';
 import { LimsService } from '../../services/lims.service';
@@ -69,6 +70,8 @@ export class LimsComponent implements OnInit {
   lastScrollLeft = 0;
   topScroll = false;
   leftScroll = true;
+  processing = false;
+
   @ViewChild('table', { static: true }) table: ElementRef;
 
   constructor(
@@ -76,6 +79,7 @@ export class LimsComponent implements OnInit {
     private searchService: SearchService,
     private manageUsersService: ManageUsersService,
     private fb: FormBuilder,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -111,6 +115,7 @@ export class LimsComponent implements OnInit {
 
   search(searchdate: string): void {
     // 2021-05-20
+    this.processing = true;
     this.dnaObservable$ = this.limsService.search(searchdate);
     this.dnaObservable$
       .pipe(
@@ -123,7 +128,7 @@ export class LimsComponent implements OnInit {
         }),
       )
       .subscribe(data => {
-
+        this.processing = false;
         data.forEach(i => {
           const val = {
             id: i.id,
@@ -576,7 +581,9 @@ export class LimsComponent implements OnInit {
 
     const allData: ILIMS[] = [...dnaFormData, ...rnaFormData];
     this.limsService.save(allData, this.examiner, this.rechecker)
-      .subscribe();
+      .subscribe((data) => {
+        this.snackBar.open('저장 하였습니다.', '닫기', { duration: 3000 });
+      });
   }
 
 
