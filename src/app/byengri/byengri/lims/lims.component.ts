@@ -1,7 +1,7 @@
-import { Component, ElementRef, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { filter, map, shareReplay, tap } from 'rxjs/operators';
+import { map, shareReplay, tap } from 'rxjs/operators';
 import { IDNATYPE, ILIMS, IRNATYPE, IUSER } from '../../models/lims.model';
 import { LimsService } from '../../services/lims.service';
 import { SearchService } from '../../services/search.service';
@@ -18,7 +18,7 @@ const EXCEL_EXTENSION = '.xlsx';
   templateUrl: './lims.component.html',
   styleUrls: ['./lims.component.scss']
 })
-export class LimsComponent implements OnInit, OnChanges {
+export class LimsComponent implements OnInit {
   LISTS = [
     'Bladder cancer', 'Bladder adenocarcinoma', 'Bladder small cell neuroendocrine carcinoma',
     'Bladder squamous cell carcinoma', 'Bladder urothelial carcinoma', 'Breast cancer',
@@ -55,8 +55,7 @@ export class LimsComponent implements OnInit, OnChanges {
 
   examiner = '';
   rechecker = '';
-  // dnaFileLists: IDNATYPE[] = [];
-  // rnaFileLists: IRNATYPE[] = [];
+
 
   dnaForm: FormGroup = this.fb.group({
     dnaFormgroup: this.fb.array([]),
@@ -108,9 +107,7 @@ export class LimsComponent implements OnInit, OnChanges {
       });
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
-  }
+
 
   search(searchdate: string): void {
     // 2021-05-20
@@ -167,7 +164,7 @@ export class LimsComponent implements OnInit, OnChanges {
 
           this.dnaLists.push(val);
         });
-        // console.log(this.dnaLists);
+
         this.dnaLists.forEach(list => {
           this.dnaFormLists().push(this.createDNA(list));
         });
@@ -273,7 +270,6 @@ export class LimsComponent implements OnInit, OnChanges {
   }
 
   onFileSelected(event: any): void {
-    // console.log('[243][tsvupload] ', event);
     const file = event.target.files[0];
     let type = '';
 
@@ -347,7 +343,6 @@ export class LimsComponent implements OnInit, OnChanges {
       }
 
       if (type === 'DNA') {
-        // console.log(dnaFileLists);
         this.updateDNAScreen(dnaFileLists);
       } else if (type === 'RNA') {
         this.updateRNAScreen(rnaFileLists);
@@ -580,7 +575,6 @@ export class LimsComponent implements OnInit, OnChanges {
     const rnaFormData = rnacontrol.getRawValue();
 
     const allData: ILIMS[] = [...dnaFormData, ...rnaFormData];
-    console.log('[583][save]', allData);
     this.limsService.save(allData, this.examiner, this.rechecker)
       .subscribe();
   }
@@ -682,7 +676,7 @@ export class LimsComponent implements OnInit, OnChanges {
     });
 
     const allData: ILIMS[] = [...tempDNA, ...tempRNA];
-    console.log('[672][Excel]', allData);
+
     const width = [{ width: 4 }, { width: 16 }, { width: 13 }, { width: 12 }, { width: 11 },
     { width: 8 }, { width: 9 }, { width: 5 }, { width: 8 }, { width: 9 },
     { width: 19 }, { width: 18 }, { width: 5 }, { width: 8 }, { width: 8 },
