@@ -628,8 +628,6 @@ export class LimsComponent implements OnInit {
       lib_dw: 'DW (50pm)',
       lib2: 'library',
       lib2_dw: 'library',
-      pathology_num2: '병리번호',
-      id2: 'No.',
     });
 
     const rnacontrol = this.rnaForm.get('rnaFormgroup') as FormArray;
@@ -669,8 +667,6 @@ export class LimsComponent implements OnInit {
       lib_dw: 'DW (50pm)',
       lib2: 'library',
       lib2_dw: 'library',
-      pathology_num2: '병리번호',
-      id2: 'No.',
     });
     const tempDNA = [];
     const tempRNA = [];

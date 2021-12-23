@@ -144,6 +144,12 @@ table {
   background-color: #fff;
 }
 
+.table_list.td-fix tr td:first-child+td+td+td+td+td+td {
+  position: sticky;
+  left: 480px;
+  background-color: #fff;
+}
+
 
 
 
@@ -184,5 +190,12 @@ table {
   position: sticky;
 
   left: 400px;
+  background-color: #fafafa;
+}
+
+.table_list.td-fix tr th:first-child+th+th+th+th+th+th {
+  position: sticky;
+
+  left: 480px;
   background-color: #fafafa;
 }
