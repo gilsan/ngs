@@ -102,6 +102,11 @@ table {
   transform: translate(-50%, -50%);
 }
 
+.rna-fix {
+  position: sticky;
+  left: 0;
+  background-color: #fff;
+}
 
 .table_list.td-fix tr td:first-child {
   position: sticky;
