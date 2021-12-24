@@ -228,6 +228,7 @@ export class LimsComponent implements OnInit {
       lib2: i.lib2,
       lib2_dw: i.lib2_dw,
       dna_rna_gbn: '0',
+      report_date: i.report_date
     });
   }
 
@@ -272,6 +273,7 @@ export class LimsComponent implements OnInit {
       lib2: i.lib2,
       lib2_dw: i.lib2_dw,
       dna_rna_gbn: '1',
+      report_date: i.report_date
     });
   }
 
@@ -675,12 +677,12 @@ export class LimsComponent implements OnInit {
     const tempRNA = [];
 
     dnaFormData.forEach(list => {
-      const { dna_rna_gbn, ...temp } = list;
+      const { dna_rna_gbn, report_date, ...temp } = list;
       tempDNA.push(temp);
     });
 
     rnaFormData.forEach(list => {
-      const { dna_rna_gbn, ...temp } = list;
+      const { dna_rna_gbn, report_date, ...temp } = list;
       tempRNA.push(temp);
     });
 

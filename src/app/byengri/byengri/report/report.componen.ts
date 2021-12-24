@@ -1055,7 +1055,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
           const temps = members[0].split(' ');
           const gene = temps[0].trim().replace(/"/g, '');
           const type = temps[1].trim().replace(/"/g, '');
-          if (type.charAt(0) === 'p') {
+          if (type.charAt(0) === 'p' || type.charAt(0) === 'c') {  // 임시수정
             let customid = '';
             let variantAlleleFrequency = '';
             const items = members[0].split(' ');

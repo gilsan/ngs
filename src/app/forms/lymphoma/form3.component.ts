@@ -1526,7 +1526,7 @@ export class Form3Component implements OnInit, OnDestroy {
     // console.log('[1037][tempSave]');
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
-    // console.log('[1040][tableerowForm]', formData);
+    console.log('[1529][tableerowForm]', formData);
     // console.log('[1041][checkbox]', this.checkboxStatus);
     // const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
     console.log('[1522][Detected variants]', formData);
