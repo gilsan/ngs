@@ -35,8 +35,9 @@
           <div class="box big_box">
 
 
-            <div class="sub_title_03_E">DNA</div>
+
             <div class="box_100 fill"  (scroll)="tableScroll($event)"  #pbox100>
+              <div class="sub_title_03_E  rna-fix">DNA</div>
              <form [formGroup]="dnaForm">
               <table border="0" cellpadding="0" cellspacing="0" [ngClass]="tableHeader()" class="table_list td_padding_0 td-fix" #table>
                   <colgroup>
@@ -167,6 +168,7 @@
                           </td>
                           <td class="txt_c">
                             <input type="text" size="30"  class="clr-input  tdbox"
+                            [matTooltip]="group.get('test_code').value"
                             matInput  [matAutocomplete]="dnacancel" formControlName="test_code">
                             <mat-autocomplete #dnacancel="matAutocomplete">
                               <mat-option *ngFor="let option of LISTS" [value]="option">
@@ -378,6 +380,7 @@
                           </td>
                           <td class="txt_c">
                             <input type="text" size="30"  class="clr-input  tdbox"
+                            [matTooltip]="group.get('test_code').value"
                             matInput  [matAutocomplete]="rnacancel" formControlName="test_code">
                             <mat-autocomplete #rnacancel="matAutocomplete">
                               <mat-option *ngFor="let option of LISTS" [value]="option">

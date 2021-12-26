@@ -73,6 +73,7 @@ export class LimsComponent implements OnInit {
   processing = false;
 
   @ViewChild('table', { static: true }) table: ElementRef;
+  @ViewChild('fileInput', { static: true }) fileInput: ElementRef;
 
   constructor(
     private limsService: LimsService,
@@ -120,13 +121,13 @@ export class LimsComponent implements OnInit {
     controlDNA.clear();
     controlRNA.clear();
     this.dnaLists = [];
-
+    // DNA, RNA 구분 dna_rna_gbn 을 구분
 
     this.processing = true;
     this.dnaObservable$ = this.limsService.search(searchdate);
     this.dnaObservable$
       .pipe(
-        tap(data => console.log(data)),
+        // tap(data => console.log(data)),
         map(lists => {
           return lists.sort((a, b) => {
             if (a.id < b.id) { return -1; }
@@ -137,46 +138,84 @@ export class LimsComponent implements OnInit {
       )
       .subscribe(data => {
         this.processing = false;
-
         data.forEach(i => {
-          const val = {
-            id: i.id,
-            pathology_num: i.pathology_num,
-            rel_pathology_num: i.rel_pathology_num,
-            prescription_date: i.prescription_date,
-            patientID: i.patientID,
-            name: i.name,
-            gender: '(' + i.gender + '/' + i.age + ')',
-            path_type: i.path_type,
-            block_cnt: i.block_cnt,
-            key_block: i.key_block,
-            prescription_code: i.prescription_code,
-            test_code: i.test_code,
-            tumorburden: i.tumorburden,
-            nano_ng: i.nano_ng,
-            nano_280: i.nano_280,
-            nano_230: i.nano_230,
-            nano_dil: i.nano_dil,
-            ng_ui: i.ng_ui,
-            dan_rna: 0,
-            dw: 0,
-            tot_ct: i.tot_ct,
-            ct: i.ct,
-            quantity: i.quantity,
-            quantity_2: 0,
-            quan_dna: 0,
-            te: 0,
-            quan_tot_vol: i.quan_tot_vol,
-            lib_hifi: i.lib_hifi,
-            pm: i.pm,
-            x100: 0,
-            lib: i.lib,
-            lib_dw: 0,
-            lib2: i.lib2,
-            lib2_dw: 0,
-          };
-
-          this.dnaLists.push(val);
+          if (parseInt(i.dna_rna_gbn, 10) === 0) {
+            const val = {
+              id: i.id,
+              pathology_num: i.pathology_num,
+              rel_pathology_num: i.rel_pathology_num,
+              prescription_date: i.prescription_date,
+              patientID: i.patientID,
+              name: i.name,
+              gender: '(' + i.gender + '/' + i.age + ')',
+              path_type: i.path_type,
+              block_cnt: i.block_cnt,
+              key_block: i.key_block,
+              prescription_code: i.prescription_code,
+              test_code: i.test_code,
+              tumorburden: i.tumorburden,
+              nano_ng: i.nano_ng,
+              nano_280: i.nano_280,
+              nano_230: i.nano_230,
+              nano_dil: i.nano_dil,
+              ng_ui: i.ng_ui,
+              dan_rna: i.dan_rna,
+              dw: i.dw,
+              tot_ct: i.tot_ct,
+              ct: i.ct,
+              quantity: i.quantity,
+              quantity_2: i.quantity_2,
+              quan_dna: i.quan_dna,
+              te: i.te,
+              quan_tot_vol: i.quan_tot_vol,
+              lib_hifi: i.lib_hifi,
+              pm: i.pm,
+              x100: i.x100,
+              lib: i.lib,
+              lib_dw: i.lib_dw,
+              lib2: i.lib2,
+              lib2_dw: i.lib2_dw,
+            };
+            this.dnaLists.push(val);
+          } else if (parseInt(i.dna_rna_gbn, 10) === 1) {
+            const val = {
+              id: i.id,
+              pathology_num: i.pathology_num,
+              rel_pathology_num: i.rel_pathology_num,
+              prescription_date: i.prescription_date,
+              patientID: i.patientID,
+              name: i.name,
+              gender: '(' + i.gender + '/' + i.age + ')',
+              path_type: i.path_type,
+              block_cnt: i.block_cnt,
+              key_block: i.key_block,
+              prescription_code: i.prescription_code,
+              test_code: i.test_code,
+              tumorburden: i.tumorburden,
+              nano_ng: i.nano_ng,
+              nano_280: i.nano_280,
+              nano_230: i.nano_230,
+              nano_dil: i.nano_dil,
+              ng_ui: i.ng_ui,
+              dan_rna: i.dan_rna,
+              dw: i.dw,
+              tot_ct: i.tot_ct,
+              ct: i.ct,
+              quantity: i.quantity,
+              quantity_2: i.quantity_2,
+              quan_dna: i.quan_dna,
+              te: i.te,
+              quan_tot_vol: i.quan_tot_vol,
+              lib_hifi: i.lib_hifi,
+              pm: i.pm,
+              x100: i.x100,
+              lib: i.lib,
+              lib_dw: i.lib_dw,
+              lib2: i.lib2,
+              lib2_dw: i.lib2_dw,
+            };
+            this.rnaLists.push(val);
+          }
         });
 
         this.dnaLists.forEach(list => {
@@ -295,6 +334,7 @@ export class LimsComponent implements OnInit {
         this.dnaData(file, 'RNA');
       }
     }
+    this.fileInput.nativeElement.value = '';
   }
 
   dnaData(file: File, type: string): void {
@@ -317,7 +357,7 @@ export class LimsComponent implements OnInit {
           const cellref = XLSX.utils.encode_cell({ c: C, r: R }); //   A1 참조
           if (!sheet[cellref]) { continue; } // 없으면게속
           const cell = sheet[cellref];
-          if (C === 1) {
+          if (C === 1) {  // 검체번호
             if (type === 'DNA') {
               id = cell.v.split('D')[0];
             } else if (type === 'RNA') {
@@ -326,26 +366,56 @@ export class LimsComponent implements OnInit {
 
           } else if (C === 4) {
             ngui = cell.v;
-          } else if (C === 8) {
+          } else if (C === 8) { // 260/280
             dna260280 = cell.v;
-          } else if (C === 9) {
+          } else if (C === 9) { // 260/230
             dna260230 = cell.v;
           }
         }
         if (R > 0 && type === 'DNA') {
-          dnaFileLists.push({
-            pathology_num: id.toString(),
-            nano_280: dna260280.toString(),
-            nano_230: dna260230.toString(),
-            ng_ui: ngui.toString()
-          });
+          const idx = dnaFileLists.findIndex(list => list.pathology_num === id);
+          console.log(idx);
+          if (idx === -1) {
+            dnaFileLists.push({
+              pathology_num: id.toString(),
+              nano_280: dna260280.toString(),
+              nano_230: dna260230.toString(),
+              ng_ui: ngui.toString()
+            });
+          } else {
+            //  2개 이상인 경우, DNA는 260/280의 값이 1.9에 가까운값
+
+            const { pathology_num, nano_280, nano_230, ng_ui } = dnaFileLists[idx];
+            const newNano280Diff = 1.9 - parseFloat(dna260280.toString());
+            const oldNano280Diff = 1.9 - parseFloat(nano_280.toString());
+            if (oldNano280Diff > newNano280Diff) { // 기존 값보다 작은 경우 교체
+              dnaFileLists[idx].nano_280 = dna260280.toString();
+              dnaFileLists[idx].nano_230 = dna260230.toString();
+              dnaFileLists[idx].ng_ui = ngui.toString();
+            }
+
+          }
+
         } else if (R > 0 && type === 'RNA') {
-          rnaFileLists.push({
-            pathology_num: id.toString(),
-            nano_280: dna260280.toString(),
-            nano_230: dna260230.toString(),
-            ng_ui: ngui.toString()
-          });
+          const idx = rnaFileLists.findIndex(list => list.pathology_num === id);
+          if (idx === -1) {
+            rnaFileLists.push({
+              pathology_num: id.toString(),
+              nano_280: dna260280.toString(),
+              nano_230: dna260230.toString(),
+              ng_ui: ngui.toString()
+            });
+          } else {
+            // RNA는 260/280의 값이 2.0에 가까운값 으로 업데이트 한다.
+            const { pathology_num, nano_280, nano_230, ng_ui } = rnaFileLists[idx];
+            const newNano280Diff = parseFloat(dna260280.toString()) - 2;
+            const oldNano280Diff = parseFloat(nano_280.toString()) - 2;
+            if (oldNano280Diff > newNano280Diff) { // 기존 값보다 작은 경우 교체
+              rnaFileLists[idx].nano_280 = dna260280.toString();
+              rnaFileLists[idx].nano_230 = dna260230.toString();
+              rnaFileLists[idx].ng_ui = ngui.toString();
+            }
+          }
         }
         id = '';
         ngui = 0;
@@ -353,20 +423,27 @@ export class LimsComponent implements OnInit {
         dna260230 = 0;
 
       }
+      console.log('[DNA]', dnaFileLists);
+      console.log('[RNA]', rnaFileLists);
 
       if (type === 'DNA') {
         this.updateDNAScreen(dnaFileLists);
       } else if (type === 'RNA') {
         this.updateRNAScreen(rnaFileLists);
       }
+
     };
     reader.readAsArrayBuffer(file);
   }
 
   updateDNAScreen(lists: IDNATYPE[]): void {
+    //  2개 이상인 경우, DNA는 260/280의 값이 1.9에 가까운값 ,
     const control = this.dnaForm.get('dnaFormgroup') as FormArray;
     const formData: ILIMS[] = control.getRawValue();
-
+    if (formData.length === 0) {
+      alert('데이터가 없습니다.');
+      return;
+    }
     formData.forEach((data, index) => {
       const idx = lists.findIndex(list => list.pathology_num.trim() === data.pathology_num.trim());
       if (idx !== -1) {
@@ -382,8 +459,14 @@ export class LimsComponent implements OnInit {
   }
 
   updateRNAScreen(lists: IDNATYPE[]): void {
+
     const control = this.rnaForm.get('rnaFormgroup') as FormArray;
     const formData: ILIMS[] = control.getRawValue();
+    if (formData.length === 0) {
+      alert('데이터가 없습니다.');
+      return;
+    }
+
     formData.forEach((data, index) => {
       const idx = lists.findIndex(list => list.pathology_num.trim() === data.pathology_num.trim());
       if (idx !== -1) {

@@ -182,7 +182,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   noneMu = 'None';
   noneAm = 'None';
 
-  msgAm = `* Deletion의 경우 이미지 보고서를 참고해 주시기 바랍니다.`;
+  // msgAm = `* Deletion의 경우 이미지 보고서를 참고해 주시기 바랍니다.`;
   imagemsg = '';
   noneFu = 'None';
   noneIMu = 'None';
@@ -746,7 +746,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 
         this.filteredOriginData = filteredOriginaDataVal; // filtered 된 데이터 가져옴
         // MSISCORE
-
+        // console.log('[749][this.filteredOriginData]', this.filteredOriginData);
         if (msiscoreVal[0].msiscore.split('').includes('(')) {
           this.msiTag = true;
         }
@@ -884,29 +884,41 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
         // tslint:disable-next-line:prefer-const
 
         this.clinically.forEach(item => {
-          console.log('[866][유전자추적]', item);
+          console.log('[887][유전자추적]', item);
           const members = item.trim().split(' ');
           const gene = members[0].trim().replace(/"/g, '');
           const type = members[1].trim().replace(/"/g, '');
-          console.log('[870][유전자추적]', members, gene, type);
-          if (type.charAt(0) === 'p' || type === 'exon') {
+          console.log('[891][유전자추적]', members, gene, type);
+          if (type.charAt(0) === 'p' || type === 'exon' || type.charAt(0) === 'c') {
             // const indexm = this.findGeneInfo(gene);
-            console.log('[871][유전자추적]', gene, type);
+            console.log('[894][유전자추적]', gene, type);
             let indexm: number;
             let nucleotideChange: string;
             let customid = '';
             let variantAlleleFrequency = '';
+            let aminoAcidChange = '';
+            let tempAminoAcidChange = '';
             const tier = this.findTier(gene);  // clinical 에서 gene, tier, frequency 찿기
-
+            // p.(xxxx)은 Amino acid change, c.(xxxxx)은 Nucleotide change
             const itemMembers = item.split(' ');
+            if (itemMembers[1].charAt(0) === 'p') {
+              aminoAcidChange = itemMembers[1];
+              tempAminoAcidChange = itemMembers[1];
+            } else if (itemMembers[1].charAt(0) === 'c') {
+              nucleotideChange = itemMembers[1];
+            }
 
-            let aminoAcidChange = itemMembers[1];
-            const tempAminoAcidChange = itemMembers[1];
             // console.log('====[849][clinically]: ', gene, tempAminoAcidChange, itemMembers);
             if (type === 'exon') {
               nucleotideChange = '';
             } else {
-              nucleotideChange = itemMembers[2];
+              if (itemMembers[2] !== undefined && itemMembers[2].charAt(0) === 'c') {
+                nucleotideChange = itemMembers[2];
+              } else if (itemMembers[2] !== undefined && itemMembers[2].charAt(0) === 'p') {
+                aminoAcidChange = itemMembers[2];
+                tempAminoAcidChange = itemMembers[2];
+              }
+
             }
 
             variantAlleleFrequency = this.findFrequency(gene);
@@ -1055,13 +1067,30 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
           const temps = members[0].split(' ');
           const gene = temps[0].trim().replace(/"/g, '');
           const type = temps[1].trim().replace(/"/g, '');
+
           if (type.charAt(0) === 'p' || type.charAt(0) === 'c') {  // 임시수정
+            console.log('[1058]', members, gene, type);
             let customid = '';
+            let aminoAcidchange = '';
+            let tempaminoAcidchange = '';
+            let nucleotidechange = '';
             let variantAlleleFrequency = '';
             const items = members[0].split(' ');
-            let aminoAcidchange = items[1];
-            const tempaminoAcidchange = items[1];
-            const nucleotidechange = items[2];
+            if (items[1].charAt(0) === 'p') {
+              aminoAcidchange = items[1];
+              tempaminoAcidchange = items[1];
+              if (items[2] !== undefined && items[2].length > 0) {
+                nucleotidechange = items[2];
+              }
+              // 유전자 c.(xxxx), 없거나, p.(xxxx)
+            } else if (items[1].charAt(0) === 'c') {
+              nucleotidechange = items[1];
+              if (items[2] !== undefined && items[2].length > 0) {
+                aminoAcidchange = items[2];
+                tempaminoAcidchange = items[2];
+              }
+            }
+
 
             // console.log('[546][prevalent]', gene, aminoAcidchange, nucleotidechange);
             // 유전자와 nucleotidechange 2개로 찿는다.

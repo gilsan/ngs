@@ -412,6 +412,7 @@ export class Form3Component implements OnInit, OnDestroy {
     this.subs.sink = this.analysisService.getAanlysisLYMInfo(this.form2TestedId)
       .subscribe(data => {
         if (data.length > 0) {
+          // nu에서 받은 diagnosis 데이터를 환자정보의 bonemarrow에 넣었음.
           this.profile.leukemia = data[0].bonemarrow;
           this.profile.chron = data[0].chromosomalanalysis;
         } else {
