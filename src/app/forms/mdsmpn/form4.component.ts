@@ -29,6 +29,7 @@ import { moveItemInArray, CdkDragDrop } from '@angular/cdk/drag-drop';
 import { AnalysisService } from '../commons/analysis.service';
 import { ExcelAddListService } from 'src/app/home/services/excelAddList';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ResearchService } from 'src/app/home/services/research.service';
 
 /**
  *  ALL/AML   LYM           MDS
@@ -193,6 +194,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     private excelService: ExcelAddListService,
     private snackBar: MatSnackBar,
     private commentsService: CommentsService,
+    private researchService: ResearchService
   ) { }
 
   ngOnInit(): void {
@@ -1880,11 +1882,13 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       });
     });
 
-
-
   }
 
-
+  gotoResearchEMR(): void {
+    this.researchService.fakeEMRSend().subscribe(() => {
+      this.snackBar.open('EMR전송 하였습니다.', '닫기', { duration: 3000 });
+    });
+  }
 
 
 

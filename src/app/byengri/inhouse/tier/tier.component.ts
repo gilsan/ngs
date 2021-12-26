@@ -1,10 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
 import { SequencingService } from '../../services/sequencing.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IESS } from '../../models/patients';
 import { ILIST, Lists } from '../../byengri/essensDNAMent';
+import { map, startWith } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -13,7 +15,7 @@ import { ILIST, Lists } from '../../byengri/essensDNAMent';
   styleUrls: ['./tier.component.scss']
 })
 export class TierComponent implements OnInit {
-
+  myControl = new FormControl();
   tablerowForm: FormGroup;
 
   curPage = 1;
@@ -24,6 +26,8 @@ export class TierComponent implements OnInit {
   listTiers: IESS[] = [];
   listTotal: ILIST[] = [];
   ess: IESS[] = [];
+  // filteredOptions: Observable<IESS[]>;
+
   constructor(
     private sequencingService: SequencingService,
     private fb: FormBuilder,
@@ -33,8 +37,16 @@ export class TierComponent implements OnInit {
   ngOnInit(): void {
     this.loadForm();
     this.loadData();
+    // this.this.myControl.valueChanges.pipe(
+    //   startWith(''),
+    //   map(value => this._filter(value)),
+    // );
   }
 
+  // private _filter(value: string): IESS[] {
+  //   const filterValue = value.toLowerCase();
+  //   return this.listTiers.filter(option => option.title.toLowerCase().includes(filterValue));
+  // }
 
 
   loadData(): void {
@@ -46,6 +58,7 @@ export class TierComponent implements OnInit {
           const x = a.title; const y = b.title;
           return ((x < y) ? -1 : ((x > y) ? 1 : 0));
         });
+
         this.totRecords = this.listTiers.length;
         this.totPage = Math.ceil(this.listTiers.length / 10);
 
@@ -159,7 +172,7 @@ export class TierComponent implements OnInit {
   search(title: string): void {
     const result = this.listTiers.filter(list => list.title === title);
     console.log(result);
-    this.listTiers = result;
+
     this.totRecords = result.length;
     this.totPage = Math.ceil(result.length / 10);
     this.curPage = 1;

@@ -69,6 +69,11 @@ export class ResearchService {
     return this.http.post<ITYPE[]>(`${this.apiUrl}/patients_diag/typelists`, { type });
   }
 
+  // FAKE EMR 전송
+  public fakeEMRSend(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/fakesendEMR/enrsend`);
+  }
+
 }
 
 

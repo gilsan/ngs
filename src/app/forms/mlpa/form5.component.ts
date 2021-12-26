@@ -12,6 +12,8 @@ import { mlpaForm } from 'src/app/home/models/mlpa';
 import { ExamplementComponent } from '../examplement/examplement.component';
 import { SubSink } from 'subsink';
 import { CodeDefaultValue } from 'src/app/services/codedefaultvalue';
+import { ResearchService } from 'src/app/home/services/research.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 export interface IData {
   seq: string;
   site: string;
@@ -116,6 +118,8 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
     public dialog: MatDialog,
     public mlpaService: MlpaService,
     private defaultService: CodeDefaultValue,
+    private researchService: ResearchService,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -656,6 +660,12 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
 
   receiveMent(comment: string): void {
     this.mlpaData.comment = this.mlpaData.comment + ' ' + comment;
+  }
+
+  gotoResearchEMR(): void {
+    this.researchService.fakeEMRSend().subscribe(() => {
+      this.snackBar.open('EMR전송 하였습니다.', '닫기', { duration: 3000 });
+    });
   }
 
 

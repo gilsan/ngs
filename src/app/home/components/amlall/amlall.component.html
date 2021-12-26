@@ -11,8 +11,10 @@
         </tr>
     </table>
       <div class="box mg_b20 pd_20">
-        <input type="text" class="input_01" #testedID placeholder="검체번호" />&nbsp;&nbsp;
-        <input name="" type="text" placeholder="환자ID" #patient class="input_01" />&nbsp;&nbsp;
+        <input type="text" class="input_01" #testedID placeholder="검체번호"
+        (keyup.enter)="search(start.value, end.value, testedID.value, patient.value, status.value, sheet.value, research.value)"/>&nbsp;&nbsp;
+        <input name="" type="text" placeholder="환자ID" #patient class="input_01"
+        (keyup.enter)="search(start.value, end.value, testedID.value, patient.value, status.value, sheet.value, research.value)" />&nbsp;&nbsp;
         <select class="select_01 select_001"  #status (change)="selectOption(status.value)">
           <option value="100">전체</option>
           <option value="10" [selected]= "select10">접수</option>

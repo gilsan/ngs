@@ -14,6 +14,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ExamplementComponent } from '../examplement/examplement.component';
 import { CodeDefaultValue } from 'src/app/services/codedefaultvalue';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ResearchService } from 'src/app/home/services/research.service';
 
 @Component({
   selector: 'app-form7',
@@ -107,6 +108,7 @@ export class Form7Component implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private defaultService: CodeDefaultValue,
     private snackBar: MatSnackBar,
+    private researchService: ResearchService
   ) { }
 
   ngOnInit(): void {
@@ -760,9 +762,9 @@ export class Form7Component implements OnInit, OnDestroy {
               if (list.type.toLowerCase() === 'vus') {
                 list.type = 'VUS (Variant of Unknown Significance)';
               }
-              comment = comment + `본 환자에서 ${this.targetdisease} 에 대한 direct sequencing  결과, ${list.type}로 분류되는 ${list.nucleotideChange}, ${item} 변이가 ${list.zygosity}로 관찰되었습니다.`;
+              comment = comment + `본 환자에서 ${gene} 에 대한 direct sequencing  결과, ${list.type}로 분류되는 ${list.nucleotideChange}, ${item} 변이가 ${list.zygosity}로 관찰되었습니다.`;
             } else {
-              comment = comment + `본 환자에서 ${this.targetdisease} 에 대한 direct sequencing  결과,  ${list.nucleotideChange}, ${item} 변이가 ${list.zygosity}로 관찰되었습니다.`;
+              comment = comment + `본 환자에서 ${gene} 에 대한 direct sequencing  결과,  ${list.nucleotideChange}, ${item} 변이가 ${list.zygosity}로 관찰되었습니다.`;
             }
 
           } else {
@@ -791,7 +793,11 @@ export class Form7Component implements OnInit, OnDestroy {
 
 
 
-
+  gotoResearchEMR(): void {
+    this.researchService.fakeEMRSend().subscribe(() => {
+      this.snackBar.open('EMR전송 하였습니다.', '닫기', { duration: 3000 });
+    });
+  }
 
 
 

@@ -351,6 +351,7 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.patientsList.hereditarySearch2(startdate, enddate, patientId, specimenNo, status, sheet, research)
       .then(response => response.json())
       .then(data => {
+        console.log('[354][검색결과]', data);
         if (this.receivedType !== 'none') {
           data.forEach(list => {
             if (this.receivedType === 'register' && list.screenstatus === '') {

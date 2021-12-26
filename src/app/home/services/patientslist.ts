@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpEvent, HttpEventType, HttpParams } from '@angular/common/http';
 import { IAFormVariant, IComment, IDList, IFilteredTSV, IFitering, IGeneCoding, IGeneList, IImmundefi, IMutation, IPatient, ISequence } from '../models/patients';
 import { combineLatest, from, Observable, of, Subject, } from 'rxjs';
-import { concatMap, map, shareReplay, switchMap, tap } from 'rxjs/operators';
+import { catchError, concatMap, filter, map, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { emrUrl } from 'src/app/config';
 import { StoreService } from 'src/app/forms/store.current';
 import { ClrVerticalNavGroup } from '@clr/angular';
@@ -138,6 +138,12 @@ export class PatientsListService {
     );
   }
 
+
+  public getMutationGeneticInfoLists11(gene: string, type: string): Observable<IImmundefi[]> {
+    return this.http.post<IImmundefi[]>(`${this.apiUrl}/mutation/callbygeneticOMIM`, { gene, type }).pipe(
+      shareReplay()
+    );
+  }
 
   // mutation/callbygeneGenetic
   public getMutationGeneticInfoLists22(gene: string, coding: string, gubun: string): Observable<IImmundefi[]> {
@@ -440,6 +446,8 @@ export class PatientsListService {
     specimenNo: string = '', status: string = '', sheet: string = '', research1: string = ''): Observable<IPatient[]> {
     return this.http.post<IPatient[]>(`${this.apiUrl}/searchpatient_diag/list`,
       { start, end, patientID, specimenNo, status, sheet, research1 }).pipe(
+        tap(data => console.log('[patientslists 449]', data)),
+        filter(item => item !== null),
         map((items: any) => {
           return items.map(item => {
             let genetictest = '';

@@ -28,6 +28,7 @@ import { AnalysisService } from '../commons/analysis.service';
 import { ClrCommonFormsModule } from '@clr/angular';
 import { ExcelAddListService } from 'src/app/home/services/excelAddList';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ResearchService } from 'src/app/home/services/research.service';
 
 @Component({
   selector: 'app-form2',
@@ -181,6 +182,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     private analysisService: AnalysisService,
     private excelService: ExcelAddListService,
     private snackBar: MatSnackBar,
+    private researchService: ResearchService
   ) { }
 
   ngOnInit(): void {
@@ -2145,6 +2147,12 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
 
     });
 
+  }
+
+  gotoResearchEMR(): void {
+    this.researchService.fakeEMRSend().subscribe(() => {
+      this.snackBar.open('EMR전송 하였습니다.', '닫기', { duration: 3000 });
+    });
   }
 
 

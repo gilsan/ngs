@@ -34,6 +34,7 @@ import { geneTitles } from '../commons/geneList';
 import { hereditaryForm } from 'src/app/home/models/hereditary';
 import { ExamplementComponent } from '../examplement/examplement.component';
 import { CodeDefaultValue } from 'src/app/services/codedefaultvalue';
+import { ResearchService } from 'src/app/home/services/research.service';
 
 
 @Component({
@@ -195,7 +196,8 @@ export class Form6Component implements OnInit, OnDestroy {
     private excelService: ExcelAddListService,
     private snackBar: MatSnackBar,
     private commentsService: CommentsService,
-    private defaultService: CodeDefaultValue
+    private defaultService: CodeDefaultValue,
+    private researchService: ResearchService
   ) { }
 
   ngOnInit(): void {
@@ -1704,7 +1706,7 @@ export class Form6Component implements OnInit, OnDestroy {
       const gene = list.gene.split(',');
       gene.forEach(item => {
         // if (item.length > 0) {
-        const first$ = this.patientsListService.getMutationGeneticInfoLists1(item, 'Genetic')
+        const first$ = this.patientsListService.getMutationGeneticInfoLists1(item, 'Genetic');
         const second$ = this.patientsListService.getMutationGeneticInfoLists22(item, list.nucleotideChange, 'Genetic');
         combineLatest([first$, second$])
           .pipe(
@@ -1712,7 +1714,7 @@ export class Form6Component implements OnInit, OnDestroy {
             take(1)
           )
           .subscribe(([data1, data2]) => {
-            // console.log('[1716][호출]', data1, data2);
+            console.log('[1716][호출]', data1, data2);
             if (data1.length > 0) {
               // console.log('[1716][호출]', gene, data1, data2);
               if (data2.length > 0) {
@@ -1722,7 +1724,10 @@ export class Form6Component implements OnInit, OnDestroy {
                     functionalImpact: data2[0].functionalImpact,
                     dbSNPHGMD: data2[0].dbSNPHGMD,
                     gnomADEAS: data2[0].gnomADEAS,
-                    OMIM: data1[0].OMIM
+                    OMIM: data1[0].OMIM,
+                    transcript: data2[0].transcript,
+                    exonIntro: data2[0].exon,
+                    aminoAcidChange: data2[0].amino_acid_change
                   });
               } else {
                 control.at(index).patchValue({ type: 'New', OMIM: data1[0].OMIM });
@@ -1737,6 +1742,9 @@ export class Form6Component implements OnInit, OnDestroy {
                     functionalImpact: data2[0].functionalImpact,
                     dbSNPHGMD: data2[0].dbSNPHGMD,
                     gnomADEAS: data2[0].gnomADEAS,
+                    transcript: data2[0].transcript,
+                    exonIntro: data2[0].exon,
+                    aminoAcidChange: data2[0].amino_acid_change
                   });
               } else {
                 control.at(index).patchValue({ type: 'New' });
@@ -1819,6 +1827,11 @@ export class Form6Component implements OnInit, OnDestroy {
   }
 
   //
+  gotoResearchEMR(): void {
+    this.researchService.fakeEMRSend().subscribe(() => {
+      this.snackBar.open('EMR전송 하였습니다.', '닫기', { duration: 3000 });
+    });
+  }
 
 
 
