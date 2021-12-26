@@ -95,6 +95,25 @@ img.btn-logout {
   color: white;
 }
 
+#menu000 {
+  margin-top: -5px;
+  display: inline-block;
+  width: 192px;
+  height: 64px;
+  cursor: pointer;
+  background: url(../../../assets/images/menu_110.png) no-repeat;
+}
+
+#menu000:hover {
+  margin-top: -5px;
+  display: inline-block;
+  width: 192px;
+  height: 64px;
+  cursor: pointer;
+  background: url(../../../assets/images/menu_110_on.png) no-repeat;
+}
+
+
 #menu010 {
   margin-top: -5px;
   display: inline-block;

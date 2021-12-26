@@ -38,6 +38,7 @@
 
             <div class="box_100 fill"  (scroll)="tableScroll($event)"  #pbox100>
               <div class="sub_title_03_E  rna-fix">DNA</div>
+              <div class="scroll">
              <form [formGroup]="dnaForm">
               <table border="0" cellpadding="0" cellspacing="0" [ngClass]="tableHeader()" class="table_list td_padding_0 td-fix" #table>
                   <colgroup>
@@ -249,8 +250,10 @@
                   </tbody>
               </table>
             </form>
+            </div>
 
             <div class="sub_title_03_E rna-fix">RNA</div>
+            <div class="scroll">
             <form [formGroup]="rnaForm">
               <!-- header-fix : scroll시 header고정, td-fix : scroll시 1,2,3컬럼 고정 ※동시사용안됨 fixed_header -->
               <!--<table class="table_list td_padding_0 td-fix" [ngClass]="tableHeader()" style="text-align: center;" #table> -->
@@ -461,6 +464,7 @@
                   </tbody>
               </table>
             </form>
+            </div>
             </div>
 
           </div>
