@@ -1706,7 +1706,7 @@ export class Form6Component implements OnInit, OnDestroy {
       const gene = list.gene.split(',');
       gene.forEach(item => {
         // if (item.length > 0) {
-        const first$ = this.patientsListService.getMutationGeneticInfoLists1(item, 'Genetic');
+        const first$ = this.patientsListService.getMutationGeneticInfoLists11(item, 'Genetic');
         const second$ = this.patientsListService.getMutationGeneticInfoLists22(item, list.nucleotideChange, 'Genetic');
         combineLatest([first$, second$])
           .pipe(

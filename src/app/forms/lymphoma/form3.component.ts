@@ -174,6 +174,7 @@ export class Form3Component implements OnInit, OnDestroy {
   isResearch = false;
   target: string;
   savedDataExist = false;
+  tsvSaveOrEmptySave = 'T';
   @ViewChild('commentbox') private commentbox: TemplateRef<any>;
   @ViewChild('box100', { static: true }) box100: ElementRef;
   @ViewChild('table', { static: true }) table: ElementRef;
@@ -280,6 +281,7 @@ export class Form3Component implements OnInit, OnDestroy {
     }
 
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
+    this.tsvSaveOrEmptySave = this.patientInfo.saveyn;
     if (this.patientInfo.test_code === 'LPE474') {
       this.target = 'Lymphoma';
     } else if (this.patientInfo.test_code === 'LPE475') {
@@ -451,7 +453,10 @@ export class Form3Component implements OnInit, OnDestroy {
             this.vusmsg = this.patientInfo.vusmsg;
             this.tempvusmsg = this.patientInfo.vusmsg;
           }
-          this.addDetectedVariant();
+          if (this.tsvSaveOrEmptySave === 'T') {
+            this.addDetectedVariant();
+          }
+
         }
       });
 
@@ -1530,14 +1535,16 @@ export class Form3Component implements OnInit, OnDestroy {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
     console.log('[1529][tableerowForm]', formData);
-    // console.log('[1041][checkbox]', this.checkboxStatus);
-    // const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
+
     console.log('[1522][Detected variants]', formData);
-    // if (this.comments.length) {
+
     const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
     this.comments = commentControl.getRawValue();
-    // }
-    // this.store.setComments(this.comments);
+    if (parseInt(this.screenstatus, 10) === 0) {
+      this.patientInfo.saveyn = 'S';
+    }
+
+
     console.log('[1528][vusmsg]', this.vusmsg);
     this.patientInfo.recheck = this.recheck;
     this.patientInfo.examin = this.examin;

@@ -165,6 +165,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
   tempCount: string;
   maxHeight = 500;
   isResearch = false;
+  tsvSaveOrEmptySave = 'T';
   @ViewChild('commentbox') private commentbox: TemplateRef<any>;
   @ViewChild('box100', { static: true }) box100: ElementRef;
   @ViewChild('table', { static: true }) table: ElementRef;
@@ -274,6 +275,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     }
 
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
+    this.tsvSaveOrEmptySave = this.patientInfo.saveyn;
     // console.log('[275][환자정보]', this.patientInfo, this.patientInfo.gbn, this.patientInfo.age);
     if (this.patientInfo.gbn === 'RESEARCH') {
       this.isResearch = true;
@@ -476,7 +478,10 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
               this.vusmsg = this.patientInfo.vusmsg;
               this.tempvusmsg = this.patientInfo.vusmsg;
             }
-            this.addDetectedVariant();
+            if (this.tsvSaveOrEmptySave === 'T') {
+              this.addDetectedVariant();
+            }
+
           }
         });
 
@@ -1709,6 +1714,9 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
 
     const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
     this.comments = commentControl.getRawValue();
+    if (parseInt(this.screenstatus, 10) === 0) {
+      this.patientInfo.saveyn = 'S';
+    }
 
     this.store.setComments(this.comments);
     this.patientInfo.recheck = this.recheck;
