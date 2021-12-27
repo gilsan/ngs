@@ -794,8 +794,12 @@ export class Form7Component implements OnInit, OnDestroy {
 
 
   gotoResearchEMR(): void {
-    this.researchService.fakeEMRSend().subscribe(() => {
-      this.snackBar.open('EMR전송 하였습니다.', '닫기', { duration: 3000 });
+    const specimenNo = this.patientInfo.specimenNo;
+    const userid = localStorage.getItem('diaguser');
+    this.researchService.fakeEMRSend(specimenNo, 'SEQN', userid).subscribe((data) => {
+      if (data.message === 'SUCCESS') {
+        this.snackBar.open('EMR전송 하였습니다.', '닫기', { duration: 3000 });
+      }
     });
   }
 

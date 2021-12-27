@@ -70,8 +70,8 @@ export class ResearchService {
   }
 
   // FAKE EMR 전송
-  public fakeEMRSend(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/screen/resetscreen`);
+  public fakeEMRSend(specimenNo: string, type: string, userid: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/patients_diag/reset`, { specimenNo, type, userid });
   }
 
 }

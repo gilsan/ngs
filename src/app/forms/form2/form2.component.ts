@@ -2158,8 +2158,15 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
   }
 
   gotoResearchEMR(): void {
-    this.researchService.fakeEMRSend().subscribe(() => {
-      this.snackBar.open('EMR전송 하였습니다.', '닫기', { duration: 3000 });
+    //  specimenNo: "O27DG0280"
+    //  type: "Lymphoma"
+    // userid: "2000"
+    const specimenNo = this.patientInfo.specimenNo;
+    const userid = localStorage.getItem('diaguser');
+    this.researchService.fakeEMRSend(specimenNo, 'AMLALL', userid).subscribe((data) => {
+      if (data.message === 'SUCCESS') {
+        this.snackBar.open('EMR전송 하였습니다.', '닫기', { duration: 3000 });
+      }
     });
   }
 
