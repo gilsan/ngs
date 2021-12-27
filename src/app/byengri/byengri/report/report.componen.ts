@@ -283,18 +283,18 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
-  checkingMent(title: string): void {
+  // checkingMent(title: string): void {
 
-    this.ments.forEach(item => {
+  //   this.ments.forEach(item => {
 
-      const tempItem = item.title.toLowerCase();
-      const tempTitle = title.toLowerCase();
-      if (tempItem === tempTitle) {
-        this.specialment = item.content;
+  //     const tempItem = item.title.toLowerCase();
+  //     const tempTitle = title.toLowerCase();
+  //     if (tempItem === tempTitle) {
+  //       this.specialment = item.content;
 
-      }
-    });
-  }
+  //     }
+  //   });
+  // }
 
   init(pathologyNum: string): void {
     // filtered 된 디비에서 가져옴
@@ -905,7 +905,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
               let tempAminoAcidChange = '';
               const tier = this.findTier(gene);  // clinical 에서 gene, tier, frequency 찿기
               // p.(xxxx)은 Amino acid change, c.(xxxxx)은 Nucleotide change
-              const itemMembers = item.split(' ');
+              const itemMembers = item.trim().split(' ');
               if (itemMembers[1].charAt(0) === 'p') {
                 aminoAcidChange = itemMembers[1];
                 tempAminoAcidChange = itemMembers[1];
@@ -913,7 +913,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                 nucleotideChange = itemMembers[1];
               }
 
-              // console.log('====[849][clinically]: ', gene, tempAminoAcidChange, itemMembers);
+              // console.log('====[916][clinically]: ', gene, tempAminoAcidChange, itemMembers);
               if (type === 'exon') {
                 nucleotideChange = '';
               } else {
