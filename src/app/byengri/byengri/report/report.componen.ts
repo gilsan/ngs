@@ -882,159 +882,165 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         // OR파일에서 가져온 유전자 정보
         // tslint:disable-next-line:prefer-const
+        ////////////////////////////////// clinically 시작
+        this.clinically.forEach(items => {
 
-        this.clinically.forEach(item => {
-          console.log('[887][유전자추적]', item);
-          const members = item.trim().split(' ');
-          const gene = members[0].trim().replace(/"/g, '');
-          const type = members[1].trim().replace(/"/g, '');
-          console.log('[891][유전자추적]', members, gene, type);
-          if (type.charAt(0) === 'p' || type === 'exon' || type.charAt(0) === 'c') {
-            // const indexm = this.findGeneInfo(gene);
-            console.log('[894][유전자추적]', gene, type);
-            let indexm: number;
-            let nucleotideChange: string;
-            let customid = '';
-            let variantAlleleFrequency = '';
-            let aminoAcidChange = '';
-            let tempAminoAcidChange = '';
-            const tier = this.findTier(gene);  // clinical 에서 gene, tier, frequency 찿기
-            // p.(xxxx)은 Amino acid change, c.(xxxxx)은 Nucleotide change
-            const itemMembers = item.split(' ');
-            if (itemMembers[1].charAt(0) === 'p') {
-              aminoAcidChange = itemMembers[1];
-              tempAminoAcidChange = itemMembers[1];
-            } else if (itemMembers[1].charAt(0) === 'c') {
-              nucleotideChange = itemMembers[1];
-            }
+          const sepItems = items.split(';');
+          console.log('[887][유전자추적]', sepItems);
+          sepItems.forEach(item => {  //
+            const members = item.trim().split(' ');
+            const gene = members[0].trim().replace(/"/g, '');
+            const type = members[1].trim().replace(/[",;]/g, '');
 
-            // console.log('====[849][clinically]: ', gene, tempAminoAcidChange, itemMembers);
-            if (type === 'exon') {
-              nucleotideChange = '';
-            } else {
-              if (itemMembers[2] !== undefined && itemMembers[2].charAt(0) === 'c') {
-                nucleotideChange = itemMembers[2];
-              } else if (itemMembers[2] !== undefined && itemMembers[2].charAt(0) === 'p') {
-                aminoAcidChange = itemMembers[2];
-                tempAminoAcidChange = itemMembers[2];
+            console.log('[891][유전자추적]', members + '[' + gene + '][' + type + ']');
+
+            if (type.charAt(0) === 'p' || type === 'exon' || type.charAt(0) === 'c') {
+              // const indexm = this.findGeneInfo(gene);
+              console.log('[894][유전자추적]', gene, type);
+              let indexm: number;
+              let nucleotideChange: string;
+              let customid = '';
+              let variantAlleleFrequency = '';
+              let aminoAcidChange = '';
+              let tempAminoAcidChange = '';
+              const tier = this.findTier(gene);  // clinical 에서 gene, tier, frequency 찿기
+              // p.(xxxx)은 Amino acid change, c.(xxxxx)은 Nucleotide change
+              const itemMembers = item.split(' ');
+              if (itemMembers[1].charAt(0) === 'p') {
+                aminoAcidChange = itemMembers[1];
+                tempAminoAcidChange = itemMembers[1];
+              } else if (itemMembers[1].charAt(0) === 'c') {
+                nucleotideChange = itemMembers[1];
               }
 
-            }
-
-            variantAlleleFrequency = this.findFrequency(gene);
-            if (type === 'exon') {
-              indexm = this.findGeneInfo(gene);
-              // console.log('=== [891]', indexm, this.filteredOriginData);
-              if (indexm !== -1) {
-                nucleotideChange = this.filteredOriginData[indexm].coding;
-              }
-            } else {
-              indexm = this.withGeneCoding(gene, nucleotideChange);
-            }
-            // console.log('==== [898][indexm]', gene, type, indexm);
-            if (indexm !== -1) {
-              customid = this.filteredOriginData[indexm].variantID;
-              if (customid === undefined || customid === null) { customid = ''; }
-              // console.log('==== [850][]', gene, tempAminoAcidChange, type);
-              if (gene === 'TERT' && tempAminoAcidChange === 'p.(?)') {
-                aminoAcidChange = 'Promotor mutant';
-              } else if (gene !== 'TERT' && tempAminoAcidChange === 'p.(?)') {
-                aminoAcidChange = 'Splicing mutant';
+              // console.log('====[849][clinically]: ', gene, tempAminoAcidChange, itemMembers);
+              if (type === 'exon') {
+                nucleotideChange = '';
               } else {
-                // aminoAcidChange 값이 없으면 원래것을 사용
-                aminoAcidChange = this.filteredOriginData[indexm].aminoAcidChange;
-                // if (aminoAcidChange === undefined || aminoAcidChange === null || aminoAcidChange === '') {
-                //   aminoAcidChange = tempAminoAcidChange;
-                // }
+                if (itemMembers[2] !== undefined && itemMembers[2].charAt(0) === 'c') {
+                  nucleotideChange = itemMembers[2];
+                } else if (itemMembers[2] !== undefined && itemMembers[2].charAt(0) === 'p') {
+                  aminoAcidChange = itemMembers[2];
+                  tempAminoAcidChange = itemMembers[2];
+                }
+
               }
-            } else {
-              if (gene === 'TERT' && tempAminoAcidChange === 'p.(?)') {
-                aminoAcidChange = 'Promotor mutant';
-              } else if (gene !== 'TERT' && tempAminoAcidChange === 'p.(?)') {
-                aminoAcidChange = 'Splicing mutant';
+
+              variantAlleleFrequency = this.findFrequency(gene);
+              if (type === 'exon') {
+                indexm = this.findGeneInfo(gene);
+                // console.log('=== [891]', indexm, this.filteredOriginData);
+                if (indexm !== -1) {
+                  nucleotideChange = this.filteredOriginData[indexm].coding;
+                }
+              } else {
+                indexm = this.withGeneCoding(gene, nucleotideChange);
               }
-              customid = '';
-            }
-            // console.log('[922][삭제유전자 리스트 ]', this.polymorphismList);
-            // console.log('[891][유전자]' + gene, aminoAcidChange, nucleotideChange);
-            // gene, aminoAcidChange, nucleotideChange 조합으로 해당 되는것 삭제
-            const result = this.removeGeneCheck(gene, aminoAcidChange, nucleotideChange);
-            if (result === -1) {
-              //  vc.novel.1169, 계열은 ID 에 빈공간으로 만듬.
-              if (customid.indexOf('vc.novel') !== -1) {
+              // console.log('==== [898][indexm]', gene, type, indexm);
+              if (indexm !== -1) {
+                customid = this.filteredOriginData[indexm].variantID;
+                if (customid === undefined || customid === null) { customid = ''; }
+                // console.log('==== [850][]', gene, tempAminoAcidChange, type);
+                if (gene === 'TERT' && tempAminoAcidChange === 'p.(?)') {
+                  aminoAcidChange = 'Promotor mutant';
+                } else if (gene !== 'TERT' && tempAminoAcidChange === 'p.(?)') {
+                  aminoAcidChange = 'Splicing mutant';
+                } else {
+                  // aminoAcidChange 값이 없으면 원래것을 사용
+                  aminoAcidChange = this.filteredOriginData[indexm].aminoAcidChange;
+                  // if (aminoAcidChange === undefined || aminoAcidChange === null || aminoAcidChange === '') {
+                  //   aminoAcidChange = tempAminoAcidChange;
+                  // }
+                }
+              } else {
+                if (gene === 'TERT' && tempAminoAcidChange === 'p.(?)') {
+                  aminoAcidChange = 'Promotor mutant';
+                } else if (gene !== 'TERT' && tempAminoAcidChange === 'p.(?)') {
+                  aminoAcidChange = 'Splicing mutant';
+                }
                 customid = '';
               }
-              // console.log('==== [931][뮤테이션] ', gene);
-              this.mutation.push({
-                gene,
-                aminoAcidChange,
-                nucleotideChange,
-                variantAlleleFrequency,
-                ID: customid,
-                tier
-              });
-
-            }
-
-          } else if (type === 'amplification') {
-
-            const indexa = this.findGeneInfo(gene);
-            const atier = this.findTier(gene);
-            const geneindexlist = this.findMultiGeneInfo(gene);
-            // console.log(' ####### [895][amplification] ', gene, indexa, atier, type, geneindexlist);
-            if (indexa !== -1) {
-              let cylen;
-              const cytobandlen = this.filteredOriginData[indexa].cytoband.length;
-              Array.from(geneindexlist, (num: number) => {
-                // console.log('[][]', num);
-                cylen = this.filteredOriginData[num].cytoband.length;
-                if (cylen) {
-                  const cytoband = this.filteredOriginData[num].cytoband.split(')');
-                  this.amplifications.push({
-                    // gene: this.filteredOriginData[num].gene,
-                    gene,
-                    region: cytoband[0] + ')',
-                    copynumber: cytoband[1],
-                    tier: atier
-                  });
+              // console.log('[922][삭제유전자 리스트 ]', this.polymorphismList);
+              // console.log('[891][유전자]' + gene, aminoAcidChange, nucleotideChange);
+              // gene, aminoAcidChange, nucleotideChange 조합으로 해당 되는것 삭제
+              const result = this.removeGeneCheck(gene, aminoAcidChange, nucleotideChange);
+              if (result === -1) {
+                //  vc.novel.1169, 계열은 ID 에 빈공간으로 만듬.
+                if (customid.indexOf('vc.novel') !== -1) {
+                  customid = '';
                 }
-              });
+                // console.log('==== [931][뮤테이션] ', gene);
+                this.mutation.push({
+                  gene,
+                  aminoAcidChange,
+                  nucleotideChange,
+                  variantAlleleFrequency,
+                  ID: customid,
+                  tier
+                });
 
-
-              /*
-              */
-            }
-          } else if (type === 'fusion') {
-            let oncomine;
-            // if (gene === 'PTPRZ1-MET') {
-            //   // gene = 'PTPRZ1(1) - MET(2)';
-            // }
-            // const index = this.findGeneInfo(gene);
-            const index = this.findFusionInfo(gene);
-            const ftier = this.findTier(gene);
-            // console.log('****** [932][FUSION][', type, gene, index);
-
-            if (index !== -1) {  // 여기주의
-              if (this.filteredOriginData[index].oncomine === 'Loss-of-function') {
-                oncomine = 'Loss';
-              } else if (this.filteredOriginData[index].oncomine === 'Gain-of-function') {
-                oncomine = 'Gain';
               }
 
-              this.fusion.push({
-                gene: this.filteredOriginData[index].gene,
-                // gene,
-                breakpoint: this.filteredOriginData[index].locus,
-                readcount: this.filteredOriginData[index].readcount,
-                functions: oncomine,
-                tier: ftier
-              });
-              // console.log('=====[645][fusion]', this.fusion);
+            } else if (type === 'amplification') {
+
+              const indexa = this.findGeneInfo(gene);
+              const atier = this.findTier(gene);
+              const geneindexlist = this.findMultiGeneInfo(gene);
+              // console.log(' ####### [895][amplification] ', gene, indexa, atier, type, geneindexlist);
+              if (indexa !== -1) {
+                let cylen;
+                const cytobandlen = this.filteredOriginData[indexa].cytoband.length;
+                Array.from(geneindexlist, (num: number) => {
+                  // console.log('[][]', num);
+                  cylen = this.filteredOriginData[num].cytoband.length;
+                  if (cylen) {
+                    const cytoband = this.filteredOriginData[num].cytoband.split(')');
+                    this.amplifications.push({
+                      // gene: this.filteredOriginData[num].gene,
+                      gene,
+                      region: cytoband[0] + ')',
+                      copynumber: cytoband[1],
+                      tier: atier
+                    });
+                  }
+                });
+
+
+                /*
+                */
+              }
+            } else if (type === 'fusion') {
+              let oncomine;
+              // if (gene === 'PTPRZ1-MET') {
+              //   // gene = 'PTPRZ1(1) - MET(2)';
+              // }
+              // const index = this.findGeneInfo(gene);
+              const index = this.findFusionInfo(gene);
+              const ftier = this.findTier(gene);
+              // console.log('****** [932][FUSION][', type, gene, index);
+
+              if (index !== -1) {  // 여기주의
+                if (this.filteredOriginData[index].oncomine === 'Loss-of-function') {
+                  oncomine = 'Loss';
+                } else if (this.filteredOriginData[index].oncomine === 'Gain-of-function') {
+                  oncomine = 'Gain';
+                }
+
+                this.fusion.push({
+                  gene: this.filteredOriginData[index].gene,
+                  // gene,
+                  breakpoint: this.filteredOriginData[index].locus,
+                  readcount: this.filteredOriginData[index].readcount,
+                  functions: oncomine,
+                  tier: ftier
+                });
+                // console.log('=====[645][fusion]', this.fusion);
+              }
+
             }
-
-          }
-
+          }); // 두번째 파싱 끝
         });
+        ////////////////////////// Clinically 파싱 끝
 
         if (this.mutation.length) {
           // console.log('====== [956][mutation]', this.mutation);

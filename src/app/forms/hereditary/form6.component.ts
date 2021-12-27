@@ -1789,7 +1789,7 @@ export class Form6Component implements OnInit, OnDestroy {
       let comment = '';
 
       lists.forEach((list, index) => {
-        //  console.log('[자동입력]', list, index);
+        console.log('[자동입력][' + this.target + ']');
         const aminoAcidChange = list.aminoAcidChange.split(',');
         aminoAcidChange.forEach((item) => {
           const zygosity = list.zygosity.split(',');
@@ -1810,7 +1810,7 @@ export class Form6Component implements OnInit, OnDestroy {
                 }
                 comment = comment + ` 또한, ${list.gene} 유전자에서  ${list.functionalImpact}로 분류되는 ${list.nucleotideChange}, ${item} 변이가 ${zigo}로 관찰되었습니다.`;
               } else {
-                comment = comment + ` 또한, ${list.gene} 유전자에서   ${list.nucleotideChange}, ${item} 변이가 ${zigo}로 관찰되었습니다.`;
+                comment = comment + ` 또한, ${list.gene} 유전자에서  ${list.nucleotideChange}, ${item} 변이가 ${zigo}로 관찰되었습니다.`;
               }
             }
 
