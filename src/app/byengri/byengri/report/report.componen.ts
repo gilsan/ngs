@@ -227,7 +227,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.loadForm();
     this.checker();
-    this.essentialMent();
+    // this.essentialMent();
   }
 
 
@@ -1244,7 +1244,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     )])
       .subscribe(([type, dnaData]) => {
         console.log('[1173]', type, dnaData);
-        // this.essenceDNAComment(type, dnaData);
+        this.essenceDNAComment(type, dnaData);
       });
 
   }
