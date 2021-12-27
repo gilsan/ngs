@@ -359,9 +359,13 @@ export class LimsComponent implements OnInit {
           const cell = sheet[cellref];
           if (C === 1) {  // 검체번호
             if (type === 'DNA') {
-              id = cell.v.split('D')[0];
+              const temp = cell.v.split('D')[0];
+              const nameTemp = temp.split('-');
+              id = nameTemp[0] + '-' + '0' + nameTemp[1];
             } else if (type === 'RNA') {
-              id = cell.v.split('R')[0];
+              const temp = cell.v.split('R')[0];
+              const nameTemp = temp.split('-');
+              id = nameTemp[0] + '-' + '0' + nameTemp[1];
             }
 
           } else if (C === 4) {

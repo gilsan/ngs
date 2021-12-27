@@ -25,6 +25,7 @@ import { moveItemInArray, CdkDragDrop } from '@angular/cdk/drag-drop';
 import { essentialDNAMentList } from '../essensDNAMent';
 import { ReportDialogComponent } from './report-dialog/report-dialog.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { SequencingService } from '../../services/sequencing.service';
 
 @Component({
   selector: 'app-report',
@@ -201,6 +202,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     private sanitizer: DomSanitizer,
     private navigationServie: NavigationServie,
     public dialog: MatDialog,
+    private sequencingService: SequencingService,
   ) {
     this.getParams();
   }
@@ -225,6 +227,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.loadForm();
     this.checker();
+    // this.essentialMent();
   }
 
 
@@ -721,6 +724,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   // tsv 화일에서 분류한 것을 디비에 저장후, 디비에서 불러온것
   initByDB(pathologynum: string): void {
     let tumortypes;
+    let deletion = '';
     // console.log('[663][initByDB][tsv화일 올린후]', pathologynum);
     this.reportday = this.today();
     const filteredOriginaData$ = this.filteredService.getfilteredOriginDataList(pathologynum)
@@ -889,9 +893,14 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
           console.log('[887][유전자추적]', sepItems);
           sepItems.forEach(item => {  //
             const members = item.trim().split(' ');
-            const gene = members[0].trim().replace(/"/g, '');
-            const type = members[1].trim().replace(/[",;]/g, '');
 
+            const gene = members[0].trim().replace(/"/g, '');
+            let type = members[1].trim().replace(/[",;]/g, '');
+            if (members.length === 4) {
+              if (members[3] === 'deletion') {
+                type = 'deletion';
+              }
+            }
             console.log('[891][유전자추적]', members + '[' + gene + '][' + type + ']');
 
             if (type.charAt(0) === 'p' || type === 'exon' || type.charAt(0) === 'c') {
@@ -1237,8 +1246,6 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log('[1173]', type, dnaData);
         this.essenceDNAComment(type, dnaData);
       });
-
-
 
   }
 
@@ -2830,6 +2837,32 @@ ${fuDNA}`;
           this.fromPrevalentFuToClinicallyFu(i);
         }
         console.log('[2478][다이얼로그]', data);
+
+      });
+  }
+
+  essentialMent(): void {
+    let muDNA = '';
+    let amDNA = '';
+    let fuDNA = '';
+    this.sequencingService.getEssTitle()
+      .subscribe(data => {
+        const idx = data.findIndex(list => list.title === this.extraction.tumortype);
+        const { id, title, mutation, amplification, fusion } = data[idx];
+        if (mutation.length) {
+          muDNA = '- Mutation: ' + mutation;
+        }
+
+        if (amplification.length) {
+          amDNA = '- Amplification: ' + amplification;
+        }
+
+        if (fusion.length) {
+          fuDNA = '- Fusion: ' + fusion;
+        }
+        this.specialment = `${muDNA}
+${amDNA}
+${fuDNA}`;
 
       });
   }
