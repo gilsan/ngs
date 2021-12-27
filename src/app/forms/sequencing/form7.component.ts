@@ -762,9 +762,9 @@ export class Form7Component implements OnInit, OnDestroy {
               if (list.type.toLowerCase() === 'vus') {
                 list.type = 'VUS (Variant of Unknown Significance)';
               }
-              comment = comment + `본 환자에서 ${gene} 유전자에 대한 direct sequencing  결과, ${list.type}로 분류되는 ${list.nucleotideChange}, ${item} 변이가 ${list.zygosity}로 관찰되었습니다. `;
+              comment = comment + `본 환자에서 ${gene} 유전자에 대한 direct sequencing 결과, ${list.type}로 분류되는 ${list.nucleotideChange}, ${item} 변이가 ${list.zygosity}로 관찰되었습니다. `;
             } else {
-              comment = comment + `본 환자에서 ${gene} 유전자에 대한 direct sequencing  결과, ${list.nucleotideChange}, ${item} 변이가 ${list.zygosity}로 관찰되었습니다. `;
+              comment = comment + `본 환자에서 ${gene} 유전자에 대한 direct sequencing 결과, ${list.nucleotideChange}, ${item} 변이가 ${list.zygosity}로 관찰되었습니다. `;
             }
 
           } else {
