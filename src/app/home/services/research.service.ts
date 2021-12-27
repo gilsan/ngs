@@ -71,7 +71,7 @@ export class ResearchService {
 
   // FAKE EMR 전송
   public fakeEMRSend(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/fakesendEMR/enrsend`);
+    return this.http.get(`${this.apiUrl}/screen/resetscreen`);
   }
 
 }
