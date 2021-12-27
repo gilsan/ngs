@@ -355,7 +355,7 @@ export class Form6Component implements OnInit, OnDestroy {
       });
     this.utilsService.getTargetDisease('genetic', testCode)
       .subscribe(data => {
-        // console.log('[345][initLoad]', data[0]);
+        console.log('[358][initLoad]', data[0]);
         this.target = data[0].disease;
         this.getGeneList();
       });

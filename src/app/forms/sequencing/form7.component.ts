@@ -755,7 +755,7 @@ export class Form7Component implements OnInit, OnDestroy {
       let comment = '';
       lists.forEach((list, idx) => {
         const aminoAcidChange = list.aminoAcidChange.split(',');
-        // if (list.type.length > 0) {
+        console.log('[758][' + list.type + '][' + list.nucleotideChange + ']');
         aminoAcidChange.forEach((item, index) => {
           if (idx === 0) {
             if (list.type) {
