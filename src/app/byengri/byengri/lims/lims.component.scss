@@ -1,5 +1,6 @@
 table {
   table-layout: fixed;
+  
 }
 
 
@@ -91,7 +92,8 @@ table {
 }
 
 .box_100.fill {
-  height: auto;
+  height: calc(100vh - 315px);
+  min-height: 540px;
 }
 
 .progressbar {
@@ -200,8 +202,12 @@ table {
 // }
 
 .scroll {
-  max-height: 300px;
-  overflow: hidden;
-  overflow-y: auto;
-  width: 2830px;
+  width: 100%;
+  height: calc(50% - 40px);
+  overflow: auto;
+  min-height: 230px;
+}
+.scroll table {
+  width: 2850px;
+  height: auto;
 }
