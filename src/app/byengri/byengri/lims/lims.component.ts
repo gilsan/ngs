@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { map, shareReplay, tap } from 'rxjs/operators';
+import { map, shareReplay, take, tap } from 'rxjs/operators';
 import { IDNATYPE, ILIMS, IRNATYPE, IUSER } from '../../models/lims.model';
 import { LimsService } from '../../services/lims.service';
 import { SearchService } from '../../services/search.service';
@@ -218,11 +218,12 @@ export class LimsComponent implements OnInit {
           }
         });
 
+
         this.dnaLists.forEach(list => {
           this.dnaFormLists().push(this.createDNA(list));
         });
 
-        this.dnaLists.forEach(list => {
+        this.rnaLists.forEach(list => {
           this.rnaFormLists().push(this.createRNA(list));
         });
 
@@ -378,7 +379,7 @@ export class LimsComponent implements OnInit {
         }
         if (R > 0 && type === 'DNA') {
           const idx = dnaFileLists.findIndex(list => list.pathology_num === id);
-          console.log(idx);
+          // console.log(idx);
           if (idx === -1) {
             dnaFileLists.push({
               pathology_num: id.toString(),
@@ -669,12 +670,25 @@ export class LimsComponent implements OnInit {
   }
 
   save(): void {
+
     const dnacontrol = this.dnaForm.get('dnaFormgroup') as FormArray;
     const dnaFormData = dnacontrol.getRawValue();
     const rnacontrol = this.rnaForm.get('rnaFormgroup') as FormArray;
     const rnaFormData = rnacontrol.getRawValue();
 
     const allData: ILIMS[] = [...dnaFormData, ...rnaFormData];
+
+    if (this.examiner.length === 0 || this.rechecker.length === 0) {
+      alert('검사자항목이 없습니다.');
+      return;
+    }
+
+    if (allData.length === 0) {
+      alert('DNA/RNA 데이터가 없습니다.');
+      return;
+    }
+
+    console.log('[679][]', this.examiner, this.rechecker);
     this.limsService.save(allData, this.examiner, this.rechecker)
       .subscribe((data) => {
         this.snackBar.open('저장 하였습니다.', '닫기', { duration: 3000 });
