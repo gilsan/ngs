@@ -170,15 +170,22 @@ export class TierComponent implements OnInit {
   }
 
   search(title: string): void {
+
     const result = this.listTiers.filter(list => list.title === title);
-    console.log(result);
+    console.log('[175][]', result);
 
     this.totRecords = result.length;
     this.totPage = Math.ceil(result.length / 10);
     this.curPage = 1;
     this.pageLine = 0;
     this.commentsRows().clear();
-    this.makeRow(result);
+    if (result.length) {
+      this.makeRow(result);
+    } else {
+      this.listTiers = [];
+      this.loadData();
+    }
+
   }
 
 

@@ -121,13 +121,23 @@ export class LimsComponent implements OnInit {
     controlDNA.clear();
     controlRNA.clear();
     this.dnaLists = [];
+    this.rnaLists = [];
     // DNA, RNA 구분 dna_rna_gbn 을 구분
 
     this.processing = true;
     this.dnaObservable$ = this.limsService.search(searchdate);
     this.dnaObservable$
       .pipe(
-        // tap(data => console.log(data)),
+        tap(data => console.log(data)),
+        tap(data => {
+          if (data[0].examin.length) {
+            this.examiner = data[0].examin;
+          }
+
+          if (data[0].recheck.length) {
+            this.rechecker = data[0].recheck;
+          }
+        }),
         map(lists => {
           return lists.sort((a, b) => {
             if (a.id < b.id) { return -1; }
@@ -218,7 +228,8 @@ export class LimsComponent implements OnInit {
           }
         });
 
-
+        // console.log('[DNA]', this.dnaLists);
+        // console.log('[RNA]', this.rnaLists);
         this.dnaLists.forEach(list => {
           this.dnaFormLists().push(this.createDNA(list));
         });

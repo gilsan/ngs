@@ -38,6 +38,8 @@ export interface ILIMS {
   lib2_dw: number;              // DW (50pm)  함수: lib_dw * 3
   report_date?: string;
   dna_rna_gbn?: string;
+  examin?: string;
+  recheck?: string;
 }
 
 export interface IUSER {

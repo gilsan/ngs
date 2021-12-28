@@ -22,6 +22,7 @@ import { clinically, msiScore, patientInfo, prevalent, tsvData, tumorcellpercent
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { NavigationServie } from 'src/app/services/navigation.service';
 import { essentialDNAMentList } from '../essensDNAMent';
+import { SequencingService } from '../../services/sequencing.service';
 
 @Component({
   selector: 'app-research',
@@ -184,7 +185,8 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
     private route: ActivatedRoute,
     private filteredService: FilteredService,
     private sanitizer: DomSanitizer,
-    private navigationServie: NavigationServie
+    private navigationServie: NavigationServie,
+    private sequencingService: SequencingService,
   ) {
     this.getParams();
   }
@@ -206,6 +208,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
     this.loginID = user.userid;
     this.loadForm();
     this.checker();
+    this.essentialMent();
   }
 
 
@@ -685,6 +688,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
   // tsv 화일에서 분류한 것을 디비에 저장후, 디비에서 불러온것
   initByDB(pathologynum: string): void {
     let tumortypes;
+    let deletion = '';
     console.log('[663][initByDB][tsv화일 올린후]', pathologynum);
     this.reportday = this.today();
     const filteredOriginaData$ = this.filteredService.getfilteredOriginDataList(pathologynum)
@@ -838,139 +842,159 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
           this.extraction.diagnosis = this.patientInfo.pathological_dx;
         }
         // OR파일에서 가져온 유전자 정보
+        //////////////////////////////////////////////////////////////
 
+        this.clinically.forEach(items => {
+          // const members = item.trim().split(' ');
+          const sepItems = items.split(';');
+          sepItems.forEach(item => {  //
+            const members = item.trim().split(' ');
+            const gene = members[0].trim().replace(/"/g, '');
+            let type = members[1].trim().replace(/[",;]/g, '');
 
-        this.clinically.forEach(item => {
-          const members = item.trim().split(' ');
-          const gene = members[0].trim().replace(/"/g, '');
-          const type = members[1].trim().replace(/"/g, '');
-          if (type.charAt(0) === 'p' || type === 'exon') {
-
-            let indexm: number;
-            let nucleotideChange: string;
-            let customid = '';
-            let variantAlleleFrequency = '';
-            const tier = this.findTier(gene);  // clinical 에서 gene, tier, frequency 찿기
-
-            const itemMembers = item.split(' ');
-
-            let aminoAcidChange = itemMembers[1];
-            const tempAminoAcidChange = itemMembers[1];
-
-            if (type === 'exon') {
-              nucleotideChange = '';
-            } else {
-              nucleotideChange = itemMembers[2];
+            if (members.length === 4) {
+              if (members[3] === 'deletion') {
+                type = 'deletion';
+              }
             }
 
-            variantAlleleFrequency = this.findFrequency(gene);
-            if (type === 'exon') {
-              indexm = this.findGeneInfo(gene);
+            if (type.charAt(0) === 'p' || type === 'exon' || type.charAt(0) === 'c') {
+
+              let indexm: number;
+              let nucleotideChange: string;
+              let customid = '';
+              let variantAlleleFrequency = '';
+              let aminoAcidChange = '';
+              let tempAminoAcidChange = '';
+              const tier = this.findTier(gene);  // clinical 에서 gene, tier, frequency 찿기
+
+              const itemMembers = item.trim().split(' ');
+              if (itemMembers[1].charAt(0) === 'p') {
+                aminoAcidChange = itemMembers[1];
+                tempAminoAcidChange = itemMembers[1];
+              } else if (itemMembers[1].charAt(0) === 'c') {
+                nucleotideChange = itemMembers[1];
+              }
+
+              if (type === 'exon') {
+                nucleotideChange = '';
+              } else {
+                if (itemMembers[2] !== undefined && itemMembers[2].charAt(0) === 'c') {
+                  nucleotideChange = itemMembers[2];
+                } else if (itemMembers[2] !== undefined && itemMembers[2].charAt(0) === 'p') {
+                  aminoAcidChange = itemMembers[2];
+                  tempAminoAcidChange = itemMembers[2];
+                }
+              }
+
+              variantAlleleFrequency = this.findFrequency(gene);
+              if (type === 'exon') {
+                indexm = this.findGeneInfo(gene);
+
+                if (indexm !== -1) {
+                  nucleotideChange = this.filteredOriginData[indexm].coding;
+                }
+              } else {
+                indexm = this.withGeneCoding(gene, nucleotideChange);
+              }
 
               if (indexm !== -1) {
-                nucleotideChange = this.filteredOriginData[indexm].coding;
-              }
-            } else {
-              indexm = this.withGeneCoding(gene, nucleotideChange);
-            }
+                customid = this.filteredOriginData[indexm].variantID;
+                if (customid === undefined || customid === null) { customid = ''; }
 
-            if (indexm !== -1) {
-              customid = this.filteredOriginData[indexm].variantID;
-              if (customid === undefined || customid === null) { customid = ''; }
+                if (gene === 'TERT' && tempAminoAcidChange === 'p.(?)') {
+                  aminoAcidChange = 'Promotor mutant';
+                } else if (gene !== 'TERT' && tempAminoAcidChange === 'p.(?)') {
+                  aminoAcidChange = 'Splicing mutant';
+                } else {
 
-              if (gene === 'TERT' && tempAminoAcidChange === 'p.(?)') {
-                aminoAcidChange = 'Promotor mutant';
-              } else if (gene !== 'TERT' && tempAminoAcidChange === 'p.(?)') {
-                aminoAcidChange = 'Splicing mutant';
+                  aminoAcidChange = this.filteredOriginData[indexm].aminoAcidChange;
+
+                }
               } else {
-
-                aminoAcidChange = this.filteredOriginData[indexm].aminoAcidChange;
-
-              }
-            } else {
-              if (gene === 'TERT' && tempAminoAcidChange === 'p.(?)') {
-                aminoAcidChange = 'Promotor mutant';
-              } else if (gene !== 'TERT' && tempAminoAcidChange === 'p.(?)') {
-                aminoAcidChange = 'Splicing mutant';
-              }
-              customid = '';
-            }
-
-            const result = this.removeGeneCheck(gene, aminoAcidChange, nucleotideChange);
-            if (result === -1) {
-
-              if (customid.indexOf('vc.novel') !== -1) {
+                if (gene === 'TERT' && tempAminoAcidChange === 'p.(?)') {
+                  aminoAcidChange = 'Promotor mutant';
+                } else if (gene !== 'TERT' && tempAminoAcidChange === 'p.(?)') {
+                  aminoAcidChange = 'Splicing mutant';
+                }
                 customid = '';
               }
 
-              this.mutation.push({
-                gene,
-                aminoAcidChange,
-                nucleotideChange,
-                variantAlleleFrequency,
-                ID: customid,
-                tier
-              });
+              const result = this.removeGeneCheck(gene, aminoAcidChange, nucleotideChange);
+              if (result === -1) {
 
-            }
-
-          } else if (type === 'amplification') {
-
-            const indexa = this.findGeneInfo(gene);
-            const atier = this.findTier(gene);
-            const geneindexlist = this.findMultiGeneInfo(gene);
-
-            if (indexa !== -1) {
-              let cylen;
-              const cytobandlen = this.filteredOriginData[indexa].cytoband.length;
-              Array.from(geneindexlist, (num: number) => {
-
-                cylen = this.filteredOriginData[num].cytoband.length;
-                if (cylen) {
-                  const cytoband = this.filteredOriginData[num].cytoband.split(')');
-                  this.amplifications.push({
-
-                    gene,
-                    region: cytoband[0] + ')',
-                    copynumber: cytoband[1],
-                    tier: atier
-                  });
+                if (customid.indexOf('vc.novel') !== -1) {
+                  customid = '';
                 }
-              });
 
+                this.mutation.push({
+                  gene,
+                  aminoAcidChange,
+                  nucleotideChange,
+                  variantAlleleFrequency,
+                  ID: customid,
+                  tier
+                });
 
-              /*
-              */
-            }
-          } else if (type === 'fusion') {
-            let oncomine;
-
-            const index = this.findFusionInfo(gene);
-            const ftier = this.findTier(gene);
-
-
-            if (index !== -1) {  // 여기주의
-              if (this.filteredOriginData[index].oncomine === 'Loss-of-function') {
-                oncomine = 'Loss';
-              } else if (this.filteredOriginData[index].oncomine === 'Gain-of-function') {
-                oncomine = 'Gain';
               }
 
-              this.fusion.push({
-                gene: this.filteredOriginData[index].gene,
-                // gene,
-                breakpoint: this.filteredOriginData[index].locus,
-                readcount: this.filteredOriginData[index].readcount,
-                functions: oncomine,
-                tier: ftier
-              });
+            } else if (type === 'amplification') {
+
+              const indexa = this.findGeneInfo(gene);
+              const atier = this.findTier(gene);
+              const geneindexlist = this.findMultiGeneInfo(gene);
+
+              if (indexa !== -1) {
+                let cylen;
+                const cytobandlen = this.filteredOriginData[indexa].cytoband.length;
+                Array.from(geneindexlist, (num: number) => {
+
+                  cylen = this.filteredOriginData[num].cytoband.length;
+                  if (cylen) {
+                    const cytoband = this.filteredOriginData[num].cytoband.split(')');
+                    this.amplifications.push({
+
+                      gene,
+                      region: cytoband[0] + ')',
+                      copynumber: cytoband[1],
+                      tier: atier
+                    });
+                  }
+                });
+
+
+                /*
+                */
+              }
+            } else if (type === 'fusion') {
+              let oncomine;
+
+              const index = this.findFusionInfo(gene);
+              const ftier = this.findTier(gene);
+
+
+              if (index !== -1) {  // 여기주의
+                if (this.filteredOriginData[index].oncomine === 'Loss-of-function') {
+                  oncomine = 'Loss';
+                } else if (this.filteredOriginData[index].oncomine === 'Gain-of-function') {
+                  oncomine = 'Gain';
+                }
+
+                this.fusion.push({
+                  gene: this.filteredOriginData[index].gene,
+                  // gene,
+                  breakpoint: this.filteredOriginData[index].locus,
+                  readcount: this.filteredOriginData[index].readcount,
+                  functions: oncomine,
+                  tier: ftier
+                });
+
+              }
 
             }
-
-          }
-
+          });
         });
-
+        ///////////////////////////////////////////////////////////////
         if (this.mutation.length) {
 
           this.mutation.forEach((mItem, index) => {
@@ -1002,13 +1026,34 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
           const temps = members[0].split(' ');
           const gene = temps[0].trim().replace(/"/g, '');
           const type = temps[1].trim().replace(/"/g, '');
-          if (type.charAt(0) === 'p') {
+          if (type.charAt(0) === 'p' || type.charAt(0) === 'c') {
+            // let customid = '';
+            // let variantAlleleFrequency = '';
+            // const items = members[0].split(' ');
+            // let aminoAcidchange = items[1];
+            // const tempaminoAcidchange = items[1];
+            // const nucleotidechange = items[2];
+
             let customid = '';
+            let aminoAcidchange = '';
+            let tempaminoAcidchange = '';
+            let nucleotidechange = '';
             let variantAlleleFrequency = '';
             const items = members[0].split(' ');
-            let aminoAcidchange = items[1];
-            const tempaminoAcidchange = items[1];
-            const nucleotidechange = items[2];
+            if (items[1].charAt(0) === 'p') {
+              aminoAcidchange = items[1];
+              tempaminoAcidchange = items[1];
+              if (items[2] !== undefined && items[2].length > 0) {
+                nucleotidechange = items[2];
+              }
+              // 유전자 c.(xxxx), 없거나, p.(xxxx)
+            } else if (items[1].charAt(0) === 'c') {
+              nucleotidechange = items[1];
+              if (items[2] !== undefined && items[2].length > 0) {
+                aminoAcidchange = items[2];
+                tempaminoAcidchange = items[2];
+              }
+            }
 
 
             // 유전자와 nucleotidechange 2개로 찿는다.
@@ -1140,7 +1185,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
       })),
     )])
       .subscribe(([type, dnaData]) => {
-        this.essenceDNAComment(type, dnaData);
+        // this.essenceDNAComment(type, dnaData);
       });
 
 
@@ -2449,6 +2494,36 @@ ${fuDNA}`;
 
   pathologynumFun(pathology: string): void {
     // this.patientInfo.pathology_num = pathology;
+  }
+
+  gohome(): void {
+    this.router.navigate(['/pathology', 'mainpa']);
+  }
+
+  essentialMent(): void {
+    let muDNA = '';
+    let amDNA = '';
+    let fuDNA = '';
+    this.sequencingService.getEssTitle()
+      .subscribe(data => {
+        const idx = data.findIndex(list => list.title === this.extraction.tumortype);
+        const { id, title, mutation, amplification, fusion } = data[idx];
+        if (mutation.length) {
+          muDNA = '- Mutation: ' + mutation;
+        }
+
+        if (amplification.length) {
+          amDNA = '- Amplification: ' + amplification;
+        }
+
+        if (fusion.length) {
+          fuDNA = '- Fusion: ' + fusion;
+        }
+        this.specialment = `${muDNA}
+${amDNA}
+${fuDNA}`;
+
+      });
   }
 
 
