@@ -10,12 +10,17 @@
               </tr>
           </table>
           <div class="box mg_b20 pd_20">
-            <!--   <span>접수일자</span>&nbsp;&nbsp; -->
+            <span>접수일자</span>&nbsp;&nbsp;
               <input type="date"  [value]="startToday()"  class="input_01" #start  style="width:150px;"/> &nbsp;&nbsp;
               ~ &nbsp;&nbsp;
               <input type="date" class="input_01"   #end [value]="endToday()"  style="width:150px;"> &nbsp;&nbsp;
               <button type="button" class="btn btn_02" (click)="search(start.value, end.value)"
                style="margin-right: 15px;">조회</button>
+
+               <span id="bold">실험일자</span>&nbsp;&nbsp;
+               <input type="date" class="input_01"   #testdate [value]="endToday()"  style="width:150px;">&nbsp;&nbsp;
+               <button type="button" class="btn btn_02" (click)="testSearch(testdate.value, testdate.value)"
+               style="margin-right: 15px;">조회</button>&nbsp;&nbsp;
                <select class="select_01 select_001" #recker (change)="selectedRecheck(recker.value)">
                 <option value="TOTAL">의사</option>
                 <option [value]="exam.id" *ngFor="let exam of doctorList" [selected]="exam.id === rechecker">{{exam.name}}</option>
@@ -33,11 +38,6 @@
                  #fileInput>
                <button type="button" class="btn btn_02"
                style="margin-right: 15px;" (click)="printexcel()">엑셀출력</button>&nbsp;&nbsp;
-
-               <span id="bold">실험일자</span>&nbsp;&nbsp;
-               <input type="date" class="input_01"   #testdate [value]="endToday()"  style="width:150px;">&nbsp;&nbsp;
-               <button type="button" class="btn btn_02" (click)="testSearch(testdate.value, testdate.value)"
-               style="margin-right: 15px;">조회</button>&nbsp;&nbsp;
           </div>
           <div class="box big_box">
 
