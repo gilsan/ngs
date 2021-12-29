@@ -1,6 +1,6 @@
 table {
   table-layout: fixed;
-  
+
 }
 
 
@@ -103,103 +103,13 @@ table {
   transform: translate(-50%, -50%);
 }
 
-// .rna-fix {
-//   position: sticky;
-//   left: 0;
-//   background-color: #fff;
-// }
+.remover {
+  cursor: pointer;
+}
 
-// .table_list.td-fix tr td:first-child {
-//   position: sticky;
-//   left: 0;
-//   background-color: #fff;
-// }
-
-// .table_list.td-fix tr td:first-child+td {
-//   position: sticky;
-//   left: 40px;
-//   background-color: #fff;
-// }
-
-// .table_list.td-fix tr td:first-child+td+td {
-//   position: sticky;
-//   left: 140px;
-//   background-color: #fff;
-// }
-
-// .table_list.td-fix tr td:first-child+td+td+td {
-//   position: sticky;
-//   left: 240px;
-//   background-color: #fff;
-// }
-
-// .table_list.td-fix tr td:first-child+td+td+td+td {
-//   position: sticky;
-//   left: 320px;
-//   background-color: #fff;
-// }
-
-// .table_list.td-fix tr td:first-child+td+td+td+td+td {
-//   position: sticky;
-//   left: 400px;
-//   background-color: #fff;
-// }
-
-// .table_list.td-fix tr td:first-child+td+td+td+td+td+td {
-//   position: sticky;
-//   left: 480px;
-//   background-color: #fff;
-// }
-
-
-
-
-// .table_list.td-fix tr th:first-child {
-//   position: sticky;
-//   left: 0;
-//   background-color: #fafafa;
-// }
-
-
-// .table_list.td-fix tr th:first-child+th {
-//   position: sticky;
-//   left: 40px;
-//   background-color: #fafafa;
-// }
-
-
-// .table_list.td-fix tr th:first-child+th+th {
-//   position: sticky;
-//   left: 140px;
-//   background-color: #fafafa;
-// }
-
-// .table_list.td-fix tr th:first-child+th+th+th {
-//   position: sticky;
-//   left: 240px;
-//   background-color: #fafafa;
-// }
-
-// .table_list.td-fix tr th:first-child+th+th+th+th {
-//   position: sticky;
-
-//   left: 320px;
-//   background-color: #fafafa;
-// }
-
-// .table_list.td-fix tr th:first-child+th+th+th+th+th {
-//   position: sticky;
-
-//   left: 400px;
-//   background-color: #fafafa;
-// }
-
-// .table_list.td-fix tr th:first-child+th+th+th+th+th+th {
-//   position: sticky;
-
-//   left: 480px;
-//   background-color: #fafafa;
-// }
+#bold {
+  font-weight: bold;
+}
 
 .scroll {
   width: 100%;
@@ -207,6 +117,7 @@ table {
   overflow: auto;
   min-height: 230px;
 }
+
 .scroll table {
   width: 2850px;
   height: auto;

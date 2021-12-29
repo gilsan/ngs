@@ -64,7 +64,7 @@ export class DashboardComponent implements OnInit {
 
   collections(): void {
     this.codeDefaultValueService.getLists().subscribe(data => {
-      // console.log('[대쉬보드]', data);
+      console.log('[대쉬보드]', data);
       data.forEach(item => {
         this.lists.push({ type: item.type, code: item.code });
       });

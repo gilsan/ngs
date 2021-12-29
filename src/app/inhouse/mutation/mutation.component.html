@@ -278,7 +278,7 @@
                             </td>
                             <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.zygosity}}</span> <!-- Zygosity   -->
                                 <span class="clr-input" *ngIf="status.value === 'U'">
-                                    <input type="text"  class="clr-input" value="{{list.zygosity}}" id="zygosity{{list.id}}"  >
+                                    <input type="text"  class="clr-input" value="{{list.zygosity}}" id="zygosity{{list.id}}">
                                 </span>
                             </td>
                             <td class="txt_c"><span *ngIf="status.value === 'R'">
@@ -646,7 +646,12 @@
                                   <input type="text"  class="clr-input" formControlName="aminoAcidChange">
                               </td>
                               <td class="txt_c">
-                                  <input type="text"  class="clr-input" formControlName="zygosity">
+                                  <input type="text"  class="clr-input" formControlName="zygosity" matInput  [matAutocomplete]="zygoauto">
+                                  <mat-autocomplete #zygoauto="matAutocomplete">
+                                    <mat-option *ngFor="let option of ZYGOSITY" [value]="option">
+                                      {{option}}
+                                    </mat-option>
+                                </mat-autocomplete>
                               </td>
                               <td class="txt_c">
                                   <input type="text"  class="clr-input" formControlName="rsid">

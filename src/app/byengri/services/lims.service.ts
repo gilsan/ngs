@@ -24,8 +24,15 @@ export class LimsService {
     private http: HttpClient
   ) { }
 
-  search(start: string): Observable<ILIMS[]> {
-    return this.http.post<ILIMS[]>(`${this.apiUrl}/lims/lists`, { start })
+  search(start: string, end: string): Observable<ILIMS[]> {
+    return this.http.post<ILIMS[]>(`${this.apiUrl}/lims/lists`, { start, end })
+      .pipe(
+        // shareReplay()
+      );
+  }
+
+  testSearch(start: string): Observable<ILIMS[]> {
+    return this.http.post<ILIMS[]>(`${this.apiUrl}/lims/limslists`, { start })
       .pipe(
         // shareReplay()
       );

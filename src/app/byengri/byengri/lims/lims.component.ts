@@ -1,8 +1,8 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { fromEvent, Observable, of } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { map, shareReplay, take, tap } from 'rxjs/operators';
+import { catchError, debounceTime, distinctUntilChanged, filter, map, shareReplay, take, tap } from 'rxjs/operators';
 import { IDNATYPE, ILIMS, IRNATYPE, IUSER } from '../../models/lims.model';
 import { LimsService } from '../../services/lims.service';
 import { SearchService } from '../../services/search.service';
@@ -19,7 +19,7 @@ const EXCEL_EXTENSION = '.xlsx';
   templateUrl: './lims.component.html',
   styleUrls: ['./lims.component.scss']
 })
-export class LimsComponent implements OnInit {
+export class LimsComponent implements OnInit, AfterViewInit {
   LISTS = [
     'Bladder cancer', 'Bladder adenocarcinoma', 'Bladder small cell neuroendocrine carcinoma',
     'Bladder squamous cell carcinoma', 'Bladder urothelial carcinoma', 'Breast cancer',
@@ -43,6 +43,7 @@ export class LimsComponent implements OnInit {
     'Columnar cell variant thyroid gland papillary carcinoma', 'Tall cell variant thyroid gland papillary carcinoma',
     'Triple negative breast cancer', 'Unknown primary origin', 'Other soilid tumor',
   ];
+  listsTemp = [...this.LISTS];
   BLOCKCNT = ['1개', '2개', '3개이상'];
   BXOP = ['BX', 'OP'];
   dnaLists: ILIMS[] = [];
@@ -74,7 +75,7 @@ export class LimsComponent implements OnInit {
 
   @ViewChild('table', { static: true }) table: ElementRef;
   @ViewChild('fileInput', { static: true }) fileInput: ElementRef;
-
+  @ViewChild('cancertype', { static: true }) cancertype: ElementRef;
   constructor(
     private limsService: LimsService,
     private searchService: SearchService,
@@ -84,11 +85,11 @@ export class LimsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.search(this.endToday());
+    this.search(this.startToday(), this.endToday());
     this.exminObservable$ = this.manageUsersService.getManageUsersList(this.startToday2(), this.endToday(), '', '', 'P')
       .pipe(
         // tap(data => console.log(data)),
-        // shareReplay()
+        shareReplay()
       );
 
     this.exminObservable$
@@ -113,8 +114,47 @@ export class LimsComponent implements OnInit {
   }
 
 
+  keyUp(evt: any): void {
+    // console.log(evt);
+    of(evt).pipe(
+      map(event => event.target.value),
+      debounceTime(400),
+      distinctUntilChanged(),
+      catchError(err => of(''))
+    ).subscribe(data => {
+      if (data.length === 0) {
+        this.LISTS = [];
+        this.LISTS = [...this.listsTemp];
+      } else {
+        const list = this.LISTS.filter(item => item.toLowerCase().search(data.toLowerCase()) >= 0);
+        this.LISTS = [];
+        this.LISTS = [...list];
+      }
 
-  search(searchdate: string): void {
+    });
+  }
+  ngAfterViewInit(): void {
+    const dnacontrol = this.dnaForm.get('dnaFormgroup') as FormArray;
+    const dnaFormData = dnacontrol.getRawValue();
+    const rnacontrol = this.rnaForm.get('rnaFormgroup') as FormArray;
+    const rnaFormData = rnacontrol.getRawValue();
+    if (dnaFormData.length || rnaFormData.length) {
+      fromEvent<any>(this.cancertype.nativeElement, 'keyup')
+        .pipe(
+          map(event => event.target.value),
+          debounceTime(400),
+          distinctUntilChanged(),
+          catchError(err => of(''))
+        ).subscribe(data => {
+          console.log(data);
+        });
+    }
+
+  }
+
+
+
+  search(searchdate: string, end: string): void {
     // 2021-05-20
     const controlDNA = this.dnaForm.get('dnaFormgroup') as FormArray;
     const controlRNA = this.rnaForm.get('rnaFormgroup') as FormArray;
@@ -125,121 +165,183 @@ export class LimsComponent implements OnInit {
     // DNA, RNA 구분 dna_rna_gbn 을 구분
 
     this.processing = true;
-    this.dnaObservable$ = this.limsService.search(searchdate);
+    this.dnaObservable$ = this.limsService.search(searchdate, end);
     this.dnaObservable$
       .pipe(
         tap(data => console.log(data)),
+        filter(data => !!data),
         tap(data => {
-          if (data[0].examin.length) {
-            this.examiner = data[0].examin;
+          if (data.length) {
+            if (data[0].examin.length) {
+              this.examiner = data[0].examin;
+            }
+
+            if (data[0].recheck.length) {
+              this.rechecker = data[0].recheck;
+            }
           }
 
-          if (data[0].recheck.length) {
-            this.rechecker = data[0].recheck;
-          }
         }),
         map(lists => {
           return lists.sort((a, b) => {
-            if (a.id < b.id) { return -1; }
-            if (a.id > b.id) { return 1; }
-            if (a.id === b.id) { return 0; }
+            const aid = parseInt(a.id, 10);
+            const bid = parseInt(b.id, 10);
+
+            if (aid < bid) { return -1; }
+            if (aid > bid) { return 1; }
+            if (aid === bid) { return 0; }
           });
         }),
       )
       .subscribe(data => {
         this.processing = false;
-        data.forEach(i => {
-          if (parseInt(i.dna_rna_gbn, 10) === 0) {
-            const val = {
-              id: i.id,
-              pathology_num: i.pathology_num,
-              rel_pathology_num: i.rel_pathology_num,
-              prescription_date: i.prescription_date,
-              patientID: i.patientID,
-              name: i.name,
-              gender: '(' + i.gender + '/' + i.age + ')',
-              path_type: i.path_type,
-              block_cnt: i.block_cnt,
-              key_block: i.key_block,
-              prescription_code: i.prescription_code,
-              test_code: i.test_code,
-              tumorburden: i.tumorburden,
-              nano_ng: i.nano_ng,
-              nano_280: i.nano_280,
-              nano_230: i.nano_230,
-              nano_dil: i.nano_dil,
-              ng_ui: i.ng_ui,
-              dan_rna: i.dan_rna,
-              dw: i.dw,
-              tot_ct: i.tot_ct,
-              ct: i.ct,
-              quantity: i.quantity,
-              quantity_2: i.quantity_2,
-              quan_dna: i.quan_dna,
-              te: i.te,
-              quan_tot_vol: i.quan_tot_vol,
-              lib_hifi: i.lib_hifi,
-              pm: i.pm,
-              x100: i.x100,
-              lib: i.lib,
-              lib_dw: i.lib_dw,
-              lib2: i.lib2,
-              lib2_dw: i.lib2_dw,
-            };
-            this.dnaLists.push(val);
-          } else if (parseInt(i.dna_rna_gbn, 10) === 1) {
-            const val = {
-              id: i.id,
-              pathology_num: i.pathology_num,
-              rel_pathology_num: i.rel_pathology_num,
-              prescription_date: i.prescription_date,
-              patientID: i.patientID,
-              name: i.name,
-              gender: '(' + i.gender + '/' + i.age + ')',
-              path_type: i.path_type,
-              block_cnt: i.block_cnt,
-              key_block: i.key_block,
-              prescription_code: i.prescription_code,
-              test_code: i.test_code,
-              tumorburden: i.tumorburden,
-              nano_ng: i.nano_ng,
-              nano_280: i.nano_280,
-              nano_230: i.nano_230,
-              nano_dil: i.nano_dil,
-              ng_ui: i.ng_ui,
-              dan_rna: i.dan_rna,
-              dw: i.dw,
-              tot_ct: i.tot_ct,
-              ct: i.ct,
-              quantity: i.quantity,
-              quantity_2: i.quantity_2,
-              quan_dna: i.quan_dna,
-              te: i.te,
-              quan_tot_vol: i.quan_tot_vol,
-              lib_hifi: i.lib_hifi,
-              pm: i.pm,
-              x100: i.x100,
-              lib: i.lib,
-              lib_dw: i.lib_dw,
-              lib2: i.lib2,
-              lib2_dw: i.lib2_dw,
-            };
-            this.rnaLists.push(val);
-          }
-        });
-
-        // console.log('[DNA]', this.dnaLists);
-        // console.log('[RNA]', this.rnaLists);
-        this.dnaLists.forEach(list => {
-          this.dnaFormLists().push(this.createDNA(list));
-        });
-
-        this.rnaLists.forEach(list => {
-          this.rnaFormLists().push(this.createRNA(list));
-        });
+        this.makeDNARNAList(data);
 
       });
 
+  }
+
+  makeDNARNAList(data: ILIMS[]): void {
+    data.forEach(i => {
+      if (parseInt(i.dna_rna_gbn, 10) === 0) {
+        const val = {
+          id: i.id,
+          pathology_num: i.pathology_num,
+          rel_pathology_num: i.rel_pathology_num,
+          prescription_date: i.prescription_date,
+          report_date: i.report_date,
+          patientID: i.patientID,
+          name: i.name,
+          gender: '(' + i.gender + '/' + i.age + ')',
+          path_type: i.path_type,
+          block_cnt: i.block_cnt,
+          key_block: i.key_block,
+          prescription_code: i.prescription_code,
+          test_code: i.test_code,
+          tumorburden: i.tumorburden,
+          nano_ng: i.nano_ng,
+          nano_280: i.nano_280,
+          nano_230: i.nano_230,
+          nano_dil: i.nano_dil,
+          ng_ui: i.ng_ui,
+          dan_rna: i.dan_rna,
+          dw: i.dw,
+          tot_ct: i.tot_ct,
+          ct: i.ct,
+          quantity: i.quantity,
+          quantity_2: i.quantity_2,
+          quan_dna: i.quan_dna,
+          te: i.te,
+          quan_tot_vol: i.quan_tot_vol,
+          lib_hifi: i.lib_hifi,
+          pm: i.pm,
+          x100: i.x100,
+          lib: i.lib,
+          lib_dw: i.lib_dw,
+          lib2: i.lib2,
+          lib2_dw: i.lib2_dw,
+        };
+        this.dnaLists.push(val);
+      } else if (parseInt(i.dna_rna_gbn, 10) === 1) {
+        const val = {
+          id: i.id,
+          pathology_num: i.pathology_num,
+          rel_pathology_num: i.rel_pathology_num,
+          prescription_date: i.prescription_date,
+          report_date: i.report_date,
+          patientID: i.patientID,
+          name: i.name,
+          gender: '(' + i.gender + '/' + i.age + ')',
+          path_type: i.path_type,
+          block_cnt: i.block_cnt,
+          key_block: i.key_block,
+          prescription_code: i.prescription_code,
+          test_code: i.test_code,
+          tumorburden: i.tumorburden,
+          nano_ng: i.nano_ng,
+          nano_280: i.nano_280,
+          nano_230: i.nano_230,
+          nano_dil: i.nano_dil,
+          ng_ui: i.ng_ui,
+          dan_rna: i.dan_rna,
+          dw: i.dw,
+          tot_ct: i.tot_ct,
+          ct: i.ct,
+          quantity: i.quantity,
+          quantity_2: i.quantity_2,
+          quan_dna: i.quan_dna,
+          te: i.te,
+          quan_tot_vol: i.quan_tot_vol,
+          lib_hifi: i.lib_hifi,
+          pm: i.pm,
+          x100: i.x100,
+          lib: i.lib,
+          lib_dw: i.lib_dw,
+          lib2: i.lib2,
+          lib2_dw: i.lib2_dw,
+        };
+        this.rnaLists.push(val);
+      }
+    });
+
+    console.log('[DNA]', this.dnaLists);
+    console.log('[RNA]', this.rnaLists);
+    this.dnaLists.forEach(list => {
+      this.dnaFormLists().push(this.createDNA(list));
+    });
+
+    this.rnaLists.forEach(list => {
+      this.rnaFormLists().push(this.createRNA(list));
+    });
+  }
+
+  testSearch(start: string): void {
+    const controlDNA = this.dnaForm.get('dnaFormgroup') as FormArray;
+    const controlRNA = this.rnaForm.get('rnaFormgroup') as FormArray;
+    controlDNA.clear();
+    controlRNA.clear();
+    this.dnaLists = [];
+    this.rnaLists = [];
+    // DNA, RNA 구분 dna_rna_gbn 을 구분
+
+    this.processing = true;
+    this.dnaObservable$ = this.limsService.testSearch(start);
+    this.dnaObservable$
+      .pipe(
+        tap(data => console.log(data)),
+        filter(data => !!data),
+        tap(data => {
+          if (data.length) {
+            if (data[0].examin.length) {
+              this.examiner = data[0].examin;
+            }
+
+            if (data[0].recheck.length) {
+              this.rechecker = data[0].recheck;
+            }
+          }
+
+        }),
+        map(lists => {
+          return lists.sort((a, b) => {
+            const aid = parseInt(a.id, 10);
+            const bid = parseInt(b.id, 10);
+
+            if (aid < bid) { return -1; }
+            if (aid > bid) { return 1; }
+            if (aid === bid) { return 0; }
+          });
+        }),
+      )
+      .subscribe(data => {
+        this.processing = false;
+        this.makeDNARNAList(data);
+
+      });
+    // this.limsService.testSearch(start)
+    //   .subscribe(data => {
+    //     console.log(data);
+    //   });
   }
 
   createDNA(i: ILIMS): FormGroup {
@@ -281,6 +383,10 @@ export class LimsComponent implements OnInit {
       dna_rna_gbn: '0',
       report_date: i.report_date
     });
+  }
+
+  removeDNA(i: number): void {
+    this.dnaFormLists().removeAt(i);
   }
 
   dnaFormLists(): FormArray {
@@ -327,6 +433,11 @@ export class LimsComponent implements OnInit {
       report_date: i.report_date
     });
   }
+
+  removeRNA(i: number): void {
+    this.rnaFormLists().removeAt(i);
+  }
+
 
   rnaFormLists(): FormArray {
     return this.rnaForm.get('rnaFormgroup') as FormArray;
@@ -439,8 +550,8 @@ export class LimsComponent implements OnInit {
         dna260230 = 0;
 
       }
-      console.log('[DNA]', dnaFileLists);
-      console.log('[RNA]', rnaFileLists);
+      // console.log('[DNA]', dnaFileLists);
+      // console.log('[RNA]', rnaFileLists);
 
       if (type === 'DNA') {
         this.updateDNAScreen(dnaFileLists);
@@ -508,6 +619,17 @@ export class LimsComponent implements OnInit {
     const newday = ('0' + date).substr(-2);
     const now = year + '-' + newmon + '-' + newday;
     return now;
+  }
+
+  startToday(): string {
+    const oneMonthsAgo = moment().subtract(4, 'days');
+    // console.log(oneMonthsAgo.format('YYYY-MM-DD'));
+    const yy = oneMonthsAgo.format('YYYY');
+    const mm = oneMonthsAgo.format('MM');
+    const dd = oneMonthsAgo.format('DD');
+    // console.log('[63][오늘날자]년[' + yy + ']월[' + mm + ']일[' + dd + ']');
+    const now1 = yy + '-' + mm + '-' + dd;
+    return now1;
   }
 
   startToday2(): string {
@@ -715,6 +837,7 @@ export class LimsComponent implements OnInit {
       pathology_num: '병리번호',
       rel_pathology_num: '관련병리번호',
       prescription_date: '접수일자',
+      report_date: '실험일자',
       patientID: '등록번호',
       name: '환자명',
       gender: '성별(F/M)',
@@ -744,7 +867,7 @@ export class LimsComponent implements OnInit {
       lib: 'library',
       lib_dw: 'DW (50pm)',
       lib2: 'library',
-      lib2_dw: 'library',
+      lib2_dw: 'DW (50pm)',
     });
 
     const rnacontrol = this.rnaForm.get('rnaFormgroup') as FormArray;
@@ -754,8 +877,9 @@ export class LimsComponent implements OnInit {
       pathology_num: '병리번호',
       rel_pathology_num: '관련병리번호',
       prescription_date: '접수일자',
+      report_date: '실험일자',
       patientID: '등록번호',
-      name: '등록번호',
+      name: '환자명',
       gender: '성별(F/M)',
       path_type: '구분(bx,op)',
       block_cnt: '블록수',
@@ -783,30 +907,30 @@ export class LimsComponent implements OnInit {
       lib: 'library',
       lib_dw: 'DW (50pm)',
       lib2: 'library',
-      lib2_dw: 'library',
+      lib2_dw: 'DW (50pm)',
     });
     const tempDNA = [];
     const tempRNA = [];
 
     dnaFormData.forEach(list => {
-      const { dna_rna_gbn, report_date, ...temp } = list;
+      const { dna_rna_gbn, ...temp } = list;
       tempDNA.push(temp);
     });
 
     rnaFormData.forEach(list => {
-      const { dna_rna_gbn, report_date, ...temp } = list;
+      const { dna_rna_gbn, ...temp } = list;
       tempRNA.push(temp);
     });
 
     const allData: ILIMS[] = [...tempDNA, ...tempRNA];
-
-    const width = [{ width: 4 }, { width: 16 }, { width: 13 }, { width: 12 }, { width: 11 },
-    { width: 8 }, { width: 9 }, { width: 5 }, { width: 8 }, { width: 9 },
-    { width: 19 }, { width: 18 }, { width: 5 }, { width: 8 }, { width: 8 },
-    { width: 8 }, { width: 14 }, { width: 8 }, { width: 8 }, { width: 8 },
-    { width: 7 }, { width: 9 }, { width: 9 }, { width: 8 }, { width: 8 },
-    { width: 8 }, { width: 8 }, { width: 9 }, { width: 9 }, { width: 9 },
-    { width: 6 }, { width: 9 }, { width: 7 }, { width: 9 }, { width: 15 }, { width: 5 }
+    console.log(allData);
+    const width = [{ width: 4 }, { width: 16 }, { width: 13 }, { width: 12 }, { width: 11 }, { width: 11 }, // A, B,C,D,E,F
+    { width: 7 }, { width: 11 }, { width: 10 }, { width: 8 }, { width: 9 }, // G, H, I, J, K
+    { width: 19 }, { width: 18 }, { width: 7 }, { width: 7 }, { width: 8 }, // L, M, N, O ,P
+    { width: 8 }, { width: 7 }, { width: 6 }, { width: 6 }, { width: 8 }, // Q, R ,S, T, U,
+    { width: 8 }, { width: 8 }, { width: 14 }, { width: 14 }, { width: 6 }, // V, W, X, Y, Z,
+    { width: 8 }, { width: 8 }, { width: 9 }, { width: 9 }, { width: 9 }, // AA,AB, AC, AD, AE
+    { width: 10 }, { width: 10 }, { width: 7 }, { width: 10 }, { width: 7 }, { width: 7 }  // AF, AG, AH, AI, AJ, AK
     ];
     this.limsService.exportAsExcelFile(allData, 'LIMS', width);
   }

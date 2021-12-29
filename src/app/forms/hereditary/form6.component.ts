@@ -1819,7 +1819,7 @@ export class Form6Component implements OnInit, OnDestroy {
 
 
       });
-      console.log('[자동입력]', comment);
+      // console.log('[자동입력]', comment);
       this.commentdata = comment;
     } else if (this.resultStatus === 'Not Detected') {
       this.commentdata = `본 환자에서 ${this.target} 에 대한 targeted panel sequencing 결과, 질환 관련 돌연변이는 관찰되지 않았습니다`;

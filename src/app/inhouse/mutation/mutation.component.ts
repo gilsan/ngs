@@ -43,6 +43,8 @@ export class MutationComponent implements OnInit {
   seqForm: FormGroup;
   amlForm: FormGroup;
 
+  ZYGOSITY: string[] = ['Heterozygous', 'Homozygous'];
+
   ngOnInit(): void {
     this.init();
     this.loadGeneticForm();
@@ -289,11 +291,13 @@ export class MutationComponent implements OnInit {
       this.totRecords = this.listMutations.length;
 
       if (this.gubun === 'Genetic') {
+        this.geneticRows().clear();
         this.makeGeneticRows(this.lists);
       } else if (this.gubun === 'SEQ') {
+        this.seqRows().clear();
         this.makeSeqRows(this.lists);
       } else if (this.gubun === 'AMLALL' || this.gubun === 'LYM' || this.gubun === 'MDS') {
-        console.log(this.lists);
+        this.amlRows().clear();
         this.makeAmlRows(this.lists);
       } else if (this.gubun === 'ALL') {
         this.lists = data;

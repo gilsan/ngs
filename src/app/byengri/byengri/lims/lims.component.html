@@ -10,9 +10,11 @@
               </tr>
           </table>
           <div class="box mg_b20 pd_20">
-              <span>접수일자</span>&nbsp;&nbsp;
-              <input type="date"  [value]="endToday()"  class="input_01" #end  style="width:150px;"/> &nbsp;&nbsp;
-              <button type="button" class="btn btn_02" (click)="search(end.value)"
+            <!--   <span>접수일자</span>&nbsp;&nbsp; -->
+              <input type="date"  [value]="startToday()"  class="input_01" #start  style="width:150px;"/> &nbsp;&nbsp;
+              ~ &nbsp;&nbsp;
+              <input type="date" class="input_01"   #end [value]="endToday()"  style="width:150px;"> &nbsp;&nbsp;
+              <button type="button" class="btn btn_02" (click)="search(start.value, end.value)"
                style="margin-right: 15px;">조회</button>
                <select class="select_01 select_001" #recker (change)="selectedRecheck(recker.value)">
                 <option value="TOTAL">의사</option>
@@ -30,7 +32,12 @@
                  (change)="onFileSelected($event)"
                  #fileInput>
                <button type="button" class="btn btn_02"
-               style="margin-right: 15px;" (click)="printexcel()">엑셀출력</button>
+               style="margin-right: 15px;" (click)="printexcel()">엑셀출력</button>&nbsp;&nbsp;
+
+               <span id="bold">실험일자</span>&nbsp;&nbsp;
+               <input type="date" class="input_01"   #testdate [value]="endToday()"  style="width:150px;">&nbsp;&nbsp;
+               <button type="button" class="btn btn_02" (click)="testSearch(testdate.value)"
+               style="margin-right: 15px;">조회</button>&nbsp;&nbsp;
           </div>
           <div class="box big_box">
 
@@ -42,9 +49,11 @@
              <form [formGroup]="dnaForm">
               <table border="0" cellpadding="0" cellspacing="0" [ngClass]="tableHeader()" class="table_list td_padding_0 td-fix" #table>
                   <colgroup>
+                      <col width="30px">
                       <col width="40px">
                       <col width="100px">
                       <col width="100px">
+                      <col width="80px">
                       <col width="80px">
                       <col width="80px">
                       <col width="80px">
@@ -79,10 +88,12 @@
                   </colgroup>
                   <thead class="fixheader">
                       <tr>
+                          <th></th>
                           <th>No.</th>
                           <th>병리번호</th>
                           <th>관련병리번호</th>
                           <th>접수일자</th>
+                          <th>실험일자</th>
                           <th>등록번호</th>
                           <th>환자명</th>
                           <th>성별(F/M)</th>
@@ -120,6 +131,9 @@
                    <ng-container formArrayName="dnaFormgroup"
                     *ngFor="let group of dnaFormLists().controls; let i=index">
                       <tr  [formGroupName]="i">
+                          <td class="txt_c remover">
+                            <img [src]="'assets/images/cancel.png'" (click)="removeDNA(i)">
+                          </td>
                           <td class="txt_c">
                           <input type="text" size="10" class="clr-input" formControlName="id" readonly>
                           </td>
@@ -132,6 +146,9 @@
                           <td class="txt_c">
                            <input type="text" size="10" class="clr-input" formControlName="prescription_date" readonly>
                           </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input"  formControlName="report_date" readonly>
+                           </td>
                           <td class="txt_c">
                             <input type="text" size="10" class="clr-input" formControlName="patientID" readonly>
                           </td>
@@ -154,12 +171,11 @@
                           <td class="txt_c">
                             <input type="text" size="20"  class="clr-input  tdbox"
                             matInput  [matAutocomplete]="dnablock" formControlName="block_cnt">
-                            <mat-autocomplete #dnablock="matAutocomplete">
+                           <mat-autocomplete #dnablock="matAutocomplete">
                                <mat-option *ngFor="let option of BLOCKCNT" [value]="option">
                                  {{option}}
                                </mat-option>
                             </mat-autocomplete>
-
                           </td>
                           <td class="txt_c">
                             <input type="text" size="10" class="clr-input" formControlName="key_block">
@@ -169,7 +185,7 @@
                           </td>
                           <td class="txt_c">
                             <input type="text" size="30"  class="clr-input  tdbox"
-                            [matTooltip]="group.get('test_code').value"
+                            [matTooltip]="group.get('test_code').value"  #cancertype  (keyup)=" keyUp($event)"
                             matInput  [matAutocomplete]="dnacancel" formControlName="test_code">
                             <mat-autocomplete #dnacancel="matAutocomplete">
                               <mat-option *ngFor="let option of LISTS" [value]="option">
@@ -259,9 +275,11 @@
               <!--<table class="table_list td_padding_0 td-fix" [ngClass]="tableHeader()" style="text-align: center;" #table> -->
               <table border="0" cellpadding="0" cellspacing="0" [ngClass]="tableHeader()" class="table_list  td_padding_0 td-fix table_resul_x" #table>
                   <colgroup>
+                      <col width="30px">
                       <col width="40px">
                       <col width="100px">
                       <col width="100px">
+                      <col width="80px">
                       <col width="80px">
                       <col width="80px">
                       <col width="80px">
@@ -296,10 +314,12 @@
                   </colgroup>
                   <thead class="fixheader">
                       <tr >
+                          <th></th>
                           <th>No.</th>
                           <th>병리번호</th>
                           <th>관련병리번호</th>
                           <th>접수일자</th>
+                          <th>실험일자</th>
                           <th>등록번호</th>
                           <th>환자명</th>
                           <th>성별(F/M)</th>
@@ -336,6 +356,9 @@
                     <ng-container formArrayName="rnaFormgroup"
                     *ngFor="let group of rnaFormLists().controls; let i=index">
                       <tr   [formGroupName]="i">
+                          <td class="txt_c  remover">
+                            <img [src]="'assets/images/cancel.png'"  (click)="removeRNA(i)">
+                          </td>
                           <td class="txt_c">
                             <input type="text" size="10" class="clr-input" formControlName="id" readonly>
                           </td>
@@ -347,6 +370,9 @@
                           </td>
                           <td class="txt_c">
                             <input type="text" size="10" class="clr-input" formControlName="prescription_date" readonly>
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="report_date"  readonly>
                           </td>
                           <td class="txt_c">
                             <input type="text" size="10" class="clr-input" formControlName="patientID" readonly>

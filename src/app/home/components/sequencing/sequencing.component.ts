@@ -99,7 +99,7 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
       this.init();
     }
 
-    this.loadCode();
+    // this.loadCode();
   }
 
   ngAfterViewInit(): void {
@@ -135,6 +135,7 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
   loadCode(): void {
     this.codeDefaultValueService.getCodeLists()
       .pipe(
+        tap(data => console.log('[138][]', data)),
         map(lists => {
           return lists.sort((a, b) => {
             if (a.report < b.report) { return -1; }
@@ -338,6 +339,7 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
     this.patientsList.sequencingSearch2(startdate, enddate, patientId, specimenNo, status, sheet, research)
       .then(response => response.json())
       .then(data => {
+        // data.forEach(item => console.log('[341][스크린상태]', item.screenstatus));
         if (this.receivedType !== 'none') {
           data.forEach(list => {
             if (this.receivedType === 'register' && list.screenstatus === '') {
