@@ -58,7 +58,6 @@ export class LimsComponent implements OnInit, AfterViewInit {
   examiner = '';
   rechecker = '';
 
-
   dnaForm: FormGroup = this.fb.group({
     dnaFormgroup: this.fb.array([]),
   });
@@ -295,7 +294,8 @@ export class LimsComponent implements OnInit, AfterViewInit {
     });
   }
 
-  testSearch(start: string): void {
+  testSearch(start: string, testdate: string): void {
+
     const controlDNA = this.dnaForm.get('dnaFormgroup') as FormArray;
     const controlRNA = this.rnaForm.get('rnaFormgroup') as FormArray;
     controlDNA.clear();
@@ -332,6 +332,12 @@ export class LimsComponent implements OnInit, AfterViewInit {
             if (aid === bid) { return 0; }
           });
         }),
+        map(lists => {
+          return lists.map(list => {
+            list.report_date = testdate;
+            return { ...list };
+          });
+        })
       )
       .subscribe(data => {
         this.processing = false;
