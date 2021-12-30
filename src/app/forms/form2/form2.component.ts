@@ -276,7 +276,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
 
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
     this.tsvSaveOrEmptySave = this.patientInfo.saveyn;
-    // console.log('[275][환자정보]', this.patientInfo, this.patientInfo.gbn, this.patientInfo.age);
+    console.log('[275][환자정보]', this.patientInfo, this.patientInfo.gbn, this.patientInfo.age);
     if (this.patientInfo.gbn === 'RESEARCH') {
       this.isResearch = true;
       console.log('[275][환자정보]', this.patientInfo, this.patientInfo.gbn, this.isResearch);
