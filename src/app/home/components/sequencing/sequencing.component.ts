@@ -99,7 +99,7 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
       this.init();
     }
 
-    // this.loadCode();
+    this.loadCode();
   }
 
   ngAfterViewInit(): void {
@@ -129,9 +129,7 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-
-
-
+  //  메뉴선택
   loadCode(): void {
     this.codeDefaultValueService.getCodeLists()
       .pipe(
