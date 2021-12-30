@@ -506,11 +506,11 @@ export class LimsComponent implements OnInit, AfterViewInit {
           }
         }
         if (R > 0 && type === 'DNA') {
-          const idx = dnaFileLists.findIndex(list => list.pathology_num === id);
+          const idx = dnaFileLists.findIndex(list => list.pathology_num.trim() === id);
           // console.log(idx);
           if (idx === -1) {
             dnaFileLists.push({
-              pathology_num: id.toString(),
+              pathology_num: id.toString().trim(),
               nano_280: dna260280.toString(),
               nano_230: dna260230.toString(),
               ng_ui: ngui.toString()
@@ -530,10 +530,10 @@ export class LimsComponent implements OnInit, AfterViewInit {
           }
 
         } else if (R > 0 && type === 'RNA') {
-          const idx = rnaFileLists.findIndex(list => list.pathology_num === id);
+          const idx = rnaFileLists.findIndex(list => list.pathology_num.trim() === id);
           if (idx === -1) {
             rnaFileLists.push({
-              pathology_num: id.toString(),
+              pathology_num: id.toString().trim(),
               nano_280: dna260280.toString(),
               nano_230: dna260230.toString(),
               ng_ui: ngui.toString()
@@ -556,8 +556,8 @@ export class LimsComponent implements OnInit, AfterViewInit {
         dna260230 = 0;
 
       }
-      // console.log('[DNA]', dnaFileLists);
-      // console.log('[RNA]', rnaFileLists);
+      console.log('[559][DNA]', dnaFileLists);
+      console.log('[560][RNA]', rnaFileLists);
 
       if (type === 'DNA') {
         this.updateDNAScreen(dnaFileLists);
@@ -578,13 +578,17 @@ export class LimsComponent implements OnInit, AfterViewInit {
       return;
     }
     formData.forEach((data, index) => {
-      const idx = lists.findIndex(list => list.pathology_num.trim() === data.pathology_num.trim());
+      const idx = lists.findIndex(list => list.pathology_num === data.pathology_num);
+
       if (idx !== -1) {
         const { pathology_num, nano_280, nano_230, ng_ui } = lists[idx];
-        const danRna = (20 / parseFloat(ng_ui)) * 5;
-        const dwVal = 20 - danRna;
+
+        // const danRna = (20 / parseFloat(ng_ui)) * 5;
+        // const dwVal = 20 - danRna;
+        console.log('[582]', idx, pathology_num, nano_280, nano_230, ng_ui);
         control.at(index).patchValue({
-          ng_ui, nano_280, nano_230, dan_rna: danRna.toFixed(2), dw: dwVal.toFixed(2)
+          nano_ng: ng_ui, nano_280, nano_230
+          // nano_ng: ng_ui, nano_280, nano_230, dan_rna: danRna.toFixed(2), dw: dwVal.toFixed(2)
         });
       }
     });
@@ -604,11 +608,9 @@ export class LimsComponent implements OnInit, AfterViewInit {
       const idx = lists.findIndex(list => list.pathology_num.trim() === data.pathology_num.trim());
       if (idx !== -1) {
         const { pathology_num, nano_280, nano_230, ng_ui } = lists[idx];
-        const danRna = (20 / parseFloat(ng_ui)) * 5;
-        const dwVal = 20 - danRna;
-        control.at(index).patchValue({
-          ng_ui, nano_280, nano_230, dan_rna: danRna.toFixed(2), dw: dwVal.toFixed(2)
-        });
+        // const danRna = (20 / parseFloat(ng_ui)) * 5;
+        // const dwVal = 20 - danRna;
+        control.at(index).patchValue({ nano_ng: ng_ui, nano_280, nano_230 });
       }
     });
 
