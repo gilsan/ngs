@@ -481,7 +481,12 @@ export class Form6Component implements OnInit, OnDestroy {
         this.recoverVariant(item);  // 354
       });
 
-      this.reCall2();
+      if (parseInt(this.patientInfo.screenstatus, 10) === 0) {
+        this.reCall2();
+      } else {
+        this.reCall();
+      }
+
       this.putCheckboxInit(); // 체크박스 초기화
     });
 
