@@ -894,6 +894,13 @@ export class Form6Component implements OnInit, OnDestroy {
     control.push(this.addTableRowGroup());
     this.addBoxStatus(control.length - 1); // 체크박스 추가
 
+    if (this.vd.length === 0) {
+      this.vd.push({ sequence: 0, selectedname: 'mutation', gene: '' });
+    } else {
+      const len = this.vd.length;
+      this.vd.push({ sequence: len, selectedname: 'mutation', gene: '' });
+    }
+
   }
 
   // tslint:disable-next-line: typedef
@@ -902,18 +909,25 @@ export class Form6Component implements OnInit, OnDestroy {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const controlLen = control.length - 1;
 
-    const tempvd = [...this.vd];
+    let tempvd = [...this.vd];
     const idx = tempvd.findIndex(item => item.sequence === index);
     if (idx !== -1) {
       this.vd.splice(idx, 1);
     }
     // console.log(this.vd);
     control.removeAt(index);
-    if (controlLen !== index) {
-      if (this.vd.length > 0) {
-        this.vd.forEach(item => item.sequence = item.sequence - 1);
-      }
+    if (this.vd.length > 0) {
+      tempvd = [];
+      this.vd.forEach((item, ix) => {
+        tempvd.push({ sequence: ix, selectedname: item.selectedname, gene: item.gene });
+      });
+      this.vd = tempvd;
     }
+    // if (controlLen !== index) {
+    //   if (this.vd.length > 0) {
+    //     this.vd.forEach(item => item.sequence = item.sequence - 1);
+    //   }
+    // }
     this.removeBoxStatus(index); // 체크박스 아이템 삭제
 
     const rect = this.table.nativeElement.getBoundingClientRect();
@@ -996,11 +1010,12 @@ export class Form6Component implements OnInit, OnDestroy {
   saveInhouse(i: number, selecteditem: string) {
     this.indexNum = i;
     this.selectedItem = selecteditem;
-    this.vd.forEach(item => {
-      if (item.sequence === i) {
-        item.selectedname = selecteditem;
-      }
-    });
+    this.vd[i].selectedname = selecteditem;
+    // this.vd.forEach(item => {
+    //   if (item.sequence === i) {
+    //     item.selectedname = selecteditem;
+    //   }
+    // });
 
   }
 

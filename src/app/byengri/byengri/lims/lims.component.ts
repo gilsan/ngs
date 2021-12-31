@@ -593,7 +593,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
         });
       }
     });
-
+    this.snackBar.open('DNA 완료 하였습니다.', '닫기', { duration: 2000 });
   }
 
   updateRNAScreen(lists: IDNATYPE[]): void {
@@ -614,7 +614,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
         control.at(index).patchValue({ nano_ng: ng_ui, nano_280, nano_230 });
       }
     });
-
+    this.snackBar.open('RNA 완료 하였습니다.', '닫기', { duration: 2000 });
   }
 
 
