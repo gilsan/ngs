@@ -30,7 +30,7 @@
                 <option [value]="exam.id" *ngFor="let exam of examinList" [selected]="exam.id === examiner">{{exam.name}}</option>
               </select>&nbsp;&nbsp;&nbsp;
               <button type="button" class="btn btn_02"
-              style="margin-right: 15px;"  (click)="save()">저장</button>
+              style="margin-right: 15px;"  (click)="save(testdate.value)">저장</button>
               <button type="button" class="btn btn_02"
                style="margin-right: 15px;" (click)="fileInput.click()">Nano 엑셀읽기</button>
                <input style="display: none" type="file"

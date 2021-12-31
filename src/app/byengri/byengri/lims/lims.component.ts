@@ -208,7 +208,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
           pathology_num: i.pathology_num,
           rel_pathology_num: i.rel_pathology_num,
           prescription_date: i.prescription_date,
-          report_date: i.report_date,
+          report_date: '',
           patientID: i.patientID,
           name: i.name,
           gender: '(' + i.gender + '/' + i.age + ')',
@@ -248,7 +248,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
           pathology_num: i.pathology_num,
           rel_pathology_num: i.rel_pathology_num,
           prescription_date: i.prescription_date,
-          report_date: i.report_date,
+          report_date: '',
           patientID: i.patientID,
           name: i.name,
           gender: '(' + i.gender + '/' + i.age + ')',
@@ -336,7 +336,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
         }),
         map(lists => {
           return lists.map(list => {
-            list.report_date = testdate;
+            list.report_date = testdate.replace(/-/g, '');
             return { ...list };
           });
         })
@@ -811,13 +811,14 @@ export class LimsComponent implements OnInit, AfterViewInit {
     console.log(id);
   }
 
-  save(): void {
-
+  save(testdate: string): void {
+    const testeddate = testdate.replace(/-/g, '');
     const dnacontrol = this.dnaForm.get('dnaFormgroup') as FormArray;
     const dnaFormData = dnacontrol.getRawValue();
+    dnaFormData.map(item => item.report_date = testeddate);
     const rnacontrol = this.rnaForm.get('rnaFormgroup') as FormArray;
     const rnaFormData = rnacontrol.getRawValue();
-
+    rnaFormData.map(item => item.report_date = testeddate);
     const allData: ILIMS[] = [...dnaFormData, ...rnaFormData];
 
     if (this.examiner.length === 0 || this.rechecker.length === 0) {
@@ -830,7 +831,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    console.log('[679][]', this.examiner, this.rechecker);
+    console.log('[833][]', allData, this.examiner, this.rechecker, testeddate);
     this.limsService.save(allData, this.examiner, this.rechecker)
       .subscribe((data) => {
         this.snackBar.open('저장 하였습니다.', '닫기', { duration: 3000 });
