@@ -85,6 +85,7 @@
                       <col width="80px">
                       <col width="80px">
                       <col width="80px">
+                      <col width="100px">
                   </colgroup>
                   <thead class="fixheader">
                       <tr>
@@ -124,7 +125,7 @@
                           <th>DW(50pm)</th>
                           <th>library</th>
                           <th>DW(50pm)</th>
-
+                          <th>관련병리번호</th>
                       </tr>
                   </thead>
                   <tbody class="bodytable">
@@ -141,7 +142,7 @@
                            <input type="text" size="10" class="clr-input" formControlName="pathology_num" readonly>
                           </td>
                           <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="rel_pathology_num" readonly>
+                            <input type="text" size="10" class="clr-input" formControlName="rel_pathology_num" >
                           </td>
                           <td class="txt_c">
                            <input type="text" size="10" class="clr-input" formControlName="prescription_date" readonly>
@@ -187,14 +188,16 @@
                             <input type="text" size="30"  class="clr-input  tdbox"
                             [matTooltip]="group.get('test_code').value"  #cancertype  (keyup)=" keyUp($event)"
                             matInput  [matAutocomplete]="dnacancel" formControlName="test_code">
-                            <mat-autocomplete #dnacancel="matAutocomplete">
+                            <mat-autocomplete #dnacancel="matAutocomplete" (optionSelected)="tumoretypeUpdate(group.get('pathology_num').value, cancertype.value)">
                               <mat-option *ngFor="let option of LISTS" [value]="option">
                                    {{option}}
                               </mat-option>
                             </mat-autocomplete>
                           </td>
                           <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="tumorburden">
+                            <input type="text" size="10" class="clr-input"
+                             (change)="tumorcellperUpdate(group.get('pathology_num').value, tumorper.value)" #tumorper
+                            formControlName="tumorburden">
                           </td>
                           <td class="txt_c">
                               <input type="text" size="10" class="clr-input" formControlName="nano_ng">
@@ -259,6 +262,9 @@
                           <td class="txt_c">
                               <input type="text" size="10" class="clr-input" formControlName="lib2_dw">
                           </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="pathology_num2" readonly>
+                           </td>
 
                       </tr>
                     </ng-container>
@@ -310,6 +316,7 @@
                       <col width="80px">
                       <col width="80px">
                       <col width="80px">
+                      <col width="100px">
                   </colgroup>
                   <thead class="fixheader">
                       <tr >
@@ -349,6 +356,7 @@
                           <th>DW(50pm)</th>
                           <th>library</th>
                           <th>DW(50pm)</th>
+                          <th>관련병리번호</th>
                       </tr>
                   </thead>
                   <tbody class="bodytable"  >
@@ -365,7 +373,7 @@
                             <input type="text" size="10" class="clr-input" formControlName="pathology_num" readonly>
                           </td>
                           <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="rel_pathology_num" readonly>
+                            <input type="text" size="10" class="clr-input" formControlName="rel_pathology_num">
                           </td>
                           <td class="txt_c">
                             <input type="text" size="10" class="clr-input" formControlName="prescription_date" readonly>
@@ -409,15 +417,18 @@
                           <td class="txt_c">
                             <input type="text" size="30"  class="clr-input  tdbox"
                             [matTooltip]="group.get('test_code').value"
-                            matInput  [matAutocomplete]="rnacancel" formControlName="test_code">
-                            <mat-autocomplete #rnacancel="matAutocomplete">
+                            matInput  [matAutocomplete]="rnacancel" formControlName="test_code"
+                            #rnacancertype  (keyup)=" keyUp($event)">
+                            <mat-autocomplete #rnacancel="matAutocomplete" (optionSelected)="tumoretypeUpdate(group.get('pathology_num').value, rnacancertype.value)">
                               <mat-option *ngFor="let option of LISTS" [value]="option">
                                    {{option}}
                               </mat-option>
                             </mat-autocomplete>
                           </td>
                           <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="tumorburden">
+                            <input type="text" size="10" class="clr-input"
+                            (change)="tumorcellperUpdate(group.get('pathology_num').value, rnatumorper.value)" #rnatumorper
+                            formControlName="tumorburden">
                           </td>
                           <td class="txt_c">
                             <input type="text" size="10" class="clr-input" formControlName="nano_ng">
@@ -483,6 +494,9 @@
                           </td>
                           <td class="txt_c">
                             <input type="text" size="10" class="clr-input" formControlName="lib2_dw">
+                          </td>
+                          <td class="txt_c">
+                            <input type="text" size="10" class="clr-input" formControlName="pathology_num2" readonly>
                           </td>
                       </tr>
                     </ng-container>

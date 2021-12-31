@@ -183,8 +183,8 @@ export class LimsComponent implements OnInit, AfterViewInit {
         }),
         map(lists => {
           return lists.sort((a, b) => {
-            const aid = parseInt(a.id, 10);
-            const bid = parseInt(b.id, 10);
+            const aid = parseInt(a.prescription_date, 10);
+            const bid = parseInt(b.prescription_date, 10);
 
             if (aid < bid) { return -1; }
             if (aid > bid) { return 1; }
@@ -239,6 +239,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
           lib_dw: i.lib_dw,
           lib2: i.lib2,
           lib2_dw: i.lib2_dw,
+          pathology_num2: i.pathology_num
         };
         this.dnaLists.push(val);
       } else if (parseInt(i.dna_rna_gbn, 10) === 1) {
@@ -278,6 +279,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
           lib_dw: i.lib_dw,
           lib2: i.lib2,
           lib2_dw: i.lib2_dw,
+          pathology_num2: i.pathology_num
         };
         this.rnaLists.push(val);
       }
@@ -324,8 +326,8 @@ export class LimsComponent implements OnInit, AfterViewInit {
         }),
         map(lists => {
           return lists.sort((a, b) => {
-            const aid = parseInt(a.id, 10);
-            const bid = parseInt(b.id, 10);
+            const aid = parseInt(a.prescription_date, 10);
+            const bid = parseInt(b.prescription_date, 10);
 
             if (aid < bid) { return -1; }
             if (aid > bid) { return 1; }
@@ -344,10 +346,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
         this.makeDNARNAList(data);
 
       });
-    // this.limsService.testSearch(start)
-    //   .subscribe(data => {
-    //     console.log(data);
-    //   });
+
   }
 
   createDNA(i: ILIMS): FormGroup {
@@ -387,7 +386,8 @@ export class LimsComponent implements OnInit, AfterViewInit {
       lib2: i.lib2,
       lib2_dw: i.lib2_dw,
       dna_rna_gbn: '0',
-      report_date: i.report_date
+      report_date: i.report_date,
+      pathology_num2: i.pathology_num
     });
   }
 
@@ -436,7 +436,8 @@ export class LimsComponent implements OnInit, AfterViewInit {
       lib2: i.lib2,
       lib2_dw: i.lib2_dw,
       dna_rna_gbn: '1',
-      report_date: i.report_date
+      report_date: i.report_date,
+      pathology_num2: i.pathology_num
     });
   }
 
@@ -656,7 +657,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
     const ngul = (20 / parseFloat(val)) * 5;
     const dw = 20 - ngul;
     control.at(i).patchValue({
-      dan_rna: ngul.toFixed(2), dw: dw.toFixed(2)
+      dan_rna: ngul.toFixed(1), dw: dw.toFixed(1)
     });
   }
 
@@ -665,7 +666,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
     const ngul = (20 / parseFloat(val)) * 5;
     const dw = 20 - ngul;
     control.at(i).patchValue({
-      dan_rna: ngul.toFixed(2), dw: dw.toFixed(2)
+      dan_rna: ngul.toFixed(1), dw: dw.toFixed(1)
     });
   }
 
@@ -673,7 +674,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
     const control = this.dnaForm.get('dnaFormgroup') as FormArray;
     const dw = 20 - parseFloat(val);
     control.at(i).patchValue({
-      dw: dw.toFixed(2)
+      dw: dw.toFixed(1)
     });
   }
 
@@ -681,7 +682,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
     const control = this.rnaForm.get('rnaFormgroup') as FormArray;
     const dw = 20 - parseFloat(val);
     control.at(i).patchValue({
-      dw: dw.toFixed(2)
+      dw: dw.toFixed(1)
     });
   }
 
@@ -692,7 +693,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
     const quanDna = 20 / quantity2;
     const te = 5.5 - quanDna;
     control.at(i).patchValue({
-      quantity_2: quantity2.toFixed(2), quan_dna: quanDna.toFixed(2), te: te.toFixed(2)
+      quantity_2: quantity2.toFixed(1), quan_dna: quanDna.toFixed(1), te: te.toFixed(1)
     });
   }
 
@@ -702,7 +703,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
     const quanDna = 20 / quantity2;
     const te = 5.5 - quanDna;
     control.at(i).patchValue({
-      quantity_2: quantity2.toFixed(2), quan_dna: quanDna.toFixed(2), te: te.toFixed(2)
+      quantity_2: quantity2.toFixed(1), quan_dna: quanDna.toFixed(2), te: te.toFixed(1)
     });
   }
 
@@ -711,7 +712,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
     const quanDna = 20 / parseFloat(val);
     const te = 5.5 - quanDna;
     control.at(i).patchValue({
-      quan_dna: quanDna.toFixed(2), te: te.toFixed(2)
+      quan_dna: quanDna.toFixed(1), te: te.toFixed(1)
     });
   }
 
@@ -720,7 +721,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
     const quanDna = 20 / parseFloat(val);
     const te = 5.5 - quanDna;
     control.at(i).patchValue({
-      quan_dna: quanDna.toFixed(2), te: te.toFixed(2)
+      quan_dna: quanDna.toFixed(1), te: te.toFixed(1)
     });
   }
 
@@ -728,7 +729,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
     const control = this.dnaForm.get('dnaFormgroup') as FormArray;
     const te = 5.5 - parseFloat(val);
     control.at(i).patchValue({
-      te: te.toFixed(2)
+      te: te.toFixed(1)
     });
   }
 
@@ -736,7 +737,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
     const control = this.rnaForm.get('rnaFormgroup') as FormArray;
     const te = 5.5 - parseFloat(val);
     control.at(i).patchValue({
-      te: te.toFixed(2)
+      te: te.toFixed(1)
     });
   }
 
@@ -746,7 +747,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
     const libDw = (x100 / 50) - 1;
     const lib2Dw = libDw * 3;
     control.at(i).patchValue({
-      x100: x100.toFixed(2), lib_dw: libDw.toFixed(2), lib2_dw: lib2Dw.toFixed(2)
+      x100: x100.toFixed(1), lib_dw: libDw.toFixed(1), lib2_dw: lib2Dw.toFixed(1)
     });
   }
 
@@ -756,7 +757,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
     const libDw = (x100 / 50) - 1;
     const lib2Dw = libDw * 3;
     control.at(i).patchValue({
-      x100: x100.toFixed(2), lib_dw: libDw.toFixed(2), lib2_dw: lib2Dw.toFixed(2)
+      x100: x100.toFixed(1), lib_dw: libDw.toFixed(1), lib2_dw: lib2Dw.toFixed(1)
     });
   }
 
@@ -766,7 +767,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
     const libDw = (parseFloat(val) / 50) - 1;
     const lib2Dw = libDw * 3;
     control.at(i).patchValue({
-      lib_dw: libDw.toFixed(2), lib2_dw: lib2Dw.toFixed(2)
+      lib_dw: libDw.toFixed(1), lib2_dw: lib2Dw.toFixed(1)
     });
   }
 
@@ -775,7 +776,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
     const libDw = (parseFloat(val) / 50) - 1;
     const lib2Dw = libDw * 3;
     control.at(i).patchValue({
-      lib_dw: libDw.toFixed(2), lib2_dw: lib2Dw.toFixed(2)
+      lib_dw: libDw.toFixed(1), lib2_dw: lib2Dw.toFixed(1)
     });
   }
 
@@ -786,7 +787,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
     const libDw = parseFloat(val) * 100;
     const lib2Dw = libDw * 3;
     control.at(i).patchValue({
-      lib2_dw: lib2Dw.toFixed(2)
+      lib2_dw: lib2Dw.toFixed(1)
     });
   }
 
@@ -795,7 +796,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
     const libDw = parseFloat(val) * 100;
     const lib2Dw = libDw * 3;
     control.at(i).patchValue({
-      lib2_dw: lib2Dw.toFixed(2)
+      lib2_dw: lib2Dw.toFixed(1)
     });
   }
 
@@ -836,10 +837,31 @@ export class LimsComponent implements OnInit, AfterViewInit {
       });
   }
 
+  tumoretypeUpdate(testcode: string, tumortype: string): void {
+    console.log('[841][tumoretypeUpdate]', testcode, tumortype);
+    this.limsService.updateTumoretype(testcode, tumortype)
+      .subscribe(data => {
+        if (data.message === 'SUCCESS') {
+          this.snackBar.open('변경 하였습니다.', '닫기', { duration: 2000 });
+        }
+      });
+  }
+
+  tumorcellperUpdate(testcode: string, percent: string): void {
+    console.log('[851][tumorcellperUpdate]', testcode, percent);
+    this.limsService.updateTumorcellper(testcode, percent)
+      .subscribe(data => {
+        if (data.message === 'SUCCESS') {
+          this.snackBar.open('변경 하였습니다.', '닫기', { duration: 2000 });
+        }
+      });
+  }
+
 
   printexcel(): void {
     const dnacontrol = this.dnaForm.get('dnaFormgroup') as FormArray;
     const dnaFormData = dnacontrol.getRawValue();
+
     dnaFormData.unshift({
       id: 'No.',
       pathology_num: '병리번호',
@@ -876,7 +898,12 @@ export class LimsComponent implements OnInit, AfterViewInit {
       lib_dw: 'DW (50pm)',
       lib2: 'library',
       lib2_dw: 'DW (50pm)',
+      pathology_num2: '병리번호',
     });
+    dnaFormData.unshift({
+      DNA: 'DNA'
+    });
+
 
     const rnacontrol = this.rnaForm.get('rnaFormgroup') as FormArray;
     const rnaFormData = rnacontrol.getRawValue();
@@ -916,6 +943,10 @@ export class LimsComponent implements OnInit, AfterViewInit {
       lib_dw: 'DW (50pm)',
       lib2: 'library',
       lib2_dw: 'DW (50pm)',
+      pathology_num2: '병리번호',
+    });
+    rnaFormData.unshift({
+      DNA: 'RNA'
     });
     const tempDNA = [];
     const tempRNA = [];
@@ -932,13 +963,14 @@ export class LimsComponent implements OnInit, AfterViewInit {
 
     const allData: ILIMS[] = [...tempDNA, ...tempRNA];
     console.log(allData);
-    const width = [{ width: 4 }, { width: 16 }, { width: 13 }, { width: 12 }, { width: 11 }, { width: 11 }, // A, B,C,D,E,F
+    const width = [{ width: 4 }, { width: 4 }, { width: 16 }, { width: 13 }, { width: 12 }, { width: 11 }, { width: 11 }, // A, B,C,D,E,F
     { width: 7 }, { width: 11 }, { width: 10 }, { width: 8 }, { width: 9 }, // G, H, I, J, K
     { width: 19 }, { width: 18 }, { width: 7 }, { width: 7 }, { width: 8 }, // L, M, N, O ,P
     { width: 8 }, { width: 7 }, { width: 6 }, { width: 6 }, { width: 8 }, // Q, R ,S, T, U,
-    { width: 8 }, { width: 8 }, { width: 14 }, { width: 14 }, { width: 6 }, // V, W, X, Y, Z,
-    { width: 8 }, { width: 8 }, { width: 9 }, { width: 9 }, { width: 9 }, // AA,AB, AC, AD, AE
-    { width: 10 }, { width: 10 }, { width: 7 }, { width: 10 }, { width: 7 }, { width: 7 }  // AF, AG, AH, AI, AJ, AK
+    { width: 8 }, { width: 8 }, { width: 14 }, { width: 14 }, { width: 14 }, // V, W, X, Y, Z,
+    { width: 8 }, { width: 8 }, { width: 9 }, { width: 16 }, { width: 9 }, // AA,AB, AC, AD, AE
+    { width: 10 }, { width: 10 }, { width: 10 }, { width: 10 }, { width: 10 }, { width: 7 }  // AF, AG, AH, AI, AJ, AK
+      , { width: 13 }
     ];
     this.limsService.exportAsExcelFile(allData, 'LIMS', width);
   }

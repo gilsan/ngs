@@ -57,6 +57,16 @@ export class LimsService {
     FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
   }
 
+  // tslint:disable-next-line:variable-name
+  public updateTumoretype(test_code: string, tumor_type: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/lims/tumorTypeSave`, { test_code, tumor_type });
+  }
+
+  // tslint:disable-next-line:variable-name
+  public updateTumorcellper(test_code: string, tumor_cell_per: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/lims/tmorCellSave`, { test_code, tumor_cell_per });
+  }
+
 
 
 

@@ -445,6 +445,7 @@ export class Form7Component implements OnInit, OnDestroy {
       ).subscribe((msg: { screenstatus: string }) => {
         this.screenstatus = '3';
         alert('EMR로 전송했습니다.');
+        this.tempSave();
         // 환자정보 가져오기
         this.patientsListService.getPatientInfo(this.form2TestedId)
           .subscribe(patient => {
