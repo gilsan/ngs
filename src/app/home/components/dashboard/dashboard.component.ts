@@ -123,30 +123,45 @@ export class DashboardComponent implements OnInit {
 
 
   today(): string {
-    const today = new Date();
+    // const today = new Date();
 
-    const year = today.getFullYear(); // 년도
-    const month = today.getMonth() + 1;  // 월
-    const date = today.getDate();  // 날짜
+    // const year = today.getFullYear(); // 년도
+    // const month = today.getMonth() + 1;  // 월
+    // const date = today.getDate();  // 날짜
 
-    const newmon = ('0' + month).substr(-2);
-    const newday = ('0' + date).substr(-2);
-    const now = year + newmon + + newday;
+    // const newmon = ('0' + month).substr(-2);
+    // const newday = ('0' + date).substr(-2);
+    // const now = year + newmon + + newday;
 
+    // return now;
+    const oneMonthsAgo = moment();
+
+    const yy = oneMonthsAgo.format('YYYY');
+    const mm = oneMonthsAgo.format('MM');
+    const dd = oneMonthsAgo.format('DD');
+
+    const now = yy + '-' + mm + '-' + dd;
     return now;
   }
 
   threemonthage(): string {
-    const today = new Date();
+    // const today = new Date();
 
-    const year = today.getFullYear(); // 년도
-    const month = today.getMonth() + 1 - 3;  // 월
-    const date = today.getDate();  // 날짜
+    // const year = today.getFullYear(); // 년도
+    // const month = today.getMonth() + 1 - 3;  // 월
+    // const date = today.getDate();  // 날짜
 
-    const newmon = ('0' + month).substr(-2);
-    const newday = ('0' + date).substr(-2);
-    const now = year + newmon + newday;
+    // const newmon = ('0' + month).substr(-2);
+    // const newday = ('0' + date).substr(-2);
+    // const now = year + newmon + newday;
 
+    const oneMonthsAgo = moment().subtract(3, 'months');
+
+    const yy = oneMonthsAgo.format('YYYY');
+    const mm = oneMonthsAgo.format('MM');
+    const dd = oneMonthsAgo.format('DD');
+
+    const now = yy + '-' + mm + '-' + dd;
     return now;
   }
 
