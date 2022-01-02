@@ -26,7 +26,7 @@ import { essentialDNAMentList } from '../essensDNAMent';
 import { ReportDialogComponent } from './report-dialog/report-dialog.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { SequencingService } from '../../services/sequencing.service';
-
+import * as moment from 'moment';
 @Component({
   selector: 'app-report',
   templateUrl: './report.component.html',
@@ -2390,16 +2390,24 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   ////////////////////////////////////////////////////////////////////
 
   today(): string {
-    const today = new Date();
+    // const today = new Date();
 
-    const year = today.getFullYear(); // 년도
-    const month = today.getMonth() + 1;  // 월
-    const date = today.getDate();  // 날짜
+    // const year = today.getFullYear(); // 년도
+    // const month = today.getMonth() + 1;  // 월
+    // const date = today.getDate();  // 날짜
 
-    const newmon = ('0' + month).substr(-2);
-    const newday = ('0' + date).substr(-2);
-    const now = year + '.' + newmon + '.' + newday;
+    // const newmon = ('0' + month).substr(-2);
+    // const newday = ('0' + date).substr(-2);
+    // const now = year + '.' + newmon + '.' + newday;
 
+    // return now;
+    const oneMonthsAgo = moment();
+
+    const yy = oneMonthsAgo.format('YYYY');
+    const mm = oneMonthsAgo.format('MM');
+    const dd = oneMonthsAgo.format('DD');
+
+    const now = yy + '.' + mm + '.' + dd;
     return now;
   }
 

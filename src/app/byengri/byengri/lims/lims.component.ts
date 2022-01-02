@@ -167,7 +167,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
     this.dnaObservable$ = this.limsService.search(searchdate, end);
     this.dnaObservable$
       .pipe(
-        tap(data => console.log(data)),
+        tap(data => console.log('[조회]', data)),
         filter(data => !!data),
         tap(data => {
           if (data.length) {
@@ -208,7 +208,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
           pathology_num: i.pathology_num,
           rel_pathology_num: i.rel_pathology_num,
           prescription_date: i.prescription_date,
-          report_date: '',
+          report_date: i.report_date,
           patientID: i.patientID,
           name: i.name,
           gender: '(' + i.gender + '/' + i.age + ')',
@@ -248,7 +248,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
           pathology_num: i.pathology_num,
           rel_pathology_num: i.rel_pathology_num,
           prescription_date: i.prescription_date,
-          report_date: '',
+          report_date: i.report_date,
           patientID: i.patientID,
           name: i.name,
           gender: '(' + i.gender + '/' + i.age + ')',
