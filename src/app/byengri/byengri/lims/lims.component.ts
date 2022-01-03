@@ -181,16 +181,6 @@ export class LimsComponent implements OnInit, AfterViewInit {
           }
 
         }),
-        map(lists => {
-          return lists.sort((a, b) => {
-            const aid = parseInt(a.prescription_date, 10);
-            const bid = parseInt(b.prescription_date, 10);
-
-            if (aid < bid) { return -1; }
-            if (aid > bid) { return 1; }
-            if (aid === bid) { return 0; }
-          });
-        }),
       )
       .subscribe(data => {
         this.processing = false;
@@ -323,16 +313,6 @@ export class LimsComponent implements OnInit, AfterViewInit {
             }
           }
 
-        }),
-        map(lists => {
-          return lists.sort((a, b) => {
-            const aid = parseInt(a.prescription_date, 10);
-            const bid = parseInt(b.prescription_date, 10);
-
-            if (aid < bid) { return -1; }
-            if (aid > bid) { return 1; }
-            if (aid === bid) { return 0; }
-          });
         }),
         map(lists => {
           return lists.map(list => {
