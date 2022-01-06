@@ -819,13 +819,10 @@ export class LimsComponent implements OnInit, AfterViewInit {
 
   selectedExamin(id: string): void {
     this.examiner = id;
-
-    console.log(id);
   }
 
   selectedRecheck(id: string): void {
     this.rechecker = id;
-    console.log(id);
   }
 
   save(testdate: string): void {
