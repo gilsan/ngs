@@ -151,6 +151,15 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  sheetOption(sheet: string): boolean {
+
+    if (this.sheet === sheet) {
+      return true;
+    }
+    return false;
+
+  }
+
   researchOption(research: string): void {
     this.mlparesearchTOTAL = false;
     this.mlparesearchDiag = false;
@@ -364,11 +373,9 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
       this.selectOption(status);
     }
 
-    // if (sheet.length !== 0) {
-    //   this.sheet = sheet;
-    //   this.amlallsheet.nativeElement.value = this.sheet;
-    //   this.sheetOption(sheet);
-    // }
+    if (sheet.length !== 0) {
+      this.sheet = sheet;
+    }
 
     if (storeStartDay.length !== 0) {
       this.storeStartDay = storeStartDay;

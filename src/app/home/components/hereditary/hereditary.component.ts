@@ -62,6 +62,9 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
   hstartDay = this.startToday();
   hendDay = this.endToday();
 
+
+  genetic = false;
+
   @ViewChild('dbox100', { static: true }) dbox100: ElementRef;
 
   @ViewChild('herTestedID', { static: true }) testedID: ElementRef;
@@ -71,7 +74,6 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('herResearch', { static: true }) research: ElementRef;
   @ViewChild('herStart', { static: true }) start: ElementRef;
   @ViewChild('herEnd', { static: true }) end: ElementRef;
-
 
   constructor(
     private patientsList: PatientsListService,
@@ -85,6 +87,7 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+
     this.route.paramMap.pipe(
       filter(data => data !== null || data !== undefined),
       map(route => route.get('type')),
@@ -148,6 +151,15 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     } else if (parseInt(status, 10) === 100) {
       this.hselect100 = true;
     }
+  }
+
+  sheetOption(sheet: string): boolean {
+
+    if (this.sheet === sheet) {
+      return true;
+    }
+    return false;
+
   }
 
   researchOption(research: string): void {
@@ -374,11 +386,12 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
       this.selectOption(status);
     }
 
-    // if (sheet.length !== 0) {
-    //   this.sheet = sheet;
-    //   this.amlallsheet.nativeElement.value = this.sheet;
-    //   this.sheetOption(sheet);
-    // }
+    if (sheet.length !== 0) {
+      console.log('[378][]', sheet);
+      this.sheet = sheet;
+      // this.amlallsheet.nativeElement.value = this.sheet;
+      // this.sheetOption(sheet);
+    }
 
     if (storeStartDay.length !== 0) {
       this.storeStartDay = storeStartDay;

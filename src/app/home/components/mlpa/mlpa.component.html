@@ -28,7 +28,9 @@
 
         <select class="select_01 select_001" #mlpaSheet>
           <option value="MLPA">전체</option>
-          <option *ngFor="let list of listsMLPA" [value]="list.code">{{list.report}} ({{list.code}})</option>
+          <option *ngFor="let list of listsMLPA"
+           [selected]="sheetOption(list.code)"
+           [value]="list.code">{{list.report}} ({{list.code}})</option>
         </select>&nbsp;&nbsp;
         <select class="select_01 select_001" #mlpaResearch>
           <option value="TOTAL" [selected]= "mlparesearchTOTAL">전체</option>

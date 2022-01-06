@@ -28,7 +28,8 @@
 
         <select class="select_01 select_001" #seqSheet>
           <option value="Sequencing">전체</option>
-          <option  *ngFor="let list of listSequencing"  [value]="list.code">{{list.report}} ({{list.code}})</option>
+          <option  *ngFor="let list of listSequencing" [selected]="sheetOption(list.code)"
+          [value]="list.code">{{list.report}} ({{list.code}})</option>
         </select>&nbsp;&nbsp;
 
         <select class="select_01 select_001" #seqResearch>

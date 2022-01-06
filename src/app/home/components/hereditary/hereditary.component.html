@@ -26,8 +26,8 @@
           <option value="5"  [selected]= "hselect5">접수취소</option>
         </select>&nbsp;&nbsp;
         <select class="select_01 select_001" #herSheet>
-          <option value="genetic">전체</option>
-          <option  *ngFor="let list of listHereditary"  [value]="list.code">{{list.report}} ({{list.code}})</option>
+          <option value="genetic" [selected]="genetic">전체</option>
+          <option  *ngFor="let list of listHereditary" [selected]="sheetOption(list.code)" [value]="list.code">{{list.report}} ({{list.code}})</option>
         </select>&nbsp;&nbsp;
 
         <select class="select_01 select_001" #herResearch >
