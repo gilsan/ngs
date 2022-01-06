@@ -11,15 +11,16 @@ export class StoreService {
   amlPatientID = '';
   amlSpecimenID = '';
 
+  specimenNo = 'none';  // 검체번호
+  patientID = ''; // 환자 ID
+
   detactedVariants: IAFormVariant[];
   specimenMsg: string;
   comments: IComment[]; // 코멘트
   patientInfo: IPatient; // 환자정보
   profile: IProfile; //  { leukemia: '', flt3itd: '', chron: '' };
   vusstatus: boolean;
-
-  specimenNo = 'none';  // 검체번호
-  patientID = ''; // 환자 ID
+  research = '';
 
   examiner = 'none';    // 검사자
   rechecker = 'none'; // 확인자
@@ -34,7 +35,7 @@ export class StoreService {
   status = '';  // 시작, 스크린판독, 판독완료, EMR전송
   sheet = '';    // AML ALL LYN MDS
   whichstate = 'mainscreen'; // mainscreen, searchscreen
-
+  receivedType = '';
   scrolly = 0;
   scrollyLYM = 0;
   scrollyMDS = 0;
@@ -63,6 +64,65 @@ export class StoreService {
     // console.log('[store][getSearchEndDay]', this.amlEndDay);
     return this.amlEndDay;
   }
+
+  ///////////////////////////////////////////////////////////
+  // 검체번호 저장
+  public setSpecimentNo(specimenNo: string): void {
+    this.specimenNo = specimenNo;
+  }
+
+  public getSpecimenNo(): string {
+    return this.specimenNo;
+  }
+
+  // 환자 id 저장
+  public setPatientID(patientid: string): void {
+    this.patientID = patientid;
+  }
+
+  public getPatineID(): string {
+    return this.patientID;
+  }
+
+  // status 상태관리  시작, 스크린판독, 판독완료, EMR전송
+  setStatus(status: string): void {
+    this.status = status;
+  }
+
+  getStatus(): string {
+    return this.status;
+  }
+
+  // 결과지 AML ALL LYN MDS 관리
+  setSheet(sheet: string): void {
+    this.sheet = sheet;
+  }
+
+  getSheet(): string {
+    return this.sheet;
+  }
+
+
+  getResearch(): string {
+    // console.log('[STORE][Research]', this.research);
+    return this.research;
+  }
+
+  setResearch(research: string): void {
+    this.research = research;
+  }
+
+  setReceivedType(receivedType: string): void {
+    // console.log('[116][store][receivedType]', receivedType);
+    this.receivedType = receivedType;
+  }
+
+  getReceivedType(): string {
+    return this.receivedType;
+  }
+
+
+
 
   public setamlPatientID(id: string): void {
     this.amlPatientID = id;
@@ -133,23 +193,9 @@ export class StoreService {
     return this.vusstatus;
   }
 
-  // 검체번호 저장
-  public setSpecimentNo(specimenNo: string): void {
-    this.specimenNo = specimenNo;
-  }
 
-  public getSpecimenNo(): string {
-    return this.specimenNo;
-  }
 
-  // 환자 id 저장
-  public setPatientID(patientid: string): void {
-    this.patientID = patientid;
-  }
 
-  public getPatineID(): string {
-    return this.patientID;
-  }
 
   // 검사자 정보 저장
   public setExamin(examinerName: string): void {
@@ -206,23 +252,9 @@ export class StoreService {
     return this.screenstatue;
   }
 
-  // status 상태관리  시작, 스크린판독, 판독완료, EMR전송
-  setStatus(status: string): void {
-    this.status = status;
-  }
 
-  getStatus(): string {
-    return this.status;
-  }
 
-  // 결과지 AML ALL LYN MDS 관리
-  setSheet(sheet: string): void {
-    this.sheet = sheet;
-  }
 
-  getSheet(): string {
-    return this.sheet;
-  }
 
   // 조회상태에서 검색인지, 주화면에서 선택했는지 확인
   setWhichstate(state: string): void {

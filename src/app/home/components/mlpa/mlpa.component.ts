@@ -53,7 +53,23 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
   mlpaselect1 = false;
   mlpaselect2 = false;
   mlpaselect3 = false;
+  mlpaselect5 = false;
+  mlpaselect100 = false;
 
+  mlparesearchTOTAL = false;
+  mlparesearchDiag = false;
+  mlparesearchResearch = false;
+
+  mlpastartDay = this.startToday();
+  mlpaendDay = this.endToday();
+
+  @ViewChild('mlpaTestedID', { static: true }) testedID: ElementRef;
+  @ViewChild('mlpaPatient', { static: true }) patient: ElementRef;
+  @ViewChild('mlpaStatus', { static: true }) screenstatus: ElementRef;
+  @ViewChild('mlpaSheet', { static: true }) amlallsheet: ElementRef;
+  @ViewChild('mlpaResearch', { static: true }) research: ElementRef;
+  @ViewChild('mlpaStart', { static: true }) start: ElementRef;
+  @ViewChild('mlpaEnd', { static: true }) end: ElementRef;
   @ViewChild('dbox100', { static: true }) dbox100: ElementRef;
 
   constructor(
@@ -108,11 +124,16 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();
-    this.store.setStatus('100');
-    this.store.setSheet('MLPA');
   }
 
   selectOption(status: string): void {
+    this.mlpaselect10 = false;
+    this.mlpaselect0 = false;
+    this.mlpaselect1 = false;
+    this.mlpaselect2 = false;
+    this.mlpaselect3 = false;
+    this.mlpaselect5 = false;
+    this.mlpaselect100 = false;
     if (parseInt(status, 10) === 0) {
       this.mlpaselect0 = true;
     } else if (parseInt(status, 10) === 1) {
@@ -121,8 +142,25 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
       this.mlpaselect2 = true;
     } else if (parseInt(status, 10) === 3) {
       this.mlpaselect3 = true;
-    } else if (parseInt(status, 10) === 10) {
+    } else if (parseInt(status, 10) === 5) {
+      this.mlpaselect5 = true;
+    } else if (status === 'register' || parseInt(status, 10) === 10) {
       this.mlpaselect10 = true;
+    } else if (parseInt(status, 10) === 100) {
+      this.mlpaselect100 = true;
+    }
+  }
+
+  researchOption(research: string): void {
+    this.mlparesearchTOTAL = false;
+    this.mlparesearchDiag = false;
+    this.mlparesearchResearch = false;
+    if (research === 'diag') {
+      this.mlparesearchDiag = true;
+    } else if (research === 'RESEARCH') {
+      this.mlparesearchResearch = true;
+    } else if (research === 'TOTAL') {
+      this.mlparesearchTOTAL = true;
     }
   }
 
@@ -201,6 +239,27 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // tslint:disable-next-line: typedef
   goReporter(i: number) {
+    const testedID = this.testedID.nativeElement.value;
+    const patient = this.patient.nativeElement.value;
+    const status = this.screenstatus.nativeElement.value;
+    const sheet = this.amlallsheet.nativeElement.value;
+    const research = this.research.nativeElement.value;
+    const start = this.start.nativeElement.value;
+    const end = this.end.nativeElement.value;
+    if (this.receivedType !== 'none') {
+      this.receivedType = status;
+    }
+    this.store.setamlSpecimenID(testedID);
+    this.store.setamlPatientID(patient);
+    this.store.setStatus(status);
+    this.store.setSheet(sheet);
+    this.store.setResearch(research);
+    this.store.setSearchStartDay(start);
+    this.store.setSearchEndDay(end);
+    this.store.setReceivedType(this.receivedType);
+
+    ////////////////////////////////////////////////////////////////
+
     const specimenno = this.store.getSpecimenNo();
 
     this.patientsList.setTestedID(this.lists[i].specimenNo); // 검체번호
@@ -212,8 +271,12 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   // tslint:disable-next-line: typedef
-  getDate(event) {
-    // console.log(event.toString().replace(/-/gi, ''));
+  setStartDate(date: string): void {
+    this.mlpastartDay = date;
+  }
+
+  setEndDate(date: string): void {
+    this.mlpaendDay = date;
   }
 
   // tslint:disable-next-line: typedef
@@ -267,13 +330,65 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   checkStore(): void {
-    this.storeStartDay = this.store.getSearchStartDay();
-    this.storeEndDay = this.store.getSearchEndDay();
-    this.storePatientID = this.store.getamlPatientID();
-    this.storeSpecimenID = this.store.getamlSpecimenID();
-    this.status = this.store.getStatus();
-    this.sheet = this.store.getSheet();
+    // this.storeStartDay = this.store.getSearchStartDay();
+    // this.storeEndDay = this.store.getSearchEndDay();
+    // this.storePatientID = this.store.getamlPatientID();
+    // this.storeSpecimenID = this.store.getamlSpecimenID();
+    // this.status = this.store.getStatus();
+    // this.sheet = this.store.getSheet();
+    // const whichstate = this.store.getWhichstate();
+    const storeSpecimenID = this.store.getamlSpecimenID();
+    const storePatientID = this.store.getamlPatientID();
+    const status = this.store.getStatus();
+    const sheet = this.store.getSheet();
+    const storeStartDay = this.store.getSearchStartDay();
+    const storeEndDay = this.store.getSearchEndDay();
+    const research = this.store.getResearch();
     const whichstate = this.store.getWhichstate();
+    const receivedType = this.store.getReceivedType();
+
+    if (storeSpecimenID.length !== 0) {
+      this.storeSpecimenID = storeSpecimenID;
+      this.testedID.nativeElement.value = this.storeSpecimenID;
+    }
+
+    if (storePatientID.length !== 0) {
+      this.storePatientID = storePatientID;
+      this.patient.nativeElement.value = this.storePatientID;
+    }
+
+    if (status.length !== 0) {
+      if (this.receivedType !== 'none') {
+        this.receivedType = status;
+      }
+      this.selectOption(status);
+    }
+
+    // if (sheet.length !== 0) {
+    //   this.sheet = sheet;
+    //   this.amlallsheet.nativeElement.value = this.sheet;
+    //   this.sheetOption(sheet);
+    // }
+
+    if (storeStartDay.length !== 0) {
+      this.storeStartDay = storeStartDay;
+      this.mlpastartDay = storeStartDay;
+    }
+
+    if (storeEndDay.length !== 0) {
+      this.storeEndDay = storeEndDay;
+      this.mlpaendDay = storeEndDay;
+    }
+
+    if (research.length !== 0) {
+      this.research.nativeElement.value = research;
+      this.researchOption(research);
+    }
+
+    if (receivedType.length !== 0) {
+      this.receivedType = receivedType;
+    }
+
 
     this.startday = this.storeStartDay;
     this.endday = this.storeEndDay;
@@ -283,9 +398,17 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.lists = [];
     if (whichstate === 'searchscreen') {
-      this.search(this.storeStartDay, this.storeEndDay, this.storeSpecimenID, this.storePatientID, this.status, this.sheet);
+      this.search(storeStartDay.replace(/-/g, ''), storeEndDay.replace(/-/g, ''),
+        storeSpecimenID, storePatientID, status, sheet, research);
+      // this.search(this.storeStartDay, this.storeEndDay, this.storeSpecimenID, this.storePatientID, this.status, this.sheet);
     } else if (whichstate === 'mainscreen') {
-      this.search(this.startToday(), this.endToday(), '', '');
+      if (storeStartDay.length && storeEndDay.length) {
+        this.search(storeStartDay.replace(/-/g, ''), storeEndDay.replace(/-/g, ''),
+          storeSpecimenID, storePatientID, status, sheet, research);
+      } else {
+        this.search(this.startToday(), this.endToday(), '', '');
+      }
+      // this.search(this.startToday(), this.endToday(), '', '');
     }
 
 
@@ -301,13 +424,13 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
     this.status = status;
     this.sheet = sheet;
 
-    this.store.setSearchStartDay(start);
-    this.store.setSearchEndDay(end);
-    this.store.setamlSpecimenID(specimenNo);
-    this.store.setamlPatientID(patientId);
-    this.store.setStatus(status);
-    this.store.setSheet(sheet);
-    this.store.setWhichstate('searchscreen');
+    // this.store.setSearchStartDay(start);
+    // this.store.setSearchEndDay(end);
+    // this.store.setamlSpecimenID(specimenNo);
+    // this.store.setamlPatientID(patientId);
+    // this.store.setStatus(status);
+    // this.store.setSheet(sheet);
+    // this.store.setWhichstate('searchscreen');
     this.lists = [];
     const tempLists: IPatient[] = [];
 
@@ -337,22 +460,22 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
         this.patientsList.setPatientID(data);
         if (this.receivedType !== 'none') {
           data.forEach(list => {
-            if (this.receivedType === 'register' && list.screenstatus === '') {
+            if (this.receivedType === 'register') {
               tempLists.push(list);
-            } else if (parseInt(this.receivedType, 10) === 0 && parseInt(list.screenstatus, 10) === 0) {
+            } else if (parseInt(this.receivedType, 10) === 0) {
               tempLists.push(list);
-            } else if (parseInt(this.receivedType, 10) === 1 && parseInt(list.screenstatus, 10) === 1) {
+            } else if (parseInt(this.receivedType, 10) === 1) {
               tempLists.push(list);
-            } else if (parseInt(this.receivedType, 10) === 2 && parseInt(list.screenstatus, 10) === 2) {
+            } else if (parseInt(this.receivedType, 10) === 2) {
               tempLists.push(list);
-            } else if (parseInt(this.receivedType, 10) === 3 && parseInt(list.screenstatus, 10) === 3) {
+            } else if (parseInt(this.receivedType, 10) === 3) {
               tempLists.push(list);
             }
           });
 
           this.lists = tempLists;
           this.tempLists = tempLists;
-          this.receivedType = 'none';
+          // this.receivedType = 'none';
         } else if (this.receivedType === 'none') {
           this.lists = data;
           this.tempLists = data;
@@ -411,7 +534,14 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   goDashboard(): void {
-    this.receivedType = 'none';
+    this.store.setSpecimentNo('');
+    this.store.setPatientID('');
+    this.store.setStatus('');
+    this.store.setSheet('');
+    this.store.setResearch('');
+    this.store.setSearchStartDay('');
+    this.store.setSearchEndDay('');
+    this.store.setReceivedType('');
     this.router.navigate(['/diag', 'board']);
   }
 

@@ -897,8 +897,8 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
             const gene = members[0].trim().replace(/"/g, '');
             let type = members[1].trim().replace(/[",;]/g, '');
             if (members.length === 4) {
-              if (members[3] === 'deletion') {
-                type = 'deletion';
+              if (members[1].toLowerCase() === 'exon' && members[3].toLowerCase() === 'deletion') {
+                type = 'exon';
               }
             }
             console.log('[891][유전자추적]', members + '[' + gene + '][' + type + ']');

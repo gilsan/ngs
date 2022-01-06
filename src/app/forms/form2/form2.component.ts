@@ -208,6 +208,12 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     // this.checker();
   }
 
+  // hashChange(): void {
+  //   window.onhashchange = (event: any) => {
+  //     console.log('[HASH CHANGE]', event);
+  //   };
+  // }
+
   resizeHeight(): void {
     // return { height: `${this.maxHeight}px` };
   }

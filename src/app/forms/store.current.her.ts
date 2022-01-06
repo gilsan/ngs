@@ -10,6 +10,8 @@ export class StoreGENService {
   amlEndDay = '';
   amlPatientID = '';
   amlSpecimenID = '';
+  research = '';
+  receivedType = '';
 
   detactedVariants: IAFormVariant[];
   specimenMsg: string;
@@ -34,7 +36,6 @@ export class StoreGENService {
   status = '';  // 시작, 스크린판독, 판독완료, EMR전송
   sheet = '';    // AML ALL LYN MDS
   whichstate = 'mainscreen'; // mainscreen, searchscreen
-
   scrolly = 0;
   constructor() { }
   // mainscreen의 검색항목 저장
@@ -73,6 +74,24 @@ export class StoreGENService {
   public getamlSpecimenID(): string {
     return this.amlSpecimenID;
   }
+
+  public setResearch(research: string): void {
+    this.research = research;
+  }
+
+  public getResearch(): string {
+    return this.research;
+  }
+  setReceivedType(receivedType: string): void {
+    // console.log('[116][store][receivedType]', receivedType);
+    this.receivedType = receivedType;
+  }
+
+  getReceivedType(): string {
+    return this.receivedType;
+  }
+
+
   // 검사자 정보
   public setPatientInfo(patientInfo: IPatient): void {
     this.patientInfo = patientInfo;

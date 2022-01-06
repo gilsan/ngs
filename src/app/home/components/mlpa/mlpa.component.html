@@ -17,13 +17,13 @@
         <input name="" type="text" placeholder="환자ID" #mlpaPatient class="input_01"
         (keyup.enter)="search(mlpaStart.value, mlpaEnd.value, mlpaTestedID.value, mlpaPatient.value, mlpaStatus.value, mlpaSheet.value, mlpaResearch.value)"/>&nbsp;&nbsp;
         <select class="select_01 select_001"  #mlpaStatus   (change)="selectOption(mlpaStatus.value)">
-          <option value="100">전체</option>
+          <option value="100" [selected]= "mlpaselect100">전체</option>
           <option value="10" [selected]= "mlpaselect10">접수</option>
           <option value="0" [selected]= "mlpaselect0">시작</option>
           <option value="1" [selected]= "mlpaselect1">스크린판독</option>
           <option value="2" [selected]= "mlpaselect2">판독완료</option>
           <option value="3" [selected]= "mlpaselect3">EMR전송</option>
-          <option value="5" >접수취소</option>
+          <option value="5"  [selected]= "mlpaselect5">접수취소</option>
         </select>&nbsp;&nbsp;
 
         <select class="select_01 select_001" #mlpaSheet>
@@ -31,15 +31,15 @@
           <option *ngFor="let list of listsMLPA" [value]="list.code">{{list.report}} ({{list.code}})</option>
         </select>&nbsp;&nbsp;
         <select class="select_01 select_001" #mlpaResearch>
-          <option value="TOTAL">전체</option>
-          <option value="diag">환자용</option>
-          <option value="RESEARCH">연구용</option>
+          <option value="TOTAL" [selected]= "mlparesearchTOTAL">전체</option>
+          <option value="diag" [selected]= "mlparesearchDiag">환자용</option>
+          <option value="RESEARCH" [selected]= "mlparesearchResearch">연구용</option>
         </select>&nbsp;&nbsp;&nbsp;
 
-        <input type="date" [value]="startToday()" (change)="getDate(mlpaStart.value)" #mlpaStart class="input_01"
+        <input type="date" [value]="mlpastartDay" (change)="setStartDate(mlpaStart.value)" #mlpaStart class="input_01"
           style="width:150px;" />
         ~
-        <input type="date" class="input_01" (change)="getDate(mlpaEnd.value)" #mlpaEnd [value]="endToday()"
+        <input type="date" class="input_01" (change)="setEndDate(mlpaEnd.value)" #mlpaEnd [value]="mlpaendDay"
           style="width:150px;">
         <button type="button" class="btn btn_02" style="margin-left: 10px;"
           (click)="search(mlpaStart.value, mlpaEnd.value, mlpaTestedID.value, mlpaPatient.value, mlpaStatus.value, mlpaSheet.value, mlpaResearch.value)">조 회</button>

@@ -53,7 +53,25 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
   hselect1 = false;
   hselect2 = false;
   hselect3 = false;
+  hselect5 = false;
+  hselect100 = false;
+  hresearchTOTAL = false;
+  hresearchDiag = false;
+  hresearchResearch = false;
+
+  hstartDay = this.startToday();
+  hendDay = this.endToday();
+
   @ViewChild('dbox100', { static: true }) dbox100: ElementRef;
+
+  @ViewChild('herTestedID', { static: true }) testedID: ElementRef;
+  @ViewChild('herPatient', { static: true }) patient: ElementRef;
+  @ViewChild('herStatus', { static: true }) screenstatus: ElementRef;
+  @ViewChild('herSheet', { static: true }) amlallsheet: ElementRef;
+  @ViewChild('herResearch', { static: true }) research: ElementRef;
+  @ViewChild('herStart', { static: true }) start: ElementRef;
+  @ViewChild('herEnd', { static: true }) end: ElementRef;
+
 
   constructor(
     private patientsList: PatientsListService,
@@ -105,11 +123,16 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();
-    this.store.setStatus('100');
-    this.store.setSheet('genetic');
   }
 
   selectOption(status: string): void {
+    this.hselect10 = false;
+    this.hselect0 = false;
+    this.hselect1 = false;
+    this.hselect2 = false;
+    this.hselect3 = false;
+    this.hselect5 = false;
+    this.hselect100 = false;
     if (parseInt(status, 10) === 0) {
       this.hselect0 = true;
     } else if (parseInt(status, 10) === 1) {
@@ -118,8 +141,25 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
       this.hselect2 = true;
     } else if (parseInt(status, 10) === 3) {
       this.hselect3 = true;
-    } else if (parseInt(status, 10) === 10) {
+    } else if (parseInt(status, 10) === 5) {
+      this.hselect5 = true;
+    } else if (status === 'register' || parseInt(status, 10) === 10) {
       this.hselect10 = true;
+    } else if (parseInt(status, 10) === 100) {
+      this.hselect100 = true;
+    }
+  }
+
+  researchOption(research: string): void {
+    this.hresearchTOTAL = false;
+    this.hresearchDiag = false;
+    this.hresearchResearch = false;
+    if (research === 'diag') {
+      this.hresearchDiag = true;
+    } else if (research === 'RESEARCH') {
+      this.hresearchResearch = true;
+    } else if (research === 'TOTAL') {
+      this.hresearchTOTAL = true;
     }
   }
 
@@ -151,18 +191,7 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
         this.patientsList.setPatientID(data);
         this.lists = data;
       });
-    // this.lists$ = this.patientsList.getPatientList();
-    // this.subs.sink = this.lists$
-    //   .pipe(
-    //     switchMap(item => of(item)),
-    //     switchMap(list => from(list)),
-    //     tap(list => console.log(list)),
-    //     filter(list => this.hereditaryLists.includes(list.test_code)),
-    //     tap(list => console.log(list)),
-    //   )
-    //   .subscribe((data) => {
-    //     this.lists.push(data);
-    //   });
+
   }
 
   scrollPosition(): void {
@@ -200,10 +229,31 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // tslint:disable-next-line: typedef
   goReporter(i: number) {
-    const specimenno = this.store.getSpecimenNo();
+    // const specimenno = this.store.getSpecimenNo();
+    const testedID = this.testedID.nativeElement.value;
+    const patient = this.patient.nativeElement.value;
+    const status = this.screenstatus.nativeElement.value;
+    const sheet = this.amlallsheet.nativeElement.value;
+    const research = this.research.nativeElement.value;
+    const start = this.start.nativeElement.value;
+    const end = this.end.nativeElement.value;
+    if (this.receivedType !== 'none') {
+      this.receivedType = status;
+    }
+    this.store.setamlSpecimenID(testedID);
+    this.store.setamlPatientID(patient);
+    this.store.setStatus(status);
+    this.store.setSheet(sheet);
+    this.store.setResearch(research);
+    this.store.setSearchStartDay(start);
+    this.store.setSearchEndDay(end);
+    this.store.setReceivedType(this.receivedType);
 
+    ////////////////////////////////////////////////////////////////
     this.patientsList.setTestedID(this.lists[i].specimenNo); // 검체번호
     this.patientsList.setTestcode(this.lists[i].test_code);  // 검사지 타입 AML ALL
+
+
     this.router.navigate(['/diag', 'hereditary', 'form6', this.lists[i].test_code]);
   }
 
@@ -225,8 +275,12 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   // tslint:disable-next-line: typedef
-  getDate(event) {
-    // console.log(event.toString().replace(/-/gi, ''));
+  setStartDate(date: string): void {
+    this.hstartDay = date;
+  }
+
+  setEndDate(date: string): void {
+    this.hendDay = date;
   }
 
   // tslint:disable-next-line: typedef
@@ -241,9 +295,9 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     const newday = ('0' + day).substr(-2);
     const now = year + '-' + newmon + '-' + newday;
     // console.log(date, now);
-    if (this.storeStartDay) {
-      return this.storeStartDay;
-    }
+    // if (this.storeStartDay) {
+    //   return this.storeStartDay;
+    // }
     return now;
   }
 
@@ -270,9 +324,6 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     const newday = ('0' + date).substr(-2);
     const now = year + '-' + newmon + '-' + newday;
 
-    // if (this.storeEndDay) {
-    //   return this.storeEndDay;
-    // }
     return now;
   }
 
@@ -286,13 +337,69 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   checkStore(): void {
-    this.storeStartDay = this.store.getSearchStartDay();
-    this.storeEndDay = this.store.getSearchEndDay();
-    this.storePatientID = this.store.getamlPatientID();
-    this.storeSpecimenID = this.store.getamlSpecimenID();
-    this.status = this.store.getStatus();
-    this.sheet = this.store.getSheet();
+    // this.storeSpecimenID = this.store.getamlSpecimenID();
+    // this.storePatientID = this.store.getamlPatientID();
+    // this.status = this.store.getStatus();
+    // this.sheet = this.store.getSheet();
+    // const research = this.store.getResearch();
+    // this.storeStartDay = this.store.getSearchStartDay();
+    // this.storeEndDay = this.store.getSearchEndDay();
+    // const whichstate = this.store.getWhichstate();
+    const storeSpecimenID = this.store.getamlSpecimenID();
+    const storePatientID = this.store.getamlPatientID();
+    const status = this.store.getStatus();
+    const sheet = this.store.getSheet();
+    const storeStartDay = this.store.getSearchStartDay();
+    const storeEndDay = this.store.getSearchEndDay();
+    const research = this.store.getResearch();
     const whichstate = this.store.getWhichstate();
+    const receivedType = this.store.getReceivedType();
+
+    if (storeSpecimenID.length !== 0) {
+      this.storeSpecimenID = storeSpecimenID;
+      this.testedID.nativeElement.value = this.storeSpecimenID;
+    }
+
+    if (storePatientID.length !== 0) {
+      this.storePatientID = storePatientID;
+      this.patient.nativeElement.value = this.storePatientID;
+    }
+
+    if (status.length !== 0) {
+      if (this.receivedType !== 'none') {
+        this.receivedType = status;
+      }
+
+      // this.screenstatus.nativeElement.value = this.status;
+      this.selectOption(status);
+    }
+
+    // if (sheet.length !== 0) {
+    //   this.sheet = sheet;
+    //   this.amlallsheet.nativeElement.value = this.sheet;
+    //   this.sheetOption(sheet);
+    // }
+
+    if (storeStartDay.length !== 0) {
+      this.storeStartDay = storeStartDay;
+      this.hstartDay = storeStartDay;
+    }
+
+    if (storeEndDay.length !== 0) {
+      this.storeEndDay = storeEndDay;
+      this.hendDay = storeEndDay;
+    }
+
+    if (research.length !== 0) {
+      this.research.nativeElement.value = research;
+      this.researchOption(research);
+    }
+
+    if (receivedType.length !== 0) {
+      this.receivedType = receivedType;
+    }
+
+
 
     this.startday = this.storeStartDay;
     this.endday = this.storeEndDay;
@@ -301,9 +408,17 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.lists = [];
     if (whichstate === 'searchscreen') {
-      this.search(this.storeStartDay, this.storeEndDay, this.storeSpecimenID, this.storePatientID, this.status, this.sheet);
+      this.search(storeStartDay.replace(/-/g, ''), storeEndDay.replace(/-/g, ''),
+        storeSpecimenID, storePatientID, status, sheet, research);
+      // this.search(this.storeStartDay, this.storeEndDay, this.storeSpecimenID, this.storePatientID, this.status, this.sheet, research);
     } else if (whichstate === 'mainscreen') {
-      this.search(this.startToday(), this.endToday(), '', '');
+      if (storeStartDay.length && storeEndDay.length) {
+        this.search(storeStartDay.replace(/-/g, ''), storeEndDay.replace(/-/g, ''),
+          storeSpecimenID, storePatientID, status, sheet, research);
+      } else {
+        this.search(this.startToday(), this.endToday(), '', '');
+      }
+      // this.search(this.startToday(), this.endToday(), '', '');
     }
 
 
@@ -319,13 +434,13 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.status = status;
     this.sheet = sheet;
 
-    this.store.setSearchStartDay(start);
-    this.store.setSearchEndDay(end);
-    this.store.setamlSpecimenID(specimenNo);
-    this.store.setamlPatientID(patientId);
-    this.store.setStatus(status);
-    this.store.setSheet(sheet);
-    this.store.setWhichstate('searchscreen');
+    // this.store.setSearchStartDay(start);
+    // this.store.setSearchEndDay(end);
+    // this.store.setamlSpecimenID(specimenNo);
+    // this.store.setamlPatientID(patientId);
+    // this.store.setStatus(status);
+    // this.store.setSheet(sheet);
+    // this.store.setWhichstate('searchscreen');
     this.lists = [];
     const tempLists: IPatient[] = [];
 
@@ -351,18 +466,18 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.patientsList.hereditarySearch2(startdate, enddate, patientId, specimenNo, status, sheet, research)
       .then(response => response.json())
       .then(data => {
-        console.log('[354][검색결과]', data);
+        console.log('[469][검색결과]', data,);
         if (this.receivedType !== 'none') {
           data.forEach(list => {
-            if (this.receivedType === 'register' && list.screenstatus === '') {
+            if (this.receivedType === 'register') {
               tempLists.push(list);
-            } else if (parseInt(this.receivedType, 10) === 0 && parseInt(list.screenstatus, 10) === 0) {
+            } else if (parseInt(this.receivedType, 10) === 0) {
               tempLists.push(list);
-            } else if (parseInt(this.receivedType, 10) === 1 && parseInt(list.screenstatus, 10) === 1) {
+            } else if (parseInt(this.receivedType, 10) === 1) {
               tempLists.push(list);
-            } else if (parseInt(this.receivedType, 10) === 2 && parseInt(list.screenstatus, 10) === 2) {
+            } else if (parseInt(this.receivedType, 10) === 2) {
               tempLists.push(list);
-            } else if (parseInt(this.receivedType, 10) === 3 && parseInt(list.screenstatus, 10) === 3) {
+            } else if (parseInt(this.receivedType, 10) === 3) {
               tempLists.push(list);
             }
           });
@@ -370,7 +485,7 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
           this.patientsList.setPatientID(tempLists);
           this.lists = tempLists;
           this.tempLists = tempLists;
-          this.receivedType = 'none';
+          // this.receivedType = 'none';
         } else if (this.receivedType === 'none') {
           this.patientsList.setPatientID(data);
           this.lists = data;
@@ -478,7 +593,14 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   goDashboard(): void {
-    this.receivedType = 'none';
+    this.store.setSpecimentNo('');
+    this.store.setPatientID('');
+    this.store.setStatus('');
+    this.store.setSheet('');
+    this.store.setResearch('');
+    this.store.setSearchStartDay('');
+    this.store.setSearchEndDay('');
+    this.store.setReceivedType('');
     this.router.navigate(['/diag', 'board']);
   }
 

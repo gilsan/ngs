@@ -36,19 +36,40 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
   patientid = '';
   status = ''; // 시작, 스크린판독, 판독완료, EMR전송
   sheet = ''; // AML ALL LYN MDS
-  receivedType = 'none';
+  receivedType = '';
   storeStartDay: string;
   storeEndDay: string;
   storePatientID: string;
   storeSpecimenID: string;
+  researchs: string;
 
   private apiUrl = emrUrl;
   select0 = false;
   select1 = false;
   select2 = false;
   select3 = false;
+  select5 = false;
   select10 = false;
+  select100 = false;
+  sheetTOTAL = false;
+  sheetAMLALL = false;
+  sheetETC = false;
+  researchTOTAL = false;
+  researchDiag = false;
+  researchResearch = false;
+
+  startDay = this.startToday();
+  endDay = this.endToday();
+
   @ViewChild('dbox100', { static: true }) dbox100: ElementRef;
+  @ViewChild('testedID', { static: true }) testedID: ElementRef;
+  @ViewChild('patient', { static: true }) patient: ElementRef;
+  @ViewChild('status', { static: true }) screenstatus: ElementRef;
+  @ViewChild('sheet', { static: true }) amlallsheet: ElementRef;
+  @ViewChild('research', { static: true }) research: ElementRef;
+  @ViewChild('start', { static: true }) start: ElementRef;
+  @ViewChild('end', { static: true }) end: ElementRef;
+
 
   constructor(
     private patientsList: PatientsListService,
@@ -64,23 +85,27 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.route.paramMap.pipe(
       filter(data => data !== null || data !== undefined),
-      map(route => route.get('type'))
+      map(route => route.get('type')),
     ).subscribe(data => {
       if (data !== null) {
         this.receivedType = data;
+        // console.log('[69][전송값][receivedType] ', this.receivedType);
+        if (parseInt(this.receivedType, 10) === 0) {
+          this.select0 = true;
+        } else if (parseInt(this.receivedType, 10) === 1) {
+          this.select1 = true;
+        } else if (parseInt(this.receivedType, 10) === 2) {
+          this.select2 = true;
+        } else if (parseInt(this.receivedType, 10) === 3) {
+          this.select3 = true;
+        } else if (parseInt(this.receivedType, 10) === 5) {
+          this.select5 = true;
+        } else if (this.receivedType === 'register') {
+          this.select10 = true;
+        }
+
       }
-      console.log('[69][전송값]', this.receivedType);
-      if (parseInt(this.receivedType, 10) === 0) {
-        this.select0 = true;
-      } else if (parseInt(this.receivedType, 10) === 1) {
-        this.select1 = true;
-      } else if (parseInt(this.receivedType, 10) === 2) {
-        this.select2 = true;
-      } else if (parseInt(this.receivedType, 10) === 3) {
-        this.select3 = true;
-      } else if (this.receivedType === 'register') {
-        this.select10 = true;
-      }
+
     });
 
 
@@ -95,7 +120,9 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.select1 = false;
     this.select2 = false;
     this.select3 = false;
+    this.select5 = false;
     this.select10 = false;
+    this.select100 = false;
     if (parseInt(status, 10) === 0) {
       this.select0 = true;
     } else if (parseInt(status, 10) === 1) {
@@ -104,8 +131,38 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
       this.select2 = true;
     } else if (parseInt(status, 10) === 3) {
       this.select3 = true;
-    } else if (parseInt(status, 10) === 10) {
+    } else if (parseInt(status, 10) === 5) {
+      this.select5 = true;
+    } else if (status === 'register' || parseInt(status, 10) === 10) {
       this.select10 = true;
+    } else if (parseInt(status, 10) === 100) {
+      this.select100 = true;
+    }
+  }
+
+  sheetOption(sheet: string): void {
+    this.sheetAMLALL = false;
+    this.sheetETC = false;
+    this.sheetTOTAL = false;
+    if (sheet === 'AMLALL') {
+      this.sheetAMLALL = true;
+    } else if (sheet === 'ETC') {
+      this.sheetAMLALL = true;
+    } else if (sheet === 'TOTAL') {
+      this.sheetTOTAL = true;
+    }
+  }
+
+  researchOption(research: string): void {
+    this.researchDiag = false;
+    this.researchResearch = false;
+    this.researchTOTAL = false;
+    if (research === 'diag') {
+      this.researchDiag = true;
+    } else if (research === 'RESEARCH') {
+      this.researchResearch = true;
+    } else if (research === 'TOTAL') {
+      this.researchTOTAL = true;
     }
   }
 
@@ -146,8 +203,7 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();
-    this.store.setStatus('100');
-    this.store.setSheet('TOTAL');
+
   }
 
   init(): void {
@@ -214,7 +270,29 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // tslint:disable-next-line: typedef
   goReporter(i: number) {
-    // console.log('[111][mainscreen][goReporter]', this.lists[i]);
+
+    const testedID = this.testedID.nativeElement.value;
+    const patient = this.patient.nativeElement.value;
+    const status = this.screenstatus.nativeElement.value;
+    const sheet = this.amlallsheet.nativeElement.value;
+    const research = this.research.nativeElement.value;
+    const start = this.start.nativeElement.value;
+    const end = this.end.nativeElement.value;
+    if (this.receivedType !== 'none') {
+      this.receivedType = status;
+    }
+
+    this.store.setSpecimentNo(testedID);
+    this.store.setPatientID(patient);
+    this.store.setStatus(status);
+    this.store.setSheet(sheet);
+    this.store.setResearch(research);
+    this.store.setSearchStartDay(start);
+    this.store.setSearchEndDay(end);
+    this.store.setReceivedType(this.receivedType);
+
+    ////////////////////////////////////////////////////////////////
+    console.log('[245][goReporter][저장]==> ', testedID, patient, status, sheet, research, start, end, this.receivedType);
     const specimenno = this.store.getSpecimenNo();
 
     this.patientsList.setTestedID(this.lists[i].specimenNo); // 검체번호
@@ -234,8 +312,12 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   // tslint:disable-next-line: typedef
-  getDate(event) {
-    // console.log(event.toString().replace(/-/gi, ''));
+  setStartDate(date: string): void {
+    this.startDay = date;
+  }
+
+  setEndDate(date: string): void {
+    this.endDay = date;
   }
 
   // tslint:disable-next-line: typedef
@@ -292,27 +374,85 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   checkStore(): void {
-    this.storeStartDay = this.store.getSearchStartDay();
-    this.storeEndDay = this.store.getSearchEndDay();
-    this.storePatientID = this.store.getamlPatientID();
-    this.storeSpecimenID = this.store.getamlSpecimenID();
-    this.status = this.store.getStatus();
-    this.sheet = this.store.getSheet();
+    // this.storeStartDay = this.store.getSearchStartDay();
+    // this.storeEndDay = this.store.getSearchEndDay();
+    // this.storePatientID = this.store.getamlPatientID();
+    // this.storeSpecimenID = this.store.getamlSpecimenID();
+    // this.status = this.store.getStatus();
+    // this.sheet = this.store.getSheet();
+
+    const storeSpecimenID = this.store.getamlSpecimenID();
+    const storePatientID = this.store.getamlPatientID();
+    const status = this.store.getStatus();
+    const sheet = this.store.getSheet();
+    const storeStartDay = this.store.getSearchStartDay();
+    const storeEndDay = this.store.getSearchEndDay();
+    const research = this.store.getResearch();
     const whichstate = this.store.getWhichstate();
+    const receivedType = this.store.getReceivedType();
 
-    this.startday = this.storeStartDay;
-    this.endday = this.storeEndDay;
-    this.specimenno = this.storeSpecimenID;
-    this.patientid = this.storePatientID;
-
-    this.lists = [];
-    if (whichstate === 'searchscreen') {
-      this.search(this.storeStartDay, this.storeEndDay, this.storeSpecimenID, this.storePatientID, this.status, this.sheet);
-    } else if (whichstate === 'mainscreen') {
-      this.search(this.startToday(), this.endToday(), '', '');
+    // console.log('[378][checkStore][저장된데이터] ', whichstate, status, storeStartDay, storeEndDay, receivedType);
+    if (storeSpecimenID.length !== 0) {
+      this.storeSpecimenID = storeSpecimenID;
+      this.testedID.nativeElement.value = this.storeSpecimenID;
     }
 
-    console.log('[315][checkstore][검색 ]', this.status);
+    if (storePatientID.length !== 0) {
+      this.storePatientID = storePatientID;
+      this.patient.nativeElement.value = this.storePatientID;
+    }
+
+    if (status.length !== 0) {
+      if (this.receivedType !== 'none') {
+        this.receivedType = status;
+      }
+      // this.screenstatus.nativeElement.value = this.status;
+      this.selectOption(status);
+    }
+
+    if (sheet.length !== 0) {
+      this.sheet = sheet;
+      // this.amlallsheet.nativeElement.value = this.sheet;
+      this.sheetOption(sheet);
+    }
+
+    if (storeStartDay.length !== 0) {
+      this.storeStartDay = storeStartDay;
+      this.startDay = storeStartDay;
+    }
+
+    if (storeEndDay.length !== 0) {
+      this.storeEndDay = storeEndDay;
+      this.endDay = storeEndDay;
+    }
+
+    if (research.length !== 0) {
+      this.research.nativeElement.value = research;
+      this.researchOption(research);
+    }
+
+    if (receivedType.length !== 0) {
+      this.receivedType = receivedType;
+    }
+
+    this.startday = storeStartDay;
+    this.endday = storeEndDay;
+    this.specimenno = storeSpecimenID;
+    this.patientid = storePatientID;
+
+    // console.log('[434][whichstate][저장된데이터] ', whichstate);
+    // console.log('[434][날자] ', storeStartDay, storeEndDay);
+    if (whichstate === 'searchscreen') {
+      this.search(storeStartDay.replace(/-/g, ''), storeEndDay.replace(/-/g, ''),
+        storeSpecimenID, storePatientID, status, sheet, research);
+    } else if (whichstate === 'mainscreen') {
+      if (storeStartDay.length && storeEndDay.length) {
+        this.search(storeStartDay.replace(/-/g, ''), storeEndDay.replace(/-/g, ''),
+          storeSpecimenID, storePatientID, status, sheet, research);
+      } else {
+        this.search(this.startToday(), this.endToday(), '', '');
+      }
+    }
   }
 
   // tslint:disable-next-line: typedef
@@ -326,14 +466,14 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.status = status;
     this.sheet = sheet;
 
-    this.store.setSearchStartDay(start);
-    this.store.setSearchEndDay(end);
-    this.store.setamlSpecimenID(specimenNo);
-    this.store.setamlPatientID(patientId);
-    this.store.setStatus(status);
-    this.store.setSheet(sheet);
-    this.store.setWhichstate('searchscreen');
-    this.lists = [];
+    // this.store.setSearchStartDay(start);
+    // this.store.setSearchEndDay(end);
+    // this.store.setamlSpecimenID(specimenNo);
+    // this.store.setamlPatientID(patientId);
+    // this.store.setStatus(status);
+    // this.store.setSheet(sheet);
+    // this.store.setWhichstate('searchscreen');
+    // this.lists = [];
 
     const startdate = start.toString().replace(/-/gi, '');
     const enddate = end.toString().replace(/-/gi, '');
@@ -360,8 +500,8 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
     if (parseInt(status, 10) === 10 || this.receivedType === 'register') {
       status = '10';
     }
-
-    console.log('[364][검색 ]', startdate, enddate, patientId, specimenNo, status, type, research);
+    // console.log('[498][검색][receivedType]', this.receivedType);
+    // console.log('[499][검색]', startdate, enddate, patientId, specimenNo, status, type, research);
 
     this.lists = []; // 초기화
     this.lists$ = this.patientsList.search(startdate, enddate, patientId, specimenNo, status, type, research);
@@ -377,7 +517,7 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
             return { ...list, codetest: 'AML', original_code: list.test_code };
           }
         }),
-        // tap(data => console.log('[343]', data)),
+        // tap(data => console.log('[409][검색데이터]', data)),
       ).subscribe((data: any) => {
         if (data.reportTitle === '') {
           const title = this.titleService.getMltaTitle(data.original_code);
@@ -385,17 +525,17 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
             data.reportTitle = title;
           }
         }
-
+        // console.log('[504][검색][receivedType]', data, this.receivedType, sheet);
         if (this.receivedType !== 'none') {
-          if (this.receivedType === 'register' && data.screenstatus === '') {
+          if (this.receivedType === 'register') {
             this.saveData(data, sheet);
-          } else if (parseInt(this.receivedType, 10) === 0 && parseInt(data.screenstatus, 10) === 0) {
+          } else if (parseInt(this.receivedType, 10) === 0) {
             this.saveData(data, sheet);
-          } else if (parseInt(this.receivedType, 10) === 1 && parseInt(data.screenstatus, 10) === 1) {
+          } else if (parseInt(this.receivedType, 10) === 1) {
             this.saveData(data, sheet);
-          } else if (parseInt(this.receivedType, 10) === 2 && parseInt(data.screenstatus, 10) === 2) {
+          } else if (parseInt(this.receivedType, 10) === 2) {
             this.saveData(data, sheet);
-          } else if (parseInt(this.receivedType, 10) === 3 && parseInt(data.screenstatus, 10) === 3) {
+          } else if (parseInt(this.receivedType, 10) === 3) {
             this.saveData(data, sheet);
           }
         } else if (this.receivedType === 'none') {
@@ -423,21 +563,22 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   saveData(data: IPatient, sheet: string): void {
+    // console.log('[542][SAVEDATA]', data, sheet);
     if (sheet === 'TOTAL' || sheet.length === 0) {
       this.lists.push(data);
       this.tempLists.push(data);
     } else if (sheet === 'AMLALL') {
-      if (data.test_code === 'AML') {
+      if (data.test_code === 'AML' || data.test_code === 'LPE471') {
         this.lists.push(data);
         this.tempLists.push(data);
       }
     } else if (sheet === 'ETC') {
-      if (data.test_code === 'ALL') {
+      if (data.test_code === 'ALL' || data.test_code === 'LPE472') {
         this.lists.push(data);
         this.tempLists.push(data);
       }
     }
-    this.receivedType = 'none';
+    // this.receivedType = 'none';
   }
 
   // 환자ID
@@ -523,7 +664,15 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   goDashboard(): void {
-    this.receivedType = 'none';
+    // this.receivedType = 'none';
+    this.store.setSpecimentNo('');
+    this.store.setPatientID('');
+    this.store.setStatus('');
+    this.store.setSheet('');
+    this.store.setResearch('');
+    this.store.setSearchStartDay('');
+    this.store.setSearchEndDay('');
+    this.store.setReceivedType('');
     this.router.navigate(['/diag', 'board']);
   }
 

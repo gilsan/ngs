@@ -12,6 +12,7 @@ import { StoreMLPAService } from 'src/app/forms/store.current.mlpa';
 import { StoreSEQService } from 'src/app/forms/store.current.seq';
 
 import * as moment from 'moment';
+import { AmlAllStore } from '../amlall/amlall.store';
 export interface IBOARD {
   type: string;
   register: number;
@@ -48,7 +49,8 @@ export class DashboardComponent implements OnInit {
     private lymStore: StoreLYMService,
     private mdsStore: StoreMDSService,
     private mlpaStore: StoreMLPAService,
-    private seqStore: StoreSEQService
+    private seqStore: StoreSEQService,
+
   ) { }
 
   ngOnInit(): void {
@@ -71,9 +73,7 @@ export class DashboardComponent implements OnInit {
 
       this.patientsList.boardSearch(this.threemonthage(), this.today())
         .subscribe(item => {
-          // console.log('[61][대쉬보드]', item);
           const temp = this.lists.filter(list => list.code === item.test_code);
-          // console.log('[61][대쉬보드]', temp);
           if (temp.length > 0) {
             this.split(temp[0].type, item.screenstatus);
           }

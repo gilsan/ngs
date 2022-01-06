@@ -17,13 +17,13 @@
         <input name="" type="text" placeholder="환자ID" #seqPatient class="input_01"
         (keyup.enter)="search(seqStart.value, seqEnd.value, seqTestedID.value, seqPatient.value, seqStatus.value, seqSheet.value, seqResearch.value)"/>&nbsp;&nbsp;
         <select class="select_01 select_001"  #seqStatus   (change)="selectOption(seqStatus.value)">
-          <option value="100">전체</option>
+          <option value="100"[selected]= "qselect100">전체</option>
           <option value="10" [selected]= "qselect10">접수</option>
           <option value="0" [selected]= "qselect0">시작</option>
           <option value="1" [selected]= "qselect1">스크린판독</option>
           <option value="2" [selected]= "qselect2">판독완료</option>
           <option value="3" [selected]= "qselect3">EMR전송</option>
-          <option value="5" >접수취소</option>
+          <option value="5" [selected]= "qselect5">접수취소</option>
         </select>&nbsp;&nbsp;
 
         <select class="select_01 select_001" #seqSheet>
@@ -32,15 +32,15 @@
         </select>&nbsp;&nbsp;
 
         <select class="select_01 select_001" #seqResearch>
-          <option value="TOTAL">전체</option>
-          <option value="diag">환자용</option>
-          <option value="RESEARCH">연구용</option>
+          <option value="TOTAL" [selected]= "qresearchTOTAL">전체</option>
+          <option value="diag" [selected]= "qresearchDiag">환자용</option>
+          <option value="RESEARCH" [selected]= "qresearchResearch">연구용</option>
         </select>&nbsp;&nbsp;&nbsp;
 
-        <input type="date" [value]="startToday()" (change)="getDate(seqStart.value)" #seqStart class="input_01"
+        <input type="date" [value]="qstartDay" (change)="setStartDate(seqStart.value)" #seqStart class="input_01"
           style="width:150px;" />
         ~
-        <input type="date" class="input_01" (change)="getDate(seqEnd.value)" #seqEnd [value]="endToday()"
+        <input type="date" class="input_01" (change)="setEndDate(seqEnd.value)" #seqEnd [value]="qendDay"
           style="width:150px;">
         <button type="button" class="btn btn_02" style="margin-left: 10px;"
           (click)="search(seqStart.value, seqEnd.value, seqTestedID.value, seqPatient.value, seqStatus.value, seqSheet.value, seqResearch.value)">조 회</button>

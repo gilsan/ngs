@@ -56,7 +56,23 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
   qselect1 = false;
   qselect2 = false;
   qselect3 = false;
+  qselect5 = false;
+  qselect100 = false;
 
+  qresearchTOTAL = false;
+  qresearchDiag = false;
+  qresearchResearch = false;
+
+  qstartDay = this.startToday();
+  qendDay = this.endToday();
+
+  @ViewChild('seqTestedID', { static: true }) testedID: ElementRef;
+  @ViewChild('seqPatient', { static: true }) patient: ElementRef;
+  @ViewChild('seqStatus', { static: true }) screenstatus: ElementRef;
+  @ViewChild('seqSheet', { static: true }) amlallsheet: ElementRef;
+  @ViewChild('seqResearch', { static: true }) research: ElementRef;
+  @ViewChild('seqStart', { static: true }) start: ElementRef;
+  @ViewChild('seqEnd', { static: true }) end: ElementRef;
   @ViewChild('dbox100', { static: true }) dbox100: ElementRef;
 
   constructor(
@@ -111,11 +127,16 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();
-    this.store.setStatus('100');
-    this.store.setSheet('Sequencing');
   }
 
   selectOption(status: string): void {
+    this.qselect10 = false;
+    this.qselect0 = false;
+    this.qselect1 = false;
+    this.qselect2 = false;
+    this.qselect3 = false;
+    this.qselect5 = false;
+    this.qselect100 = false;
     if (parseInt(status, 10) === 0) {
       this.qselect0 = true;
     } else if (parseInt(status, 10) === 1) {
@@ -124,8 +145,25 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
       this.qselect2 = true;
     } else if (parseInt(status, 10) === 3) {
       this.qselect3 = true;
-    } else if (parseInt(status, 10) === 10) {
+    } else if (parseInt(status, 10) === 5) {
+      this.qselect5 = true;
+    } else if (status === 'register' || parseInt(status, 10) === 10) {
       this.qselect10 = true;
+    } else if (parseInt(status, 10) === 100) {
+      this.qselect100 = true;
+    }
+  }
+
+  researchOption(research: string): void {
+    this.qresearchTOTAL = false;
+    this.qresearchDiag = false;
+    this.qresearchResearch = false;
+    if (research === 'diag') {
+      this.qresearchDiag = true;
+    } else if (research === 'RESEARCH') {
+      this.qresearchResearch = true;
+    } else if (research === 'TOTAL') {
+      this.qresearchTOTAL = true;
     }
   }
 
@@ -206,7 +244,28 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // tslint:disable-next-line: typedef
   goReporter(i: number) {
-    // console.log('[111][mainscreen][goReporter]', this.lists[i]);
+    const testedID = this.testedID.nativeElement.value;
+    const patient = this.patient.nativeElement.value;
+    const status = this.screenstatus.nativeElement.value;
+    const sheet = this.amlallsheet.nativeElement.value;
+    const research = this.research.nativeElement.value;
+    const start = this.start.nativeElement.value;
+    const end = this.end.nativeElement.value;
+    if (this.receivedType !== 'none') {
+      this.receivedType = status;
+    }
+    this.store.setamlSpecimenID(testedID);
+    this.store.setamlPatientID(patient);
+    this.store.setStatus(status);
+    this.store.setSheet(sheet);
+    this.store.setResearch(research);
+    this.store.setSearchStartDay(start);
+    this.store.setSearchEndDay(end);
+    this.store.setReceivedType(this.receivedType);
+
+    ////////////////////////////////////////////////////////////////
+
+
     const specimenno = this.store.getSpecimenNo();
 
     this.patientsList.setTestedID(this.lists[i].specimenNo); // 검체번호
@@ -217,8 +276,12 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   // tslint:disable-next-line: typedef
-  getDate(event) {
-    // console.log(event.toString().replace(/-/gi, ''));
+  setStartDate(date: string): void {
+    this.qstartDay = date;
+  }
+
+  setEndDate(date: string): void {
+    this.qendDay = date;
   }
 
   // tslint:disable-next-line: typedef
@@ -233,9 +296,9 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
     const newday = ('0' + day).substr(-2);
     const now = year + '-' + newmon + '-' + newday;
     // console.log(date, now);
-    if (this.storeStartDay) {
-      return this.storeStartDay;
-    }
+    // if (this.storeStartDay) {
+    //   return this.storeStartDay;
+    // }
     return now;
   }
 
@@ -272,13 +335,67 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   checkStore(): void {
-    this.storeStartDay = this.store.getSearchStartDay();
-    this.storeEndDay = this.store.getSearchEndDay();
-    this.storePatientID = this.store.getamlPatientID();
-    this.storeSpecimenID = this.store.getamlSpecimenID();
-    this.status = this.store.getStatus();
-    this.sheet = this.store.getSheet();
+    // this.storeStartDay = this.store.getSearchStartDay();
+    // this.storeEndDay = this.store.getSearchEndDay();
+    // this.storePatientID = this.store.getamlPatientID();
+    // this.storeSpecimenID = this.store.getamlSpecimenID();
+    // this.status = this.store.getStatus();
+    // this.sheet = this.store.getSheet();
+    // const whichstate = this.store.getWhichstate();
+    const storeSpecimenID = this.store.getamlSpecimenID();
+    const storePatientID = this.store.getamlPatientID();
+    const status = this.store.getStatus();
+    const sheet = this.store.getSheet();
+    const storeStartDay = this.store.getSearchStartDay();
+    const storeEndDay = this.store.getSearchEndDay();
+    const research = this.store.getResearch();
     const whichstate = this.store.getWhichstate();
+    const receivedType = this.store.getReceivedType();
+
+    if (storeSpecimenID.length !== 0) {
+      this.storeSpecimenID = storeSpecimenID;
+      this.testedID.nativeElement.value = this.storeSpecimenID;
+    }
+
+    if (storePatientID.length !== 0) {
+      this.storePatientID = storePatientID;
+      this.patient.nativeElement.value = this.storePatientID;
+    }
+
+    if (status.length !== 0) {
+      if (this.receivedType !== 'none') {
+        this.receivedType = status;
+      }
+      console.log('[369][]', status)
+      // this.screenstatus.nativeElement.value = this.status;
+      this.selectOption(status);
+    }
+
+    // if (sheet.length !== 0) {
+    //   this.sheet = sheet;
+    //   this.amlallsheet.nativeElement.value = this.sheet;
+    //   this.sheetOption(sheet);
+    // }
+
+    if (storeStartDay.length !== 0) {
+      this.storeStartDay = storeStartDay;
+      this.qstartDay = storeStartDay;
+    }
+
+    if (storeEndDay.length !== 0) {
+      this.storeEndDay = storeEndDay;
+      this.qendDay = storeEndDay;
+    }
+
+    if (research.length !== 0) {
+      this.research.nativeElement.value = research;
+      this.researchOption(research);
+    }
+
+    if (receivedType.length !== 0) {
+      this.receivedType = receivedType;
+    }
+
 
     this.startday = this.storeStartDay;
     this.endday = this.storeEndDay;
@@ -288,9 +405,17 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.lists = [];
     if (whichstate === 'searchscreen') {
-      this.search(this.storeStartDay, this.storeEndDay, this.storeSpecimenID, this.storePatientID, this.status, this.sheet);
+      this.search(storeStartDay.replace(/-/g, ''), storeEndDay.replace(/-/g, ''),
+        storeSpecimenID, storePatientID, status, sheet, research);
+      // this.search(this.storeStartDay, this.storeEndDay, this.storeSpecimenID, this.storePatientID, this.status, this.sheet);
     } else if (whichstate === 'mainscreen') {
-      this.search(this.startToday(), this.endToday(), '', '');
+      if (storeStartDay.length && storeEndDay.length) {
+        this.search(storeStartDay.replace(/-/g, ''), storeEndDay.replace(/-/g, ''),
+          storeSpecimenID, storePatientID, status, sheet, research);
+      } else {
+        this.search(this.startToday(), this.endToday(), '', '');
+      }
+      // this.search(this.startToday(), this.endToday(), '', '');
     }
 
 
@@ -306,13 +431,13 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
     this.status = status;
     this.sheet = sheet;
 
-    this.store.setSearchStartDay(start);
-    this.store.setSearchEndDay(end);
-    this.store.setamlSpecimenID(specimenNo);
-    this.store.setamlPatientID(patientId);
-    this.store.setStatus(status);
-    this.store.setSheet(sheet);
-    this.store.setWhichstate('searchscreen');
+    // this.store.setSearchStartDay(start);
+    // this.store.setSearchEndDay(end);
+    // this.store.setamlSpecimenID(specimenNo);
+    // this.store.setamlPatientID(patientId);
+    // this.store.setStatus(status);
+    // this.store.setSheet(sheet);
+    // this.store.setWhichstate('searchscreen');
     this.lists = [];
     const tempLists: IPatient[] = [];
 
@@ -337,18 +462,18 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
     this.patientsList.sequencingSearch2(startdate, enddate, patientId, specimenNo, status, sheet, research)
       .then(response => response.json())
       .then(data => {
-        // data.forEach(item => console.log('[341][스크린상태]', item.screenstatus));
+        // data.forEach(item => console.log('[465][스크린상태]', item.screenstatus));
         if (this.receivedType !== 'none') {
           data.forEach(list => {
-            if (this.receivedType === 'register' && list.screenstatus === '') {
+            if (this.receivedType === 'register') {
               tempLists.push(list);
-            } else if (parseInt(this.receivedType, 10) === 0 && parseInt(list.screenstatus, 10) === 0) {
+            } else if (parseInt(this.receivedType, 10) === 0) {
               tempLists.push(list);
-            } else if (parseInt(this.receivedType, 10) === 1 && parseInt(list.screenstatus, 10) === 1) {
+            } else if (parseInt(this.receivedType, 10) === 1) {
               tempLists.push(list);
-            } else if (parseInt(this.receivedType, 10) === 2 && parseInt(list.screenstatus, 10) === 2) {
+            } else if (parseInt(this.receivedType, 10) === 2) {
               tempLists.push(list);
-            } else if (parseInt(this.receivedType, 10) === 3 && parseInt(list.screenstatus, 10) === 3) {
+            } else if (parseInt(this.receivedType, 10) === 3) {
               tempLists.push(list);
             }
           });
@@ -359,7 +484,7 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
             this.patientID = '';
             this.specimenNo = '';
           });
-          this.receivedType = 'none';
+          // this.receivedType = 'none';
         } else if (this.receivedType === 'none') {
           this.patientsList.setPatientID(data);
           data.forEach(list => {
@@ -370,42 +495,7 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
           });
         }
 
-        // this.patientsList.setPatientID(data);
-        // data.sort((a, b) => {
-        //   if (a.accept_date > b.accept_date) { return -1; }
-        //   if (a.accept_date === b.accept_date) { return 0; }
-        //   if (a.accept_date < b.accept_date) { return 1; }
-        // });
-        // data.forEach(list => {
-        //   this.lists.push(list);
-        //   this.tempLists.push(list);
-        //   this.patientID = '';
-        //   this.specimenNo = '';
-
-        // });
       });
-
-
-    // this.lists$ = this.patientsList.sequencingSearch(startdate, enddate, patientId, specimenNo, status, sheet);
-    // this.subs.sink = this.lists$
-    //   .pipe(
-    //     switchMap(item => of(item)),
-    //     switchMap(list => from(list)),
-    //     filter(list => this.sequencingLists.includes(list.test_code)),
-    //     // tap(data => console.log(data))
-    //   ).subscribe((data: any) => {
-
-    //     if (data.reportTitle === '') {
-    //       const title = this.titleService.getMltaTitle(data.test_code);
-    //       if (title !== 'None') {
-    //         data.reportTitle = title;
-    //       }
-
-    //     }
-    //     this.lists.push(data);
-    //     this.patientID = '';
-    //     this.specimenNo = '';
-    //   });
 
   }
 
@@ -466,7 +556,14 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   goDashboard(): void {
-    this.receivedType = 'none';
+    this.store.setSpecimentNo('');
+    this.store.setPatientID('');
+    this.store.setStatus('');
+    this.store.setSheet('');
+    this.store.setResearch('');
+    this.store.setSearchStartDay('');
+    this.store.setSearchEndDay('');
+    this.store.setReceivedType('');
     this.router.navigate(['/diag', 'board']);
   }
 

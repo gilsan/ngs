@@ -17,6 +17,11 @@ import { DiagpasswdchangeComponent } from './diagpasswdchange/diagpasswdchange.c
 import { filter, map, tap } from 'rxjs/operators';
 
 import { SubSink } from 'subsink';
+import { StoreGENService } from '../forms/store.current.her';
+import { StoreLYMService } from '../forms/store.current.lym';
+import { StoreMDSService } from '../forms/store.current.mds';
+import { StoreMLPAService } from '../forms/store.current.mlpa';
+import { StoreSEQService } from '../forms/store.current.seq';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -36,13 +41,20 @@ export class HomeComponent implements OnInit, OnDestroy {
   menu3 = false;
   constructor(
     private router: Router,
-    private dstore: StoreService,
     private patientsListService: PatientsListService,
     private store: StorePathService,
     public dialog: MatDialog,
     private service: ManageUsersService,
     private excelService: ExcelAddListService,
     private excel: ExcelService,
+
+
+    private dstore: StoreService,
+    private geneStore: StoreGENService,
+    private lymStore: StoreLYMService,
+    private mdsStore: StoreMDSService,
+    private mlpaStore: StoreMLPAService,
+    private seqStore: StoreSEQService,
 
   ) { }
 
@@ -88,13 +100,14 @@ export class HomeComponent implements OnInit, OnDestroy {
     localStorage.removeItem('userpart');
     localStorage.removeItem('diaguser');
     this.router.navigateByUrl('/login');
-    this.dstore.setamlPatientID('');
-    this.dstore.setamlSpecimenID('');
-    this.dstore.setStatus('');
-    this.dstore.setSheet('');
-    this.dstore.setWhichstate('mainscreen');
-    this.dstore.setSearchStartDay('');
-    this.dstore.setSearchEndDay('');
+
+    // this.dstore.setamlPatientID('');
+    // this.dstore.setamlSpecimenID('');
+    // this.dstore.setStatus('');
+    // this.dstore.setSheet('');
+    // this.dstore.setWhichstate('mainscreen');
+    // this.dstore.setSearchStartDay('');
+    // this.dstore.setSearchEndDay('');
     this.dstore.setScrollyPosition(0);
 
   }
@@ -277,17 +290,77 @@ export class HomeComponent implements OnInit, OnDestroy {
     // event.stopPropagation();
     this.menu1 = false;
     if (type === 'amlall') {
-      this.router.navigate(['/diag', 'amlall']);
+      this.dstore.setWhichstate('mainscreen');
+      this.dstore.setSpecimentNo('');
+      this.dstore.setPatientID('');
+      this.dstore.setStatus('');
+      this.dstore.setSheet('');
+      this.dstore.setResearch('');
+      this.dstore.setSearchStartDay('');
+      this.dstore.setSearchEndDay('');
+      this.dstore.setReceivedType('');
+      this.router.navigate(['/diag', 'amlall', 'none']);
+
     } else if (type === 'lymphoma') {
+      this.lymStore.setWhichstate('mainscreen');
+      this.lymStore.setSpecimentNo('');
+      this.lymStore.setPatientID('');
+      this.lymStore.setStatus('');
+      this.lymStore.setSheet('');
+      this.lymStore.setResearch('');
+      this.lymStore.setSearchStartDay('');
+      this.lymStore.setSearchEndDay('');
+      this.lymStore.setReceivedType('');
       this.router.navigate(['/diag', 'lymphoma']);
+
     } else if (type === 'mdsmpn') {
-      this.router.navigate(['/diag', 'mdsmpn']);
+      this.mdsStore.setWhichstate('mainscreen');
+      this.mdsStore.setSpecimentNo('');
+      this.mdsStore.setPatientID('');
+      this.mdsStore.setStatus('');
+      this.mdsStore.setSheet('');
+      this.mdsStore.setResearch('');
+      this.mdsStore.setSearchStartDay('');
+      this.mdsStore.setSearchEndDay('');
+      this.mdsStore.setReceivedType('');
+      this.router.navigate(['/diag', 'mdsmpn', 'none']);
+
     } else if (type === 'hereditary') {
-      this.router.navigate(['/diag', 'hereditary']);
+      this.geneStore.setWhichstate('mainscreen');
+      this.geneStore.setSpecimentNo('');
+      this.geneStore.setPatientID('');
+      this.geneStore.setStatus('');
+      this.geneStore.setSheet('');
+      this.geneStore.setResearch('');
+      this.geneStore.setSearchStartDay('');
+      this.geneStore.setSearchEndDay('');
+      this.geneStore.setReceivedType('');
+      this.router.navigate(['/diag', 'hereditary', 'none']);
+
     } else if (type === 'sequencing') {
-      this.router.navigate(['/diag', 'sequencing']);
+      this.seqStore.setWhichstate('mainscreen');
+      this.seqStore.setSpecimentNo('');
+      this.seqStore.setPatientID('');
+      this.seqStore.setStatus('');
+      this.seqStore.setSheet('');
+      this.seqStore.setResearch('');
+      this.seqStore.setSearchStartDay('');
+      this.seqStore.setSearchEndDay('');
+      this.seqStore.setReceivedType('');
+      this.router.navigate(['/diag', 'sequencing', 'none']);
+
     } else if (type === 'mlpa') {
-      this.router.navigate(['/diag', 'mlpa']);
+      this.mlpaStore.setWhichstate('mainscreen');
+      this.mlpaStore.setSpecimentNo('');
+      this.mlpaStore.setPatientID('');
+      this.mlpaStore.setStatus('');
+      this.mlpaStore.setSheet('');
+      this.mlpaStore.setResearch('');
+      this.mlpaStore.setSearchStartDay('');
+      this.mlpaStore.setSearchEndDay('');
+      this.mlpaStore.setReceivedType('');
+      this.router.navigate(['/diag', 'mlpa', 'none']);
+
     } else if (type === 'users') {
       this.router.navigate(['/diag', 'manageusers']);
     } else if (type === 'reportmgn') {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { emrUrl } from 'src/app/config';
 import { ILIMS } from '../models/lims.model';
@@ -31,14 +31,15 @@ export class LimsService {
       );
   }
 
-  testSearch(start: string): Observable<ILIMS[]> {
-    return this.http.post<ILIMS[]>(`${this.apiUrl}/lims/limslists`, { start })
+  testSearch(start: string, examin: string, recheck: string): Observable<ILIMS[]> {
+    return this.http.post<ILIMS[]>(`${this.apiUrl}/lims/limslists`, { start, examin, recheck })
       .pipe(
-        // shareReplay()
+        shareReplay()
       );
   }
 
   save(lims: ILIMS[], examin: string, recheck: string): Observable<any> {
+    // return of({ message: 'SUCCESS' });
     return this.http.post(`${this.apiUrl}/lims/save`, { lims, examin, recheck });
   }
 

@@ -2,7 +2,8 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angula
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { fromEvent, Observable, of } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { catchError, debounceTime, distinctUntilChanged, filter, map, shareReplay, take, tap } from 'rxjs/operators';
+import { moveItemInArray, CdkDragDrop } from '@angular/cdk/drag-drop';
+import { catchError, debounceTime, distinct, distinctUntilChanged, filter, map, shareReplay, startWith, take, tap } from 'rxjs/operators';
 import { IDNATYPE, ILIMS, IRNATYPE, IUSER } from '../../models/lims.model';
 import { LimsService } from '../../services/lims.service';
 import { SearchService } from '../../services/search.service';
@@ -72,9 +73,18 @@ export class LimsComponent implements OnInit, AfterViewInit {
   leftScroll = true;
   processing = false;
 
+  // tslint:disable-next-line:no-string-literal
+  // filteredOptions: Observable<string[]> = this.dnaFormLists().valueChanges.pipe(
+  //   startWith(''),
+  //   map((value: string) => this._filter(value)),
+  // );
+
+
   @ViewChild('table', { static: true }) table: ElementRef;
   @ViewChild('fileInput', { static: true }) fileInput: ElementRef;
   @ViewChild('cancertype', { static: true }) cancertype: ElementRef;
+  @ViewChild('reckerid', { static: true }) reckerid: ElementRef;
+  @ViewChild('cancertype', { static: true }) examinerid: ElementRef;
   constructor(
     private limsService: LimsService,
     private searchService: SearchService,
@@ -110,6 +120,12 @@ export class LimsComponent implements OnInit, AfterViewInit {
           this.examinList.push({ name: list.user_nm, id: list.user_id });
         });
       });
+  }
+
+  private _filter(value: string): string[] {
+    console.log('[_filter]', value);
+    const filterValue = value.toLowerCase();
+    return this.LISTS.filter(option => option.toLowerCase().includes(filterValue));
   }
 
 
@@ -229,9 +245,13 @@ export class LimsComponent implements OnInit, AfterViewInit {
           lib_dw: i.lib_dw,
           lib2: i.lib2,
           lib2_dw: i.lib2_dw,
-          pathology_num2: i.pathology_num
+          pathology_num2: i.pathology_num,
         };
-        this.dnaLists.push(val);
+        const idx = this.dnaLists.findIndex(item => item.pathology_num === i.pathology_num);
+        if (idx === -1) {
+          this.dnaLists.push(val);
+        }
+
       } else if (parseInt(i.dna_rna_gbn, 10) === 1) {
         const val = {
           id: i.id,
@@ -271,12 +291,15 @@ export class LimsComponent implements OnInit, AfterViewInit {
           lib2_dw: i.lib2_dw,
           pathology_num2: i.pathology_num
         };
-        this.rnaLists.push(val);
+        const idx = this.rnaLists.findIndex(item => item.pathology_num === i.pathology_num);
+        if (idx === -1) {
+          this.rnaLists.push(val);
+        }
       }
     });
 
-    console.log('[DNA]', this.dnaLists);
-    console.log('[RNA]', this.rnaLists);
+    // console.log('[DNA]', this.dnaLists);
+    // console.log('[RNA]', this.rnaLists);
     this.dnaLists.forEach(list => {
       this.dnaFormLists().push(this.createDNA(list));
     });
@@ -288,6 +311,11 @@ export class LimsComponent implements OnInit, AfterViewInit {
 
   testSearch(start: string, testdate: string): void {
 
+    if (this.examiner.length === 0 || this.rechecker.length === 0) {
+      alert('검사자항목이 없습니다.');
+      return;
+    }
+
     const controlDNA = this.dnaForm.get('dnaFormgroup') as FormArray;
     const controlRNA = this.rnaForm.get('rnaFormgroup') as FormArray;
     controlDNA.clear();
@@ -297,7 +325,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
     // DNA, RNA 구분 dna_rna_gbn 을 구분
 
     this.processing = true;
-    this.dnaObservable$ = this.limsService.testSearch(start);
+    this.dnaObservable$ = this.limsService.testSearch(start, this.examiner, this.rechecker);
     this.dnaObservable$
       .pipe(
         tap(data => console.log(data)),
@@ -351,28 +379,39 @@ export class LimsComponent implements OnInit, AfterViewInit {
       ng_ui: i.ng_ui,
       dan_rna: i.dan_rna,
       dw: i.dw,
-      tot_ct: i.tot_ct,
+      tot_ct: 22.0,
       ct: i.ct,
       quantity: i.quantity,
       quantity_2: i.quantity_2,
       quan_dna: i.quan_dna,
       te: i.te,
-      quan_tot_vol: i.quan_tot_vol,
+      quan_tot_vol: 5.5,
       lib_hifi: i.lib_hifi,
       pm: i.pm,
       x100: i.x100,
-      lib: i.lib,
+      lib: 1,
       lib_dw: i.lib_dw,
-      lib2: i.lib2,
+      lib2: 3,
       lib2_dw: i.lib2_dw,
       dna_rna_gbn: '0',
       report_date: i.report_date,
-      pathology_num2: i.pathology_num
+      pathology_num2: i.pathology_num,
+      checkbox: [true]
     });
   }
 
   removeDNA(i: number): void {
+    const testCode = this.dnaFormLists().at(i).get('pathology_num').value;
     this.dnaFormLists().removeAt(i);
+    this.reArrange(testCode, this.rnaFormLists());
+  }
+
+  reArrange(testCode: string, control: FormArray): void {
+    const rnaLists = control.getRawValue();
+    const idx = rnaLists.findIndex(item => item.pathology_num === testCode);
+    if (idx !== -1) {
+      control.removeAt(idx);
+    }
   }
 
   dnaFormLists(): FormArray {
@@ -401,7 +440,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
       ng_ui: i.ng_ui,
       dan_rna: i.dan_rna,
       dw: i.dw,
-      tot_ct: i.tot_ct,
+      tot_ct: 22.0,
       ct: i.ct,
       quantity: i.quantity,
       quantity_2: i.quantity_2,
@@ -411,18 +450,21 @@ export class LimsComponent implements OnInit, AfterViewInit {
       lib_hifi: i.lib_hifi,
       pm: i.pm,
       x100: i.x100,
-      lib: i.lib,
+      lib: 1,
       lib_dw: i.lib_dw,
-      lib2: i.lib2,
+      lib2: 3,
       lib2_dw: i.lib2_dw,
       dna_rna_gbn: '1',
       report_date: i.report_date,
-      pathology_num2: i.pathology_num
+      pathology_num2: i.pathology_num,
+      checkbox: [true]
     });
   }
 
   removeRNA(i: number): void {
+    const testCode = this.rnaFormLists().at(i).get('pathology_num').value;
     this.rnaFormLists().removeAt(i);
+    this.reArrange(testCode, this.dnaFormLists());
   }
 
 
@@ -563,13 +605,8 @@ export class LimsComponent implements OnInit, AfterViewInit {
 
       if (idx !== -1) {
         const { pathology_num, nano_280, nano_230, ng_ui } = lists[idx];
-
-        // const danRna = (20 / parseFloat(ng_ui)) * 5;
-        // const dwVal = 20 - danRna;
-        console.log('[582]', idx, pathology_num, nano_280, nano_230, ng_ui);
         control.at(index).patchValue({
           nano_ng: ng_ui, nano_280, nano_230
-          // nano_ng: ng_ui, nano_280, nano_230, dan_rna: danRna.toFixed(2), dw: dwVal.toFixed(2)
         });
       }
     });
@@ -792,14 +829,20 @@ export class LimsComponent implements OnInit, AfterViewInit {
   }
 
   save(testdate: string): void {
+
     const testeddate = testdate.replace(/-/g, '');
     const dnacontrol = this.dnaForm.get('dnaFormgroup') as FormArray;
     const dnaFormData = dnacontrol.getRawValue();
+    const tempdnaFormData = dnaFormData.filter(item => item.checkbox === true);
+    const dnaCount = tempdnaFormData.length;
     dnaFormData.map(item => item.report_date = testeddate);
     const rnacontrol = this.rnaForm.get('rnaFormgroup') as FormArray;
     const rnaFormData = rnacontrol.getRawValue();
+    const temprnaFormData = rnaFormData.filter(item => item.checkbox === true);
+    const rnaCount = temprnaFormData.length;
     rnaFormData.map(item => item.report_date = testeddate);
-    const allData: ILIMS[] = [...dnaFormData, ...rnaFormData];
+    const allData: ILIMS[] = [...tempdnaFormData, ...temprnaFormData];
+
 
     if (this.examiner.length === 0 || this.rechecker.length === 0) {
       alert('검사자항목이 없습니다.');
@@ -811,10 +854,11 @@ export class LimsComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    console.log('[833][]', allData, this.examiner, this.rechecker, testeddate);
+    console.log('[849][]', allData, this.examiner, this.rechecker, testeddate);
     this.limsService.save(allData, this.examiner, this.rechecker)
       .subscribe((data) => {
-        this.snackBar.open('저장 하였습니다.', '닫기', { duration: 3000 });
+        const msg = `DNA: ${dnaCount}건, RNA: ${rnaCount}건 저장 하였습니다.`;
+        this.snackBar.open(msg, '닫기', { duration: 5000 });
       });
   }
 
@@ -828,15 +872,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
       });
   }
 
-  tumorcellperUpdate(testcode: string, percent: string): void {
-    console.log('[851][tumorcellperUpdate]', testcode, percent);
-    this.limsService.updateTumorcellper(testcode, percent)
-      .subscribe(data => {
-        if (data.message === 'SUCCESS') {
-          this.snackBar.open('변경 하였습니다.', '닫기', { duration: 2000 });
-        }
-      });
-  }
+
 
 
   printexcel(): void {
@@ -984,6 +1020,317 @@ export class LimsComponent implements OnInit, AfterViewInit {
       return { 'header-fix': true, 'td-fix': false };
     }
     return { 'header-fix': false, 'td-fix': true };
+  }
+  ////////////////////////////////
+  dnaDroped(event: CdkDragDrop<string[]>): void {
+    const from1 = event.previousIndex;
+    const to = event.currentIndex;
+
+    const dnaControl = this.dnaForm.get('dnaFormgroup') as FormArray;
+    this.moveItemInCommentArray(dnaControl, from1, to);
+
+    const rnaControl = this.rnaForm.get('rnaFormgroup') as FormArray;
+    this.moveItemInCommentArray(rnaControl, from1, to);
+  }
+
+  rnaDroped(event: CdkDragDrop<string[]>): void {
+    const from1 = event.previousIndex;
+    const to = event.currentIndex;
+
+    const rnaControl = this.rnaForm.get('rnaFormgroup') as FormArray;
+    this.moveItemInCommentArray(rnaControl, from1, to);
+
+    const dnaControl = this.dnaForm.get('dnaFormgroup') as FormArray;
+    this.moveItemInCommentArray(dnaControl, from1, to);
+  }
+
+
+  moveItemInCommentArray(formArray: FormArray, fromIndex: number, toIndex: number): void {
+    const from2 = this.clamp(fromIndex, formArray.length - 1);
+    const to2 = this.clamp(toIndex, formArray.length - 1);
+
+    if (from2 === to2) {
+      return;
+    }
+
+    if (from2 < to2) {
+      const diff = to2 - from2;
+      if (diff === 1) {
+        return;
+      }
+    }
+
+    const len = formArray.length;
+    const totalFormGroup = [];
+    const newFormGroup = [];
+    const previous = formArray.at(from2);
+    const current = formArray.at(to2);
+
+    for (let i = 0; i < len; i++) {
+      totalFormGroup.push(formArray.at(i));
+    }
+
+    totalFormGroup.forEach((form, index) => {
+      if (from2 > to2) {
+        if (index === to2) {
+          newFormGroup.push(previous);
+          newFormGroup.push(current);
+        } else if (index !== from2 && index !== to2) {
+          newFormGroup.push(form);
+        }
+      } else if (from2 < to2 && (to2 - from2) > 1) {
+
+        if (index === to2) {
+          newFormGroup.push(previous);
+          newFormGroup.push(form);
+        } else if (index !== from2 && index !== to2) {
+          newFormGroup.push(form);
+        }
+      }
+    });
+
+    for (let i = 0; i < len; i++) {
+      formArray.setControl(i, newFormGroup[i]);
+    }
+  }
+
+  /** Clamps a number between zero and a maximum. */
+  clamp(value: number, max: number): number {
+    return Math.max(0, Math.min(max, value));
+  }
+  //////////////////////////////////////////////////////////////////////////
+  pathTypeSync(testcode: string, pathtype: string, type: string): void {
+    const controlDNA = this.dnaForm.get('dnaFormgroup') as FormArray;
+    const controlRNA = this.rnaForm.get('rnaFormgroup') as FormArray;
+    const dnaLists = controlDNA.getRawValue();
+    const rnaLists = controlRNA.getRawValue();
+    console.log('[1101][]', testcode, pathtype);
+    if (type === 'DNA') {
+      const index = rnaLists.findIndex(item => item.pathology_num === testcode);
+      if (index !== -1) {
+        console.log('[1101][]', testcode, index, pathtype);
+        controlRNA.at(index).patchValue({ path_type: pathtype });
+      }
+    } else if (type === 'RNA') {
+      const index = dnaLists.findIndex(item => item.pathology_num === testcode);
+      if (index !== -1) {
+        controlDNA.at(index).patchValue({ path_type: pathtype });
+      }
+    }
+  }
+
+  blockCntSync(testcode: string, blockcnt: string, type: string): void {
+    const controlDNA = this.dnaForm.get('dnaFormgroup') as FormArray;
+    const controlRNA = this.rnaForm.get('rnaFormgroup') as FormArray;
+    const dnaLists = controlDNA.getRawValue();
+    const rnaLists = controlRNA.getRawValue();
+
+    if (type === 'DNA') {
+      const index = rnaLists.findIndex(item => item.pathology_num === testcode);
+      if (index !== -1) {
+        controlRNA.at(index).patchValue({ block_cnt: blockcnt });
+      }
+    } else if (type === 'RNA') {
+      const index = dnaLists.findIndex(item => item.pathology_num === testcode);
+      if (index !== -1) {
+        controlDNA.at(index).patchValue({ block_cnt: blockcnt });
+      }
+    }
+  }
+
+  keyBlockSync(testcode: string, keyblock: string, type: string): void {
+    const controlDNA = this.dnaForm.get('dnaFormgroup') as FormArray;
+    const controlRNA = this.rnaForm.get('rnaFormgroup') as FormArray;
+    const dnaLists = controlDNA.getRawValue();
+    const rnaLists = controlRNA.getRawValue();
+
+    if (type === 'DNA') {
+      const index = rnaLists.findIndex(item => item.pathology_num === testcode);
+      if (index !== -1) {
+        controlRNA.at(index).patchValue({ key_block: keyblock });
+      }
+    } else if (type === 'RNA') {
+      const index = dnaLists.findIndex(item => item.pathology_num === testcode);
+      if (index !== -1) {
+        controlDNA.at(index).patchValue({ key_block: keyblock });
+      }
+    }
+  }
+
+  prescriptionCodeSync(testcode: string, prescriptioncode: string, type: string): void {
+    const controlDNA = this.dnaForm.get('dnaFormgroup') as FormArray;
+    const controlRNA = this.rnaForm.get('rnaFormgroup') as FormArray;
+    const dnaLists = controlDNA.getRawValue();
+    const rnaLists = controlRNA.getRawValue();
+
+    if (type === 'DNA') {
+      const index = rnaLists.findIndex(item => item.pathology_num === testcode);
+      if (index !== -1) {
+        controlRNA.at(index).patchValue({ prescription_code: prescriptioncode });
+      }
+    } else if (type === 'RNA') {
+      const index = dnaLists.findIndex(item => item.pathology_num === testcode);
+      if (index !== -1) {
+        controlDNA.at(index).patchValue({ prescription_code: prescriptioncode });
+      }
+    }
+  }
+
+  testCodeSync(testcode: string, testCode: string, type: string): void {
+    const controlDNA = this.dnaForm.get('dnaFormgroup') as FormArray;
+    const controlRNA = this.rnaForm.get('rnaFormgroup') as FormArray;
+    const dnaLists = controlDNA.getRawValue();
+    const rnaLists = controlRNA.getRawValue();
+
+    if (type === 'DNA') {
+      const index = rnaLists.findIndex(item => item.pathology_num === testcode);
+      if (index !== -1) {
+        controlRNA.at(index).patchValue({ test_code: testCode });
+      }
+    } else if (type === 'RNA') {
+      const index = dnaLists.findIndex(item => item.pathology_num === testcode);
+      if (index !== -1) {
+        controlDNA.at(index).patchValue({ test_code: testCode });
+      }
+    }
+  }
+
+
+  tumorcellperSync(testcode: string, percent: string, type: string): void {
+    console.log('[1095][tumorcellperUpdate]', testcode, percent);
+    const controlDNA = this.dnaForm.get('dnaFormgroup') as FormArray;
+    const controlRNA = this.rnaForm.get('rnaFormgroup') as FormArray;
+    const dnaLists = controlDNA.getRawValue();
+    const rnaLists = controlRNA.getRawValue();
+    let newpercent = '';
+    const idx = percent.indexOf('%');
+    if (idx !== -1) {
+      newpercent = percent.replace(/\%/g, '');
+    }
+    newpercent = percent;
+
+    if (type === 'DNA') {
+      const index = rnaLists.findIndex(item => item.pathology_num === testcode);
+      if (index !== -1) {
+        controlRNA.at(index).patchValue({ tumorburden: newpercent });
+      }
+    } else if (type === 'RNA') {
+      const index = dnaLists.findIndex(item => item.pathology_num === testcode);
+      if (index !== -1) {
+        controlDNA.at(index).patchValue({ tumorburden: newpercent });
+      }
+    }
+
+    // this.limsService.updateTumorcellper(testcode, newpercent)
+    //   .subscribe(data => {
+    //     if (data.message === 'SUCCESS') {
+    //       // this.snackBar.open('변경 하였습니다.', '닫기', { duration: 2000 });
+    //     }
+    //   });
+  }
+
+
+  tumorColor(i: number, type: string): boolean {
+    let tumorvalue = '';
+    if (type === 'DNA') {
+      const tempVal = this.dnaFormLists().at(i).value;
+      const idx = tempVal.tumorburden.indexOf('%');
+
+      if (idx !== -1) {
+        tumorvalue = tempVal.tumorburden.replace(/\%/g, '');
+      }
+      tumorvalue = tempVal.tumorburden;
+    } else if (type === 'RNA') {
+      const tempVal = this.rnaFormLists().at(i).value;
+      const idx = tempVal.tumorburden.indexOf('%');
+      if (idx !== -1) {
+        tumorvalue = tempVal.tumorburden.replace(/\%/g, '');
+      }
+      tumorvalue = tempVal.tumorburden;
+    }
+    return parseInt(tumorvalue, 10) < 50 ? true : false;
+  }
+
+  pmColor(i: number, type: string): boolean {
+    let pmvalue = '';
+    if (type === 'DNA') {
+      const tempVal = this.dnaFormLists().at(i).value;
+      pmvalue = tempVal.pm;
+    } else if (type === 'RNA') {
+      const tempVal = this.rnaFormLists().at(i).value;
+      pmvalue = tempVal.pm;
+    }
+    return parseInt(pmvalue, 10) < 10 ? true : false;
+  }
+
+  dwTeColor(i: number, type: string, dwte: string): boolean {
+    let dwteval = '';
+    if (type === 'DNA') {
+      const tempVal = this.dnaFormLists().at(i).value;
+      if (dwte === 'DW') {
+        dwteval = tempVal.dw;
+      } else if (dwte === 'TE') {
+        dwteval = tempVal.te;
+      }
+    } else if (type === 'RNA') {
+      const tempVal = this.rnaFormLists().at(i).value;
+      if (dwte === 'DW') {
+        dwteval = tempVal.dw;
+      } else if (dwte === 'TE') {
+        dwteval = tempVal.te;
+      }
+    }
+    return parseInt(dwteval, 10) < 0 ? true : false;
+  }
+
+
+
+  dnaDw(i: number, type: string, dnadw: string, val: number): void {
+    const controlDNA = this.dnaForm.get('dnaFormgroup') as FormArray;
+    const controlRNA = this.rnaForm.get('rnaFormgroup') as FormArray;
+    const totalVal = 20.0;
+
+    if (type === 'DNA') {
+      if (dnadw.toLowerCase() === 'dna') {
+        const dnadwval = totalVal - val;
+        controlDNA.at(i).patchValue({ dw: dnadwval });
+      } else if (dnadw.toLowerCase() === 'dw') {
+        const dnadwval = totalVal - val;
+        controlDNA.at(i).patchValue({ dan_rna: dnadwval });
+      }
+    } else if (type === 'RNA') {
+      if (dnadw.toLowerCase() === 'dna') {
+        const dnadwval = totalVal - val;
+        controlRNA.at(i).patchValue({ dw: dnadwval });
+      } else if (dnadw.toLowerCase() === 'dw') {
+        const dnadwval = totalVal - val;
+        controlRNA.at(i).patchValue({ dan_rna: dnadwval });
+      }
+    }
+  }
+
+  dnaTe(i: number, type: string, dnate: string, val: number): void {
+    const controlDNA = this.dnaForm.get('dnaFormgroup') as FormArray;
+    const controlRNA = this.rnaForm.get('rnaFormgroup') as FormArray;
+    const totalVal = 5.5;
+
+    if (type === 'DNA') {
+      if (dnate.toLowerCase() === 'dna') {
+        const dnateval = totalVal - val;
+        controlDNA.at(i).patchValue({ te: dnateval });
+      } else if (dnate.toLowerCase() === 'te') {
+        const dnateval = totalVal - val;
+        controlDNA.at(i).patchValue({ quan_dna: dnateval });
+      }
+    } else if (type === 'RNA') {
+      if (dnate.toLowerCase() === 'dna') {
+        const dnateval = totalVal - val;
+        controlRNA.at(i).patchValue({ te: dnateval });
+      } else if (dnate.toLowerCase() === 'te') {
+        const dnateval = totalVal - val;
+        controlRNA.at(i).patchValue({ quan_dna: dnateval });
+      }
+    }
   }
 
 }

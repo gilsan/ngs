@@ -10,6 +10,8 @@ export class StoreLYMService {
   amlEndDay = '';
   amlPatientID = '';
   amlSpecimenID = '';
+  research = '';
+  receivedType = '';
 
   detactedVariants: IAFormVariant[];
   specimenMsg: string;
@@ -41,7 +43,6 @@ export class StoreLYMService {
   // 시작날자, 종료날자, 검체번호, 환자번호
   public setSearchStartDay(day: string): void {
     this.amlStartDay = day;
-    //  console.log('[store][setSearchStartDay]', this.amlStartDay);
   }
 
   public getSearchStartDay(): string {
@@ -73,6 +74,57 @@ export class StoreLYMService {
   public getamlSpecimenID(): string {
     return this.amlSpecimenID;
   }
+  setReceivedType(receivedType: string): void {
+    // console.log('[116][store][receivedType]', receivedType);
+    this.receivedType = receivedType;
+  }
+
+  getReceivedType(): string {
+    return this.receivedType;
+  }
+
+
+
+  // 검체번호 저장
+  public setSpecimentNo(specimenNo: string): void {
+    this.specimenNo = specimenNo;
+  }
+
+  public getSpecimenNo(): string {
+    return this.specimenNo;
+  }
+
+  // status 상태관리  시작, 스크린판독, 판독완료, EMR전송
+  setStatus(status: string): void {
+    this.status = status;
+  }
+
+  getStatus(): string {
+    return this.status;
+  }
+
+  // 결과지 AML ALL LYN MDS 관리
+  setSheet(sheet: string): void {
+    this.sheet = sheet;
+  }
+
+  getSheet(): string {
+    return this.sheet;
+  }
+
+  getResearch(): string {
+    // console.log('[STORE][Research]', this.research);
+    return this.research;
+  }
+
+  setResearch(research: string): void {
+    this.research = research;
+  }
+
+
+
+
+
   // 검사자 정보
   public setPatientInfo(patientInfo: IPatient): void {
     this.patientInfo = patientInfo;
@@ -127,14 +179,7 @@ export class StoreLYMService {
     return this.vusstatus;
   }
 
-  // 검체번호 저장
-  public setSpecimentNo(specimenNo: string): void {
-    this.specimenNo = specimenNo;
-  }
 
-  public getSpecimenNo(): string {
-    return this.specimenNo;
-  }
 
   // 환자 id 저장
   public setPatientID(patientid: string): void {
@@ -200,23 +245,7 @@ export class StoreLYMService {
     return this.screenstatue;
   }
 
-  // status 상태관리  시작, 스크린판독, 판독완료, EMR전송
-  setStatus(status: string): void {
-    this.status = status;
-  }
 
-  getStatus(): string {
-    return this.status;
-  }
-
-  // 결과지 AML ALL LYN MDS 관리
-  setSheet(sheet: string): void {
-    this.sheet = sheet;
-  }
-
-  getSheet(): string {
-    return this.sheet;
-  }
 
   // 조회상태에서 검색인지, 주화면에서 선택했는지 확인
   setWhichstate(state: string): void {

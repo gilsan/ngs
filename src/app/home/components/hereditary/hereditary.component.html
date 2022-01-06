@@ -17,13 +17,13 @@
         <input name="" type="text" placeholder="환자ID" #herPatient class="input_01"
         (keyup.enter)="search(herStart.value, herEnd.value, herTestedID.value, herPatient.value, herStatus.value, herSheet.value, herResearch.value)"/>&nbsp;&nbsp;
         <select class="select_01 select_001"  #herStatus  (change)="selectOption(herStatus.value)">
-          <option value="100">전체</option>
+          <option value="100" [selected]= "hselect100">전체</option>
           <option value="10" [selected]= "hselect10">접수</option>
           <option value="0" [selected]= "hselect0">시작</option>
           <option value="1" [selected]= "hselect1">스크린판독</option>
           <option value="2" [selected]= "hselect2">판독완료</option>
           <option value="3" [selected]= "hselect3">EMR전송</option>
-          <option value="5" >접수취소</option>
+          <option value="5"  [selected]= "hselect5">접수취소</option>
         </select>&nbsp;&nbsp;
         <select class="select_01 select_001" #herSheet>
           <option value="genetic">전체</option>
@@ -31,15 +31,15 @@
         </select>&nbsp;&nbsp;
 
         <select class="select_01 select_001" #herResearch >
-          <option value="TOTAL">전체</option>
-          <option value="diag">환자용</option>
-          <option value="RESEARCH">연구용</option>
+          <option value="TOTAL" [selected]= "hresearchTOTAL">전체</option>
+          <option value="diag" [selected]= "hresearchDiag">환자용</option>
+          <option value="RESEARCH" [selected]= "hresearchResearch">연구용</option>
         </select>&nbsp;&nbsp;&nbsp;
 
-        <input type="date" [value]="startToday()" (change)="getDate(herStart.value)" #herStart class="input_01"
+        <input type="date" [value]="hstartDay" (change)="setStartDate(herStart.value)" #herStart class="input_01"
           style="width:150px;" />
         ~
-        <input type="date" class="input_01" (change)="getDate(herEnd.value)" #herEnd [value]="endToday()"
+        <input type="date" class="input_01" (change)="setEndDate(herEnd.value)" #herEnd [value]="hendDay"
           style="width:150px;">
         <button type="button" class="btn btn_02" style="margin-left: 10px;"
           (click)="search(herStart.value, herEnd.value, herTestedID.value, herPatient.value, herStatus.value, herSheet.value, herResearch.value)">조 회</button>

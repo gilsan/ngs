@@ -10,6 +10,9 @@ export class StoreSEQService {
   amlEndDay = '';
   amlPatientID = '';
   amlSpecimenID = '';
+  research = '';
+  receivedType = '';
+
 
   detactedVariants: IAFormVariant[];
   specimenMsg: string;
@@ -74,6 +77,28 @@ export class StoreSEQService {
   public getamlSpecimenID(): string {
     return this.amlSpecimenID;
   }
+
+  getResearch(): string {
+    // console.log('[STORE][Research]', this.research);
+    return this.research;
+  }
+
+  setResearch(research: string): void {
+    this.research = research;
+  }
+
+  setReceivedType(receivedType: string): void {
+    // console.log('[116][store][receivedType]', receivedType);
+    this.receivedType = receivedType;
+  }
+
+  getReceivedType(): string {
+    return this.receivedType;
+  }
+
+
+
+
   // 검사자 정보
   public setPatientInfo(patientInfo: IPatient): void {
     this.patientInfo = patientInfo;
