@@ -270,10 +270,31 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   goDirect(i): void {
+    const testedID = this.testedID.nativeElement.value;
+    const patient = this.patient.nativeElement.value;
+    const status = this.screenstatus.nativeElement.value;
+    const sheet = this.amlallsheet.nativeElement.value;
+    const research = this.research.nativeElement.value;
+    const start = this.start.nativeElement.value;
+    const end = this.end.nativeElement.value;
+    if (this.receivedType !== 'none') {
+      this.receivedType = status;
+    }
+    this.store.setamlSpecimenID(testedID);
+    this.store.setamlPatientID(patient);
+    this.store.setStatus(status);
+    this.store.setSheet(sheet);
+    this.store.setResearch(research);
+    this.store.setSearchStartDay(start);
+    this.store.setSearchEndDay(end);
+    this.store.setReceivedType(this.receivedType);
+
+    ////////////////////////////////////////////////////////////////
+
     const specimenno = this.store.getSpecimenNo();
     this.patientsList.setTestedID(this.lists[i].specimenNo); // 검체번호
     this.patientsList.setTestcode(this.lists[i].test_code);  // 검사지 타입 AML ALL
-    this.router.navigate(['/diag', 'hereditary', 'form6', 'direct']);
+    this.router.navigate(['/diag', 'hereditary', 'form6', 'direct', this.receivedType]);
   }
 
   goReporterClass(idx: number): any {
