@@ -266,7 +266,7 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.patientsList.setTestcode(this.lists[i].test_code);  // 검사지 타입 AML ALL
 
 
-    this.router.navigate(['/diag', 'hereditary', 'form6', this.lists[i].test_code]);
+    this.router.navigate(['/diag', 'hereditary', 'form6', this.lists[i].test_code, this.receivedType]);
   }
 
   goDirect(i): void {

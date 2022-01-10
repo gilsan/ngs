@@ -149,8 +149,8 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
   sendEMR = 0; // EMR 보낸 수
   firstReportDay = '-'; // 검사보고일
   lastReportDay = '-';  // 수정보고일
-  reportType: string; //
-
+  reportType = ''; //
+  reportID = '';
   genelists: IGeneList[] = [];
   typeColor = [];
   deleteRowNumber: number;
@@ -260,13 +260,17 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
 
 
   findType(): void {
-    this.route.paramMap.pipe(
-      filter(data => data !== null || data !== undefined),
-      map(route => route.get('type'))
-    ).subscribe(data => {
-      // console.log('[260][findType]', data);
+    // this.route.paramMap.pipe(
+    //   filter(data => data !== null || data !== undefined),
+    //   map(route => route.get('type'))
+    // ).subscribe(data => {
+    //   this.reportType = 'MDS';
+    //   this.getGeneList('MDS'); // 진검 유전자 목록 가져옴.
+    // });
+    this.route.params.subscribe(params => {
       this.reportType = 'MDS';
-      this.getGeneList('MDS'); // 진검 유전자 목록 가져옴.
+      this.reportID = params.id;
+      this.getGeneList('MDS');
     });
   }
 
@@ -1812,7 +1816,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
 
   //////////////////////////////////////////////////////////
   goBack(): void {
-    this.router.navigate(['/diag', 'mdsmpn']);
+    this.router.navigate(['/diag', 'mdsmpn', this.reportID]);
   }
   ////////////////////////////////////////////////////////////
   ///

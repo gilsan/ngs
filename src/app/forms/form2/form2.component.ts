@@ -138,8 +138,8 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
   sendEMR = 0; // EMR 보낸 수
   firstReportDay = '-'; // 검사보고일
   lastReportDay = '-';  // 수정보고일
-  reportType: string; // AML ALL
-
+  reportType = ''; // AML ALL
+  reportID = '';
   genelists: IGeneList[] = [];
   deleteRowNumber: number;
   // variant detect 선택값 저장소
@@ -254,13 +254,18 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
   }
 
   findType(): void {
-    this.route.paramMap.pipe(
-      filter(data => data !== null || data !== undefined),
-      map(route => route.get('type'))
-    ).subscribe(data => {
-      // console.log('[250][findType]', data);
-      this.reportType = data;
-      this.getGeneList(this.reportType); // 진검 유전자 목록 가져옴.
+    // this.route.paramMap.pipe(
+    //   filter(data => data !== null || data !== undefined),
+    //   map(route => route.get('type'))
+    // ).subscribe(data => {
+    //   this.reportType = data;
+    //   this.getGeneList(this.reportType); // 진검 유전자 목록 가져옴.
+    // });
+    this.route.params.subscribe(params => {
+      // console.log('[265][params]', params);
+      this.reportType = params.type;
+      this.reportID = params.id;
+      this.getGeneList(this.reportType);
     });
   }
 
@@ -2061,7 +2066,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
 
   //////////////////////////////////////////////////////////
   goBack(): void {
-    this.router.navigate(['/diag', 'amlall']);
+    this.router.navigate(['/diag', 'amlall', this.reportID]);
   }
 
 

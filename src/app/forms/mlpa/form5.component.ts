@@ -99,7 +99,8 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
   recheck = ''; // 확인자
   firstReportDay = '-'; // 검사보고일
   lastReportDay = '-';  // 수정보고일
-  reportType: string; //
+  reportType = ''; //
+  reportID = '';
   sendEMR = 0; // EMR 보낸 수
   isResearch = false;
   isVisible = false;
@@ -120,6 +121,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
     private defaultService: CodeDefaultValue,
     private researchService: ResearchService,
     private snackBar: MatSnackBar,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
@@ -131,6 +133,10 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit(): void { }
 
   initLoad(): void {
+    this.route.params.subscribe(params => {
+      this.reportID = params.id;
+    });
+
     this.form2TestedId = this.patientsListService.getTestedID();
 
     // 검사자 정보 가져오기
@@ -571,7 +577,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
 
   //////////////////////////////////////////////////////////
   goBack(): void {
-    this.router.navigate(['/diag', 'mlpa']);
+    this.router.navigate(['/diag', 'mlpa', this.reportID]);
   }
 
   ///////////////////////////////////////////////////////////

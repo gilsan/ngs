@@ -147,8 +147,8 @@ export class Form3Component implements OnInit, OnDestroy {
   sendEMR = 0; // EMR 보낸 수
   firstReportDay = '-'; // 검사보고일
   lastReportDay = '-';  // 수정보고일
-  reportType: string; //
-
+  reportType = ''; //
+  reportID = '';
   genelists: IGeneList[] = [];
   typeColor = [];
   deleteRowNumber: number;
@@ -254,13 +254,18 @@ export class Form3Component implements OnInit, OnDestroy {
 
 
   findType(): void {
-    this.route.paramMap.pipe(
-      filter(data => data !== null || data !== undefined),
-      map(route => route.get('type'))
-    ).subscribe(data => {
+    // this.route.paramMap.pipe(
+    //   filter(data => data !== null || data !== undefined),
+    //   map(route => route.get('type'))
+    // ).subscribe(data => {
 
+    //   this.reportType = 'LYM';
+    //   this.getGeneList('LYM'); // 진검 유전자 목록 가져옴.
+    // });
+    this.route.params.subscribe(params => {
       this.reportType = 'LYM';
-      this.getGeneList('LYM'); // 진검 유전자 목록 가져옴.
+      this.reportID = params.id;
+      this.getGeneList('LYM');
     });
   }
 
@@ -1801,7 +1806,7 @@ export class Form3Component implements OnInit, OnDestroy {
 
   //////////////////////////////////////////////////////////
   goBack(): void {
-    this.router.navigate(['/diag', 'lymphoma']);
+    this.router.navigate(['/diag', 'lymphoma', this.reportID]);
   }
 
   /////////////////////////////////////////////////////////////

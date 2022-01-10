@@ -298,7 +298,7 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.patientsList.setTestedID(this.lists[i].specimenNo); // 검체번호
     this.patientsList.setTestcode(this.lists[i].test_code);  // 검사지 타입 AML ALL
     // this.router.navigate(['/diag', 'jingum', this.lists[i].test_code]);
-    this.router.navigate(['/diag', 'amlall', 'form2', this.lists[i].codetest]);
+    this.router.navigate(['/diag', 'amlall', 'form2', this.lists[i].codetest, this.receivedType]);
   }
 
   goReporterClass(idx: number): any {

@@ -280,7 +280,7 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
     this.patientsList.setTestedID(this.lists[i].specimenNo); // 검체번호
     this.patientsList.setTestcode(this.lists[i].test_code);  // 검사지 타입 AML ALL
     // this.router.navigate(['/diag', 'jingum', this.lists[i].test_code]);
-    this.router.navigate(['/diag', 'sequencing', 'form7', this.lists[i].test_code]);
+    this.router.navigate(['/diag', 'sequencing', 'form7', this.lists[i].test_code, this.receivedType]);
   }
 
 

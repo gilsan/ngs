@@ -145,8 +145,8 @@ export class Form6Component implements OnInit, OnDestroy {
   sendEMR = 0; // EMR 보낸 수
   firstReportDay = '-'; // 검사보고일
   lastReportDay = '-';  // 수정보고일
-  reportType: string; //
-
+  reportType = ''; //
+  reportID = '';
   genelists: IGeneList[] = [];
 
   deleteRowNumber: number;
@@ -274,15 +274,23 @@ export class Form6Component implements OnInit, OnDestroy {
   }
 
   findType(): void {
-    this.route.paramMap.pipe(
-      filter(data => data !== null || data !== undefined),
-      map(route => route.get('type'))
-    ).subscribe(data => {
-      console.log(data);
-      if (data === 'direct') {
+    // this.route.paramMap.pipe(
+    //   filter(data => data !== null || data !== undefined),
+    //   map(route => route.get('type'))
+    // ).subscribe(data => {
+    //   console.log(data);
+    //   if (data === 'direct') {
+    //     this.isDirect = true;
+    //   }
+    //   this.reportType = 'Genetic';
+    // });
+    this.route.params.subscribe(params => {
+      if (params.type === 'direct') {
         this.isDirect = true;
       }
       this.reportType = 'Genetic';
+      this.reportID = params.id;
+
     });
   }
 
@@ -1644,7 +1652,7 @@ export class Form6Component implements OnInit, OnDestroy {
 
   //////////////////////////////////////////////////////////
   goBack(): void {
-    this.router.navigate(['/diag', 'hereditary']);
+    this.router.navigate(['/diag', 'hereditary', this.reportID]);
   }
 
   showDialog(): void {

@@ -5,7 +5,7 @@ import { DetectedVariantsService } from 'src/app/home/services/detectedVariants'
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { IPatient, ISequence } from 'src/app/home/models/patients';
 import { SubSink } from 'subsink';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { concatMap, map, shareReplay } from 'rxjs/operators';
 import { FindNgsTitleService } from '../commons/findngstitle.service';
 import { sequencingForm } from 'src/app/home/models/sequencing.model';
@@ -68,7 +68,8 @@ export class Form7Component implements OnInit, OnDestroy {
   requestDate: string; // 검사의뢰일
   firstReportDay = '-'; // 검사보고일
   lastReportDay = '-';  // 수정보고일
-  reportType: string; //
+  reportType = ''; //
+  reportID = '';
 
   resultStatus = 'Not Detected';
   vusmsg = '';
@@ -108,7 +109,8 @@ export class Form7Component implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private defaultService: CodeDefaultValue,
     private snackBar: MatSnackBar,
-    private researchService: ResearchService
+    private researchService: ResearchService,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
@@ -131,6 +133,10 @@ export class Form7Component implements OnInit, OnDestroy {
 
 
   initLoad(): void {
+    this.route.params.subscribe(params => {
+      this.reportID = params.id;
+    });
+
     // 검진부서원 리스트 스토어에서 가져옴.
     this.form2TestedId = this.patientsListService.getTestedID();
     // 검사자 정보 가져오기
@@ -519,7 +525,7 @@ export class Form7Component implements OnInit, OnDestroy {
 
   //////////////////////////////////////////////////////////
   goBack(): void {
-    this.router.navigate(['/diag', 'sequencing']);
+    this.router.navigate(['/diag', 'sequencing', this.reportID]);
   }
 
   resultName(result: string): void {

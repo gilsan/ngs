@@ -18,17 +18,17 @@ const routes: Routes = [
   {
     path: '', component: FormsComponent, children: [
       { path: 'form2', component: Form2Component },
-      { path: 'form2/:type', component: Form2Component },
+      { path: 'form2/:type/:id', component: Form2Component },
       { path: 'form3', component: Form3Component },
-      { path: 'form3/:type', component: Form3Component }, // Lymphoma NGS
+      { path: 'form3/:type/:id', component: Form3Component }, // Lymphoma NGS
       { path: 'form4', component: Form4Component },       // MDS/MPN NGS
-      { path: 'form4/:type', component: Form4Component },
+      { path: 'form4/:type/:id', component: Form4Component },
       { path: 'form5', component: Form5Component },       // MLPA
-      { path: 'form5/:type', component: Form5Component },
+      { path: 'form5/:type/:id', component: Form5Component },
       { path: 'form6', component: Form6Component },        // 선천성 면역결핍증
-      { path: 'form6/:type', component: Form6Component },
+      { path: 'form6/:type/:id', component: Form6Component },
       { path: 'form7', component: Form7Component },
-      { path: 'form7/:type', component: Form7Component },  // Sequencing
+      { path: 'form7/:type/:id', component: Form7Component },  // Sequencing
     ]
   }
 ];
