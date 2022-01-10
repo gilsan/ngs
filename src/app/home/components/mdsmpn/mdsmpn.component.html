@@ -12,9 +12,9 @@
     </table>
 
       <div class="box mg_b20 pd_20">
-        <input type="text" class="input_01" #mdsTestedID placeholder="검체번호"
+        <input type="text" class="input_01" #mdsTestedID placeholder="검체번호" style="width: 90%;"
         (keyup.enter)="search(mdsStart.value, mdsEnd.value, mdsTestedID.value, mdsPatient.value, mdsStatus.value, mdsSheet.value, mdsResearch.value)"/>&nbsp;&nbsp;
-        <input name="" type="text" placeholder="환자ID" #mdsPatient class="input_01"
+        <input name="" type="text" placeholder="환자ID" #mdsPatient class="input_01" style="width: 90%;"
         (keyup.enter)="search(mdsStart.value, mdsEnd.value, mdsTestedID.value, mdsPatient.value, mdsStatus.value, mdsSheet.value, mdsResearch.value)"/>&nbsp;&nbsp;
         <select class="select_01 select_001"  #mdsStatus  (change)="selectOption(mdsStatus.value)">
           <option value="100" [selected]= "mselect100">전체</option>
