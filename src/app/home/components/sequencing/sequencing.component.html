@@ -12,9 +12,9 @@
     </table>
 
       <div class="box mg_b20 pd_20">
-        <input type="text" class="input_01" #seqTestedID placeholder="검체번호"
+        <input type="text" class="input_01" #seqTestedID placeholder="검체번호" style="width: 100px;"
         (keyup.enter)="search(seqStart.value, seqEnd.value, seqTestedID.value, seqPatient.value, seqStatus.value, seqSheet.value, seqResearch.value)"/>&nbsp;&nbsp;
-        <input name="" type="text" placeholder="환자ID" #seqPatient class="input_01"
+        <input name="" type="text" placeholder="환자ID" #seqPatient class="input_01" style="width: 100px;"
         (keyup.enter)="search(seqStart.value, seqEnd.value, seqTestedID.value, seqPatient.value, seqStatus.value, seqSheet.value, seqResearch.value)"/>&nbsp;&nbsp;
         <select class="select_01 select_001"  #seqStatus   (change)="selectOption(seqStatus.value)">
           <option value="100"[selected]= "qselect100">전체</option>
@@ -26,7 +26,7 @@
           <option value="5" [selected]= "qselect5">접수취소</option>
         </select>&nbsp;&nbsp;
 
-        <select class="select_01 select_001" #seqSheet>
+        <select class="select_01 select_001" #seqSheet >
           <option value="Sequencing">전체</option>
           <option  *ngFor="let list of listSequencing" [selected]="sheetOption(list.code)"
           [value]="list.code">{{list.report}} ({{list.code}})</option>
