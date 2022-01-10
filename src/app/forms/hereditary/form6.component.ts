@@ -1419,9 +1419,20 @@ export class Form6Component implements OnInit, OnDestroy {
 
 
   tempSave(): void {
+    const formData = [];
     const userid = localStorage.getItem('diaguser');
     const control = this.tablerowForm.get('tableRows') as FormArray;
-    const formData = control.getRawValue();
+    const tempformData = control.getRawValue();
+    if (parseInt(this.patientInfo.screenstatus, 10) >= 3) {
+      tempformData.forEach(item => {
+        formData.push({ ...item, sendyn: 3 });
+      });
+    } else {
+      tempformData.forEach(item => {
+        formData.push({ ...item, sendyn: '' });
+      });
+    }
+
     console.log('[1405]', this.commentdata);
     if (this.isDirect) {
       if (this.patientInfo.screenstatus === null || this.patientInfo.screenstatus === undefined ||
@@ -1437,12 +1448,12 @@ export class Form6Component implements OnInit, OnDestroy {
       gene: '', comment: this.commentdata, reference: this.comment2, type: '', variant_id: this.resultname,
       methods: this.methods, technique: this.technique
     });
-    console.log('[1501][Detected variants]', formData, this.comments);
+    console.log('[1451][Detected variants]', formData, this.comments);
     this.patientInfo.recheck = this.recheck;
     this.patientInfo.examin = this.examin;
     this.patientInfo.vusmsg = this.vusmsg;
 
-    console.log('[1506][tempSave]patient,reform,comment]', this.patientInfo, formData, this.comments);
+    console.log('[1465][tempSave]patient,reform,comment]', this.patientInfo, formData, this.comments);
 
     this.store.setRechecker(this.patientInfo.recheck);
     this.store.setExamin(this.patientInfo.examin);
@@ -1450,6 +1461,7 @@ export class Form6Component implements OnInit, OnDestroy {
       .subscribe(datas => console.log(datas));
     this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimenNo)
       .subscribe(datas => console.log(datas));
+
 
     // tslint:disable-next-line:max-line-lengthinsertHandler
     this.subs.sink = this.variantsService.screenTempSave(this.form2TestedId, formData, this.comments,
