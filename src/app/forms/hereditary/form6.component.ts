@@ -1201,7 +1201,7 @@ export class Form6Component implements OnInit, OnDestroy {
       ).subscribe((msg: { screenstatus: string }) => {
         this.screenstatus = '3';
         alert('EMR로 전송했습니다.');
-        this.tempSave();
+        this.tempSave('3');
         // this.excelDV();
         // 환자정보 가져오기
         this.patientsListService.getPatientInfo(this.form2TestedId)
@@ -1418,12 +1418,12 @@ export class Form6Component implements OnInit, OnDestroy {
   }
 
 
-  tempSave(): void {
+  tempSave(status: string = ''): void {
     const formData = [];
     const userid = localStorage.getItem('diaguser');
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const tempformData = control.getRawValue();
-    if (parseInt(this.patientInfo.screenstatus, 10) >= 3) {
+    if (parseInt(status, 10) === 3) {
       tempformData.forEach(item => {
         formData.push({ ...item, sendyn: 3 });
       });
