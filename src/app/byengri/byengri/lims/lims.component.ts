@@ -965,12 +965,12 @@ export class LimsComponent implements OnInit, AfterViewInit {
     const tempRNA = [];
 
     dnaFormData.forEach(list => {
-      const { dna_rna_gbn, ...temp } = list;
+      const { dna_rna_gbn, checkbox, ...temp } = list;
       tempDNA.push(temp);
     });
 
     rnaFormData.forEach(list => {
-      const { dna_rna_gbn, ...temp } = list;
+      const { dna_rna_gbn, checkbox, ...temp } = list;
       tempRNA.push(temp);
     });
 
