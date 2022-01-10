@@ -44,7 +44,7 @@ export class LimsService {
   }
 
   public exportAsExcelFile(jsonData: any[], excelFileName: string, width: any[]): void {
-
+    console.log('[47][]', jsonData);
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(jsonData, { skipHeader: true });
     worksheet['!cols'] = width;
     const workbook: XLSX.WorkBook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
@@ -55,6 +55,7 @@ export class LimsService {
 
   private saveAsExcelFile(buffer: any, fileName: string): void {
     const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    console.log('[58]', data);
     FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
   }
 

@@ -166,12 +166,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
           console.log(data);
         });
     }
-
-
-
   }
-
-
 
   search(searchdate: string, end: string): void {
     // 2021-05-20
@@ -302,8 +297,8 @@ export class LimsComponent implements OnInit, AfterViewInit {
       }
     });
 
-    // console.log('[DNA]', this.dnaLists);
-    // console.log('[RNA]', this.rnaLists);
+    console.log('[DNA]', this.dnaLists);
+    console.log('[RNA]', this.rnaLists);
     this.dnaLists.forEach(list => {
       this.dnaFormLists().push(this.createDNA(list));
     });
@@ -383,7 +378,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
       ng_ui: i.ng_ui,
       dan_rna: i.dan_rna,
       dw: i.dw,
-      tot_ct: 22.0,
+      tot_ct: i.tot_ct,
       ct: i.ct,
       quantity: i.quantity,
       quantity_2: i.quantity_2,
@@ -444,7 +439,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
       ng_ui: i.ng_ui,
       dan_rna: i.dan_rna,
       dw: i.dw,
-      tot_ct: 22.0,
+      tot_ct: i.tot_ct,
       ct: i.ct,
       quantity: i.quantity,
       quantity_2: i.quantity_2,
@@ -980,15 +975,14 @@ export class LimsComponent implements OnInit, AfterViewInit {
     });
 
     const allData: ILIMS[] = [...tempDNA, ...tempRNA];
-    console.log(allData);
-    const width = [{ width: 4 }, { width: 4 }, { width: 16 }, { width: 13 }, { width: 12 }, { width: 11 }, { width: 11 }, // A, B,C,D,E,F
-    { width: 7 }, { width: 11 }, { width: 10 }, { width: 8 }, { width: 9 }, // G, H, I, J, K
-    { width: 19 }, { width: 18 }, { width: 7 }, { width: 7 }, { width: 8 }, // L, M, N, O ,P
-    { width: 8 }, { width: 7 }, { width: 6 }, { width: 6 }, { width: 8 }, // Q, R ,S, T, U,
-    { width: 8 }, { width: 8 }, { width: 14 }, { width: 14 }, { width: 14 }, // V, W, X, Y, Z,
-    { width: 8 }, { width: 8 }, { width: 9 }, { width: 16 }, { width: 9 }, // AA,AB, AC, AD, AE
-    { width: 10 }, { width: 10 }, { width: 10 }, { width: 10 }, { width: 10 }, { width: 7 }  // AF, AG, AH, AI, AJ, AK
-      , { width: 13 }
+    console.log('[978]', allData);
+    const width = [{ width: 4 }, { width: 4 }, { width: 16 }, { width: 13 }, { width: 12 }, { width: 11 }, { width: 11 }, // A, B,C,D,E,F,G
+    { width: 7 }, { width: 11 }, { width: 10 }, { width: 8 }, { width: 9 }, //  H, I, J, K, L
+    { width: 19 }, { width: 18 }, { width: 7 }, { width: 7 }, { width: 8 }, //  M, N, O ,P, Q
+    { width: 8 }, { width: 7 }, { width: 6 }, { width: 6 }, { width: 8 }, // R ,S, T, U, V
+    { width: 8 }, { width: 8 }, { width: 14 }, { width: 14 }, { width: 14 }, // W, X, Y, Z, AA
+    { width: 8 }, { width: 8 }, { width: 9 }, { width: 16 }, { width: 9 }, // AB, AC, AD, AE, AF
+    { width: 10 }, { width: 10 }, { width: 10 }, { width: 10 }, { width: 10 }   // AG, AH, AI, AJ, AK
     ];
     this.limsService.exportAsExcelFile(allData, 'LIMS', width);
   }
