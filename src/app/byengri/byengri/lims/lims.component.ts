@@ -79,6 +79,8 @@ export class LimsComponent implements OnInit, AfterViewInit {
   //   map((value: string) => this._filter(value)),
   // );
 
+  @ViewChild('dnaBox', { static: true }) dnaBox: ElementRef;
+  @ViewChild('rnaBox', { static: true }) rnaBox: ElementRef;
 
   @ViewChild('table', { static: true }) table: ElementRef;
   @ViewChild('fileInput', { static: true }) fileInput: ElementRef;
@@ -164,6 +166,8 @@ export class LimsComponent implements OnInit, AfterViewInit {
           console.log(data);
         });
     }
+
+
 
   }
 
@@ -994,6 +998,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
     const lastScrollTop = target.scrollTop;
     const lastScrollLeft = target.scrollLeft;
 
+
     if (this.lastScrollTop > lastScrollTop || this.lastScrollTop < lastScrollTop) {
       this.topScroll = true;
       this.leftScroll = false;
@@ -1010,6 +1015,62 @@ export class LimsComponent implements OnInit, AfterViewInit {
 
     this.lastScrollTop = lastScrollTop <= 0 ? 0 : lastScrollTop;
     this.lastScrollLeft = lastScrollLeft <= 0 ? 0 : lastScrollLeft;
+
+
+  }
+
+  tableDNAScroll(evt: Event): void {
+    const target = evt.target as Element;
+    const lastScrollTop = target.scrollTop;
+    const lastScrollLeft = target.scrollLeft;
+
+
+    if (this.lastScrollTop > lastScrollTop || this.lastScrollTop < lastScrollTop) {
+      this.topScroll = true;
+      this.leftScroll = false;
+    } else {
+      this.topScroll = false;
+    }
+
+    if (this.lastScrollLeft > lastScrollLeft || this.lastScrollLeft < lastScrollLeft) {
+      this.topScroll = false;
+      this.leftScroll = true;
+    } else {
+      this.leftScroll = false;
+    }
+
+    this.lastScrollTop = lastScrollTop <= 0 ? 0 : lastScrollTop;
+    this.lastScrollLeft = lastScrollLeft <= 0 ? 0 : lastScrollLeft;
+
+    this.rnaBox.nativeElement.scrollTop = this.lastScrollTop;
+    this.rnaBox.nativeElement.scrollLeft = this.lastScrollLeft;
+  }
+
+  tableRNAScroll(evt: Event): void {
+    const target = evt.target as Element;
+    const lastScrollTop = target.scrollTop;
+    const lastScrollLeft = target.scrollLeft;
+
+
+    if (this.lastScrollTop > lastScrollTop || this.lastScrollTop < lastScrollTop) {
+      this.topScroll = true;
+      this.leftScroll = false;
+    } else {
+      this.topScroll = false;
+    }
+
+    if (this.lastScrollLeft > lastScrollLeft || this.lastScrollLeft < lastScrollLeft) {
+      this.topScroll = false;
+      this.leftScroll = true;
+    } else {
+      this.leftScroll = false;
+    }
+
+    this.lastScrollTop = lastScrollTop <= 0 ? 0 : lastScrollTop;
+    this.lastScrollLeft = lastScrollLeft <= 0 ? 0 : lastScrollLeft;
+
+    this.dnaBox.nativeElement.scrollTop = this.lastScrollTop;
+    this.dnaBox.nativeElement.scrollLeft = this.lastScrollLeft;
   }
 
   tableHeader(): {} {
@@ -1096,7 +1157,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
     return Math.max(0, Math.min(max, value));
   }
   //////////////////////////////////////////////////////////////////////////
-  pathologySync(testcode: string, pathology: string, type: string) {
+  pathologySync(testcode: string, pathology: string, type: string): void {
     const controlDNA = this.dnaForm.get('dnaFormgroup') as FormArray;
     const controlRNA = this.rnaForm.get('rnaFormgroup') as FormArray;
     const dnaLists = controlDNA.getRawValue();

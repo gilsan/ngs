@@ -31,6 +31,7 @@ import { GeneComponent } from './inhouse/essgene/gene/gene.component';
 import { TierComponent } from './inhouse/tier/tier.component';
 import { ReportDialogComponent } from './byengri/report/report-dialog/report-dialog.component';
 import { LimsComponent } from './byengri/lims/lims.component';
+// import { ScrollDNAMonitorDirective } from './directives/scrollsync.directive';
 
 
 @NgModule({
@@ -45,6 +46,7 @@ import { LimsComponent } from './byengri/lims/lims.component';
     ManageUsersComponent,
     ManageStatisticsComponent,
     ScrollMonitorDirective,
+    // ScrollDNAMonitorDirective,
     MainpaComponent,
     PwchangeComponent,
     ResearchComponent,
