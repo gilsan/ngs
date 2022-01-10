@@ -160,7 +160,8 @@
                            <input type="text" size="10" class="clr-input" formControlName="pathology_num" readonly>
                           </td>
                           <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="rel_pathology_num" >
+                            <input type="text" size="10" class="clr-input" formControlName="rel_pathology_num" #relpathology
+                             (change)="pathologySync(group.get('pathology_num').value, relpathology.value, 'DNA')" >
                           </td>
                           <td class="txt_c">
                            <input type="text" size="10" class="clr-input" formControlName="prescription_date" readonly>
@@ -425,7 +426,8 @@
                             <input type="text" size="10" class="clr-input" formControlName="pathology_num" readonly>
                           </td>
                           <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="rel_pathology_num">
+                            <input type="text" size="10" class="clr-input" formControlName="rel_pathology_num" #rnarelpathology
+                            (change)="pathologySync(group.get('pathology_num').value, rnarelpathology.value, 'RNA')">
                           </td>
                           <td class="txt_c">
                             <input type="text" size="10" class="clr-input" formControlName="prescription_date" readonly>

@@ -396,7 +396,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
       dna_rna_gbn: '0',
       report_date: i.report_date,
       pathology_num2: i.pathology_num,
-      checkbox: [true]
+      checkbox: [false]
     });
   }
 
@@ -457,7 +457,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
       dna_rna_gbn: '1',
       report_date: i.report_date,
       pathology_num2: i.pathology_num,
-      checkbox: [true]
+      checkbox: [false]
     });
   }
 
@@ -1096,6 +1096,26 @@ export class LimsComponent implements OnInit, AfterViewInit {
     return Math.max(0, Math.min(max, value));
   }
   //////////////////////////////////////////////////////////////////////////
+  pathologySync(testcode: string, pathology: string, type: string) {
+    const controlDNA = this.dnaForm.get('dnaFormgroup') as FormArray;
+    const controlRNA = this.rnaForm.get('rnaFormgroup') as FormArray;
+    const dnaLists = controlDNA.getRawValue();
+    const rnaLists = controlRNA.getRawValue();
+    if (type === 'DNA') {
+      const index = rnaLists.findIndex(item => item.pathology_num === testcode);
+      if (index !== -1) {
+        controlRNA.at(index).patchValue({ rel_pathology_num: pathology });
+      }
+    } else if (type === 'RNA') {
+      const index = dnaLists.findIndex(item => item.pathology_num === testcode);
+      if (index !== -1) {
+        controlDNA.at(index).patchValue({ rel_pathology_num: pathology });
+      }
+    }
+  }
+
+
+
   pathTypeSync(testcode: string, pathtype: string, type: string): void {
     const controlDNA = this.dnaForm.get('dnaFormgroup') as FormArray;
     const controlRNA = this.rnaForm.get('rnaFormgroup') as FormArray;
