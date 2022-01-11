@@ -1866,7 +1866,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       gene.forEach(item => {
         this.patientsListService.getMutationVariantsLists(item, list.nucleotideChange, 'MDS')
           .pipe(
-            // filter(val => !!val),
+            filter(val => !!val),
             tap(data => {
               if (data.length > 0) {
                 if (list.reference !== data[0].reference || list.cosmic_id !== data[0].cosmic_id) {

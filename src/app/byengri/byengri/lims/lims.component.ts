@@ -384,7 +384,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
       quantity_2: i.quantity_2,
       quan_dna: i.quan_dna,
       te: i.te,
-      quan_tot_vol: 5.5,
+      quan_tot_vol: i.quan_tot_vol,
       lib_hifi: i.lib_hifi,
       pm: i.pm,
       x100: i.x100,
@@ -1365,18 +1365,18 @@ export class LimsComponent implements OnInit, AfterViewInit {
     if (type === 'DNA') {
       if (dnadw.toLowerCase() === 'dna') {
         const dnadwval = totalVal - val;
-        controlDNA.at(i).patchValue({ dw: dnadwval });
+        controlDNA.at(i).patchValue({ dw: dnadwval, tot_ct: 20.0 });
       } else if (dnadw.toLowerCase() === 'dw') {
         const dnadwval = totalVal - val;
-        controlDNA.at(i).patchValue({ dan_rna: dnadwval });
+        controlDNA.at(i).patchValue({ dan_rna: dnadwval, tot_ct: 20.0 });
       }
     } else if (type === 'RNA') {
       if (dnadw.toLowerCase() === 'dna') {
         const dnadwval = totalVal - val;
-        controlRNA.at(i).patchValue({ dw: dnadwval });
+        controlRNA.at(i).patchValue({ dw: dnadwval, tot_ct: 20.0 });
       } else if (dnadw.toLowerCase() === 'dw') {
         const dnadwval = totalVal - val;
-        controlRNA.at(i).patchValue({ dan_rna: dnadwval });
+        controlRNA.at(i).patchValue({ dan_rna: dnadwval, tot_ct: 20.0 });
       }
     }
   }
@@ -1389,20 +1389,21 @@ export class LimsComponent implements OnInit, AfterViewInit {
     if (type === 'DNA') {
       if (dnate.toLowerCase() === 'dna') {
         const dnateval = totalVal - val;
-        controlDNA.at(i).patchValue({ te: dnateval });
+        controlDNA.at(i).patchValue({ te: dnateval, quan_tot_vol: 5.5 });
       } else if (dnate.toLowerCase() === 'te') {
         const dnateval = totalVal - val;
-        controlDNA.at(i).patchValue({ quan_dna: dnateval });
-      }
-    } else if (type === 'RNA') {
-      if (dnate.toLowerCase() === 'dna') {
-        const dnateval = totalVal - val;
-        controlRNA.at(i).patchValue({ te: dnateval });
-      } else if (dnate.toLowerCase() === 'te') {
-        const dnateval = totalVal - val;
-        controlRNA.at(i).patchValue({ quan_dna: dnateval });
+        controlDNA.at(i).patchValue({ quan_dna: dnateval, quan_tot_vol: 5.5 });
       }
     }
+    // else if (type === 'RNA') {
+    //   if (dnate.toLowerCase() === 'dna') {
+    //     const dnateval = totalVal - val;
+    //     controlRNA.at(i).patchValue({ te: dnateval });
+    //   } else if (dnate.toLowerCase() === 'te') {
+    //     const dnateval = totalVal - val;
+    //     controlRNA.at(i).patchValue({ quan_dna: dnateval });
+    //   }
+    // }
   }
 
 }

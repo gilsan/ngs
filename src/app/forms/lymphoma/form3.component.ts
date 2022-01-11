@@ -1854,6 +1854,7 @@ export class Form3Component implements OnInit, OnDestroy {
       gene.forEach(item => {
         this.patientsListService.getMutationVariantsLists(item, list.nucleotideChange, 'LYM')
           .pipe(
+            filter(val => !!val),
             tap(data => {
               if (data.length > 0) {
                 if (list.reference !== data[0].reference || list.cosmic_id !== data[0].cosmic_id) {

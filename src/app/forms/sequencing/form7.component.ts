@@ -6,7 +6,7 @@ import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { IPatient, ISequence } from 'src/app/home/models/patients';
 import { SubSink } from 'subsink';
 import { ActivatedRoute, Router } from '@angular/router';
-import { concatMap, map, shareReplay } from 'rxjs/operators';
+import { concatMap, filter, map, shareReplay } from 'rxjs/operators';
 import { FindNgsTitleService } from '../commons/findngstitle.service';
 import { sequencingForm } from 'src/app/home/models/sequencing.model';
 import { listSequencing } from 'src/app/forms/commons/geneList';
@@ -203,7 +203,7 @@ export class Form7Component implements OnInit, OnDestroy {
     this.ngsTitle = this.patientInfo.reportTitle;
     this.subs.sink = this.variantsService.contentScreen7(this.form2TestedId)
       .subscribe(data => {
-        console.log('[192][받은데이터]', data);
+        console.log('[206][받은데이터]', data);
         if (data.length > 0) {
           this.comment = data[0].comment;
           this.tempcomment = data[0].comment;
@@ -220,7 +220,7 @@ export class Form7Component implements OnInit, OnDestroy {
                 aminoAcidChange: item.aminoAcidChange,
                 zygosity: item.zygosity,
                 rsid: item.rsid,
-                genbankaccesion: item.reference
+                genbankaccesion: item.genbankaccesion
               }
             ));
           });
@@ -730,14 +730,18 @@ export class Form7Component implements OnInit, OnDestroy {
 
     formData.forEach((list, index) => {
       this.patientsListService.getMutationSeqInfoLists(gene, list.nucleotideChange, 'SEQ')
+        .pipe(
+          filter(data => !!data)
+        )
         .subscribe(data => {
-          console.log('[713][디비에서호출 받은것]', data);
+          console.log('[734][디비에서호출 받은것]', data);
           if (data.length > 0) {
 
             control.at(index).patchValue({
               type: data[0].type, exonintron: data[0].exonintron,
               aminoAcidChange: data[0].aminoAcidChange, rsid: data[0].rsid,
-              genbankaccesion: data[0].genbankaccesion
+              genbankaccesion: data[0].genbankaccesion,
+              zygosity: data[0].zygosity
             });
             this.snackBar.open('완료 했습니다.', '닫기', { duration: 3000 });
           }
