@@ -146,7 +146,9 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
     } else if (parseInt(status, 10) === 100) {
       this.lselect100 = true;
     }
-    this.receivedType = status;
+    if (this.receivedType !== 'none') {
+      this.receivedType = status;
+    }
   }
 
   sheetOption(sheet: string): void {
