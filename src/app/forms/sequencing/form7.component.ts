@@ -415,7 +415,6 @@ export class Form7Component implements OnInit, OnDestroy {
     const userid = localStorage.getItem('diaguser');
     const control = this.form.get('tableRows') as FormArray;
     const formData = control.getRawValue();
-    console.log(formData);
 
     if (this.firstReportDay === '-') {
       this.firstReportDay = this.today().replace(/-/g, '.');
@@ -425,7 +424,6 @@ export class Form7Component implements OnInit, OnDestroy {
       this.lastReportDay = this.today().replace(/-/g, '.');
     }
 
-    // console.log('[EMR]', this.target, this.formTitle);
 
     const makeForm = sequencingForm(
       this.resultStatus,
