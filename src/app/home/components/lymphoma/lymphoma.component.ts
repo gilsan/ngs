@@ -428,6 +428,7 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.store.setStatus(status);
     // this.store.setSheet(sheet);
     // this.store.setWhichstate('searchscreen');
+    console.log('[search][431][스크린상태]', status);
     this.lists = [];
     const tempLists: IPatient[] = [];
     //
