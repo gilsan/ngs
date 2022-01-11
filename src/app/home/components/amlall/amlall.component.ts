@@ -139,7 +139,10 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
       this.select100 = true;
     }
 
-    this.receivedType = status;
+    if (this.receivedType !== 'none') {
+      this.receivedType = status;
+    }
+
   }
 
   sheetOption(sheet: string): void {
