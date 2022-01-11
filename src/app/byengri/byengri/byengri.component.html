@@ -17,26 +17,26 @@
               <tr>
 
                  <td class="menu111">
-                  <button mat-button [matMenuTriggerFor]="menu00" id="menu000"></button>
+                  <!--button mat-button [matMenuTriggerFor]="menu00" id="menu000"></button>
                   <mat-menu #menu00="matMenu">
                     <button mat-menu-item (click)="link('lims')">LIMS WorkList</button>
-                  </mat-menu>
+                  </mat-menu-->
                  </td>
 
                  <td class="menu01">
                    <!-- 아직 지우지 마세요 -->
-                  <!--a routerLink="/pathology"><span class="nav-text"></span></a-->
-                     <button mat-button [matMenuTriggerFor]="menu01" id="menu010"></button>
+                  <a routerLink="/pathology"><span class="nav-text"></span></a>
+                     <!--button mat-button [matMenuTriggerFor]="menu01" id="menu010"></button>
                       <mat-menu #menu01="matMenu">
                         <button mat-menu-item (click)="link('orir')">OR/IR</button>
                         <button mat-menu-item (click)="link('sequencing')">돌연변이 Sequencing</button>
-                      </mat-menu>
+                      </mat-menu-->
                   </td>
                   <td class="menu03">
                      <button mat-button [matMenuTriggerFor]="menu03" id="menu030"></button>
                       <mat-menu #menu03="matMenu">
                         <button mat-menu-item (click)="link('blacklist')">Blacklist</button>
-                      <button mat-menu-item (click)="link('EssGene')">Tier1 필수유전자 Comment</button>
+                      <!--button mat-menu-item (click)="link('EssGene')">Tier1 필수유전자 Comment</button-->
                         <button mat-menu-item (click)="ngsExcelLink()">환자정보다운로드</button>
                         <button mat-menu-item (click)="ngslink()">건강보험심사평가원 NGS 통계</button>
                       </mat-menu>
