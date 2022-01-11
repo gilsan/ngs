@@ -142,6 +142,7 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
     } else if (parseInt(status, 10) === 100) {
       this.mselect100 = true;
     }
+    this.receivedType = status;
   }
 
   sheetOption(sheet: string): void {

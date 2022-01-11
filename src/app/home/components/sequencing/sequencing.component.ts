@@ -152,6 +152,7 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
     } else if (parseInt(status, 10) === 100) {
       this.qselect100 = true;
     }
+    this.receivedType = status;
   }
 
   sheetOption(sheet: string): boolean {
