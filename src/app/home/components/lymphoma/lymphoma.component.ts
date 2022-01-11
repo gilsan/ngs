@@ -461,7 +461,7 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
         // console.log('[LYM]', data);
         if (this.receivedType !== 'none') {
           data.forEach(list => {
-            if (this.receivedType === 'register') {
+            if (this.receivedType === 'register' || parseInt(this.receivedType, 10)) {
               tempLists.push(list);
             } else if (parseInt(this.receivedType, 10) === 0) {
               tempLists.push(list);
