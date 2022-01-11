@@ -477,7 +477,7 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
         // data.forEach(item => console.log('[465][스크린상태]', item.screenstatus));
         if (this.receivedType !== 'none') {
           data.forEach(list => {
-            if (this.receivedType === 'register') {
+            if (this.receivedType === 'register' || parseInt(this.receivedType, 10)) {
               tempLists.push(list);
             } else if (parseInt(this.receivedType, 10) === 0) {
               tempLists.push(list);

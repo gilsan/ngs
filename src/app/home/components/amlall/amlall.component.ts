@@ -530,9 +530,9 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
             data.reportTitle = title;
           }
         }
-        // console.log('[504][검색][receivedType]', data, this.receivedType, sheet);
+        console.log('[533][검색][receivedType]', this.receivedType);
         if (this.receivedType !== 'none') {
-          if (this.receivedType === 'register') {
+          if (this.receivedType === 'register' || parseInt(this.receivedType, 10)) {
             this.saveData(data, sheet);
           } else if (parseInt(this.receivedType, 10) === 0) {
             this.saveData(data, sheet);

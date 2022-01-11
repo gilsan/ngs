@@ -454,7 +454,7 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
       .then(data => {
         if (this.receivedType !== 'none') {
           data.forEach(list => {
-            if (this.receivedType === 'register') {
+            if (this.receivedType === 'register' || parseInt(this.receivedType, 10)) {
               templists.push(list);
             } else if (parseInt(this.receivedType, 10) === 0) {
               templists.push(list);

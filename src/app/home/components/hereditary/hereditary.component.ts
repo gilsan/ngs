@@ -503,7 +503,7 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log('[469][검색결과]', data,);
         if (this.receivedType !== 'none') {
           data.forEach(list => {
-            if (this.receivedType === 'register') {
+            if (this.receivedType === 'register' || parseInt(this.receivedType, 10)) {
               tempLists.push(list);
             } else if (parseInt(this.receivedType, 10) === 0) {
               tempLists.push(list);
