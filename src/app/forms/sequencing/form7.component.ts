@@ -805,7 +805,7 @@ export class Form7Component implements OnInit, OnDestroy {
 
       this.comment = comment;
     } else if (this.resultStatus === 'Not Detected') {
-      this.comment = `본 환자에서 ${gene} 에 대한 direct sequencing 결과, 질환 관련 돌연변이는 관찰되지 않았습니다`;
+      this.comment = `본 환자에서 ${gene} 유전자에 대한 direct sequencing 결과, 질환 관련 돌연변이는 관찰되지 않았습니다`;
     }
   }
 
