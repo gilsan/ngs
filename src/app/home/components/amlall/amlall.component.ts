@@ -89,7 +89,7 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
     ).subscribe(data => {
       if (data !== null) {
         this.receivedType = data;
-        // console.log('[69][전송값][receivedType] ', this.receivedType);
+        console.log('[92][전송값][receivedType] ', this.receivedType);
         if (parseInt(this.receivedType, 10) === 0) {
           this.select0 = true;
         } else if (parseInt(this.receivedType, 10) === 1) {
@@ -138,6 +138,8 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
     } else if (parseInt(status, 10) === 100) {
       this.select100 = true;
     }
+
+    this.receivedType = status;
   }
 
   sheetOption(sheet: string): void {

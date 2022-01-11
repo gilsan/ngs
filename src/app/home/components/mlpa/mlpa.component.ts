@@ -149,6 +149,7 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
     } else if (parseInt(status, 10) === 100) {
       this.mlpaselect100 = true;
     }
+    this.receivedType = status;
   }
 
   sheetOption(sheet: string): boolean {
