@@ -466,11 +466,11 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
     this.patientsList.mlpaSearch2(startdate, enddate, patientId, specimenNo, status, sheet, research)
       .then(response => response.json())
       .then(data => {
-        // data.forEach(item => console.log('[336][스크린상태]', item.screenstatus));
+        data.forEach(item => console.log('[469][type]]', this.receivedType));
         this.patientsList.setPatientID(data);
         if (this.receivedType !== 'none') {
           data.forEach(list => {
-            if (this.receivedType === 'register') {
+            if (this.receivedType === 'register' || parseInt(this.receivedType, 10)) {
               tempLists.push(list);
             } else if (parseInt(this.receivedType, 10) === 0) {
               tempLists.push(list);
