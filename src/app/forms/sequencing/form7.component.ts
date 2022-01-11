@@ -352,10 +352,11 @@ export class Form7Component implements OnInit, OnDestroy {
 
   }
 
-  tempSave(): void {
+  tempSave(status: string = ''): void {
+    const formData = [];
     const userid = localStorage.getItem('diaguser');
     const control = this.form.get('tableRows') as FormArray;
-    const formData = control.getRawValue();
+    const tempformData = control.getRawValue();
 
 
     const gene = this.ngsTitle.split('Gene')[0].trim();
@@ -363,7 +364,19 @@ export class Form7Component implements OnInit, OnDestroy {
       this.patientInfo.screenstatus = '3';
       this.screenstatus = '3';
     }
-    console.log('[354][임시저장][screenstatus]', this.screenstatus);
+
+    if (parseInt(status, 10) === 3) {
+      tempformData.forEach(item => {
+        formData.push({ ...item, sendyn: 3 });
+      });
+    } else {
+      tempformData.forEach(item => {
+        formData.push({ ...item, sendyn: '' });
+      });
+    }
+
+
+    console.log('[379][임시저장][screenstatus]', this.screenstatus, formData);
 
     this.patientInfo.recheck = this.recheck;
     this.patientInfo.examin = this.examin;
@@ -436,7 +449,7 @@ export class Form7Component implements OnInit, OnDestroy {
       this.variations
     );
 
-    console.log('[287] ', makeForm);
+    console.log('[452] ', makeForm);
     const examcode = this.patientInfo.test_code;
     this.patientsListService.sendEMR(
       this.patientInfo.specimenNo,
@@ -451,7 +464,7 @@ export class Form7Component implements OnInit, OnDestroy {
       ).subscribe((msg: { screenstatus: string }) => {
         this.screenstatus = '3';
         alert('EMR로 전송했습니다.');
-        this.tempSave();
+        this.tempSave('3');
         // 환자정보 가져오기
         this.patientsListService.getPatientInfo(this.form2TestedId)
           .subscribe(patient => {
