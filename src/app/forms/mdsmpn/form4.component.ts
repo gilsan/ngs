@@ -395,11 +395,14 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       // console.log('[385][recoverDetected][VUS메세지]', this.patientInfo.vusmsg);
       // const tempVUS = [];
 
-      const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
-      if (vusIdx !== -1) {
+      // const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
+      // if (vusIdx !== -1) {
+      //   this.vusmsg = this.patientInfo.vusmsg;
+      //   this.tempvusmsg = this.patientInfo.vusmsg;
+      // }
+      if (this.patientInfo.vusmsg.length) {
         this.vusmsg = this.patientInfo.vusmsg;
         this.tempvusmsg = this.patientInfo.vusmsg;
-
       }
 
       this.recoverVariants.forEach(item => {
@@ -488,6 +491,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
             this.vusmsg = this.patientInfo.vusmsg;
             this.tempvusmsg = this.patientInfo.vusmsg;
           }
+
 
           this.recoverVariants.forEach(item => {
             this.recoverVariant(item);

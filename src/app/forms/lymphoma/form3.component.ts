@@ -376,12 +376,16 @@ export class Form3Component implements OnInit, OnDestroy {
     this.subs.sink = this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {
       this.recoverVariants = data;
       this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
-      console.log('[334][Lymphoma][Detected variant_id]', this.recoverVariants);
+      console.log('[379][Lymphoma][Detected variant_id]', this.recoverVariants);
       this.store.setDetactedVariants(data); // Detected variant 저장
 
       // VUS 메제시 확인
-      const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
-      if (vusIdx !== -1) {
+      // const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
+      // if (vusIdx !== -1) {
+      //   this.vusmsg = this.patientInfo.vusmsg;
+      //   this.tempvusmsg = this.patientInfo.vusmsg;
+      // }
+      if (this.patientInfo.vusmsg.length) {
         this.vusmsg = this.patientInfo.vusmsg;
         this.tempvusmsg = this.patientInfo.vusmsg;
       }
@@ -448,6 +452,7 @@ export class Form3Component implements OnInit, OnDestroy {
             this.vusmsg = this.patientInfo.vusmsg;
             this.tempvusmsg = this.patientInfo.vusmsg;
           }
+
 
           this.recoverVariants.forEach(item => {
             this.recoverVariant(item);  // 354

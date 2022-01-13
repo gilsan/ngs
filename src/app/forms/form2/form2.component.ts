@@ -354,11 +354,16 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       this.store.setDetactedVariants(data); // Detected variant 저장
 
       // VUS 메제시 확인 2021.4.7 추가
-      const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
-      if (vusIdx !== -1) {
+      // const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
+      // if (vusIdx !== -1) {
+      //   this.vusmsg = this.patientInfo.vusmsg;
+      //   this.tempvusmsg = this.patientInfo.vusmsg;
+      // }
+      if (this.patientInfo.vusmsg.length) {
         this.vusmsg = this.patientInfo.vusmsg;
         this.tempvusmsg = this.patientInfo.vusmsg;
       }
+
 
       // console.log('[383][recoverDetected][VUS메세지]', this.patientInfo.vusmsg, this.vusmsg);
 
@@ -441,7 +446,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
 
       this.variantsService.screenSelect(this.form2TestedId)
         .subscribe(data => {
-          console.log('[429][저장된 데이터]', data);
+          console.log('[449][저장된 데이터]', data);
           if (data.length > 0) {
             this.recoverVariants = data;
 
@@ -462,7 +467,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
             this.subs.sink = this.variantsService.screenComment(this.form2TestedId)
               .subscribe(dbComments => {
                 if (dbComments !== undefined && dbComments !== null && dbComments.length > 0) {
-                  console.log('[457][COMMENT 가져오기]', dbComments);
+                  console.log('[470][COMMENT 가져오기]', dbComments);
                   dbComments.forEach(comment => {
                     // console.log('[291]', comment.reference);
                     this.comments.push(
