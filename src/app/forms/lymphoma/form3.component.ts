@@ -385,8 +385,22 @@ export class Form3Component implements OnInit, OnDestroy {
       //   this.vusmsg = this.patientInfo.vusmsg;
       //   this.tempvusmsg = this.patientInfo.vusmsg;
       // }
-      this.vusmsg = this.patientInfo.vusmsg;
-      this.tempvusmsg = this.patientInfo.vusmsg;
+      // this.vusmsg = this.patientInfo.vusmsg;
+      // this.tempvusmsg = this.patientInfo.vusmsg;
+      if (this.patientInfo.vusmsg.length > 0) {
+        if (this.patientInfo.vusmsg === this.vusmsg) {
+          this.vusmsg = '';
+          this.tempvusmsg = '';
+        } else {
+          this.vusmsg = this.patientInfo.vusmsg;
+          this.tempvusmsg = this.patientInfo.vusmsg;
+        }
+      } else {
+        this.vusmsg = '';
+        this.tempvusmsg = '';
+      }
+
+
 
       this.recoverVariants.forEach(item => {
         this.recoverVariant(item);  // 354
@@ -451,8 +465,21 @@ export class Form3Component implements OnInit, OnDestroy {
           //   this.tempvusmsg = this.patientInfo.vusmsg;
           // }
 
-          this.vusmsg = this.patientInfo.vusmsg;
-          this.tempvusmsg = this.patientInfo.vusmsg;
+          // this.vusmsg = this.patientInfo.vusmsg;
+          // this.tempvusmsg = this.patientInfo.vusmsg;
+
+          if (this.patientInfo.vusmsg.length > 0) {
+            if (this.patientInfo.vusmsg === this.vusmsg) {
+              this.vusmsg = '';
+              this.tempvusmsg = '';
+            } else {
+              this.vusmsg = this.patientInfo.vusmsg;
+              this.tempvusmsg = this.patientInfo.vusmsg;
+            }
+          } else {
+            this.vusmsg = '';
+            this.tempvusmsg = '';
+          }
 
           this.recoverVariants.forEach(item => {
             this.recoverVariant(item);  // 354

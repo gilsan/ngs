@@ -360,8 +360,20 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       //   this.tempvusmsg = this.patientInfo.vusmsg;
       // }
 
-      this.vusmsg = this.patientInfo.vusmsg;
-      this.tempvusmsg = this.patientInfo.vusmsg;
+      // this.vusmsg = this.patientInfo.vusmsg;
+      // this.tempvusmsg = this.patientInfo.vusmsg;
+      if (this.patientInfo.vusmsg.length > 0) {
+        if (this.patientInfo.vusmsg === this.vusmsg) {
+          this.vusmsg = '';
+          this.tempvusmsg = '';
+        } else {
+          this.vusmsg = this.patientInfo.vusmsg;
+          this.tempvusmsg = this.patientInfo.vusmsg;
+        }
+      } else {
+        this.vusmsg = '';
+        this.tempvusmsg = '';
+      }
 
       // console.log('[383][recoverDetected][VUS메세지]', this.patientInfo.vusmsg, this.vusmsg);
 
@@ -450,14 +462,32 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
 
             this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
             this.store.setDetactedVariants(data); // Detected variant 저장
+
+
             // const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
-            // if (vusIdx !== -1) {
+            // if (vusIdx !== -1) { // 있는경우
             //   this.vusmsg = this.patientInfo.vusmsg;
             //   this.tempvusmsg = this.patientInfo.vusmsg;
+            // } else {
+
             // }
 
-            this.vusmsg = this.patientInfo.vusmsg;
-            this.tempvusmsg = this.patientInfo.vusmsg;
+            // this.vusmsg = this.patientInfo.vusmsg;
+            // this.tempvusmsg = this.patientInfo.vusmsg;
+
+            if (this.patientInfo.vusmsg.length > 0) {
+              if (this.patientInfo.vusmsg === this.vusmsg) {
+                this.vusmsg = '';
+                this.tempvusmsg = '';
+              } else {
+                this.vusmsg = this.patientInfo.vusmsg;
+                this.tempvusmsg = this.patientInfo.vusmsg;
+              }
+            } else {
+              this.vusmsg = '';
+              this.tempvusmsg = '';
+            }
+
 
 
             this.recoverVariants.forEach(item => {
