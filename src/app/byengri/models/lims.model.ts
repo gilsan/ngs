@@ -1,5 +1,6 @@
 
 export interface ILIMS {
+  checkbox: boolean;
   id: string;                   // lims id
   pathology_num: string;        // 병리번호
   rel_pathology_num: string;    // 관련병리번호

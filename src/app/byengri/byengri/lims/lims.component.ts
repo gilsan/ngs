@@ -301,6 +301,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
       data.forEach(i => {
         if (parseInt(i.dna_rna_gbn, 10) === 0) {
           const val = {
+            checkbox: false,
             id: i.id,
             pathology_num: i.pathology_num,
             rel_pathology_num: i.rel_pathology_num,
@@ -342,6 +343,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
 
         } else if (parseInt(i.dna_rna_gbn, 10) === 1) {
           const val = {
+            checkbox: false,
             id: i.id,
             pathology_num: i.pathology_num,
             rel_pathology_num: i.rel_pathology_num,
@@ -448,6 +450,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
 
   createDNA(i: ILIMS): FormGroup {
     return this.fb.group({
+      checkbox: i.checkbox,
       id: i.id,
       pathology_num: i.pathology_num,
       rel_pathology_num: i.rel_pathology_num,
@@ -485,7 +488,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
       dna_rna_gbn: '0',
       report_date: i.report_date,
       pathology_num2: i.pathology_num,
-      checkbox: [false]
+
     });
   }
 
@@ -510,6 +513,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
   createRNA(i: ILIMS): FormGroup {
     return this.fb.group({
       id: i.id,
+      checkbox: i.checkbox,
       pathology_num: i.pathology_num,
       rel_pathology_num: i.rel_pathology_num,
       prescription_date: i.prescription_date,
@@ -546,7 +550,6 @@ export class LimsComponent implements OnInit, AfterViewInit {
       dna_rna_gbn: '1',
       report_date: i.report_date,
       pathology_num2: i.pathology_num,
-      checkbox: [false]
     });
   }
 
@@ -940,7 +943,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    console.log('[849][]', allData, this.examiner, this.rechecker, testeddate);
+    console.log('[943][]', allData, this.examiner, this.rechecker, testeddate);
     this.limsService.save(allData, this.examiner, this.rechecker)
       .subscribe((data) => {
         const msg = `DNA: ${dnaCount}건, RNA: ${rnaCount}건 저장 하였습니다.`;
