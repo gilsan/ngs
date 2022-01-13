@@ -151,7 +151,8 @@
                               <img [src]="'assets/images/cancel.png'" (click)="removeDNA(i)">
                           </td>
                           <td>
-                              <input type="checkbox"  class="ckbox" formControlName="checkbox">
+                              <input type="checkbox"  class="ckbox" formControlName="checkbox"
+                              (change)="checkboxSync(group.get('pathology_num').value, 'DNA')">
                           </td>
                           <td class="txt_c">
                           <input type="text" size="10" class="clr-input" formControlName="id" readonly>
@@ -417,7 +418,8 @@
                             <img [src]="'assets/images/cancel.png'"  (click)="removeRNA(i)">
                           </td>
                           <td>
-                            <input type="checkbox"  class="ckbox" formControlName="checkbox">
+                            <input type="checkbox"  class="ckbox" formControlName="checkbox"
+                            (change)="checkboxSync(group.get('pathology_num').value, 'RNA')">
                         </td>
                           <td class="txt_c">
                             <input type="text" size="10" class="clr-input" formControlName="id" readonly>
