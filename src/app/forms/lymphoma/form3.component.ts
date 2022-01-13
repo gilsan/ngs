@@ -387,8 +387,9 @@ export class Form3Component implements OnInit, OnDestroy {
       // }
       // this.vusmsg = this.patientInfo.vusmsg;
       // this.tempvusmsg = this.patientInfo.vusmsg;
+      const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
       if (this.patientInfo.vusmsg.length > 0) {
-        if (this.patientInfo.vusmsg === this.vusmsg) {
+        if (this.patientInfo.vusmsg === this.vusmsg && vusIdx === -1) {
           this.vusmsg = '';
           this.tempvusmsg = '';
         } else {
@@ -467,9 +468,9 @@ export class Form3Component implements OnInit, OnDestroy {
 
           // this.vusmsg = this.patientInfo.vusmsg;
           // this.tempvusmsg = this.patientInfo.vusmsg;
-
+          const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
           if (this.patientInfo.vusmsg.length > 0) {
-            if (this.patientInfo.vusmsg === this.vusmsg) {
+            if (this.patientInfo.vusmsg === this.vusmsg && vusIdx === -1) {
               this.vusmsg = '';
               this.tempvusmsg = '';
             } else {
