@@ -5,7 +5,7 @@ export const emrUrl = 'http://125.129.230.186:3000'; // 사무실
 
 // export const emrUrl = 'http://localhost:3000';
 //  export const emrUrl = 'http://160.1.17.79:3000'; // 병원 운영
-// export const emrUrl = 'http://160.1.17.79:5000'; // 병원 개발
+ //export const emrUrl = 'http://160.1.17.79:5000'; // 병원 개발
 
 //
 
