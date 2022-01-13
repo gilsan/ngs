@@ -385,10 +385,8 @@ export class Form3Component implements OnInit, OnDestroy {
       //   this.vusmsg = this.patientInfo.vusmsg;
       //   this.tempvusmsg = this.patientInfo.vusmsg;
       // }
-      if (this.patientInfo.vusmsg.length) {
-        this.vusmsg = this.patientInfo.vusmsg;
-        this.tempvusmsg = this.patientInfo.vusmsg;
-      }
+      this.vusmsg = this.patientInfo.vusmsg;
+      this.tempvusmsg = this.patientInfo.vusmsg;
 
       this.recoverVariants.forEach(item => {
         this.recoverVariant(item);  // 354
@@ -447,22 +445,24 @@ export class Form3Component implements OnInit, OnDestroy {
           this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
           this.store.setDetactedVariants(data); // Detected variant 저장
 
-          const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
-          if (vusIdx !== -1) {
-            this.vusmsg = this.patientInfo.vusmsg;
-            this.tempvusmsg = this.patientInfo.vusmsg;
-          }
+          // const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
+          // if (vusIdx !== -1) {
+          //   this.vusmsg = this.patientInfo.vusmsg;
+          //   this.tempvusmsg = this.patientInfo.vusmsg;
+          // }
 
+          this.vusmsg = this.patientInfo.vusmsg;
+          this.tempvusmsg = this.patientInfo.vusmsg;
 
           this.recoverVariants.forEach(item => {
             this.recoverVariant(item);  // 354
           });
           this.putCheckboxInit(); // 체크박스 초기화
         } else {
-          if (this.patientInfo.vusmsg.length > 0) {
-            this.vusmsg = this.patientInfo.vusmsg;
-            this.tempvusmsg = this.patientInfo.vusmsg;
-          }
+          // if (this.patientInfo.vusmsg.length > 0) {
+          //   this.vusmsg = this.patientInfo.vusmsg;
+          //   this.tempvusmsg = this.patientInfo.vusmsg;
+          // }
           if (this.tsvSaveOrEmptySave === 'T') {
             this.addDetectedVariant();
           }

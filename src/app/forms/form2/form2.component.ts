@@ -359,11 +359,9 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       //   this.vusmsg = this.patientInfo.vusmsg;
       //   this.tempvusmsg = this.patientInfo.vusmsg;
       // }
-      if (this.patientInfo.vusmsg.length) {
-        this.vusmsg = this.patientInfo.vusmsg;
-        this.tempvusmsg = this.patientInfo.vusmsg;
-      }
 
+      this.vusmsg = this.patientInfo.vusmsg;
+      this.tempvusmsg = this.patientInfo.vusmsg;
 
       // console.log('[383][recoverDetected][VUS메세지]', this.patientInfo.vusmsg, this.vusmsg);
 
@@ -452,11 +450,15 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
 
             this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
             this.store.setDetactedVariants(data); // Detected variant 저장
-            const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
-            if (vusIdx !== -1) {
-              this.vusmsg = this.patientInfo.vusmsg;
-              this.tempvusmsg = this.patientInfo.vusmsg;
-            }
+            // const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
+            // if (vusIdx !== -1) {
+            //   this.vusmsg = this.patientInfo.vusmsg;
+            //   this.tempvusmsg = this.patientInfo.vusmsg;
+            // }
+
+            this.vusmsg = this.patientInfo.vusmsg;
+            this.tempvusmsg = this.patientInfo.vusmsg;
+
 
             this.recoverVariants.forEach(item => {
               this.recoverVariant(item);
@@ -490,10 +492,11 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
               });
             ////////////////////////////////////
           } else {
-            if (this.patientInfo.vusmsg.length > 0) {
-              this.vusmsg = this.patientInfo.vusmsg;
-              this.tempvusmsg = this.patientInfo.vusmsg;
-            }
+            // if (this.patientInfo.vusmsg.length > 0) {
+            //   this.vusmsg = this.patientInfo.vusmsg;
+            //   this.tempvusmsg = this.patientInfo.vusmsg;
+            // }
+            console.log('[499]', this.vusmsg);
             if (this.tsvSaveOrEmptySave === 'T') {
               this.addDetectedVariant();
             }

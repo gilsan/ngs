@@ -400,10 +400,8 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       //   this.vusmsg = this.patientInfo.vusmsg;
       //   this.tempvusmsg = this.patientInfo.vusmsg;
       // }
-      if (this.patientInfo.vusmsg.length) {
-        this.vusmsg = this.patientInfo.vusmsg;
-        this.tempvusmsg = this.patientInfo.vusmsg;
-      }
+      this.vusmsg = this.patientInfo.vusmsg;
+      this.tempvusmsg = this.patientInfo.vusmsg;
 
       this.recoverVariants.forEach(item => {
         this.recoverVariant(item);  // 354
@@ -486,12 +484,14 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
 
           this.store.setDetactedVariants(data); // Detected variant 저장
 
-          const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
-          if (vusIdx !== -1) {
-            this.vusmsg = this.patientInfo.vusmsg;
-            this.tempvusmsg = this.patientInfo.vusmsg;
-          }
+          // const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
+          // if (vusIdx !== -1) {
+          //   this.vusmsg = this.patientInfo.vusmsg;
+          //   this.tempvusmsg = this.patientInfo.vusmsg;
+          // }
 
+          this.vusmsg = this.patientInfo.vusmsg;
+          this.tempvusmsg = this.patientInfo.vusmsg;
 
           this.recoverVariants.forEach(item => {
             this.recoverVariant(item);
