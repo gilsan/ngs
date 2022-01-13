@@ -953,7 +953,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
     this.limsService.updateTumoretype(testcode, tumortype)
       .subscribe(data => {
         if (data.message === 'SUCCESS') {
-          this.snackBar.open('변경 하였습니다.', '닫기', { duration: 2000 });
+          // this.snackBar.open('변경 하였습니다.', '닫기', { duration: 2000 });
         }
       });
   }
@@ -1385,7 +1385,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
 
 
   tumorcellperSync(testcode: string, percent: string, type: string): void {
-    console.log('[1095][tumorcellperUpdate]', testcode, percent);
+    console.log('[1388][tumorcellperUpdate]', testcode, percent);
     const controlDNA = this.dnaForm.get('dnaFormgroup') as FormArray;
     const controlRNA = this.rnaForm.get('rnaFormgroup') as FormArray;
     const dnaLists = controlDNA.getRawValue();
