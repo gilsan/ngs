@@ -196,6 +196,16 @@ export class LimsComponent implements OnInit, AfterViewInit {
           }
 
         }),
+        // map(lists => {
+        //   return lists.map(list => {
+        //     if (list.pathology_num === 'M21-019893') {
+        //       const { pathology_num, ...rest } = list;
+        //       list = { ...rest, pathology_num: 'M21-000093' };
+        //       return list;
+        //     }
+        //     return list;
+        //   });
+        // })
       )
       .subscribe(data => {
         this.processing = false;
@@ -389,8 +399,26 @@ export class LimsComponent implements OnInit, AfterViewInit {
         }
       });
     }
-    console.log('[DNA]', this.dnaLists);
-    console.log('[RNA]', this.rnaLists);
+    console.log('[392][DNA]', this.dnaLists);
+    console.log('[393][순서변경전][RNA]', this.rnaLists);
+    // 순서맞춤
+    const tempRNA = [];
+    this.dnaLists.forEach((list, index) => {
+      const dnaTestcode = list.pathology_num;
+      const rnaTestcode = this.rnaLists[index].pathology_num;
+      if (dnaTestcode === rnaTestcode) {
+        tempRNA.push(this.rnaLists[index]);
+      } else {
+        const idx = this.rnaLists.findIndex(rnaList => rnaList.pathology_num === dnaTestcode);
+        if (idx !== -1) {
+          tempRNA.push(this.rnaLists[idx]);
+        }
+      }
+    });
+    this.rnaLists = [];
+    this.rnaLists = tempRNA;
+    console.log('[410][순서변경후][RNA]', this.rnaLists);
+
     this.dnaLists.forEach(list => {
       this.dnaFormLists().push(this.createDNA(list));
     });
@@ -589,6 +617,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
     let dna260280 = 0;
     let dna260230 = 0;
     const reader = new FileReader();
+    let zeroval = '';
     reader.onload = (e) => {
       const fileData = reader.result;
 
@@ -601,22 +630,33 @@ export class LimsComponent implements OnInit, AfterViewInit {
           const cellref = XLSX.utils.encode_cell({ c: C, r: R }); //   A1 참조
           if (!sheet[cellref]) { continue; } // 없으면게속
           const cell = sheet[cellref];
-          if (C === 1) {  // 검체번호
+
+          if (C === 1 && R > 0) {  // 검체번호
             if (type === 'DNA') {
               const temp = cell.v.split('D')[0];
               const nameTemp = temp.split('-');
-              id = nameTemp[0] + '-' + '0' + nameTemp[1];
+              const zeroLen = 6 - nameTemp[1].toString().length;
+              for (let i = 0; i <= zeroLen; i++) {
+                zeroval = zeroval + '0';
+              }
+              id = nameTemp[0] + '-' + zeroval + nameTemp[1];
+              zeroval = '';
             } else if (type === 'RNA') {
               const temp = cell.v.split('R')[0];
               const nameTemp = temp.split('-');
-              id = nameTemp[0] + '-' + '0' + nameTemp[1];
+              const zeroLen = 6 - nameTemp[1].toString().length;
+              for (let i = 0; i <= zeroLen; i++) {
+                zeroval = zeroval + '0';
+              }
+              id = nameTemp[0] + '-' + zeroval + nameTemp[1];
+              zeroval = '';
             }
 
-          } else if (C === 4) {
+          } else if (C === 4 && R > 0) {
             ngui = cell.v;
-          } else if (C === 8) { // 260/280
+          } else if (C === 8 && R > 0) { // 260/280
             dna260280 = cell.v;
-          } else if (C === 9) { // 260/230
+          } else if (C === 9 && R > 0) { // 260/230
             dna260230 = cell.v;
           }
         }
@@ -1344,8 +1384,14 @@ export class LimsComponent implements OnInit, AfterViewInit {
         controlDNA.at(index).patchValue({ key_block: keyblock });
       }
     }
+
+    this.limsService.updateKeyblock(testcode, keyblock)
+      .subscribe(data => {
+        console.log(data);
+      });
   }
 
+  /// organ 갱신
   prescriptionCodeSync(testcode: string, prescriptioncode: string, type: string): void {
     const controlDNA = this.dnaForm.get('dnaFormgroup') as FormArray;
     const controlRNA = this.rnaForm.get('rnaFormgroup') as FormArray;
@@ -1363,7 +1409,35 @@ export class LimsComponent implements OnInit, AfterViewInit {
         controlDNA.at(index).patchValue({ prescription_code: prescriptioncode });
       }
     }
+
+    this.limsService.updateOrgan(testcode, prescriptioncode)
+      .subscribe(data => {
+        console.log(data);
+      });
+
   }
+
+  // DNA ct
+  keyDnactSync(testcode: string, i: number): void {
+    const controlDNA = this.dnaForm.get('dnaFormgroup') as FormArray;
+    const dnaCtData = controlDNA.at(i).get('ct').value;
+    console.log(dnaCtData);
+    this.limsService.updateDnact(testcode, dnaCtData)
+      .subscribe(data => {
+        console.log(data);
+      });
+  }
+
+  // RNA ct
+  keyRnactSync(testcode: string, i: number): void {
+    const controlRNA = this.rnaForm.get('rnaFormgroup') as FormArray;
+    const rnaCtData = controlRNA.at(i).get('ct').value;
+    this.limsService.updateRnact(testcode, rnaCtData)
+      .subscribe(data => {
+        console.log(data);
+      });
+  }
+
 
   testCodeSync(testcode: string, testCode: string, type: string): void {
     const controlDNA = this.dnaForm.get('dnaFormgroup') as FormArray;

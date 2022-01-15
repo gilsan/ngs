@@ -364,7 +364,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       // this.tempvusmsg = this.patientInfo.vusmsg;
       const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
       if (this.patientInfo.vusmsg.length > 0) {
-        if (this.patientInfo.vusmsg === this.vusmsg && vusIdx === -1) {
+        if (this.patientInfo.vusmsg === this.vusmsg) {
           this.vusmsg = '';
           this.tempvusmsg = '';
         } else {
@@ -477,7 +477,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
             // this.tempvusmsg = this.patientInfo.vusmsg;
             const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
             if (this.patientInfo.vusmsg.length > 0) {
-              if (this.patientInfo.vusmsg === this.vusmsg && vusIdx === -1) {
+              if (this.patientInfo.vusmsg === this.vusmsg) {
                 this.vusmsg = '';
                 this.tempvusmsg = '';
               } else {
@@ -1219,7 +1219,6 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       }
 
 
-
       this.patientInfo.vusmsg = this.vusmsg;
       this.tempvusmsg = this.vusmsg;
       this.subs.sink = this.variantsService.screenInsert(this.form2TestedId, formData,
@@ -1391,10 +1390,10 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       tsvVersionContents = this.methods516;
     }
 
-    const vusIdx = formData.findIndex(list => list.functionalImpact === 'VUS');
-    if (vusIdx === -1) {
-      this.vusmsg = '';
-    }
+    // const vusIdx = formData.findIndex(list => list.functionalImpact === 'VUS');
+    // if (vusIdx === -1) {
+    //   this.vusmsg = '';
+    // }
 
     const makeForm = makeBForm(
       this.resultStatus,
@@ -1497,10 +1496,10 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       tsvVersionContents = this.methods516;
     }
 
-    const vusIdx = formData.findIndex(list => list.functionalImpact === 'VUS');
-    if (vusIdx === -1) {
-      this.vusmsg = '';
-    }
+    // const vusIdx = formData.findIndex(list => list.functionalImpact === 'VUS');
+    // if (vusIdx === -1) {
+    //  this.vusmsg = '';
+    // }
 
 
     const makeForm = makeAForm(
@@ -1771,6 +1770,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     this.store.setComments(this.comments);
     this.patientInfo.recheck = this.recheck;
     this.patientInfo.examin = this.examin;
+
     this.patientInfo.vusmsg = this.vusmsg;
     // console.log('[1654][tempSave]patient,reform,comment]', this.comments);
     console.log('[1730][tempSave]VUS 메세지]', this.vusmsg);

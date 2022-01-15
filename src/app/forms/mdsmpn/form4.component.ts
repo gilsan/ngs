@@ -164,7 +164,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
   leftScroll = true;
   tsvVersion = '510'; // v5.16 버전확인
   // tslint:disable-next-line:max-line-length
-  vusmsg = '';
+  vusmsg = `VUS는 ExAC, KRGDB등의 Population database에서 관찰되지 않았거나, 임상적 의의가 불분명합니다. 해당변이의 의의를 명확히 하기 위하여 환자의 buccal swab 검체로 germline variant 여부에 대한 확인이 필요 합니다.`;
   tempvusmsg = '';
   functionalimpact: string[] = ['Pathogenic', 'Likely Pathogenic', 'VUS'];
   zygosity: string[] = ['Heterozygous', 'Homozygous'];
@@ -1275,10 +1275,10 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       this.comments = [];
     }
 
-    const vusIdx = formData.findIndex(list => list.functionalImpact === 'VUS');
-    if (vusIdx === -1) {
-      this.vusmsg = '';
-    }
+    // const vusIdx = formData.findIndex(list => list.functionalImpact === 'VUS');
+    // if (vusIdx === -1) {
+    //   this.vusmsg = '';
+    // }
 
     if (this.firstReportDay === '-') {
       this.firstReportDay = this.today().replace(/-/g, '.');

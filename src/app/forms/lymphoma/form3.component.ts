@@ -389,7 +389,7 @@ export class Form3Component implements OnInit, OnDestroy {
       // this.tempvusmsg = this.patientInfo.vusmsg;
       const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
       if (this.patientInfo.vusmsg.length > 0) {
-        if (this.patientInfo.vusmsg === this.vusmsg && vusIdx === -1) {
+        if (this.patientInfo.vusmsg === this.vusmsg) {
           this.vusmsg = '';
           this.tempvusmsg = '';
         } else {
@@ -470,7 +470,7 @@ export class Form3Component implements OnInit, OnDestroy {
           // this.tempvusmsg = this.patientInfo.vusmsg;
           const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
           if (this.patientInfo.vusmsg.length > 0) {
-            if (this.patientInfo.vusmsg === this.vusmsg && vusIdx === -1) {
+            if (this.patientInfo.vusmsg === this.vusmsg) {
               this.vusmsg = '';
               this.tempvusmsg = '';
             } else {
@@ -1302,10 +1302,10 @@ export class Form3Component implements OnInit, OnDestroy {
       this.comments = [];
     }
 
-    const vusIdx = formData.findIndex(list => list.functionalImpact === 'VUS');
-    if (vusIdx === -1) {
-      this.vusmsg = '';
-    }
+    // const vusIdx = formData.findIndex(list => list.functionalImpact === 'VUS');
+    // if (vusIdx === -1) {
+    //   this.vusmsg = '';
+    // }
 
     if (this.firstReportDay === '-') {
       this.firstReportDay = this.today().replace(/-/g, '.');

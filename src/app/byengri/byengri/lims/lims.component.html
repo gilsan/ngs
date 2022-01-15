@@ -255,7 +255,8 @@
                               <input type="text" size="10" class="clr-input" formControlName="tot_ct">
                           </td>
                           <td class="txt_c">
-                              <input type="text" size="10" class="clr-input" formControlName="ct">
+                              <input type="text" size="10" class="clr-input" formControlName="ct"
+                                (change)="keyDnactSync(group.get('pathology_num').value, i)">
                           </td>
                           <td class="txt_c">
                               <input type="text" size="10" class="clr-input" formControlName="quantity" #dnaquatity
@@ -521,7 +522,8 @@
                             <input type="text" size="10" class="clr-input" formControlName="tot_ct">
                           </td>
                           <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="ct">
+                            <input type="text" size="10" class="clr-input" formControlName="ct"
+                            (change)="keyRnactSync(group.get('pathology_num').value, i)">
                           </td>
                           <td class="txt_c">
                             <input type="text" size="10" class="clr-input" formControlName="quantity"

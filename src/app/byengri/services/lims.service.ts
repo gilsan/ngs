@@ -69,6 +69,30 @@ export class LimsService {
     return this.http.post(`${this.apiUrl}/lims/tmorCellSave`, { test_code, tumor_cell_per });
   }
 
+  // key-block 갱신
+  // tslint:disable-next-line:variable-name
+  public updateKeyblock(test_code: string, keyblock: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/lims/keyBlockSave`, { test_code, keyblock });
+  }
+
+  // organ 갱신
+  // tslint:disable-next-line:variable-name
+  public updateOrgan(test_code: string, organ: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/lims/organSave`, { test_code, organ });
+  }
+
+  // dnact 갱신
+  // tslint:disable-next-line:variable-name
+  public updateDnact(test_code: string, dnact: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/lims/dnaCtSave`, { test_code, dnact });
+  }
+
+  // rnact 갱신
+  // tslint:disable-next-line:variable-name
+  public updateRnact(test_code: string, rnact: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/lims/rnaCtSave`, { test_code, rnact });
+  }
+
 
 
 
