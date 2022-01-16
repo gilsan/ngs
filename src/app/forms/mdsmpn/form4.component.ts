@@ -400,9 +400,18 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       //   this.vusmsg = this.patientInfo.vusmsg;
       //   this.tempvusmsg = this.patientInfo.vusmsg;
       // }
-      if (this.patientInfo.vusmsg.length !== 0) {
-        this.vusmsg = this.patientInfo.vusmsg;
-        this.tempvusmsg = this.patientInfo.vusmsg;
+      const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
+      if (vusIdx !== -1) { // 있는경우
+        this.vusmsg = this.vusmsg;
+        this.tempvusmsg = this.vusmsg;
+      } else if (this.patientInfo.vusmsg.length > 0 && vusIdx === -1) {
+        if (this.patientInfo.vusmsg === this.vusmsg) {
+          this.vusmsg = '';
+          this.tempvusmsg = '';
+        } else {
+          this.vusmsg = this.patientInfo.vusmsg;
+          this.tempvusmsg = this.patientInfo.vusmsg;
+        }
       }
 
 
@@ -487,15 +496,23 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
 
           this.store.setDetactedVariants(data); // Detected variant 저장
 
-          // const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
-          // if (vusIdx !== -1) {
+          const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
+          if (vusIdx !== -1) { // 있는경우
+            this.vusmsg = this.vusmsg;
+            this.tempvusmsg = this.vusmsg;
+          } else if (this.patientInfo.vusmsg.length > 0 && vusIdx === -1) {
+            if (this.patientInfo.vusmsg === this.vusmsg) {
+              this.vusmsg = '';
+              this.tempvusmsg = '';
+            } else {
+              this.vusmsg = this.patientInfo.vusmsg;
+              this.tempvusmsg = this.patientInfo.vusmsg;
+            }
+          }
+          // if (this.patientInfo.vusmsg.length !== 0) {
           //   this.vusmsg = this.patientInfo.vusmsg;
           //   this.tempvusmsg = this.patientInfo.vusmsg;
           // }
-          if (this.patientInfo.vusmsg.length !== 0) {
-            this.vusmsg = this.patientInfo.vusmsg;
-            this.tempvusmsg = this.patientInfo.vusmsg;
-          }
 
           this.recoverVariants.forEach(item => {
             this.recoverVariant(item);
