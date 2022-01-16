@@ -214,7 +214,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
 
     } else {
       list.data.forEach(item => {
-        if (parseInt(item.screenstatus, 10) >= 3) {
+        if (parseInt(item.sendyn, 10) === 3) {
 
           if (list.test_code === 'LPE471') { // AML
             this.analysisService.getAanlysisAMLInfo(list.specimenNo)
@@ -363,7 +363,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
       }
     } else {
       list.data.forEach(item => {
-        if (parseInt(item.screenstatus, 10) === 3) {
+        if (parseInt(item.sendyn, 10) === 3) {
 
           this.analysisService.getAanlysisLYMInfo(list.specimenNo)
             .subscribe(profile => {
@@ -456,8 +456,9 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         });
       };
     } else {
+
       list.data.forEach(item => {
-        if (parseInt(item.screenstatus, 10) === 3) {
+        if (parseInt(item.sendyn, 10) === 3) {
 
           this.analysisService.getAanlysisMDSInfo(list.specimenNo)
             .subscribe(profile => {
@@ -518,7 +519,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
   pushGenetic(list): void {
     let check = '';
     if (list.data.length === 0) {
-      if (parseInt(list.screenstatus, 10) === 3) {
+      if (parseInt(list.screenstatus, 10) >= 3) {
         if (parseInt(list.detected, 10) === 0) {
           check = 'Detected';
         } else if (parseInt(list.detected, 10) === 1) {
@@ -552,7 +553,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
       };
     } else {
       list.data.forEach(item => {
-        if (parseInt(list.screenstatus, 10) === 3) {
+        if (parseInt(list.sendyn, 10) === 3) {
           if (parseInt(list.detected, 10) === 0) {
             check = 'Detected';
           } else if (parseInt(list.detected, 10) === 1) {
@@ -626,7 +627,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
 
     } else {
       list.data.forEach(item => {
-        if (parseInt(item.screenstatus, 10) === 3) {
+        if (parseInt(item.sendyn, 10) === 3) {
           console.log(list);
           if (parseInt(list.detected, 10) === 0) {
             check = 'Detected';
