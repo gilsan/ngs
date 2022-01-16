@@ -400,8 +400,11 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       //   this.vusmsg = this.patientInfo.vusmsg;
       //   this.tempvusmsg = this.patientInfo.vusmsg;
       // }
-      this.vusmsg = this.patientInfo.vusmsg;
-      this.tempvusmsg = this.patientInfo.vusmsg;
+      if (this.patientInfo.vusmsg.length !== 0) {
+        this.vusmsg = this.patientInfo.vusmsg;
+        this.tempvusmsg = this.patientInfo.vusmsg;
+      }
+
 
       this.recoverVariants.forEach(item => {
         this.recoverVariant(item);  // 354
@@ -489,9 +492,10 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
           //   this.vusmsg = this.patientInfo.vusmsg;
           //   this.tempvusmsg = this.patientInfo.vusmsg;
           // }
-
-          this.vusmsg = this.patientInfo.vusmsg;
-          this.tempvusmsg = this.patientInfo.vusmsg;
+          if (this.patientInfo.vusmsg.length !== 0) {
+            this.vusmsg = this.patientInfo.vusmsg;
+            this.tempvusmsg = this.patientInfo.vusmsg;
+          }
 
           this.recoverVariants.forEach(item => {
             this.recoverVariant(item);
