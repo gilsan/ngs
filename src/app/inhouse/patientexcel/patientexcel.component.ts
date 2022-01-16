@@ -95,7 +95,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         concatMap(patientinfo => {
           return this.variantsService.screenSelect(patientinfo.specimenNo)
             .pipe(
-              tap(data => console.log('[97]', data)),
+              // tap(data => console.log('[97]', data)),
               map(data => {
                 // console.log('[99]', patientinfo.name, data);
                 return { ...patientinfo, data };
@@ -175,46 +175,46 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
     let flt3itd = '';
     let chron = '';
     if (list.data.length === 0) {
-      // if (parseInt(list.sendyn, 10) === 3) {
-      //   if (parseInt(list.detected, 10) === 0) {
-      //     check = 'Detected';
-      //   } else if (parseInt(list.detected, 10) === 1) {
-      //     check = 'Not Detected';
-      //   }
+      if (parseInt(list.screenstatus, 10) >= 3) {
+        if (parseInt(list.detected, 10) === 0) {
+          check = 'Detected';
+        } else if (parseInt(list.detected, 10) === 1) {
+          check = 'Not Detected';
+        }
 
-      //   this.amlall.push({
-      //     prescription: list.test_code,
-      //     title: list.reportTitle,
-      //     name: list.name,
-      //     gender: list.gender,
-      //     age: list.age,
-      //     patientID: list.patientID,
-      //     barcode: list.specimenNo,
-      //     acceptdate: list.accept_date,
-      //     reportdate: list.sendEMRDate,
-      //     researchPrescriptionCode: '',
-      //     LeukemiaAssociatedFusion: list.leukemiaassociatedfusion,
-      //     FLT3ITD: list.FLT3ITD,
-      //     IKZF1deletion: list.IKZK1Deletion,
-      //     ChromosomalAnalysis: list.chromosomalanalysis,
-      //     tsvname: list.tsvFilteredFilename,
-      //     result: check,
-      //     gene: '',
-      //     functionalImpact: '',
-      //     transcript: '',
-      //     exonIntro: '',
-      //     nucleotideChange: '',
-      //     aminoAcidChange: '',
-      //     zygosity: '',
-      //     vafPercent: '',
-      //     reference: '',
-      //     cosmic_id: '',
-      //   });
-      // }
+        this.amlall.push({
+          prescription: list.test_code,
+          title: list.reportTitle,
+          name: list.name,
+          gender: list.gender,
+          age: list.age,
+          patientID: list.patientID,
+          barcode: list.specimenNo,
+          acceptdate: list.accept_date,
+          reportdate: list.sendEMRDate,
+          researchPrescriptionCode: '',
+          LeukemiaAssociatedFusion: list.leukemiaassociatedfusion,
+          FLT3ITD: list.FLT3ITD,
+          IKZF1deletion: list.IKZK1Deletion,
+          ChromosomalAnalysis: list.chromosomalanalysis,
+          tsvname: list.tsvFilteredFilename,
+          result: check,
+          gene: '',
+          functionalImpact: '',
+          transcript: '',
+          exonIntro: '',
+          nucleotideChange: '',
+          aminoAcidChange: '',
+          zygosity: '',
+          vafPercent: '',
+          reference: '',
+          cosmic_id: '',
+        });
+      }
 
     } else {
       list.data.forEach(item => {
-        if (parseInt(item.sendyn, 10) === 3) {
+        if (parseInt(item.screenstatus, 10) >= 3) {
 
           if (list.test_code === 'LPE471') { // AML
             this.analysisService.getAanlysisAMLInfo(list.specimenNo)
@@ -327,41 +327,43 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
     let chron = '';
 
     if (list.data.length === 0) {
-      // if (parseInt(list.detected, 10) === 0) {
-      //   check = 'Detected';
-      // } else if (parseInt(list.detected, 10) === 1) {
-      //   check = 'Not Detected';
-      // }
+      if (parseInt(list.screenstatus, 10) === 3) {
+        if (parseInt(list.detected, 10) === 0) {
+          check = 'Detected';
+        } else if (parseInt(list.detected, 10) === 1) {
+          check = 'Not Detected';
+        }
 
-      // this.lym.push({
-      //   prescription: list.test_code,
-      //   title: list.reportTitle,
-      //   name: list.name,
-      //   gender: list.gender,
-      //   age: list.age,
-      //   patientID: list.patientID,
-      //   barcode: list.specimenNo,
-      //   acceptdate: list.accept_date,
-      //   reportdate: list.sendEMRDate,
-      //   researchPrescriptionCode: '',
-      //   diagnosis: list.bonemarrow,
-      //   chromosomalAnalysis: list.chromosomalanalysis,
-      //   tsvname: list.tsvFilteredFilename,
-      //   result: check,
-      //   gene: '',
-      //   functionalImpact: '',
-      //   transcript: '',
-      //   exonIntro: '',
-      //   nucleotideChange: '',
-      //   aminoAcidChange: '',
-      //   zygosity: '',
-      //   vafPercent: '',
-      //   reference: '',
-      //   cosmic_id: '',
-      // });
+        this.lym.push({
+          prescription: list.test_code,
+          title: list.reportTitle,
+          name: list.name,
+          gender: list.gender,
+          age: list.age,
+          patientID: list.patientID,
+          barcode: list.specimenNo,
+          acceptdate: list.accept_date,
+          reportdate: list.sendEMRDate,
+          researchPrescriptionCode: '',
+          diagnosis: list.bonemarrow,
+          chromosomalAnalysis: list.chromosomalanalysis,
+          tsvname: list.tsvFilteredFilename,
+          result: check,
+          gene: '',
+          functionalImpact: '',
+          transcript: '',
+          exonIntro: '',
+          nucleotideChange: '',
+          aminoAcidChange: '',
+          zygosity: '',
+          vafPercent: '',
+          reference: '',
+          cosmic_id: '',
+        });
+      }
     } else {
       list.data.forEach(item => {
-        if (parseInt(item.sendyn, 10) === 3) {
+        if (parseInt(item.screenstatus, 10) === 3) {
 
           this.analysisService.getAanlysisLYMInfo(list.specimenNo)
             .subscribe(profile => {
@@ -404,7 +406,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
                 reference: item.reference,
                 cosmic_id: item.cosmic_id,
               });
-            })
+            });
         }
 
       });
@@ -419,43 +421,43 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
     let chron = '';
 
     if (list.data.length === 0) {
-      // list.data.forEach(item => {
-      //   if (parseInt(list.detected, 10) === 0) {
-      //     check = 'Detected';
-      //   } else if (parseInt(list.detected, 10) === 1) {
-      //     check = 'Not Detected';
-      //   }
-      //   this.mds.push({
-      //     prescription: list.test_code,
-      //     title: list.reportTitle,
-      //     name: list.name,
-      //     gender: list.gender,
-      //     age: list.age,
-      //     patientID: list.patientID,
-      //     barcode: list.specimenNo,
-      //     acceptdate: list.accept_date,
-      //     reportdate: list.sendEMRDate,
-      //     researchPrescriptionCode: '',
-      //     diagnosis: list.diagnosis,
-      //     geneticTest: list.genetictest,
-      //     chromosomalAnalysis: list.chromosomalanalysis,
-      //     excelname: list.tsvFilteredFilename,
-      //     result: check,
-      //     gene: '',
-      //     functionalImpact: '',
-      //     transcript: '',
-      //     exonIntro: '',
-      //     nucleotideChange: '',
-      //     aminoAcidChange: '',
-      //     zygosity: '',
-      //     vafPercent: '',
-      //     reference: '',
-      //     cosmic_id: '',
-      //   });
-      // });
+      if (parseInt(list.screenstatus, 10) >= 3) {
+        if (parseInt(list.detected, 10) === 0) {
+          check = 'Detected';
+        } else if (parseInt(list.detected, 10) === 1) {
+          check = 'Not Detected';
+        }
+        this.mds.push({
+          prescription: list.test_code,
+          title: list.reportTitle,
+          name: list.name,
+          gender: list.gender,
+          age: list.age,
+          patientID: list.patientID,
+          barcode: list.specimenNo,
+          acceptdate: list.accept_date,
+          reportdate: list.sendEMRDate,
+          researchPrescriptionCode: '',
+          diagnosis: list.diagnosis,
+          geneticTest: list.genetictest,
+          chromosomalAnalysis: list.chromosomalanalysis,
+          excelname: list.tsvFilteredFilename,
+          result: check,
+          gene: '',
+          functionalImpact: '',
+          transcript: '',
+          exonIntro: '',
+          nucleotideChange: '',
+          aminoAcidChange: '',
+          zygosity: '',
+          vafPercent: '',
+          reference: '',
+          cosmic_id: '',
+        });
+      };
     } else {
       list.data.forEach(item => {
-        if (parseInt(item.sendyn, 10) === 3) {
+        if (parseInt(item.screenstatus, 10) === 3) {
 
           this.analysisService.getAanlysisMDSInfo(list.specimenNo)
             .subscribe(profile => {
@@ -516,41 +518,41 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
   pushGenetic(list): void {
     let check = '';
     if (list.data.length === 0) {
-      // list.data.forEach(item => {
-      //   if (parseInt(list.detected, 10) === 0) {
-      //     check = 'Detected';
-      //   } else if (parseInt(list.detected, 10) === 1) {
-      //     check = 'Not Detected';
-      //   }
-      //   this.genetic.push({
-      //     prescription: list.test_code,
-      //     title: list.reportTitle,
-      //     name: list.name,
-      //     gender: list.gender,
-      //     age: list.age,
-      //     patientID: list.patientID,
-      //     barcode: list.specimenNo,
-      //     acceptdate: list.accept_date,
-      //     reportdate: list.sendEMRDate,
-      //     researchPrescriptionCode: '',
-      //     diagnosis: list.diagnosis,
-      //     excelname: list.tsvFilteredFilename,
-      //     result: check,
-      //     gene: '',
-      //     functionalImpact: '',
-      //     transcript: '',
-      //     exonIntro: '',
-      //     nucleotideChange: '',
-      //     aminoAcidChange: '',
-      //     zygosity: '',
-      //     dbSNPHGMD: '',
-      //     gnomADEAS: '',
-      //     OMIM: '',
-      //   });
-      // });
+      if (parseInt(list.screenstatus, 10) === 3) {
+        if (parseInt(list.detected, 10) === 0) {
+          check = 'Detected';
+        } else if (parseInt(list.detected, 10) === 1) {
+          check = 'Not Detected';
+        }
+        this.genetic.push({
+          prescription: list.test_code,
+          title: list.reportTitle,
+          name: list.name,
+          gender: list.gender,
+          age: list.age,
+          patientID: list.patientID,
+          barcode: list.specimenNo,
+          acceptdate: list.accept_date,
+          reportdate: list.sendEMRDate,
+          researchPrescriptionCode: '',
+          diagnosis: list.diagnosis,
+          excelname: list.tsvFilteredFilename,
+          result: check,
+          gene: '',
+          functionalImpact: '',
+          transcript: '',
+          exonIntro: '',
+          nucleotideChange: '',
+          aminoAcidChange: '',
+          zygosity: '',
+          dbSNPHGMD: '',
+          gnomADEAS: '',
+          OMIM: '',
+        });
+      };
     } else {
       list.data.forEach(item => {
-        if (parseInt(list.sendyn, 10) === 3) {
+        if (parseInt(list.screenstatus, 10) === 3) {
           if (parseInt(list.detected, 10) === 0) {
             check = 'Detected';
           } else if (parseInt(list.detected, 10) === 1) {
@@ -593,40 +595,38 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
     let check = '';
 
     if (list.data.length === 0) {
-      // if (parseInt(list.sendyn, 10) === 3) {
-      //   list.data.forEach(item => {
-      //     if (parseInt(list.detected, 10) === 0) {
-      //       check = 'Detected';
-      //     } else if (parseInt(list.detected, 10) === 1) {
-      //       check = 'Not Detected';
-      //     }
-      //     this.seq.push({
-      //       prescription: list.test_code,
-      //       title: list.reportTitle,
-      //       name: list.name,
-      //       gender: list.gender,
-      //       age: list.age,
-      //       patientID: list.patientID,
-      //       barcode: list.specimenNo,
-      //       acceptdate: list.accept_date,
-      //       reportdate: list.sendEMRDate,
-      //       researchPrescriptionCode: '',
-      //       result: check,
-      //       gene: '',
-      //       type: '',
-      //       exonIntro: '',
-      //       nucleotideChange: '',
-      //       aminoAcidChange: '',
-      //       zygosity: '',
-      //       rsid: '',
-      //       genbank: ''
-      //     });
-      //   });
-      // }
+      if (parseInt(list.screenstatus, 10) === 3) {
+        if (parseInt(list.detected, 10) === 0) {
+          check = 'Detected';
+        } else if (parseInt(list.detected, 10) === 1) {
+          check = 'Not Detected';
+        }
+        this.seq.push({
+          prescription: list.test_code,
+          title: list.reportTitle,
+          name: list.name,
+          gender: list.gender,
+          age: list.age,
+          patientID: list.patientID,
+          barcode: list.specimenNo,
+          acceptdate: list.accept_date,
+          reportdate: list.sendEMRDate,
+          researchPrescriptionCode: '',
+          result: check,
+          gene: '',
+          type: '',
+          exonIntro: '',
+          nucleotideChange: '',
+          aminoAcidChange: '',
+          zygosity: '',
+          rsid: '',
+          genbank: ''
+        });
+      }
 
     } else {
       list.data.forEach(item => {
-        if (parseInt(item.sendyn, 10) === 3) {
+        if (parseInt(item.screenstatus, 10) === 3) {
           console.log(list);
           if (parseInt(list.detected, 10) === 0) {
             check = 'Detected';
