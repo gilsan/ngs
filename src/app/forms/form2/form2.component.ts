@@ -347,7 +347,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
   recoverDetected(): void {
     // 디비에서 Detected variant_id 와 comments 가져오기
     this.subs.sink = this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {
-      console.log('[332][form2][recoverDetected][screen/query]', data);
+      console.log('[350][form2][recoverDetected][screen/query]', data);
       this.recoverVariants = data;
       this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
       // console.log('[335][form2][Detected variant_id]', this.recoverVariants);
@@ -355,17 +355,23 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
 
       // VUS 메제시 확인 2021.4.7 추가
       const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
+      console.log('[358] ==> [저장된것] ', vusIdx);
       if (vusIdx !== -1) { // 있는경우
         this.vusmsg = this.vusmsg;
         this.tempvusmsg = this.vusmsg;
       } else if (this.patientInfo.vusmsg.length > 0 && vusIdx === -1) {
         if (this.patientInfo.vusmsg === this.vusmsg) {
+          console.log('[364] ===> [같음]');
           this.vusmsg = '';
           this.tempvusmsg = '';
         } else {
+          console.log('[368] ===> [다름]');
           this.vusmsg = this.patientInfo.vusmsg;
           this.tempvusmsg = this.patientInfo.vusmsg;
         }
+      } else {
+        this.vusmsg = '';
+        this.tempvusmsg = '';
       }
       // const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
       // if (this.patientInfo.vusmsg.length > 0 ) {
