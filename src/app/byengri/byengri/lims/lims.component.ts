@@ -1079,7 +1079,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
       ct: 'Ct값',
       quantity: 'quantity',
       quantity_2: 'quantity/2(농도)',
-      quan_dna: 'DNA',
+      quan_dna: 'RNA',
       te: 'TE',
       quan_tot_vol: 'toal Vol',
       lib_hifi: 'Lib HIFI PCR Cycle',
