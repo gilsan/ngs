@@ -31,6 +31,7 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
   lists$: Observable<IPatient[]>;
   lists: IPatient[] = [];
   tempLists: IPatient[] = [];
+  savedLists: IPatient[] = [];
   specimenNo = '';
   patientID = '';
   patientname = '';
@@ -239,6 +240,7 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // tslint:disable-next-line: typedef
   goReporter(i: number) {
+    this.savedLists = [];
     const testedID = this.testedID.nativeElement.value;
     const patient = this.patient.nativeElement.value;
     const patientName = this.patientName.nativeElement.value;
@@ -263,7 +265,7 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.setSpecimenNoLists(this.specimenNoLists);
     this.store.setPatientIDLists(this.patientIDLists);
     this.store.setPatientNameLists(this.patientNameLists);
-
+    this.store.setPatientLists(this.tempLists);
     ////////////////////////////////////////////////////////////////
     const specimenno = this.store.getSpecimenNo();
 
@@ -370,7 +372,7 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
     this.specimenNoLists = this.store.getSpecimenNoLists();
     this.patientIDLists = this.store.getPatientIDLists();
     this.patientNameLists = this.store.getPatientNameLists();
-
+    this.savedLists = this.store.getPatientLists();
 
     if (storeSpecimenID.length !== 0) {
       this.storeSpecimenID = storeSpecimenID;
@@ -431,12 +433,12 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
     this.lists = [];
     if (whichstate === 'searchscreen') {
       this.search(storeStartDay.replace(/-/g, ''), storeEndDay.replace(/-/g, ''),
-        storeSpecimenID, storePatientID, status, sheet, research);
+        storeSpecimenID, storePatientID, status, sheet, research, storePatientName);
       // this.search(this.storeStartDay, this.storeEndDay, this.storeSpecimenID, this.storePatientID, this.status, this.sheet);
     } else if (whichstate === 'mainscreen') {
       if (storeStartDay.length && storeEndDay.length) {
         this.search(storeStartDay.replace(/-/g, ''), storeEndDay.replace(/-/g, ''),
-          storeSpecimenID, storePatientID, status, sheet, research);
+          storeSpecimenID, storePatientID, status, sheet, research, storePatientName);
       } else {
         this.search(this.startToday(), this.endToday(), '', '');
       }
@@ -628,23 +630,61 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   optionTestcode(option: string): void {
+    this.lists = [];
     if (option === '100') {
+      console.log(this.tempLists.length, this.savedLists.length);
       this.storeSpecimenID = '';
       this.store.setSpecimentNo('');
+      if (this.tempLists.length > this.savedLists.length) {
+        this.lists = this.tempLists;
+      } else if (this.tempLists.length < this.savedLists.length) {
+        this.lists = this.savedLists;
+        this.tempLists = this.savedLists;
+      } else {
+        this.lists = this.tempLists;
+      }
+    } else {
+      const list = this.tempLists.filter(patient => patient.specimenNo === option);
+      this.lists = list;
     }
   }
 
   optionPatientid(option: string): void {
+    this.lists = [];
     if (option === '100') {
       this.storeSpecimenID = '';
       this.store.setPatientID('');
+      if (this.tempLists.length > this.savedLists.length) {
+        this.lists = this.tempLists;
+      } else if (this.tempLists.length < this.savedLists.length) {
+        this.lists = this.savedLists;
+        this.tempLists = this.savedLists;
+      } else {
+        this.lists = this.tempLists;
+      }
+    } else {
+      const list = this.tempLists.filter(patient => patient.patientID === option);
+      this.lists = list;
     }
   }
 
   optionPatientname(option: string): void {
+    this.lists = [];
     if (option === '100') {
+
       this.storePatientName = '';
       this.store.setPatientName('');
+      if (this.tempLists.length > this.savedLists.length) {
+        this.lists = this.tempLists;
+      } else if (this.tempLists.length < this.savedLists.length) {
+        this.lists = this.savedLists;
+        this.tempLists = this.savedLists;
+      } else {
+        this.lists = this.tempLists;
+      }
+    } else {
+      const list = this.tempLists.filter(patient => patient.name === option);
+      this.lists = list;
     }
   }
 

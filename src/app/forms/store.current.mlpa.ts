@@ -42,6 +42,7 @@ export class StoreMLPAService {
   patientIDLists: string[] = [];
   patientNameLists: string[] = [];
   patientName = '';
+  patienLists: IPatient[] = [];
   constructor() { }
   // mainscreen의 검색항목 저장
   // 시작날자, 종료날자, 검체번호, 환자번호
@@ -131,6 +132,15 @@ export class StoreMLPAService {
 
   getPatientNameLists(): string[] {
     return this.patientNameLists;
+  }
+
+  // 환자리스트
+  setPatientLists(lists: IPatient[]): void {
+    this.patienLists = lists;
+  }
+
+  getPatientLists(): IPatient[] {
+    return this.patienLists;
   }
 
 

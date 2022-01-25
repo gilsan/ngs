@@ -28,6 +28,7 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
   lists$: Observable<IPatient[]>;
   lists: IPatient[] = [];
   tempLists: IPatient[] = [];
+  savedLists: IPatient[] = [];
   specimenNo = '';
   patientID = '';
   patientname = '';
@@ -252,6 +253,7 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
   // tslint:disable-next-line: typedef
   goReporter(i: number) {
     // const specimenno = this.store.getSpecimenNo();
+    this.savedLists = [];
     const testedID = this.testedID.nativeElement.value;
     const patient = this.patient.nativeElement.value;
     const patientName = this.patientName.nativeElement.value;
@@ -276,11 +278,10 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.setSpecimenNoLists(this.specimenNoLists);
     this.store.setPatientIDLists(this.patientIDLists);
     this.store.setPatientNameLists(this.patientNameLists);
-
+    this.store.setPatientLists(this.tempLists);
     ////////////////////////////////////////////////////////////////
     this.patientsList.setTestedID(this.lists[i].specimenNo); // 검체번호
     this.patientsList.setTestcode(this.lists[i].test_code);  // 검사지 타입 AML ALL
-
 
     this.router.navigate(['/diag', 'hereditary', 'form6', this.lists[i].test_code, this.receivedType]);
   }
@@ -409,7 +410,8 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.specimenNoLists = this.store.getSpecimenNoLists();
     this.patientIDLists = this.store.getPatientIDLists();
     this.patientNameLists = this.store.getPatientNameLists();
-
+    this.savedLists = this.store.getPatientLists();
+    // console.log('[412][goReporter][저장]==> ', this.savedLists);
     if (storeSpecimenID.length !== 0) {
       this.storeSpecimenID = storeSpecimenID;
       this.testedID.nativeElement.value = this.storeSpecimenID;
@@ -468,12 +470,12 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.lists = [];
     if (whichstate === 'searchscreen') {
       this.search(storeStartDay.replace(/-/g, ''), storeEndDay.replace(/-/g, ''),
-        storeSpecimenID, storePatientID, status, sheet, research);
+        storeSpecimenID, storePatientID, status, sheet, research, storePatientName);
       // this.search(this.storeStartDay, this.storeEndDay, this.storeSpecimenID, this.storePatientID, this.status, this.sheet, research);
     } else if (whichstate === 'mainscreen') {
       if (storeStartDay.length && storeEndDay.length) {
         this.search(storeStartDay.replace(/-/g, ''), storeEndDay.replace(/-/g, ''),
-          storeSpecimenID, storePatientID, status, sheet, research);
+          storeSpecimenID, storePatientID, status, sheet, research, storePatientName);
       } else {
         this.search(this.startToday(), this.endToday(), '', '');
       }
@@ -546,7 +548,6 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.patientsList.hereditarySearch2(startdate, enddate, patientId, specimenNo, status, sheet, research, patientname)
       .then(response => response.json())
       .then(data => {
-        // console.log('[469][검색결과]', data,);
         if (this.receivedType !== 'none') {
           data.forEach(list => {
             if (this.receivedType === 'register' || parseInt(this.receivedType, 10)) {
@@ -565,7 +566,6 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
           this.patientsList.setPatientID(tempLists);
           this.lists = tempLists;
           this.tempLists = tempLists;
-          // this.receivedType = 'none';
         } else if (this.receivedType === 'none') {
           this.patientsList.setPatientID(data);
           this.lists = data;
@@ -593,7 +593,7 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
           this.patientIDLists = this.backuppatientIDLists;
           this.patientNameLists = this.backuppatientNameLists;
         }
-        // console.log('[548][LYM]', this.specimenNoLists, this.patientIDLists, this.patientNameLists);
+
       });
   }
 
@@ -667,23 +667,60 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   optionTestcode(option: string): void {
+    this.lists = [];
     if (option === '100') {
+
       this.storeSpecimenID = '';
       this.store.setSpecimentNo('');
+      if (this.tempLists.length > this.savedLists.length) {
+        this.lists = this.tempLists;
+      } else if (this.tempLists.length < this.savedLists.length) {
+        this.lists = this.savedLists;
+        this.tempLists = this.savedLists;
+      } else {
+        this.lists = this.tempLists;
+      }
+    } else {
+      const list = this.tempLists.filter(patient => patient.specimenNo === option);
+      this.lists = list;
     }
   }
 
   optionPatientid(option: string): void {
+    this.lists = [];
     if (option === '100') {
       this.storeSpecimenID = '';
       this.store.setPatientID('');
+      if (this.tempLists.length > this.savedLists.length) {
+        this.lists = this.tempLists;
+      } else if (this.tempLists.length < this.savedLists.length) {
+        this.lists = this.savedLists;
+        this.tempLists = this.savedLists;
+      } else {
+        this.lists = this.tempLists;
+      }
+    } else {
+      const list = this.tempLists.filter(patient => patient.patientID === option);
+      this.lists = list;
     }
   }
 
   optionPatientname(option: string): void {
+    this.lists = [];
     if (option === '100') {
       this.storePatientName = '';
       this.store.setPatientName('');
+      if (this.tempLists.length > this.savedLists.length) {
+        this.lists = this.tempLists;
+      } else if (this.tempLists.length < this.savedLists.length) {
+        this.lists = this.savedLists;
+        this.tempLists = this.savedLists;
+      } else {
+        this.lists = this.tempLists;
+      }
+    } else {
+      const list = this.tempLists.filter(patient => patient.name === option);
+      this.lists = list;
     }
   }
 

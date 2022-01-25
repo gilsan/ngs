@@ -42,7 +42,7 @@ export class StoreLYMService {
   specimenNoLists: string[] = [];
   patientIDLists: string[] = [];
   patientNameLists: string[] = [];
-
+  patienLists: IPatient[] = [];
   constructor() { }
   // mainscreen의 검색항목 저장
   // 시작날자, 종료날자, 검체번호, 환자번호
@@ -150,6 +150,15 @@ export class StoreLYMService {
 
   getPatientNameLists(): string[] {
     return this.patientNameLists;
+  }
+
+  // 환자리스트
+  setPatientLists(lists: IPatient[]): void {
+    this.patienLists = lists;
+  }
+
+  getPatientLists(): IPatient[] {
+    return this.patienLists;
   }
 
 

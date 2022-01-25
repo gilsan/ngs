@@ -314,8 +314,9 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.setSpecimenNoLists(this.specimenNoLists);
     this.store.setPatientIDLists(this.patientIDLists);
     this.store.setPatientNameLists(this.patientNameLists);
+    this.store.setPatientLists(this.tempLists);
     ////////////////////////////////////////////////////////////////
-    console.log('[314][goReporter][저장]==> ', testedID, patient, status, sheet, research, start, end, this.receivedType);
+    //  testedID, patient, status, sheet, research, start, end, this.receivedType);
     const specimenno = this.store.getSpecimenNo();
 
     this.patientsList.setTestedID(this.lists[i].specimenNo); // 검체번호
@@ -418,7 +419,7 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.specimenNoLists = this.store.getSpecimenNoLists();
     this.patientIDLists = this.store.getPatientIDLists();
     this.patientNameLists = this.store.getPatientNameLists();
-
+    this.tempLists = this.store.getPatientLists();
     // console.log('[414][checkStore][저장된데이터] ', storeSpecimenID);
     if (storeSpecimenID.length !== 0) {
       this.storeSpecimenID = storeSpecimenID;
@@ -478,11 +479,11 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
     // console.log('[434][날자] ', storeStartDay, storeEndDay);
     if (whichstate === 'searchscreen') {
       this.search(storeStartDay.replace(/-/g, ''), storeEndDay.replace(/-/g, ''),
-        storeSpecimenID, storePatientID, status, sheet, research);
+        storeSpecimenID, storePatientID, status, sheet, research, storePatientName);
     } else if (whichstate === 'mainscreen') {
       if (storeStartDay.length && storeEndDay.length) {
         this.search(storeStartDay.replace(/-/g, ''), storeEndDay.replace(/-/g, ''),
-          storeSpecimenID, storePatientID, status, sheet, research);
+          storeSpecimenID, storePatientID, status, sheet, research, storePatientName);
       } else {
         this.search(this.startToday(), this.endToday(), '', '');
       }
@@ -758,9 +759,14 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   optionTestcode(option: string): void {
+    this.lists = [];
     if (option === '100') {
       this.storeSpecimenID = '';
       this.store.setSpecimentNo('');
+      this.lists = this.tempLists;
+    } else {
+      const list = this.tempLists.filter(patient => patient.specimenNo === option);
+      this.lists = list;
     }
   }
 
@@ -768,6 +774,10 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
     if (option === '100') {
       this.storeSpecimenID = '';
       this.store.setPatientID('');
+      this.lists = this.tempLists;
+    } else {
+      const list = this.tempLists.filter(patient => patient.patientID === option);
+      this.lists = list;
     }
   }
 
@@ -775,6 +785,10 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
     if (option === '100') {
       this.storePatientName = '';
       this.store.setPatientName('');
+      this.lists = this.tempLists;
+    } else {
+      const list = this.tempLists.filter(patient => patient.name === option);
+      this.lists = list;
     }
   }
 

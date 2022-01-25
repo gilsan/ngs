@@ -43,6 +43,7 @@ export class StoreGENService {
   patientIDLists: string[] = [];
   patientNameLists: string[] = [];
 
+  patienLists: IPatient[] = [];
 
   constructor() { }
   // mainscreen의 검색항목 저장
@@ -131,6 +132,15 @@ export class StoreGENService {
 
   getPatientNameLists(): string[] {
     return this.patientNameLists;
+  }
+
+  // // 환자리스트
+  setPatientLists(lists: IPatient[]): void {
+    this.patienLists = lists;
+  }
+
+  getPatientLists(): IPatient[] {
+    return this.patienLists;
   }
 
 
