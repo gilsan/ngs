@@ -20,15 +20,15 @@ export interface ILIMS {
   nano_230: string;             // 260/230
   nano_dil: string;             // dil비율
   ng_ui: string;                // Qubit ng/ul
-  dan_rna?: number;             // DNA  함수: 20/ng_ui * 5
+  dan_rna: string;             // DNA  함수: 20/ng_ui * 5
   dna_rna?: number;
-  dw: number;                   // dw  함수: 20 - dna_rna
+  dw: string;                   // dw  함수: 20 - dna_rna
   tot_ct: string;               // toal Vol
   ct: string;                   // Ct값
   quantity: string;             // quantity
   quantity_2: number;           // quantity/2(농도) 함수: quantity/2
-  quan_dna: number;             // quantity dna 함수: 20/quantity_2
-  te: number;                   // TE  함수: 5.5 - quan_dna
+  quan_dna: string;             // quantity dna 함수: 20/quantity_2
+  te: string;                   // TE  함수: 5.5 - quan_dna
   quan_tot_vol: string;         // toal Vol
   lib_hifi: string;             // Lib HIFI PCR Cycle
   pm: string;                   // pM
@@ -73,6 +73,24 @@ export interface IRNATYPE {
   nano_230: string;
   ng_ui: string;
 }
+
+export interface ExperimentList {
+  exam_nm: string;
+  examin: string;
+  recheck: string;
+  recheck_nm: string;
+  report_date: string;
+}
+
+export interface ExperList {
+  examNm: string;
+  examin: string;
+  recheck: string;
+  recheckNm: string;
+  reportDate: string;
+}
+
+
 
 
 /*

@@ -35,6 +35,7 @@ export class StoreService {
   status = '';  // 시작, 스크린판독, 판독완료, EMR전송
   sheet = '';    // AML ALL LYN MDS
   whichstate = 'mainscreen'; // mainscreen, searchscreen
+  patientName = '';
   receivedType = '';
   scrolly = 0;
   scrollyLYM = 0;
@@ -42,6 +43,11 @@ export class StoreService {
   scrollyGEN = 0;
   scrollySEQ = 0;
   scrollyMLPA = 0;
+
+  specimenNoLists: string[] = [];
+  patientIDLists: string[] = [];
+  patientNameLists: string[] = [];
+
 
   constructor() { }
   // mainscreen의 검색항목 저장
@@ -80,8 +86,17 @@ export class StoreService {
     this.patientID = patientid;
   }
 
-  public getPatineID(): string {
+  public getPatinetID(): string {
     return this.patientID;
+  }
+
+  // 환자명 저장
+  public setPatientName(name: string): void {
+    this.patientName = name;
+  }
+
+  public getPatientName(): string {
+    return this.patientName;
   }
 
   // status 상태관리  시작, 스크린판독, 판독완료, EMR전송
@@ -121,6 +136,32 @@ export class StoreService {
     return this.receivedType;
   }
 
+  // 검사코드
+  setSpecimenNoLists(noList: string[]): void {
+    this.specimenNoLists = noList;
+  }
+
+  getSpecimenNoLists(): string[] {
+    return this.specimenNoLists;
+  }
+  // 환자코드
+  setPatientIDLists(idLists: string[]): void {
+    this.patientIDLists = idLists;
+  }
+
+  getPatientIDLists(): string[] {
+    return this.patientIDLists;
+
+  }
+  // 환자이름
+  setPatientNameLists(nameLists: string[]): void {
+    this.patientNameLists = nameLists;
+  }
+
+  getPatientNameLists(): string[] {
+    return this.patientNameLists;
+  }
+
 
 
 
@@ -141,6 +182,7 @@ export class StoreService {
   }
   // 검사자 정보
   public setPatientInfo(patientInfo: IPatient): void {
+
     this.patientInfo = patientInfo;
   }
 

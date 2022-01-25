@@ -27,6 +27,7 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
   tempLists: IPatient[] = [];
   specimenNo = '';
   patientID = '';
+  patientname = '';
   isVisible = true;
   startday = '';
   endday = '';
@@ -39,6 +40,7 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
   storeEndDay: string;
   storePatientID: string;
   storeSpecimenID: string;
+  storePatientName: string;
   receivedType = 'none';
   private apiUrl = emrUrl;
   mselect0 = false;
@@ -58,14 +60,24 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
   mstartDay = this.startToday();
   mendDay = this.endToday();
 
+  specimenNoLists: string[] = [];
+  patientIDLists: string[] = [];
+  patientNameLists: string[] = [];
+
+  backupspecimenNoLists: string[] = [];
+  backuppatientIDLists: string[] = [];
+  backuppatientNameLists: string[] = [];
+
   @ViewChild('dbox100', { static: true }) dbox100: ElementRef;
   @ViewChild('mdsTestedID', { static: true }) testedID: ElementRef;
+  @ViewChild('mdspatientName', { static: true }) patientName: ElementRef;
   @ViewChild('mdsPatient', { static: true }) patient: ElementRef;
   @ViewChild('mdsStatus', { static: true }) screenstatus: ElementRef;
   @ViewChild('mdsSheet', { static: true }) amlallsheet: ElementRef;
   @ViewChild('mdsResearch', { static: true }) research: ElementRef;
   @ViewChild('mdsStart', { static: true }) start: ElementRef;
   @ViewChild('mdsEnd', { static: true }) end: ElementRef;
+  initState = true;
 
   constructor(
     private patientsList: PatientsListService,
@@ -228,6 +240,7 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
   goReporter(i: number) {
     const testedID = this.testedID.nativeElement.value;
     const patient = this.patient.nativeElement.value;
+    const patientName = this.patientName.nativeElement.value;
     const status = this.screenstatus.nativeElement.value;
     const sheet = this.amlallsheet.nativeElement.value;
     const research = this.research.nativeElement.value;
@@ -238,6 +251,7 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.store.setSpecimentNo(testedID);
     this.store.setPatientID(patient);
+    this.store.setPatientName(patientName);
     this.store.setStatus(status);
     this.store.setSheet(sheet);
     this.store.setResearch(research);
@@ -245,6 +259,9 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.setSearchEndDay(end);
     this.store.setReceivedType(this.receivedType);
 
+    this.store.setSpecimenNoLists(this.specimenNoLists);
+    this.store.setPatientIDLists(this.patientIDLists);
+    this.store.setPatientNameLists(this.patientNameLists);
     ////////////////////////////////////////////////////////////////
     const specimenno = this.store.getSpecimenNo();
 
@@ -333,9 +350,10 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.status = this.store.getStatus();
     // this.sheet = this.store.getSheet();
     // const whichstate = this.store.getWhichstate();
-
-    const storeSpecimenID = this.store.getamlSpecimenID();
-    const storePatientID = this.store.getamlPatientID();
+    this.initState = false;
+    const storeSpecimenID = this.store.getSpecimenNo();
+    const storePatientID = this.store.getPatineID();
+    const storePatientName = this.store.getPatientName();
     const status = this.store.getStatus();
     const sheet = this.store.getSheet();
     const storeStartDay = this.store.getSearchStartDay();
@@ -343,6 +361,11 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
     const research = this.store.getResearch();
     const whichstate = this.store.getWhichstate();
     const receivedType = this.store.getReceivedType();
+
+    this.specimenNoLists = this.store.getSpecimenNoLists();
+    this.patientIDLists = this.store.getPatientIDLists();
+    this.patientNameLists = this.store.getPatientNameLists();
+
 
     if (storeSpecimenID.length !== 0) {
       this.storeSpecimenID = storeSpecimenID;
@@ -353,6 +376,12 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
       this.storePatientID = storePatientID;
       this.patient.nativeElement.value = this.storePatientID;
     }
+
+    if (storePatientName.length !== 0) {
+      this.storePatientName = storePatientName;
+      this.patientName.nativeElement.value = this.storePatientID;
+    }
+
 
     if (status.length !== 0) {
       if (this.receivedType !== 'none') {
@@ -387,10 +416,10 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
       this.receivedType = receivedType;
     }
 
-    this.startday = this.storeStartDay;
-    this.endday = this.storeEndDay;
-    this.specimenno = this.storeSpecimenID;
-    this.patientid = this.storePatientID;
+    this.startday = storeStartDay;
+    this.endday = storeEndDay;
+    this.specimenno = storeSpecimenID;
+    this.patientid = storePatientID;
     // console.log('[391][checkStore][저장된데이터] ', status, storeStartDay, storeEndDay, receivedType);
     // this.lists = [];
     if (whichstate === 'searchscreen') {
@@ -412,21 +441,36 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // tslint:disable-next-line: typedef
   search(start: string, end: string, specimenNo: string,
-    patientId: string, status: string = '', sheet: string = '', research: string = '') {
+    patientId: string, status: string = '', sheet: string = '', research: string = '', patientname: string = '') {
+    let isChanged = false;
+
+    if (specimenNo === '100') {
+      specimenNo = '';
+    }
+
+    if (patientId === '100') {
+      patientId = '';
+    }
+
+    if (patientname === '100') {
+      patientname = '';
+    }
+
+    if (this.startday.toString().replace(/-/gi, '') !== start.toString().replace(/-/gi, '') ||
+      this.endday.toString().replace(/-/gi, '') !== end.toString().replace(/-/gi, '')) {
+      isChanged = true;
+    } else {
+      isChanged = false;
+    }
+
     this.startday = start;
     this.endday = end;
     this.specimenno = specimenNo;
     this.patientid = patientId;
     this.status = status;
     this.sheet = sheet;
+    this.patientname = patientname;
 
-    // this.store.setSearchStartDay(start);
-    // this.store.setSearchEndDay(end);
-    // this.store.setamlSpecimenID(specimenNo);
-    // this.store.setamlPatientID(patientId);
-    // this.store.setStatus(status);
-    // this.store.setSheet(sheet);
-    // this.store.setWhichstate('searchscreen');
     this.lists = [];
     const tempLists = [];
     const templists: IPatient[] = [];
@@ -449,7 +493,7 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
       status = '10';
     }
 
-    this.patientsList.mdsmpnSearch2(startdate, enddate, patientId, specimenNo, status, sheet, research)
+    this.patientsList.mdsmpnSearch2(startdate, enddate, patientId, specimenNo, status, sheet, research, patientname)
       .then(response => response.json())
       .then(data => {
         if (this.receivedType !== 'none') {
@@ -491,6 +535,25 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
 
         this.patientID = '';
         this.specimenNo = '';
+        return data;
+      })
+      .then(lists => {
+        this.backupspecimenNoLists = [];
+        this.backuppatientIDLists = [];
+        this.backuppatientNameLists = [];
+        this.backupspecimenNoLists = lists.map(list => list.specimenNo).sort();
+        this.backuppatientIDLists = lists.map(list => list.patientID).sort();
+        this.backuppatientNameLists = lists.map(list => list.name).sort();
+        if (this.initState) {
+          this.specimenNoLists = this.backupspecimenNoLists;
+          this.patientIDLists = this.backuppatientIDLists;
+          this.patientNameLists = this.backuppatientNameLists;
+        }
+        if (isChanged) {
+          this.specimenNoLists = this.backupspecimenNoLists;
+          this.patientIDLists = this.backuppatientIDLists;
+          this.patientNameLists = this.backuppatientNameLists;
+        }
       });
 
 
@@ -562,6 +625,26 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
     return false;
   }
 
+  optionTestcode(option: string): void {
+    if (option === '100') {
+      this.storeSpecimenID = '';
+      this.store.setSpecimentNo('');
+    }
+  }
+
+  optionPatientid(option: string): void {
+    if (option === '100') {
+      this.storeSpecimenID = '';
+      this.store.setPatientID('');
+    }
+  }
+
+  optionPatientname(option: string): void {
+    if (option === '100') {
+      this.storePatientName = '';
+      this.store.setPatientName('');
+    }
+  }
   ////////// 연구용
   openDialog(): void {
     const dialogConfig = new MatDialogConfig();
@@ -580,6 +663,7 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
   goDashboard(): void {
     this.store.setSpecimentNo('');
     this.store.setPatientID('');
+    this.store.setPatientName('');
     this.store.setStatus('');
     this.store.setSheet('');
     this.store.setResearch('');

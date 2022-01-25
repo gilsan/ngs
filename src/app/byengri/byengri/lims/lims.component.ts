@@ -4,7 +4,7 @@ import { fromEvent, Observable, of } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { moveItemInArray, CdkDragDrop } from '@angular/cdk/drag-drop';
 import { catchError, debounceTime, distinct, distinctUntilChanged, filter, map, shareReplay, startWith, take, tap } from 'rxjs/operators';
-import { IDNATYPE, ILIMS, IRNATYPE, IUSER } from '../../models/lims.model';
+import { ExperimentList, ExperList, IDNATYPE, ILIMS, IRNATYPE, IUSER } from '../../models/lims.model';
 import { LimsService } from '../../services/lims.service';
 import { SearchService } from '../../services/search.service';
 import * as moment from 'moment';
@@ -73,6 +73,8 @@ export class LimsComponent implements OnInit, AfterViewInit {
   leftScroll = true;
   processing = false;
 
+  experLists: ExperList[] = [];
+
   // tslint:disable-next-line:no-string-literal
   // filteredOptions: Observable<string[]> = this.dnaFormLists().valueChanges.pipe(
   //   startWith(''),
@@ -122,6 +124,18 @@ export class LimsComponent implements OnInit, AfterViewInit {
           this.examinList.push({ name: list.user_nm, id: list.user_id });
         });
       });
+
+    this.limsService.experimentList().subscribe(data => {
+      data.forEach(list => {
+        this.experLists.push({
+          examNm: list.exam_nm,
+          examin: list.examin,
+          recheck: list.recheck,
+          recheckNm: list.recheck_nm,
+          reportDate: list.report_date
+        });
+      });
+    });
   }
 
   private _filter(value: string): string[] {
@@ -219,6 +233,14 @@ export class LimsComponent implements OnInit, AfterViewInit {
     if (type === 'TEST') {
       data.forEach(i => {  // 시험용
         if (parseInt(i.dna_rna_gbn, 10) === 0) {
+          let totCt: string;
+          let quanTotVol: string;
+          if (i.dan_rna.length && i.dw) {
+            totCt = (parseFloat(i.dan_rna) + parseFloat(i.dw)).toFixed(1);
+          }
+          if (i.quan_dna && i.te) {
+            quanTotVol = (parseFloat(i.quan_dna) + parseFloat(i.te)).toFixed(1);
+          }
           const val = {
             checkbox: true,
             id: i.id,
@@ -242,13 +264,13 @@ export class LimsComponent implements OnInit, AfterViewInit {
             ng_ui: i.ng_ui,
             dan_rna: i.dan_rna,
             dw: i.dw,
-            tot_ct: i.tot_ct,
+            tot_ct: totCt,
             ct: i.ct,
             quantity: i.quantity,
             quantity_2: i.quantity_2,
             quan_dna: i.quan_dna,
             te: i.te,
-            quan_tot_vol: i.quan_tot_vol,
+            quan_tot_vol: quanTotVol,
             lib_hifi: i.lib_hifi,
             pm: i.pm,
             x100: i.x100,
@@ -265,6 +287,14 @@ export class LimsComponent implements OnInit, AfterViewInit {
           // }
 
         } else if (parseInt(i.dna_rna_gbn, 10) === 1) {
+          let rnatotCt: string;
+          let rnaquanTotVol: string;
+          if (i.dan_rna.length && i.dw) {
+            rnatotCt = (parseFloat(i.dan_rna) + parseFloat(i.dw)).toFixed(1);
+          }
+          if (i.quan_dna && i.te) {
+            rnaquanTotVol = (parseFloat(i.quan_dna) + parseFloat(i.te)).toFixed(1);
+          }
           const val = {
             checkbox: true,
             id: i.id,
@@ -288,13 +318,13 @@ export class LimsComponent implements OnInit, AfterViewInit {
             ng_ui: i.ng_ui,
             dan_rna: i.dan_rna,
             dw: i.dw,
-            tot_ct: i.tot_ct,
+            tot_ct: rnatotCt,
             ct: i.ct,
             quantity: i.quantity,
             quantity_2: i.quantity_2,
             quan_dna: i.quan_dna,
             te: i.te,
-            quan_tot_vol: i.quan_tot_vol,
+            quan_tot_vol: rnaquanTotVol,
             lib_hifi: i.lib_hifi,
             pm: i.pm,
             x100: i.x100,
@@ -310,6 +340,15 @@ export class LimsComponent implements OnInit, AfterViewInit {
     } else { // 정상
       data.forEach(i => {
         if (parseInt(i.dna_rna_gbn, 10) === 0) {
+          let totCt: string;
+          let quanTotVol: string;
+          if (i.dan_rna.length && i.dw) {
+            totCt = (parseFloat(i.dan_rna) + parseFloat(i.dw)).toFixed(1);
+          }
+          if (i.quan_dna && i.te) {
+            quanTotVol = (parseFloat(i.quan_dna) + parseFloat(i.te)).toFixed(1);
+          }
+
           const val = {
             checkbox: false,
             id: i.id,
@@ -333,13 +372,13 @@ export class LimsComponent implements OnInit, AfterViewInit {
             ng_ui: i.ng_ui,
             dan_rna: i.dan_rna,
             dw: i.dw,
-            tot_ct: i.tot_ct,
+            tot_ct: totCt,
             ct: i.ct,
             quantity: i.quantity,
             quantity_2: i.quantity_2,
             quan_dna: i.quan_dna,
             te: i.te,
-            quan_tot_vol: i.quan_tot_vol,
+            quan_tot_vol: quanTotVol,
             lib_hifi: i.lib_hifi,
             pm: i.pm,
             x100: i.x100,
@@ -352,6 +391,14 @@ export class LimsComponent implements OnInit, AfterViewInit {
           this.dnaLists.push(val);
 
         } else if (parseInt(i.dna_rna_gbn, 10) === 1) {
+          let rnatotCt: string;
+          let rnaquanTotVol: string;
+          if (i.dan_rna.length && i.dw) {
+            rnatotCt = (parseFloat(i.dan_rna) + parseFloat(i.dw)).toFixed(1);
+          }
+          if (i.quan_dna && i.te) {
+            rnaquanTotVol = (parseFloat(i.quan_dna) + parseFloat(i.te)).toFixed(1);
+          }
           const val = {
             checkbox: false,
             id: i.id,
@@ -375,13 +422,13 @@ export class LimsComponent implements OnInit, AfterViewInit {
             ng_ui: i.ng_ui,
             dan_rna: i.dan_rna,
             dw: i.dw,
-            tot_ct: i.tot_ct,
+            tot_ct: rnatotCt,
             ct: i.ct,
             quantity: i.quantity,
             quantity_2: i.quantity_2,
             quan_dna: i.quan_dna,
             te: i.te,
-            quan_tot_vol: i.quan_tot_vol,
+            quan_tot_vol: rnaquanTotVol,
             lib_hifi: i.lib_hifi,
             pm: i.pm,
             x100: i.x100,
@@ -711,8 +758,8 @@ export class LimsComponent implements OnInit, AfterViewInit {
         dna260230 = 0;
 
       }
-      console.log('[559][DNA]', dnaFileLists);
-      console.log('[560][RNA]', rnaFileLists);
+      console.log('[761][DNA]', dnaFileLists);
+      console.log('[762][RNA]', rnaFileLists);
 
       if (type === 'DNA') {
         this.updateDNAScreen(dnaFileLists);
@@ -836,7 +883,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
   }
 
   dnaQuatity(i: number, val: string): void {
-    console.log('[453]', i, val);
+    console.log('[886]', i, val);
     const control = this.dnaForm.get('dnaFormgroup') as FormArray;
     const quantity2 = parseFloat(val) / 2;
     const quanDna = 20 / quantity2;
@@ -965,13 +1012,14 @@ export class LimsComponent implements OnInit, AfterViewInit {
     const tempdnaFormData = dnaFormData.filter(item => item.checkbox === true);
     const dnaCount = tempdnaFormData.length;
     dnaFormData.map(item => item.report_date = testeddate);
+
     const rnacontrol = this.rnaForm.get('rnaFormgroup') as FormArray;
     const rnaFormData = rnacontrol.getRawValue();
-    const temprnaFormData = rnaFormData.filter(item => item.checkbox === true);
+    const temprnaFormData: ILIMS[] = rnaFormData.filter(item => item.checkbox === true);
     const rnaCount = temprnaFormData.length;
     rnaFormData.map(item => item.report_date = testeddate);
     const allData: ILIMS[] = [...tempdnaFormData, ...temprnaFormData];
-
+    console.log(allData);
 
     if (this.examiner.length === 0 || this.rechecker.length === 0) {
       alert('검사자항목이 없습니다.');
@@ -983,12 +1031,17 @@ export class LimsComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    console.log('[943][]', allData, this.examiner, this.rechecker, testeddate);
-    this.limsService.save(allData, this.examiner, this.rechecker)
-      .subscribe((data) => {
-        const msg = `DNA: ${dnaCount}건, RNA: ${rnaCount}건 저장 하였습니다.`;
-        this.snackBar.open(msg, '닫기', { duration: 5000 });
-      });
+    const result = confirm('저장 하시겠습니까?');
+    if (result) {
+      console.log('[1036][]', allData, this.examiner, this.rechecker, testeddate);
+      this.limsService.save(allData, this.examiner, this.rechecker)
+        .subscribe((data) => {
+          const msg = `DNA: ${dnaCount}건, RNA: ${rnaCount}건 저장 하였습니다.`;
+          this.snackBar.open(msg, '닫기', { duration: 5000 });
+        });
+    }
+
+
   }
 
   tumoretypeUpdate(testcode: string, tumortype: string): void {

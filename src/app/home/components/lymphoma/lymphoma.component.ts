@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef } fr
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { from, Observable, of } from 'rxjs';
+import { from, generate, Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { emrUrl } from 'src/app/config';
 import { StoreLYMService } from 'src/app/forms/store.current.lym';
@@ -14,6 +14,7 @@ import { geneTitles } from 'src/app/forms/commons/geneList';
 
 import { TestCodeTitleService } from 'src/app/home/services/testCodeTitle.service';
 import { LymDialogComponent } from './lym-dialog/lym-dialog.component';
+import { create } from 'domain';
 
 export const lymphomaLists = [
   'LPE474', 'LPE475'
@@ -32,6 +33,7 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
   tempLists: IPatient[] = [];
   specimenNo = '';
   patientID = '';
+  patientname = '';
   isVisible = true;
   startday = '';
   endday = '';
@@ -44,6 +46,7 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
   storeEndDay: string;
   storePatientID: string;
   storeSpecimenID: string;
+  storePatientName: string;
   receivedType = 'none';
   private apiUrl = emrUrl;
   lselect10 = false;
@@ -63,8 +66,17 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
   lstartDay = this.startToday();
   lendDay = this.endToday();
 
+  specimenNoLists: string[] = [];
+  patientIDLists: string[] = [];
+  patientNameLists: string[] = [];
+
+  backupspecimenNoLists: string[] = [];
+  backuppatientIDLists: string[] = [];
+  backuppatientNameLists: string[] = [];
+
   @ViewChild('lymTestedID', { static: true }) testedID: ElementRef;
   @ViewChild('lymPatient', { static: true }) patient: ElementRef;
+  @ViewChild('lympatientName', { static: true }) patientName: ElementRef;
   @ViewChild('lymStatus', { static: true }) screenstatus: ElementRef;
   @ViewChild('lymSheet', { static: true }) amlallsheet: ElementRef;
   @ViewChild('lymResearch', { static: true }) research: ElementRef;
@@ -72,7 +84,7 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('lymEnd', { static: true }) end: ElementRef;
 
   @ViewChild('dbox100', { static: true }) dbox100: ElementRef;
-
+  initState = true;
   constructor(
     private patientsList: PatientsListService,
     private router: Router,
@@ -229,6 +241,7 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
   goReporter(i: number) {
     const testedID = this.testedID.nativeElement.value;
     const patient = this.patient.nativeElement.value;
+    const patientName = this.patientName.nativeElement.value;
     const status = this.screenstatus.nativeElement.value;
     const sheet = this.amlallsheet.nativeElement.value;
     const research = this.research.nativeElement.value;
@@ -239,12 +252,17 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.store.setSpecimentNo(testedID);
     this.store.setPatientID(patient);
+    this.store.setPatientName(patientName);
     this.store.setStatus(status);
     this.store.setSheet(sheet);
     this.store.setResearch(research);
     this.store.setSearchStartDay(start);
     this.store.setSearchEndDay(end);
     this.store.setReceivedType(this.receivedType);
+
+    this.store.setSpecimenNoLists(this.specimenNoLists);
+    this.store.setPatientIDLists(this.patientIDLists);
+    this.store.setPatientNameLists(this.patientNameLists);
 
     ////////////////////////////////////////////////////////////////
     const specimenno = this.store.getSpecimenNo();
@@ -337,8 +355,10 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.status = this.store.getStatus();
     // this.sheet = this.store.getSheet();
     // const whichstate = this.store.getWhichstate();
-    const storeSpecimenID = this.store.getamlSpecimenID();
-    const storePatientID = this.store.getamlPatientID();
+    this.initState = false;
+    const storeSpecimenID = this.store.getSpecimenNo();
+    const storePatientID = this.store.getPatineID();
+    const storePatientName = this.store.getPatientName();
     const status = this.store.getStatus();
     const sheet = this.store.getSheet();
     const storeStartDay = this.store.getSearchStartDay();
@@ -346,6 +366,11 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
     const research = this.store.getResearch();
     const whichstate = this.store.getWhichstate();
     const receivedType = this.store.getReceivedType();
+
+    this.specimenNoLists = this.store.getSpecimenNoLists();
+    this.patientIDLists = this.store.getPatientIDLists();
+    this.patientNameLists = this.store.getPatientNameLists();
+
 
     if (storeSpecimenID.length !== 0) {
       this.storeSpecimenID = storeSpecimenID;
@@ -356,6 +381,13 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
       this.storePatientID = storePatientID;
       this.patient.nativeElement.value = this.storePatientID;
     }
+
+    if (storePatientName.length !== 0) {
+      this.storePatientName = storePatientName;
+      this.patientName.nativeElement.value = this.storePatientID;
+    }
+
+
 
     if (status.length !== 0) {
       if (this.receivedType !== 'none') {
@@ -391,12 +423,10 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
 
-
-    this.startday = this.storeStartDay;
-    this.endday = this.storeEndDay;
-    this.specimenno = this.storeSpecimenID;
-    this.patientid = this.storePatientID;
-
+    this.startday = storeStartDay;
+    this.endday = storeEndDay;
+    this.specimenno = storeSpecimenID;
+    this.patientid = storePatientID;
 
     this.lists = [];
     if (whichstate === 'searchscreen') {
@@ -416,13 +446,35 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // tslint:disable-next-line: typedef
   search(start: string, end: string, specimenNo: string, patientId: string,
-    status: string = '', sheet: string = '', research: string = '') {
+    status: string = '', sheet: string = '', research: string = '', patientname: string = '') {
+    let isChanged = false;
+
+    if (specimenNo === '100') {
+      specimenNo = '';
+    }
+
+    if (patientId === '100') {
+      patientId = '';
+    }
+
+    if (patientname === '100') {
+      patientname = '';
+    }
+
+    if (this.startday.toString().replace(/-/gi, '') !== start.toString().replace(/-/gi, '') ||
+      this.endday.toString().replace(/-/gi, '') !== end.toString().replace(/-/gi, '')) {
+      isChanged = true;
+    } else {
+      isChanged = false;
+    }
+
     this.startday = start;
     this.endday = end;
     this.specimenno = specimenNo;
     this.patientid = patientId;
     this.status = status;
     this.sheet = sheet;
+    this.patientname = patientname;
 
     // this.store.setSearchStartDay(start);
     // this.store.setSearchEndDay(end);
@@ -431,7 +483,7 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.store.setStatus(status);
     // this.store.setSheet(sheet);
     // this.store.setWhichstate('searchscreen');
-    console.log('[search][431][스크린상태]', status);
+
     this.lists = [];
     const tempLists: IPatient[] = [];
     //
@@ -455,10 +507,10 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // MDS/MPN [NGS]  : LPE473 (골수형성이상, 골수증식종양)
     // Lymphoma [NGS] : LPE474-악성림프종, LPE475-형질세포종
-    this.patientsList.lymphomaSearch2(startdate, enddate, patientId, specimenNo, status, sheet, research)
+    this.patientsList.lymphomaSearch2(startdate, enddate, patientId, specimenNo, status, sheet, research, patientname)
       .then(response => response.json())
       .then(data => {
-        // console.log('[LYM]', data);
+
         if (this.receivedType !== 'none') {
           data.forEach(list => {
             if (this.receivedType === 'register' || parseInt(this.receivedType, 10)) {
@@ -486,6 +538,25 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
 
         this.patientID = '';
         this.specimenNo = '';
+        return data;
+      })
+      .then(lists => {
+        this.backupspecimenNoLists = [];
+        this.backuppatientIDLists = [];
+        this.backuppatientNameLists = [];
+        this.backupspecimenNoLists = lists.map(list => list.specimenNo).sort();
+        this.backuppatientIDLists = lists.map(list => list.patientID).sort();
+        this.backuppatientNameLists = lists.map(list => list.name).sort();
+        if (this.initState) {
+          this.specimenNoLists = this.backupspecimenNoLists;
+          this.patientIDLists = this.backuppatientIDLists;
+          this.patientNameLists = this.backuppatientNameLists;
+        }
+        if (isChanged) {
+          this.specimenNoLists = this.backupspecimenNoLists;
+          this.patientIDLists = this.backuppatientIDLists;
+          this.patientNameLists = this.backuppatientNameLists;
+        }
       });
 
   }
@@ -556,6 +627,27 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
     return false;
   }
 
+  optionTestcode(option: string): void {
+    if (option === '100') {
+      this.storeSpecimenID = '';
+      this.store.setSpecimentNo('');
+    }
+  }
+
+  optionPatientid(option: string): void {
+    if (option === '100') {
+      this.storeSpecimenID = '';
+      this.store.setPatientID('');
+    }
+  }
+
+  optionPatientname(option: string): void {
+    if (option === '100') {
+      this.storePatientName = '';
+      this.store.setPatientName('');
+    }
+  }
+
   ////////// 연구용
   openDialog(): void {
     const dialogConfig = new MatDialogConfig();
@@ -574,6 +666,7 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
   goDashboard(): void {
     this.store.setSpecimentNo('');
     this.store.setPatientID('');
+    this.store.setPatientName('');
     this.store.setStatus('');
     this.store.setSheet('');
     this.store.setResearch('');

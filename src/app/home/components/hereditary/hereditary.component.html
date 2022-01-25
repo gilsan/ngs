@@ -12,10 +12,27 @@
     </table>
 
       <div class="box mg_b20 pd_20">
+        <!--
         <input type="text" class="input_01" #herTestedID placeholder="검체번호" style="width: 100px;"
         (keyup.enter)="search(herStart.value, herEnd.value, herTestedID.value, herPatient.value, herStatus.value, herSheet.value, herResearch.value)"/>&nbsp;&nbsp;
         <input name="" type="text" placeholder="환자ID" #herPatient class="input_01" style="width: 100px;"
         (keyup.enter)="search(herStart.value, herEnd.value, herTestedID.value, herPatient.value, herStatus.value, herSheet.value, herResearch.value)"/>&nbsp;&nbsp;
+        -->
+        <select class="select_01 select_001"  #herTestedID (change)="optionTestcode(herTestedID.value)">
+          <option value="100">검체번호전체</option>
+          <option [value]="specimenno" [selected]="specimenno === storeSpecimenID"  *ngFor="let specimenno of specimenNoLists">{{specimenno}}</option>
+        </select>&nbsp;&nbsp;
+
+        <select class="select_01 select_001"  #herPatient (change)="optionPatientid(herPatient.value)">
+          <option value="100">환자ID전체</option>
+          <option [value]="patientid" [selected]="patientid === storePatientID"  *ngFor="let patientid of patientIDLists">{{patientid}}</option>
+        </select>&nbsp;&nbsp;
+
+        <select class="select_01 select_001"  #herpatientName (change)="optionPatientname(herpatientName.value)">
+          <option value="100">환자이름전체</option>
+          <option [value]="patientname"   [selected]="patientname === storePatientName" *ngFor="let patientname of patientNameLists">{{patientname}}</option>
+        </select>&nbsp;&nbsp;
+
         <select class="select_01 select_001"  #herStatus  (change)="selectOption(herStatus.value)">
           <option value="100" [selected]= "hselect100">전체</option>
           <option value="10" [selected]= "hselect10">접수</option>
@@ -42,7 +59,7 @@
         <input type="date" class="input_01" (change)="setEndDate(herEnd.value)" #herEnd [value]="hendDay"
           style="width:150px;">
         <button type="button" class="btn btn_02" style="margin-left: 10px;"
-          (click)="search(herStart.value, herEnd.value, herTestedID.value, herPatient.value, herStatus.value, herSheet.value, herResearch.value)">조 회</button>
+          (click)="search(herStart.value, herEnd.value, herTestedID.value, herPatient.value, herStatus.value, herSheet.value, herResearch.value ,herpatientName.value )">조 회</button>
         &nbsp;&nbsp;
 
 
@@ -121,7 +138,7 @@
                 </ng-template>
               </td>
               <td class="txt_c" *ngIf="list.test_code === 'LPE474' || list.test_code === 'LPE475'  ||  processingSatus(list.test_code); else reload">
-                <button type="button" class="btn btn_05" *ngIf="list.tsvFilteredFilename;"
+                <button type="button" class="btn btn_05" *ngIf="list.tsvFilteredFilename || list.detected === 0;"
                   (click)="goUploadpage(list.specimenNo, list.patientID)">재등록</button>
               </td>
               <td  class="txt_c">

@@ -6,8 +6,8 @@ import { IAFormVariant, IComment, IDList, IExamPart, Ilymphoma, IPatient, IProfi
 })
 export class StoreLYMService {
 
-  amlStartDay = '';
-  amlEndDay = '';
+  lymStartDay = '';
+  lymEndDay = '';
   amlPatientID = '';
   amlSpecimenID = '';
   research = '';
@@ -22,7 +22,7 @@ export class StoreLYMService {
 
   specimenNo = 'none';  // 검체번호
   patientID = ''; // 환자 ID
-
+  patientName = '';
   examiner = 'none';    // 검사자
   rechecker = 'none'; // 확인자
 
@@ -38,25 +38,30 @@ export class StoreLYMService {
   whichstate = 'mainscreen'; // mainscreen, searchscreen
 
   scrolly = 0;
+
+  specimenNoLists: string[] = [];
+  patientIDLists: string[] = [];
+  patientNameLists: string[] = [];
+
   constructor() { }
   // mainscreen의 검색항목 저장
   // 시작날자, 종료날자, 검체번호, 환자번호
   public setSearchStartDay(day: string): void {
-    this.amlStartDay = day;
+    this.lymStartDay = day;
   }
 
   public getSearchStartDay(): string {
-    // console.log('[store][getSearchStartDay]', this.amlEndDay);
-    return this.amlStartDay;
+    // console.log('[store][getSearchStartDay]', this.lymStartDay);
+    return this.lymStartDay;
   }
   public setSearchEndDay(day: string): void {
-    this.amlEndDay = day;
+    this.lymEndDay = day;
     // console.log('[store][setSearchEndDay]', this.amlEndDay);
   }
 
   public getSearchEndDay(): string {
     // console.log('[store][getSearchEndDay]', this.amlEndDay);
-    return this.amlEndDay;
+    return this.lymEndDay;
   }
 
   public setamlPatientID(id: string): void {
@@ -119,6 +124,32 @@ export class StoreLYMService {
 
   setResearch(research: string): void {
     this.research = research;
+  }
+
+  // 검사코드
+  setSpecimenNoLists(noList: string[]): void {
+    this.specimenNoLists = noList;
+  }
+
+  getSpecimenNoLists(): string[] {
+    return this.specimenNoLists;
+  }
+  // 환자코드
+  setPatientIDLists(idLists: string[]): void {
+    this.patientIDLists = idLists;
+  }
+
+  getPatientIDLists(): string[] {
+    return this.patientIDLists;
+
+  }
+  // 환자이름
+  setPatientNameLists(nameLists: string[]): void {
+    this.patientNameLists = nameLists;
+  }
+
+  getPatientNameLists(): string[] {
+    return this.patientNameLists;
   }
 
 
@@ -188,6 +219,15 @@ export class StoreLYMService {
 
   public getPatineID(): string {
     return this.patientID;
+  }
+
+  // 환자명 저장
+  public setPatientName(name: string): void {
+    this.patientName = name;
+  }
+
+  public getPatientName(): string {
+    return this.patientName;
   }
 
   // 검사자 정보 저장

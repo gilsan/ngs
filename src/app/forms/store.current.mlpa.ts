@@ -38,6 +38,10 @@ export class StoreMLPAService {
   whichstate = 'mainscreen'; // mainscreen, searchscreen
 
   scrolly = 0;
+  specimenNoLists: string[] = [];
+  patientIDLists: string[] = [];
+  patientNameLists: string[] = [];
+  patientName = '';
   constructor() { }
   // mainscreen의 검색항목 저장
   // 시작날자, 종료날자, 검체번호, 환자번호
@@ -68,6 +72,15 @@ export class StoreMLPAService {
     return this.amlPatientID;
   }
 
+  // 환자명 저장
+  public setPatientName(name: string): void {
+    this.patientName = name;
+  }
+
+  public getPatientName(): string {
+    return this.patientName;
+  }
+
   public setamlSpecimenID(id: string): void {
     this.amlSpecimenID = id;
   }
@@ -92,6 +105,32 @@ export class StoreMLPAService {
 
   getReceivedType(): string {
     return this.receivedType;
+  }
+
+  // 검사코드
+  setSpecimenNoLists(noList: string[]): void {
+    this.specimenNoLists = noList;
+  }
+
+  getSpecimenNoLists(): string[] {
+    return this.specimenNoLists;
+  }
+  // 환자코드
+  setPatientIDLists(idLists: string[]): void {
+    this.patientIDLists = idLists;
+  }
+
+  getPatientIDLists(): string[] {
+    return this.patientIDLists;
+
+  }
+  // 환자이름
+  setPatientNameLists(nameLists: string[]): void {
+    this.patientNameLists = nameLists;
+  }
+
+  getPatientNameLists(): string[] {
+    return this.patientNameLists;
   }
 
 

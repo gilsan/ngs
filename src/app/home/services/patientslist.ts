@@ -443,10 +443,10 @@ export class PatientsListService {
   // 날자별 환자ID, 검사ID 검사인 찿기
   public search(start: string, end: string, patientID: string = '',
     // tslint:disable-next-line:align
-    specimenNo: string = '', status: string = '', sheet: string = '', research1: string = ''): Observable<IPatient[]> {
+    specimenNo: string = '', status: string = '', sheet: string = '', research1: string = '', name: string = ''): Observable<IPatient[]> {
     return this.http.post<IPatient[]>(`${this.apiUrl}/searchpatient_diag/list`,
-      { start, end, patientID, specimenNo, status, sheet, research1 }).pipe(
-        tap(data => console.log('[patientslists 449]', data)),
+      { start, end, patientID, specimenNo, status, sheet, research1, name }).pipe(
+        tap(data => console.log('[449][patientslists]', data)),
         filter(item => item !== null),
         map((items: any) => {
           return items.map(item => {
@@ -1033,14 +1033,14 @@ export class PatientsListService {
 
   public lymphomaSearch2(start: string, end: string, patientID: string = '',
     specimenNo: string = '',
-    status: string = '', sheet: string = '', research: string = '') {
+    status: string = '', sheet: string = '', research: string = '', name: string = '') {
     return fetch(`${this.apiUrl}/searchpatient_diag/listLymphoma`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        start, end, patientID, specimenNo, status, sheet, research
+        start, end, patientID, specimenNo, status, sheet, research, name
       }),
     });
   }
@@ -1058,14 +1058,14 @@ export class PatientsListService {
   }
   public mdsmpnSearch2(start: string, end: string, patientID: string = '',
     specimenNo: string = '',
-    status: string = '', sheet: string = '', research: string = '') {
+    status: string = '', sheet: string = '', research: string = '', name: string = '') {
     return fetch(`${this.apiUrl}/searchpatient_diag/listMdsMpn`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        start, end, patientID, specimenNo, status, sheet, research
+        start, end, patientID, specimenNo, status, sheet, research, name
       }),
     });
   }
@@ -1084,7 +1084,7 @@ export class PatientsListService {
 
   public hereditarySearch2(start: string, end: string, patientID: string = '',
     specimenNo: string = '',
-    status: string = '', sheet: string = '', research: string = '') {
+    status: string = '', sheet: string = '', research: string = '', name: string = '') {
 
     return fetch(`${this.apiUrl}/searchpatient_diag/listGenetic`, {
       method: 'POST',
@@ -1092,7 +1092,7 @@ export class PatientsListService {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        start, end, patientID, specimenNo, status, sheet, research
+        start, end, patientID, specimenNo, status, sheet, research, name
       }),
     });
   }
@@ -1112,14 +1112,14 @@ export class PatientsListService {
 
   public sequencingSearch2(start: string, end: string, patientID: string = '',
     specimenNo: string = '',
-    status: string = '', sheet: string = '', research: string = '') {
+    status: string = '', sheet: string = '', research: string = '', name: string = '') {
     return fetch(`${this.apiUrl}/searchpatient_diag/listSequencing`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        start, end, patientID, specimenNo, status, sheet, research
+        start, end, patientID, specimenNo, status, sheet, research, name
       }),
     });
   }
@@ -1147,14 +1147,14 @@ export class PatientsListService {
 
   public mlpaSearch2(start: string, end: string, patientID: string = '',
     specimenNo: string = '',
-    status: string = '', sheet: string = '', research: string = '') {
+    status: string = '', sheet: string = '', research: string = '', name: string = '') {
     return fetch(`${this.apiUrl}/searchpatient_diag/listMlpa`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        start, end, patientID, specimenNo, status, sheet, research
+        start, end, patientID, specimenNo, status, sheet, research, name
       }),
     });
   }

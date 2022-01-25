@@ -12,10 +12,27 @@
     </table>
 
       <div class="box mg_b20 pd_20">
+        <!--
         <input type="text" class="input_01" #mlpaTestedID placeholder="검체번호" style="width: 100px;"
         (keyup.enter)="search(mlpaStart.value, mlpaEnd.value, mlpaTestedID.value, mlpaPatient.value, mlpaStatus.value, mlpaSheet.value, mlpaResearch.value)"/>&nbsp;&nbsp;
         <input name="" type="text" placeholder="환자ID" #mlpaPatient class="input_01" style="width: 100px;"
         (keyup.enter)="search(mlpaStart.value, mlpaEnd.value, mlpaTestedID.value, mlpaPatient.value, mlpaStatus.value, mlpaSheet.value, mlpaResearch.value)"/>&nbsp;&nbsp;
+          -->
+          <select class="select_01 select_001"  #mlpaTestedID (change)="optionTestcode(mlpaTestedID.value)">
+            <option value="100">검체번호전체</option>
+            <option [value]="specimenno" [selected]="specimenno === storeSpecimenID"  *ngFor="let specimenno of specimenNoLists">{{specimenno}}</option>
+          </select>&nbsp;&nbsp;
+
+          <select class="select_01 select_001"  #mlpaPatient (change)="optionPatientid(mlpaPatient.value)">
+            <option value="100">환자ID전체</option>
+            <option [value]="patientid" [selected]="patientid === storePatientID"  *ngFor="let patientid of patientIDLists">{{patientid}}</option>
+          </select>&nbsp;&nbsp;
+
+          <select class="select_01 select_001"  #mlpapatientName (change)="optionPatientname(mlpapatientName.value)">
+            <option value="100">환자이름전체</option>
+            <option [value]="patientname"   [selected]="patientname === storePatientName" *ngFor="let patientname of patientNameLists">{{patientname}}</option>
+          </select>&nbsp;&nbsp;
+
         <select class="select_01 select_001"  #mlpaStatus   (change)="selectOption(mlpaStatus.value)">
           <option value="100" [selected]= "mlpaselect100">전체</option>
           <option value="10" [selected]= "mlpaselect10">접수</option>
@@ -44,7 +61,8 @@
         <input type="date" class="input_01" (change)="setEndDate(mlpaEnd.value)" #mlpaEnd [value]="mlpaendDay"
           style="width:150px;">
         <button type="button" class="btn btn_02" style="margin-left: 10px;"
-          (click)="search(mlpaStart.value, mlpaEnd.value, mlpaTestedID.value, mlpaPatient.value, mlpaStatus.value, mlpaSheet.value, mlpaResearch.value)">조 회</button>
+          (click)="search(mlpaStart.value, mlpaEnd.value, mlpaTestedID.value, mlpaPatient.value,
+           mlpaStatus.value, mlpaSheet.value, mlpaResearch.value, mlpapatientName.value)">조 회</button>
         &nbsp;&nbsp;
 
 

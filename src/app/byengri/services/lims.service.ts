@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 import { emrUrl } from 'src/app/config';
-import { ILIMS } from '../models/lims.model';
+import { ExperimentList, ILIMS } from '../models/lims.model';
 import { shareReplay } from 'rxjs/operators';
 
 import * as FileSaver from 'file-saver';
@@ -44,7 +44,7 @@ export class LimsService {
   }
 
   public exportAsExcelFile(jsonData: any[], excelFileName: string, width: any[]): void {
-    console.log('[47][]', jsonData);
+    // console.log('[47][]', jsonData);
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(jsonData, { skipHeader: true });
     worksheet['!cols'] = width;
     const workbook: XLSX.WorkBook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
@@ -91,6 +91,11 @@ export class LimsService {
   // tslint:disable-next-line:variable-name
   public updateRnact(test_code: string, rnact: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/lims/rnaCtSave`, { test_code, rnact });
+  }
+
+  // 실험정보조회
+  public experimentList(): Observable<ExperimentList[]> {
+    return this.http.post<ExperimentList[]>(`${this.apiUrl}/lims/limscombo`, {});
   }
 
 

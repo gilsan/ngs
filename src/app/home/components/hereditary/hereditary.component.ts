@@ -30,6 +30,7 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
   tempLists: IPatient[] = [];
   specimenNo = '';
   patientID = '';
+  patientname = '';
   isVisible = true;
   startday = '';
   endday = '';
@@ -42,6 +43,7 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
   storeEndDay: string;
   storePatientID: string;
   storeSpecimenID: string;
+  storePatientName: string;
   receivedType = 'none';
   private apiUrl = emrUrl;
 
@@ -62,19 +64,27 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
   hstartDay = this.startToday();
   hendDay = this.endToday();
 
-
   genetic = false;
+
+  specimenNoLists: string[] = [];
+  patientIDLists: string[] = [];
+  patientNameLists: string[] = [];
+
+  backupspecimenNoLists: string[] = [];
+  backuppatientIDLists: string[] = [];
+  backuppatientNameLists: string[] = [];
 
   @ViewChild('dbox100', { static: true }) dbox100: ElementRef;
 
   @ViewChild('herTestedID', { static: true }) testedID: ElementRef;
   @ViewChild('herPatient', { static: true }) patient: ElementRef;
+  @ViewChild('herpatientName', { static: true }) patientName: ElementRef;
   @ViewChild('herStatus', { static: true }) screenstatus: ElementRef;
   @ViewChild('herSheet', { static: true }) amlallsheet: ElementRef;
   @ViewChild('herResearch', { static: true }) research: ElementRef;
   @ViewChild('herStart', { static: true }) start: ElementRef;
   @ViewChild('herEnd', { static: true }) end: ElementRef;
-
+  initState = true;
   constructor(
     private patientsList: PatientsListService,
     private router: Router,
@@ -244,6 +254,7 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     // const specimenno = this.store.getSpecimenNo();
     const testedID = this.testedID.nativeElement.value;
     const patient = this.patient.nativeElement.value;
+    const patientName = this.patientName.nativeElement.value;
     const status = this.screenstatus.nativeElement.value;
     const sheet = this.amlallsheet.nativeElement.value;
     const research = this.research.nativeElement.value;
@@ -254,12 +265,17 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.store.setamlSpecimenID(testedID);
     this.store.setamlPatientID(patient);
+    this.store.setPatientName(patientName);
     this.store.setStatus(status);
     this.store.setSheet(sheet);
     this.store.setResearch(research);
     this.store.setSearchStartDay(start);
     this.store.setSearchEndDay(end);
     this.store.setReceivedType(this.receivedType);
+
+    this.store.setSpecimenNoLists(this.specimenNoLists);
+    this.store.setPatientIDLists(this.patientIDLists);
+    this.store.setPatientNameLists(this.patientNameLists);
 
     ////////////////////////////////////////////////////////////////
     this.patientsList.setTestedID(this.lists[i].specimenNo); // 검체번호
@@ -378,8 +394,10 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.storeStartDay = this.store.getSearchStartDay();
     // this.storeEndDay = this.store.getSearchEndDay();
     // const whichstate = this.store.getWhichstate();
+    this.initState = false;
     const storeSpecimenID = this.store.getamlSpecimenID();
     const storePatientID = this.store.getamlPatientID();
+    const storePatientName = this.store.getPatientName();
     const status = this.store.getStatus();
     const sheet = this.store.getSheet();
     const storeStartDay = this.store.getSearchStartDay();
@@ -387,6 +405,10 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     const research = this.store.getResearch();
     const whichstate = this.store.getWhichstate();
     const receivedType = this.store.getReceivedType();
+
+    this.specimenNoLists = this.store.getSpecimenNoLists();
+    this.patientIDLists = this.store.getPatientIDLists();
+    this.patientNameLists = this.store.getPatientNameLists();
 
     if (storeSpecimenID.length !== 0) {
       this.storeSpecimenID = storeSpecimenID;
@@ -396,6 +418,11 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     if (storePatientID.length !== 0) {
       this.storePatientID = storePatientID;
       this.patient.nativeElement.value = this.storePatientID;
+    }
+
+    if (storePatientName.length !== 0) {
+      this.storePatientName = storePatientName;
+      this.patientName.nativeElement.value = this.storePatientID;
     }
 
     if (status.length !== 0) {
@@ -433,12 +460,10 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
       this.receivedType = receivedType;
     }
 
-
-
-    this.startday = this.storeStartDay;
-    this.endday = this.storeEndDay;
-    this.specimenno = this.storeSpecimenID;
-    this.patientid = this.storePatientID;
+    this.startday = storeStartDay;
+    this.endday = storeEndDay;
+    this.specimenno = storeSpecimenID;
+    this.patientid = storePatientID;
 
     this.lists = [];
     if (whichstate === 'searchscreen') {
@@ -460,14 +485,35 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // tslint:disable-next-line: typedef
   search(start: string, end: string, specimenNo: string, patientId: string,
-    status: string = '', sheet: string = '', research: string = '') {
+    status: string = '', sheet: string = '', research: string = '', patientname: string = '') {
+
+    let isChanged = false;
+    if (specimenNo === '100') {
+      specimenNo = '';
+    }
+
+    if (patientId === '100') {
+      patientId = '';
+    }
+
+    if (patientname === '100') {
+      patientname = '';
+    }
+
+    if (this.startday.toString().replace(/-/gi, '') !== start.toString().replace(/-/gi, '') ||
+      this.endday.toString().replace(/-/gi, '') !== end.toString().replace(/-/gi, '')) {
+      isChanged = true;
+    } else {
+      isChanged = false;
+    }
+
     this.startday = start;
     this.endday = end;
     this.specimenno = specimenNo;
     this.patientid = patientId;
     this.status = status;
     this.sheet = sheet;
-
+    this.patientname = patientname;
     // this.store.setSearchStartDay(start);
     // this.store.setSearchEndDay(end);
     // this.store.setamlSpecimenID(specimenNo);
@@ -497,10 +543,10 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
       status = '10';
     }
 
-    this.patientsList.hereditarySearch2(startdate, enddate, patientId, specimenNo, status, sheet, research)
+    this.patientsList.hereditarySearch2(startdate, enddate, patientId, specimenNo, status, sheet, research, patientname)
       .then(response => response.json())
       .then(data => {
-        console.log('[469][검색결과]', data,);
+        // console.log('[469][검색결과]', data,);
         if (this.receivedType !== 'none') {
           data.forEach(list => {
             if (this.receivedType === 'register' || parseInt(this.receivedType, 10)) {
@@ -528,6 +574,26 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
 
         this.patientID = '';
         this.specimenNo = '';
+        return data;
+      })
+      .then(lists => {
+        this.backupspecimenNoLists = [];
+        this.backuppatientIDLists = [];
+        this.backuppatientNameLists = [];
+        this.backupspecimenNoLists = lists.map(list => list.specimenNo).sort();
+        this.backuppatientIDLists = lists.map(list => list.patientID).sort();
+        this.backuppatientNameLists = lists.map(list => list.name).sort();
+        if (this.initState) {
+          this.specimenNoLists = this.backupspecimenNoLists;
+          this.patientIDLists = this.backuppatientIDLists;
+          this.patientNameLists = this.backuppatientNameLists;
+        }
+        if (isChanged) {
+          this.specimenNoLists = this.backupspecimenNoLists;
+          this.patientIDLists = this.backuppatientIDLists;
+          this.patientNameLists = this.backuppatientNameLists;
+        }
+        // console.log('[548][LYM]', this.specimenNoLists, this.patientIDLists, this.patientNameLists);
       });
   }
 
@@ -600,6 +666,28 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     return false;
   }
 
+  optionTestcode(option: string): void {
+    if (option === '100') {
+      this.storeSpecimenID = '';
+      this.store.setSpecimentNo('');
+    }
+  }
+
+  optionPatientid(option: string): void {
+    if (option === '100') {
+      this.storeSpecimenID = '';
+      this.store.setPatientID('');
+    }
+  }
+
+  optionPatientname(option: string): void {
+    if (option === '100') {
+      this.storePatientName = '';
+      this.store.setPatientName('');
+    }
+  }
+
+
   ////////// 연구용
   openDialog(): void {
     const dialogConfig = new MatDialogConfig();
@@ -629,6 +717,7 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
   goDashboard(): void {
     this.store.setSpecimentNo('');
     this.store.setPatientID('');
+    this.store.setPatientName('');
     this.store.setStatus('');
     this.store.setSheet('');
     this.store.setResearch('');
