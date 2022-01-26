@@ -21,7 +21,7 @@ export class StoreSEQService {
   profile: IProfile; //  { leukemia: '', flt3itd: '', chron: '' };
   vusstatus: boolean;
 
-  specimenNo = 'none';  // 검체번호
+  specimenNo = '';  // 검체번호
   patientID = ''; // 환자 ID
 
   examiner = 'none';    // 검사자
