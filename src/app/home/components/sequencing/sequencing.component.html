@@ -12,12 +12,17 @@
     </table>
 
       <div class="box mg_b20 pd_20">
-        <!--
+
         <input type="text" class="input_01" #seqTestedID placeholder="검체번호" style="width: 100px;"
-        (keyup.enter)="search(seqStart.value, seqEnd.value, seqTestedID.value, seqPatient.value, seqStatus.value, seqSheet.value, seqResearch.value)"/>&nbsp;&nbsp;
+        (keyup.enter)="search(seqStart.value, seqEnd.value, seqTestedID.value,
+        seqPatient.value, seqStatus.value, seqSheet.value, seqResearch.value, seqpatientName.value)"/>&nbsp;&nbsp;
         <input name="" type="text" placeholder="환자ID" #seqPatient class="input_01" style="width: 100px;"
-        (keyup.enter)="search(seqStart.value, seqEnd.value, seqTestedID.value, seqPatient.value, seqStatus.value, seqSheet.value, seqResearch.value)"/>&nbsp;&nbsp;
-        -->
+        (keyup.enter)="search(seqStart.value, seqEnd.value, seqTestedID.value,
+        seqPatient.value, seqStatus.value, seqSheet.value, seqResearch.value, seqpatientName.value)"/>&nbsp;&nbsp;
+        <input name="" type="text" placeholder="환자이름" #seqpatientName class="input_01" style="width: 100px;"
+        (keyup.enter)="search(seqStart.value, seqEnd.value, seqTestedID.value,
+        seqPatient.value, seqStatus.value, seqSheet.value, seqResearch.value, seqpatientName.value)"/>&nbsp;&nbsp;
+        <!--
         <select class="select_01 select_001"  #seqTestedID (change)="optionTestcode(seqTestedID.value)">
           <option value="100">검체번호전체</option>
           <option [value]="specimenno" [selected]="specimenno === storeSpecimenID"  *ngFor="let specimenno of specimenNoLists">{{specimenno}}</option>
@@ -32,7 +37,7 @@
           <option value="100">환자이름전체</option>
           <option [value]="patientname"   [selected]="patientname === storePatientName" *ngFor="let patientname of patientNameLists">{{patientname}}</option>
         </select>&nbsp;&nbsp;
-
+        -->
         <select class="select_01 select_001"  #seqStatus   (change)="selectOption(seqStatus.value)">
           <option value="100"[selected]= "qselect100">전체</option>
           <option value="10" [selected]= "qselect10">접수</option>

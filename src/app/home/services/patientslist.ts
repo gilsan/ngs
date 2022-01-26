@@ -1233,7 +1233,7 @@ export class PatientsListService {
   }
 
   public boardSearch(start: string, end: string): Observable<any> {
-    return this.http.post<any[]>(`${this.apiUrl}/searchpatient_diag/list`, { start, end, patientID: '', specimenNo: '' }).pipe(
+    return this.http.post<any[]>(`${this.apiUrl}/searchpatient_diag/list`, { start, end, patientID: '', specimenNo: '', name: '', }).pipe(
       // tap(data => {
       //   data.forEach(list => {
       //     if (list.test_code === 'LPE471' || list.test_code === 'LPE472') {

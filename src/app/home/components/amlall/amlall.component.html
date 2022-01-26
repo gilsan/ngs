@@ -11,26 +11,13 @@
         </tr>
     </table>
       <div class="box mg_b20 pd_20">
-         <!--
-        <input type="text" class="input_01" #testedID placeholder="검체번호" style="width: 100px;"
-        (keyup.enter)="search(start.value, end.value, testedID.value, patient.value, status.value, sheet.value, research.value)"/>&nbsp;&nbsp;
+
+        <input name="" type="text" class="input_01" #testedID placeholder="검체번호" style="width: 100px;"
+        (keyup.enter)="search(start.value, end.value, testedID.value, patient.value, status.value, sheet.value, research.value, patientName.value)"/>&nbsp;&nbsp;
         <input name="" type="text" placeholder="환자ID" #patient class="input_01" style="width: 100px;"
-        (keyup.enter)="search(start.value, end.value, testedID.value, patient.value, status.value, sheet.value, research.value)" />&nbsp;&nbsp;
-        -->
-        <select class="select_01 select_001"  #testedID (change)="optionTestcode(testedID.value)">
-          <option value="100">검체번호전체</option>
-          <option [value]="specimenno" [selected]="specimenno === storeSpecimenID"  *ngFor="let specimenno of specimenNoLists">{{specimenno}}</option>
-        </select>&nbsp;&nbsp;
-
-        <select class="select_01 select_001"  #patient (change)="optionPatientid(patient.value)">
-          <option value="100">환자ID전체</option>
-          <option [value]="patientid" [selected]="patientid === storePatientID"  *ngFor="let patientid of patientIDLists">{{patientid}}</option>
-        </select>&nbsp;&nbsp;
-
-        <select class="select_01 select_001"  #patientName (change)="optionPatientname(patientName.value)">
-          <option value="100">환자이름전체</option>
-          <option [value]="patientname"   [selected]="patientname === storePatientName" *ngFor="let patientname of patientNameLists">{{patientname}}</option>
-        </select>&nbsp;&nbsp;
+        (keyup.enter)="search(start.value, end.value, testedID.value, patient.value, status.value, sheet.value, research.value, patientName.value)" />&nbsp;&nbsp;
+        <input name="" type="text" placeholder="환자이름" #patientName class="input_01" style="width: 100px;"
+        (keyup.enter)="search(start.value, end.value, testedID.value, patient.value, status.value, sheet.value, research.value, patientName.value)" />&nbsp;&nbsp;
 
 
         <select class="select_01 select_001"  #status (change)="selectOption(status.value)">

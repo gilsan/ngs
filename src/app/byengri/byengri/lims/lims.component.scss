@@ -8,6 +8,26 @@ td {
   padding-bottom: 0;
 }
 
+/***  box group  ****/
+.box_display {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.box_group {
+  padding: 3px;
+  border: 1px solid black;
+  border-radius: 3px;
+}
+
+.box_test {
+  padding: 8px 0;
+}
+
+.select_001 {
+  margin-left: 5px;
+}
 
 /*** 테이블 헤더 고정 ***/
 .fixed_header th {

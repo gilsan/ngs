@@ -9,18 +9,20 @@
                   <td class="main_btn"></td>
               </tr>
           </table>
-          <div class="box mg_b20 pd_20">
+          <div class="box mg_b20 pd_20 box_display">
           <!--   <span>접수일자</span>&nbsp;&nbsp;  -->
+            <div class="box_group">
               <input type="date"  [value]="startToday()"  class="input_01" #start  style="width:150px;"/> &nbsp;&nbsp;
               ~ &nbsp;&nbsp;
               <input type="date" class="input_01"   #end [value]="endToday()"  style="width:150px;"> &nbsp;&nbsp;
               <button type="button" class="btn btn_02" (click)="search(start.value, end.value)"
                style="margin-right: 15px;">접수일자조회</button>
-
+            </div>
             <!--    <span id="bold">실험일자</span>&nbsp;&nbsp;
                <input type="date" class="input_01"   #testdate [value]="endToday()"  style="width:150px;">&nbsp;&nbsp;
                <button type="button" class="btn btn_02" (click)="testSearch(testdate.value, testdate.value)"
                style="margin-right: 15px;">조회</button>&nbsp;&nbsp;  -->
+            <div class="box_group">
                <select class="select_01 select_001" #reckerid (change)="selectedRecheck(reckerid.value)">
                   <option value="TOTAL">의사</option>
                   <option [value]="exam.id" *ngFor="let exam of doctorList" [selected]="exam.id === rechecker">{{exam.name}}</option>
@@ -31,20 +33,21 @@
                 </select>&nbsp;&nbsp;&nbsp;
              <!--   <span id="bold">실험일자</span>&nbsp;&nbsp;  -->
               <input type="date" class="input_01"   #testdate [value]="endToday()"  style="width:150px;">&nbsp;&nbsp;
-              <button type="button" class="btn btn_02" (click)="testSearch(testdate.value, testdate.value)"
-              style="margin-right: 15px;">조회</button>&nbsp;&nbsp;
+             <!--    <button type="button" class="btn btn_02" (click)="testSearch(testdate.value, testdate.value)"
+              style="margin-right: 15px;">조회</button>&nbsp;&nbsp; -->
               <button type="button" class="btn btn_02"
               style="margin-right: 15px;"  (click)="save(testdate.value)">실험정보저장</button>
-
+            </div>
+            <div  class="box_group box_test">
               <select class="select_01 select_001" #exper (change)="selectedRecheck(reckerid.value)">
                 <option value="">선택</option>
-                <option value="{{ex.reportDate}}"
+                <option value="{{ex.reportDate}}/{{ex.examin}}/{{ex.recheck}}"
                  *ngFor="let ex of experLists" >
                   {{ex.reportDate}}/{{ex.examNm}}/{{ex.recheckNm}}</option>
               </select>&nbsp;&nbsp;
               <button type="button" class="btn btn_02"
-              style="margin-right: 15px;" (click)="testSearch(exper.value, exper.value)"  >실험정보조회</button>
-
+              style="margin-right: 15px;" (click)="testSearch(exper.value)"  >실험정보조회</button>
+            </div>
               <button type="button" class="btn btn_02"
                style="margin-right: 15px;" (click)="fileInput.click()">Nano 엑셀읽기</button>
                <input style="display: none" type="file"

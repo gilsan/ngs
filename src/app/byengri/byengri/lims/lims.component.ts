@@ -439,32 +439,33 @@ export class LimsComponent implements OnInit, AfterViewInit {
             pathology_num2: i.pathology_num
           };
           this.rnaLists.push(val);
-          // const idx = this.rnaLists.findIndex(item => item.pathology_num === i.pathology_num);
-          // if (idx === -1) {
-          //   this.rnaLists.push(val);
-          // }
         }
       });
     }
-    console.log('[392][DNA]', this.dnaLists);
-    console.log('[393][순서변경전][RNA]', this.rnaLists);
+    console.log('[445][DNA]', this.dnaLists);
+    console.log('[446][순서변경전][RNA]', this.rnaLists);
+
     // 순서맞춤
-    const tempRNA = [];
-    this.dnaLists.forEach((list, index) => {
-      const dnaTestcode = list.pathology_num;
-      const rnaTestcode = this.rnaLists[index].pathology_num;
-      if (dnaTestcode === rnaTestcode) {
-        tempRNA.push(this.rnaLists[index]);
-      } else {
-        const idx = this.rnaLists.findIndex(rnaList => rnaList.pathology_num === dnaTestcode);
-        if (idx !== -1) {
-          tempRNA.push(this.rnaLists[idx]);
+    if (this.dnaLists.length && this.rnaLists.length) {
+      const tempRNA = [];
+      this.dnaLists.forEach((list, index) => {
+        const dnaTestcode = list.pathology_num;
+        const rnaTestcode = this.rnaLists[index].pathology_num;
+        if (dnaTestcode === rnaTestcode) {
+          tempRNA.push(this.rnaLists[index]);
+        } else {
+          const idx = this.rnaLists.findIndex(rnaList => rnaList.pathology_num === dnaTestcode);
+          if (idx !== -1) {
+            tempRNA.push(this.rnaLists[idx]);
+          }
         }
-      }
-    });
-    this.rnaLists = [];
-    this.rnaLists = tempRNA;
-    console.log('[410][순서변경후][RNA]', this.rnaLists);
+      });
+
+      this.rnaLists = [];
+      this.rnaLists = tempRNA;
+      console.log('[410][순서변경후][RNA]', this.rnaLists);
+    }
+
 
     this.dnaLists.forEach(list => {
       this.dnaFormLists().push(this.createDNA(list));
@@ -475,13 +476,19 @@ export class LimsComponent implements OnInit, AfterViewInit {
     });
   }
 
-  testSearch(start: string, testdate: string): void {
+  testSearch(info: string): void {
 
-    if (this.examiner.length === 0 || this.rechecker.length === 0) {
-      alert('검사자항목이 없습니다.');
-      return;
-    }
-
+    // if (this.examiner.length === 0 || this.rechecker.length === 0) {
+    //   alert('검사자항목이 없습니다.');
+    //   return;
+    // }
+    const testInfo = info.split('/');
+    const testdate = testInfo[0];
+    const examiner = testInfo[1];
+    this.examiner = examiner;
+    const rechecker = testInfo[2];
+    this.rechecker = rechecker;
+    console.log(testInfo, testdate, examiner, rechecker);
     const controlDNA = this.dnaForm.get('dnaFormgroup') as FormArray;
     const controlRNA = this.rnaForm.get('rnaFormgroup') as FormArray;
     controlDNA.clear();
@@ -491,35 +498,12 @@ export class LimsComponent implements OnInit, AfterViewInit {
     // DNA, RNA 구분 dna_rna_gbn 을 구분
 
     this.processing = true;
-    this.dnaObservable$ = this.limsService.testSearch(start, this.examiner, this.rechecker);
-    this.dnaObservable$
-      .pipe(
-        tap(data => console.log(data)),
-        filter(data => !!data),
-        tap(data => {
-          if (data.length) {
-            if (data[0].examin.length) {
-              this.examiner = data[0].examin;
-            }
+    this.dnaObservable$ = this.limsService.testSearch(testdate, examiner, rechecker);
+    this.dnaObservable$.subscribe(data => {
+      this.processing = false;
+      this.makeDNARNAList(data, 'TEST');
+    });
 
-            if (data[0].recheck.length) {
-              this.rechecker = data[0].recheck;
-            }
-          }
-
-        }),
-        map(lists => {
-          return lists.map(list => {
-            list.report_date = testdate.replace(/-/g, '');
-            return { ...list };
-          });
-        })
-      )
-      .subscribe(data => {
-        this.processing = false;
-        this.makeDNARNAList(data, 'TEST');
-
-      });
 
   }
 

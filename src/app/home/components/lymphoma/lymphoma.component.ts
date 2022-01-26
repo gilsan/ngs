@@ -67,13 +67,13 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
   lstartDay = this.startToday();
   lendDay = this.endToday();
 
-  specimenNoLists: string[] = [];
-  patientIDLists: string[] = [];
-  patientNameLists: string[] = [];
+  // specimenNoLists: string[] = [];
+  // patientIDLists: string[] = [];
+  // patientNameLists: string[] = [];
 
-  backupspecimenNoLists: string[] = [];
-  backuppatientIDLists: string[] = [];
-  backuppatientNameLists: string[] = [];
+  // backupspecimenNoLists: string[] = [];
+  // backuppatientIDLists: string[] = [];
+  // backuppatientNameLists: string[] = [];
 
   @ViewChild('lymTestedID', { static: true }) testedID: ElementRef;
   @ViewChild('lymPatient', { static: true }) patient: ElementRef;
@@ -262,10 +262,10 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.setSearchEndDay(end);
     this.store.setReceivedType(this.receivedType);
 
-    this.store.setSpecimenNoLists(this.specimenNoLists);
-    this.store.setPatientIDLists(this.patientIDLists);
-    this.store.setPatientNameLists(this.patientNameLists);
-    this.store.setPatientLists(this.tempLists);
+    // this.store.setSpecimenNoLists(this.specimenNoLists);
+    // this.store.setPatientIDLists(this.patientIDLists);
+    // this.store.setPatientNameLists(this.patientNameLists);
+    // this.store.setPatientLists(this.tempLists);
     ////////////////////////////////////////////////////////////////
     const specimenno = this.store.getSpecimenNo();
 
@@ -357,7 +357,12 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.status = this.store.getStatus();
     // this.sheet = this.store.getSheet();
     // const whichstate = this.store.getWhichstate();
-    this.initState = false;
+    if (this.receivedType === 'none') {
+      this.initState = false;
+    } else {
+      this.initState = true;
+    }
+
     const storeSpecimenID = this.store.getSpecimenNo();
     const storePatientID = this.store.getPatineID();
     const storePatientName = this.store.getPatientName();
@@ -369,10 +374,10 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
     const whichstate = this.store.getWhichstate();
     const receivedType = this.store.getReceivedType();
 
-    this.specimenNoLists = this.store.getSpecimenNoLists();
-    this.patientIDLists = this.store.getPatientIDLists();
-    this.patientNameLists = this.store.getPatientNameLists();
-    this.savedLists = this.store.getPatientLists();
+    // this.specimenNoLists = this.store.getSpecimenNoLists();
+    // this.patientIDLists = this.store.getPatientIDLists();
+    // this.patientNameLists = this.store.getPatientNameLists();
+    // this.savedLists = this.store.getPatientLists();
 
     if (storeSpecimenID.length !== 0) {
       this.storeSpecimenID = storeSpecimenID;
@@ -386,7 +391,7 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (storePatientName.length !== 0) {
       this.storePatientName = storePatientName;
-      this.patientName.nativeElement.value = this.storePatientID;
+      this.patientName.nativeElement.value = this.storePatientName;
     }
 
 
@@ -449,26 +454,6 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
   // tslint:disable-next-line: typedef
   search(start: string, end: string, specimenNo: string, patientId: string,
     status: string = '', sheet: string = '', research: string = '', patientname: string = '') {
-    let isChanged = false;
-
-    if (specimenNo === '100') {
-      specimenNo = '';
-    }
-
-    if (patientId === '100') {
-      patientId = '';
-    }
-
-    if (patientname === '100') {
-      patientname = '';
-    }
-
-    if (this.startday.toString().replace(/-/gi, '') !== start.toString().replace(/-/gi, '') ||
-      this.endday.toString().replace(/-/gi, '') !== end.toString().replace(/-/gi, '')) {
-      isChanged = true;
-    } else {
-      isChanged = false;
-    }
 
     this.startday = start;
     this.endday = end;
@@ -540,25 +525,7 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
 
         this.patientID = '';
         this.specimenNo = '';
-        return data;
-      })
-      .then(lists => {
-        this.backupspecimenNoLists = [];
-        this.backuppatientIDLists = [];
-        this.backuppatientNameLists = [];
-        this.backupspecimenNoLists = lists.map(list => list.specimenNo).sort();
-        this.backuppatientIDLists = lists.map(list => list.patientID).sort();
-        this.backuppatientNameLists = lists.map(list => list.name).sort();
-        if (this.initState) {
-          this.specimenNoLists = this.backupspecimenNoLists;
-          this.patientIDLists = this.backuppatientIDLists;
-          this.patientNameLists = this.backuppatientNameLists;
-        }
-        if (isChanged) {
-          this.specimenNoLists = this.backupspecimenNoLists;
-          this.patientIDLists = this.backuppatientIDLists;
-          this.patientNameLists = this.backuppatientNameLists;
-        }
+
       });
 
   }
@@ -629,64 +596,6 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
     return false;
   }
 
-  optionTestcode(option: string): void {
-    this.lists = [];
-    if (option === '100') {
-      console.log(this.tempLists.length, this.savedLists.length);
-      this.storeSpecimenID = '';
-      this.store.setSpecimentNo('');
-      if (this.tempLists.length > this.savedLists.length) {
-        this.lists = this.tempLists;
-      } else if (this.tempLists.length < this.savedLists.length) {
-        this.lists = this.savedLists;
-        this.tempLists = this.savedLists;
-      } else {
-        this.lists = this.tempLists;
-      }
-    } else {
-      const list = this.tempLists.filter(patient => patient.specimenNo === option);
-      this.lists = list;
-    }
-  }
-
-  optionPatientid(option: string): void {
-    this.lists = [];
-    if (option === '100') {
-      this.storeSpecimenID = '';
-      this.store.setPatientID('');
-      if (this.tempLists.length > this.savedLists.length) {
-        this.lists = this.tempLists;
-      } else if (this.tempLists.length < this.savedLists.length) {
-        this.lists = this.savedLists;
-        this.tempLists = this.savedLists;
-      } else {
-        this.lists = this.tempLists;
-      }
-    } else {
-      const list = this.tempLists.filter(patient => patient.patientID === option);
-      this.lists = list;
-    }
-  }
-
-  optionPatientname(option: string): void {
-    this.lists = [];
-    if (option === '100') {
-
-      this.storePatientName = '';
-      this.store.setPatientName('');
-      if (this.tempLists.length > this.savedLists.length) {
-        this.lists = this.tempLists;
-      } else if (this.tempLists.length < this.savedLists.length) {
-        this.lists = this.savedLists;
-        this.tempLists = this.savedLists;
-      } else {
-        this.lists = this.tempLists;
-      }
-    } else {
-      const list = this.tempLists.filter(patient => patient.name === option);
-      this.lists = list;
-    }
-  }
 
   ////////// 연구용
   openDialog(): void {

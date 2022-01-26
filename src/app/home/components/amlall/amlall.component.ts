@@ -311,10 +311,9 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.setSearchEndDay(end);
     this.store.setReceivedType(this.receivedType);
 
-    this.store.setSpecimenNoLists(this.specimenNoLists);
-    this.store.setPatientIDLists(this.patientIDLists);
-    this.store.setPatientNameLists(this.patientNameLists);
-    this.store.setPatientLists(this.tempLists);
+    // this.store.setSpecimenNoLists(this.specimenNoLists);
+    // this.store.setPatientIDLists(this.patientIDLists);
+    // this.store.setPatientNameLists(this.patientNameLists);
     ////////////////////////////////////////////////////////////////
     //  testedID, patient, status, sheet, research, start, end, this.receivedType);
     const specimenno = this.store.getSpecimenNo();
@@ -398,13 +397,13 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   checkStore(): void {
-    // this.storeStartDay = this.store.getSearchStartDay();
-    // this.storeEndDay = this.store.getSearchEndDay();
-    // this.storePatientID = this.store.getamlPatientID();
-    // this.storeSpecimenID = this.store.getamlSpecimenID();
-    // this.status = this.store.getStatus();
-    // this.sheet = this.store.getSheet();
-    this.initState = false;
+
+    if (this.receivedType === 'none') {
+      this.initState = false;
+    } else {
+      this.initState = true;
+    }
+
     const storeSpecimenID = this.store.getSpecimenNo();
     const storePatientID = this.store.getPatinetID();
     const storePatientName = this.store.getPatientName();
@@ -416,11 +415,10 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
     const whichstate = this.store.getWhichstate();
     const receivedType = this.store.getReceivedType();
 
-    this.specimenNoLists = this.store.getSpecimenNoLists();
-    this.patientIDLists = this.store.getPatientIDLists();
-    this.patientNameLists = this.store.getPatientNameLists();
-    this.tempLists = this.store.getPatientLists();
-    // console.log('[414][checkStore][저장된데이터] ', storeSpecimenID);
+    // this.specimenNoLists = this.store.getSpecimenNoLists();
+    // this.patientIDLists = this.store.getPatientIDLists();
+    // this.patientNameLists = this.store.getPatientNameLists();
+    // console.log('[421][checkStore][저장된데이터] ', storeSpecimenID);
     if (storeSpecimenID.length !== 0) {
       this.storeSpecimenID = storeSpecimenID;
       this.testedID.nativeElement.value = this.storeSpecimenID;
@@ -433,7 +431,7 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (storePatientName.length !== 0) {
       this.storePatientName = storePatientName;
-      this.patientName.nativeElement.value = this.storePatientID;
+      this.patientName.nativeElement.value = this.storePatientName;
     }
 
 
@@ -513,7 +511,8 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       isChanged = false;
     }
-    // console.log('[508] ', this.startday, start, this.endday, end, isChanged, this.initState, this.specimenNoLists);
+    // console.log(this.initState, isChanged);
+    // console.log('[515] ', specimenNo);
 
     let type = '';
     this.startday = start;
@@ -548,7 +547,7 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
     if (parseInt(status, 10) === 10 || this.receivedType === 'register') {
       status = '10';
     }
-    // console.log('[498][검색][receivedType]', this.receivedType);
+    // console.log('[550][검색][receivedType]', specimenNo);
     // console.log('[499][검색]', startdate, enddate, patientId, specimenNo, status, type, research);
 
     this.lists = []; // 초기화
@@ -559,7 +558,6 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
         map(lists => lists.map(list => list.specimenNo))
       )
       .subscribe(data => {
-        // this.specimenNoLists = [];
         this.backupspecimenNoLists = data.sort();
         if (this.initState) {
           this.specimenNoLists = this.backupspecimenNoLists;
@@ -576,12 +574,7 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
         map(lists => lists.map(list => list.patientID))
       )
       .subscribe(data => {
-        // this.patientIDLists = [];
         this.backuppatientIDLists = data.sort();
-        // data.forEach(list => {
-        //   this.backuppatientIDLists.push(list.patientID);
-        // });
-
         if (this.initState) {
           this.patientIDLists = this.backuppatientIDLists;
         }
@@ -597,11 +590,7 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
         map(lists => lists.map(list => list.name))
       )
       .subscribe(data => {
-        // this.patientNameLists = [];
         this.backuppatientNameLists = data.sort();
-        // data.forEach(list => {
-        //   this.backuppatientNameLists.push(list.name);
-        // });
         if (this.initState) {
           this.patientNameLists = this.backuppatientNameLists;
         }
@@ -610,8 +599,6 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
           this.patientNameLists = this.backuppatientNameLists;
         }
       });
-
-
 
     this.subs.sink = this.lists$
       .pipe(
@@ -625,7 +612,6 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
             return { ...list, codetest: 'AML', original_code: list.test_code };
           }
         }),
-        // tap(data => console.log('[409][검색데이터]', data)),
       ).subscribe((data: any) => {
         this.initState = false;
         if (data.reportTitle === '') {
@@ -664,11 +650,9 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         }
 
-
         this.patientID = '';
         this.specimenNo = '';
       });
-
   }
 
   saveData(data: IPatient, sheet: string): void {
@@ -757,40 +741,6 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
     return false;
   }
 
-
-  optionTestcode(option: string): void {
-    this.lists = [];
-    if (option === '100') {
-      this.storeSpecimenID = '';
-      this.store.setSpecimentNo('');
-      this.lists = this.tempLists;
-    } else {
-      const list = this.tempLists.filter(patient => patient.specimenNo === option);
-      this.lists = list;
-    }
-  }
-
-  optionPatientid(option: string): void {
-    if (option === '100') {
-      this.storeSpecimenID = '';
-      this.store.setPatientID('');
-      this.lists = this.tempLists;
-    } else {
-      const list = this.tempLists.filter(patient => patient.patientID === option);
-      this.lists = list;
-    }
-  }
-
-  optionPatientname(option: string): void {
-    if (option === '100') {
-      this.storePatientName = '';
-      this.store.setPatientName('');
-      this.lists = this.tempLists;
-    } else {
-      const list = this.tempLists.filter(patient => patient.name === option);
-      this.lists = list;
-    }
-  }
 
   ////////// 연구용
   openDialog(): void {

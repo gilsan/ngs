@@ -11,7 +11,7 @@ export class StoreService {
   amlPatientID = '';
   amlSpecimenID = '';
 
-  specimenNo = 'none';  // 검체번호
+  specimenNo = '';  // 검체번호
   patientID = ''; // 환자 ID
 
   detactedVariants: IAFormVariant[];
