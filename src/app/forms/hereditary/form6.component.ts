@@ -490,8 +490,6 @@ export class Form6Component implements OnInit, OnDestroy {
       });
 
       if (parseInt(this.patientInfo.screenstatus, 10) === 0) {
-        this.reCall2();
-      } else {
         this.reCall();
       }
 
@@ -755,6 +753,7 @@ export class Form6Component implements OnInit, OnDestroy {
   /////////////////////////////////////////////////////////////
   //
   createRow(item: IAFormVariant): FormGroup {
+    console.log('[758]', item.functionalImpact);
     let checktype: boolean;
     if (String(item.checked) === 'false') {
       checktype = false;
@@ -804,7 +803,6 @@ export class Form6Component implements OnInit, OnDestroy {
   }
 
   addNewRow(row: IAFormVariant): void {
-    // console.log('[544][addNewRow]', row);
     const control = this.tablerowForm.get('tableRows') as FormArray;
     control.push(this.createRow(row));
   }
@@ -1697,6 +1695,7 @@ export class Form6Component implements OnInit, OnDestroy {
 
 
   ///////////////////////////////////////////////////////////////
+  // report_detected_variants 에서 읽어옴
   reCall(): void {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData: IAFormVariant[] = control.getRawValue();
@@ -1714,7 +1713,7 @@ export class Form6Component implements OnInit, OnDestroy {
           .subscribe(([data1, data2]) => {
 
             if (data1.length > 0) {
-              // console.log('[1685][호출]', gene, data1, data2);
+              console.log('[1717][호출]', gene, data1, data2);
               if (data2.length > 0) {
                 control.at(index).patchValue(
                   {
