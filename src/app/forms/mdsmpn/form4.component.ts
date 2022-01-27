@@ -168,7 +168,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
   tempvusmsg = '';
   functionalimpact: string[] = ['Pathogenic', 'Likely Pathogenic', 'VUS'];
   zygosity: string[] = ['Heterozygous', 'Homozygous'];
-  methodmsg = `Total genomic DNA was extracted from the each sample.  The TruSeq DNA Sample Preparation kit of Illumina was used to make the library. The Agilent SureSelect Target enrichment kit was used for in-solution enrichment of target regions. The enriched fragments were then amplified and sequenced on the MiSeqDx system (illumina). After demultiplexing, the reads were aligned to the human reference genome hg19 (GRCh37) using BWA (0.7.12) and duplicate reads were removed with Picard MarkDuplicates (1.98). Local realignment, score recalibiration and filtering sequence data were performed with GATK (2.3-9). Variants were annotated using SnpEff (4.2).`;
+  methodmsg = `After demultiplexing, the reads were aligned to the human reference genome hg19 (GRCh37) using BWA (0.7.10) and duplicate reads were removed with MarkDuplicates (GATK 4.0.6.0).Local realignment, score recalibiration and filtering sequence data were performed with GATK (4.0.6.0). Variants were annotated using SnpEff (4.3).`;
 
   technique = `The analysis was optimised to identify base pair substitutions with a high sensitivity. The sensitivity for small insertions and deletions was lower. Deep-intronic mutations, mutations in the promoter region, repeats, large exonic deletions and duplications, and other structural variants were not detected by this test.`;
 
