@@ -132,19 +132,19 @@
               <td class="txt_c">{{list.specimenNo}}</td>
               <td class="txt_c"><a [href]="getUrl(list)" [download]="list.tsvFilteredFilename">{{list.tsvFilteredFilename}}</a></td>
               <td class="txt_c">{{list.bamFilename}}</td>
-              <td class="txt_c" *ngIf="list.test_code === 'MDS/MPN'   || processingSatus(list.test_code) ;else status">{{processingStatus(i)}}</td>
+              <td class="txt_c" *ngIf="  processingSatus(list.test_code) ;else status">{{processingStatus(i)}}</td>
               <ng-template #status><td></td></ng-template>
               <td class="txt_c">
-                <button type="button" class="btn btn_03" *ngIf="list.tsvFilteredFilename.trim() || ( showReport(list.test_code)) ; else printing"
+                <button type="button" class="btn btn_03" *ngIf="list.tsvFilteredFilename.trim() || ( showReport(list.test_code)) || (list.screenstatus !== '' && list.screenstatus !== 0) ; else printing"
                   (click)="goReporter(i)">결과지/보고서</button>
                 <ng-template #printing>
                   <button type="button" class="btn btn_03" (click)="goUploadpage(list.specimenNo, list.patientID)"
-                  *ngIf="list.test_code === 'MDS/MPN'    || processingSatus(list.test_code)? true : false"
+                  *ngIf="  processingSatus(list.test_code)? true : false || list.screenstatus === ''"
                   >파일등록/변환</button>
                 </ng-template>
               </td>
-              <td class="txt_c" *ngIf="list.test_code === 'LPE474' || list.test_code === 'LPE475'  ||  processingSatus(list.test_code); else reload">
-                <button type="button" class="btn btn_05" *ngIf="list.tsvFilteredFilename || list.detected === 0;"
+              <td class="txt_c" *ngIf="   processingSatus(list.test_code); else reload">
+                <button type="button" class="btn btn_05" *ngIf="list.tsvFilteredFilename || (list.screenstatus !== '' && list.screenstatus !== 0);"
                   (click)="goUploadpage(list.specimenNo, list.patientID)">재등록</button>
               </td>
               <td  class="txt_c">

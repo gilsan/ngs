@@ -550,7 +550,7 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
           this.lists = data;
           this.tempLists = data;
         }
-
+        console.log(this.lists);
         this.patientID = '';
         this.specimenNo = '';
       });
