@@ -989,20 +989,31 @@ export class LimsComponent implements OnInit, AfterViewInit {
   }
 
   save(testdate: string): void {
-
+    const rearrangeDNA = [];
+    const rearrangeRNA = [];
     const testeddate = testdate.replace(/-/g, '');
     const dnacontrol = this.dnaForm.get('dnaFormgroup') as FormArray;
     const dnaFormData = dnacontrol.getRawValue();
     const tempdnaFormData = dnaFormData.filter(item => item.checkbox === true);
     const dnaCount = tempdnaFormData.length;
     dnaFormData.map(item => item.report_date = testeddate);
+    tempdnaFormData.forEach((item, index) => {
+      const { id, checkbox, ...restDNA } = item;
+      rearrangeDNA.push({ id: index + 1, ...restDNA });
+    });
 
     const rnacontrol = this.rnaForm.get('rnaFormgroup') as FormArray;
     const rnaFormData = rnacontrol.getRawValue();
-    const temprnaFormData: ILIMS[] = rnaFormData.filter(item => item.checkbox === true);
+    const temprnaFormData = rnaFormData.filter(item => item.checkbox === true);
     const rnaCount = temprnaFormData.length;
     rnaFormData.map(item => item.report_date = testeddate);
-    const allData: ILIMS[] = [...tempdnaFormData, ...temprnaFormData];
+    temprnaFormData.forEach((item, index) => {
+      const { id, checkbox, ...restRNA } = item;
+      rearrangeRNA.push({ id: index + 1, ...restRNA });
+    });
+
+
+    const allData: ILIMS[] = [...rearrangeDNA, ...rearrangeRNA];
     console.log(allData);
 
     if (this.examiner.length === 0 || this.rechecker.length === 0) {
