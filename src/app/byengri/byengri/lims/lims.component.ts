@@ -994,26 +994,28 @@ export class LimsComponent implements OnInit, AfterViewInit {
     const testeddate = testdate.replace(/-/g, '');
     const dnacontrol = this.dnaForm.get('dnaFormgroup') as FormArray;
     const dnaFormData = dnacontrol.getRawValue();
+    dnaFormData.map(item => item.report_date = testeddate);
     const tempdnaFormData = dnaFormData.filter(item => item.checkbox === true);
     const dnaCount = tempdnaFormData.length;
-    dnaFormData.map(item => item.report_date = testeddate);
-    tempdnaFormData.forEach((item, index) => {
-      const { id, checkbox, ...restDNA } = item;
-      rearrangeDNA.push({ id: index + 1, ...restDNA });
-    });
+
+    // tempdnaFormData.forEach((item, index) => {
+    //   const { id, checkbox, ...restDNA } = item;
+    //   rearrangeDNA.push({ id: index + 1, ...restDNA });
+    // });
 
     const rnacontrol = this.rnaForm.get('rnaFormgroup') as FormArray;
     const rnaFormData = rnacontrol.getRawValue();
+    rnaFormData.map(item => item.report_date = testeddate);
     const temprnaFormData = rnaFormData.filter(item => item.checkbox === true);
     const rnaCount = temprnaFormData.length;
-    rnaFormData.map(item => item.report_date = testeddate);
-    temprnaFormData.forEach((item, index) => {
-      const { id, checkbox, ...restRNA } = item;
-      rearrangeRNA.push({ id: index + 1, ...restRNA });
-    });
+
+    // temprnaFormData.forEach((item, index) => {
+    //   const { id, checkbox, ...restRNA } = item;
+    //   rearrangeRNA.push({ id: index + 1, ...restRNA });
+    // });
 
 
-    const allData: ILIMS[] = [...rearrangeDNA, ...rearrangeRNA];
+    const allData: ILIMS[] = [...tempdnaFormData, ...temprnaFormData];
     console.log(allData);
 
     if (this.examiner.length === 0 || this.rechecker.length === 0) {
@@ -1279,6 +1281,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
 
 
   moveItemInCommentArray(formArray: FormArray, fromIndex: number, toIndex: number): void {
+
     const from2 = this.clamp(fromIndex, formArray.length - 1);
     const to2 = this.clamp(toIndex, formArray.length - 1);
 
@@ -1325,6 +1328,14 @@ export class LimsComponent implements OnInit, AfterViewInit {
     for (let i = 0; i < len; i++) {
       formArray.setControl(i, newFormGroup[i]);
     }
+
+    //// id 순서 바꿈
+    for (let i = 0; i < len; i++) {
+      formArray.at(i).patchValue({ id: i + 1 });
+    }
+    ////
+
+
   }
 
   /** Clamps a number between zero and a maximum. */
