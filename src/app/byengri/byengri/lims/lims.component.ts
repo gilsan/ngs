@@ -1042,7 +1042,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
   }
 
   tumoretypeUpdate(testcode: string, tumortype: string): void {
-    console.log('[841][tumoretypeUpdate]', testcode, tumortype);
+    // console.log('[841][tumoretypeUpdate]', testcode, tumortype);
     this.limsService.updateTumoretype(testcode, tumortype)
       .subscribe(data => {
         if (data.message === 'SUCCESS') {
@@ -1158,7 +1158,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
     });
 
     const allData: ILIMS[] = [...tempDNA, ...tempRNA];
-    console.log('[978]', allData);
+    // console.log('[978]', allData);
     const width = [{ width: 4 }, { width: 4 }, { width: 16 }, { width: 13 }, { width: 12 }, { width: 11 }, { width: 11 }, // A, B,C,D,E,F,G
     { width: 7 }, { width: 11 }, { width: 10 }, { width: 8 }, { width: 9 }, //  H, I, J, K, L
     { width: 19 }, { width: 18 }, { width: 7 }, { width: 7 }, { width: 8 }, //  M, N, O ,P, Q
