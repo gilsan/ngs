@@ -433,7 +433,7 @@
                             (change)="checkboxSync(group.get('pathology_num').value, 'RNA')">
                         </td>
                           <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="id" readonly>
+                            <input type="text" size="10" class="clr-input" [value]="i +1" readonly>
                           </td>
                           <td class="txt_c">
                             <input type="text" size="10" class="clr-input" formControlName="pathology_num" readonly>
