@@ -40,7 +40,7 @@
                 <option value="">선택</option>
                 <option value="{{ex.reportDate}}/{{ex.examin}}/{{ex.recheck}}"
                  *ngFor="let ex of experLists" >
-                  {{ex.reportDate}}/{{ex.examNm}}/{{ex.recheckNm}}</option>
+                  {{ex.reportDate}}/{{ex.recheckNm}}/{{ex.examNm}}</option>
               </select>&nbsp;&nbsp;
               <button type="button" class="btn btn_02"
               style="margin-right: 15px;" (click)="testSearch(exper.value)"  >실험정보조회</button>
