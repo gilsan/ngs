@@ -75,11 +75,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
 
   experLists: ExperList[] = [];
 
-  // tslint:disable-next-line:no-string-literal
-  // filteredOptions: Observable<string[]> = this.dnaFormLists().valueChanges.pipe(
-  //   startWith(''),
-  //   map((value: string) => this._filter(value)),
-  // );
+
 
   @ViewChild('dnaBox', { static: true }) dnaBox: ElementRef;
   @ViewChild('rnaBox', { static: true }) rnaBox: ElementRef;
