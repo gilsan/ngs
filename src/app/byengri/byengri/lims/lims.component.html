@@ -221,7 +221,7 @@
                             (change)="prescriptionCodeSync(group.get('pathology_num').value, prescriptioncode.value, 'DNA')">
                           </td>
                           <td class="txt_c">
-                            <input type="text" size="30"  class="clr-input  tdbox"
+                            <input type="text" size="30"  class="clr-input  tdbox input_direction"
                             [matTooltip]="group.get('test_code').value"  #cancertype  (keyup)=" keyUp($event)"
                             matInput  [matAutocomplete]="dnacancel" formControlName="test_code"
                             (change)="testCodeSync(group.get('pathology_num').value, cancertype.value, 'DNA')">
@@ -488,7 +488,7 @@
                             (change)="prescriptionCodeSync(group.get('pathology_num').value, rnaprescriptioncode.value, 'RNA')">
                           </td>
                           <td class="txt_c">
-                            <input type="text" size="30"  class="clr-input  tdbox"
+                            <input type="text" size="30"  class="clr-input  tdbox input_direction"
                             [matTooltip]="group.get('test_code').value"
                             matInput  [matAutocomplete]="rnacancel" formControlName="test_code"
                             #rnacancertype  (keyup)=" keyUp($event)">
