@@ -75,8 +75,8 @@ export class LimsComponent implements OnInit, AfterViewInit {
 
   experLists: ExperList[] = [];
 
-
-
+  dnaStatus = true;
+  rnaStatus = true;
   @ViewChild('dnaBox', { static: true }) dnaBox: ElementRef;
   @ViewChild('rnaBox', { static: true }) rnaBox: ElementRef;
 
@@ -1523,8 +1523,12 @@ export class LimsComponent implements OnInit, AfterViewInit {
         controlDNA.at(index).patchValue({ test_code: testCode });
       }
     }
-
     this.tumoretypeUpdate(testcode, testCode);
+    if (type === 'DNA') {
+      this.dnaStatus = true;
+    } else if (type === 'RNA') {
+      this.rnaStatus = true;
+    }
   }
 
 
@@ -1655,15 +1659,32 @@ export class LimsComponent implements OnInit, AfterViewInit {
         controlDNA.at(i).patchValue({ quan_dna: dnateval, quan_tot_vol: 5.5 });
       }
     }
-    // else if (type === 'RNA') {
-    //   if (dnate.toLowerCase() === 'dna') {
-    //     const dnateval = totalVal - val;
-    //     controlRNA.at(i).patchValue({ te: dnateval });
-    //   } else if (dnate.toLowerCase() === 'te') {
-    //     const dnateval = totalVal - val;
-    //     controlRNA.at(i).patchValue({ quan_dna: dnateval });
-    //   }
-    // }
+
+  }
+
+  keyupStatue(val: any, type: string): void {
+    if (type === 'DNA') {
+      this.dnaStatus = false;
+    } else if (type === 'RNA') {
+      this.rnaStatus = false;
+    }
+
+  }
+
+  textalign(type: string): { input_direction: boolean, input_align: boolean } {
+    if (type === 'DNA') {
+      if (this.dnaStatus) {
+        return { input_direction: true, input_align: true };
+      }
+      return { input_direction: false, input_align: true };
+    } else if (type === 'RNA') {
+      if (this.rnaStatus) {
+        return { input_direction: false, input_align: true };
+      }
+      return { input_direction: true, input_align: true };
+
+    }
+
   }
 
 }

@@ -221,8 +221,8 @@
                             (change)="prescriptionCodeSync(group.get('pathology_num').value, prescriptioncode.value, 'DNA')">
                           </td>
                           <td class="txt_c">
-                            <input type="text" size="30"  class="clr-input  tdbox input_direction"
-                            [matTooltip]="group.get('test_code').value"  #cancertype  (keyup)=" keyUp($event)"
+                            <input type="text" size="30"  class="clr-input  tdbox" [ngClass]="textalign('DNA')"
+                            [matTooltip]="group.get('test_code').value"  #cancertype  (keyup)="keyupStatue($event, 'DNA')"
                             matInput  [matAutocomplete]="dnacancel" formControlName="test_code"
                             (change)="testCodeSync(group.get('pathology_num').value, cancertype.value, 'DNA')">
                            <mat-autocomplete #dnacancel="matAutocomplete"
@@ -488,10 +488,10 @@
                             (change)="prescriptionCodeSync(group.get('pathology_num').value, rnaprescriptioncode.value, 'RNA')">
                           </td>
                           <td class="txt_c">
-                            <input type="text" size="30"  class="clr-input  tdbox input_direction"
+                            <input type="text" size="30"  class="clr-input  tdbox" [ngClass]="textalign('RNA')"
                             [matTooltip]="group.get('test_code').value"
                             matInput  [matAutocomplete]="rnacancel" formControlName="test_code"
-                            #rnacancertype  (keyup)=" keyUp($event)">
+                            #rnacancertype  (keyup)="keyupStatue($event, 'RNA')">
                             <mat-autocomplete #rnacancel="matAutocomplete"
                             (optionSelected)="testCodeSync(group.get('pathology_num').value, rnacancertype.value, 'RNA')">
                               <mat-option *ngFor="let option of LISTS" [value]="option">
