@@ -451,10 +451,8 @@ export class LimsComponent implements OnInit, AfterViewInit {
       this.dnaLists = [];
       this.rnaLists = [];
       this.dnaLists = tempDNA;
-      this.rnaLists = tempRNA.sort((a, b) => {
-        const x = a.id; const y = b.id;
-        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-      });
+      this.rnaLists = tempRNA;
+
 
 
     } else if (this.dnaLists.length < this.rnaLists.length) {
@@ -475,10 +473,8 @@ export class LimsComponent implements OnInit, AfterViewInit {
       this.rnaLists = [];
       console.log(this.dnaLists, this.rnaLists);
       this.rnaLists = tempRNA;
-      this.dnaLists = tempDNA.sort((a, b) => {
-        const x = a.id; const y = b.id;
-        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-      });
+      this.dnaLists = tempDNA;
+
     }
 
     console.log('[517][순서변경후][DNA, RNA]', this.dnaLists, this.rnaLists);
