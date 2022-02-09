@@ -90,6 +90,11 @@ export interface ExperList {
   reportDate: string;
 }
 
+export interface NOLIST {
+  gene: string;
+  orderby: string;
+}
+
 
 
 

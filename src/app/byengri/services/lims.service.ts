@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 import { emrUrl } from 'src/app/config';
-import { ExperimentList, ILIMS } from '../models/lims.model';
+import { ExperimentList, ILIMS, NOLIST } from '../models/lims.model';
 import { shareReplay } from 'rxjs/operators';
 
 import * as FileSaver from 'file-saver';
@@ -98,6 +98,11 @@ export class LimsService {
     return this.http.post<ExperimentList[]>(`${this.apiUrl}/lims/limscombo`, {});
   }
 
+
+  // LIMS 번호
+  public noLists(): Observable<NOLIST[]> {
+    return this.http.post<NOLIST[]>(`${this.apiUrl}/lims/limsTumor`, {});
+  }
 
 
 

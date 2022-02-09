@@ -1,15 +1,15 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { fromEvent, Observable, of } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { moveItemInArray, CdkDragDrop } from '@angular/cdk/drag-drop';
 import { catchError, debounceTime, distinct, distinctUntilChanged, filter, map, shareReplay, startWith, take, tap } from 'rxjs/operators';
-import { ExperimentList, ExperList, IDNATYPE, ILIMS, IRNATYPE, IUSER } from '../../models/lims.model';
+import { ExperimentList, ExperList, IDNATYPE, ILIMS, IRNATYPE, IUSER, NOLIST } from '../../models/lims.model';
 import { LimsService } from '../../services/lims.service';
 import { SearchService } from '../../services/search.service';
 import * as moment from 'moment';
 import { ManageUsersService } from 'src/app/home/services/manageUsers.service';
-
+import { SubSink } from 'subsink';
 
 import * as XLSX from 'xlsx';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
@@ -20,69 +20,8 @@ const EXCEL_EXTENSION = '.xlsx';
   templateUrl: './lims.component.html',
   styleUrls: ['./lims.component.scss']
 })
-export class LimsComponent implements OnInit, AfterViewInit {
-  LISTS = [
-    { no: '1', type: 'Bladder cancer' },
-    { no: '1-1', type: 'Bladder adenocarcinoma' },
-    { no: '1-2', type: 'Bladder small cell neuroendocrine carcinoma' },
-    { no: '1-3', type: 'Bladder squamous cell carcinoma' },
-    { no: '1-4', type: 'Bladder urothelial carcinoma' },
-    { no: '2', type: 'Breast cancer' },
-    { no: '3', type: 'Cervical cancer' },
-    { no: '4', type: 'Colorectal cancer' },
-    { no: '4-1', type: 'Colon cancer' },
-    { no: '4-2', type: 'Rectal cancer' },
-    { no: '5', type: 'Endometrial cancer' },
-    { no: '6', type: 'Esophageal cancer' },
-    { no: '7', type: 'Gastric cancer' },
-    { no: '8', type: 'Gastroesophageal junction adenocarcinoma' },
-    { no: '9', type: 'Gastrointestinal stromal tumor' },
-    { no: '10', type: 'Glioblastoma' },
-    { no: '11', type: 'Head and nect cancer' },
-    { no: '12', type: 'Kidney cancer' },
-    { no: '13', type: 'Liver cancer' },
-    { no: '13-1', type: 'Cholangiocarcinoma' },
-    { no: '14', type: 'Melanoma' },
-    { no: '15', type: 'Mesothelioma' },
-    { no: '16', type: 'Non-small cell lung cancer' },
-    { no: '17', type: 'Osteosarcoma' },
-    { no: '18', type: 'Ovarian cancer' },
-    { no: '19', type: 'Pancreatic cancer' },
-    { no: '20', type: 'Prostate cancer' },
-    { no: '21', type: 'Skin basal cell carcinoma' },
-    { no: '22', type: 'Small cell lung cancer' },
-    { no: '23', type: 'Soft tissue sarcoma' },
-    { no: '23-1', type: 'Angiosarcoma' },
-    { no: '23-2', type: 'Clear cell sarcoma of soft tissue' },
-    { no: '23-3', type: 'Dermatofibrosarcoma protuberans' },
-    { no: '23-4', type: 'Desmoplastic small round cell tumor' },
-    { no: '23-5', type: 'Ewing sarcoma/Peripheral primitive neuroectodermal tumor' },
-    { no: '23-5-1', type: 'Ewing sarcoma' },
-    { no: '23-5-1-1', type: 'Extraskeletal Ewing sarcoma' },
-    { no: '23-6', type: 'Flbrosarcoma' },
-    { no: '23-7', type: 'Leiomyosarcoma' },
-    { no: '23-8', type: 'Liposarcoma' },
-    { no: '23-9', type: 'Lymphangiosacoma' },
-    { no: '23-10', type: 'Malignant peripheral nerve sheath tumor' },
-    { no: '23-11', type: 'Phabdomyosarcoma' },
-    { no: '23-12', type: 'Synovial sarcoma' },
-    { no: '23-13', type: 'Undifferentiated/Unclassified sarcoma' },
-    { no: '24', type: 'Testcular cancer' },
-    { no: '25', type: 'Thyroid cancer' },
-    { no: '25-1', type: 'Differentiated thyroid gland carcinoma' },
-    { no: '25-2', type: 'Poorly differentiated thyroid gland carcinoma' },
-    { no: '25-3', type: 'Thyroid gland anaplastic carcinoma' },
-    { no: '25-4', type: 'Thyroid gland follicular carcinoma' },
-    { no: '25-4-1', type: 'Thyroid gland Hurthle cell carcinoma' },
-    { no: '25-5', type: 'Thyroid gland medullary carcinoma' },
-    { no: '25-5-1', type: 'Sporadic thyroid gland medullary carcinoma' },
-    { no: '25-6', type: 'Thyroid gland papillary carcinoma' },
-    { no: '25-6-1', type: 'Columnar cell variant thyroid gland papillary carcinoma' },
-    { no: '25-6-2', type: 'Tall cell variant thyroid gland papillary carcinoma' },
-    { no: '26', type: 'Triple negative breast cancer' },
-    { no: '27', type: 'Unknown primary origin' },
-    { no: '28', type: 'Other soilid tumor' },
-  ];
+export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
+  LISTS: { no: string, type: string }[] = [];
   listsTemp = [...this.LISTS];
   BLOCKCNT = ['1개', '2개', '3개이상'];
   BXOP = ['BX', 'OP'];
@@ -111,9 +50,9 @@ export class LimsComponent implements OnInit, AfterViewInit {
   topScroll = false;
   leftScroll = true;
   processing = false;
-
+  private subs = new SubSink();
   experLists: ExperList[] = [];
-
+  noLists: NOLIST[] = [];
   // dnaStatus = true;
   // rnaStatus = true;
   @ViewChild('dnaBox', { static: true }) dnaBox: ElementRef;
@@ -140,7 +79,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
         shareReplay()
       );
 
-    this.exminObservable$
+    this.subs.sink = this.exminObservable$
       .pipe(
         map(lists => lists.filter(list => list.part_nm === 'Doctor')),
       )
@@ -150,7 +89,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
         });
       });
 
-    this.exminObservable$
+    this.subs.sink = this.exminObservable$
       .pipe(
         map(lists => lists.filter(list => list.part_nm === 'Tester')),
       )
@@ -160,7 +99,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
         });
       });
 
-    this.limsService.experimentList().subscribe(data => {
+    this.subs.sink = this.limsService.experimentList().subscribe(data => {
       data.forEach(list => {
         this.experLists.push({
           examNm: list.exam_nm,
@@ -171,6 +110,16 @@ export class LimsComponent implements OnInit, AfterViewInit {
         });
       });
     });
+
+    this.subs.sink = this.limsService.noLists().subscribe(lists => {
+      lists.forEach(list => {
+        this.LISTS.push({ no: list.orderby, type: list.gene });
+      });
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 
 
