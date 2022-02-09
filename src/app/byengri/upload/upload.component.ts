@@ -363,7 +363,7 @@ export class UploadComponent implements OnInit {
               const len = this.checkListNum(list[0]);
 
               this.geno.push({ gene: list[0], relevant1: list[4], relevant2: list[5], trial: list[6] });
-              console.log('[441][GENO]', this.geno);
+              console.log('[366][GENO]', list, this.geno);
               if (len === 1) {
                 const filteredlist = list[0].trim().split(' ');
                 const tier = list[2].substring(0, list[2].length - 1);

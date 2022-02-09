@@ -22,27 +22,66 @@ const EXCEL_EXTENSION = '.xlsx';
 })
 export class LimsComponent implements OnInit, AfterViewInit {
   LISTS = [
-    'Bladder cancer', 'Bladder adenocarcinoma', 'Bladder small cell neuroendocrine carcinoma',
-    'Bladder squamous cell carcinoma', 'Bladder urothelial carcinoma', 'Breast cancer',
-    'Cervical cancer', 'Colorectal cancer', 'Colon cancer',
-    'Rectal cancer', 'Esophageal cancer', 'Gastric cancer',
-    'Gastroesophageal junction adenocarcinoma', 'Gastrointestinal stromal tumor', 'Glioblastoma',
-    'Head and nect cancer', 'Kidney cancer', 'Liver cancer',
-    'Cholangiocarcinoma', 'Melanoma', 'Mesothelioma',
-    'Non-small cell lung cancer', 'Osteosarcoma', 'Ovarian cancer',
-    'Pancreatic cancer', 'Prostate cancer', 'Skin basal cell carcinoma',
-    'Small cell lung cancer', 'Soft tissue sarcoma', 'Angiosarcoma',
-    'Clear cell sarcoma of soft tissue', 'Dermatofibrosarcoma protuberans', 'Desmoplastic small round cell tumor',
-    'Ewing sarcoma/Peripheral primitive neuroectodermal tumor', 'Ewing sarcoma', 'Extraskeletal Ewing sarcoma',
-    'Flbrosarcoma', 'Leiomyosarcoma', 'Liposarcoma',
-    'Lymphangiosacoma', 'Malignant peripheral nerve sheath tumor', 'Phabdomyosarcoma',
-    'Synovial sarcoma', 'Undifferentiated/Unclassified sarcoma', 'Testcular cancer',
-    'Thyroid cancer', 'Differentiated thyroid gland carcinoma', 'Poorly differentiated thyroid gland carcinoma',
-    'Thyroid gland anaplastic carcinoma', 'Thyroid gland follicular carcinoma', 'Thyroid gland Hurthle cell carcinoma',
-    'Thyroid gland medullary carcinoma', 'Sporadic thyroid gland medullary carcinoma',
-    'Thyroid gland papillary carcinoma',
-    'Columnar cell variant thyroid gland papillary carcinoma', 'Tall cell variant thyroid gland papillary carcinoma',
-    'Triple negative breast cancer', 'Unknown primary origin', 'Other soilid tumor',
+    { no: '1', type: 'Bladder cancer' },
+    { no: '1-1', type: 'Bladder adenocarcinoma' },
+    { no: '1-2', type: 'Bladder small cell neuroendocrine carcinoma' },
+    { no: '1-3', type: 'Bladder squamous cell carcinoma' },
+    { no: '1-4', type: 'Bladder urothelial carcinoma' },
+    { no: '2', type: 'Breast cancer' },
+    { no: '3', type: 'Cervical cancer' },
+    { no: '4', type: 'Colorectal cancer' },
+    { no: '4-1', type: 'Colon cancer' },
+    { no: '4-2', type: 'Rectal cancer' },
+    { no: '5', type: 'Endometrial cancer' },
+    { no: '6', type: 'Esophageal cancer' },
+    { no: '7', type: 'Gastric cancer' },
+    { no: '8', type: 'Gastroesophageal junction adenocarcinoma' },
+    { no: '9', type: 'Gastrointestinal stromal tumor' },
+    { no: '10', type: 'Glioblastoma' },
+    { no: '11', type: 'Head and nect cancer' },
+    { no: '12', type: 'Kidney cancer' },
+    { no: '13', type: 'Liver cancer' },
+    { no: '13-1', type: 'Cholangiocarcinoma' },
+    { no: '14', type: 'Melanoma' },
+    { no: '15', type: 'Mesothelioma' },
+    { no: '16', type: 'Non-small cell lung cancer' },
+    { no: '17', type: 'Osteosarcoma' },
+    { no: '18', type: 'Ovarian cancer' },
+    { no: '19', type: 'Pancreatic cancer' },
+    { no: '20', type: 'Prostate cancer' },
+    { no: '21', type: 'Skin basal cell carcinoma' },
+    { no: '22', type: 'Small cell lung cancer' },
+    { no: '23', type: 'Soft tissue sarcoma' },
+    { no: '24', type: 'Angiosarcoma' },
+    { no: '25', type: 'Clear cell sarcoma of soft tissue' },
+    { no: '26', type: 'Dermatofibrosarcoma protuberans' },
+    { no: '27', type: 'Desmoplastic small round cell tumor' },
+    { no: '28', type: 'Ewing sarcoma/Peripheral primitive neuroectodermal tumor' },
+    { no: '29', type: 'Ewing sarcoma' },
+    { no: '30', type: 'Extraskeletal Ewing sarcoma' },
+    { no: '31', type: 'Flbrosarcoma' },
+    { no: '32', type: 'Leiomyosarcoma' },
+    { no: '33', type: 'Liposarcoma' },
+    { no: '34', type: 'Lymphangiosacoma' },
+    { no: '35', type: 'Malignant peripheral nerve sheath tumor' },
+    { no: '36', type: 'Phabdomyosarcoma' },
+    { no: '37', type: 'Synovial sarcoma' },
+    { no: '38', type: 'Undifferentiated/Unclassified sarcoma' },
+    { no: '39', type: 'Testcular cancer' },
+    { no: '40', type: 'Thyroid cancer' },
+    { no: '41', type: 'Differentiated thyroid gland carcinoma' },
+    { no: '42', type: 'Poorly differentiated thyroid gland carcinoma' },
+    { no: '43', type: 'Thyroid gland anaplastic carcinoma' },
+    { no: '44', type: 'Thyroid gland follicular carcinoma' },
+    { no: '45', type: 'Thyroid gland Hurthle cell carcinoma' },
+    { no: '46', type: 'Thyroid gland medullary carcinoma' },
+    { no: '47', type: 'Sporadic thyroid gland medullary carcinoma' },
+    { no: '48', type: 'Thyroid gland papillary carcinoma' },
+    { no: '49', type: 'Columnar cell variant thyroid gland papillary carcinoma' },
+    { no: '50', type: 'Tall cell variant thyroid gland papillary carcinoma' },
+    { no: '51', type: 'Triple negative breast cancer' },
+    { no: '52', type: 'Unknown primary origin' },
+    { no: '53', type: 'Other soilid tumor' },
   ];
   listsTemp = [...this.LISTS];
   BLOCKCNT = ['1개', '2개', '3개이상'];
@@ -75,8 +114,8 @@ export class LimsComponent implements OnInit, AfterViewInit {
 
   experLists: ExperList[] = [];
 
-  dnaStatus = true;
-  rnaStatus = true;
+  // dnaStatus = true;
+  // rnaStatus = true;
   @ViewChild('dnaBox', { static: true }) dnaBox: ElementRef;
   @ViewChild('rnaBox', { static: true }) rnaBox: ElementRef;
 
@@ -134,32 +173,34 @@ export class LimsComponent implements OnInit, AfterViewInit {
     });
   }
 
-  private _filter(value: string): string[] {
-    console.log('[_filter]', value);
-    const filterValue = value.toLowerCase();
-    return this.LISTS.filter(option => option.toLowerCase().includes(filterValue));
-  }
 
+  keyUp(evt: any, type: string, idx: number): void {
 
-  keyUp(evt: any): void {
-    // console.log(evt);
     of(evt).pipe(
       map(event => event.target.value),
       debounceTime(400),
       distinctUntilChanged(),
       catchError(err => of(''))
     ).subscribe(data => {
-      if (data.length === 0) {
-        this.LISTS = [];
-        this.LISTS = [...this.listsTemp];
-      } else {
-        const list = this.LISTS.filter(item => item.toLowerCase().search(data.toLowerCase()) >= 0);
-        this.LISTS = [];
-        this.LISTS = [...list];
+      const result = this.LISTS.filter(list => list.no.toString() === data.toString());
+      if (!result.length) {
+        alert('없는 번호입니다.');
+        return;
       }
+      const typename = result[0].type;
 
+      const dnaControl = this.dnaForm.get('dnaFormgroup') as FormArray;
+      const rnaControl = this.rnaForm.get('rnaFormgroup') as FormArray;
+      dnaControl.at(idx).patchValue({ test_code: typename });
+      rnaControl.at(idx).patchValue({ test_code: typename });
+      if (type === 'DNA') {
+        rnaControl.at(idx).patchValue({ enter_code: data });
+      } else if (type === 'RNA') {
+        dnaControl.at(idx).patchValue({ enter_code: data });
+      }
     });
   }
+
   ngAfterViewInit(): void {
     const dnacontrol = this.dnaForm.get('dnaFormgroup') as FormArray;
     const dnaFormData = dnacontrol.getRawValue();
@@ -434,7 +475,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
     const tempDNA = [];
     const tempRNA = [];
     if (this.dnaLists.length >= this.rnaLists.length) {
-      // if (this.dnaLists.length && this.rnaLists.length) {
+
       this.dnaLists.forEach((list, index) => {
         const dnaTestcode = list.pathology_num;
         const tempId = list.id;
@@ -452,8 +493,6 @@ export class LimsComponent implements OnInit, AfterViewInit {
       this.rnaLists = [];
       this.dnaLists = tempDNA;
       this.rnaLists = tempRNA;
-
-
 
     } else if (this.dnaLists.length < this.rnaLists.length) {
       this.rnaLists.forEach((list, index) => {
@@ -534,6 +573,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
       block_cnt: i.block_cnt,
       key_block: i.key_block,
       prescription_code: i.prescription_code,
+      enter_code: '',
       test_code: i.test_code,
       tumorburden: i.tumorburden,
       nano_ng: i.nano_ng,
@@ -596,6 +636,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
       block_cnt: i.block_cnt,
       key_block: i.key_block,
       prescription_code: i.prescription_code,
+      enter_code: '',
       test_code: i.test_code,
       tumorburden: i.tumorburden,
       nano_ng: i.nano_ng,
@@ -648,6 +689,8 @@ export class LimsComponent implements OnInit, AfterViewInit {
         this.dnaData(file, 'DNA');
       } else if (type.toLowerCase() === 'rna') {
         this.dnaData(file, 'RNA');
+      } else {
+        this.dnaData(file, 'DNARNA');
       }
     }
     this.fileInput.nativeElement.value = '';
@@ -662,6 +705,7 @@ export class LimsComponent implements OnInit, AfterViewInit {
     let dna260230 = 0;
     const reader = new FileReader();
     let zeroval = '';
+    let subtype = '';
     reader.onload = (e) => {
       const fileData = reader.result;
 
@@ -694,6 +738,20 @@ export class LimsComponent implements OnInit, AfterViewInit {
               }
               id = nameTemp[0] + '-' + zeroval + nameTemp[1];
               zeroval = '';
+            } else if (type === 'DNARNA') {
+              try {
+
+                if (cell.v.split(/(\s+)/).filter(item => item.trim().length > 0)[1] === 'D') {
+                  id = this.addZero(cell.v, 'D');
+                  subtype = 'D';
+                } else if (cell.v.split(/(\s+)/).filter(item => item.trim().length > 0)[1] === 'R') {
+                  id = this.addZero(cell.v, 'R');
+                  subtype = 'R';
+                }
+              } catch (err) {
+                console.log(err);
+              }
+
             }
 
           } else if (C === 4 && R > 0) {
@@ -716,7 +774,6 @@ export class LimsComponent implements OnInit, AfterViewInit {
             });
           } else {
             //  2개 이상인 경우, DNA는 260/280의 값이 1.9에 가까운값
-
             const { pathology_num, nano_280, nano_230, ng_ui } = dnaFileLists[idx];
             const newNano280Diff = 1.9 - parseFloat(dna260280.toString());
             const oldNano280Diff = 1.9 - parseFloat(nano_280.toString());
@@ -748,20 +805,77 @@ export class LimsComponent implements OnInit, AfterViewInit {
               rnaFileLists[idx].ng_ui = ngui.toString();
             }
           }
+        } else if (R > 0 && type === 'DNARNA') {
+          if (subtype === 'D') {
+            const idx = dnaFileLists.findIndex(list => list.pathology_num.trim() === id);
+            // console.log(idx);
+            if (idx === -1) {
+              dnaFileLists.push({
+                pathology_num: id.toString().trim(),
+                nano_280: dna260280.toString(),
+                nano_230: dna260230.toString(),
+                ng_ui: ngui.toString()
+              });
+            } else {
+              //  2개 이상인 경우, DNA는 260/280의 값이 1.9에 가까운값
+              const { pathology_num, nano_280, nano_230, ng_ui } = dnaFileLists[idx];
+              const newNano280Diff = 1.9 - parseFloat(dna260280.toString());
+              const oldNano280Diff = 1.9 - parseFloat(nano_280.toString());
+              if (oldNano280Diff > newNano280Diff) { // 기존 값보다 작은 경우 교체
+                dnaFileLists[idx].nano_280 = dna260280.toString();
+                dnaFileLists[idx].nano_230 = dna260230.toString();
+                dnaFileLists[idx].ng_ui = ngui.toString();
+              }
+
+            }
+          } else if (subtype === 'R') {
+            rnaFileLists.forEach(list => {
+              if (list.pathology_num === id.toString()) {
+                console.log(list);
+              }
+            });
+            const idx = rnaFileLists.findIndex(list => list.pathology_num.trim() === id);
+            if (idx === -1) {
+              rnaFileLists.push({
+                pathology_num: id.toString().trim(),
+                nano_280: dna260280.toString(),
+                nano_230: dna260230.toString(),
+                ng_ui: ngui.toString()
+              });
+            } else {
+              // RNA는 260/280의 값이 2.0에 가까운값 으로 업데이트 한다.
+              const { pathology_num, nano_280, nano_230, ng_ui } = rnaFileLists[idx];
+              const newNano280Diff = parseFloat(dna260280.toString()) - 2;
+              const oldNano280Diff = parseFloat(nano_280.toString()) - 2;
+              if (oldNano280Diff > newNano280Diff) { // 기존 값보다 작은 경우 교체
+                rnaFileLists[idx].nano_280 = dna260280.toString();
+                rnaFileLists[idx].nano_230 = dna260230.toString();
+                rnaFileLists[idx].ng_ui = ngui.toString();
+              }
+            }
+          }
         }
+
+
         id = '';
         ngui = 0;
         dna260280 = 0;
         dna260230 = 0;
 
       }
-      console.log('[795][DNA]', dnaFileLists);
-      console.log('[796][RNA]', rnaFileLists);
+      console.log('[818][DNA]', dnaFileLists);
+      console.log('[819][RNA]', rnaFileLists);
 
       if (type === 'DNA') {
         this.updateDNAScreen(dnaFileLists);
       } else if (type === 'RNA') {
         this.updateRNAScreen(rnaFileLists);
+      } else if (type === 'DNARNA') {
+        if (subtype === 'D') {
+          this.updateDNAScreen(dnaFileLists);
+        } else if (subtype === 'R') {
+          this.updateRNAScreen(rnaFileLists);
+        }
       }
 
     };
@@ -787,6 +901,24 @@ export class LimsComponent implements OnInit, AfterViewInit {
       }
     });
     this.snackBar.open('DNA 완료 하였습니다.', '닫기', { duration: 2000 });
+  }
+
+  addZero(testId: string, celltype: string): string {
+    let zeroval = '';
+    let temp = '';
+    if (celltype === 'D') {
+      temp = testId.split('D')[0];
+    } else if (celltype === 'R') {
+      temp = testId.split('R')[0];
+    }
+
+    const nameTemp = temp.split('-');
+    const zeroLen = 6 - nameTemp[1].toString().length;
+    for (let i = 0; i <= zeroLen; i++) {
+      zeroval = zeroval + '0';
+    }
+    const testedCode = nameTemp[0] + '-' + zeroval + nameTemp[1];
+    return testedCode.trim();
   }
 
   updateRNAScreen(lists: IDNATYPE[]): void {
@@ -1520,16 +1652,16 @@ export class LimsComponent implements OnInit, AfterViewInit {
       }
     }
     this.tumoretypeUpdate(testcode, testCode);
-    if (type === 'DNA') {
-      this.dnaStatus = true;
-    } else if (type === 'RNA') {
-      this.rnaStatus = true;
-    }
+    // if (type === 'DNA') {
+    //   this.dnaStatus = true;
+    // } else if (type === 'RNA') {
+    //   this.rnaStatus = true;
+    // }
   }
 
 
   tumorcellperSync(testcode: string, percent: string, type: string): void {
-    console.log('[1388][tumorcellperUpdate]', testcode, percent);
+    // console.log('[1388][tumorcellperUpdate]', testcode, percent);
     const controlDNA = this.dnaForm.get('dnaFormgroup') as FormArray;
     const controlRNA = this.rnaForm.get('rnaFormgroup') as FormArray;
     const dnaLists = controlDNA.getRawValue();
@@ -1658,29 +1790,29 @@ export class LimsComponent implements OnInit, AfterViewInit {
 
   }
 
-  keyupStatue(val: any, type: string): void {
-    if (type === 'DNA') {
-      this.dnaStatus = false;
-    } else if (type === 'RNA') {
-      this.rnaStatus = false;
-    }
+  // keyupStatue(val: any, type: string): void {
+  //   if (type === 'DNA') {
+  //     this.dnaStatus = false;
+  //   } else if (type === 'RNA') {
+  //     this.rnaStatus = false;
+  //   }
 
-  }
+  // }
 
-  textalign(type: string): { input_direction: boolean, input_align: boolean } {
-    if (type === 'DNA') {
-      if (this.dnaStatus) {
-        return { input_direction: true, input_align: true };
-      }
-      return { input_direction: false, input_align: true };
-    } else if (type === 'RNA') {
-      if (this.rnaStatus) {
-        return { input_direction: false, input_align: true };
-      }
-      return { input_direction: true, input_align: true };
+  // textalign(type: string): { input_direction: boolean, input_align: boolean } {
+  //   if (type === 'DNA') {
+  //     if (this.dnaStatus) {
+  //       return { input_direction: true, input_align: true };
+  //     }
+  //     return { input_direction: false, input_align: true };
+  //   } else if (type === 'RNA') {
+  //     if (this.rnaStatus) {
+  //       return { input_direction: false, input_align: true };
+  //     }
+  //     return { input_direction: true, input_align: true };
 
-    }
+  //   }
 
-  }
+  // }
 
 }
