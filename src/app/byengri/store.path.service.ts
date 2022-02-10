@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { IPatient } from './models/patients';
 
 
 @Injectable({
@@ -34,7 +35,8 @@ export class StorePathService {
   testingstate = false;
   finishstate = false;
   allstate = true;
-
+  logtype = '';
+  lists: IPatient[] = [];
   // list.pathology_num, i, 'N')">파일등록/변환
   // 화일등록/변환 저장
   fileuploadInfo: { pathologyNum: string, i: number, type: string } = {
@@ -251,9 +253,21 @@ export class StorePathService {
     return this.allstate;
   }
 
+  setLogintype(logtype: string): void {
+    this.logtype = logtype;
+  }
+  getLogintype(): string {
+    return this.logtype;
+  }
 
+  setLists(lists: IPatient[]): void {
+    this.lists = [];
+    this.lists = lists;
+  }
 
-
+  getLists(): IPatient[] {
+    return this.lists;
+  }
 
 
   ////////////////////////////////

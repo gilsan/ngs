@@ -416,7 +416,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     const testingstate = this.testingState;
     const finishstate = this.finishedState;
     const allstate = this.allStates;
-    console.log(pathologynum, patient, start, end, mystate, registerstate, testingstate, finishstate, allstate);
+
     this.store.setPathelogynum(pathologynum);
     this.store.setpatient(patient);
     this.store.setStartday(start);
@@ -426,7 +426,8 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     this.store.setTestingstate(testingstate);
     this.store.setFinishstate(finishstate);
     this.store.setAllstate(allstate);
-
+    this.store.setLogintype(this.loginType);
+    this.store.setLists(this.lists);
     // 검체번호를 확인한다.
     const pathNum = this.pathologyService.getPathologyNum();
     this.pathologyService.setPatientIndex(idx);
@@ -585,7 +586,8 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   checkStore(): void {
-    // console.log('[231][checkStore]');
+    this.loginType = this.store.getLogintype();
+    this.lists = this.store.getLists();
     const status = this.store.getWhichstate();
 
     // const pnum = this.store.getPathologyNo();
@@ -611,26 +613,28 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     this.storeEndDay = this.store.getEndday();
     this.end.nativeElement.value = this.storeEndDay;
 
+    // console.log('=== [289][저장된것 불러온값]', this.startday, this.endday, this.pathologyno, this.patientid);
+    // if (this.storeStartDay && this.storeEndDay) {
+    //   this.search(this.storeStartDay, this.storeEndDay, this.storePathologyNo, this.storePatientID);
+    // }
+
     this.myState = this.store.getMyState();
     this.registerState = this.store.getRegisterstate();
     this.testingState = this.store.getTestingstate();
     this.finishedState = this.store.getFinishstate();
     this.allStates = this.store.getAllstate();
 
-
+    // console.log(this.loginType, this.storePathologyNo, this.storePatientID, this.storeStartDay,
+    //   this.storeEndDay, this.myState, this.registerState, this.testingState, this.finishedState, this.allStates, this.lists);
     // this.storeStartDay = this.store.getSearchStartDay();
     // this.storeEndDay = this.store.getSearchEndDay();
-
 
     this.startday = this.storeStartDay;
     this.endday = this.storeEndDay;
     this.pathologyno = this.storePathologyNo;
     this.patientid = this.storePatientID;
 
-    // console.log('=== [289][저장된것 불러온값]', this.startday, this.endday, this.pathologyno, this.patientid);
-    if (this.storeStartDay && this.storeEndDay) {
-      this.search(this.storeStartDay, this.storeEndDay, this.storePathologyNo, this.storePatientID);
-    }
+
 
   }
 
