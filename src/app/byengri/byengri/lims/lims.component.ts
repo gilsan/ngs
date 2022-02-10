@@ -659,6 +659,8 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
     let dna260230 = 0;
     const reader = new FileReader();
     let zeroval = '';
+    let dnaSubtype = '';
+    let rnaSubtype = '';
     let subtype = '';
     reader.onload = (e) => {
       const fileData = reader.result;
@@ -674,6 +676,7 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
           const cell = sheet[cellref];
 
           if (C === 1 && R > 0) {  // 검체번호
+
             if (type === 'DNA') {
               const temp = cell.v.split('D')[0];
               const nameTemp = temp.split('-');
@@ -697,9 +700,11 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
 
                 if (cell.v.split(/(\s+)/).filter(item => item.trim().length > 0)[1] === 'D') {
                   id = this.addZero(cell.v, 'D');
+                  dnaSubtype = 'D';
                   subtype = 'D';
                 } else if (cell.v.split(/(\s+)/).filter(item => item.trim().length > 0)[1] === 'R') {
                   id = this.addZero(cell.v, 'R');
+                  rnaSubtype = 'R';
                   subtype = 'R';
                 }
               } catch (err) {
@@ -760,9 +765,11 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
             }
           }
         } else if (R > 0 && type === 'DNARNA') {
+
           if (subtype === 'D') {
+
             const idx = dnaFileLists.findIndex(list => list.pathology_num.trim() === id);
-            // console.log(idx);
+            // console.log('[DNA 766]', idx, id);
             if (idx === -1) {
               dnaFileLists.push({
                 pathology_num: id.toString().trim(),
@@ -783,11 +790,7 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
 
             }
           } else if (subtype === 'R') {
-            rnaFileLists.forEach(list => {
-              if (list.pathology_num === id.toString()) {
-                console.log(list);
-              }
-            });
+
             const idx = rnaFileLists.findIndex(list => list.pathology_num.trim() === id);
             if (idx === -1) {
               rnaFileLists.push({
@@ -807,6 +810,7 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
                 rnaFileLists[idx].ng_ui = ngui.toString();
               }
             }
+
           }
         }
 
@@ -817,17 +821,18 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
         dna260230 = 0;
 
       }
-      console.log('[818][DNA]', dnaFileLists);
-      console.log('[819][RNA]', rnaFileLists);
+      console.log('[828][DNA]', dnaFileLists);
+      console.log('[829][RNA]', rnaFileLists);
 
       if (type === 'DNA') {
         this.updateDNAScreen(dnaFileLists);
       } else if (type === 'RNA') {
         this.updateRNAScreen(rnaFileLists);
       } else if (type === 'DNARNA') {
-        if (subtype === 'D') {
+        if (dnaSubtype === 'D') {
           this.updateDNAScreen(dnaFileLists);
-        } else if (subtype === 'R') {
+        }
+        if (rnaSubtype === 'R') {
           this.updateRNAScreen(rnaFileLists);
         }
       }
@@ -844,8 +849,9 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
       alert('데이터가 없습니다.');
       return;
     }
+
     formData.forEach((data, index) => {
-      const idx = lists.findIndex(list => list.pathology_num === data.pathology_num);
+      const idx = lists.findIndex(list => list.pathology_num.trim() === data.pathology_num.trim());
 
       if (idx !== -1) {
         const { pathology_num, nano_280, nano_230, ng_ui } = lists[idx];
@@ -854,7 +860,7 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
         });
       }
     });
-    this.snackBar.open('DNA 완료 하였습니다.', '닫기', { duration: 2000 });
+    this.snackBar.open('DNA/RNA 완료 하였습니다.', '닫기', { duration: 2000 });
   }
 
   addZero(testId: string, celltype: string): string {
@@ -865,13 +871,14 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
     } else if (celltype === 'R') {
       temp = testId.split('R')[0];
     }
-
+    // console.log('[868]', testId, temp);
     const nameTemp = temp.split('-');
     const zeroLen = 6 - nameTemp[1].toString().length;
     for (let i = 0; i <= zeroLen; i++) {
       zeroval = zeroval + '0';
     }
     const testedCode = nameTemp[0] + '-' + zeroval + nameTemp[1];
+    // console.log('[875]', testedCode);
     return testedCode.trim();
   }
 
@@ -893,7 +900,7 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
         control.at(index).patchValue({ nano_ng: ng_ui, nano_280, nano_230 });
       }
     });
-    this.snackBar.open('RNA 완료 하였습니다.', '닫기', { duration: 2000 });
+    this.snackBar.open('DNA/RNA 완료 하였습니다.', '닫기', { duration: 2000 });
   }
 
 
