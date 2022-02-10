@@ -554,6 +554,11 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   removeDNA(i: number): void {
+    const result = confirm('삭제 하시겠습니까?');
+    console.log(result);
+    if (!result) {
+      return;
+    }
     const testCode = this.dnaFormLists().at(i).get('pathology_num').value;
     this.dnaFormLists().removeAt(i);
     this.reArrange(testCode, this.rnaFormLists());
