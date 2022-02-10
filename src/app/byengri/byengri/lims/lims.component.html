@@ -497,12 +497,12 @@
                           </td>
                           <td class="txt_c">
                             <input type="text" size="10"  class="clr-input  tdbox" formControlName="enter_code"
-                            matInput (keyup.enter)="keyUp($event, 'RNA', i, group.get('pathology_num').value, cancertype.value)">
+                            matInput (keyup.enter)="keyUp($event, 'RNA', i, group.get('pathology_num').value, rnacancertype.value)">
                           </td>
                           <td class="txt_c">
                             <input type="text" size="30"  class="clr-input  tdbox"
                             [matTooltip]="group.get('test_code').value"
-                            matInput    formControlName="test_code" (change)="testCodeSync(group.get('pathology_num').value, cancertype.value, 'RNA')"
+                            matInput    formControlName="test_code" (change)="testCodeSync(group.get('pathology_num').value, rnacancertype.value, 'RNA')"
                             #rnacancertype  >
                             <!-- <mat-autocomplete #rnacancel="matAutocomplete"
                             (optionSelected)="testCodeSync(group.get('pathology_num').value, rnacancertype.value, 'RNA')">

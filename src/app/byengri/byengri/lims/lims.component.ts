@@ -127,8 +127,6 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     of(evt).pipe(
       map(event => event.target.value),
-      debounceTime(400),
-      distinctUntilChanged(),
       catchError(err => of(''))
     ).subscribe(data => {
       const result = this.LISTS.filter(list => list.no.toString() === data.toString());
@@ -147,7 +145,6 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
       } else if (type === 'RNA') {
         dnaControl.at(idx).patchValue({ enter_code: data });
       }
-
       this.tumoretypeUpdate(testcode, testCode);
     });
   }
@@ -1134,7 +1131,7 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   tumoretypeUpdate(testcode: string, tumortype: string): void {
-    // console.log('[841][tumoretypeUpdate]', testcode, tumortype);
+    console.log('[1137][tumoretypeUpdate]', testcode, tumortype);
     this.limsService.updateTumoretype(testcode, tumortype)
       .subscribe(data => {
         if (data.message === 'SUCCESS') {
