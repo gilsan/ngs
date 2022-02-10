@@ -224,19 +224,21 @@
                           </td>
                           <td class="txt_c">
                             <input type="text" size="10"  class="clr-input  tdbox" matInput  formControlName="enter_code"
-                            (keyup.enter)="keyUp($event, 'DNA', i, group.get('pathology_num').value, cancertype.value, 'DNA')"  >
+                            (keyup.enter)="keyUp($event, 'DNA', i, group.get('pathology_num').value)"  >
                           </td>
                           <td class="txt_c">
                             <input type="text" size="30"  class="clr-input  tdbox"
                             [matTooltip]="group.get('test_code').value"  #cancertype
-                            matInput    formControlName="test_code"
-                            (change)="testCodeSync(group.get('pathology_num').value, cancertype.value, 'DNA')">
+                            matInput    formControlName="test_code" (change)="testCodeSync(group.get('pathology_num').value, cancertype.value, 'DNA')"
+                            >
                            <!-- <mat-autocomplete #dnacancel="matAutocomplete"
                            (optionSelected)="testCodeSync(group.get('pathology_num').value, cancertype.value, 'DNA')">
                                <mat-option *ngFor="let option of LISTS" [value]="option">
                                    {{option}}
                               </mat-option>
-                            </mat-autocomplete> -->
+                            </mat-autocomplete>
+                            (change)="testCodeSync(group.get('pathology_num').value, cancertype.value, 'DNA')"
+                          -->
                           </td>
                           <td class="txt_c">
                             <input type="text" size="10" class="clr-input" [ngClass]="{'red_color': tumorColor(i, 'DNA') }"
@@ -497,7 +499,7 @@
                           </td>
                           <td class="txt_c">
                             <input type="text" size="10"  class="clr-input  tdbox" formControlName="enter_code"
-                            matInput (keyup.enter)="keyUp($event, 'RNA', i, group.get('pathology_num').value, rnacancertype.value)">
+                            matInput (keyup.enter)="keyUp($event, 'RNA', i, group.get('pathology_num').value )">
                           </td>
                           <td class="txt_c">
                             <input type="text" size="30"  class="clr-input  tdbox"
@@ -509,7 +511,9 @@
                               <mat-option *ngFor="let option of LISTS" [value]="option">
                                    {{option}}
                               </mat-option>
-                            </mat-autocomplete> -->
+                            </mat-autocomplete>
+                            (change)="testCodeSync(group.get('pathology_num').value, rnacancertype.value, 'RNA')"
+                          -->
                           </td>
                           <td class="txt_c">
                             <input type="text" size="10" class="clr-input" [ngClass]="{'red_color': tumorColor(i, 'RNA') }"

@@ -115,6 +115,7 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
       lists.forEach(list => {
         this.LISTS.push({ no: list.orderby, type: list.gene });
       });
+      console.log('[118]', this.LISTS);
     });
   }
 
@@ -123,7 +124,7 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
 
-  keyUp(evt: any, type: string, idx: number, testcode: string, testCode: string): void {
+  keyUp(evt: any, type: string, idx: number, testcode: string): void {
 
     of(evt).pipe(
       map(event => event.target.value),
@@ -144,7 +145,8 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
       } else if (type === 'RNA') {
         dnaControl.at(idx).patchValue({ enter_code: data });
       }
-      this.tumoretypeUpdate(testcode, testCode);
+      // console.log('[147]', testcode, typename);
+      this.tumoretypeUpdate(testcode, typename);
     });
   }
 
