@@ -31,35 +31,35 @@
              style="margin-right: 15px;">조회</button>
              <div class="da-checkbox">
                 <label>
-                    <input type="checkbox" [checked]="myState" (change)="my($event)" [disabled]="myDisabled">
+                    <input type="checkbox" [checked]="myState" (change)="my($event)" [disabled]="myDisabled" #mystate>
                     <span>
                        <i></i>
                        <em>My</em>
                     </span>
                 </label>
                 <label>
-                   <input type="checkbox" [checked]="registerState" (change)="register($event)">
+                   <input type="checkbox" [checked]="registerState" (change)="register($event)" #registerstate >
                     <span>
                        <i></i>
                        <em>접수</em>
                     </span>
                </label>
                <label>
-                   <input type="checkbox" [checked]="testingState" (change)="testing($event)">
+                   <input type="checkbox" [checked]="testingState" (change)="testing($event)"  #testingstate>
                    <span>
                        <i></i>
                        <em>검사중</em>
                     </span>
                </label>
                <label>
-                   <input type="checkbox"  [checked]="finishedState" (change)="finished($event)">
+                   <input type="checkbox"  [checked]="finishedState" (change)="finished($event)" #finishstate>
                    <span>
                        <i></i>
                        <em>최종진단</em>
                     </span>
                </label>
                <label>
-                   <input type="checkbox" [checked]="allStates" (change)="allState($event)">
+                   <input type="checkbox" [checked]="allStates" (change)="allState($event)" #allstate>
                    <span>
                        <i></i>
                        <em>전체</em>

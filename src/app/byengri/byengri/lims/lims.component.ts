@@ -1232,18 +1232,28 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
     const tempDNA = [];
     const tempRNA = [];
 
-    dnaFormData.forEach(list => {
+    dnaFormData.forEach((list, index) => {
       const { dna_rna_gbn, checkbox, ...temp } = list;
+      if (index >= 2) {
+        const id = temp.id;
+        const newid = parseInt(id, 10) + 1;
+        temp.id = newid.toString();
+      }
       tempDNA.push(temp);
     });
 
-    rnaFormData.forEach(list => {
+    rnaFormData.forEach((list, index) => {
       const { dna_rna_gbn, checkbox, ...temp } = list;
+      if (index >= 2) {
+        const id = temp.id;
+        const newid = parseInt(id, 10) + 1;
+        temp.id = newid.toString();
+      }
       tempRNA.push(temp);
     });
 
     const allData: ILIMS[] = [...tempDNA, ...tempRNA];
-    // console.log('[978]', allData);
+    console.log('[1246]', allData);
     const width = [{ width: 4 }, { width: 4 }, { width: 16 }, { width: 13 }, { width: 12 }, { width: 11 }, { width: 11 }, // A, B,C,D,E,F,G
     { width: 7 }, { width: 11 }, { width: 10 }, { width: 8 }, { width: 9 }, //  H, I, J, K, L
     { width: 19 }, { width: 18 }, { width: 7 }, { width: 7 }, { width: 8 }, //  M, N, O ,P, Q

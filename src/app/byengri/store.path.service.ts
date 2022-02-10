@@ -14,9 +14,9 @@ export class StorePathService {
   isDBSaved = false;
   type: string;
 
-  examiner = 'none';    // 검사자
+  examiner = '';    // 검사자
   examinerid = '';      // 검사자 아이디
-  rechecker = 'none';   // 확인자
+  rechecker = '';   // 확인자
   recheckerid = '';     // 검사자 아이디
 
   usesearch = 'N';
@@ -24,6 +24,17 @@ export class StorePathService {
   whichstate = 'mainscreen'; // mainscreen, searchscreen
 
   scrolly = 0;
+  // 상태저장
+  pathologynum = '';
+  patient = '';
+  start = '';
+  end = '';
+  mystate = false;
+  registerstate = false;
+  testingstate = false;
+  finishstate = false;
+  allstate = true;
+
   // list.pathology_num, i, 'N')">파일등록/변환
   // 화일등록/변환 저장
   fileuploadInfo: { pathologyNum: string, i: number, type: string } = {
@@ -175,6 +186,77 @@ export class StorePathService {
   getScrollyPosition(): number {
     return this.scrolly;
   }
+
+  // 상태저장
+  setPathelogynum(pathologynum: string): void {
+    this.pathologynum = pathologynum;
+  }
+  getPathelogynum(): string {
+    return this.pathologynum;
+  }
+
+  setpatient(patient: string): void {
+    this.patient = patient;
+  }
+  getpatient(): string {
+    return this.patient;
+  }
+
+  setStartday(start: string): void {
+    this.start = start;
+  }
+  getStartday(): string {
+    return this.start;
+  }
+
+  setEndday(end: string): void {
+    this.end = end;
+  }
+  getEndday(): string {
+    return this.end;
+  }
+
+  setMyState(mystate: boolean): void {
+    this.mystate = mystate;
+  }
+  getMyState(): boolean {
+    return this.mystate;
+  }
+
+  setRegisterstate(registerstate: boolean): void {
+    this.registerstate = registerstate;
+  }
+  getRegisterstate(): boolean {
+    return this.registerstate;
+  }
+
+  setTestingstate(testingstate: boolean): void {
+    this.testingstate = testingstate;
+  }
+  getTestingstate(): boolean {
+    return this.testingstate;
+  }
+
+  setFinishstate(finishstate: boolean): void {
+    this.finishstate = finishstate;
+  }
+  getFinishstate(): boolean {
+    return this.finishstate;
+  }
+
+  setAllstate(allstate: boolean): void {
+    this.allstate = allstate;
+  }
+  getAllstate(): boolean {
+    return this.allstate;
+  }
+
+
+
+
+
+
+  ////////////////////////////////
 
 
 

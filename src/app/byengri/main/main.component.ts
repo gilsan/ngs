@@ -54,6 +54,15 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   totalStatus: boolean[] = [];
 
   @ViewChild('pbox100', { static: true }) pbox100: ElementRef;
+  @ViewChild('pathologynum', { static: true }) pathologynum: ElementRef;
+  @ViewChild('patient', { static: true }) patient: ElementRef;
+  @ViewChild('start', { static: true }) start: ElementRef;
+  @ViewChild('end', { static: true }) end: ElementRef;
+  @ViewChild('mystate', { static: true }) mystate: ElementRef;
+  @ViewChild('registerstate', { static: true }) registerstate: ElementRef;
+  @ViewChild('testingstate', { static: true }) testingstate: ElementRef;
+  @ViewChild('finishstate', { static: true }) finishstate: ElementRef;
+  @ViewChild('allstate', { static: true }) allstate: ElementRef;
   constructor(
     private pathologyService: PathologyService,
     private serachService: SearchService,
@@ -100,7 +109,6 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
         this.myDisabled = true;
         this.myState = false;
       }
-
     });
 
   }
@@ -395,6 +403,30 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
 
   goReporter(idx: number): void {
 
+    // 상태정보저장
+    /*****
+     * 분자병리번호,환자번호, 시작일/ 종료일, 상태
+     */
+    const pathologynum = this.pathologynum.nativeElement.value ? this.pathologynum.nativeElement.value : null;
+    const patient = this.patient.nativeElement.value ? this.patient.nativeElement.value : null;
+    const start = this.start.nativeElement.value;
+    const end = this.end.nativeElement.value;
+    const mystate = this.myState;
+    const registerstate = this.registerState;
+    const testingstate = this.testingState;
+    const finishstate = this.finishedState;
+    const allstate = this.allStates;
+    console.log(pathologynum, patient, start, end, mystate, registerstate, testingstate, finishstate, allstate);
+    this.store.setPathelogynum(pathologynum);
+    this.store.setpatient(patient);
+    this.store.setStartday(start);
+    this.store.setEndday(end);
+    this.store.setMyState(mystate);
+    this.store.setRegisterstate(registerstate);
+    this.store.setTestingstate(testingstate);
+    this.store.setFinishstate(finishstate);
+    this.store.setAllstate(allstate);
+
     // 검체번호를 확인한다.
     const pathNum = this.pathologyService.getPathologyNum();
     this.pathologyService.setPatientIndex(idx);
@@ -555,22 +587,39 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   checkStore(): void {
     // console.log('[231][checkStore]');
     const status = this.store.getWhichstate();
-    this.storeStartDay = this.store.getSearchStartDay();
-    this.storeEndDay = this.store.getSearchEndDay();
 
-    const pid = this.store.getPatientID();
-    if (pid === undefined || pid === null) {
-      this.storePatientID = '';
-    } else {
-      this.storePatientID = this.store.getPatientID();
-    }
-
-    const pnum = this.store.getPathologyNo();
+    // const pnum = this.store.getPathologyNo();
+    const pnum = this.store.getPathologyNum();
     if (pnum === undefined || pnum === null) {
       this.storePathologyNo = '';
     } else {
-      this.storePathologyNo = this.store.getPathologyNo();
+      this.storePathologyNo = this.store.getPathologyNum();
     }
+    this.pathologynum.nativeElement.value = this.storePathologyNo;
+
+    // const pid = this.store.getPatientID();
+    const pid = this.store.getpatient();
+    if (pid === undefined || pid === null) {
+      this.storePatientID = '';
+    } else {
+      this.storePatientID = this.store.getpatient();
+    }
+    this.patient.nativeElement.value = this.storePatientID;
+
+    this.storeStartDay = this.store.getStartday();
+    this.start.nativeElement.value = this.storeStartDay;
+    this.storeEndDay = this.store.getEndday();
+    this.end.nativeElement.value = this.storeEndDay;
+
+    this.myState = this.store.getMyState();
+    this.registerState = this.store.getRegisterstate();
+    this.testingState = this.store.getTestingstate();
+    this.finishedState = this.store.getFinishstate();
+    this.allStates = this.store.getAllstate();
+
+
+    // this.storeStartDay = this.store.getSearchStartDay();
+    // this.storeEndDay = this.store.getSearchEndDay();
 
 
     this.startday = this.storeStartDay;
