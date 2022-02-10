@@ -127,7 +127,6 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     of(evt).pipe(
       map(event => event.target.value),
-      catchError(err => of(''))
     ).subscribe(data => {
       const result = this.LISTS.filter(list => list.no.toString() === data.toString());
       if (!result.length) {
