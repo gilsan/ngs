@@ -123,7 +123,7 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
 
-  keyUp(evt: any, type: string, idx: number): void {
+  keyUp(evt: any, type: string, idx: number, testcode: string, testCode: string): void {
 
     of(evt).pipe(
       map(event => event.target.value),
@@ -147,6 +147,8 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
       } else if (type === 'RNA') {
         dnaControl.at(idx).patchValue({ enter_code: data });
       }
+
+      this.tumoretypeUpdate(testcode, testCode);
     });
   }
 
