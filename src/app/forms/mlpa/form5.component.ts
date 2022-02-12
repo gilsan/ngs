@@ -107,7 +107,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
   isExamVisible = false;
   screenstatus: string;
   private subs = new SubSink();
-  target: string;
+  target = '';
   testmethod: string;
   analyzedgene: string;
   comment1: string;
@@ -146,7 +146,13 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
     }
 
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
-    console.log('[138][환자정보]', this.patientInfo);
+    console.log('[149][환자정보]', this.patientInfo);
+    if (this.patientInfo.specimen === '015') {
+      this.target = 'Genomic DNA isolated from Bone marrow';
+    } else if (this.patientInfo.specimen === '004') {
+      this.target = 'Genomic DNA isolated from EDTA blood';
+    }
+
     if (this.patientInfo.gbn === 'RESEARCH') {
       this.isResearch = true;
     }
@@ -193,9 +199,9 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
   getTestInformation(): void {
     this.mlpaService.getMlpaLists(this.specimenNo)
       .subscribe(data => {
-        console.log('[183][디비에서 가져온 데이터]', data);
+        console.log('[202][디비에서 가져온 데이터]', data);
         if (data.length > 0) {
-          this.target = data[0].target;
+          // this.target = data[0].target;
           this.testmethod = data[0].testmethod;
           this.analyzedgene = data[0].analyzedgene;
           this.specimen = data[0].specimen;
@@ -209,8 +215,8 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
           if (this.patientInfo.screenstatus === '0') {
             this.defaultService.getList(this.patientInfo.test_code)
               .subscribe(list => {
-                console.log('[196]', list);
-                this.target = list[0].target;
+                console.log('[218]', list);
+                // this.target = list[0].target;
                 this.testmethod = list[0].method;
                 this.analyzedgene = list[0].analyzedgene;
                 this.specimen = list[0].specimen;
@@ -232,8 +238,6 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
     this.mlpaData.conclusion = this.mlpaLists[index].conclusion;
     this.mlpaData.technique = this.mlpaLists[index].technique;
   }
-
-
 
   // test code 로 제목 찿기
   getTitle(testcode: string): void {
@@ -263,7 +267,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
         // data = data.sort((a, b) => {
         //   return parseInt(a.seq, 10) - parseInt(b.seq, 10);
         // })
-        console.log('[248][저장된 데이터 가져오기]', data);
+        console.log('[270][저장된 데이터 가져오기]', data);
         if (data.length > 0) {
           this.displayMlpa(data);
         } else {

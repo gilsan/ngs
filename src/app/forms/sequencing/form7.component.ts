@@ -149,6 +149,13 @@ export class Form7Component implements OnInit, OnDestroy {
     // 임시변경
     // this.patientInfo.screenstatus = '0';
     console.log('[128] 환자정보: ', this.patientInfo);
+
+    if (this.patientInfo.specimen === '015') {
+      this.targetdisease = 'Genomic DNA isolated from Bone marrow';
+    } else if (this.patientInfo.specimen === '004') {
+      this.targetdisease = 'Genomic DNA isolated from EDTA blood';
+    }
+
     if (this.patientInfo.gbn === 'RESEARCH') {
       this.isResearch = true;
     }
@@ -239,7 +246,7 @@ export class Form7Component implements OnInit, OnDestroy {
           this.seqcomment = data[0].seqcomment;
 
           this.resultname = data[0].result;
-          this.targetdisease = data[0].target;
+          // this.targetdisease = data[0].target;
           this.method = data[0].method;
           this.analyzedgene = data[0].analyzedgene;
 
@@ -257,7 +264,7 @@ export class Form7Component implements OnInit, OnDestroy {
             this.defaultService.getList(this.patientInfo.test_code)
               .subscribe(list => {
                 console.log('[244][디폴트Test Info]', list);
-                this.targetdisease = list[0].target;
+                // this.targetdisease = list[0].target;
                 this.method = list[0].method;
                 this.analyzedgene = list[0].analyzedgene;
                 this.specimen = list[0].specimen;
