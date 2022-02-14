@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
-import { fromEvent, Observable, of } from 'rxjs';
+import { fromEvent, Observable, of, noop } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { moveItemInArray, CdkDragDrop } from '@angular/cdk/drag-drop';
 import { catchError, debounceTime, distinct, distinctUntilChanged, filter, map, shareReplay, startWith, take, tap } from 'rxjs/operators';
@@ -1474,7 +1474,7 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
 
-  pathologySync(testcode: string, pathology: string, type: string): void {
+  pathologySync(testcode: string, pathology: string, type: string, i: number): void {
     const controlDNA = this.dnaForm.get('dnaFormgroup') as FormArray;
     const controlRNA = this.rnaForm.get('rnaFormgroup') as FormArray;
     const dnaLists = controlDNA.getRawValue();
@@ -1484,12 +1484,24 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
       if (index !== -1) {
         controlRNA.at(index).patchValue({ rel_pathology_num: pathology });
       }
+      const relPathologyNum = controlDNA.at(i).value;
+      // console.log('[1488]', relPathologyNum.pathology_num, relPathologyNum.rel_pathology_num);
+      this.limsService.relPathologyNum(relPathologyNum.pathology_num, relPathologyNum.rel_pathology_num).subscribe((data) => {
+        console.log(data)
+      });
     } else if (type === 'RNA') {
       const index = dnaLists.findIndex(item => item.pathology_num === testcode);
       if (index !== -1) {
         controlDNA.at(index).patchValue({ rel_pathology_num: pathology });
       }
+      const relPathologyNum = controlRNA.at(i).value;
+      this.limsService.relPathologyNum(relPathologyNum.pathology_num, relPathologyNum.rel_pathology_num).subscribe(data => {
+        console.log(data);
+      });
     }
+
+
+
   }
 
 

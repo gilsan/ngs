@@ -89,7 +89,7 @@ export class Form7Component implements OnInit, OnDestroy {
   targetdisease = '';
   analyzedgene = '';
   method = '*Direct sequencing for whole exons including intron-exon boundaries';
-  specimen = 'Genomic DNA isolated from peripheral blood leukocytes-adequate specimen';
+  specimen = '';
   seqcomment = '';
   types: string[] = ['Pathogenic', 'Likely Pathogenic', 'VUS'];
   zygosity: string[] = ['Heterozygous', 'Homozygous'];
@@ -151,9 +151,9 @@ export class Form7Component implements OnInit, OnDestroy {
     console.log('[128] 환자정보: ', this.patientInfo);
 
     if (this.patientInfo.specimen === '015') {
-      this.targetdisease = 'Genomic DNA isolated from Bone marrow';
+      this.specimen = 'Genomic DNA isolated from Bone marrow';
     } else if (this.patientInfo.specimen === '004') {
-      this.targetdisease = 'Genomic DNA isolated from EDTA blood';
+      this.specimen = 'Genomic DNA isolated from EDTA blood';
     }
 
     if (this.patientInfo.gbn === 'RESEARCH') {
@@ -246,7 +246,7 @@ export class Form7Component implements OnInit, OnDestroy {
           this.seqcomment = data[0].seqcomment;
 
           this.resultname = data[0].result;
-          // this.targetdisease = data[0].target;
+          this.targetdisease = data[0].target;
           this.method = data[0].method;
           this.analyzedgene = data[0].analyzedgene;
 
@@ -256,7 +256,7 @@ export class Form7Component implements OnInit, OnDestroy {
           //   this.variations = data[0].identified_variations;
           // }
           this.variations = data[0].identified_variations;
-          this.specimen = data[0].specimen;
+          // this.specimen = data[0].specimen;
 
         } else {
           if (this.patientInfo.screenstatus === '0') {
@@ -264,10 +264,10 @@ export class Form7Component implements OnInit, OnDestroy {
             this.defaultService.getList(this.patientInfo.test_code)
               .subscribe(list => {
                 console.log('[244][디폴트Test Info]', list);
-                // this.targetdisease = list[0].target;
+                this.targetdisease = list[0].target;
                 this.method = list[0].method;
                 this.analyzedgene = list[0].analyzedgene;
-                this.specimen = list[0].specimen;
+                // this.specimen = list[0].specimen;
                 this.comment1 = list[0].comment1;
                 this.comment2 = list[0].comment2;
                 this.seqcomment = list[0].comment;

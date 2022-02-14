@@ -104,6 +104,12 @@ export class LimsService {
     return this.http.post<NOLIST[]>(`${this.apiUrl}/lims/limsTumor`, {});
   }
 
+  // LIMS 관련벙리번호 UPDATE rel_pathology_num
+  // http://183.98.12.201:3000/lims/RelPathologynumSave
+  public relPathologyNum(testCode: string, pathlogyNum2: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/lims/RelPathologynumSave`, { test_code: testCode, pathology_num2: pathlogyNum2 });
+  }
+
 
 
 

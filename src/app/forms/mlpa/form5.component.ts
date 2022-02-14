@@ -111,7 +111,7 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
   testmethod: string;
   analyzedgene: string;
   comment1: string;
-  specimen = 'Genomic DNA isolated from peripheral blood leukocytes-adequate specimen';
+  specimen = '';
   constructor(
     private patientsListService: PatientsListService,
     private router: Router,
@@ -148,9 +148,9 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
     console.log('[149][환자정보]', this.patientInfo);
     if (this.patientInfo.specimen === '015') {
-      this.target = 'Genomic DNA isolated from Bone marrow';
+      this.specimen = 'Genomic DNA isolated from Bone marrow';
     } else if (this.patientInfo.specimen === '004') {
-      this.target = 'Genomic DNA isolated from EDTA blood';
+      this.specimen = 'Genomic DNA isolated from EDTA blood';
     }
 
     if (this.patientInfo.gbn === 'RESEARCH') {
@@ -201,10 +201,10 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
       .subscribe(data => {
         console.log('[202][디비에서 가져온 데이터]', data);
         if (data.length > 0) {
-          // this.target = data[0].target;
+          this.target = data[0].target;
           this.testmethod = data[0].testmethod;
           this.analyzedgene = data[0].analyzedgene;
-          this.specimen = data[0].specimen;
+          // this.specimen = data[0].specimen;
           this.mlpaData.result = data[0].result;
           this.mlpaData.conclusion = data[0].conclusion;
           this.mlpaData.comment = data[0].comment;
@@ -216,10 +216,10 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
             this.defaultService.getList(this.patientInfo.test_code)
               .subscribe(list => {
                 console.log('[218]', list);
-                // this.target = list[0].target;
+                this.target = list[0].target;
                 this.testmethod = list[0].method;
                 this.analyzedgene = list[0].analyzedgene;
-                this.specimen = list[0].specimen;
+                // this.specimen = list[0].specimen;
                 this.mlpaData.conclusion = list[0].comment1;
                 this.mlpaData.technique = list[0].comment2;
               });
