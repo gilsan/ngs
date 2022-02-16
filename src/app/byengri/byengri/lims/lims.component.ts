@@ -63,6 +63,7 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('cancertype', { static: true }) cancertype: ElementRef;
   @ViewChild('reckerid', { static: true }) reckerid: ElementRef;
   @ViewChild('cancertype', { static: true }) examinerid: ElementRef;
+  @ViewChild('testdate', { static: true }) testdate: ElementRef;
   constructor(
     private limsService: LimsService,
     private searchService: SearchService,
@@ -489,7 +490,12 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.examiner = examiner;
     const rechecker = testInfo[2];
     this.rechecker = rechecker;
-    console.log(testInfo, testdate, examiner, rechecker);
+
+    const year = testdate.substring(0, 4);
+    const mm = testdate.substring(4, 6);
+    const dd = testdate.substring(6);
+    const newDate = year + '-' + mm + '-' + dd;
+    console.log('[492]', testInfo, testdate, examiner, rechecker, newDate);
     const controlDNA = this.dnaForm.get('dnaFormgroup') as FormArray;
     const controlRNA = this.rnaForm.get('rnaFormgroup') as FormArray;
     controlDNA.clear();
@@ -502,7 +508,11 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dnaObservable$ = this.limsService.testSearch(testdate, examiner, rechecker);
     this.dnaObservable$.subscribe(data => {
       this.processing = false;
-      this.makeDNARNAList(data, 'TEST');
+      if (data) {
+        this.makeDNARNAList(data, 'TEST');
+        this.testdate.nativeElement.value = newDate;
+      }
+
     });
 
 
@@ -1121,7 +1131,7 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     if (allData.length === 0) {
-      alert('DNA/RNA 데이터가 없습니다.');
+      alert('선택된 DNA/RNA 데이터가 없습니다.');
       return;
     }
 
