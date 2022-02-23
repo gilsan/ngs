@@ -2913,7 +2913,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     let fuDNA = '';
     this.sequencingService.getEssTitle()
       .subscribe(data => {
-        const idx = data.findIndex(list => list.title === this.extraction.tumortype);
+        const idx = data.findIndex(list => list.title.toLowerCase() === this.extraction.tumortype.toLowerCase());
         const { id, title, mutation, amplification, fusion } = data[idx];
         if (mutation.length) {
           muDNA = '- Mutation: ' + mutation;
