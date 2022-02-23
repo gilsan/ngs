@@ -512,10 +512,14 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.makeDNARNAList(data, 'TEST');
         this.testdate.nativeElement.value = newDate;
       }
-
     });
 
 
+  }
+
+  testSearchDelete(idx: number): void {
+    this.experLists.splice(idx, 1);
+    console.log(this.experLists);
   }
 
   createDNA(i: ILIMS): FormGroup {

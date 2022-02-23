@@ -2551,69 +2551,71 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   essenceDNAComment(typetumor: string, lists: { type: string, dna: string }[]): void {
     let mentContent;
     const mentLists = Object.values(essentialDNAMentList);
-    // console.log('[2425][] *** ', typetumor, mentLists);
+    // console.log('[2554][] *** ', typetumor, mentLists);
     // console.log('[2425][] *** ', mentLists.filter(mentlist => mentlist.title.toLowerCase() === typetumor.toLowerCase()));
-    mentContent = mentLists.filter(mentlist => mentlist.title.toLowerCase() === typetumor.toLowerCase())[0].content;
+    const temp = mentLists.filter(mentlist => mentlist.title.toLowerCase() === typetumor.toLowerCase());
+    if (temp.length) {
+      mentContent = mentLists.filter(mentlist => mentlist.title.toLowerCase() === typetumor.toLowerCase())[0].content;
 
-    lists.forEach(list => {
-      mentContent.forEach(ment => {
-        if (ment.type.toLowerCase() === list.type.toLowerCase()) {
-          // console.log('[2302][]', ment.type.toLowerCase(), list.type.toLowerCase(), ment.data);
-          const mentId = ment.data.findIndex(item => item === list.dna);
-          if (mentId !== -1) {
-            ment.data.splice(mentId, 1);
-          }
+      lists.forEach(list => {
+        mentContent.forEach(ment => {
+          if (ment.type.toLowerCase() === list.type.toLowerCase()) {
+            // console.log('[2302][]', ment.type.toLowerCase(), list.type.toLowerCase(), ment.data);
+            const mentId = ment.data.findIndex(item => item === list.dna);
+            if (mentId !== -1) {
+              ment.data.splice(mentId, 1);
+            }
 
-        }
-      });
-    });
-    // console.log('[2438][ment]', mentContent);
-    try {
-      if (mentContent.length > 0) {
-        let muDNA = '';
-        let amDNA = '';
-        let fuDNA = '';
-        mentContent.forEach(item => {
-          if (item.type.toLowerCase() === 'mutation') {
-            item.data.forEach((dna, index) => {
-              if (index === 0) {
-                muDNA = dna;
-              } else {
-                muDNA = muDNA + ', ' + dna;
-              }
-            });
-            // console.log('[2453][mutation]**** ', muDNA);
-            muDNA = '-' + item.type + ': ' + muDNA;
-          } else if (item.type.toLowerCase() === 'amplification') {
-            item.data.forEach((dna, index) => {
-              if (index === 0) {
-                amDNA = dna;
-              } else {
-                amDNA = amDNA + ', ' + dna;
-              }
-            });
-            amDNA = '-' + item.type + ': ' + amDNA;
-          } else if (item.type.toLowerCase() === 'fusion') {
-            item.data.forEach((dna, index) => {
-              if (index === 0) {
-                fuDNA = dna;
-              } else {
-                fuDNA = fuDNA + ', ' + dna;
-              }
-            });
-            fuDNA = '-' + item.type + ' / Exon variant: ' + fuDNA;
           }
         });
+      });
+      // console.log('[2438][ment]', mentContent);
+      try {
+        if (mentContent.length > 0) {
+          let muDNA = '';
+          let amDNA = '';
+          let fuDNA = '';
+          mentContent.forEach(item => {
+            if (item.type.toLowerCase() === 'mutation') {
+              item.data.forEach((dna, index) => {
+                if (index === 0) {
+                  muDNA = dna;
+                } else {
+                  muDNA = muDNA + ', ' + dna;
+                }
+              });
+              // console.log('[2453][mutation]**** ', muDNA);
+              muDNA = '-' + item.type + ': ' + muDNA;
+            } else if (item.type.toLowerCase() === 'amplification') {
+              item.data.forEach((dna, index) => {
+                if (index === 0) {
+                  amDNA = dna;
+                } else {
+                  amDNA = amDNA + ', ' + dna;
+                }
+              });
+              amDNA = '-' + item.type + ': ' + amDNA;
+            } else if (item.type.toLowerCase() === 'fusion') {
+              item.data.forEach((dna, index) => {
+                if (index === 0) {
+                  fuDNA = dna;
+                } else {
+                  fuDNA = fuDNA + ', ' + dna;
+                }
+              });
+              fuDNA = '-' + item.type + ' / Exon variant: ' + fuDNA;
+            }
+          });
 
-        this.specialment = `${muDNA}
-${amDNA}
-${fuDNA}`;
+          this.specialment = `${muDNA}
+  ${amDNA}
+  ${fuDNA}`;
+        }
+
+      } catch (error) {
+        console.log(error);
       }
-
-    } catch (error) {
-      console.log(error);
-    }
-
+    } else { this.specialment = ''; } // line 2557
 
   }
 

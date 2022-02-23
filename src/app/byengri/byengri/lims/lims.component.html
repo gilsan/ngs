@@ -1,237 +1,250 @@
 <div id="wrap111">
 
 
-    <div id="container" style="margin-top: 0px;">
-      <div id="content" >
-          <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mg_b10">
-              <tr>
-                  <td  class="mail_title">LIMS WorkList</td>
-                  <td class="main_btn"></td>
-              </tr>
-          </table>
-          <div class="box mg_b20 pd_20 box_display">
-          <!--   <span>접수일자</span>&nbsp;&nbsp;  -->
-            <div class="box_group">
-              <input type="date"  [value]="startToday()"  class="input_01" #start  style="width:150px;"/> &nbsp;&nbsp;
-              ~ &nbsp;&nbsp;
-              <input type="date" class="input_01"   #end [value]="endToday()"  style="width:150px;"> &nbsp;&nbsp;
-              <button type="button" class="btn btn_02" (click)="search(start.value, end.value)"
-               style="margin-right: 15px;">접수일자조회</button>
-            </div>
-            <!--    <span id="bold">실험일자</span>&nbsp;&nbsp;
+  <div id="container" style="margin-top: 0px;">
+    <div id="content">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mg_b10">
+        <tr>
+          <td class="mail_title">LIMS WorkList</td>
+          <td class="main_btn"></td>
+        </tr>
+      </table>
+      <div class="box mg_b20 pd_20 box_display">
+        <!--   <span>접수일자</span>&nbsp;&nbsp;  -->
+        <div class="box_group">
+          <input type="date" [value]="startToday()" class="input_01" #start style="width:150px;" /> &nbsp;&nbsp;
+          ~ &nbsp;&nbsp;
+          <input type="date" class="input_01" #end [value]="endToday()" style="width:150px;"> &nbsp;&nbsp;
+          <button type="button" class="btn btn_02" (click)="search(start.value, end.value)"
+            style="margin-right: 15px;">접수일자조회</button>
+        </div>
+        <!--    <span id="bold">실험일자</span>&nbsp;&nbsp;
                <input type="date" class="input_01"   #testdate [value]="endToday()"  style="width:150px;">&nbsp;&nbsp;
                <button type="button" class="btn btn_02" (click)="testSearch(testdate.value, testdate.value)"
                style="margin-right: 15px;">조회</button>&nbsp;&nbsp;  -->
-            <div class="box_group">
-               <select class="select_01 select_001" #reckerid (change)="selectedRecheck(reckerid.value)">
-                  <option value="TOTAL">의사</option>
-                  <option [value]="exam.id" *ngFor="let exam of doctorList" [selected]="exam.id === rechecker">{{exam.name}}</option>
-                </select>&nbsp;&nbsp;
-                <select class="select_01 select_001" #examinerid  (change)="selectedExamin(examinerid.value)">
-                  <option value="TOTAL">병리기사</option>
-                  <option [value]="exam.id" *ngFor="let exam of examinList" [selected]="exam.id === examiner">{{exam.name}}</option>
-                </select>&nbsp;&nbsp;&nbsp;
-              <input type="date" class="input_01"   #testdate [value]="endToday()"  style="width:150px;">&nbsp;&nbsp;
-              <button type="button" class="btn btn_02"
-              style="margin-right: 15px;"  (click)="save(testdate.value)">실험정보저장</button>
+        <div class="box_group">
+          <select class="select_01 select_001" #reckerid (change)="selectedRecheck(reckerid.value)">
+            <option value="TOTAL">의사</option>
+            <option [value]="exam.id" *ngFor="let exam of doctorList" [selected]="exam.id === rechecker">{{exam.name}}
+            </option>
+          </select>&nbsp;&nbsp;
+          <select class="select_01 select_001" #examinerid (change)="selectedExamin(examinerid.value)">
+            <option value="TOTAL">병리기사</option>
+            <option [value]="exam.id" *ngFor="let exam of examinList" [selected]="exam.id === examiner">{{exam.name}}
+            </option>
+          </select>&nbsp;&nbsp;&nbsp;
+          <input type="date" class="input_01" #testdate [value]="endToday()" style="width:150px;">&nbsp;&nbsp;
+          <button type="button" class="btn btn_02" style="margin-right: 15px;"
+            (click)="save(testdate.value)">실험정보저장</button>
+        </div>
+        <div class="box_group box_test ">
+          <select class="select_01 select_001" #exper>
+            <option value="">선택</option>
+            <option value="{{ex.reportDate}}/{{ex.examin}}/{{ex.recheck}}" *ngFor="let ex of experLists">
+              {{ex.reportDate}}/{{ex.recheckNm}}/{{ex.examNm}}</option>
+          </select>&nbsp;&nbsp;
+          <button type="button" class="btn btn_02" style="margin-right: 15px;"
+            (click)="testSearch(exper.value)">실험정보조회</button>
+        </div>
+        <div class="box_group box_test ">
+          <select class="select_01 select_001" #experdel>
+            <option value="">선택</option>
+            <option [value]=i *ngFor="let ex of experLists; let i = index">
+              {{ex.reportDate}}/{{ex.recheckNm}}/{{ex.examNm}}</option>
+          </select>&nbsp;&nbsp;
+          <button type="button" class="btn btn_02" style="margin-right: 15px;"
+            (click)="testSearchDelete(experdel.value)">실험정보삭제</button>
+        </div>
+
+        <div>
+            <div>
+              <button type="button" class="btn btn_02" style="margin-left: 15px;" (click)="fileInput.click()">Nano
+                엑셀읽기</button>
             </div>
-            <div  class="box_group box_test ">
-              <select class="select_01 select_001" #exper >
-                <option value="">선택</option>
-                <option value="{{ex.reportDate}}/{{ex.examin}}/{{ex.recheck}}"
-                 *ngFor="let ex of experLists" >
-                  {{ex.reportDate}}/{{ex.recheckNm}}/{{ex.examNm}}</option>
-              </select>&nbsp;&nbsp;
-              <button type="button" class="btn btn_02"
-              style="margin-right: 15px;" (click)="testSearch(exper.value)"  >실험정보조회</button>
+            <div>
+              <input style="display: none" type="file" (change)="onFileSelected($event)" #fileInput>
+              <button type="button" class="btn btn_02" style="margin-left: 15px; margin-top: 5px;"
+                (click)="printexcel()">엑셀출력</button>
             </div>
-              <button type="button" class="btn btn_02"
-               style="margin-right: 15px;" (click)="fileInput.click()">Nano 엑셀읽기</button>
-               <input style="display: none" type="file"
-                 (change)="onFileSelected($event)"
-                 #fileInput>
-               <button type="button" class="btn btn_02"
-               style="margin-right: 15px;" (click)="printexcel()">엑셀출력</button>&nbsp;&nbsp;
-          </div>
-          <div class="box big_box">
+        </div>
+      </div>
 
+      <div class="box big_box">
+        <div class="box_100 fill" (scroll)="tableScroll($event)" #pbox100>
+          <div class="sub_title_03_E  rna-fix">DNA</div>
+          <div class="scroll" (scroll)="tableDNAScroll($event)" #dnaBox>
+            <form [formGroup]="dnaForm">
+              <table border="0" cellpadding="0" cellspacing="0" [ngClass]="tableHeader()"
+                class="table_list td_padding_0 td-fix" #table>
+                <colgroup>
+                  <col width="56px">
+                  <col width="30px">
+                  <col width="30px">
+                  <col width="40px">
+                  <col width="100px">
+                  <col width="100px">
+                  <col width="80px">
+                  <col width="90px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="120px">
+                  <col width="50px">
+                  <col width="150px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="150px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="100px">
+                </colgroup>
+                <thead class="fixheader">
+                  <tr>
+                    <th>
+                      <!--  <button class="btn btn_01">추가</button> -->
+                    </th>
+                    <th></th>
+                    <th></th>
+                    <th>No.</th>
+                    <th>병리번호</th>
+                    <th>관련병리번호</th>
+                    <th>접수일자</th>
+                    <th>실험일자</th>
+                    <th>등록번호</th>
+                    <th>환자명</th>
+                    <th>성별(F/M)</th>
+                    <th>구분(bx,op)</th>
+                    <th>블록수</th>
+                    <th>key block</th>
+                    <th>검체</th>
+                    <th>암종<br>번호</th>
+                    <th>암종</th>
+                    <th>tumor %</th>
+                    <th>ng/ul</th>
+                    <th>260/280</th>
+                    <th>260/230</th>
+                    <th>dil비율</th>
+                    <th>ng/ul</th>
+                    <th>DNA</th>
+                    <th>dw</th>
+                    <th>total Vol</th>
+                    <th>Ct값</th>
+                    <th>quantity</th>
+                    <th>quantity/<br>2(농도)</th>
+                    <th>DNA</th>
+                    <th>TE</th>
+                    <th>total Vol</th>
+                    <th>Lib HIFI PCR Cycle</th>
+                    <th>pM</th>
+                    <th>x100</th>
+                    <th>library</th>
+                    <th>DW(50pm)</th>
+                    <th>library</th>
+                    <th>DW(50pm)</th>
+                    <th>병리번호</th>
+                  </tr>
+                </thead>
+                <tbody class="bodytable" cdkDropList (cdkDropListDropped)="dnaDroped($event)">
+                  <ng-container formArrayName="dnaFormgroup" *ngFor="let group of dnaFormLists().controls; let i=index">
+                    <tr [formGroupName]="i" cdkDrag>
+                      <td>
+                        <button type="button" class="drag-handle">
+                          <img [src]="'assets/baseline_unfold_more_black_18dp.png'">
+                        </button>
+                      </td>
+                      <td class="txt_c remover">
+                        <img [src]="'assets/images/cancel.png'" (click)="removeDNA(i)">
+                      </td>
+                      <td>
+                        <input type="checkbox" class="ckbox" formControlName="checkbox"
+                          (change)="checkboxSync(group.get('pathology_num').value, 'DNA')">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" [value]="i+1" readonly>
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="pathology_num" readonly>
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="rel_pathology_num" #relpathology
+                          (change)="pathologySync(group.get('pathology_num').value, relpathology.value, 'DNA', i)">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="prescription_date" readonly>
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="report_date" readonly>
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="patientID" readonly>
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="name" readonly>
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="gender" readonly>
+                      </td>
 
-
-            <div class="box_100 fill"  (scroll)="tableScroll($event)"   #pbox100>
-              <div class="sub_title_03_E  rna-fix">DNA</div>
-              <div class="scroll" (scroll)="tableDNAScroll($event)"  #dnaBox>
-             <form [formGroup]="dnaForm">
-              <table border="0" cellpadding="0" cellspacing="0" [ngClass]="tableHeader()" class="table_list td_padding_0 td-fix" #table>
-                  <colgroup>
-                      <col width="56px">
-                      <col width="30px">
-                      <col width="30px">
-                      <col width="40px">
-                      <col width="100px">
-                      <col width="100px">
-                      <col width="80px">
-                      <col width="90px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="120px">
-                      <col width="50px">
-                      <col width="150px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="150px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="100px">
-                  </colgroup>
-                  <thead class="fixheader">
-                      <tr>
-                          <th>
-                           <!--  <button class="btn btn_01">추가</button> -->
-                          </th>
-                          <th></th>
-                          <th></th>
-                          <th>No.</th>
-                          <th>병리번호</th>
-                          <th>관련병리번호</th>
-                          <th>접수일자</th>
-                          <th>실험일자</th>
-                          <th>등록번호</th>
-                          <th>환자명</th>
-                          <th>성별(F/M)</th>
-                          <th>구분(bx,op)</th>
-                          <th>블록수</th>
-                          <th>key block</th>
-                          <th>검체</th>
-                          <th>암종<br>번호</th>
-                          <th>암종</th>
-                          <th>tumor %</th>
-                          <th>ng/ul</th>
-                          <th>260/280</th>
-                          <th>260/230</th>
-                          <th>dil비율</th>
-                          <th>ng/ul</th>
-                          <th>DNA</th>
-                          <th>dw</th>
-                          <th>total Vol</th>
-                          <th>Ct값</th>
-                          <th>quantity</th>
-                          <th>quantity/<br>2(농도)</th>
-                          <th>DNA</th>
-                          <th>TE</th>
-                          <th>total Vol</th>
-                          <th>Lib HIFI PCR Cycle</th>
-                          <th>pM</th>
-                          <th>x100</th>
-                          <th>library</th>
-                          <th>DW(50pm)</th>
-                          <th>library</th>
-                          <th>DW(50pm)</th>
-                          <th>병리번호</th>
-                      </tr>
-                  </thead>
-                  <tbody class="bodytable" cdkDropList (cdkDropListDropped)="dnaDroped($event)" >
-                   <ng-container formArrayName="dnaFormgroup"
-                    *ngFor="let group of dnaFormLists().controls; let i=index">
-                      <tr  [formGroupName]="i" cdkDrag >
-                          <td>
-                              <button type="button" class="drag-handle">
-                                  <img [src]="'assets/baseline_unfold_more_black_18dp.png'">
-                              </button>
-                          </td>
-                          <td class="txt_c remover">
-                              <img [src]="'assets/images/cancel.png'" (click)="removeDNA(i)">
-                          </td>
-                          <td>
-                              <input type="checkbox"  class="ckbox" formControlName="checkbox"
-                              (change)="checkboxSync(group.get('pathology_num').value, 'DNA')">
-                          </td>
-                          <td class="txt_c">
-                          <input type="text" size="10" class="clr-input" [value]="i+1" readonly>
-                          </td>
-                          <td class="txt_c">
-                           <input type="text" size="10" class="clr-input" formControlName="pathology_num" readonly>
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="rel_pathology_num" #relpathology
-                             (change)="pathologySync(group.get('pathology_num').value, relpathology.value, 'DNA', i)" >
-                          </td>
-                          <td class="txt_c">
-                           <input type="text" size="10" class="clr-input" formControlName="prescription_date" readonly>
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input"  formControlName="report_date" readonly>
-                           </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="patientID" readonly>
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="name" readonly>
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="gender" readonly>
-                          </td>
-
-                          <td class="txt_c">
-                             <input type="text" size="10"  class="clr-input  tdbox"
-                              matInput  [matAutocomplete]="dnaauto" formControlName="path_type"  #pathtype
-                              (change)="pathTypeSync(group.get('pathology_num').value, pathtype.value, 'DNA')">
-                              <mat-autocomplete #dnaauto="matAutocomplete"
-                              (optionSelected)="pathTypeSync(group.get('pathology_num').value, pathtype.value, 'DNA')">
-                                <mat-option *ngFor="let option of BXOP" [value]="option">
-                                  {{option}}
-                                </mat-option>
-                              </mat-autocomplete>
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="20"  class="clr-input  tdbox"
-                            matInput  [matAutocomplete]="dnablock" formControlName="block_cnt" #blockcnt
-                            (change)="blockCntSync(group.get('pathology_num').value, blockcnt.value, 'DNA')">
-                           <mat-autocomplete #dnablock="matAutocomplete"
-                           (optionSelected)="blockCntSync(group.get('pathology_num').value, blockcnt.value, 'DNA')">
-                               <mat-option *ngFor="let option of BLOCKCNT" [value]="option">
-                                 {{option}}
-                               </mat-option>
-                            </mat-autocomplete>
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="key_block" #keyblock
-                            (change)="keyBlockSync(group.get('pathology_num').value, keyblock.value, 'DNA')">
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="prescription_code" #prescriptioncode
-                            (change)="prescriptionCodeSync(group.get('pathology_num').value, prescriptioncode.value, 'DNA')">
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10"  class="clr-input  tdbox" matInput  formControlName="enter_code"
-                            (keyup.enter)="keyUp($event, 'DNA', i, group.get('pathology_num').value)"  >
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="30"  class="clr-input  tdbox"
-                            [matTooltip]="group.get('test_code').value"  #cancertype
-                            matInput    formControlName="test_code" (change)="testCodeSync(group.get('pathology_num').value, cancertype.value, 'DNA')"
-                            >
-                           <!-- <mat-autocomplete #dnacancel="matAutocomplete"
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input  tdbox" matInput [matAutocomplete]="dnaauto"
+                          formControlName="path_type" #pathtype
+                          (change)="pathTypeSync(group.get('pathology_num').value, pathtype.value, 'DNA')">
+                        <mat-autocomplete #dnaauto="matAutocomplete"
+                          (optionSelected)="pathTypeSync(group.get('pathology_num').value, pathtype.value, 'DNA')">
+                          <mat-option *ngFor="let option of BXOP" [value]="option">
+                            {{option}}
+                          </mat-option>
+                        </mat-autocomplete>
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="20" class="clr-input  tdbox" matInput [matAutocomplete]="dnablock"
+                          formControlName="block_cnt" #blockcnt
+                          (change)="blockCntSync(group.get('pathology_num').value, blockcnt.value, 'DNA')">
+                        <mat-autocomplete #dnablock="matAutocomplete"
+                          (optionSelected)="blockCntSync(group.get('pathology_num').value, blockcnt.value, 'DNA')">
+                          <mat-option *ngFor="let option of BLOCKCNT" [value]="option">
+                            {{option}}
+                          </mat-option>
+                        </mat-autocomplete>
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="key_block" #keyblock
+                          (change)="keyBlockSync(group.get('pathology_num').value, keyblock.value, 'DNA')">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="prescription_code"
+                          #prescriptioncode
+                          (change)="prescriptionCodeSync(group.get('pathology_num').value, prescriptioncode.value, 'DNA')">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input  tdbox" matInput formControlName="enter_code"
+                          (keyup.enter)="keyUp($event, 'DNA', i, group.get('pathology_num').value)">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="30" class="clr-input  tdbox"
+                          [matTooltip]="group.get('test_code').value" #cancertype matInput formControlName="test_code"
+                          (change)="testCodeSync(group.get('pathology_num').value, cancertype.value, 'DNA')">
+                        <!-- <mat-autocomplete #dnacancel="matAutocomplete"
                            (optionSelected)="testCodeSync(group.get('pathology_num').value, cancertype.value, 'DNA')">
                                <mat-option *ngFor="let option of LISTS" [value]="option">
                                    {{option}}
@@ -239,274 +252,276 @@
                             </mat-autocomplete>
                             (change)="testCodeSync(group.get('pathology_num').value, cancertype.value, 'DNA')"
                           -->
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" [ngClass]="{'red_color': tumorColor(i, 'DNA') }"
-                             (change)="tumorcellperSync(group.get('pathology_num').value, tumorper.value, 'DNA')" #tumorper
-                            formControlName="tumorburden">
-                          </td>
-                          <td class="txt_c">
-                              <input type="text" size="10" class="clr-input" formControlName="nano_ng">
-                          </td>
-                          <td class="txt_c">
-                              <input type="text" size="10" class="clr-input" formControlName="nano_280">
-                          </td>
-                          <td class="txt_c">
-                              <input type="text" size="10" class="clr-input" formControlName="nano_230">
-                          </td>
-                          <td class="txt_c">
-                             <input type="text" size="10" class="clr-input" formControlName="nano_dil">
-                          </td>
-                          <td class="txt_c">
-                              <input type="text" size="10" class="clr-input" formControlName="ng_ui" #dnaNgul (change)="dnaNgUl(i, dnaNgul.value)">
-                          </td>
-                          <td class="txt_c">
-                              <input type="text" size="10" class="clr-input" formControlName="dan_rna" #danrna
-                              (change)="dnaDw(i, 'DNA', 'DNA', danrna.value)">
-                          </td>
-                          <td class="txt_c">
-                              <input type="text" size="10" class="clr-input" formControlName="dw" #dw
-                              [ngClass]="{'red_color': dwTeColor(i, 'DNA', 'DW') }"
-                              (change)="dnaDw(i, 'DNA', 'DW', dw.value)">
-                          </td>
-                          <td class="txt_c">
-                              <input type="text" size="10" class="clr-input" formControlName="tot_ct">
-                          </td>
-                          <td class="txt_c">
-                              <input type="text" size="10" class="clr-input" formControlName="ct"
-                                (change)="keyDnactSync(group.get('pathology_num').value, i)">
-                          </td>
-                          <td class="txt_c">
-                              <input type="text" size="10" class="clr-input" formControlName="quantity" #dnaquatity
-                              (change)="dnaQuatity(i,dnaquatity.value)">
-                          </td>
-                          <td class="txt_c">
-                              <input type="text" size="10" class="clr-input" formControlName="quantity_2">
-                          </td>
-                          <td class="txt_c">
-                              <input type="text" size="10" class="clr-input" formControlName="quan_dna" #quandna
-                              (change)="dnaTe(i, 'DNA', 'DNA', quandna.value)">
-                          </td>
-                          <td class="txt_c">
-                              <input type="text" size="10" class="clr-input" formControlName="te"  #te
-                              (change)="dnaTe(i, 'DNA', 'TE', te.value)"
-                              [ngClass]="{'red_color': dwTeColor(i, 'DNA', 'TE') }">
-                          </td>
-                          <td class="txt_c">
-                              <input type="text" size="10" class="clr-input" formControlName="quan_tot_vol">
-                          </td>
-                          <td class="txt_c">
-                              <input type="text" size="10" class="clr-input" formControlName="lib_hifi">
-                          </td>
-                          <td class="txt_c">
-                              <input type="text" size="10" class="clr-input" formControlName="pm" #dnapm (change)="dnaPm(i, dnapm.value)">
-                          </td>
-                          <td class="txt_c">
-                              <input type="text" size="10" class="clr-input" formControlName="x100"
-                              [ngClass]="{'red_color': pmColor(i, 'DNA') }">
-                          </td>
-                          <td class="txt_c">
-                              <input type="text" size="10" class="clr-input" formControlName="lib"
-                              [ngClass]="{'red_color': pmColor(i, 'DNA') }">
-                          </td>
-                          <td class="txt_c">
-                              <input type="text" size="10" class="clr-input" formControlName="lib_dw"
-                              [ngClass]="{'red_color': pmColor(i, 'DNA') }">
-                          </td>
-                          <td class="txt_c">
-                              <input type="text" size="10" class="clr-input" formControlName="lib2"
-                              [ngClass]="{'red_color': pmColor(i, 'DNA') }">
-                          </td>
-                          <td class="txt_c">
-                              <input type="text" size="10" class="clr-input" formControlName="lib2_dw"
-                              [ngClass]="{'red_color': pmColor(i, 'DNA') }">
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="pathology_num2" readonly>
-                           </td>
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" [ngClass]="{'red_color': tumorColor(i, 'DNA') }"
+                          (change)="tumorcellperSync(group.get('pathology_num').value, tumorper.value, 'DNA')" #tumorper
+                          formControlName="tumorburden">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="nano_ng">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="nano_280">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="nano_230">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="nano_dil">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="ng_ui" #dnaNgul
+                          (change)="dnaNgUl(i, dnaNgul.value)">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="dan_rna" #danrna
+                          (change)="dnaDw(i, 'DNA', 'DNA', danrna.value)">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="dw" #dw
+                          [ngClass]="{'red_color': dwTeColor(i, 'DNA', 'DW') }"
+                          (change)="dnaDw(i, 'DNA', 'DW', dw.value)">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="tot_ct">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="ct"
+                          (change)="keyDnactSync(group.get('pathology_num').value, i)">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="quantity" #dnaquatity
+                          (change)="dnaQuatity(i,dnaquatity.value)">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="quantity_2">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="quan_dna" #quandna
+                          (change)="dnaTe(i, 'DNA', 'DNA', quandna.value)">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="te" #te
+                          (change)="dnaTe(i, 'DNA', 'TE', te.value)"
+                          [ngClass]="{'red_color': dwTeColor(i, 'DNA', 'TE') }">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="quan_tot_vol">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="lib_hifi">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="pm" #dnapm
+                          (change)="dnaPm(i, dnapm.value)">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="x100"
+                          [ngClass]="{'red_color': pmColor(i, 'DNA') }">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="lib"
+                          [ngClass]="{'red_color': pmColor(i, 'DNA') }">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="lib_dw"
+                          [ngClass]="{'red_color': pmColor(i, 'DNA') }">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="lib2"
+                          [ngClass]="{'red_color': pmColor(i, 'DNA') }">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="lib2_dw"
+                          [ngClass]="{'red_color': pmColor(i, 'DNA') }">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="pathology_num2" readonly>
+                      </td>
 
-                      </tr>
-                    </ng-container>
-                  </tbody>
+                    </tr>
+                  </ng-container>
+                </tbody>
               </table>
             </form>
-            </div>
+          </div>
 
-            <div class="sub_title_03_E rna-fix">RNA</div>
-            <div class="scroll" (scroll)="tableRNAScroll($event)" #rnaBox>
+          <div class="sub_title_03_E rna-fix">RNA</div>
+          <div class="scroll" (scroll)="tableRNAScroll($event)" #rnaBox>
             <form [formGroup]="rnaForm">
               <!-- header-fix : scroll시 header고정, td-fix : scroll시 1,2,3컬럼 고정 ※동시사용안됨 fixed_header -->
               <!--<table class="table_list td_padding_0 td-fix" [ngClass]="tableHeader()" style="text-align: center;" #table> -->
-              <table border="0" cellpadding="0" cellspacing="0" [ngClass]="tableHeader()" class="table_list  td_padding_0 td-fix table_resul_x" #table>
-                  <colgroup>
-                      <col width="56px">
-                      <col width="30px">
-                      <col width="30px">
-                      <col width="40px">
-                      <col width="100px">
-                      <col width="100px">
-                      <col width="80px">
-                      <col width="90px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="120px">
-                      <col width="50px">
-                      <col width="150px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="150px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="80px">
-                      <col width="100px">
-                  </colgroup>
-                  <thead class="fixheader">
-                      <tr >
-                          <th>
-                           <!--  <button class="btn btn_01">추가</button> -->
-                          </th>
-                          <th></th>
-                          <th></th>
-                          <th>No.</th>
-                          <th>병리번호</th>
-                          <th>관련병리번호</th>
-                          <th>접수일자</th>
-                          <th>실험일자</th>
-                          <th>등록번호</th>
-                          <th>환자명</th>
-                          <th>성별(F/M)</th>
-                          <th>구분(bx,op)</th>
-                          <th>블록수</th>
-                          <th>key block</th>
-                          <th>검체</th>
-                          <th>암종<br>번호</th>
-                          <th>암종</th>
-                          <th>tumor %</th>
-                          <th>ng/ul</th>
-                          <th>260/280</th>
-                          <th>260/230</th>
-                          <th>dil비율</th>
-                          <th>ng/ul</th>
-                          <th>RNA</th>
-                          <th>dw</th>
-                          <th>total Vol</th>
-                          <th>Ct값</th>
-                          <th>quantity</th>
-                          <th>quantity/<br>2(농도)</th>
-                          <th>RNA</th>
-                          <th>TE</th>
-                          <th>total Vol</th>
-                          <th>Lib HIFI PCR Cycle</th>
-                          <th>pM</th>
-                          <th>x100</th>
-                          <th>library</th>
-                          <th>DW(50pm)</th>
-                          <th>library</th>
-                          <th>DW(50pm)</th>
-                          <th>병리번호</th>
-                      </tr>
-                  </thead>
-                  <tbody class="bodytable"  cdkDropList (cdkDropListDropped)="rnaDroped($event)" >
-                    <ng-container formArrayName="rnaFormgroup"
-                    *ngFor="let group of rnaFormLists().controls; let i=index">
-                      <tr   [formGroupName]="i"  cdkDrag>
-                          <td>
-                            <button type="button" class="drag-handle">
-                                <img [src]="'assets/baseline_unfold_more_black_18dp.png'">
-                            </button>
-                          </td>
-                          <td class="txt_c  remover">
-                            <img [src]="'assets/images/cancel.png'"  (click)="removeRNA(i)">
-                          </td>
-                          <td>
-                            <input type="checkbox"  class="ckbox" formControlName="checkbox"
-                            (change)="checkboxSync(group.get('pathology_num').value, 'RNA')">
-                        </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" [value]="i +1" readonly>
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="pathology_num" readonly>
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="rel_pathology_num" #rnarelpathology
-                            (change)="pathologySync(group.get('pathology_num').value, rnarelpathology.value, 'RNA', i)">
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="prescription_date" readonly>
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="report_date"  readonly>
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="patientID" readonly>
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="name" readonly>
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="gender" readonly>
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10"  class="clr-input  tdbox" #rnapathtype
-                            matInput  [matAutocomplete]="rnaauto" formControlName="path_type">
-                            <mat-autocomplete #rnaauto="matAutocomplete"
-                            (optionSelected)="pathTypeSync(group.get('pathology_num').value, rnapathtype.value, 'RNA')">
-                              <mat-option *ngFor="let option of BXOP" [value]="option">
-                                {{option}}
-                              </mat-option>
-                            </mat-autocomplete>
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="20"  class="clr-input  tdbox" #rnablockcnt
-                            matInput  [matAutocomplete]="rnablock" formControlName="block_cnt">
-                            <mat-autocomplete #rnablock="matAutocomplete"
-                            (optionSelected)="blockCntSync(group.get('pathology_num').value, rnablockcnt.value, 'RNA')">
-                               <mat-option *ngFor="let option of BLOCKCNT" [value]="option">
-                                 {{option}}
-                            </mat-option>
-                            </mat-autocomplete>
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="key_block"
-                            #rnakeyblock
-                            (change)="keyBlockSync(group.get('pathology_num').value, rnakeyblock.value, 'RNA')">
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="prescription_code"
-                            #rnaprescriptioncode
-                            (change)="prescriptionCodeSync(group.get('pathology_num').value, rnaprescriptioncode.value, 'RNA')">
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10"  class="clr-input  tdbox" formControlName="enter_code"
-                            matInput (keyup.enter)="keyUp($event, 'RNA', i, group.get('pathology_num').value )">
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="30"  class="clr-input  tdbox"
-                            [matTooltip]="group.get('test_code').value"
-                            matInput    formControlName="test_code" (change)="testCodeSync(group.get('pathology_num').value, rnacancertype.value, 'RNA')"
-                            #rnacancertype  >
-                            <!-- <mat-autocomplete #rnacancel="matAutocomplete"
+              <table border="0" cellpadding="0" cellspacing="0" [ngClass]="tableHeader()"
+                class="table_list  td_padding_0 td-fix table_resul_x" #table>
+                <colgroup>
+                  <col width="56px">
+                  <col width="30px">
+                  <col width="30px">
+                  <col width="40px">
+                  <col width="100px">
+                  <col width="100px">
+                  <col width="80px">
+                  <col width="90px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="120px">
+                  <col width="50px">
+                  <col width="150px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="150px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="80px">
+                  <col width="100px">
+                </colgroup>
+                <thead class="fixheader">
+                  <tr>
+                    <th>
+                      <!--  <button class="btn btn_01">추가</button> -->
+                    </th>
+                    <th></th>
+                    <th></th>
+                    <th>No.</th>
+                    <th>병리번호</th>
+                    <th>관련병리번호</th>
+                    <th>접수일자</th>
+                    <th>실험일자</th>
+                    <th>등록번호</th>
+                    <th>환자명</th>
+                    <th>성별(F/M)</th>
+                    <th>구분(bx,op)</th>
+                    <th>블록수</th>
+                    <th>key block</th>
+                    <th>검체</th>
+                    <th>암종<br>번호</th>
+                    <th>암종</th>
+                    <th>tumor %</th>
+                    <th>ng/ul</th>
+                    <th>260/280</th>
+                    <th>260/230</th>
+                    <th>dil비율</th>
+                    <th>ng/ul</th>
+                    <th>RNA</th>
+                    <th>dw</th>
+                    <th>total Vol</th>
+                    <th>Ct값</th>
+                    <th>quantity</th>
+                    <th>quantity/<br>2(농도)</th>
+                    <th>RNA</th>
+                    <th>TE</th>
+                    <th>total Vol</th>
+                    <th>Lib HIFI PCR Cycle</th>
+                    <th>pM</th>
+                    <th>x100</th>
+                    <th>library</th>
+                    <th>DW(50pm)</th>
+                    <th>library</th>
+                    <th>DW(50pm)</th>
+                    <th>병리번호</th>
+                  </tr>
+                </thead>
+                <tbody class="bodytable" cdkDropList (cdkDropListDropped)="rnaDroped($event)">
+                  <ng-container formArrayName="rnaFormgroup" *ngFor="let group of rnaFormLists().controls; let i=index">
+                    <tr [formGroupName]="i" cdkDrag>
+                      <td>
+                        <button type="button" class="drag-handle">
+                          <img [src]="'assets/baseline_unfold_more_black_18dp.png'">
+                        </button>
+                      </td>
+                      <td class="txt_c  remover">
+                        <img [src]="'assets/images/cancel.png'" (click)="removeRNA(i)">
+                      </td>
+                      <td>
+                        <input type="checkbox" class="ckbox" formControlName="checkbox"
+                          (change)="checkboxSync(group.get('pathology_num').value, 'RNA')">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" [value]="i +1" readonly>
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="pathology_num" readonly>
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="rel_pathology_num"
+                          #rnarelpathology
+                          (change)="pathologySync(group.get('pathology_num').value, rnarelpathology.value, 'RNA', i)">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="prescription_date" readonly>
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="report_date" readonly>
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="patientID" readonly>
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="name" readonly>
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="gender" readonly>
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input  tdbox" #rnapathtype matInput
+                          [matAutocomplete]="rnaauto" formControlName="path_type">
+                        <mat-autocomplete #rnaauto="matAutocomplete"
+                          (optionSelected)="pathTypeSync(group.get('pathology_num').value, rnapathtype.value, 'RNA')">
+                          <mat-option *ngFor="let option of BXOP" [value]="option">
+                            {{option}}
+                          </mat-option>
+                        </mat-autocomplete>
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="20" class="clr-input  tdbox" #rnablockcnt matInput
+                          [matAutocomplete]="rnablock" formControlName="block_cnt">
+                        <mat-autocomplete #rnablock="matAutocomplete"
+                          (optionSelected)="blockCntSync(group.get('pathology_num').value, rnablockcnt.value, 'RNA')">
+                          <mat-option *ngFor="let option of BLOCKCNT" [value]="option">
+                            {{option}}
+                          </mat-option>
+                        </mat-autocomplete>
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="key_block" #rnakeyblock
+                          (change)="keyBlockSync(group.get('pathology_num').value, rnakeyblock.value, 'RNA')">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="prescription_code"
+                          #rnaprescriptioncode
+                          (change)="prescriptionCodeSync(group.get('pathology_num').value, rnaprescriptioncode.value, 'RNA')">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input  tdbox" formControlName="enter_code" matInput
+                          (keyup.enter)="keyUp($event, 'RNA', i, group.get('pathology_num').value )">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="30" class="clr-input  tdbox"
+                          [matTooltip]="group.get('test_code').value" matInput formControlName="test_code"
+                          (change)="testCodeSync(group.get('pathology_num').value, rnacancertype.value, 'RNA')"
+                          #rnacancertype>
+                        <!-- <mat-autocomplete #rnacancel="matAutocomplete"
                             (optionSelected)="testCodeSync(group.get('pathology_num').value, rnacancertype.value, 'RNA')">
                               <mat-option *ngFor="let option of LISTS" [value]="option">
                                    {{option}}
@@ -514,105 +529,102 @@
                             </mat-autocomplete>
                             (change)="testCodeSync(group.get('pathology_num').value, rnacancertype.value, 'RNA')"
                           -->
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" [ngClass]="{'red_color': tumorColor(i, 'RNA') }"
-                            (change)="tumorcellperSync(group.get('pathology_num').value, rnatumorper.value, 'RNA')" #rnatumorper
-                            formControlName="tumorburden">
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="nano_ng">
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="nano_280">
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="nano_230">
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="nano_dil">
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="ng_ui" #rnaNgul (change)="rnaNgUl(i, rnaNgul.value)">
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="dan_rna" #rnadanrna
-                            (change)="dnaDw(i, 'RNA', 'DNA', rnadanrna.value)">
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="dw" #rnadw
-                            (change)="dnaDw(i, 'RNA', 'DNA', rnadw.value)"
-                            [ngClass]="{'red_color': dwTeColor(i, 'RNA', 'DW') }">
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="tot_ct">
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="ct"
-                            (change)="keyRnactSync(group.get('pathology_num').value, i)">
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="quantity"
-                            #rnaquatity>
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="quantity_2" readonly>
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="quan_dna" readonly>
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="te" readonly
-                            [ngClass]="{'red_color': dwTeColor(i, 'RNA', 'TE') }">
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="quan_tot_vol" readonly>
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="lib_hifi">
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="pm"
-                            #rnapm (change)="rnaPm(i, rnapm.value)">
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="x100"
-                            [ngClass]="{'red_color': pmColor(i, 'RNA') }">
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="lib"
-                            [ngClass]="{'red_color': pmColor(i, 'RNA') }">
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="lib_dw"
-                            [ngClass]="{'red_color': pmColor(i, 'RNA') }">
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="lib2"
-                            [ngClass]="{'red_color': pmColor(i, 'RNA') }">
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="lib2_dw"
-                            [ngClass]="{'red_color': pmColor(i, 'RNA') }">
-                          </td>
-                          <td class="txt_c">
-                            <input type="text" size="10" class="clr-input" formControlName="pathology_num2" readonly>
-                          </td>
-                      </tr>
-                    </ng-container>
-                  </tbody>
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" [ngClass]="{'red_color': tumorColor(i, 'RNA') }"
+                          (change)="tumorcellperSync(group.get('pathology_num').value, rnatumorper.value, 'RNA')"
+                          #rnatumorper formControlName="tumorburden">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="nano_ng">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="nano_280">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="nano_230">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="nano_dil">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="ng_ui" #rnaNgul
+                          (change)="rnaNgUl(i, rnaNgul.value)">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="dan_rna" #rnadanrna
+                          (change)="dnaDw(i, 'RNA', 'DNA', rnadanrna.value)">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="dw" #rnadw
+                          (change)="dnaDw(i, 'RNA', 'DNA', rnadw.value)"
+                          [ngClass]="{'red_color': dwTeColor(i, 'RNA', 'DW') }">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="tot_ct">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="ct"
+                          (change)="keyRnactSync(group.get('pathology_num').value, i)">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="quantity" #rnaquatity>
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="quantity_2" readonly>
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="quan_dna" readonly>
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="te" readonly
+                          [ngClass]="{'red_color': dwTeColor(i, 'RNA', 'TE') }">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="quan_tot_vol" readonly>
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="lib_hifi">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="pm" #rnapm
+                          (change)="rnaPm(i, rnapm.value)">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="x100"
+                          [ngClass]="{'red_color': pmColor(i, 'RNA') }">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="lib"
+                          [ngClass]="{'red_color': pmColor(i, 'RNA') }">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="lib_dw"
+                          [ngClass]="{'red_color': pmColor(i, 'RNA') }">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="lib2"
+                          [ngClass]="{'red_color': pmColor(i, 'RNA') }">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="lib2_dw"
+                          [ngClass]="{'red_color': pmColor(i, 'RNA') }">
+                      </td>
+                      <td class="txt_c">
+                        <input type="text" size="10" class="clr-input" formControlName="pathology_num2" readonly>
+                      </td>
+                    </tr>
+                  </ng-container>
+                </tbody>
               </table>
             </form>
-            </div>
-            </div>
-
           </div>
+        </div>
+
       </div>
     </div>
-    <div *ngIf="processing" class="progressbar">
-      <mat-spinner></mat-spinner>
   </div>
+  <div *ngIf="processing" class="progressbar">
+    <mat-spinner></mat-spinner>
   </div>
-
-
-
+</div>

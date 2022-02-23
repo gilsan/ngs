@@ -1,5 +1,5 @@
 // 2021.5.4 colon cancer, rectal cancer add
-
+// 2021.10.16, 11.01
 
 
 export const essentialDNAMentList = [
@@ -42,22 +42,6 @@ export const essentialDNAMentList = [
   },
   {
     title: 'Colorectal cancer',
-    content: [
-      { type: 'Mutation', data: ['BRAF', 'ERBB2', 'KRAS', 'NRAS', 'NTRK1', 'NTRK3', 'POLE'] },
-      { type: 'Amplification', data: ['ERBB2', 'KRAS'] },
-      { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3'] }
-    ]
-  },
-  {
-    title: 'Colon cancer',
-    content: [
-      { type: 'Mutation', data: ['BRAF', 'ERBB2', 'KRAS', 'NRAS', 'NTRK1', 'NTRK3', 'POLE'] },
-      { type: 'Amplification', data: ['ERBB2', 'KRAS'] },
-      { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3'] }
-    ]
-  },
-  {
-    title: 'Rectal cancer',
     content: [
       { type: 'Mutation', data: ['BRAF', 'ERBB2', 'KRAS', 'NRAS', 'NTRK1', 'NTRK3', 'POLE'] },
       { type: 'Amplification', data: ['ERBB2', 'KRAS'] },
@@ -229,7 +213,7 @@ export const essentialDNAMentList = [
   {
     title: 'Thyroid cancer',
     content: [
-      { type: 'Mutation', data: ['BRAF', 'ERBB2', 'NTRK1', 'NTRK3', 'RET'] },
+      { type: 'Mutation', data: ['BRAF', 'ERBB2', 'NTRK1', 'NTRK3', 'RET', 'TERT'] },
       { type: 'Fusion', data: ['NTRK1', 'NTRK2', 'NTRK3', 'RET'] }
     ]
   },
