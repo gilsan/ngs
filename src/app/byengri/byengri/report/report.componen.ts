@@ -2914,22 +2914,20 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     this.sequencingService.getEssTitle()
       .subscribe(data => {
         const idx = data.findIndex(list => list.title.toLowerCase() === this.extraction.tumortype.toLowerCase());
-        if (idx) {
+        if (idx !== -1) {
           const { id, title, mutation, amplification, fusion } = data[idx];
           if (mutation.length) {
-            muDNA = '- Mutation: ' + mutation;
+            muDNA = '- Mutation: ' + mutation + '\n';
           }
 
           if (amplification.length) {
-            amDNA = '- Amplification: ' + amplification;
+            amDNA = '- Amplification: ' + amplification + '\n';
           }
 
           if (fusion.length) {
             fuDNA = '- Fusion: ' + fusion;
           }
-          this.specialment = `${muDNA}
-  ${amDNA}
-  ${fuDNA}`;
+          this.specialment = `${muDNA} ${amDNA} ${fuDNA}`;
         } else {
           this.specialment = '';
         }
