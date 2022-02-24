@@ -153,7 +153,7 @@ export class NgsexcelComponent implements OnInit {
 
   ngsLists(datas: INGS[]): void {
     const ngsLists = [];
-    console.log('[155]', datas);
+    // console.log('[155]', datas);
     datas.forEach((item, idx) => {
       ngsLists.push({
         id: idx + 1, b1: '', c1: idx + 1, proccorpcd: item.proccorpcd, pid: item.pid,

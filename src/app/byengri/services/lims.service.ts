@@ -110,6 +110,11 @@ export class LimsService {
     return this.http.post(`${this.apiUrl}/lims/RelPathologynumSave`, { test_code: testCode, pathology_num2: pathlogyNum2 });
   }
 
+  // LIMS 실험정보삭제
+  public limsDelete(reportDate: string, examin: string, recheck: string): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${this.apiUrl}/lims/delete`, { report_date: reportDate, examin, recheck });
+  }
+
 
 
 
