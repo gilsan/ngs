@@ -518,15 +518,20 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   testSearchDelete(idx: number): void {
-    const reportDate = this.experLists[idx].reportDate;
-    const examin = this.experLists[idx].examin;
-    const recheck = this.experLists[idx].recheck;
-    this.subs.sink = this.limsService.limsDelete(reportDate, examin, recheck)
-      .subscribe(result => {
-        if (result.message === 'SUCCESS') {
-          this.experLists.splice(idx, 1);
-        }
-      });
+    const ask = confirm('삭제 하시겠습니까?');
+    if (ask) {
+      const reportDate = this.experLists[idx].reportDate;
+      const examin = this.experLists[idx].examin;
+      const recheck = this.experLists[idx].recheck;
+
+      this.subs.sink = this.limsService.limsDelete(reportDate, examin, recheck)
+        .subscribe(result => {
+          if (result.message === 'SUCCESS') {
+            this.experLists.splice(idx, 1);
+          }
+        });
+    }
+    return;
 
   }
 

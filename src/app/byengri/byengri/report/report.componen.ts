@@ -227,7 +227,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.loadForm();
     this.checker();
-    this.essentialMent();
+    //  this.essentialMent();
   }
 
 
@@ -408,7 +408,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       }
 
       this.initByDB(pathologyNum);
-      // this.status = this.store.getDBSaved();
+      this.essentialMent();
     }
   }
 
@@ -881,7 +881,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         }
 
-        console.log('[879][검체]', this.patientInfo.organ);
+        // console.log('[879][검체]', this.patientInfo.organ);
         this.extraction.organ = this.patientInfo.organ;
         if (this.patientInfo.tumor_type.length > 0) {
           this.extraction.tumortype = this.patientInfo.tumor_type;
@@ -1253,7 +1253,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       })),
     )])
       .subscribe(([type, dnaData]) => {
-        console.log('[1246]', type, dnaData);
+        // console.log('[1246]', type, dnaData);
         // this.essenceDNAComment(type, dnaData);
       });
 
@@ -2913,6 +2913,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     let fuDNA = '';
     this.sequencingService.getEssTitle()
       .subscribe(data => {
+        console.log('[2916][필수유전자목록][유전자]', data, this.extraction.tumortype);
         const idx = data.findIndex(list => list.title.toLowerCase() === this.extraction.tumortype.toLowerCase());
         if (idx !== -1) {
           const { id, title, mutation, amplification, fusion } = data[idx];
