@@ -55,6 +55,7 @@ export interface INGS {
   pv_gene: string;
   vus: string;
   vus_gene: string;
+  stage: string;
 }
 
 
@@ -152,7 +153,7 @@ export class NgsexcelComponent implements OnInit {
 
   ngsLists(datas: INGS[]): void {
     const ngsLists = [];
-
+    console.log('[155]', datas);
     datas.forEach((item, idx) => {
       ngsLists.push({
         id: idx + 1, b1: '', c1: idx + 1, proccorpcd: item.proccorpcd, pid: item.pid,
@@ -160,9 +161,10 @@ export class NgsexcelComponent implements OnInit {
         docuseqno: item.docuseqno, pay100ownbrate: item.pay100ownbrate, m1: '', n1: '', testnm: item.testnm,
         testcd: item.testcd, bcno: item.bcno, preicd10cd: item.preicd10cd, preicd10hngnm: item.preicd10hngnm, posticd10cd: item.posticd10cd,
         posticd10hngnm: item.posticd10hngnm, v1: '', w1: '', x1: '', y1: '',
-        z1: '', aa1: '', spccd: item.spccd, ac1: '', spcacptdt: item.spcacptdt,
+        z1: item.stage, aa1: '', spccd: item.spccd, ac1: '', spcacptdt: item.spcacptdt,
         lstreptdt: item.lstreptdt, pv: item.pv, pv_gene: item.pv_gene, vus: item.vus, vus_gene: item.vus_gene,
         hospnm: item.hospnm, ak1: '', al1: ''
+
       });
 
     });
@@ -202,14 +204,14 @@ export class NgsexcelComponent implements OnInit {
 
 
 
-    const ngwidth = [{ width: 6 }, { width: 21 }, { width: 12 }, { width: 12 }, { width: 9 },
-    { width: 8 }, { width: 10 }, { width: 5 }, { width: 9 }, { width: 8 },
-    { width: 7 }, { width: 9 }, { width: 14 }, { width: 19 }, { width: 24 },
-    { width: 8 }, { width: 15 }, { width: 13 }, { width: 11 }, { width: 17 },
-    { width: 55 }, { width: 13 }, { width: 11 }, { width: 26 }, { width: 8 },
-    { width: 8 }, { width: 15 }, { width: 9 }, { width: 8 }, { width: 12 },
-    { width: 12 }, { width: 15 }, { width: 33 }, { width: 12 }, { width: 36 },
-    { width: 9 }, { width: 9 }, { width: 14 }
+    const ngwidth = [{ width: 6 }, { width: 21 }, { width: 12 }, { width: 12 }, { width: 9 }, // A, B, C, D,E
+    { width: 8 }, { width: 10 }, { width: 5 }, { width: 9 }, { width: 8 },    // F, G, H, I, J,K
+    { width: 7 }, { width: 9 }, { width: 14 }, { width: 19 }, { width: 24 },  // L, M, N, O, P
+    { width: 8 }, { width: 15 }, { width: 13 }, { width: 11 }, { width: 17 }, // R, S, T, U, V
+    { width: 55 }, { width: 13 }, { width: 11 }, { width: 26 }, { width: 8 }, // W, X, Y, Z
+    { width: 8 }, { width: 15 }, { width: 9 }, { width: 8 }, { width: 12 }, // AAM AB, AC, AD, AE
+    { width: 12 }, { width: 15 }, { width: 33 }, { width: 12 }, { width: 36 }, // ,AF,AG, AH, AI,
+    { width: 9 }, { width: 9 }, { width: 14 } // AJ, AK, AL
     ];
 
     this.excel.exortAsNGSTest(ngsLists, 'report', ngwidth);
