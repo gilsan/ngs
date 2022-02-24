@@ -51,8 +51,10 @@ export function makeReport(
   let mutationData = '';
   let amplificationData = '';
   let fusionData = '';
+
   if (specialment.length > 0) {
     const items = specialment.split('\n');
+    console.log('[specialment]===>', items);
     if (items.length === 2) {
       mutationData = items[0];
       fusionData = items[1];

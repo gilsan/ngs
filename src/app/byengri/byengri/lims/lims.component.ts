@@ -479,7 +479,7 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   testSearch(info: string): void {
-
+    console.log(info);
     // if (this.examiner.length === 0 || this.rechecker.length === 0) {
     //   alert('검사자항목이 없습니다.');
     //   return;
@@ -517,19 +517,21 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
-  testSearchDelete(idx: number): void {
+  testSearchDelete(info: string): void {
     const ask = confirm('삭제 하시겠습니까?');
-    if (ask) {
-      const reportDate = this.experLists[idx].reportDate;
-      const examin = this.experLists[idx].examin;
-      const recheck = this.experLists[idx].recheck;
 
-      this.subs.sink = this.limsService.limsDelete(reportDate, examin, recheck)
-        .subscribe(result => {
-          if (result.message === 'SUCCESS') {
-            this.experLists.splice(idx, 1);
-          }
-        });
+    if (ask) {
+      // const reportDate = this.experLists[idx].reportDate;
+      // const examin = this.experLists[idx].examin;
+      // const recheck = this.experLists[idx].recheck;
+
+      // this.subs.sink = this.limsService.limsDelete(reportDate, examin, recheck)
+      //   .subscribe(result => {
+      //     console.log(result);
+      //     if (result.message === 'SUCCESS') {
+      //       this.experLists.splice(idx, 1);
+      //     }
+      //   });
     }
     return;
 
