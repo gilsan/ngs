@@ -53,11 +53,26 @@ export function makeReport(
   let fusionData = '';
 
   if (specialment.length > 0) {
-    const items = specialment.split('\n');
-    console.log('[specialment]===>', items);
+    const items = specialment.trim().split('\n');
     if (items.length === 2) {
-      mutationData = items[0];
-      fusionData = items[1];
+      const eachItem0 = items[0].split(':')[0].split('-')[1].trim();
+      const eachItem1 = items[1].split(':')[0].split('-')[1].trim();
+      if (eachItem0 === 'Mutation') {
+        mutationData = items[0];
+      } else if (eachItem0 === 'Fusion') {
+        fusionData = items[0];
+      } else if (eachItem0 === 'Amplification') {
+        amplificationData = items[0];
+      }
+
+
+      if (eachItem1 === 'Mutation') {
+        mutationData = items[1];
+      } else if (eachItem1 === 'Fusion') {
+        fusionData = items[1];
+      } else if (eachItem0 === 'Amplification') {
+        amplificationData = items[1];
+      }
     } else if (items.length === 3) {
       mutationData = items[0];
       amplificationData = items[1];
