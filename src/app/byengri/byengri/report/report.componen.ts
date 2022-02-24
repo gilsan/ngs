@@ -1221,7 +1221,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
         }
 
         /// Genomic Alteration
-
+        this.essentialMent();
 
       }); // End of Subscirbe;
     // console.log(' ######[1227][prevelant][amplification] ');
@@ -1246,7 +1246,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     //     // console.log('[1246]', type, dnaData);
     //     // this.essenceDNAComment(type, dnaData);
     //   });
-    this.essentialMent();
+
   }
 
   /*
