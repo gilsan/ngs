@@ -286,18 +286,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
-  // checkingMent(title: string): void {
 
-  //   this.ments.forEach(item => {
-
-  //     const tempItem = item.title.toLowerCase();
-  //     const tempTitle = title.toLowerCase();
-  //     if (tempItem === tempTitle) {
-  //       this.specialment = item.content;
-
-  //     }
-  //   });
-  // }
 
   init(pathologyNum: string): void {
     // filtered 된 디비에서 가져옴
@@ -408,8 +397,9 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       }
 
       this.initByDB(pathologyNum);
-      this.essentialMent();
+
     }
+    // this.essentialMent();
   }
 
   loadForm(): void {
@@ -1236,27 +1226,27 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       }); // End of Subscirbe;
     // console.log(' ######[1227][prevelant][amplification] ');
     // 필수 유전자 코멘트
-    combineLatest([tumortype$.pipe(
-      map(data => data[0].tumortype)
-    ),
-    clinically$.pipe(
-      tap(data => console.log('[필수 유전자 코멘트][1234]', data)),
-      map(datas => datas.map(data => data.clinically)),
-      map(items => items.map(item => {
-        const lists = item.split(' ');
-        if (lists[1].toLowerCase() === 'fusion') {
-          return { type: 'fusion', dna: lists[0] };
-        } else if (lists[1].toLowerCase() === 'amplification') {
-          return { type: 'amplification', dna: lists[0] };
-        }
-        return { type: 'mutation', dna: lists[0] };
-      })),
-    )])
-      .subscribe(([type, dnaData]) => {
-        // console.log('[1246]', type, dnaData);
-        // this.essenceDNAComment(type, dnaData);
-      });
-
+    // combineLatest([tumortype$.pipe(
+    //   map(data => data[0].tumortype)
+    // ),
+    // clinically$.pipe(
+    //   tap(data => console.log('[필수 유전자 코멘트][1234]', data)),
+    //   map(datas => datas.map(data => data.clinically)),
+    //   map(items => items.map(item => {
+    //     const lists = item.split(' ');
+    //     if (lists[1].toLowerCase() === 'fusion') {
+    //       return { type: 'fusion', dna: lists[0] };
+    //     } else if (lists[1].toLowerCase() === 'amplification') {
+    //       return { type: 'amplification', dna: lists[0] };
+    //     }
+    //     return { type: 'mutation', dna: lists[0] };
+    //   })),
+    // )])
+    //   .subscribe(([type, dnaData]) => {
+    //     // console.log('[1246]', type, dnaData);
+    //     // this.essenceDNAComment(type, dnaData);
+    //   });
+    this.essentialMent();
   }
 
   /*
