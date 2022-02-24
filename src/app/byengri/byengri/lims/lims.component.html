@@ -37,15 +37,28 @@
           <button type="button" class="btn btn_02" style="margin-right: 15px;"
             (click)="save(testdate.value)">실험정보저장</button>
         </div>
-        <div class="box_group box_test ">
-          <select class="select_01 select_001" #exper>
-            <option value="">선택</option>
-            <option value="{{ex.reportDate}}/{{ex.examin}}/{{ex.recheck}}" *ngFor="let ex of experLists">
-              {{ex.reportDate}}/{{ex.recheckNm}}/{{ex.examNm}}</option>
-          </select>&nbsp;&nbsp;
-          <button type="button" class="btn btn_02" style="margin-right: 15px;"
-            (click)="testSearch(exper.value)">실험정보조회</button>
+        <div class="box_group box_test " style="display:flex;">
+          <div class="testBox">
+            <select class="select_01 select_001" #exper>
+              <option value="">선택</option>
+              <option value="{{ex.reportDate}}/{{ex.examin}}/{{ex.recheck}}" *ngFor="let ex of experLists">
+                {{ex.reportDate}}/{{ex.recheckNm}}/{{ex.examNm}}</option>
+            </select>
+          </div>
+
+          <div>
+            <div>
+              <button type="button" class="btn btn_02" style="margin-right: 15px; margin-bottom: 3px;"
+              (click)="testSearch(exper.value)">실험정보조회</button>
+            </div>
+            <div>
+              <button type="button" class="btn btn_02" style="margin-right: 15px; margin-top: 3px;"
+              (click)="testSearchDelete(exper.value)">실험정보삭제</button>
+            </div>
+          </div>
+
         </div>
+        <!--
         <div class="box_group box_test ">
           <select class="select_01 select_001" #experdel>
             <option value="">선택</option>
@@ -53,9 +66,9 @@
               {{ex.reportDate}}/{{ex.recheckNm}}/{{ex.examNm}}</option>
           </select>&nbsp;&nbsp;
           <button type="button" class="btn btn_02" style="margin-right: 15px;"
-            (click)="testSearchDelete(experdel.value)">실험정보삭제</button>
+          (click)="testSearchDelete(experdel.value)">실험정보삭제</button>
         </div>
-
+        -->
         <div>
             <div>
               <button type="button" class="btn btn_02" style="margin-left: 15px;" (click)="fileInput.click()">Nano

@@ -166,3 +166,10 @@ td {
 .red_color {
   color: red;
 }
+
+.testBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-right: 5px;
+}
