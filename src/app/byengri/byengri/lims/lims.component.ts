@@ -526,8 +526,6 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
       const examin = testInfo[1];
       const recheck = testInfo[2];
 
-      console.log('[528]reportDate=', reportDate);
-
       this.subs.sink = this.limsService.limsDelete(reportDate, examin, recheck)
         .subscribe(result => {
           if (result.message === 'SUCCESS') {
