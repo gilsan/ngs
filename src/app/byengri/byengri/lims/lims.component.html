@@ -40,7 +40,7 @@
         <div class="box_group box_test " style="display:flex;">
             <select class="select_01 select_001" #exper>
               <option value="">선택</option>
-              <option value="{{ex.reportDate}}/{{ex.examin}}/{{ex.recheck}}" *ngFor="let ex of experLists;">
+              <option value="{{ex.reportDate}}/{{ex.examin}}/{{ex.recheck}}" *ngFor="let ex of experLists">
                 {{ex.reportDate}}/{{ex.recheckNm}}/{{ex.examNm}}</option>
             </select>&nbsp;&nbsp;
             <button type="button" class="btn btn_02"

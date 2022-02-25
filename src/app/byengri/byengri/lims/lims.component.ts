@@ -531,7 +531,18 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
       this.subs.sink = this.limsService.limsDelete(reportDate, examin, recheck)
         .subscribe(result => {
           if (result.message === 'SUCCESS') {
-
+            this.experLists = [];
+            this.subs.sink = this.limsService.experimentList().subscribe(data => {
+              data.forEach(list => {
+                this.experLists.push({
+                  examNm: list.exam_nm,
+                  examin: list.examin,
+                  recheck: list.recheck,
+                  recheckNm: list.recheck_nm,
+                  reportDate: list.report_date
+                });
+              });
+            });
           }
         });
     }
