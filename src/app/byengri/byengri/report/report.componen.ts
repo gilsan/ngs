@@ -2598,8 +2598,8 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
           });
 
           this.specialment = `${muDNA}
-  ${amDNA}
-  ${fuDNA}`;
+ ${amDNA}
+ ${fuDNA}`;
         }
 
       } catch (error) {
