@@ -50,15 +50,11 @@
         </div>
 
         <div>
-            <div>
               <button type="button" class="btn btn_02" style="margin-left: 15px;" (click)="fileInput.click()">Nano
                 엑셀읽기</button>
-            </div>
-            <div>
               <input style="display: none" type="file" (change)="onFileSelected($event)" #fileInput>
               <button type="button" class="btn btn_02" style="margin-left: 15px; margin-top: 5px;"
                 (click)="printexcel()">엑셀출력</button>
-            </div>
         </div>
       </div>
 
