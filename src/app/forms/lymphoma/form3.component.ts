@@ -380,21 +380,17 @@ export class Form3Component implements OnInit, OnDestroy {
       this.store.setDetactedVariants(data); // Detected variant 저장
 
       // VUS 메제시 확인
-      // const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
-      // if (vusIdx !== -1) {
-      //   this.vusmsg = this.patientInfo.vusmsg;
-      //   this.tempvusmsg = this.patientInfo.vusmsg;
-      // }
-      // this.vusmsg = this.patientInfo.vusmsg;
-      // this.tempvusmsg = this.patientInfo.vusmsg;
+
       const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
       if (vusIdx !== -1) { // 있는경우
         this.vusmsg = this.vusmsg;
         this.tempvusmsg = this.vusmsg;
       } else if (this.patientInfo.vusmsg.length > 0 && vusIdx === -1) {
         if (this.patientInfo.vusmsg === this.vusmsg) {
-          this.vusmsg = '';
-          this.tempvusmsg = '';
+          // this.vusmsg = '';
+          // this.tempvusmsg = '';
+          this.vusmsg = this.vusmsg;
+          this.tempvusmsg = this.vusmsg;
         } else {
           this.vusmsg = this.patientInfo.vusmsg;
           this.tempvusmsg = this.patientInfo.vusmsg;
@@ -460,22 +456,16 @@ export class Form3Component implements OnInit, OnDestroy {
           this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
           this.store.setDetactedVariants(data); // Detected variant 저장
 
-          // const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
-          // if (vusIdx !== -1) {
-          //   this.vusmsg = this.patientInfo.vusmsg;
-          //   this.tempvusmsg = this.patientInfo.vusmsg;
-          // }
-
-          // this.vusmsg = this.patientInfo.vusmsg;
-          // this.tempvusmsg = this.patientInfo.vusmsg;
           const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
           if (vusIdx !== -1) { // 있는경우
             this.vusmsg = this.vusmsg;
             this.tempvusmsg = this.vusmsg;
           } else if (this.patientInfo.vusmsg.length > 0 && vusIdx === -1) {
             if (this.patientInfo.vusmsg === this.vusmsg) {
-              this.vusmsg = '';
-              this.tempvusmsg = '';
+              // this.vusmsg = '';
+              // this.tempvusmsg = '';
+              this.vusmsg = this.vusmsg;
+              this.tempvusmsg = this.vusmsg;
             } else {
               this.vusmsg = this.patientInfo.vusmsg;
               this.tempvusmsg = this.patientInfo.vusmsg;
@@ -487,10 +477,7 @@ export class Form3Component implements OnInit, OnDestroy {
           });
           this.putCheckboxInit(); // 체크박스 초기화
         } else {
-          // if (this.patientInfo.vusmsg.length > 0) {
-          //   this.vusmsg = this.patientInfo.vusmsg;
-          //   this.tempvusmsg = this.patientInfo.vusmsg;
-          // }
+
           if (this.tsvSaveOrEmptySave === 'T') {
             this.addDetectedVariant();
           }

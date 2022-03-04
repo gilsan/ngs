@@ -362,8 +362,10 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       } else if (this.patientInfo.vusmsg.length > 0 && vusIdx === -1) {
         if (this.patientInfo.vusmsg === this.vusmsg) {
           console.log('[364] ===> [같음]');
-          this.vusmsg = '';
-          this.tempvusmsg = '';
+          // this.vusmsg = '';
+          // this.tempvusmsg = '';
+          this.vusmsg = this.vusmsg;
+          this.tempvusmsg = this.vusmsg;
         } else {
           console.log('[368] ===> [다름]');
           this.vusmsg = this.patientInfo.vusmsg;
@@ -373,15 +375,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
         this.vusmsg = '';
         this.tempvusmsg = '';
       }
-      // const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
-      // if (this.patientInfo.vusmsg.length > 0 ) {
 
-      // } else {
-      //   this.vusmsg = '';
-      //   this.tempvusmsg = '';
-      // }
-
-      // console.log('[383][recoverDetected][VUS메세지]', this.patientInfo.vusmsg, this.vusmsg);
 
       this.recoverVariants.forEach(item => {
         this.recoverVariant(item);  // 354
