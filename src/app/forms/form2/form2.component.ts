@@ -453,13 +453,6 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
 
   init(form2TestedId: string): void {
     if (this.form2TestedId) {
-      // console.log('[420][screen 번호] ', this.screenstatus);
-      // VUS 메제시 확인 2021.4.7 추가
-      // if (this.patientInfo.vusmsg.length) {
-      //   this.vusmsg = this.patientInfo.vusmsg;
-      //   this.tempvusmsg = this.patientInfo.vusmsg;
-      // }
-
       this.variantsService.screenSelect(this.form2TestedId)
         .subscribe(data => {
           console.log('[449][저장된 데이터]', data);
@@ -476,31 +469,15 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
               this.tempvusmsg = this.vusmsg;
             } else if (this.patientInfo.vusmsg.length > 0 && vusIdx === -1) {
               if (this.patientInfo.vusmsg === this.vusmsg) {
-                this.vusmsg = '';
-                this.tempvusmsg = '';
+                // this.vusmsg = '';  2022.03-04 무조건 vusmsg 출력
+                // this.tempvusmsg = '';
+                this.vusmsg = this.vusmsg;
+                this.tempvusmsg = this.vusmsg;
               } else {
                 this.vusmsg = this.patientInfo.vusmsg;
                 this.tempvusmsg = this.patientInfo.vusmsg;
               }
             }
-
-            // this.vusmsg = this.patientInfo.vusmsg;
-            // this.tempvusmsg = this.patientInfo.vusmsg;
-
-            // const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
-            // if (this.patientInfo.vusmsg.length > 0) {
-            //   if (this.patientInfo.vusmsg === this.vusmsg) {
-            //     this.vusmsg = '';
-            //     this.tempvusmsg = '';
-            //   } else {
-            //     this.vusmsg = this.patientInfo.vusmsg;
-            //     this.tempvusmsg = this.patientInfo.vusmsg;
-            //   }
-            // } else {
-            //   this.vusmsg = '';
-            //   this.tempvusmsg = '';
-            // }
-
 
 
             this.recoverVariants.forEach(item => {
@@ -535,11 +512,6 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
               });
             ////////////////////////////////////
           } else {
-            // if (this.patientInfo.vusmsg.length > 0) {
-            //   this.vusmsg = this.patientInfo.vusmsg;
-            //   this.tempvusmsg = this.patientInfo.vusmsg;
-            // }
-            console.log('[499]', this.vusmsg);
             if (this.tsvSaveOrEmptySave === 'T') {
               this.addDetectedVariant();
             }

@@ -15,7 +15,7 @@ import { StoreService } from '../store.current';
 
 @Component({
   selector: 'app-form2',
-  templateUrl: './form2.component.html',
+  templateUrl: './form2.component_old.html',
   styleUrls: ['./form2.component.scss']
 })
 export class Form2Component implements OnInit, OnDestroy {
