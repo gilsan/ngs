@@ -541,7 +541,9 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
             controlRNA.clear();
             this.dnaLists = [];
             this.rnaLists = [];
+            this.testdate.nativeElement.value = this.endToday();
             this.initLoadLists();
+
             // this.subs.sink = this.limsService.experimentList().subscribe(data => {
             //   data.forEach(list => {
             //     this.experLists.push({
