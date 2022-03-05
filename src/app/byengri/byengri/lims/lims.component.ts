@@ -36,6 +36,7 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   examiner = '';
   rechecker = '';
+  reportDate = '';
 
   dnaForm: FormGroup = this.fb.group({
     dnaFormgroup: this.fb.array([]),
@@ -491,6 +492,7 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
     // }
     const testInfo = info.split('/');
     const testdate = testInfo[0];
+    this.reportDate = testdate;
     const examiner = testInfo[1];
     this.examiner = examiner;
     const rechecker = testInfo[2];
@@ -534,15 +536,18 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
       this.subs.sink = this.limsService.limsDelete(reportDate, examin, recheck)
         .subscribe(result => {
           if (result.message === 'SUCCESS') {
-            this.experLists = [];
-            const controlDNA = this.dnaForm.get('dnaFormgroup') as FormArray;
-            const controlRNA = this.rnaForm.get('rnaFormgroup') as FormArray;
-            controlDNA.clear();
-            controlRNA.clear();
-            this.dnaLists = [];
-            this.rnaLists = [];
-            this.testdate.nativeElement.value = this.endToday();
-            this.initLoadLists();
+            if (this.reportDate === reportDate && this.examiner === examin && this.rechecker === recheck) {
+              this.experLists = [];
+              const controlDNA = this.dnaForm.get('dnaFormgroup') as FormArray;
+              const controlRNA = this.rnaForm.get('rnaFormgroup') as FormArray;
+              controlDNA.clear();
+              controlRNA.clear();
+              this.dnaLists = [];
+              this.rnaLists = [];
+              this.testdate.nativeElement.value = this.endToday();
+              this.initLoadLists();
+            }
+
 
             // this.subs.sink = this.limsService.experimentList().subscribe(data => {
             //   data.forEach(list => {
