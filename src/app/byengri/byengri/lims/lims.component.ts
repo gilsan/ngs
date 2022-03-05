@@ -73,6 +73,11 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.initLoadLists();
+
+  }
+
+  initLoadLists(): void {
     this.search(this.startToday(), this.endToday());
     this.exminObservable$ = this.manageUsersService.getManageUsersList(this.startToday2(), this.endToday(), '', '', 'P')
       .pipe(
@@ -530,17 +535,24 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
         .subscribe(result => {
           if (result.message === 'SUCCESS') {
             this.experLists = [];
-            this.subs.sink = this.limsService.experimentList().subscribe(data => {
-              data.forEach(list => {
-                this.experLists.push({
-                  examNm: list.exam_nm,
-                  examin: list.examin,
-                  recheck: list.recheck,
-                  recheckNm: list.recheck_nm,
-                  reportDate: list.report_date
-                });
-              });
-            });
+            const controlDNA = this.dnaForm.get('dnaFormgroup') as FormArray;
+            const controlRNA = this.rnaForm.get('rnaFormgroup') as FormArray;
+            controlDNA.clear();
+            controlRNA.clear();
+            this.dnaLists = [];
+            this.rnaLists = [];
+            this.initLoadLists();
+            // this.subs.sink = this.limsService.experimentList().subscribe(data => {
+            //   data.forEach(list => {
+            //     this.experLists.push({
+            //       examNm: list.exam_nm,
+            //       examin: list.examin,
+            //       recheck: list.recheck,
+            //       recheckNm: list.recheck_nm,
+            //       reportDate: list.report_date
+            //     });
+            //   });
+            // });
           }
         });
     }
