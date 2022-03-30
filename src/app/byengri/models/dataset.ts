@@ -1,12 +1,19 @@
-import { IAmplification, IBasicInfo, IExtraction, IFusion, IIAmplification, IMutation, IStateControl } from './patients';
-
+import {
+  IAmplification,
+  IBasicInfo,
+  IExtraction,
+  IFusion,
+  IIAmplification,
+  IMutation,
+  IStateControl,
+} from './patients'
 
 export function makeReport(
-  emrDate: string,         // EMR 전송일
-  examedno: string,        // 검사자 번호
-  examedname: string,      // 검사자 이름
-  checkeredno: string,     // 확인자 번호
-  checkername: string,     // 확인자 이름
+  emrDate: string, // EMR 전송일
+  examedno: string, // 검사자 번호
+  examedname: string, // 검사자 이름
+  checkeredno: string, // 확인자 번호
+  checkername: string, // 확인자 이름
   dnarna: string = '',
   organ: string = '',
   basicInfo: IBasicInfo,
@@ -23,60 +30,58 @@ export function makeReport(
   generalReport: string,
   specialment: string,
   notement: string,
-  pathimage: string[]
+  pathimage: string[],
 ): string {
-  let msiscore = '';
+  let msiscore = ''
   // null 처리
   if (tumorMutationalBurden === null) {
-    tumorMutationalBurden = '';
+    tumorMutationalBurden = ''
   }
 
-
   const todays = () => {
-    const today = new Date();
+    const today = new Date()
 
-    const year = today.getFullYear(); // 년도
-    const month = today.getMonth() + 1;  // 월
-    const date = today.getDate();  // 날짜
+    const year = today.getFullYear() // 년도
+    const month = today.getMonth() + 1 // 월
+    const date = today.getDate() // 날짜
 
-    const newmon = ('0' + month).substr(-2);
-    const newday = ('0' + date).substr(-2);
-    const now = year + '.' + newmon + '.' + newday;
+    const newmon = ('0' + month).substr(-2)
+    const newday = ('0' + date).substr(-2)
+    const now = year + '.' + newmon + '.' + newday
 
-    return now;
-  };
+    return now
+  }
 
-  const reportDate = todays();
+  const reportDate = todays()
 
-  let mutationData = '';
-  let amplificationData = '';
-  let fusionData = '';
+  let mutationData = ''
+  let amplificationData = ''
+  let fusionData = ''
 
   if (specialment.length > 0) {
-    const items = specialment.trim().split('\n');
+    const items = specialment.trim().split('\n')
     if (items.length === 2) {
-      const eachItem0 = items[0].split(':')[0].split('-')[1].trim();
-      const eachItem1 = items[1].split(':')[0].split('-')[1].trim();
+      const eachItem0 = items[0].split(':')[0].split('-')[1].trim()
+      const eachItem1 = items[1].split(':')[0].split('-')[1].trim()
       if (eachItem0 === 'Mutation') {
-        mutationData = items[0];
+        mutationData = items[0]
       } else if (eachItem0 === 'Fusion') {
-        fusionData = items[0];
+        fusionData = items[0]
       } else if (eachItem0 === 'Amplification') {
-        amplificationData = items[0];
+        amplificationData = items[0]
       }
-
 
       if (eachItem1 === 'Mutation') {
-        mutationData = items[1];
+        mutationData = items[1]
       } else if (eachItem1 === 'Fusion') {
-        fusionData = items[1];
+        fusionData = items[1]
       } else if (eachItem0 === 'Amplification') {
-        amplificationData = items[1];
+        amplificationData = items[1]
       }
     } else if (items.length === 3) {
-      mutationData = items[0];
-      amplificationData = items[1];
-      fusionData = items[2];
+      mutationData = items[0]
+      amplificationData = items[1]
+      fusionData = items[2]
     }
   }
 
@@ -124,7 +129,7 @@ export function makeReport(
             </Row>
           </Rows>
         </Dataset>
-    `;
+    `
 
   const stateControl = `
       <Dataset id="ds_data11">
@@ -151,7 +156,7 @@ export function makeReport(
         </Row>
      </Rows>
     </Dataset>
-  `;
+  `
 
   const mutationHeader = `
     <Dataset id="ds_data2_1">
@@ -162,14 +167,16 @@ export function makeReport(
       <Column id="variantallelefrequency" type="STRING" size="256"/>
       <Column id="id" type="STRING" size="256"/>
       <Column id="tier" type="STRING" size="256"/>
-    </ColumnInfo>`;
+    </ColumnInfo>`
 
-  let mutaionContent = '';
+  let mutaionContent = ''
 
   if (mutations.length) {
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < mutations.length; i++) {
-      mutaionContent = mutaionContent + `
+      mutaionContent =
+        mutaionContent +
+        `
           <Row>
              <Col id="gene">${mutations[i].gene}</Col>
              <Col id="aminoacid">${mutations[i].aminoAcidChange}</Col>
@@ -178,16 +185,16 @@ export function makeReport(
              <Col id="id">${mutations[i].ID}</Col>
              <Col id="tier">${mutations[i].tier}</Col>
            </Row>
-        `;
+        `
     }
     mutaionContent = ` <Rows>
       ${mutaionContent}
-      </Rows>`;
+      </Rows>`
   }
   const mutationBottom = `
   </Dataset>
-   `;
-  const mutationValue = mutationHeader + mutaionContent + mutationBottom;
+   `
+  const mutationValue = mutationHeader + mutaionContent + mutationBottom
 
   const amplicationHeader = `
     <Dataset id="ds_data2_2">
@@ -197,29 +204,32 @@ export function makeReport(
       <Column id="estimated" type="STRING" size="256"/>
       <Column id="tier" type="STRING" size="256"/>
     </ColumnInfo>
-    `;
+    `
 
-  let amplificationContent = '';
+  let amplificationContent = ''
   if (amplification.length) {
     // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < amplification.length; i++) {
-      amplificationContent = amplificationContent + `
+      amplificationContent =
+        amplificationContent +
+        `
         <Row>
            <Col id="gene">${amplification[i].gene}</Col>
            <Col id="region">${amplification[i].region}</Col>
            <Col id="estimated">${amplification[i].copynumber}</Col>
            <Col id="tier">${amplification[i].tier}</Col>
          </Row>
-      `;
+      `
     }
     amplificationContent = `<Rows>
       ${amplificationContent}
       </Rows>
-    `;
+    `
   }
 
-  const amplificationBottom = `</Dataset>`;
-  const amplificationValue = amplicationHeader + amplificationContent + amplificationBottom;
+  const amplificationBottom = `</Dataset>`
+  const amplificationValue =
+    amplicationHeader + amplificationContent + amplificationBottom
 
   const fusionHeader = `
    <Dataset id="ds_data2_3">
@@ -229,29 +239,31 @@ export function makeReport(
      <Column id="function"   type="STRING" size="256"/>
      <Column id="tier"      type="STRING" size="256"/>
    </ColumnInfo>
-   `;
+   `
 
-  let fusionContent = '';
+  let fusionContent = ''
   if (fusion.length) {
     // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < fusion.length; i++) {
-      fusionContent = fusionContent + `
+      fusionContent =
+        fusionContent +
+        `
       <Row>
         <Col id="geneexon">${fusion[i].gene}</Col>
         <Col id="breakpoint">${fusion[i].breakpoint}</Col>
         <Col id="function">${fusion[i].functions}</Col>
         <Col id="tier">${fusion[i].tier}</Col>
      </Row>
-      `;
+      `
     }
     fusionContent = `<Rows>
       ${fusionContent}
       </Rows>
-    `;
+    `
   }
 
-  const fusionBottom = `</Dataset>`;
-  const fusionValue = fusionHeader + fusionContent + fusionBottom;
+  const fusionBottom = `</Dataset>`
+  const fusionValue = fusionHeader + fusionContent + fusionBottom
 
   const imutationHeader = `
   <Dataset id="ds_data3_1">
@@ -262,14 +274,16 @@ export function makeReport(
     <Column id="variantallelefrequency" type="STRING" size="256"/>
     <Column id="id" type="STRING" size="256"/>
     <Column id="note" type="STRING" size="256"/>
-  </ColumnInfo>`;
+  </ColumnInfo>`
 
-  let imutaionContent = '';
+  let imutaionContent = ''
 
   if (iimutation.length) {
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < iimutation.length; i++) {
-      imutaionContent = imutaionContent + `
+      imutaionContent =
+        imutaionContent +
+        `
         <Row>
            <Col id="gene">${iimutation[i].gene}</Col>
            <Col id="aminoacid">${iimutation[i].aminoAcidChange}</Col>
@@ -278,18 +292,16 @@ export function makeReport(
            <Col id="id">${iimutation[i].ID}</Col>
            <Col id="note">${iimutation[i].tier}</Col>
          </Row>
-      `;
+      `
     }
     imutaionContent = `<Rows>
         ${imutaionContent}
       </Rows>
-    `;
+    `
   }
   const imutationBottom = `
-  </Dataset>`;
-  const imutationValue = imutationHeader + imutaionContent + imutationBottom;
-
-
+  </Dataset>`
+  const imutationValue = imutationHeader + imutaionContent + imutationBottom
 
   const iamplificationHeader = `
     <Dataset id="ds_data3_2">
@@ -301,30 +313,31 @@ export function makeReport(
        </ColumnInfo>
     `
 
-  let iamplificationContent = '';
+  let iamplificationContent = ''
   if (iamplification.length) {
     // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < iamplification.length; i++) {
-      iamplificationContent = iamplificationContent + `
+      iamplificationContent =
+        iamplificationContent +
+        `
       <Row>
       <Col id="gene">${iamplification[i].gene}</Col>
       <Col id="region">${iamplification[i].region}</Col>
       <Col id="esticopynum">${iamplification[i].copynumber}</Col>
       <Col id="note">${iamplification[i].note}</Col>
       </Row>
-      `;
+      `
     }
 
     iamplificationContent = `<Rows>
     ${iamplificationContent}
     </Rows>
-    `;
+    `
   }
 
-  const iamplificationBottom = `</Dataset>`;
-  const iamplificationValue = iamplificationHeader + iamplificationContent + iamplificationBottom;
-
-
+  const iamplificationBottom = `</Dataset>`
+  const iamplificationValue =
+    iamplificationHeader + iamplificationContent + iamplificationBottom
 
   const ifusionHeader = `
    <Dataset id="ds_data3_3">
@@ -334,33 +347,32 @@ export function makeReport(
      <Column id="function"   type="STRING" size="256"/>
      <Column id="note"      type="STRING" size="256"/>
    </ColumnInfo>
-   `;
+   `
 
-  let ifusionContent = '';
+  let ifusionContent = ''
   // console.log('[263][]', iifusion);
   if (iifusion.length) {
-
-
     // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < iifusion.length; i++) {
-      ifusionContent = ifusionContent + `
+      ifusionContent =
+        ifusionContent +
+        `
       <Row>
         <Col id="geneexon">${iifusion[i].gene}</Col>
         <Col id="breakpoint">${iifusion[i].breakpoint}</Col>
         <Col id="function">${iifusion[i].functions}</Col>
         <Col id="note">${iifusion[i].tier}</Col>
-     </Row>`;
+     </Row>`
     }
     ifusionContent = `<Rows>
     ${ifusionContent}
      </Rows>
-    `;
-
+    `
   }
 
-  const ifusionBottom = `</Dataset>`;
+  const ifusionBottom = `</Dataset>`
   // console.log('[284][]', ifusionContent);
-  const ifusionValue = ifusionHeader + ifusionContent + ifusionBottom;
+  const ifusionValue = ifusionHeader + ifusionContent + ifusionBottom
 
   const tumor = `
     <Dataset id="ds_data4">
@@ -372,7 +384,7 @@ export function makeReport(
          <Col id="tumor">${tumorMutationalBurden}</Col>
       </Row>
     </Rows>
-  </Dataset>`;
+  </Dataset>`
 
   if (msiScore.split('').includes('(')) {
     msiscore = `
@@ -386,7 +398,7 @@ export function makeReport(
       </Row>
     </Rows>
   </Dataset>
-    `;
+    `
   } else {
     msiscore = `
     <Dataset id="ds_data5">
@@ -399,7 +411,7 @@ export function makeReport(
       </Row>
     </Rows>
   </Dataset>
-    `;
+    `
   }
 
   /*
@@ -432,7 +444,7 @@ export function makeReport(
          </Row>
       </Rows>
   </Dataset>
-  `;
+  `
 
   const restpart = `
     <Dataset id="ds_data6">
@@ -486,7 +498,7 @@ export function makeReport(
   Minimum allele frequency of indel variant: ≥ 5%
   Minimum allele frequency of SNP variant: ≥ 5%
   Minimum read counts for fusions: ≥ 40
-  CNV gain threshold: 4
+  CNV gain threshold: 6
   Gain confidence level: 0.05
   Max fold difference for loss: 0.7
   6. Tier classification (Reference: J Mol Diagn. 2017 Jan;19(1):4-23.)
@@ -519,41 +531,56 @@ export function makeReport(
              <Col id="targetgenetitle">Oncomine Comprehensive Assay plus (ThermoFisher scientific)</Col>
           </Row>
        </Rows>
-    </Dataset>`;
-
+    </Dataset>`
 
   const urlheader = `
   <Dataset id="ds_data10">
   <ColumnInfo>
     <Column id="imgurl"   type="STRING" size="256"/>
   </ColumnInfo>
-`;
+`
 
-  let urlcontent = '';
+  let urlcontent = ''
   if (pathimage.length) {
     // tslint:disable-next-line:forin
     for (const idx in pathimage) {
-      urlcontent = urlcontent + `
+      urlcontent =
+        urlcontent +
+        `
        <Row>
          <Col id="imgurl">${pathimage[idx]}</Col>
-       </Row>`;
+       </Row>`
     }
     urlcontent = `
    <Rows>
     ${urlcontent}
    </Rows>
-    `;
+    `
   }
-  const pathimgbottom = `</Dataset>`;
+  const pathimgbottom = `</Dataset>`
   // const urlbottom = ``;
   // console.log('[284][]', ifusionContent);
-  const urllist = urlheader + urlcontent + pathimgbottom;
+  const urllist = urlheader + urlcontent + pathimgbottom
 
   const bottomroot = `
-</root>`;
+</root>`
 
   // tslint:disable-next-line: max-line-length
-  return extractionContent + mutationValue + amplificationValue + fusionValue + imutationValue + iamplificationValue + ifusionValue + tumor + msiscore + restpart + urllist + stateControl + bottomroot;
+  return (
+    extractionContent +
+    mutationValue +
+    amplificationValue +
+    fusionValue +
+    imutationValue +
+    iamplificationValue +
+    ifusionValue +
+    tumor +
+    msiscore +
+    restpart +
+    urllist +
+    stateControl +
+    bottomroot
+  )
 
   /*
       <Dataset id="ds_data10">
@@ -1187,10 +1214,4 @@ export function makeReport(
     </root>
 
   */
-
 }
-
-
-
-
-
