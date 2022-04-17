@@ -269,13 +269,21 @@ export class PathologyService {
   }
 
   // Tumor Cell Percentage
-  public setTumorCellPercentage(percentage: string, pathologyNum: string): any {
+  public setTumorCellPercentage(percentage: string, pathologyNum: string ): any {
     this.tumorCellPercentage = percentage;
-    return this.http.post(`${this.apiUrl}/tumorcellpercentage/insert`, { percentage, pathologyNum })
-      .subscribe(result => {
-        console.log('[242][서비스][pathology.service][setTumorCellPercentage]', pathologyNum, percentage, result);
-      });
+    return this.http.post(`${this.apiUrl}/tumorcellpercentage/insert`, { percentage, pathologyNum  })
+    .subscribe(result => {
+      console.log('[242][서비스][pathology.service][setTumorCellPercentage]', pathologyNum, percentage, result);
+    });
 
+  }
+
+  // mapd,TotalMappedFusionPanelReads  등록
+  public setMapd(pathologyNum: string, mapd: string , totalMappedFusionPanelReads: string): any {
+    return this.http.post(`${this.apiUrl}/statecontrol/insert`, { pathologyNum, mapd, totalMappedFusionPanelReads  })
+    .subscribe(result => {
+      console.log('[285][서비스][pathology.service][setMapd]', pathologyNum, mapd, totalMappedFusionPanelReads, result);
+    });
   }
 
   // Tumor type

@@ -3,54 +3,79 @@
     <div id="content">
       <div class="select_result_02">
         <table width="100%" border="0" cellspacing="0" cellpadding="0">
-          <tr style="display:flex;justify-content:space-between;align-items: center;">
+          <tr
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+            "
+          >
             <td>
-              <h1 style="font-weight:bold; font-size: 18px;">NGS 고형암 검사 결과 분석 보고서</h1>
+              <h1 style="font-weight: bold; font-size: 18px;">
+                NGS 고형암 검사 결과 분석 보고서
+              </h1>
             </td>
 
             <td>
-              <ngx-barcode [bc-value]="pathologyNum"
-              [bc-font-size]="15"  [bc-height]="40" [bc-background]="'transparent'"
-               [bc-display-value]="true"></ngx-barcode>
+              <ngx-barcode
+                [bc-value]="pathologyNum"
+                [bc-font-size]="15"
+                [bc-height]="40"
+                [bc-background]="'transparent'"
+                [bc-display-value]="true"
+              ></ngx-barcode>
             </td>
           </tr>
         </table>
-
       </div>
       <div class="box pd_20">
-        <table width="100%" cellpadding="0" cellspacing="0" class="table_result03">
+        <table
+          width="100%"
+          cellpadding="0"
+          cellspacing="0"
+          class="table_result03"
+        >
           <colgroup>
-            <col style="width:25%;" />
-            <col style="width:25%;" />
-            <col style="width:25%;" />
-            <col style="width:25%;" />
+            <col style="width: 25%;" />
+            <col style="width: 25%;" />
+            <col style="width: 25%;" />
+            <col style="width: 25%;" />
           </colgroup>
           <tr>
             <th class="table_result_line fontsize">환자이름</th>
-            <td class="txt_c">{{patientInfo.name}}</td>
+            <td class="txt_c">{{ patientInfo.name }}</td>
             <th class="fontsize">등록번호</th>
-            <td class="txt_c ">{{patientInfo.patientID}}</td>
+            <td class="txt_c">{{ patientInfo.patientID }}</td>
           </tr>
           <tbody>
             <tr>
-              <th class="table_result_line fontsize">성별/나이
-              </th>
-              <td class="txt_c">{{patientInfo.gender}}/{{patientInfo.age}}</td>
+              <th class="table_result_line fontsize">성별/나이</th>
+              <td class="txt_c">
+                {{ patientInfo.gender }}/{{ patientInfo.age }}
+              </td>
               <th class="txt_c fontsize">분자병리번호</th>
-              <td class="txt_c">{{patientInfo.pathology_num}}</td>
+              <td class="txt_c">{{ patientInfo.pathology_num }}</td>
             </tr>
           </tbody>
         </table>
-        <div class="main_title mg_t20 mg_b10 main_title_height_25">검체정보</div>
-        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="table_result">
+        <div class="main_title mg_t20 mg_b10 main_title_height_25">
+          검체정보
+        </div>
+        <table
+          width="100%"
+          border="0"
+          cellpadding="0"
+          cellspacing="0"
+          class="table_result"
+        >
           <colgroup>
-            <col width="200px">
-            <col width="150px">
-            <col width="130px">
-            <col width="80px">
-            <col width="200px">
-            <col width="270px">
-            <col width="*">
+            <col width="200px" />
+            <col width="150px" />
+            <col width="130px" />
+            <col width="80px" />
+            <col width="200px" />
+            <col width="270px" />
+            <col width="*" />
           </colgroup>
           <thead>
             <tr>
@@ -66,171 +91,364 @@
           <tbody>
             <tr>
               <td class="table_result_line txt_c" style="height: 40px;">
-                <input type="text" size="10" #dnarnaext class="clr-input" [value]="extraction.dnarna"
-                  (change)="setDNAandRNAextraction(dnarnaext.value)">
+                <input
+                  type="text"
+                  size="10"
+                  #dnarnaext
+                  class="clr-input"
+                  [value]="extraction.dnarna"
+                  (change)="setDNAandRNAextraction(dnarnaext.value)"
+                />
               </td>
               <td class="txt_c">
-                <input type="text" #managementNum size="10" class="clr-input" [value]="extraction.managementNum"
-                  (change)="setManagementNum(managementNum.value)">
+                <input
+                  type="text"
+                  #managementNum
+                  size="10"
+                  class="clr-input"
+                  [value]="extraction.managementNum"
+                  (change)="setManagementNum(managementNum.value)"
+                />
               </td>
               <td class="txt_c">
-                <input type="text" size="10" #keyblock class="clr-input" [value]="extraction.keyblock"
-                  (change)="setKeyblock(keyblock.value)">
+                <input
+                  type="text"
+                  size="10"
+                  #keyblock
+                  class="clr-input"
+                  [value]="extraction.keyblock"
+                  (change)="setKeyblock(keyblock.value)"
+                />
               </td>
               <td class="txt_c">
-
-                <input type="text" size="5" #tumorpercentage class="clr-input"
-                  [value]="extraction.tumorcellpercentage" (change)="setTumorpercentage(tumorpercentage.value)">
+                <input
+                  type="text"
+                  size="5"
+                  #tumorpercentage
+                  class="clr-input"
+                  [value]="extraction.tumorcellpercentage"
+                  (change)="setTumorpercentage(tumorpercentage.value)"
+                />
               </td>
               <td class="txt_c">
-                <input type="text" size="16" #organ class="clr-input" [value]="extraction.organ"
-                  (change)="setOrgan(organ.value)">
+                <input
+                  type="text"
+                  size="16"
+                  #organ
+                  class="clr-input"
+                  [value]="extraction.organ"
+                  (change)="setOrgan(organ.value)"
+                />
               </td>
               <td class="txt_c">
-                <input type="text" size="20" #tumortype class="clr-input" [value]="extraction.tumortype"
-                  (change)="setTumorType(tumortype.value)">
+                <input
+                  type="text"
+                  size="20"
+                  #tumortype
+                  class="clr-input"
+                  [value]="extraction.tumortype"
+                  (change)="setTumorType(tumortype.value)"
+                />
               </td>
               <td class="txt_c">
-
-                <textarea class="textarea_01"
-                                 #diagnosis  [value]="extraction.diagnosis"  [(ngModel)]="extraction.diagnosis" row=2
-                                 (click)="diagnosisFocus()"
-                                 style="width: 100%; height: 100%; border: none">
-                           </textarea>
+                <textarea
+                  class="textarea_01"
+                  #diagnosis
+                  [value]="extraction.diagnosis"
+                  [(ngModel)]="extraction.diagnosis"
+                  row="2"
+                  (click)="diagnosisFocus()"
+                  style="width: 100%; height: 100%; border: none;"
+                ></textarea>
               </td>
             </tr>
           </tbody>
         </table>
 
         <!-- 정도관리 -->
-        <div class="main_title mg_t20 mg_b10 main_title_height_25">정도관리</div>
-        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="table_result">
+        <div class="main_title mg_t20 mg_b10 main_title_height_25">
+          정도관리
+        </div>
+        <table
+          width="100%"
+          border="0"
+          cellpadding="0"
+          cellspacing="0"
+          class="table_result"
+        >
           <colgroup>
-            <col width="190px">
-            <col width="150px">
-            <col width="180px">
-            <col width="100px">
-            <col width="150px">
-            <col width="150px">
-            <col width="150px">
-            <col width="*">
+            <col width="190px" />
+            <col width="150px" />
+            <col width="180px" />
+            <col width="100px" />
+            <col width="150px" />
+            <col width="150px" />
+            <col width="150px" />
+            <col width="*" />
           </colgroup>
           <thead>
             <tr>
-              <th class="table_result_line fontsize">DNA_RnaseP qPCR<br/>ΔCt</th>
-              <th class="fontsize">RNA_18S qPCR<br/>ΔCt</th>
-              <th class="fontsize">Average base<br/>coverage depth<br/>( > 800X )</th>
-              <th class="fontsize">Uniformity<br/>( > 85% )</th>
-              <th class="fontsize">Mean read Length<br/>( > 85bp )</th>
-              <th class="fontsize">Mean Raw Accuracy<br/>( > 99% )</th>
-              <th class="fontsize">MAPD (CNV)<br/>( < 0.5 )</th>
-              <th class="fontsize">RNA_Mapped Reads<br/>( > 500,000 )</th>
+              <th class="table_result_line fontsize">
+                DNA_RnaseP qPCR
+                <br />
+                ΔCt
+              </th>
+              <th class="fontsize">
+                RNA_18S qPCR
+                <br />
+                ΔCt
+              </th>
+              <th class="fontsize">
+                Average base
+                <br />
+                coverage depth
+                <br />
+                ( > 800X )
+              </th>
+              <th class="fontsize">
+                Uniformity
+                <br />
+                ( > 85% )
+              </th>
+              <th class="fontsize">
+                Mean read Length
+                <br />
+                ( > 85bp )
+              </th>
+              <th class="fontsize">
+                Mean Raw Accuracy
+                <br />
+                ( > 99% )
+              </th>
+              <th class="fontsize">
+                MAPD (CNV)
+                <br />
+                ( < 0.5 )
+              </th>
+              <th class="fontsize">
+                RNA_Mapped Reads
+                <br />
+                ( > 500,000 )
+              </th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td class="table_result_line txt_c" style="height: 40px;">
-                <input type="text" size="10" class="clr-input" #dnaRnasep [value]="stateControl.dnaRnasep" (change)="setDnaRnasep(dnaRnasep.value)">
+                <input
+                  type="text"
+                  size="10"
+                  class="clr-input"
+                  #dnaRnasep
+                  [value]="stateControl.dnaRnasep"
+                  (change)="setDnaRnasep(dnaRnasep.value)"
+                />
               </td>
               <td class="txt_c">
-                <input type="text" size="10" class="clr-input" #rna18s [value]="stateControl.rna18s" (change)="setRna18s(rna18s.value)">
+                <input
+                  type="text"
+                  size="10"
+                  class="clr-input"
+                  #rna18s
+                  [value]="stateControl.rna18s"
+                  (change)="setRna18s(rna18s.value)"
+                />
               </td>
               <td class="txt_c">
-                <input type="text" size="10" class="clr-input" #averageBase [value]="stateControl.averageBase" (change)="setAverageBase(averageBase.value)">
+                <input
+                  type="text"
+                  size="10"
+                  class="clr-input"
+                  #averageBase
+                  [value]="stateControl.averageBase"
+                  (change)="setAverageBase(averageBase.value)"
+                />
               </td>
               <td class="txt_c">
-                <input type="text" size="5" class="clr-input" #uniformity [value]="stateControl.uniformity" (change)="setUniformity(uniformity.value)">
+                <input
+                  type="text"
+                  size="5"
+                  class="clr-input"
+                  #uniformity
+                  [value]="stateControl.uniformity"
+                  (change)="setUniformity(uniformity.value)"
+                />
               </td>
               <td class="txt_c">
-                <input type="text" size="16" class="clr-input" #meanRead [value]="stateControl.meanRead" (change)="setMeanRead(meanRead.value)">
+                <input
+                  type="text"
+                  size="16"
+                  class="clr-input"
+                  #meanRead
+                  [value]="stateControl.meanRead"
+                  (change)="setMeanRead(meanRead.value)"
+                />
               </td>
               <td class="txt_c">
-                <input type="text" size="20" class="clr-input" #rawMean [value]="stateControl.meanRaw" (change)="setMeanRaw(rawMean.value)">
+                <input
+                  type="text"
+                  size="20"
+                  class="clr-input"
+                  #rawMean
+                  [value]="stateControl.meanRaw"
+                  (change)="setMeanRaw(rawMean.value)"
+                />
               </td>
               <td class="txt_c">
-                <input type="text" size="30" class="clr-input" #mapd [value]="stateControl.mapd" (change)="setMapd(mapd.value)">
+                <input
+                  type="text"
+                  size="30"
+                  class="clr-input"
+                  #mapd
+                  [value]="stateControl.mapd"
+                  (change)="setMapd(mapd.value)"
+                />
               </td>
               <td class="txt_c">
-                <input type="text" size="30" class="clr-input" #rnaMapped [value]="stateControl.rnaMapped" (change)="setRnaMapped(rnaMapped.value)">
+                <input
+                  type="text"
+                  size="30"
+                  class="clr-input"
+                  #rnaMapped
+                  [value]="stateControl.rnaMapped"
+                  (change)="setRnaMapped(rnaMapped.value)"
+                />
               </td>
             </tr>
           </tbody>
         </table>
         <!-- //정도관리 -->
 
-        <div class="main_title  mg_t20 main_title_height_25">검사결과</div>
+        <div class="main_title mg_t20 main_title_height_25">검사결과</div>
         <div class="sub_title_03_E">Clinically significant biomarkers</div>
         <div class="pd_r20">
-          <div class="sub_title_04"> (1) Mutation: <span *ngIf="!mutation.length" class="sub_title_04">{{noneMu}}</span></div>
+          <div class="sub_title_04">
+            (1) Mutation:
+            <span *ngIf="!mutation.length" class="sub_title_04">
+              {{ noneMu }}
+            </span>
+          </div>
           <div>
             <form [formGroup]="mutationForm">
-
-                <table width="100%" cellpadding="0" cellspacing="0" class="table_result pd_l35">
-
-                  <colgroup>
-
-                    <col width="130px">
-                    <col width="*">
-                    <col width="*">
-                    <col width="10%">
-                    <col width="130px">
-                    <col width="8%">
-                    <col width="8%">
-                    <col width="5%">
-                    <col width="5%">
-                  </colgroup>
+              <table
+                width="100%"
+                cellpadding="0"
+                cellspacing="0"
+                class="table_result pd_l35"
+              >
+                <colgroup>
+                  <col width="130px" />
+                  <col width="*" />
+                  <col width="*" />
+                  <col width="5%" />
+                  <col width="10%" />
+                  <col width="130px" />
+                  <col width="8%" />
+                  <col width="8%" />
+                  <col width="5%" />
+                  <col width="5%" />
+                </colgroup>
                 <thead>
                   <tr>
                     <th class="table_result_line fontsize">Gene</th>
                     <th class="fontsize m-w-160">Amino acid change</th>
                     <th class="fontsize">Nucleotide change</th>
+                    <th class="">Transcript</th>
                     <th class="fontsize">Variant allele frequency</th>
                     <th style="font-size: 14px;">ID</th>
                     <th style="font-size: 14px;" class="m-w-90">Tier</th>
                     <th class="m-w-90">
-                      <button class="btn btn_01" (click)="addMutation()">추가</button>
+                      <button class="btn btn_01" (click)="addMutation()">
+                        추가
+                      </button>
                     </th>
                     <th></th>
                     <th></th>
                   </tr>
                 </thead>
-                <tbody   cdkDropList (cdkDropListDropped)="commentDroped($event)">
-                  <ng-container formArrayName="mutationLists"
-                    *ngFor="let group of mutationLists().controls; let i=index">
+                <tbody cdkDropList (cdkDropListDropped)="commentDroped($event)">
+                  <ng-container
+                    formArrayName="mutationLists"
+                    *ngFor="
+                      let group of mutationLists().controls;
+                      let i = index
+                    "
+                  >
                     <tr [formGroupName]="i" cdkDrag>
-
                       <td class="table_result_line txt_c">
-                        <input type="text" size="10" class="clr-input" formControlName="gene" style="color: red;">
+                        <input
+                          type="text"
+                          size="10"
+                          class="clr-input"
+                          formControlName="gene"
+                          style="color: red;"
+                        />
                       </td>
                       <td class="txt_c">
-                        <input type="text" size="30" class="clr-input" formControlName="aminoAcidChange"
-                          style="color: red;">
+                        <input
+                          type="text"
+                          size="30"
+                          class="clr-input"
+                          formControlName="aminoAcidChange"
+                          style="color: red;"
+                        />
                       </td>
                       <td class="txt_c">
-                        <input type="text" size="30" class="clr-input" formControlName="nucleotideChange">
+                        <input
+                          type="text"
+                          size="30"
+                          class="clr-input"
+                          formControlName="nucleotideChange"
+                        />
+                      </td>
+                      <td></td>
+                      <td class="txt_c">
+                        <input
+                          type="text"
+                          size="5"
+                          class="clr-input"
+                          formControlName="variantAlleleFrequency"
+                        />
                       </td>
                       <td class="txt_c">
-                        <input type="text" size="5" class="clr-input" formControlName="variantAlleleFrequency">
-                      </td>
-                      <td class="txt_c">
-                        <input type="text"  size="10"  class="clr-input" formControlName="ID">
+                        <input
+                          type="text"
+                          size="10"
+                          class="clr-input"
+                          formControlName="ID"
+                        />
                       </td>
                       <td class="txt_c m-w-90">
-                        <input type="text" size="3" class="clr-input" formControlName="tier" style="color: red;">
+                        <input
+                          type="text"
+                          size="3"
+                          class="clr-input"
+                          formControlName="tier"
+                          style="color: red;"
+                        />
                       </td>
                       <td align="center" class="m-w-90">
-                        <img [src]="'assets/images/cancel.png'" (click)="removeMutation(i)">
+                        <img
+                          [src]="'assets/images/cancel.png'"
+                          (click)="removeMutation(i)"
+                        />
                       </td>
                       <td class="txt_c">
-                                <button type="button" class="drag-handle"  cdkDragHandle>
-                                <img [src]="'assets/baseline_unfold_more_black_18dp.png'">
-                            </button>
+                        <button type="button" class="drag-handle" cdkDragHandle>
+                          <img
+                            [src]="'assets/baseline_unfold_more_black_18dp.png'"
+                          />
+                        </button>
                       </td>
 
                       <td>
-                        <button class="btn btn_01" (click)="openDialog(i, 'cMu')">이동</button>
+                        <button
+                          class="btn btn_01"
+                          (click)="openDialog(i, 'cMu')"
+                        >
+                          이동
+                        </button>
                       </td>
-
                     </tr>
                   </ng-container>
                 </tbody>
@@ -238,130 +456,246 @@
             </form>
           </div>
 
-          <br>
-          <div class="sub_title_04"> (2) Copy number alteration: <span *ngIf="!amplifications.length" class="sub_title_04">{{noneAm}}</span>
+          <br />
+          <div class="sub_title_04">
+            (2) Copy number alteration:
+            <span *ngIf="!amplifications.length" class="sub_title_04">
+              {{ noneAm }}
+            </span>
           </div>
 
           <div>
             <form [formGroup]="amplificationsForm">
-              <table width="100%" cellpadding="0" cellspacing="0" class="table_result pd_l35">
+              <table
+                width="100%"
+                cellpadding="0"
+                cellspacing="0"
+                class="table_result pd_l35"
+              >
                 <colgroup>
-                  <col width="130px">
-                  <col width="*">
-                  <col width="45%">
-                  <col width="8%">
-                  <col width="8%">
-                  <col width="5%">
-                  <col width="5%">
+                  <col width="130px" />
+                  <col width="*" />
+                  <col width="45%" />
+                  <col width="8%" />
+                  <col width="8%" />
+                  <col width="5%" />
+                  <col width="5%" />
                 </colgroup>
                 <thead>
                   <tr>
-                    <th class="table_result_line fontsize" style="width:150px;">Gene</th>
-                    <th class="fontsize m-w-150">Region </th>
-                    <th class="fontsize">Estimated copy number </th>
+                    <th
+                      class="table_result_line fontsize"
+                      style="width: 150px;"
+                    >
+                      Gene
+                    </th>
+                    <th class="fontsize m-w-150">Region</th>
+                    <th class="fontsize">Estimated copy number</th>
                     <th style="font-size: 14px;" class="m-w-90">Tier</th>
                     <th class="m-w-90">
-                      <button class="btn btn_01" (click)="addAmplifications()">추가</button>
+                      <button class="btn btn_01" (click)="addAmplifications()">
+                        추가
+                      </button>
                     </th>
                     <th></th>
                     <th></th>
                   </tr>
                 </thead>
-                <tbody   cdkDropList (cdkDropListDropped)="commentDroped2($event)">
-                  <ng-container formArrayName="amplificationsLists"
-                    *ngFor="let group of amplificationsLists().controls; let i=index">
-                    <tr [formGroupName]="i"  cdkDrag>
+                <tbody
+                  cdkDropList
+                  (cdkDropListDropped)="commentDroped2($event)"
+                >
+                  <ng-container
+                    formArrayName="amplificationsLists"
+                    *ngFor="
+                      let group of amplificationsLists().controls;
+                      let i = index
+                    "
+                  >
+                    <tr [formGroupName]="i" cdkDrag>
                       <td class="table_result_line txt_c">
-                        <input type="text" size="10" class="clr-input" formControlName="gene" style="color: red;"></td>
-                      <td class="txt_c"><input type="text" size="30" class="clr-input" formControlName="region"></td>
+                        <input
+                          type="text"
+                          size="10"
+                          class="clr-input"
+                          formControlName="gene"
+                          style="color: red;"
+                        />
+                      </td>
+
                       <td class="txt_c">
-                        <input type="text" size="10" class="clr-input" formControlName="copynumber" style="color: red;">
+                        <input
+                          type="text"
+                          size="30"
+                          class="clr-input"
+                          formControlName="region"
+                        />
                       </td>
                       <td class="txt_c">
-                        <input type="text" size="10" class="clr-input" formControlName="tier" style="color: red;">
+                        <input
+                          type="text"
+                          size="10"
+                          class="clr-input"
+                          formControlName="copynumber"
+                          style="color: red;"
+                        />
+                      </td>
+                      <td class="txt_c">
+                        <input
+                          type="text"
+                          size="10"
+                          class="clr-input"
+                          formControlName="tier"
+                          style="color: red;"
+                        />
                       </td>
                       <td align="center">
-                        <img [src]="'assets/images/cancel.png'" (click)="removeAmplifications(i)">
+                        <img
+                          [src]="'assets/images/cancel.png'"
+                          (click)="removeAmplifications(i)"
+                        />
                       </td>
                       <td class="txt_c">
-                                <button type="button" class="drag-handle"  cdkDragHandle>
-                                <img [src]="'assets/baseline_unfold_more_black_18dp.png'">
-                            </button>
+                        <button type="button" class="drag-handle" cdkDragHandle>
+                          <img
+                            [src]="'assets/baseline_unfold_more_black_18dp.png'"
+                          />
+                        </button>
                       </td>
 
-                       <td>
-                        <button class="btn btn_01" (click)="openDialog(i, 'cCy')">이동</button>
-                       </td>
-
+                      <td>
+                        <button
+                          class="btn btn_01"
+                          (click)="openDialog(i, 'cCy')"
+                        >
+                          이동
+                        </button>
+                      </td>
                     </tr>
-
                   </ng-container>
                 </tbody>
               </table>
             </form>
           </div>
 
-          <div class="sub_title_04 mg_t15 mg_b05"> (3) Fusion: <span *ngIf="!fusion.length"
-              class="sub_title_04">{{noneFu}}</span></div>
+          <div class="sub_title_04 mg_t15 mg_b05">
+            (3) Fusion/Exon Variants/Exon Tiles :
+            <span *ngIf="!fusion.length" class="sub_title_04">
+              {{ noneFu }}
+            </span>
+          </div>
 
           <div>
             <form [formGroup]="fusionForm">
-              <table width="100%" cellpadding="0" cellspacing="0" class="table_result pd_l35">
+              <table
+                width="100%"
+                cellpadding="0"
+                cellspacing="0"
+                class="table_result pd_l35"
+              >
                 <colgroup>
-                  <col width="200px">
-                  <col width="*">
-                  <col width="150px">
-                  <col width="8%">
-                  <col width="8%">
-                  <col width="8%">
-                  <col width="5%">
-                  <col width="5%">
+                  <col width="200px" />
+                  <col width="*" />
+                  <col width="150px" />
+                  <col width="8%" />
+                  <col width="8%" />
+                  <col width="8%" />
+                  <col width="5%" />
+                  <col width="5%" />
                 </colgroup>
                 <thead>
                   <tr>
-                    <th class="table_result_line fontsize" style="width:200px;">Gene (exon)</th>
-                    <th class="fontsize">Breakpoint </th>
+                    <th
+                      class="table_result_line fontsize"
+                      style="width: 200px;"
+                    >
+                      Gene (exon)
+                    </th>
+                    <th class="fontsize">Breakpoint</th>
                     <th class="fontsize">Function</th>
                     <th class="fontsize">Read Count</th>
                     <th class="m-w-90" style="font-size: 14px;">Tier</th>
                     <th class="m-w-90">
-                      <button class="btn btn_01" (click)="addFusion()">추가</button>
+                      <button class="btn btn_01" (click)="addFusion()">
+                        추가
+                      </button>
                     </th>
                     <th></th>
                     <th></th>
                   </tr>
                 </thead>
-                <tbody cdkDropList (cdkDropListDropped)="commentDroped3($event)">
-                  <ng-container formArrayName="fusionLists" *ngFor="let group of fusionLists().controls; let i=index">
+                <tbody
+                  cdkDropList
+                  (cdkDropListDropped)="commentDroped3($event)"
+                >
+                  <ng-container
+                    formArrayName="fusionLists"
+                    *ngFor="let group of fusionLists().controls; let i = index"
+                  >
                     <tr [formGroupName]="i" cdkDrag>
                       <td class="table_result_line txt_c">
-                        <input type="text" class="clr-input" formControlName="gene" style="color: red;">
+                        <input
+                          type="text"
+                          class="clr-input"
+                          formControlName="gene"
+                          style="color: red;"
+                        />
                       </td>
                       <td class="txt_c">
-                        <input type="text" size="30" class="clr-input" formControlName="breakpoint">
+                        <input
+                          type="text"
+                          size="30"
+                          class="clr-input"
+                          formControlName="breakpoint"
+                        />
                       </td>
                       <td class="txt_c">
-                        <input type="text" size="10" class="clr-input" formControlName="functions">
-                      </td>
-                       <td class="txt_c">
-                        <input type="text" size="10" class="clr-input" formControlName="readcount">
+                        <input
+                          type="text"
+                          size="10"
+                          class="clr-input"
+                          formControlName="functions"
+                        />
                       </td>
                       <td class="txt_c">
-                        <input type="text" size="5" class="clr-input" formControlName="tier" style="color: red;">
+                        <input
+                          type="text"
+                          size="10"
+                          class="clr-input"
+                          formControlName="readcount"
+                        />
+                      </td>
+                      <td class="txt_c">
+                        <input
+                          type="text"
+                          size="5"
+                          class="clr-input"
+                          formControlName="tier"
+                          style="color: red;"
+                        />
                       </td>
                       <td align="center">
-                        <img [src]="'assets/images/cancel.png'" (click)="removeFusion(i)">
+                        <img
+                          [src]="'assets/images/cancel.png'"
+                          (click)="removeFusion(i)"
+                        />
                       </td>
                       <td class="txt_c">
-                                <button type="button" class="drag-handle"  cdkDragHandle>
-                                <img [src]="'assets/baseline_unfold_more_black_18dp.png'">
-                            </button>
+                        <button type="button" class="drag-handle" cdkDragHandle>
+                          <img
+                            [src]="'assets/baseline_unfold_more_black_18dp.png'"
+                          />
+                        </button>
                       </td>
 
                       <td>
-                        <button class="btn btn_01" (click)="openDialog(i, 'cFu')">이동</button>
+                        <button
+                          class="btn btn_01"
+                          (click)="openDialog(i, 'cFu')"
+                        >
+                          이동
+                        </button>
                       </td>
-
                     </tr>
                   </ng-container>
                 </tbody>
@@ -373,176 +707,282 @@
         <!-- -----------------------------------  -->
 
         <div class="sub_title_03_E">Relevant Biomarkers</div>
-        <div style="margin-right:18px;">
-            <table width="100%" cellpadding="0" cellspacing="0" class="table_result pd_l35">
-              <colgroup>
-                <col width="200px">
-                <col width="*">
-                <col width="*">
-                <col width="10%">
-              </colgroup>
-              <thead>
-                <tr>
-                  <th class="table_result_line fontsize">Genomic Alteration</th>
-                  <th class="fontsize m-w-160">Relevant Therapies (In this cancer type)</th>
-                  <th class="fontsize">Relevant Therapies (In other cancer type)</th>
-                  <th class="fontsize">Clinical Trials</th>
-                </tr>
-              </thead>
-              <tbody>
-                  <tr  *ngFor="let geno of genoLists">
-                      <td id="border">{{geno.gene}}</td>
-                      <td id="border">{{geno.relevant1}}</td>
-                      <td id="border">{{geno.relevant2}}</td>
-                      <td id="border">{{geno.trial}}</td>
-                  </tr>
-              </tbody>
-            </table>
-            <div  style="margin-left:36px;">
-                <span>Public data sources included in relevant therapies FDA [1], NCCN, EMA [2], ESMO</span>
-            </div>
-
+        <div style="margin-right: 18px;">
+          <table
+            width="100%"
+            cellpadding="0"
+            cellspacing="0"
+            class="table_result pd_l35"
+          >
+            <colgroup>
+              <col width="200px" />
+              <col width="*" />
+              <col width="*" />
+              <col width="10%" />
+            </colgroup>
+            <thead>
+              <tr>
+                <th class="table_result_line fontsize">Genomic Alteration</th>
+                <th class="fontsize m-w-160">
+                  Relevant Therapies (In this cancer type)
+                </th>
+                <th class="fontsize">
+                  Relevant Therapies (In other cancer type)
+                </th>
+                <th class="fontsize">Clinical Trials</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let geno of genoLists">
+                <td id="border">{{ geno.gene }}</td>
+                <td id="border">{{ geno.relevant1 }}</td>
+                <td id="border">{{ geno.relevant2 }}</td>
+                <td id="border">{{ geno.trial }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div style="margin-left: 36px;">
+            <span>
+              Public data sources included in relevant therapies FDA [1], NCCN,
+              EMA [2], ESMO
+            </span>
+          </div>
         </div>
 
         <!-- ----------------------------------   -->
 
-
-
-
-
-        <div class="sub_title_03_E">Prevalent cancer biomarkers of unknown significance</div>
-        <div class="sub_title_04">(1) Mutation: <span *ngIf="!imutation.length" class="sub_title_04">{{noneIMu}}</span>
+        <div class="sub_title_03_E">
+          Prevalent cancer biomarkers of unknown significance
+        </div>
+        <div class="sub_title_04">
+          (1) Mutation:
+          <span *ngIf="!imutation.length" class="sub_title_04">
+            {{ noneIMu }}
+          </span>
         </div>
 
-        <div style="margin-right:18px;">
+        <div style="margin-right: 18px;">
           <form [formGroup]="imutationForm">
-            <table width="100%" cellpadding="0" cellspacing="0" class="table_result pd_l35">
+            <table
+              width="100%"
+              cellpadding="0"
+              cellspacing="0"
+              class="table_result pd_l35"
+            >
               <colgroup>
-                <col width="130px">
-                <col width="*">
-                <col width="*">
-                <col width="10%">
-                <col width="130px">
-                <col width="8%">
-                <col width="8%">
-                <col width="5%">
-                <col width="5%">
+                <col width="130px" />
+                <col width="*" />
+                <col width="*" />
+                <col width="5%"/>
+                <col width="10%" />
+                <col width="130px" />
+                <col width="8%" />
+                <col width="8%" />
+                <col width="5%" />
+                <col width="5%" />
               </colgroup>
               <thead>
                 <tr>
                   <th class="table_result_line fontsize">Gene</th>
                   <th class="fontsize m-w-160">Amino acid change</th>
                   <th class="fontsize">Nucleotide change</th>
+                  <th class="">Transcript</th>
                   <th class="fontsize">Variant allele frequency</th>
                   <th style="font-size: 14x;">ID</th>
-                  <th class="m-w-90" style="font-size: 14px">Note</th>
+                  <th class="m-w-90" style="font-size: 14px;">Note</th>
                   <th class="m-w-90">
-                    <button class="btn btn_01" (click)="addIMutation()">추가</button>
+                    <button class="btn btn_01" (click)="addIMutation()">
+                      추가
+                    </button>
                   </th>
                   <th></th>
                   <th></th>
                 </tr>
               </thead>
               <tbody cdkDropList (cdkDropListDropped)="commentDroped4($event)">
-                <ng-container formArrayName="imutationLists"
-                  *ngFor="let group of imutationLists().controls; let i=index">
+                <ng-container
+                  formArrayName="imutationLists"
+                  *ngFor="let group of imutationLists().controls; let i = index"
+                >
                   <tr [formGroupName]="i" cdkDrag>
                     <td class="table_result_line txt_c">
-                      <input type="text" size="10" class="clr-input" formControlName="gene">
+                      <input
+                        type="text"
+                        size="10"
+                        class="clr-input"
+                        formControlName="gene"
+                      />
                     </td>
                     <td class="txt_c">
-                      <input type="text" size="30" class="clr-input" formControlName="aminoAcidChange">
+                      <input
+                        type="text"
+                        size="30"
+                        class="clr-input"
+                        formControlName="aminoAcidChange"
+                      />
                     </td>
                     <td class="txt_c">
-                      <input type="text" size="30" class="clr-input" formControlName="nucleotideChange">
+                      <input
+                        type="text"
+                        size="30"
+                        class="clr-input"
+                        formControlName="nucleotideChange"
+                      />
+                    </td>
+                    <td></td>
+                    <td class="txt_c">
+                      <input
+                        type="text"
+                        size="5"
+                        class="clr-input"
+                        formControlName="variantAlleleFrequency"
+                      />
                     </td>
                     <td class="txt_c">
-                      <input type="text" size="5" class="clr-input" formControlName="variantAlleleFrequency">
+                      <input
+                        type="text"
+                        size="10"
+                        class="clr-input"
+                        formControlName="ID"
+                      />
                     </td>
                     <td class="txt_c">
-                      <input type="text" size="10" class="clr-input" formControlName="ID">
-                    </td>
-                    <td class="txt_c">
-                      <input type="text" size="3" class="clr-input" formControlName="tier">
+                      <input
+                        type="text"
+                        size="3"
+                        class="clr-input"
+                        formControlName="tier"
+                      />
                     </td>
                     <td align="center">
-                      <img [src]="'assets/images/cancel.png'" (click)="removeIMutation(i)">
+                      <img
+                        [src]="'assets/images/cancel.png'"
+                        (click)="removeIMutation(i)"
+                      />
                     </td>
-                      <td class="txt_c">
-                                <button type="button" class="drag-handle"  cdkDragHandle>
-                                <img [src]="'assets/baseline_unfold_more_black_18dp.png'">
-                            </button>
-                      </td>
+                    <td class="txt_c">
+                      <button type="button" class="drag-handle" cdkDragHandle>
+                        <img
+                          [src]="'assets/baseline_unfold_more_black_18dp.png'"
+                        />
+                      </button>
+                    </td>
 
-                      <td>
-                        <button class="btn btn_01" (click)="openDialog(i, 'pMu')">이동</button>
-                      </td>
-
+                    <td>
+                      <button class="btn btn_01" (click)="openDialog(i, 'pMu')">
+                        이동
+                      </button>
+                    </td>
                   </tr>
                 </ng-container>
               </tbody>
             </table>
           </form>
         </div>
-        <br>
-        <div class="sub_title_04">(2) Copy number alteration: <span *ngIf="!iamplifications.length"
-            class="sub_title_04">{{noneIAm}}</span>&nbsp;&nbsp;</div>
+        <br />
+        <div class="sub_title_04">
+          (2) Copy number alteration:
+          <span *ngIf="!iamplifications.length" class="sub_title_04">
+            {{ noneIAm }}
+          </span>
+          &nbsp;&nbsp;
+        </div>
 
-        <div style="margin-right:18px;">
+        <div style="margin-right: 18px;">
           <form [formGroup]="iamplificationsForm">
-            <table width="100%" cellpadding="0" cellspacing="0" class="table_result pd_l35 mg_b10">
+            <table
+              width="100%"
+              cellpadding="0"
+              cellspacing="0"
+              class="table_result pd_l35 mg_b10"
+            >
               <colgroup>
-                <col width="130px">
-                <col width="*">
-                <col width="45%">
-                <col width="8%">
-                <col width="8%">
-                <col width="5%">
-                <col width="5%">
+                <col width="130px" />
+                <col width="*" />
+                <col width="45%" />
+                <col width="8%" />
+                <col width="8%" />
+                <col width="5%" />
+                <col width="5%" />
               </colgroup>
               <thead>
                 <tr>
-                  <th class="table_result_line fontsize" style="width:130px;">Gene</th>
-                  <th class="fontsize m-w-150">Region </th>
-                  <th class="fontsize">Estimated copy number </th>
-                  <th class="m-w-90" style="font-size: 14px;">Note </th>
+                  <th class="table_result_line fontsize" style="width: 130px;">
+                    Gene
+                  </th>
+                  <th class="fontsize m-w-150">Region</th>
+                  <th class="fontsize">Estimated copy number</th>
+                  <th class="m-w-90" style="font-size: 14px;">Note</th>
                   <th class="m-w-90">
-                    <button class="btn btn_01" (click)="addIAmplifications()">추가</button>
+                    <button class="btn btn_01" (click)="addIAmplifications()">
+                      추가
+                    </button>
                   </th>
                   <th></th>
                   <th></th>
                 </tr>
               </thead>
               <tbody cdkDropList (cdkDropListDropped)="commentDroped5($event)">
-                <ng-container formArrayName="iamplificationsLists"
-                  *ngFor="let group of iamplificationsLists().controls; let i=index">
+                <ng-container
+                  formArrayName="iamplificationsLists"
+                  *ngFor="
+                    let group of iamplificationsLists().controls;
+                    let i = index
+                  "
+                >
                   <tr [formGroupName]="i" cdkDrag>
                     <td class="table_result_line txt_c">
-                      <input type="text" size="10" class="clr-input" formControlName="gene">
+                      <input
+                        type="text"
+                        size="10"
+                        class="clr-input"
+                        formControlName="gene"
+                      />
                     </td>
                     <td class="txt_c">
-                      <input type="text" size="50" class="clr-input" formControlName="region">
+                      <input
+                        type="text"
+                        size="50"
+                        class="clr-input"
+                        formControlName="region"
+                      />
                     </td>
                     <td class="txt_c">
-                      <input type="text" size="20" class="clr-input" formControlName="copynumber">
+                      <input
+                        type="text"
+                        size="20"
+                        class="clr-input"
+                        formControlName="copynumber"
+                      />
                     </td>
 
                     <td class="txt_c">
-                      <input type="text" size="10" class="clr-input" formControlName="note">
+                      <input
+                        type="text"
+                        size="10"
+                        class="clr-input"
+                        formControlName="note"
+                      />
                     </td>
                     <td align="center">
-                      <img [src]="'assets/images/cancel.png'" (click)="removeIAmplifications(i)">
+                      <img
+                        [src]="'assets/images/cancel.png'"
+                        (click)="removeIAmplifications(i)"
+                      />
                     </td>
-                      <td class="txt_c">
-                                <button type="button" class="drag-handle"  cdkDragHandle>
-                                <img [src]="'assets/baseline_unfold_more_black_18dp.png'">
-                            </button>
-                      </td>
+                    <td class="txt_c">
+                      <button type="button" class="drag-handle" cdkDragHandle>
+                        <img
+                          [src]="'assets/baseline_unfold_more_black_18dp.png'"
+                        />
+                      </button>
+                    </td>
 
-                      <td>
-                        <button class="btn btn_01" (click)="openDialog(i, 'pCy')">이동</button>
-                      </td>
-
+                    <td>
+                      <button class="btn btn_01" (click)="openDialog(i, 'pCy')">
+                        이동
+                      </button>
+                    </td>
                   </tr>
                 </ng-container>
               </tbody>
@@ -550,67 +990,114 @@
           </form>
         </div>
 
-        <div class="sub_title_04">(3) Fusion: <span *ngIf="!ifusion.length" class="sub_title_04">{{noneIFu}}</span>
+        <div class="sub_title_04">
+          (3) Fusion/Exon Variants/Exon Tiles :
+          <span *ngIf="!ifusion.length" class="sub_title_04">
+            {{ noneIFu }}
+          </span>
         </div>
 
-        <div style="margin-right:18px;">
+        <div style="margin-right: 18px;">
           <form [formGroup]="ifusionForm">
-            <table width="100%" cellpadding="0" cellspacing="0" class="table_result pd_l35">
+            <table
+              width="100%"
+              cellpadding="0"
+              cellspacing="0"
+              class="table_result pd_l35"
+            >
               <colgroup>
-                <col width="200px">
-                <col width="*">
-                <col width="130px">
-                <col width="8%">
-                <col width="8%">
-                <col width="8%">
-                <col width="5%">
-                <col width="5%">
+                <col width="200px" />
+                <col width="*" />
+                <col width="130px" />
+                <col width="8%" />
+                <col width="8%" />
+                <col width="8%" />
+                <col width="5%" />
+                <col width="5%" />
               </colgroup>
               <thead>
                 <tr>
-                  <th class="table_result_line fontsize" style="width:200px;">Gene (exon)</th>
+                  <th class="table_result_line fontsize" style="width: 200px;">
+                    Gene (exon)
+                  </th>
                   <th class="fontsize min-w">Breakpoint</th>
-                  <th class="fontsize" style="width:150px;">Function</th>
+                  <th class="fontsize" style="width: 150px;">Function</th>
                   <th class="fontsize">Read Count</th>
                   <th class="m-w-90" style="font-size: 14px;">Note</th>
                   <th class="m-w-90">
-                    <button class="btn btn_01" (click)="addIFusion()">추가</button>
+                    <button class="btn btn_01" (click)="addIFusion()">
+                      추가
+                    </button>
                   </th>
                   <th></th>
                   <th></th>
                 </tr>
               </thead>
               <tbody cdkDropList (cdkDropListDropped)="commentDroped6($event)">
-                <ng-container formArrayName="ifusionLists" *ngFor="let group of ifusionLists().controls; let i=index">
+                <ng-container
+                  formArrayName="ifusionLists"
+                  *ngFor="let group of ifusionLists().controls; let i = index"
+                >
                   <tr [formGroupName]="i" cdkDrag>
                     <td class="table_result_line txt_c">
-                      <input type="text" size="15" class="clr-input" formControlName="gene">
+                      <input
+                        type="text"
+                        size="15"
+                        class="clr-input"
+                        formControlName="gene"
+                      />
                     </td>
                     <td class="txt_c">
-                      <input type="text" size="30" class="clr-input" formControlName="breakpoint">
+                      <input
+                        type="text"
+                        size="30"
+                        class="clr-input"
+                        formControlName="breakpoint"
+                      />
                     </td>
                     <td class="txt_c">
-                      <input type="text" size="10" class="clr-input" formControlName="functions">
+                      <input
+                        type="text"
+                        size="10"
+                        class="clr-input"
+                        formControlName="functions"
+                      />
                     </td>
                     <td class="txt_c">
-                      <input type="text" size="10" class="clr-input" formControlName="readcount">
+                      <input
+                        type="text"
+                        size="10"
+                        class="clr-input"
+                        formControlName="readcount"
+                      />
                     </td>
                     <td class="txt_c">
-                      <input type="text" size="10" class="clr-input" formControlName='tier'>
+                      <input
+                        type="text"
+                        size="10"
+                        class="clr-input"
+                        formControlName="tier"
+                      />
                     </td>
                     <td align="center">
-                      <img [src]="'assets/images/cancel.png'" (click)="removeIFusion(i)">
+                      <img
+                        [src]="'assets/images/cancel.png'"
+                        (click)="removeIFusion(i)"
+                      />
                     </td>
-                      <td class="txt_c">
-                                <button type="button" class="drag-handle"  cdkDragHandle>
-                                <img [src]="'assets/baseline_unfold_more_black_18dp.png'">
-                            </button>
-                      </td>
+                    <td class="txt_c">
+                      <button type="button" class="drag-handle" cdkDragHandle>
+                        <img
+                          [src]="'assets/baseline_unfold_more_black_18dp.png'"
+                        />
+                      </button>
+                    </td>
 
-                      <td>
-                        <button class="btn btn_01" (click)="openDialog(i, 'pFu')">이동</button>
-                      </td>
-
+                    <td>
+                      <button class="btn btn_01" (click)="openDialog(i, 'pFu')">
+                        이동
+                      </button>
+                    </td>
                   </tr>
                 </ng-container>
               </tbody>
@@ -618,49 +1105,92 @@
           </form>
         </div>
 
-        <div class="sub_title_03_E">Tumor Mutational Burden (Mutations/Mb):<input type="text"
-            [value]="tumorMutationalBurden" #tumormutationalburden
-            (change)="tumormutationalburdenChange(tumormutationalburden.value)" class="input_02" size="5"
-            style="font-weight:bold; font-size:16px;text-align: center;" /></div>
+        <div class="sub_title_03_E">
+          Tumor Mutational Burden (Mutations/Mb):
+          <input
+            type="text"
+            [value]="tumorMutationalBurden"
+            #tumormutationalburden
+            (change)="tumormutationalburdenChange(tumormutationalburden.value)"
+            class="input_02"
+            size="5"
+            style="font-weight: bold; font-size: 16px; text-align: center;"
+          />
+        </div>
 
-        <div *ngIf="!msiTag" class="sub_title_03_E">MSI Score:<input type="text" [value]="msiScore + '(MSS)'" class="input_02" size="13"
-            #msiscore (change)="msiScoreChange(msiscore.value)"
-            style="font-weight:bold; font-size:16px;text-align:center;" />
-          </div>
-          <div *ngIf="msiTag" class="sub_title_03_E">MSI Score:<input type="text" [value]="msiScore" class="input_02" size="13"
-            #msiscore (change)="msiScoreChange(msiscore.value)"
-            style="font-weight:bold; font-size:16px;text-align:center;" />
-          </div>
+        <div *ngIf="!msiTag" class="sub_title_03_E">
+          MSI Score:
+          <input
+            type="text"
+            [value]="msiScore + '(MSS)'"
+            class="input_02"
+            size="13"
+            #msiscore
+            (change)="msiScoreChange(msiscore.value)"
+            style="font-weight: bold; font-size: 16px; text-align: center;"
+          />
+        </div>
+        <div *ngIf="msiTag" class="sub_title_03_E">
+          MSI Score:
+          <input
+            type="text"
+            [value]="msiScore"
+            class="input_02"
+            size="13"
+            #msiscore
+            (change)="msiScoreChange(msiscore.value)"
+            style="font-weight: bold; font-size: 16px; text-align: center;"
+          />
+        </div>
 
-
-        <div class="sub_title_03_E">Essential genomic alterations involving following genes were not found.</div>
+        <div class="sub_title_03_E">
+          Essential genomic alterations involving following genes were not
+          found.
+        </div>
         <div class="list_01">
-          <textarea class="textarea_01" rows="4" cols="250" style="margin-left: 35px;width:97%;"
-            [(ngModel)]="specialment">
-                  </textarea>
+          <textarea
+            class="textarea_01"
+            rows="4"
+            cols="250"
+            style="margin-left: 35px; width: 97%;"
+            [(ngModel)]="specialment"
+          ></textarea>
         </div>
         <div class="sub_title_04">[NOTE]</div>
         <div class="list_01 textareabox">
-          <textarea class="textarea_01" rows="8" cols="200" [(ngModel)]="notecontents"
-            style="margin-left: 42px;margin-right:5px; width:98%;">
-                </textarea>
+          <textarea
+            class="textarea_01"
+            rows="8"
+            cols="200"
+            [(ngModel)]="notecontents"
+            style="margin-left: 42px; margin-right: 5px; width: 98%;"
+          ></textarea>
         </div>
 
         <hr class="mg_t30" />
-        <div class="main_title mg_t20 mg_b10">해석적 보고
+        <div class="main_title mg_t20 mg_b10">
+          해석적 보고
 
           <a [href]="getUrl()" target="_blank">
             <button class="btn btn_01">링크</button>
-          </a></div>
+          </a>
+        </div>
 
         <div class="list_01 textareabox">
-          <textarea class="textarea_01" rows="20" cols="200" #report [(ngModel)]="generalReport"
-            style="margin-left: 42px;margin-right:5px; width:98%;">
-                </textarea>
+          <textarea
+            class="textarea_01"
+            rows="20"
+            cols="200"
+            #report
+            [(ngModel)]="generalReport"
+            style="margin-left: 42px; margin-right: 5px; width: 98%;"
+          ></textarea>
         </div>
         <hr class="mg_t30" />
-        <div class="main_title mg_t20 mg_b10 main_title_height_25">검사보고</div>
-        <div class="sub_title_03"> 검사시약</div>
+        <div class="main_title mg_t20 mg_b10 main_title_height_25">
+          검사보고
+        </div>
+        <div class="sub_title_03">검사시약</div>
         <div class="list_01">
           <ul>
             <li>Oncomine Comprehensive Assay plus (ThermoFisher scientific)</li>
@@ -694,41 +1224,69 @@
             <li>Max fold difference for loss: 0.7</li>
           </ul>
         </div>
-        <div class="sub_title_03_E">Tier classification (Reference: J Mol Diagn. 2017 Jan;19(1):4-23.)</div>
-        <div class="sub_title_04"> (1) I</div>
+        <div class="sub_title_03_E">
+          Tier classification (Reference: J Mol Diagn. 2017 Jan;19(1):4-23.)
+        </div>
+        <div class="sub_title_04">(1) I</div>
         <div class="list_01">
           <ul>
-            <li>Biomarker predicts response or resistance to EMA or FDA approved therapies in this cancer type</li>
-            <li>Biomarker is included in ESMO or NCCN guidelines that predict response or resistance to
-              therapies in this cancer type</li>
+            <li>
+              Biomarker predicts response or resistance to EMA or FDA approved
+              therapies in this cancer type
+            </li>
+            <li>
+              Biomarker is included in ESMO or NCCN guidelines that predict
+              response or resistance to therapies in this cancer type
+            </li>
           </ul>
         </div>
         <div class="sub_title_04">(2) II</div>
         <div class="list_01">
           <ul>
-            <li>Biomarker predicts response or resistance to EMA or FDA approved therapies in other cancer
-              types</li>
-            <li>Biomarker is included in ESMO or NCCN guidelines that predict response or resistance to
-              therapies in other cancer types</li>
+            <li>
+              Biomarker predicts response or resistance to EMA or FDA approved
+              therapies in other cancer types
+            </li>
+            <li>
+              Biomarker is included in ESMO or NCCN guidelines that predict
+              response or resistance to therapies in other cancer types
+            </li>
             <li>Biomarker is an inclusion criteria for clinical trials</li>
           </ul>
         </div>
         <div class="sub_title_04">[Comment]</div>
         <div class="list_01">
           <ul>
-            <li>상기 검사 방법, 시약의 정도 관리 및 검사 결과는 병리과 전문의에 의해 확인되었습니다.</li>
-            <li>상기 검사는 종양조직만을 이용하기 때문에 도출된 염기서열 변이가 생식세포 변이인지 체세포 변이
-              인지 구분이 어렵습니다.</li>
-            <li>돌연변이가 존재하더라도 검출 기준치 미만인 경우 검출이 어려울 수 있습니다.</li>
+            <li>
+              상기 검사 방법, 시약의 정도 관리 및 검사 결과는 병리과 전문의에
+              의해 확인되었습니다.
+            </li>
+            <li>
+              상기 검사는 종양조직만을 이용하기 때문에 도출된 염기서열 변이가
+              생식세포 변이인지 체세포 변이 인지 구분이 어렵습니다.
+            </li>
+            <li>
+              돌연변이가 존재하더라도 검출 기준치 미만인 경우 검출이 어려울 수
+              있습니다.
+            </li>
           </ul>
         </div>
         <hr class="mg_t30" />
-        <div class="main_title mg_t20 mg_b10 main_title_height_25">타겟 유전자 목록</div>
-        <div class="sub_title_03_E">Oncomine Comprehensive Assay plus (ThermoFisher scientific)</div>
-        <table border="0" cellspacing="0" cellpadding="0" class="table_result04 pd_l20">
+        <div class="main_title mg_t20 mg_b10 main_title_height_25">
+          타겟 유전자 목록
+        </div>
+        <div class="sub_title_03_E">
+          Oncomine Comprehensive Assay plus (ThermoFisher scientific)
+        </div>
+        <table
+          border="0"
+          cellspacing="0"
+          cellpadding="0"
+          class="table_result04 pd_l20"
+        >
           <tr>
-            <th colspan="3" class="table_result_line">Hotspot genes (165개) </th>
-            <th colspan="4">Full-coding DNA sequence (227개) </th>
+            <th colspan="3" class="table_result_line">Hotspot genes (165개)</th>
+            <th colspan="4">Full-coding DNA sequence (227개)</th>
             <th>CNV gain only (19개)</th>
             <th>Fusion (49개)</th>
             <th colspan="2">TMB only genes (86개)</th>
@@ -795,149 +1353,153 @@
                 <li>WAS</li>
               </ul>
             </td>
-            <td rowspan="2" valign="top" class="table_result_line table_result04_bg">
+            <td
+              rowspan="2"
+              valign="top"
+              class="table_result_line table_result04_bg"
+            >
               <ul>
-                <li class="fb">+ CNV </li>
-                <li> ABL1</li>
-                <li> ABL2</li>
-                <li> AKT1</li>
-                <li> AKT2</li>
-                <li> AKT3</li>
-                <li> ALK</li>
-                <li> AR</li>
-                <li> ARAF</li>
-                <li> AURKA</li>
-                <li> AURKC</li>
-                <li> AXL</li>
-                <li> BCL2</li>
-                <li> BCL2L12</li>
-                <li> BCL6</li>
-                <li> BRAF</li>
-                <li> CARD11</li>
-                <li> CBL</li>
-                <li> CCND1</li>
-                <li> CCND2</li>
-                <li> CCND3</li>
-                <li> CCNE1</li>
-                <li> CDK4</li>
-                <li> CDK6</li>
-                <li> CHD4</li>
-                <li> DDR2</li>
-                <li> EGFR</li>
-                <li> EIF1AX</li>
-                <li> ERBB2</li>
-                <li> ERBB3</li>
-                <li> ERBB4</li>
-                <li> ESR1</li>
-                <li> EZH2</li>
-                <li> FAM135B</li>
-                <li> FGFR1</li>
-                <li> FGFR2</li>
-                <li> FGFR3</li>
-                <li> FGFR4</li>
-                <li> FLT3</li>
-                <li> FLT4</li>
-                <li> FOXA1</li>
-                <li> GATA2</li>
-                <li> GNAS</li>
-                <li> H3F3A</li>
-                <li> H3F3B</li>
-                <li> IDH2</li>
-                <li> IKBKB</li>
-                <li> IL7R</li>
-                <li> KDR</li>
-                <li> KIT</li>
-                <li> KLF5</li>
-                <li> KRAS</li>
-                <li> MAGOH</li>
-                <li> MAP2K1</li>
-                <li> MAPK1</li>
-                <li> MAX</li>
-                <li> MDM4</li>
+                <li class="fb">+ CNV</li>
+                <li>ABL1</li>
+                <li>ABL2</li>
+                <li>AKT1</li>
+                <li>AKT2</li>
+                <li>AKT3</li>
+                <li>ALK</li>
+                <li>AR</li>
+                <li>ARAF</li>
+                <li>AURKA</li>
+                <li>AURKC</li>
+                <li>AXL</li>
+                <li>BCL2</li>
+                <li>BCL2L12</li>
+                <li>BCL6</li>
+                <li>BRAF</li>
+                <li>CARD11</li>
+                <li>CBL</li>
+                <li>CCND1</li>
+                <li>CCND2</li>
+                <li>CCND3</li>
+                <li>CCNE1</li>
+                <li>CDK4</li>
+                <li>CDK6</li>
+                <li>CHD4</li>
+                <li>DDR2</li>
+                <li>EGFR</li>
+                <li>EIF1AX</li>
+                <li>ERBB2</li>
+                <li>ERBB3</li>
+                <li>ERBB4</li>
+                <li>ESR1</li>
+                <li>EZH2</li>
+                <li>FAM135B</li>
+                <li>FGFR1</li>
+                <li>FGFR2</li>
+                <li>FGFR3</li>
+                <li>FGFR4</li>
+                <li>FLT3</li>
+                <li>FLT4</li>
+                <li>FOXA1</li>
+                <li>GATA2</li>
+                <li>GNAS</li>
+                <li>H3F3A</li>
+                <li>H3F3B</li>
+                <li>IDH2</li>
+                <li>IKBKB</li>
+                <li>IL7R</li>
+                <li>KDR</li>
+                <li>KIT</li>
+                <li>KLF5</li>
+                <li>KRAS</li>
+                <li>MAGOH</li>
+                <li>MAP2K1</li>
+                <li>MAPK1</li>
+                <li>MAX</li>
+                <li>MDM4</li>
               </ul>
             </td>
-            <td rowspan="2" valign="top" class="table_result04_bg ">
+            <td rowspan="2" valign="top" class="table_result04_bg">
               <ul>
-                <li> +MECOM</li>
-                <li> MEF2B</li>
-                <li> MET</li>
-                <li> MITF</li>
-                <li> MPL</li>
-                <li> MTOR</li>
-                <li> MYC</li>
-                <li> MYCN</li>
-                <li> MYD88</li>
-                <li> NFE2L2</li>
-                <li> NRAS</li>
-                <li> NTRK1</li>
-                <li> NTRK3</li>
-                <li> PCBP1</li>
-                <li> PDGFRA</li>
-                <li> PDGFRB</li>
-                <li> PIK3C2B</li>
-                <li> PIK3CA</li>
-                <li> PIK3CB</li>
-                <li> PIK3R2</li>
-                <li> PIM1</li>
-                <li> PLCG1</li>
-                <li> PPP2R1A</li>
-                <li> PPP6C</li>
-                <li> PRKACA</li>
-                <li> PTPN11</li>
-                <li> PXDNL</li>
-                <li> RAC1</li>
-                <li> RAF1</li>
-                <li> RARA</li>
-                <li> RET</li>
-                <li> RHEB</li>
-                <li> RICTOR</li>
-                <li> RIT1 </li>
-                <li> ROS1</li>
-                <li> SETBP1</li>
-                <li> SF3B1</li>
-                <li> SLCO1B3</li>
-                <li> SMC1A</li>
-                <li> SMO</li>
-                <li> SPOP</li>
-                <li> SRC</li>
-                <li> STAT3</li>
-                <li> STAT6</li>
-                <li> TERT</li>
-                <li> TOP1</li>
-                <li> TPMT</li>
-                <li> U2AF1</li>
-                <li> USP8</li>
-                <li> XPO1</li>
-                <li> ZNF217</li>
-                <li> ZNF429</li>
+                <li>+MECOM</li>
+                <li>MEF2B</li>
+                <li>MET</li>
+                <li>MITF</li>
+                <li>MPL</li>
+                <li>MTOR</li>
+                <li>MYC</li>
+                <li>MYCN</li>
+                <li>MYD88</li>
+                <li>NFE2L2</li>
+                <li>NRAS</li>
+                <li>NTRK1</li>
+                <li>NTRK3</li>
+                <li>PCBP1</li>
+                <li>PDGFRA</li>
+                <li>PDGFRB</li>
+                <li>PIK3C2B</li>
+                <li>PIK3CA</li>
+                <li>PIK3CB</li>
+                <li>PIK3R2</li>
+                <li>PIM1</li>
+                <li>PLCG1</li>
+                <li>PPP2R1A</li>
+                <li>PPP6C</li>
+                <li>PRKACA</li>
+                <li>PTPN11</li>
+                <li>PXDNL</li>
+                <li>RAC1</li>
+                <li>RAF1</li>
+                <li>RARA</li>
+                <li>RET</li>
+                <li>RHEB</li>
+                <li>RICTOR</li>
+                <li>RIT1</li>
+                <li>ROS1</li>
+                <li>SETBP1</li>
+                <li>SF3B1</li>
+                <li>SLCO1B3</li>
+                <li>SMC1A</li>
+                <li>SMO</li>
+                <li>SPOP</li>
+                <li>SRC</li>
+                <li>STAT3</li>
+                <li>STAT6</li>
+                <li>TERT</li>
+                <li>TOP1</li>
+                <li>TPMT</li>
+                <li>U2AF1</li>
+                <li>USP8</li>
+                <li>XPO1</li>
+                <li>ZNF217</li>
+                <li>ZNF429</li>
               </ul>
             </td>
             <td valign="top" class="table_result_line table_result_right">
               <ul>
-                <li>CALR </li>
+                <li>CALR</li>
                 <li>CIITA</li>
-                <li>CYP2D6 </li>
-                <li>ERCC5 </li>
-                <li>FAS </li>
-                <li>ID3 </li>
-                <li>KLHL13 </li>
-                <li>MTUS2 </li>
-                <li>PSMB10 </li>
+                <li>CYP2D6</li>
+                <li>ERCC5</li>
+                <li>FAS</li>
+                <li>ID3</li>
+                <li>KLHL13</li>
+                <li>MTUS2</li>
+                <li>PSMB10</li>
                 <li>PSMB8</li>
-                <li>PSMB9 </li>
+                <li>PSMB9</li>
                 <li>RNASEH2C</li>
-                <li>RPL22 </li>
-                <li>RPL5 </li>
-                <li>RUNX1T1 </li>
-                <li>SDHC </li>
+                <li>RPL22</li>
+                <li>RPL5</li>
+                <li>RUNX1T1</li>
+                <li>SDHC</li>
                 <li>SOCS1</li>
-                <li>STAT1 </li>
-                <li>TMEM132D </li>
-                <li>UGT1A1 </li>
+                <li>STAT1</li>
+                <li>TMEM132D</li>
+                <li>UGT1A1</li>
                 <li>ZBTB20</li>
               </ul>
             </td>
-            <td rowspan="2" valign="top" class="table_result04_bg ">
+            <td rowspan="2" valign="top" class="table_result04_bg">
               <ul>
                 <li>CDK12</li>
                 <li>CDKN1A</li>
@@ -998,7 +1560,7 @@
                 <li>HNF1A</li>
               </ul>
             </td>
-            <td rowspan="2" valign="top" class="table_result04_bg ">
+            <td rowspan="2" valign="top" class="table_result04_bg">
               <ul>
                 <li>INPP4B</li>
                 <li>JAK1</li>
@@ -1059,12 +1621,12 @@
                 <li>PRDM1</li>
               </ul>
             </td>
-            <td rowspan="2" valign="top" class="table_result04_bg ">
+            <td rowspan="2" valign="top" class="table_result04_bg">
               <ul>
                 <li>PRKM9</li>
                 <li>PRKAR1A</li>
                 <li>PTCH1</li>
-                <li>PTEN </li>
+                <li>PTEN</li>
                 <li>PTPRT</li>
                 <li>RAD50</li>
                 <li>RAD51</li>
@@ -1139,7 +1701,7 @@
                 <li>MDM2</li>
                 <li>MYCL</li>
                 <li>RPS6KB1</li>
-                <li>RPTOR </li>
+                <li>RPTOR</li>
                 <li>YAP1</li>
                 <li>YES1</li>
               </ul>
@@ -1295,7 +1857,7 @@
           <tr>
             <td valign="top" class="table_result_line table_result04_bg">
               <ul>
-                <li class="fb">+ CNV Loss </li>
+                <li class="fb">+ CNV Loss</li>
                 <li>ABRAXAS1</li>
                 <li>ACVR1B</li>
                 <li>ACVR2A</li>
@@ -1336,54 +1898,101 @@
           </tr>
         </table>
         <div class="sub_title_03_E">Comment</div>
-        <div class="font_14 pd_l30">본 검사는 위 목록의 약 500 여개 유전자에 대한 검출 알고리즘을 사용하며, 포함되지 않은 유전자에 대해서는 별도의 추가 검사가 필요할 수 있습니다.
+        <div class="font_14 pd_l30">
+          본 검사는 위 목록의 약 500 여개 유전자에 대한 검출 알고리즘을
+          사용하며, 포함되지 않은 유전자에 대해서는 별도의 추가 검사가 필요할 수
+          있습니다.
         </div>
         <hr class="mg_t30 mg_b20" />
         <table width="100%" border="0" cellspacing="0" cellpadding="0">
           <tr>
-            <td class="txt_l font_16 fb">Date of report : {{reportday}} </td>
+            <td class="txt_l font_16 fb">Date of report : {{ reportday }}</td>
 
-           <td class="txt_c font_16 fb">Examined by :
-             <select #examine class="select_01" (change)="examimed(examine.value)" >
-              <option [value]="'none'">선택</option>
-               <option [value]="part.user_id + '_' + part.user_nm"  [selected]="part.user_nm === this.examedname"
-                 *ngFor="let part of mt;let i = index;">{{part.user_nm}}</option>
-             </select>
-           </td>
-           <td class="txt_r font_16 fb">Rechecked by :
-             <select #rechecked class="select_01" (change)="checked(rechecked.value)">
-               <option [value]="'none'">선택</option>
-               <option [value]="part.user_id + '_' + part.user_nm"  [selected]="part.user_nm === this.checkername"
-                 *ngFor="let part of dt;let i = index;">{{part.user_nm}}</option>
-             </select>
-           </td>
+            <td class="txt_c font_16 fb">
+              Examined by :
+              <select
+                #examine
+                class="select_01"
+                (change)="examimed(examine.value)"
+              >
+                <option [value]="'none'">선택</option>
+                <option
+                  [value]="part.user_id + '_' + part.user_nm"
+                  [selected]="part.user_nm === this.examedname"
+                  *ngFor="let part of mt; let i = index"
+                >
+                  {{ part.user_nm }}
+                </option>
+              </select>
+            </td>
+            <td class="txt_r font_16 fb">
+              Rechecked by :
+              <select
+                #rechecked
+                class="select_01"
+                (change)="checked(rechecked.value)"
+              >
+                <option [value]="'none'">선택</option>
+                <option
+                  [value]="part.user_id + '_' + part.user_nm"
+                  [selected]="part.user_nm === this.checkername"
+                  *ngFor="let part of dt; let i = index"
+                >
+                  {{ part.user_nm }}
+                </option>
+              </select>
+            </td>
           </tr>
         </table>
       </div>
       <div class="foot_btn mg_t30 pd_b30 txt_c main_btn">
         <ul>
           <li>
-             <button type="button" class="btn btn_01" (click)="goBack()">HOME</button>
+            <button type="button" class="btn btn_01" (click)="goBack()">
+              HOME
+            </button>
           </li>
           <li>
-            <input type="text" [value]="imagemsg" class="input_02"  readonly />
+            <input type="text" [value]="imagemsg" class="input_02" readonly />
           </li>
           <li>
-            <button type="button" class="btn btn_01" (click)="printScreen()">출력</button>
+            <button type="button" class="btn btn_01" (click)="printScreen()">
+              출력
+            </button>
           </li>
           <li>
-            <button type="button" class="btn btn_01"  [disabled]="getStatus(1)" (click)="tempSave()">저장</button>
+            <button
+              type="button"
+              class="btn btn_01"
+              [disabled]="getStatus(1)"
+              (click)="tempSave()"
+            >
+              저장
+            </button>
           </li>
 
           <li>
-            <button type="button" class="btn btn_01" [disabled]="getStatus(3)" (click)="makeEMRBase()">EMR전송</button>
+            <button
+              type="button"
+              class="btn btn_01"
+              [disabled]="getStatus(3)"
+              (click)="makeEMRBase()"
+            >
+              EMR전송
+            </button>
           </li>
           <li>
-            <button type="button" class="btn btn_01" [disabled]="getStatus(4)" (click)="reset()">전송취소</button>
+            <button
+              type="button"
+              class="btn btn_01"
+              [disabled]="getStatus(4)"
+              (click)="reset()"
+            >
+              전송취소
+            </button>
           </li>
         </ul>
       </div>
     </div>
-
   </div>
 </div>

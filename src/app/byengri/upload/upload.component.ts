@@ -38,7 +38,9 @@ export class UploadComponent implements OnInit {
   msiScore: string;
   msiUnit: string;
   type: string;
-  percentage: number;
+  percentage: string;
+  mapd: string;
+  TotalMappedFusionPanelReads: string;
   status$ = new Subject();
   status = [];
   filteredOriginData: IFilteredOriginData[] = [];
@@ -482,22 +484,27 @@ export class UploadComponent implements OnInit {
           lists.push(item[0]);
         }
       });
-      console.log('==== [382][nonfilter]', lists);
+      console.log('==== [495][nonfilter]', lists);
       lists.forEach(list => {
         const msiList = list.split('##')[1].split('=');
-        console.log('==== [398][nonfilter]', msiList);
+        console.log('==== [488][nonfilter]', msiList);
         if (msiList[0] === 'sampleDiseaseType') {
           this.type = msiList[1].replace(/(\r\n|\r)/gm, '');
           this.pathologyService.setTumortype(this.type, this.pathologyNum);
           this.status$.next('type');
         } else if (msiList[0] === 'CellularityAsAFractionBetween0-1') {
-          this.percentage = parseFloat(msiList[1]) * 100;
-
+          this.percentage = (parseFloat(msiList[1]) * 100).toFixed(0);
           this.status$.next('percentage');
+        } else if (msiList[0] === 'mapd') {
+          this.mapd = msiList[1];
+        } else if (msiList[0] === 'TotalMappedFusionPanelReads') {
+          this.TotalMappedFusionPanelReads = msiList[1];
         }
       });
-
-      this.pathologyService.setTumorCellPercentage(this.percentage.toString(), this.pathologyNum); // 퍼센트
+      // console.log('[504] ', this.percentage, this.mapd, this.TotalMappedFusionPanelReads);
+      this.pathologyService.setTumorCellPercentage(this.percentage.toString(), this.pathologyNum ); // 퍼센트
+      // mapd,TotalMappedFusionPanelReads 를 statecontrol 에 등록
+      this.pathologyService.setMapd(this.pathologyNum, this.mapd , this.TotalMappedFusionPanelReads);
     };
     reader.readAsText(file);
 

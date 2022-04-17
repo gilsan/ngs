@@ -30,6 +30,7 @@ export class FilteredService {
   // tumorcellpercentage/list POST { pathologyNum: "123456" }
   getTumorcellpercentage(pathologyNum: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/tumorcellpercentage/list`, { pathologyNum });
+
   }
 
   // tumorMutationalBurden/list   POST { pathologyNum: "123456" }

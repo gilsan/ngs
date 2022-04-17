@@ -766,7 +766,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
           tumortypes = '';
         }
 
-        console.log('[779][tumorcellpercentage]', tumorcellpercentageVal);
+        console.log('[769][tumorcellpercentage]', tumorcellpercentageVal);
         if (tumorcellpercentageVal.length > 0) {
           this.tumorcellpercentage = tumorcellpercentageVal[0].tumorcellpercentage.trim(); // 공백 없앰
         } else {
