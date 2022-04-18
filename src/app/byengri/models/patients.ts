@@ -18,6 +18,7 @@ export interface IFilteredOriginData {
   variantID: string;
   variantName: string;
   pathologyNum: string;
+  transcript: string;
 }
 
 

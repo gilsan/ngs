@@ -563,7 +563,8 @@ export class UploadComponent implements OnInit {
               cytoband: list[this.findGenePostion('CytoBand')].trim(),
               variantID: list[this.findGenePostion('Variant ID')].trim(),
               variantName: list[this.findGenePostion('Variant Name')].trim(),
-              pathologyNum: this.pathologyNum
+              pathologyNum: this.pathologyNum,
+              transcript: list[this.findGenePostion('Transcript')].trim()
               /*
 
               */
@@ -583,7 +584,8 @@ export class UploadComponent implements OnInit {
               cytoband: list[this.findGenePostion('CytoBand')].trim(),
               variantID: list[this.findGenePostion('Variant ID')].trim(),
               variantName: list[this.findGenePostion('Variant Name')].trim(),
-              pathologyNum: this.pathologyNum
+              pathologyNum: this.pathologyNum,
+              transcript: list[this.findGenePostion('Transcript')].trim()
             });
 
           }

@@ -290,6 +290,7 @@ export class FileuploadComponent implements OnInit {
             variantID: list[17].trim(),
             variantName: list[18].trim(),
             pathologyNum: this.pathologyNum,
+            transcript: list[38].trim()
           });
         }
 
