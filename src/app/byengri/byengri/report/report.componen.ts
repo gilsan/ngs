@@ -514,7 +514,8 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
               variantAlleleFrequency: item.variant_allele_frequency,
               ID: item.variant_id,
               tier: item.tier,
-              seq: index
+              seq: index,
+              transcript: item.transcript
             });
             this.mutationLists().push(this.createMutaion({
               gene: item.gene,
@@ -523,6 +524,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
               variantAlleleFrequency: item.variant_allele_frequency,
               ID: item.variant_id,
               tier: item.tier,
+              transcript: item.transcript
             }, index));
           });
         } else {
@@ -616,7 +618,8 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
               nucleotideChange: item.nucleotide_change,
               variantAlleleFrequency: item.variant_allele_frequency,
               ID: item.variant_id,
-              tier: item.tier
+              tier: item.tier,
+              transcript: item.transcript
             });
             this.imutationLists().push(this.createIMutaion({
               gene: item.gene,
@@ -625,7 +628,8 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
               variantAlleleFrequency: item.variant_allele_frequency,
               ID: item.variant_id,
               tier: item.tier,
-              seq: item.index
+              seq: item.index,
+              transcript: item.transcript
             }, index));
           });
 
@@ -2125,7 +2129,8 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       variantAlleleFrequency: mutation.variantAlleleFrequency,
       ID: mutation.ID,
       tier: mutation.tier,
-      seq: index
+      seq: index,
+      transcript: mutation.transcript
     });
   }
 
@@ -2141,7 +2146,8 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       variantAlleleFrequency: '',
       ID: '',
       tier: '',
-      seq: ''
+      seq: '',
+      transcript: ''
     });
   }
 
@@ -2287,7 +2293,8 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       variantAlleleFrequency: mutation.variantAlleleFrequency,
       ID: mutation.ID,
       tier: mutation.tier,
-      seq: index
+      seq: index,
+      transcript: mutation.transcript
     });
   }
 
@@ -2303,14 +2310,15 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       variantAlleleFrequency: '',
       ID: '',
       tier: '',
-      seq: ''
+      seq: '',
+      transcript: ''
     });
   }
 
   addIMutation(): void {
     this.imutationLists().push(this.newIMutation());
     this.imutation.push({
-      gene: '', aminoAcidChange: '', nucleotideChange: '', variantAlleleFrequency: '', ID: '', tier: '', seq: ''
+      gene: '', aminoAcidChange: '', nucleotideChange: '', variantAlleleFrequency: '', ID: '', tier: '', seq: '', transcript: ''
     });
     const len = this.imutationLists().getRawValue().length;
     console.log('[1436][ addIMutation]', len);

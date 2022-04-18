@@ -63,6 +63,7 @@ export interface IMutation {
   ID: string;
   tier?: string;
   seq?: string;
+  transcript?: string;
 }
 
 // 검사결과 amplication
