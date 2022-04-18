@@ -497,6 +497,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     ///////////////////////////////////////
     this.subs.sink = this.searchService.getMutationC(pathologyNo) // mutation 리스트
       .subscribe(data => {
+        console.log('[500][mutation]', data);
         if (data.message !== 'no data') {
           let tempmu;
           if (data.length > 1) {
@@ -721,7 +722,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     this.reportday = this.today();
     const filteredOriginaData$ = this.filteredService.getfilteredOriginDataList(pathologynum)
       .pipe(
-        // tap(itemlists => console.log('[473][tab]', itemlists)),
+        tap(itemlists => console.log('[725][filteredOriginaData]', itemlists)),
         map((orgitems) => orgitems.filter(item => item.OncomineVariant !== 'Deletion')),
         // tap(itemlists => console.log('[475][tab]', itemlists))
       );
@@ -913,6 +914,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
               let indexm: number;
               let nucleotideChange: string;
               let customid = '';
+              let transcript = '';
               let variantAlleleFrequency = '';
               let aminoAcidChange = '';
               let tempAminoAcidChange = '';
@@ -953,6 +955,8 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
               if (indexm !== -1) {
                 customid = this.filteredOriginData[indexm].variantID;
                 if (customid === undefined || customid === null) { customid = ''; }
+                transcript = this.filteredOriginData[indexm].transcript;
+                if (transcript === undefined || transcript === null) { transcript = ''; }
                 // console.log('==== [850][]', gene, tempAminoAcidChange, type);
                 if (gene === 'TERT' && tempAminoAcidChange === 'p.(?)') {
                   aminoAcidChange = 'Promotor mutant';
@@ -989,7 +993,8 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                   nucleotideChange,
                   variantAlleleFrequency,
                   ID: customid,
-                  tier
+                  tier,
+                  transcript
                 });
 
               }
@@ -1090,6 +1095,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
           if (type.charAt(0) === 'p' || type.charAt(0) === 'c') {  // 임시수정
             // console.log('[1058]', members, gene, type);
             let customid = '';
+            let transcript = '';
             let aminoAcidchange = '';
             let tempaminoAcidchange = '';
             let nucleotidechange = '';
@@ -1118,6 +1124,9 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
             if (indexm !== -1) {
               customid = this.filteredOriginData[indexm].variantID;
               if (customid === undefined || customid === null) { customid = ''; }
+
+              transcript = this.filteredOriginData[indexm].transcript;
+              if (transcript === undefined || transcript === null) { transcript = ''; }
 
               variantAlleleFrequency = this.filteredOriginData[indexm].frequency;
               if (variantAlleleFrequency === undefined || variantAlleleFrequency === null || variantAlleleFrequency === '') {
@@ -1163,7 +1172,8 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                 nucleotideChange: nucleotidechange,
                 variantAlleleFrequency: tempVariantAlleleFrequency,
                 ID: customid,
-                tier: ''
+                tier: '',
+                transcript
               });
             }
 
