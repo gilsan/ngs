@@ -1038,6 +1038,8 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
         row.cosmic_id
       ).subscribe((data: any) => {
         alert('mutation에 추가 했습니다.');
+        (control.at(index) as FormGroup).get('type').patchValue('M');
+        this.selectedItem = '';
       });
     } else if (this.selectedItem === 'artifacts') {
       // console.log('[715][save][artifacts] ', row);
@@ -1047,6 +1049,8 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       ).subscribe((data: any) => {
         // console.log('[719][result][artifacts] ', data);
         alert('artifacts에 추가 했습니다.');
+        (control.at(index) as FormGroup).get('type').patchValue('A');
+        this.selectedItem = '';
 
       });
     }

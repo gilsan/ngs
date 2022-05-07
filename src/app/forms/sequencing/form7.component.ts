@@ -708,6 +708,8 @@ export class Form7Component implements OnInit, OnDestroy {
         gene
       ).subscribe((data: any) => {
         alert('mutation에 추가 했습니다.');
+        (control.at(index) as FormGroup).get('type').patchValue('M');
+        this.selectedItem = '';
       });
     } else if (this.selectedItem === 'artifacts') {
       this.subs.sink = this.patientsListService.insertArtifacts(
@@ -715,6 +717,8 @@ export class Form7Component implements OnInit, OnDestroy {
         this.analyzedgene, '', '', '', row.nucleotideChange, row.aminoAcidChange
       ).subscribe((data: any) => {
         alert('artifacts에 추가 했습니다.');
+        (control.at(index) as FormGroup).get('type').patchValue('A');
+        this.selectedItem = '';
       });
     }
 
