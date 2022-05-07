@@ -1111,9 +1111,11 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
         row.reference,
         row.cosmic_id
       ).subscribe((data: any) => {
-        console.log('[1122][mustation 저장 응답]', data);
+        console.log('[1114][mustation 저장 응답]', data);
         alert('mutation에 추가 했습니다.');
+        (control.at(index) as FormGroup).get('type').patchValue('M');
         this.selectedItem = '';
+
       });
     } else if (this.selectedItem === 'artifacts') {
       this.subs.sink = this.patientsListService.insertArtifacts(
@@ -1121,6 +1123,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
         row.gene, '', '', row.transcript, row.nucleotideChange, row.aminoAcidChange
       ).subscribe((data: any) => {
         alert('artifacts에 추가 했습니다.');
+        (control.at(index) as FormGroup).get('type').patchValue('A');
         this.selectedItem = '';
       });
     }
