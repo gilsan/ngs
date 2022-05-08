@@ -377,6 +377,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
   removeWhitespace(item: string): string {
     return item.replace(/(\r\n|\r)/gm, '');
   }
+
   ////////////////////////////////////////
   recoverDetected(): void {
     // 디비에서 Detected variant_id 가져오기
@@ -387,13 +388,19 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       }
       this.recoverVariants = data;
       this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
-      console.log('[380][form2][Detected variant_id]', this.recoverVariants);
+      console.log('[391][MDSMPN][Detected variant_id]', this.recoverVariants);
       this.store.setDetactedVariants(data); // Detected variant 저장
 
       const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
+      console.log('[395][MDSMPN][Detected variant_id]', vusIdx, this.vusmsg);
       if (vusIdx !== -1) { // 있는경우
-        this.vusmsg = this.vusmsg;
-        this.tempvusmsg = this.vusmsg;
+        // this.vusmsg = this.vusmsg;
+        // this.tempvusmsg = this.vusmsg;
+        // 2022.05-08 수정
+        // this.vusmsg = this.vusmsg;
+        // this.tempvusmsg = this.vusmsg;
+        this.vusmsg = this.patientInfo.vusmsg;
+        this.tempvusmsg = this.patientInfo.vusmsg;
       } else if (this.patientInfo.vusmsg.length > 0 && vusIdx === -1) {
         if (this.patientInfo.vusmsg === this.vusmsg) {
           // this.vusmsg = '';
@@ -490,8 +497,10 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
 
           const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
           if (vusIdx !== -1) { // 있는경우
-            this.vusmsg = this.vusmsg;
-            this.tempvusmsg = this.vusmsg;
+            // this.vusmsg = this.vusmsg;
+            // this.tempvusmsg = this.vusmsg;
+            this.vusmsg = this.patientInfo.vusmsg;
+            this.tempvusmsg = this.patientInfo.vusmsg;
           } else if (this.patientInfo.vusmsg.length > 0 && vusIdx === -1) {
             if (this.patientInfo.vusmsg === this.vusmsg) {
               // this.vusmsg = '';

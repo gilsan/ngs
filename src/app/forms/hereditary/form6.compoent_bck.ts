@@ -13,7 +13,7 @@ import { hereditaryForm } from 'src/app/home/models/hereditary';
 
 @Component({
   selector: 'app-form6',
-  templateUrl: './form6.component.html',
+  templateUrl: './form6.component.html.org',
   styleUrls: ['./form6.component.scss']
 })
 export class Form6Component implements OnInit, OnDestroy {

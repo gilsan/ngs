@@ -357,8 +357,13 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
       console.log('[358] ==> [저장된것] ', vusIdx);
       if (vusIdx !== -1) { // 있는경우
-        this.vusmsg = this.vusmsg;
-        this.tempvusmsg = this.vusmsg;
+        // this.vusmsg = this.vusmsg;
+        // this.tempvusmsg = this.vusmsg;
+        // 2022.05-08 수정
+        // this.vusmsg = this.vusmsg;
+        // this.tempvusmsg = this.vusmsg;
+        this.vusmsg = this.patientInfo.vusmsg;
+        this.tempvusmsg = this.patientInfo.vusmsg;
       } else if (this.patientInfo.vusmsg.length > 0 && vusIdx === -1) {
         if (this.patientInfo.vusmsg === this.vusmsg) {
           console.log('[364] ===> [같음]');
@@ -459,8 +464,10 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
 
             const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
             if (vusIdx !== -1) { // 있는경우
-              this.vusmsg = this.vusmsg;
-              this.tempvusmsg = this.vusmsg;
+              // this.vusmsg = this.vusmsg;
+              // this.tempvusmsg = this.vusmsg;
+              this.vusmsg = this.patientInfo.vusmsg;
+              this.tempvusmsg = this.patientInfo.vusmsg;
             } else if (this.patientInfo.vusmsg.length > 0 && vusIdx === -1) {
               if (this.patientInfo.vusmsg === this.vusmsg) {
                 // this.vusmsg = '';  2022.03-04 무조건 vusmsg 출력

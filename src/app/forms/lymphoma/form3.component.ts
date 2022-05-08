@@ -293,7 +293,7 @@ export class Form3Component implements OnInit, OnDestroy {
       this.target = 'Myeloma';
     }
 
-    console.log('[291][환자정보]', this.patientInfo, this.target);
+    console.log('[296][환자정보]', this.patientInfo, this.target);
     if (this.patientInfo.gbn === 'RESEARCH') {
       this.isResearch = true;
     }
@@ -352,7 +352,7 @@ export class Form3Component implements OnInit, OnDestroy {
     this.subs.sink = this.variantsService.screenSelect(this.form2TestedId)
       .pipe(
         tap(data => {
-          console.log('[348][디비에 저장된 데이터가 있는지 확인]', data);
+          console.log('[355][디비에 저장된 데이터가 있는지 확인]', data);
           if (data.length) {
             this.savedDataExist = true;
           }
@@ -360,10 +360,10 @@ export class Form3Component implements OnInit, OnDestroy {
       )
       .subscribe(() => {
         if (this.savedDataExist) {
-          console.log('[356][true]', this.savedDataExist);
+          console.log('[363][true]', this.savedDataExist);
           this.recoverDetected();
         } else {
-          console.log('[359][false]', this.savedDataExist);
+          console.log('[366][false]', this.savedDataExist);
           this.init(this.form2TestedId);
         }
       });
@@ -380,11 +380,14 @@ export class Form3Component implements OnInit, OnDestroy {
       this.store.setDetactedVariants(data); // Detected variant 저장
 
       // VUS 메제시 확인
-
       const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
+      console.log('[384][LYM][Detected variant_id]', vusIdx, this.vusmsg);
       if (vusIdx !== -1) { // 있는경우
-        this.vusmsg = this.vusmsg;
-        this.tempvusmsg = this.vusmsg;
+        // 2022.05-08 수정
+        // this.vusmsg = this.vusmsg;
+        // this.tempvusmsg = this.vusmsg;
+        this.vusmsg = this.patientInfo.vusmsg;
+        this.tempvusmsg = this.patientInfo.vusmsg;
       } else if (this.patientInfo.vusmsg.length > 0 && vusIdx === -1) {
         if (this.patientInfo.vusmsg === this.vusmsg) {
           // this.vusmsg = '';
@@ -433,6 +436,7 @@ export class Form3Component implements OnInit, OnDestroy {
     // profile 가져오기
     this.subs.sink = this.analysisService.getAanlysisLYMInfo(this.form2TestedId)
       .subscribe(data => {
+
         if (data.length > 0) {
           // nu에서 받은 diagnosis 데이터를 환자정보의 bonemarrow에 넣었음.
           this.profile.leukemia = data[0].bonemarrow;
@@ -458,8 +462,10 @@ export class Form3Component implements OnInit, OnDestroy {
 
           const vusIdx = this.recoverVariants.findIndex(list => list.functional_impact === 'VUS');
           if (vusIdx !== -1) { // 있는경우
-            this.vusmsg = this.vusmsg;
-            this.tempvusmsg = this.vusmsg;
+            // this.vusmsg = this.vusmsg;
+            // this.tempvusmsg = this.vusmsg;
+            this.vusmsg = this.patientInfo.vusmsg;
+            this.tempvusmsg = this.patientInfo.vusmsg;
           } else if (this.patientInfo.vusmsg.length > 0 && vusIdx === -1) {
             if (this.patientInfo.vusmsg === this.vusmsg) {
               // this.vusmsg = '';
@@ -490,11 +496,13 @@ export class Form3Component implements OnInit, OnDestroy {
       // 저장된 검사자의 값이 있으면 표시
       this.analysisService.getAanlysisLYMInfo(this.form2TestedId)
         .subscribe(data => {
+
           if (data.length > 0) {
             this.profile.leukemia = data[0].bonemarrow;
             this.profile.chron = data[0].chromosomalanalysis;
           } else {
-            this.profile.leukemia = this.patientInfo.leukemiaassociatedfusion;
+            // this.profile.leukemia = this.patientInfo.leukemiaassociatedfusion;
+            this.profile.leukemia = this.patientInfo.bonemarrow;
             this.profile.chron = this.patientInfo.chromosomalanalysis;
           }
           this.store.setProfile(this.profile); // profile 저장
