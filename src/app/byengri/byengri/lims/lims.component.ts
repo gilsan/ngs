@@ -1888,7 +1888,7 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
           controlDNA.at(i).patchValue({ jindan: jindanVal.comment });
           controlRNA.at(i).patchValue({ jindan: jindanVal.comment });
 
-          // 서버로 전송
+        // 서버로 전송
         //   this.limsService.updateJindan(pathologyNum, jindanVal.comment)
         //   .subscribe(data => {
         //     console.log(data);
