@@ -12,6 +12,8 @@ import { ManageUsersService } from 'src/app/home/services/manageUsers.service';
 import { SubSink } from 'subsink';
 
 import * as XLSX from 'xlsx';
+import { MatDialog } from '@angular/material/dialog';
+import { JindanComponent } from './jindan-dialog/jindan.component';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 
@@ -71,6 +73,7 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
     private manageUsersService: ManageUsersService,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -264,8 +267,8 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
             lib2: i.lib2,
             lib2_dw: i.lib2_dw,
             pathology_num2: i.pathology_num,
-            jindan: '',  // 2022.06.01
-            bigo: '',    // 추가
+            jindan: i.jindan,  // 2022.06.01
+            bigo: i.bigo,    // 추가
           };
           this.dnaLists.push(val);
 
@@ -317,8 +320,8 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
             lib2: i.lib2,
             lib2_dw: i.lib2_dw,
             pathology_num2: i.pathology_num,
-            jindan: '',  // 2022.06.01
-            bigo: '',    // 추가
+            jindan: i.jindan,  // 2022.06.01
+            bigo: i.bigo,    // 추가
           };
           this.rnaLists.push(val);
         }
@@ -373,8 +376,8 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
             lib2: i.lib2,
             lib2_dw: i.lib2_dw,
             pathology_num2: i.pathology_num,
-            jindan: '',  // 2022.06.01
-            bigo: '',    // 추가
+            jindan: i.jindan,  // 2022.06.01
+            bigo: i.bigo,    // 추가
           };
           this.dnaLists.push(val);
 
@@ -425,8 +428,8 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
             lib2: i.lib2,
             lib2_dw: i.lib2_dw,
             pathology_num2: i.pathology_num,
-            jindan: '',  // 2022.06.01
-            bigo: '',    // 추가
+            jindan: i.jindan,  // 2022.06.01
+            bigo: i.bigo,    // 추가
           };
           this.rnaLists.push(val);
         }
@@ -1805,7 +1808,6 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
 
-
   dnaDw(i: number, type: string, dnadw: string, val: number): void {
     const controlDNA = this.dnaForm.get('dnaFormgroup') as FormArray;
     const controlRNA = this.rnaForm.get('rnaFormgroup') as FormArray;
@@ -1847,14 +1849,81 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
+  bigoSync(i: number,  bigo: string, type: string): void {
+    const controlDNA = this.dnaForm.get('dnaFormgroup') as FormArray;
+    const controlRNA = this.rnaForm.get('rnaFormgroup') as FormArray;
+    controlDNA.at(i).patchValue({ bigo  });
+    controlRNA.at(i).patchValue({ bigo  });
+    let pathologyNum = '';
+    if (type === 'DNA') {
+      pathologyNum = controlDNA.at(i).value.pathology_num;
+    } else if (type === 'RNA') {
+      pathologyNum = controlRNA.at(i).value.pathology_num;
+    }
+
+    this.limsService.updateBigo(pathologyNum, bigo)
+      .subscribe(data => {
+        console.log(data);
+    });
+  }
+
+
+
+
   jindanDNA(i: number): void {
-    console.log('진단: ',i);
+    const controlRNA = this.rnaForm.get('rnaFormgroup') as FormArray;
+    const controlDNA = this.dnaForm.get('dnaFormgroup') as FormArray;
+    const dnaData = controlDNA.at(i).value;
+    const pathologyNum = dnaData.pathology_num;
+
+    const inputDialogRef = this.dialog.open(JindanComponent, {
+      width: '500px',
+      height: '260px',
+      disableClose: true,
+      data: dnaData.jindan
+    });
+
+    inputDialogRef.afterClosed().subscribe(jindanVal => {
+         if (jindanVal.comment !== 'none') {
+          controlDNA.at(i).patchValue({ jindan: jindanVal.comment });
+          controlRNA.at(i).patchValue({ jindan: jindanVal.comment });
+
+          // 서버로 전송
+        //   this.limsService.updateJindan(pathologyNum, jindanVal.comment)
+        //   .subscribe(data => {
+        //     console.log(data);
+        // });
+
+         }
+      });
   }
 
 
 
   jindanRNA(i: number): void {
+    const controlDNA = this.dnaForm.get('dnaFormgroup') as FormArray;
+    const controlRNA = this.rnaForm.get('rnaFormgroup') as FormArray;
+    const rnaData = controlRNA.at(i).value;
+    const pathologyNum = rnaData.pathology_num;
 
+    const inputDialogRef = this.dialog.open(JindanComponent, {
+      width: '500px',
+      height: '260px',
+      disableClose: true,
+      data: rnaData.jindan
+    });
+
+    inputDialogRef.afterClosed().subscribe(jindanVal => {
+         if (jindanVal.comment !== 'none') {
+          controlRNA.at(i).patchValue({ jindan: jindanVal.comment });
+          controlDNA.at(i).patchValue({ jindan: jindanVal.comment });
+          // 서버로 전송
+        //   this.limsService.updateJindan(pathologyNum, jindanVal.comment)
+        //   .subscribe(data => {
+        //     console.log(data);
+        // });
+         }
+      });
   }
 
 

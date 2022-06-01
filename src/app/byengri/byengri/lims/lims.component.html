@@ -231,7 +231,9 @@
                           (change)="prescriptionCodeSync(group.get('pathology_num').value, prescriptioncode.value, 'DNA')">
                       </td>
                       <td>
-                        <input type="text" size="10" class="clr-input" formControlName="jindan" (click)="jindanDNA(i)">
+                        <input type="text" size="10" class="clr-input" formControlName="jindan"
+                        [matTooltip]="group.get('jindan').value"
+                        (click)="jindanDNA(i)" readonly>
                       </td> <!-- 조직학적진단  -->
                       <td class="txt_c">
                         <input type="text" size="10" class="clr-input  tdbox" matInput formControlName="enter_code"
@@ -249,7 +251,8 @@
                           formControlName="tumorburden">
                       </td>
                       <td>
-                        <input type="text" size="10" class="clr-input" formControlName="bigo" >
+                        <input type="text" size="20" class="clr-input" #bigo (change)="bigoSync(i,bigo.value, 'DNA')"
+                          formControlName="bigo" [matTooltip]="group.get('bigo').value">
                       </td> <!-- 비고  -->
                       <td class="txt_c">
                         <input type="text" size="10" class="clr-input" formControlName="nano_ng">
@@ -509,7 +512,11 @@
                           #rnaprescriptioncode
                           (change)="prescriptionCodeSync(group.get('pathology_num').value, rnaprescriptioncode.value, 'RNA')">
                       </td>
-                      <td></td> <!-- 조직학적진단  -->
+                      <td>
+                        <input type="text" size="10" class="clr-input" formControlName="jindan"
+                        [matTooltip]="group.get('jindan').value"
+                        (click)="jindanRNA(i)" readonly>
+                      </td> <!-- 조직학적진단  -->
                       <td class="txt_c">
                         <input type="text" size="10" class="clr-input  tdbox" formControlName="enter_code" matInput
                           (keyup.enter)="keyUp($event, 'RNA', i, group.get('pathology_num').value )">
@@ -519,21 +526,17 @@
                           [matTooltip]="group.get('test_code').value" matInput formControlName="test_code"
                           (change)="testCodeSync(group.get('pathology_num').value, rnacancertype.value, 'RNA')"
                           #rnacancertype>
-                        <!-- <mat-autocomplete #rnacancel="matAutocomplete"
-                            (optionSelected)="testCodeSync(group.get('pathology_num').value, rnacancertype.value, 'RNA')">
-                              <mat-option *ngFor="let option of LISTS" [value]="option">
-                                   {{option}}
-                              </mat-option>
-                            </mat-autocomplete>
-                            (change)="testCodeSync(group.get('pathology_num').value, rnacancertype.value, 'RNA')"
-                          -->
+
                       </td>
                       <td class="txt_c">
                         <input type="text" size="10" class="clr-input" [ngClass]="{'red_color': tumorColor(i, 'RNA') }"
                           (change)="tumorcellperSync(group.get('pathology_num').value, rnatumorper.value, 'RNA')"
                           #rnatumorper formControlName="tumorburden">
                       </td>
-                      <td></td> <!-- 비고  -->
+                      <td>
+                        <input type="text" size="20" class="clr-input"  #rnabigo (change)="bigoSync(i,rnabigo.value,'RNA')"
+                        formControlName="bigo" [matTooltip]="group.get('bigo').value">
+                      </td> <!-- 비고  -->
                       <td class="txt_c">
                         <input type="text" size="10" class="clr-input" formControlName="nano_ng">
                       </td>

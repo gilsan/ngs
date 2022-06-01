@@ -41,6 +41,8 @@ export interface ILIMS {
   dna_rna_gbn?: string;
   examin?: string;
   recheck?: string;
+  jindan?: string;  // 조직학적진단
+  bigo?: string;  // 비고
 }
 
 export interface IUSER {

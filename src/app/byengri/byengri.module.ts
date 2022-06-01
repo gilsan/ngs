@@ -31,6 +31,7 @@ import { GeneComponent } from './inhouse/essgene/gene/gene.component';
 import { TierComponent } from './inhouse/tier/tier.component';
 import { ReportDialogComponent } from './byengri/report/report-dialog/report-dialog.component';
 import { LimsComponent } from './byengri/lims/lims.component';
+import { JindanComponent } from './byengri/lims/jindan-dialog/jindan.component';
 // import { ScrollDNAMonitorDirective } from './directives/scrollsync.directive';
 
 
@@ -61,6 +62,7 @@ import { LimsComponent } from './byengri/lims/lims.component';
     TierComponent,
     ReportDialogComponent,
     LimsComponent,
+    JindanComponent
   ],
   imports: [
 

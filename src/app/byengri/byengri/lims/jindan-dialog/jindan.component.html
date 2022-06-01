@@ -1,0 +1,10 @@
+<div class="container">
+  <div class="title">조직학적 진단</div>
+  <div class="content">
+    <textarea  class="input__01" cols="200" rows="3" #comment [value]="msg"></textarea>
+  </div>
+  <div class="btn-gp">
+    <button class="btn btn_bg" (click)="save(comment.value)"><span>확인</span></button>
+    <button class="btn" (click)="cancel()"><span>취소</span></button>
+</div>
+</div>

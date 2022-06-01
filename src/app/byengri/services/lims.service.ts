@@ -93,6 +93,16 @@ export class LimsService {
     return this.http.post(`${this.apiUrl}/lims/rnaCtSave`, { test_code, rnact });
   }
 
+  // 조직학적진단  갱신
+  public updateJindan(testcode: string, jindan: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/lims/jindanSave`, { test_code: testcode, jindan });
+  }
+
+    // 비고  갱신
+    public updateBigo(testcode: string, jindan: string): Observable<any> {
+      return this.http.post(`${this.apiUrl}/lims/bigoSave`, { test_code: testcode, jindan });
+    }
+
   // 실험정보조회
   public experimentList(): Observable<ExperimentList[]> {
     return this.http.post<ExperimentList[]>(`${this.apiUrl}/lims/limscombo`, {});
