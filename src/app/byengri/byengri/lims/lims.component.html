@@ -80,10 +80,12 @@
                   <col width="80px">
                   <col width="80px">
                   <col width="80px">
-                  <col width="120px">
+                  <col width="120px"> <!--  검체-->
+                  <col width="80px">  <!-- 조직학적 진단  -->
                   <col width="50px">
                   <col width="150px">
-                  <col width="80px">
+                  <col width="80px">  <!-- tumor %  -->
+                  <col width="180px"> <!-- 비고  -->
                   <col width="80px">
                   <col width="80px">
                   <col width="80px">
@@ -126,9 +128,11 @@
                     <th>블록수</th>
                     <th>key block</th>
                     <th>검체</th>
+                    <th>조직학적<br>진단</th>
                     <th>암종<br>번호</th>
                     <th>암종</th>
                     <th>tumor %</th>
+                    <th>비 고</th>
                     <th>ng/ul</th>
                     <th>260/280</th>
                     <th>260/230</th>
@@ -220,11 +224,15 @@
                         <input type="text" size="10" class="clr-input" formControlName="key_block" #keyblock
                           (change)="keyBlockSync(group.get('pathology_num').value, keyblock.value, 'DNA')">
                       </td>
+
                       <td class="txt_c">
                         <input type="text" size="10" class="clr-input" formControlName="prescription_code"
                           #prescriptioncode
                           (change)="prescriptionCodeSync(group.get('pathology_num').value, prescriptioncode.value, 'DNA')">
                       </td>
+                      <td>
+                        <input type="text" size="10" class="clr-input" formControlName="jindan" (click)="jindanDNA(i)">
+                      </td> <!-- 조직학적진단  -->
                       <td class="txt_c">
                         <input type="text" size="10" class="clr-input  tdbox" matInput formControlName="enter_code"
                           (keyup.enter)="keyUp($event, 'DNA', i, group.get('pathology_num').value)">
@@ -233,20 +241,16 @@
                         <input type="text" size="30" class="clr-input  tdbox"
                           [matTooltip]="group.get('test_code').value" #cancertype matInput formControlName="test_code"
                           (change)="testCodeSync(group.get('pathology_num').value, cancertype.value, 'DNA')">
-                        <!-- <mat-autocomplete #dnacancel="matAutocomplete"
-                           (optionSelected)="testCodeSync(group.get('pathology_num').value, cancertype.value, 'DNA')">
-                               <mat-option *ngFor="let option of LISTS" [value]="option">
-                                   {{option}}
-                              </mat-option>
-                            </mat-autocomplete>
-                            (change)="testCodeSync(group.get('pathology_num').value, cancertype.value, 'DNA')"
-                          -->
+
                       </td>
                       <td class="txt_c">
                         <input type="text" size="10" class="clr-input" [ngClass]="{'red_color': tumorColor(i, 'DNA') }"
                           (change)="tumorcellperSync(group.get('pathology_num').value, tumorper.value, 'DNA')" #tumorper
                           formControlName="tumorburden">
                       </td>
+                      <td>
+                        <input type="text" size="10" class="clr-input" formControlName="bigo" >
+                      </td> <!-- 비고  -->
                       <td class="txt_c">
                         <input type="text" size="10" class="clr-input" formControlName="nano_ng">
                       </td>
@@ -358,10 +362,12 @@
                   <col width="80px">
                   <col width="80px">
                   <col width="80px">
-                  <col width="120px">
+                  <col width="120px"> <!--  -->
+                  <col width="80px">  <!-- 조직학적 진단  -->
                   <col width="50px">
                   <col width="150px">
                   <col width="80px">
+                  <col width="180px"> <!-- 비고  -->
                   <col width="80px">
                   <col width="80px">
                   <col width="80px">
@@ -404,9 +410,11 @@
                     <th>블록수</th>
                     <th>key block</th>
                     <th>검체</th>
+                    <th>조직학적<br>진단</th>
                     <th>암종<br>번호</th>
                     <th>암종</th>
                     <th>tumor %</th>
+                    <th>비 고</th>
                     <th>ng/ul</th>
                     <th>260/280</th>
                     <th>260/230</th>
@@ -501,6 +509,7 @@
                           #rnaprescriptioncode
                           (change)="prescriptionCodeSync(group.get('pathology_num').value, rnaprescriptioncode.value, 'RNA')">
                       </td>
+                      <td></td> <!-- 조직학적진단  -->
                       <td class="txt_c">
                         <input type="text" size="10" class="clr-input  tdbox" formControlName="enter_code" matInput
                           (keyup.enter)="keyUp($event, 'RNA', i, group.get('pathology_num').value )">
@@ -524,6 +533,7 @@
                           (change)="tumorcellperSync(group.get('pathology_num').value, rnatumorper.value, 'RNA')"
                           #rnatumorper formControlName="tumorburden">
                       </td>
+                      <td></td> <!-- 비고  -->
                       <td class="txt_c">
                         <input type="text" size="10" class="clr-input" formControlName="nano_ng">
                       </td>

@@ -264,6 +264,8 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
             lib2: i.lib2,
             lib2_dw: i.lib2_dw,
             pathology_num2: i.pathology_num,
+            jindan: '',  // 2022.06.01
+            bigo: '',    // 추가
           };
           this.dnaLists.push(val);
 
@@ -314,7 +316,9 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
             lib_dw: i.lib_dw,
             lib2: i.lib2,
             lib2_dw: i.lib2_dw,
-            pathology_num2: i.pathology_num
+            pathology_num2: i.pathology_num,
+            jindan: '',  // 2022.06.01
+            bigo: '',    // 추가
           };
           this.rnaLists.push(val);
         }
@@ -369,6 +373,8 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
             lib2: i.lib2,
             lib2_dw: i.lib2_dw,
             pathology_num2: i.pathology_num,
+            jindan: '',  // 2022.06.01
+            bigo: '',    // 추가
           };
           this.dnaLists.push(val);
 
@@ -418,7 +424,9 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
             lib_dw: i.lib_dw,
             lib2: i.lib2,
             lib2_dw: i.lib2_dw,
-            pathology_num2: i.pathology_num
+            pathology_num2: i.pathology_num,
+            jindan: '',  // 2022.06.01
+            bigo: '',    // 추가
           };
           this.rnaLists.push(val);
         }
@@ -608,7 +616,8 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
       dna_rna_gbn: '0',
       report_date: i.report_date,
       pathology_num2: i.pathology_num,
-
+      jindan: '',  // 2022.06.01
+      bigo: '',    // 추가
     });
   }
 
@@ -676,6 +685,8 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
       dna_rna_gbn: '1',
       report_date: i.report_date,
       pathology_num2: i.pathology_num,
+      jindan: '',  // 2022.06.01
+      bigo: '',    // 추가
     });
   }
 
@@ -1227,8 +1238,10 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
       block_cnt: '블록수',
       key_block: 'key block',
       prescription_code: '검체',
+      jindan: '조직학적진단',
       test_code: '암종',
       tumorburden: 'tumor %',
+      bigo: '비고',
       nano_ng: 'ng/ul',
       nano_280: '260/280',
       nano_230: '260/280',
@@ -1264,16 +1277,18 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
       pathology_num: '병리번호',
       rel_pathology_num: '관련병리번호',
       prescription_date: '접수일자',
-      report_date: '실험일자',
+      report_date: '실험일자',  // E
       patientID: '등록번호',
       name: '환자명',
       gender: '성별(F/M)',
-      path_type: '구분(bx,op)',
+      path_type: '구분(bx,op)', // I
       block_cnt: '블록수',
-      key_block: 'key block',
-      prescription_code: '검체',
+      key_block: 'key block', // L
+      prescription_code: '검체', // M
+      jindan: '조직학적진단', // N
       test_code: '암종',
-      tumorburden: 'tumor %',
+      tumorburden: 'tumor %',  // P
+      bigo: '비고',  // Q
       nano_ng: 'ng/ul',
       nano_280: '260/280',
       nano_230: '260/280',
@@ -1326,12 +1341,12 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
     const allData: ILIMS[] = [...tempDNA, ...tempRNA];
     console.log('[1246]', allData);
     const width = [{ width: 4 }, { width: 4 }, { width: 16 }, { width: 13 }, { width: 12 }, { width: 11 }, { width: 11 }, // A, B,C,D,E,F,G
-    { width: 7 }, { width: 11 }, { width: 10 }, { width: 8 }, { width: 9 }, //  H, I, J, K, L
-    { width: 19 }, { width: 18 }, { width: 7 }, { width: 7 }, { width: 8 }, //  M, N, O ,P, Q
-    { width: 8 }, { width: 7 }, { width: 6 }, { width: 6 }, { width: 8 }, // R ,S, T, U, V
-    { width: 8 }, { width: 8 }, { width: 14 }, { width: 14 }, { width: 14 }, // W, X, Y, Z, AA
-    { width: 8 }, { width: 8 }, { width: 9 }, { width: 16 }, { width: 9 }, // AB, AC, AD, AE, AF
-    { width: 10 }, { width: 10 }, { width: 10 }, { width: 10 }, { width: 10 }   // AG, AH, AI, AJ, AK
+    { width: 7 }, { width: 11 }, { width: 10 }, { width: 8 }, { width: 9 }, //  H, I, J, K, L,
+    { width: 19 }, {width: 13}, { width: 18 }, { width: 7 }, { width: 12 } , { width: 7 }, { width: 8 }, //  M, 조직학적진단 N,  O ,P, 비고Q,  R, S
+    { width: 8 }, { width: 7 }, { width: 6 }, { width: 6 }, { width: 8 }, //  T, U, V, W, X,
+    { width: 8 }, { width: 8 }, { width: 14 }, { width: 14 }, { width: 14 }, //  Y, Z, AA, AB, AC,
+    { width: 8 }, { width: 8 }, { width: 9 }, { width: 16 }, { width: 9 }, //  AD, AE, AF, AG, AH,
+    { width: 10 }, { width: 10 }, { width: 10 }, { width: 10 }, { width: 10 }   //  AI, AJ, AK, AL, AM
     ];
     this.limsService.exportAsExcelFile(allData, 'LIMS', width);
   }
@@ -1832,29 +1847,18 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
-  // keyupStatue(val: any, type: string): void {
-  //   if (type === 'DNA') {
-  //     this.dnaStatus = false;
-  //   } else if (type === 'RNA') {
-  //     this.rnaStatus = false;
-  //   }
+  jindanDNA(i: number): void {
+    console.log('진단: ',i);
+  }
 
-  // }
 
-  // textalign(type: string): { input_direction: boolean, input_align: boolean } {
-  //   if (type === 'DNA') {
-  //     if (this.dnaStatus) {
-  //       return { input_direction: true, input_align: true };
-  //     }
-  //     return { input_direction: false, input_align: true };
-  //   } else if (type === 'RNA') {
-  //     if (this.rnaStatus) {
-  //       return { input_direction: false, input_align: true };
-  //     }
-  //     return { input_direction: true, input_align: true };
 
-  //   }
+  jindanRNA(i: number): void {
 
-  // }
+  }
+
+
+
+
 
 }
