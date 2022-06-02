@@ -945,7 +945,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                 nucleotideChange = itemMembers[1];
               }
 
-              // console.log('====[916][clinically]: ', gene, tempAminoAcidChange, itemMembers);
+
               if (type === 'exon') {
                 nucleotideChange = '';
               } else {
@@ -955,10 +955,10 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                   aminoAcidChange = itemMembers[2];
                   tempAminoAcidChange = itemMembers[2];
                 }
-
               }
 
               variantAlleleFrequency = this.findFrequency(gene);
+
               if (type === 'exon') {
                 indexm = this.findGeneInfo(gene);
 
@@ -1078,30 +1078,59 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
           const oncomineVariant = item.OncomineVariant.toLocaleLowerCase();
 
           if (type === 'SNV' &&  this.muLists.includes(oncomineVariant)) {
+                // console.log('[1081][]', this.mutation);
                 const mutation = this.mutation.filter( list => list.gene === item.gene);
                 if (item.aminoAcidChange === '' || item.aminoAcidChange === null) {
                   tempaminoAcidChange = mutation[0].aminoAcidChange;
                 } else {
                   tempaminoAcidChange = item.aminoAcidChange;
                 }
-                this.mutationNew.push({
-                  gene: item.gene,
-                  aminoAcidChange:  tempaminoAcidChange,
-                  nucleotideChange: mutation.length ? mutation[0].nucleotideChange : '',
-                  variantAlleleFrequency: mutation.length ? mutation[0].variantAlleleFrequency : '',
-                  ID: item.variantID,
-                  tier: mutation.length ? mutation[0].tier : '',
-                  transcript: item.transcript
-                });
+                // console.log('[1087][]', item.gene, mutation);
+                if (mutation.length === 1) {
+                        this.mutationNew.push({
+                        gene: item.gene,
+                        aminoAcidChange:  tempaminoAcidChange,
+                        nucleotideChange: mutation.length ? mutation[0].nucleotideChange : '',
+                        variantAlleleFrequency: mutation.length ? mutation[0].variantAlleleFrequency : '',
+                        ID: item.variantID,
+                        tier: mutation.length ? mutation[0].tier : '',
+                        transcript: item.transcript
+                      });
+                } else if (mutation.length > 1) {
+                  mutation.forEach( mut => {
+                    this.mutationNew.push({
+                      gene: item.gene,
+                      aminoAcidChange:  tempaminoAcidChange,
+                      nucleotideChange:  mut.nucleotideChange,
+                      variantAlleleFrequency: mut.variantAlleleFrequency,
+                      ID: item.variantID,
+                      tier:  mut.tier,
+                      transcript: item.transcript
+                    });
+                  })
+                }
+
           } else if (type === 'CNV' &&  this.amLists.includes(oncomineVariant)) {
                 const amplification = this.amplifications.filter( list => list.gene === item.gene);
                 const cytoband = item.cytoband.split(')');
-                this.amplificationsNew.push({
-                  gene: item.gene,
-                  region: cytoband[0] + ')',
-                  copynumber: cytoband[1],
-                  tier: amplification.length ? amplification[0].tier : ''
-                });
+                if (amplification.length === 1) {
+                  this.amplificationsNew.push({
+                    gene: item.gene,
+                    region: cytoband[0] + ')',
+                    copynumber: cytoband[1],
+                    tier: amplification.length ? amplification[0].tier : ''
+                  });
+                } else if (amplification.length > 1) {
+                  amplification.forEach(amp => {
+                    this.amplificationsNew.push({
+                      gene: item.gene,
+                      region: cytoband[0] + ')',
+                      copynumber: cytoband[1],
+                      tier: amp.tier
+                    });
+                  });
+                }
+
           } else if (type !== 'CNV' && type !== 'SNV' &&  this.fuLists.includes(oncomineVariant)) {
                 const fusion = this.fusion.filter( list => list.gene === item.gene);
                 if (item.oncomine === 'Loss-of-function') {
@@ -1109,13 +1138,26 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                 } else if (item.oncomine === 'Gain-of-function') {
                   oncomine = 'Gain';
                 }
-                this.fusionNew.push({
-                  gene: item.gene,
-                  breakpoint: item.locus,
-                  readcount: item.readcount,
-                  functions: oncomine,
-                  tier: fusion.length ? fusion[0].tier : ''
-                });
+                if (fusion.length === 1) {
+                  this.fusionNew.push({
+                    gene: item.gene,
+                    breakpoint: item.locus,
+                    readcount: item.readcount,
+                    functions: oncomine,
+                    tier: fusion.length ? fusion[0].tier : ''
+                  });
+                } else if (fusion.length > 1) {
+                  fusion.forEach( fu => {
+                    this.fusionNew.push({
+                      gene: item.gene,
+                      breakpoint: item.locus,
+                      readcount: item.readcount,
+                      functions: oncomine,
+                      tier: fu.tier
+                    });
+                  });
+                }
+
           }
         });
 
@@ -1362,7 +1404,6 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   // tslint:disable-next-line:member-ordering
   private visitedGene = [];
   findFrequency(gene): string {
-    // console.log('[1012]', this.visitedGene, gene);
     const ix = this.visitedGene.findIndex(name => name === gene);
     if (ix === -1) {
       const idx = this.clinical.findIndex(list => list.gene === gene);
@@ -1373,15 +1414,15 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       this.visitedGene.push(gene);
       return this.clinical[idx].frequency;
     } else {
+
       return this.findBackFrequency(gene);
     }
 
   }
 
   findBackFrequency(gene): string {
-    // const idx = this.clinical.lastIndexOf(gene);
     const idx = this.clinical.reverse().findIndex(list => list.gene === gene);
-    // console.log('[1027][findBackFrequency]' + idx);
+    // console.log('[1426][findBackFrequency]',  this.clinical[idx]);
     if (idx === -1) {
       return 'none';
     }
