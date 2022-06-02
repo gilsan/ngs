@@ -4,7 +4,7 @@ import { ByengriComponent } from './byengri/byengri.component';
 import { LimsComponent } from './byengri/lims/lims.component';
 import { ManageStatisticsComponent } from './byengri/manage-statistics/manage-statistics.component';
 import { ManageUsersComponent } from './byengri/manage-users/manage-users.component';
-import { ReportComponent } from './byengri/report/report.componen';
+import { ReportComponent } from './byengri/report/report.component';
 import { ReportResolver } from './byengri/report/report.resolver';
 import { ResearchComponent } from './byengri/research/research.component';
 import { SequencingreportComponent } from './byengri/sequencingreport/sequencingreport.component';

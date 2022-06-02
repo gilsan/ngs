@@ -372,8 +372,8 @@ export class UploadComponent implements OnInit {
                 // filteredlist 길이
                 const filteredlistLen = filteredlist.length;
                 if (filteredlistLen >= 2 && list[0].length) {  //
-                  if (filteredlist[1] !== 'deletion' && filteredlist[1] !== 'stable') {
-
+              //    if (filteredlist[1] !== 'deletion' && filteredlist[1] !== 'stable') { 2022.06.01 수정
+                  if (  filteredlist[1] !== 'stable') {
                     this.clinical.push({ gene: filteredlist[0], tier, frequency: list[3] });  // 티어
                     this.clinically.push(list[0]); // 유전자
                     this.clinically2.push({ gene: list[0].trim(), seq: clinicallyCount.toString() }); // 신규
@@ -411,12 +411,12 @@ export class UploadComponent implements OnInit {
                   const onetier = list[2].substring(0, list[2].length - 1);
                   const tempfilteredlist = tempGene[i].trim().split(' ');
 
-                  if (tempfilteredlist[1] !== 'deletion') {
-                    this.clinical.push({ gene: tempfilteredlist[0], tier: onetier, frequency: tempfre[i].trim() }); // 원본 tempfre[i].trim()
-                    this.clinically.push(tempGene[i].trim());
-                    this.clinically2.push({ gene: tempGene[i].trim(), seq: clinicallyCount.toString() }); // 신규
-                    clinicallyCount++;
-                  }
+                 // if (tempfilteredlist[1] !== 'deletion') {
+                  this.clinical.push({ gene: tempfilteredlist[0], tier: onetier, frequency: tempfre[i].trim() }); // 원본 tempfre[i].trim()
+                  this.clinically.push(tempGene[i].trim());
+                  this.clinically2.push({ gene: tempGene[i].trim(), seq: clinicallyCount.toString() }); // 신규
+                  clinicallyCount++;
+                 // }
                 } // End of for loop
 
               }
@@ -431,13 +431,12 @@ export class UploadComponent implements OnInit {
             }
 
             if (nextline === index) {
-              this.prevalent = list[0].replace(/&gt;/g, '>').split(';').filter(item => {
-                const member = item.trim().split(' ');
-
-                return member[1] !== 'deletion';
-
-              });
-
+              // this.prevalent = list[0].replace(/&gt;/g, '>').split(';').filter(item => {
+              //   const member = item.trim().split(' ');
+              //   return member[1] !== 'deletion';
+              // });  // 2022.06.01  수정
+              this.prevalent = list[0].replace(/&gt;/g, '>').split(';'); // 2022.06.01  수정
+              console.log('[439][check prevalent]: -> ', this.prevalent);
               this.prevalent.forEach((item, idx) => {
                 this.prevalent2.push({ gene: item.trim(), seq: idx.toString() });
               });

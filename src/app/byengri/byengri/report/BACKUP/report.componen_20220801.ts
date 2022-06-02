@@ -1,3 +1,4 @@
+/*
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { FormArray, FormGroup, FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -1024,8 +1025,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                 });
 
 
-                /*
-                */
+
               }
             } else if (type === 'fusion') {
               let oncomine;
@@ -1263,9 +1263,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
-  /*
 
-    */
   withGeneCoding(gene: string, coding: string): number {
     const idx = this.filteredOriginData.findIndex(item =>
       item.gene.split(';').includes(gene) && item.coding.split(';').toString().trim().includes(coding));
@@ -1815,9 +1813,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
         } else {
           this.pathimage = [];
         }
-        /*
 
-       */
         this.toEMR();
       }); // End of combineLatest
 
@@ -2399,9 +2395,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   ////////////////////////////////////////////////////////////////////
   // ifusionForm
-  /*
 
-  */
   createIFusion(fusion: IFusion, index: string): FormGroup {
     // console.log('===== [1471][ createIFusion]', fusion);
 
@@ -2479,8 +2473,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.searchService.resetscreenstatus(this.pathologyNum, '1')
       .subscribe(data => {
-        /*
-        */
+
         this.patientInfo.screenstatus = '1';
         this.screenstatus = '1';
         console.log(this.screenstatus);
@@ -2741,7 +2734,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  /** Clamps a number between zero and a maximum. */
+
   clamp(value: number, max: number): number {
     return Math.max(0, Math.min(max, value));
   }
@@ -2948,3 +2941,5 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
 }
+
+*/

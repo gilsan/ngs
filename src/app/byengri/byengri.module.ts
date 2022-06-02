@@ -7,7 +7,7 @@ import { ByengriComponent } from './byengri/byengri.component';
 import { ByengriRouting } from './byengri.routing';
 import { FileuploadComponent } from './fileupload/fileupload.component';
 import { MainComponent } from './main/main.component';
-import { ReportComponent } from './byengri/report/report.componen';
+import { ReportComponent } from './byengri/report/report.component';
 import { ClarityModule } from '@clr/angular';
 import { UploadComponent } from './upload/upload.component';
 import { PathReportComponent } from './path-report/path-report.component';
