@@ -95,7 +95,7 @@ export class LimsService {
 
   // 조직학적진단  갱신
   public updateJindan(testcode: string, jindan: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/lims/jindanSave`, { test_code: testcode, jindan });
+    return this.http.post(`${this.apiUrl}/lims/PathologyDigonsisSave`, { test_code: testcode, jindan });
   }
 
     // 비고  갱신

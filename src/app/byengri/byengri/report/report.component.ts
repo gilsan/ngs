@@ -786,7 +786,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
           tumortypes = '';
         }
 
-        console.log('[769][tumorcellpercentage]', tumorcellpercentageVal);
+        console.log('[789][tumorcellpercentage]', tumorcellpercentageVal);
         if (tumorcellpercentageVal.length > 0) {
           this.tumorcellpercentage = tumorcellpercentageVal[0].tumorcellpercentage.trim(); // 공백 없앰
         } else {
@@ -837,7 +837,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
         if (statcontrolVal.length !== null && statcontrolVal.length !== 0 && statcontrolVal.length !== undefined) {
           this.stateControl = statcontrolVal[0];
         }
-        console.log('[830][tsv 정도관리]', this.stateControl);
+        console.log('[840][tsv 정도관리]', this.stateControl);
         // Genomic Alteration
         if (gemoicVal.length) {
           this.genoLists = gemoicVal;
@@ -1478,12 +1478,12 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   setDiagnosis(diagnosis: string): void {
-    // console.log('[901][diagnosis]', diagnosis);
+
     this.extraction.diagnosis = diagnosis;
   }
   diagnosisFocus(): void {
     this.diagnosis.selectionStart += 30;
-    // console.log('======= [diagnosi]', this.extraction.diagnosis);
+
   }
 
   // 정도관리

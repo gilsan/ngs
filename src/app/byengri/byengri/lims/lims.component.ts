@@ -218,6 +218,7 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   makeDNARNAList(data: ILIMS[], type: string = ''): void {
     if (type === 'TEST') {
+
       data.forEach(i => {  // 시험용
 
         if (parseInt(i.dna_rna_gbn, 10) === 0) {
@@ -270,8 +271,8 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
             jindan: i.jindan,  // 2022.06.01
             bigo: i.bigo,    // 추가
           };
-          this.dnaLists.push(val);
 
+          this.dnaLists.push(val);
 
         } else if (parseInt(i.dna_rna_gbn, 10) === 1) {
           let rnatotCt: string;
@@ -435,9 +436,9 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       });
     }
-    console.log('[446][DNA]', this.dnaLists);
-    console.log('[447][순서변경전][RNA]', this.rnaLists);
-    console.log('[448]', this.dnaLists.length, this.rnaLists.length);
+    // console.log('[446][DNA]', this.dnaLists);
+    // console.log('[447][순서변경전][RNA]', this.rnaLists);
+    // console.log('[448]', this.dnaLists.length, this.rnaLists.length);
     // 순서맞춤
     const tempDNA = [];
     const tempRNA = [];
@@ -483,7 +484,7 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     }
 
-    console.log('[517][순서변경후][DNA, RNA]', this.dnaLists, this.rnaLists);
+   // console.log('[517][순서변경후][DNA, RNA]', this.dnaLists, this.rnaLists);
     this.dnaLists.forEach((list, index) => {
       list.id = index.toString();
       this.dnaFormLists().push(this.createDNA(list));
@@ -496,7 +497,7 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   testSearch(info: string): void {
-    console.log(info);
+    // console.log(info);
     // if (this.examiner.length === 0 || this.rechecker.length === 0) {
     //   alert('검사자항목이 없습니다.');
     //   return;
@@ -513,7 +514,7 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
     const mm = testdate.substring(4, 6);
     const dd = testdate.substring(6);
     const newDate = year + '-' + mm + '-' + dd;
-    console.log('[492]', testInfo, testdate, examiner, rechecker, newDate);
+    // console.log('[492]', testInfo, testdate, examiner, rechecker, newDate);
     const controlDNA = this.dnaForm.get('dnaFormgroup') as FormArray;
     const controlRNA = this.rnaForm.get('rnaFormgroup') as FormArray;
     controlDNA.clear();
@@ -619,14 +620,14 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
       dna_rna_gbn: '0',
       report_date: i.report_date,
       pathology_num2: i.pathology_num,
-      jindan: '',  // 2022.06.01
-      bigo: '',    // 추가
+      jindan: i.jindan,  // 2022.06.01
+      bigo: i.bigo,    // 추가
     });
   }
 
   removeDNA(i: number): void {
     const result = confirm('삭제 하시겠습니까?');
-    console.log(result);
+    // console.log(result);
     if (!result) {
       return;
     }
@@ -688,8 +689,8 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
       dna_rna_gbn: '1',
       report_date: i.report_date,
       pathology_num2: i.pathology_num,
-      jindan: '',  // 2022.06.01
-      bigo: '',    // 추가
+      jindan: i.jindan,  // 2022.06.01
+      bigo: i.bigo,    // 추가
     });
   }
 
@@ -1889,10 +1890,10 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
           controlRNA.at(i).patchValue({ jindan: jindanVal.comment });
 
         // 서버로 전송
-        //   this.limsService.updateJindan(pathologyNum, jindanVal.comment)
-        //   .subscribe(data => {
-        //     console.log(data);
-        // });
+          this.limsService.updateJindan(pathologyNum, jindanVal.comment)
+          .subscribe(data => {
+            console.log('[LIMS][조직학적진단 결과값][1894]: ', data);
+        });
 
          }
       });
