@@ -450,7 +450,7 @@
                 </thead>
                 <tbody class="bodytable" cdkDropList (cdkDropListDropped)="rnaDroped($event)">
                   <ng-container formArrayName="rnaFormgroup" *ngFor="let group of rnaFormLists().controls; let i=index">
-                    <tr [formGroupName]="i"> <!-- cdkDrag   -->
+                    <tr [formGroupName]="i" > <!-- cdkDrag   -->
                       <td>
                         <!-- <button type="button" class="drag-handle">
                           <img [src]="'assets/baseline_unfold_more_black_18dp.png'">
