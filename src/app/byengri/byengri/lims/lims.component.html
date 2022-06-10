@@ -159,10 +159,16 @@
                 </thead>
                 <tbody class="bodytable" cdkDropList (cdkDropListDropped)="dnaDroped($event)">
                   <ng-container formArrayName="dnaFormgroup" *ngFor="let group of dnaFormLists().controls; let i=index">
-                    <tr [formGroupName]="i" cdkDrag>
+                    <tr [formGroupName]="i" > <!-- cdkDrag   -->
                       <td>
-                        <button type="button" class="drag-handle">
+                        <!-- <button type="button" class="drag-handle">
                           <img [src]="'assets/baseline_unfold_more_black_18dp.png'">
+                        </button> -->
+                        <button type="button" class="dna_up_mat-icon"  (click)="dnaRnaUp(i)">
+                          <img [src]="'assets/images/arrow_upward.png'" >
+                        </button>
+                        <button type="button" class="dna_down_mat-icon"  (click)="dnaRnaDown(i)">
+                          <img [src]="'assets/images/arrow_downward.png'" >
                         </button>
                       </td>
                       <td class="txt_c remover">
@@ -444,10 +450,16 @@
                 </thead>
                 <tbody class="bodytable" cdkDropList (cdkDropListDropped)="rnaDroped($event)">
                   <ng-container formArrayName="rnaFormgroup" *ngFor="let group of rnaFormLists().controls; let i=index">
-                    <tr [formGroupName]="i" cdkDrag>
+                    <tr [formGroupName]="i"> <!-- cdkDrag   -->
                       <td>
-                        <button type="button" class="drag-handle">
+                        <!-- <button type="button" class="drag-handle">
                           <img [src]="'assets/baseline_unfold_more_black_18dp.png'">
+                        </button> -->
+                        <button type="button" class="rna_up_mat-icon"  (click)="dnaRnaUp(i)">
+                          <img [src]="'assets/images/arrow_upward.png'">
+                        </button>
+                        <button type="button" class="rna_down_mat-icon"  (click)="dnaRnaDown(i)">
+                          <img [src]="'assets/images/arrow_downward.png'" >
                         </button>
                       </td>
                       <td class="txt_c  remover">

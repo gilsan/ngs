@@ -895,8 +895,8 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
         dna260230 = 0;
 
       }
-      console.log('[828][DNA]', dnaFileLists);
-      console.log('[829][RNA]', rnaFileLists);
+    //  console.log('[828][DNA]', dnaFileLists);
+     // console.log('[829][RNA]', rnaFileLists);
 
       if (type === 'DNA') {
         this.updateDNAScreen(dnaFileLists);
@@ -1201,7 +1201,7 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     const result = confirm('저장 하시겠습니까?');
     if (result) {
-      console.log('[1074][저장]', allData, this.examiner, this.rechecker, testeddate);
+     // console.log('[1074][저장]', allData, this.examiner, this.rechecker, testeddate);
       this.limsService.save(allData, this.examiner, this.rechecker)
         .subscribe((data) => {
           const msg = `DNA: ${dnaCount}건, RNA: ${rnaCount}건 저장 하였습니다.`;
@@ -1213,7 +1213,7 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   tumoretypeUpdate(testcode: string, tumortype: string): void {
-    console.log('[1137][tumoretypeUpdate]', testcode, tumortype);
+   // console.log('[1137][tumoretypeUpdate]', testcode, tumortype);
     this.limsService.updateTumoretype(testcode, tumortype)
       .subscribe(data => {
         if (data.message === 'SUCCESS') {
@@ -1919,14 +1919,61 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
           controlRNA.at(i).patchValue({ jindan: jindanVal.comment });
           controlDNA.at(i).patchValue({ jindan: jindanVal.comment });
           // 서버로 전송
-        //   this.limsService.updateJindan(pathologyNum, jindanVal.comment)
-        //   .subscribe(data => {
-        //     console.log(data);
-        // });
+          this.limsService.updateJindan(pathologyNum, jindanVal.comment)
+          .subscribe(data => {
+            console.log(data);
+        });
          }
       });
   }
 
+  //////////////////////////////////////////
+  dnaRnaUp(i: number): void {
+
+    const dnacontrol = this.dnaForm.get('dnaFormgroup') as FormArray;
+    const dnaFormData = dnacontrol.getRawValue();
+    const dnaLength = dnaFormData.length - 1;
+
+    const rnacontrol = this.rnaForm.get('rnaFormgroup') as FormArray;
+    const rnaFormData = rnacontrol.getRawValue();
+    const rnaLength = rnaFormData.length - 1;
+
+    if (i !==  0 && i < dnaLength) {
+      const dnaTemp = dnaFormData[i - 1];
+      const currDnaTemp = dnaFormData[i];
+      dnacontrol.at(i - 1).patchValue( currDnaTemp);
+      dnacontrol.at(i).patchValue(dnaTemp);
+
+      const rnaTemp = rnaFormData[i - 1];
+      const currRnaTemp = rnaFormData[i];
+      rnacontrol.at(i - 1).patchValue( currRnaTemp);
+      rnacontrol.at(i).patchValue(rnaTemp);
+    }
+
+  }
+
+  dnaRnaDown(i: number): void {
+
+    const dnacontrol = this.dnaForm.get('dnaFormgroup') as FormArray;
+    const dnaFormData = dnacontrol.getRawValue();
+    const dnaLength = dnaFormData.length - 1;
+
+    const rnacontrol = this.rnaForm.get('rnaFormgroup') as FormArray;
+    const rnaFormData = rnacontrol.getRawValue();
+    const rnaLength = rnaFormData.length - 1;
+
+    if (i !== dnaLength && i < dnaLength) {
+      const dnaTemp = dnaFormData[i + 1];
+      const currDnaTemp = dnaFormData[i];
+      dnacontrol.at(i + 1).patchValue(currDnaTemp);
+      dnacontrol.at(i).patchValue(dnaTemp );
+
+      const rnaTemp = rnaFormData[i + 1];
+      const currRnaTemp = rnaFormData[i];
+      rnacontrol.at(i + 1).patchValue(currRnaTemp);
+      rnacontrol.at(i).patchValue(rnaTemp);
+    }
+  }
 
 
 
