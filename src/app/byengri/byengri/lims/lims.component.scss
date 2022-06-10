@@ -178,12 +178,13 @@ td {
 .dna_up_mat-icon {
   width: 15px;
   height: 15px;
-  background-color: #5bc0de;;
+  background-color: #5bc0de;
   border-radius: 50px;
   position: relative;
   margin-right: 5px;
   &:hover {
     transform: scale(1.7);
+    background-color: #cdddeb;
   }
   img {
     width: 15px;
@@ -199,11 +200,12 @@ td {
 .dna_down_mat-icon {
   width: 15px;
   height: 15px;
-  background-color: #5bc0de;;
+  background-color: #b4e894;
   border-radius: 50px;
   position: relative;
-  &:hover {
+  &:hover, &:active {
     transform: scale(1.7);
+    background-color: #cdddeb;
   }
 
   img {
@@ -220,13 +222,13 @@ td {
 .rna_up_mat-icon {
   width: 15px;
   height: 15px;
-  background-color: #5bc0de;;
+  background-color: #5bc0de;
   border-radius: 50px;
   position: relative;
   margin-right: 5px;
   &:hover, &:active {
     transform: scale(1.7);
-
+    background-color: #cdddeb;
   }
 
   img {
@@ -242,12 +244,12 @@ td {
 .rna_down_mat-icon {
   width: 15px;
   height: 15px;
-  background-color: #5bc0de;;
+  background-color: #b4e894;
   border-radius: 50px;
   position: relative;
   &:hover, &:active {
     transform: scale(1.7);
-
+    background-color: #cdddeb;
   }
 
   img {
