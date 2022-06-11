@@ -56,6 +56,7 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
   private subs = new SubSink();
   experLists: ExperList[] = [];
   noLists: NOLIST[] = [];
+  isVisible = false;
   // dnaStatus = true;
   // rnaStatus = true;
   @ViewChild('dnaBox', { static: true }) dnaBox: ElementRef;
@@ -210,6 +211,9 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
       )
       .subscribe(data => {
         this.processing = false;
+        data = data.sort((a, b) => {
+          return parseInt(a.prescription_date, 10) - parseInt(b.prescription_date, 10);
+        });
         this.makeDNARNAList(data);
 
       });
@@ -1974,6 +1978,20 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
       rnacontrol.at(i).patchValue(rnaTemp);
     }
   }
+
+  extraAddLimsExcel(): void {
+      this.isVisible = !this.isVisible;
+  }
+
+  onCanceled(): void {
+    this.isVisible = false;
+  }
+
+
+  onSelected(): void {
+    this.isVisible = false;
+  }
+  onWrongFile(): void {}
 
 
 

@@ -32,6 +32,7 @@ import { TierComponent } from './inhouse/tier/tier.component';
 import { ReportDialogComponent } from './byengri/report/report-dialog/report-dialog.component';
 import { LimsComponent } from './byengri/lims/lims.component';
 import { JindanComponent } from './byengri/lims/jindan-dialog/jindan.component';
+import { ExtraExcelUploadComponent } from './byengri/lims/excelUpload/extraExcelUpload.component';
 // import { ScrollDNAMonitorDirective } from './directives/scrollsync.directive';
 
 
@@ -62,7 +63,8 @@ import { JindanComponent } from './byengri/lims/jindan-dialog/jindan.component';
     TierComponent,
     ReportDialogComponent,
     LimsComponent,
-    JindanComponent
+    JindanComponent,
+    ExtraExcelUploadComponent
   ],
   imports: [
 

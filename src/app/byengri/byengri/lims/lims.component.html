@@ -1,5 +1,5 @@
 <div id="wrap111">
-
+  <app-extra-excel-upload *ngIf="isVisible"    (onSelected)="onSelected()" (onCanceled)="onCanceled()"  (onWrongFile)="onWrongFile()"></app-extra-excel-upload>
 
   <div id="container" style="margin-top: 0px;">
     <div id="content">
@@ -53,6 +53,9 @@
               <button type="button" class="btn btn_02" style="margin-left: 15px;" (click)="fileInput.click()">Nano
                 엑셀읽기</button>
               <input style="display: none" type="file" (change)="onFileSelected($event)" #fileInput>
+              <button type="button" class="btn btn_02" style="margin-left: 15px; margin-top: 5px;"
+                (click)="extraAddLimsExcel()" >추가엑셀</button>
+
               <button type="button" class="btn btn_02" style="margin-left: 15px; margin-top: 5px;"
                 (click)="printexcel()">엑셀출력</button>
         </div>
