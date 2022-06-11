@@ -14,6 +14,7 @@ import { SubSink } from 'subsink';
 import * as XLSX from 'xlsx';
 import { MatDialog } from '@angular/material/dialog';
 import { JindanComponent } from './jindan-dialog/jindan.component';
+import { LimtStore } from './lims.store';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 
@@ -75,6 +76,7 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     public dialog: MatDialog,
+    private limtStore: LimtStore
   ) { }
 
   ngOnInit(): void {
@@ -1210,6 +1212,12 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
         .subscribe((data) => {
           const msg = `DNA: ${dnaCount}건, RNA: ${rnaCount}건 저장 하였습니다.`;
           this.snackBar.open(msg, '닫기', { duration: 5000 });
+
+          this.limtStore.setRNAsepCT();
+          this.limtStore.setRNAsepQuantity();
+          this.limtStore.setqPCRQuantity();
+          this.limtStore.setqubitDatOrigin();
+
         });
     }
 
@@ -1582,11 +1590,7 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
       });
     }
 
-
-
   }
-
-
 
   pathTypeSync(testcode: string, pathtype: string, type: string): void {
     const controlDNA = this.dnaForm.get('dnaFormgroup') as FormArray;
@@ -1988,8 +1992,38 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
 
-  onSelected(): void {
+  onSelected(uploadFile: string[]): void {
     this.isVisible = false;
+    const controlDNA = this.dnaForm.get('dnaFormgroup') as FormArray;
+    const controlRNA = this.rnaForm.get('rnaFormgroup') as FormArray;
+    const dnaLists = controlDNA.getRawValue();
+    const rnaLists = controlRNA.getRawValue();
+
+    if (dnaLists.length === 0 || rnaLists.length === 0) {
+      alert('선택된 DNA/RNA 데이터가 없습니다.');
+      return;
+    }
+
+    const ct = this.limtStore.getRNAsepCT(); // DNA ct,  RNA ct
+    const quantity = this.limtStore.getRNAsepQuantity(); // DNA quantity
+    const qPCRQuantity = this.limtStore.getqPCRQuantity();  // DNA RNA: Pm
+    const original = this.limtStore.getqubitDatOrigin();  // DNA RNA: ng/ul
+
+    // DNA RNA CT
+    for (let i = 0; i < 16; i++) {
+        controlDNA.at(i).patchValue({ng_ui: original[i]});
+        controlRNA.at(i).patchValue({ng_ui: original[i + 16]});
+
+        controlDNA.at(i).patchValue({ct: ct[i]});
+        controlRNA.at(i).patchValue({ct: ct[i + 16]});
+
+        controlDNA.at(i).patchValue({quantity: quantity[i]});
+
+        controlDNA.at(i).patchValue({pm: qPCRQuantity[i]});
+        controlRNA.at(i).patchValue({pm: qPCRQuantity[i + 16]});
+
+
+    }
   }
   onWrongFile(): void {}
 

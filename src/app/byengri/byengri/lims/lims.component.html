@@ -1,5 +1,5 @@
 <div id="wrap111">
-  <app-extra-excel-upload *ngIf="isVisible"    (onSelected)="onSelected()" (onCanceled)="onCanceled()"  (onWrongFile)="onWrongFile()"></app-extra-excel-upload>
+  <app-extra-excel-upload *ngIf="isVisible"    (onSelected)="onSelected($event)" (onCanceled)="onCanceled()"  (onWrongFile)="onWrongFile()"></app-extra-excel-upload>
 
   <div id="container" style="margin-top: 0px;">
     <div id="content">
@@ -277,7 +277,7 @@
                       </td>
                       <td class="txt_c">
                         <input type="text" size="10" class="clr-input" formControlName="ng_ui" #dnaNgul
-                          (change)="dnaNgUl(i, dnaNgul.value)">
+                          (change)="dnaNgUl(i, dnaNgul.value)" [matTooltip]="group.get('ng_ui').value">
                       </td>
                       <td class="txt_c">
                         <input type="text" size="10" class="clr-input" formControlName="dan_rna" #danrna
@@ -293,11 +293,11 @@
                       </td>
                       <td class="txt_c">
                         <input type="text" size="10" class="clr-input" formControlName="ct"
-                          (change)="keyDnactSync(group.get('pathology_num').value, i)">
+                          (change)="keyDnactSync(group.get('pathology_num').value, i)" [matTooltip]="group.get('ct').value">
                       </td>
                       <td class="txt_c">
                         <input type="text" size="10" class="clr-input" formControlName="quantity" #dnaquatity
-                          (change)="dnaQuatity(i,dnaquatity.value)">
+                          (change)="dnaQuatity(i,dnaquatity.value)" [matTooltip]="group.get('quantity').value">
                       </td>
                       <td class="txt_c">
                         <input type="text" size="10" class="clr-input" formControlName="quantity_2">
@@ -319,7 +319,7 @@
                       </td>
                       <td class="txt_c">
                         <input type="text" size="10" class="clr-input" formControlName="pm" #dnapm
-                          (change)="dnaPm(i, dnapm.value)">
+                          (change)="dnaPm(i, dnapm.value)" [matTooltip]="group.get('pm').value">
                       </td>
                       <td class="txt_c">
                         <input type="text" size="10" class="clr-input" formControlName="x100"
@@ -566,7 +566,7 @@
                       </td>
                       <td class="txt_c">
                         <input type="text" size="10" class="clr-input" formControlName="ng_ui" #rnaNgul
-                          (change)="rnaNgUl(i, rnaNgul.value)">
+                          (change)="rnaNgUl(i, rnaNgul.value)" [matTooltip]="group.get('ng_ui').value">
                       </td>
                       <td class="txt_c">
                         <input type="text" size="10" class="clr-input" formControlName="dan_rna" #rnadanrna
@@ -582,10 +582,11 @@
                       </td>
                       <td class="txt_c">
                         <input type="text" size="10" class="clr-input" formControlName="ct"
-                          (change)="keyRnactSync(group.get('pathology_num').value, i)">
+                          (change)="keyRnactSync(group.get('pathology_num').value, i)" [matTooltip]="group.get('ct').value">
                       </td>
                       <td class="txt_c">
-                        <input type="text" size="10" class="clr-input" formControlName="quantity" #rnaquatity>
+                        <input type="text" size="10" class="clr-input" formControlName="quantity" #rnaquatity
+                        [matTooltip]="group.get('quantity').value">
                       </td>
                       <td class="txt_c">
                         <input type="text" size="10" class="clr-input" formControlName="quantity_2" readonly>
@@ -605,7 +606,7 @@
                       </td>
                       <td class="txt_c">
                         <input type="text" size="10" class="clr-input" formControlName="pm" #rnapm
-                          (change)="rnaPm(i, rnapm.value)">
+                          (change)="rnaPm(i, rnapm.value)" [matTooltip]="group.get('pm').value">
                       </td>
                       <td class="txt_c">
                         <input type="text" size="10" class="clr-input" formControlName="x100"

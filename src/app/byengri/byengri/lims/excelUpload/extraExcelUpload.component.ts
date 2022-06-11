@@ -11,7 +11,7 @@ export class ExtraExcelUploadComponent {
 
   @ViewChild('uploadfile') uploadfile: ElementRef;
   // tslint:disable-next-line:no-output-on-prefix
-  @Output() onSelected = new EventEmitter<void>();
+  @Output() onSelected = new EventEmitter<string[]>();
   // tslint:disable-next-line: no-output-on-prefix
   @Output() onCanceled = new EventEmitter<void>();
   // tslint:disable-next-line:no-output-on-prefix
@@ -22,7 +22,7 @@ export class ExtraExcelUploadComponent {
   constructor(private limtStore: LimtStore) {}
 
   onConfirm(): void {
-    this.onSelected.emit(null);
+    this.onSelected.emit(this.uploadfileList);
     this.uploadfileList = [];
   }
 
@@ -96,8 +96,6 @@ export class ExtraExcelUploadComponent {
 
   rNAseP(file: File): void {
     let currR: number;
-    const wellposition: string[] = [];
-    const samplename: string[] = [];
     const ct: string[] = [];
     const quantity: string[] = [];
 
@@ -122,24 +120,12 @@ export class ExtraExcelUploadComponent {
             if (cell.v === 'Well Position') {
                currR = R;
             }
-            if ( R > currR ) {
-              wellposition.push(cell.v);
-            }
-          } else if (C === 3) {
-            if ( R > currR ) { samplename.push(cell.v); }
           } else if (C === 8) {
             if ( R > currR ) {  ct.push(cell.v); }
           } else if (C === 11) {
             if ( R > currR ) {  quantity.push(cell.v); }
           }
         }
-      }
-
-      if (wellposition.length) {
-        this.limtStore.setRNAsePWellPosition(wellposition);
-      }
-      if (samplename.length) {
-        this.limtStore.setRNAsepSampleName(samplename);
       }
 
       if (ct.length) {
@@ -149,15 +135,12 @@ export class ExtraExcelUploadComponent {
       if (quantity.length) {
         this.limtStore.setRNAsepQuantity(quantity);
       }
-    //  console.log('[135] ', wellposition, samplename, ct, quantity );
-
     };
     reader.readAsArrayBuffer(file);
   }
 
   qPCR(file: File): void {
     let currR: number;
-    const wellposition: string[] = [];
     const quantity: string[] = [];
     const reader = new FileReader();
     reader.onload = (e) => {
@@ -165,7 +148,7 @@ export class ExtraExcelUploadComponent {
 
       const wb = XLSX.read(fileData, { type: 'array' });
       const sheet = wb.Sheets.Results;
-      console.log('[165] ', wb );
+
       const range = XLSX.utils.decode_range(sheet['!ref']); // 범위값 얻음
       for (let R = range.s.r; R <= range.e.r; ++R) {
 
@@ -177,21 +160,12 @@ export class ExtraExcelUploadComponent {
             if (cell.v === 'Well Position') {
               currR = R;
            }
-            if ( R > currR ) {
-             wellposition.push(cell.v);
-           }
           } else if (C === 11) {
             if ( R > currR ) {
               quantity.push(cell.v);
             }
           }
-
-
         }
-      }
-
-      if (wellposition.length) {
-        this.limtStore.setqPCRWellPosition(wellposition);
       }
 
       if (quantity.length) {
@@ -204,16 +178,13 @@ export class ExtraExcelUploadComponent {
 
   qubitData(file: File): void {
     let currR: number;
-    const assay: string[] = [];
     const original: string[] = [];
     const reader = new FileReader();
     reader.onload = (e) => {
       const fileData = reader.result;
 
       const wb = XLSX.read(fileData, { type: 'array' });
-
-      const sheet = wb.Sheets.Results;
-
+      const sheet = wb.Sheets[wb.SheetNames[0]];
       const range = XLSX.utils.decode_range(sheet['!ref']); // 범위값 얻음
       for (let R = range.s.r; R <= range.e.r; ++R) {
 
@@ -227,9 +198,6 @@ export class ExtraExcelUploadComponent {
             if (cell.v === 'Assay Name') {
               currR = R;
            }
-            if ( R > currR ) {
-             assay.push(cell.v);
-           }
           } else if (C === 6) {
             if ( R > currR ) {
               original.push(cell.v);
@@ -238,15 +206,9 @@ export class ExtraExcelUploadComponent {
         }
       }
 
-      if (assay.length) {
-        this.limtStore.setqubitDataAssay(assay);
-      }
-
       if (original.length) {
         this.limtStore.setqubitDatOrigin(original);
       }
-
-
     };
     reader.readAsArrayBuffer(file);
   }
