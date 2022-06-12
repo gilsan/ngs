@@ -1076,7 +1076,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
           let oncomine = '';
           const type = item.type;
           const oncomineVariant = item.OncomineVariant.toLocaleLowerCase();
-          // console.log('[report][1079] ==>', item, type, oncomineVariant, this.muLists );
+          // console.log('[report][1079] ==>', item, type, oncomineVariant, this.fuLists );
           if (type === 'SNV' &&  this.muLists.includes(oncomineVariant)) {
                 const mutation = this.mutation.filter( list => list.gene === item.gene);
                 if (item.aminoAcidChange === '' || item.aminoAcidChange === null) {
@@ -1141,10 +1141,11 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                 }
 
           } else if (type !== 'CNV' && type !== 'SNV' &&  this.fuLists.includes(oncomineVariant)) {
+               // console.log('[report][1144]==>', item, this.fuLists);
                 const fusion = this.fusion.filter( list => list.gene === item.gene);
-                if (item.oncomine === 'Loss-of-function') {
+                if (item.oncomine.toLocaleLowerCase() === 'loss-of-function') {
                   oncomine = 'Loss';
-                } else if (item.oncomine === 'Gain-of-function') {
+                } else if (item.oncomine.toLocaleLowerCase() === 'gain-of-function') {
                   oncomine = 'Gain';
                 }
                 if (fusion.length === 1) {
@@ -1164,6 +1165,14 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                       functions: oncomine,
                       tier: fu.tier
                     });
+                  });
+                } else if (fusion.length === 0) {
+                  this.fusionNew.push({
+                    gene: item.gene,
+                    breakpoint: item.locus,
+                    readcount: item.readcount,
+                    functions: oncomine,
+                    tier: ''
                   });
                 }
 
