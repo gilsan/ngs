@@ -1940,11 +1940,10 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     const dnacontrol = this.dnaForm.get('dnaFormgroup') as FormArray;
     const dnaFormData = dnacontrol.getRawValue();
-    const dnaLength = dnaFormData.length - 1;
+    const dnaLength = dnaFormData.length;
 
     const rnacontrol = this.rnaForm.get('rnaFormgroup') as FormArray;
     const rnaFormData = rnacontrol.getRawValue();
-    const rnaLength = rnaFormData.length - 1;
 
     if (i !==  0 && i < dnaLength) {
       const dnaTemp = dnaFormData[i - 1];
@@ -1964,11 +1963,11 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     const dnacontrol = this.dnaForm.get('dnaFormgroup') as FormArray;
     const dnaFormData = dnacontrol.getRawValue();
-    const dnaLength = dnaFormData.length - 1;
+    const dnaLength = dnaFormData.length;
 
     const rnacontrol = this.rnaForm.get('rnaFormgroup') as FormArray;
     const rnaFormData = rnacontrol.getRawValue();
-    const rnaLength = rnaFormData.length - 1;
+   // const rnaLength = rnaFormData.length;
 
     if (i !== dnaLength && i < dnaLength) {
       const dnaTemp = dnaFormData[i + 1];
@@ -2014,13 +2013,13 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
         controlDNA.at(i).patchValue({ng_ui: original[i]});
         controlRNA.at(i).patchValue({ng_ui: original[i + 16]});
 
-        controlDNA.at(i).patchValue({ct: ct[i]});
-        controlRNA.at(i).patchValue({ct: ct[i + 16]});
+        controlDNA.at(i).patchValue({ct: parseFloat(ct[i]).toFixed(3)});
+        controlRNA.at(i).patchValue({ct: parseFloat(ct[i + 16]).toFixed(3)});
 
-        controlDNA.at(i).patchValue({quantity: quantity[i]});
+        controlDNA.at(i).patchValue({quantity: parseFloat(quantity[i]).toFixed(3)});
 
-        controlDNA.at(i).patchValue({pm: qPCRQuantity[i]});
-        controlRNA.at(i).patchValue({pm: qPCRQuantity[i + 16]});
+        controlDNA.at(i).patchValue({pm: parseFloat(qPCRQuantity[i]).toFixed(3)});
+        controlRNA.at(i).patchValue({pm: parseFloat(qPCRQuantity[i + 16]).toFixed(3)});
 
 
     }

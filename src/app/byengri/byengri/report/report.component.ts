@@ -1076,22 +1076,21 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
           let oncomine = '';
           const type = item.type;
           const oncomineVariant = item.OncomineVariant.toLocaleLowerCase();
-
+          // console.log('[report][1079] ==>', item, type, oncomineVariant, this.muLists );
           if (type === 'SNV' &&  this.muLists.includes(oncomineVariant)) {
-                // console.log('[1081][]', this.mutation);
                 const mutation = this.mutation.filter( list => list.gene === item.gene);
                 if (item.aminoAcidChange === '' || item.aminoAcidChange === null) {
                   tempaminoAcidChange = mutation[0].aminoAcidChange;
-                } else {
+                } else  {
                   tempaminoAcidChange = item.aminoAcidChange;
                 }
-                // console.log('[1087][]', item.gene, mutation);
+                // console.log('[1087][]', item, mutation, tempaminoAcidChange);
                 if (mutation.length === 1) {
                         this.mutationNew.push({
                         gene: item.gene,
-                        aminoAcidChange:  tempaminoAcidChange,
-                        nucleotideChange: mutation.length ? mutation[0].nucleotideChange : '',
-                        variantAlleleFrequency: mutation.length ? mutation[0].variantAlleleFrequency : '',
+                        aminoAcidChange:  item.aminoAcidChange,
+                        nucleotideChange:   item.coding,
+                        variantAlleleFrequency:   item.frequency,
                         ID: item.variantID,
                         tier: mutation.length ? mutation[0].tier : '',
                         transcript: item.transcript
@@ -1100,14 +1099,24 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                   mutation.forEach( mut => {
                     this.mutationNew.push({
                       gene: item.gene,
-                      aminoAcidChange:  tempaminoAcidChange,
-                      nucleotideChange:  mut.nucleotideChange,
-                      variantAlleleFrequency: mut.variantAlleleFrequency,
+                      aminoAcidChange:  item.aminoAcidChange,
+                      nucleotideChange:   item.coding,
+                      variantAlleleFrequency:   item.frequency,
                       ID: item.variantID,
                       tier:  mut.tier,
                       transcript: item.transcript
                     });
-                  })
+                  });
+                } else if (mutation.length === 0) {
+                  this.mutationNew.push({
+                    gene: item.gene,
+                    aminoAcidChange: item.aminoAcidChange,
+                    nucleotideChange: item.coding,
+                    variantAlleleFrequency: item.frequency,
+                    ID: item.variantID,
+                    tier:  '',
+                    transcript: item.transcript
+                  });
                 }
 
           } else if (type === 'CNV' &&  this.amLists.includes(oncomineVariant)) {
