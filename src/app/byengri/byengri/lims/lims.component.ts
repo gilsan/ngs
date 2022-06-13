@@ -213,9 +213,9 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
       )
       .subscribe(data => {
         this.processing = false;
-        data = data.sort((a, b) => {
-          return parseInt(a.prescription_date, 10) - parseInt(b.prescription_date, 10);
-        });
+        // data = data.sort((a, b) => {
+        //   return parseInt(a.prescription_date, 10) - parseInt(b.prescription_date, 10);
+        // });
         this.makeDNARNAList(data);
 
       });
