@@ -236,7 +236,7 @@
 
                       <td class="txt_c">
                         <input type="text" size="10" class="clr-input" formControlName="prescription_code"
-                          #prescriptioncode
+                          #prescriptioncode  [matTooltip]="group.get('prescription_code').value"
                           (change)="prescriptionCodeSync(group.get('pathology_num').value, prescriptioncode.value, 'DNA')">
                       </td>
                       <td>
@@ -403,7 +403,7 @@
                   <col width="80px">
                   <col width="100px">
                 </colgroup>
-                <thead class="fixheader">
+                <thead  class="fixheader">
                   <tr>
                     <th>
                       <!--  <button class="btn btn_01">추가</button> -->
@@ -524,7 +524,7 @@
                       </td>
                       <td class="txt_c">
                         <input type="text" size="10" class="clr-input" formControlName="prescription_code"
-                          #rnaprescriptioncode
+                          #rnaprescriptioncode  [matTooltip]="group.get('prescription_code').value"
                           (change)="prescriptionCodeSync(group.get('pathology_num').value, rnaprescriptioncode.value, 'RNA')">
                       </td>
                       <td>

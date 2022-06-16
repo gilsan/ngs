@@ -1368,6 +1368,7 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   tableScroll(evt: Event): void {
+
     const target = evt.target as Element;
     const lastScrollTop = target.scrollTop;
     const lastScrollLeft = target.scrollLeft;
@@ -1448,10 +1449,12 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   tableHeader(): {} {
+   // console.log('[1452][scroll]', this.topScroll, this.leftScroll);
     if (this.topScroll) {
-      return { 'header-fix': true, 'td-fix': false };
+      return { 'header-fix': true, 'td-fix': false, 'zindex': false };
     }
-    return { 'header-fix': false, 'td-fix': true };
+    return { 'header-fix': false, 'td-fix': true, 'zindex': true };
+
   }
   ////////////////////////////////
   dnaDroped(event: CdkDragDrop<string[]>): void {

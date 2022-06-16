@@ -268,3 +268,56 @@ td {
 .table_list tr:hover {
   background-color: lightgray;
 }
+////////////////////////////////
+.table_list tr td:nth-child(4),
+.table_list tr th:nth-child(4),
+.table_list tr td:nth-child(5),
+.table_list tr th:nth-child(5),
+.table_list tr td:nth-child(6),
+.table_list tr th:nth-child(6),
+.table_list tr td:nth-child(10),
+.table_list tr th:nth-child(10) {
+
+  position: sticky;
+  background-color: white;
+}
+
+.table_list tr td:nth-child(4),
+.table_list tr th:nth-child(4)
+  {
+  left: 0;
+}
+
+.table_list tr td:nth-child(5),
+.table_list tr th:nth-child(5)
+  {
+  left: 40px;
+}
+
+.table_list tr td:nth-child(6),
+.table_list tr th:nth-child(6)
+  {
+  left: 140px;
+}
+
+.table_list tr td:nth-child(10),
+.table_list tr th:nth-child(10)
+  {
+  left: 240px;
+}
+
+
+.zindex {
+  z-index: 10;
+}
+
+
+////////////////////////////////////////////
+
+
+
+
+
+
+
+
