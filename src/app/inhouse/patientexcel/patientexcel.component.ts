@@ -174,6 +174,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
     let leukemia = '';
     let flt3itd = '';
     let chron = '';
+
     if (list.data.length === 0) {
       if (parseInt(list.screenstatus, 10) >= 3) {
         if (parseInt(list.detected, 10) === 0) {
@@ -512,8 +513,6 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
       });
     }
 
-
-
   }
 
   pushGenetic(list): void {
@@ -553,12 +552,13 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
       };
     } else {
       list.data.forEach(item => {
-        if (parseInt(list.sendyn, 10) === 3) {
+        if (parseInt(item.sendyn, 10) === 3) {
           if (parseInt(list.detected, 10) === 0) {
             check = 'Detected';
           } else if (parseInt(list.detected, 10) === 1) {
             check = 'Not Detected';
           }
+
           this.genetic.push({
             prescription: list.test_code,
             title: list.reportTitle,
@@ -820,6 +820,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
     { width: 19 }, { width: 12 }, { width: 9 }
 
     ];
+    console.log('[822][유전성]', this.genetic);
     this.excel.exportAsExcelFileWidth(this.genetic, 'Genetic', width);
   }
 
