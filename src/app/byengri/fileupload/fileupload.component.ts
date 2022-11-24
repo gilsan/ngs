@@ -26,6 +26,7 @@ export class FileuploadComponent implements OnInit {
   msiScore: string;
   type: string;
   percentage: number;
+
   // status$ = new Subject();
   status = [];
   filteredOriginData: IFilteredOriginData[] = [];
@@ -34,7 +35,8 @@ export class FileuploadComponent implements OnInit {
   clinical: IGeneTire[] = [];
   prevalent = [];
   uploadfileList = [];
-
+  totalMappedFusionPanelReads = '';
+  mapd = '';
   tumorType: string;
   burden: string;
 
@@ -244,18 +246,25 @@ export class FileuploadComponent implements OnInit {
         }
       });
 
+
       lists.forEach(list => {
+
         const msiList = list.split('##')[1].split('=');
 
         if (msiList[0] === 'sampleDiseaseType') {
           this.type = msiList[1].replace(/(\r\n|\r)/gm, '');
-
         } else if (msiList[0] === 'CellularityAsAFractionBetween0-1') {
           this.percentage = parseFloat(msiList[1]) * 100;
 
+        } else if (msiList[0] === 'TotalMappedFusionPanelReads') { // 2022.11.24 수정
+          this.totalMappedFusionPanelReads = msiList[1].replace(/(\r\n|\r)/gm, '');
+        } else if (msiList[0] === 'mapd') {
+          this.mapd = msiList[1].replace(/(\r\n|\r)/gm, '');
         }
       });
+      console.log('[165]');
       this.fileUploadService.setTumorCellPercentage(this.percentage.toString(), this.pathologyNum);  // 퍼센트
+      this.fileUploadService.setMapd(this.pathologyNum, this.mapd, this.totalMappedFusionPanelReads);
     };
     reader.readAsText(file);
 

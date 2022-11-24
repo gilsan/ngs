@@ -58,8 +58,17 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
   experLists: ExperList[] = [];
   noLists: NOLIST[] = [];
   isVisible = false;
-  // dnaStatus = true;
-  // rnaStatus = true;
+
+  jindanDNAExist = true; // 조직학적 진단 존재 확인
+  jindanRNAExist = true;
+  bigoDNAExist   = true;   // 비고 존재확인
+  bigoRNAExist   = true;
+  jindanDNALists: string[] = [];
+  bigoDNALists: string[] = [];
+  jindanRNALists: string[] = [];
+  bigoRNALists: string[] = [];
+
+
   @ViewChild('dnaBox', { static: true }) dnaBox: ElementRef;
   @ViewChild('rnaBox', { static: true }) rnaBox: ElementRef;
 
@@ -85,7 +94,7 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   initLoadLists(): void {
-    this.search(this.startToday(), this.endToday());
+   // this.search(this.startToday(), this.endToday());
     this.exminObservable$ = this.manageUsersService.getManageUsersList(this.startToday2(), this.endToday(), '', '', 'P')
       .pipe(
         // tap(data => console.log(data)),
@@ -128,7 +137,7 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
       lists.forEach(list => {
         this.LISTS.push({ no: list.orderby, type: list.gene });
       });
-      console.log('[118]', this.LISTS);
+     // console.log('[118]', this.LISTS);
     });
   }
 
@@ -206,6 +215,8 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
             if (data[0].recheck.length) {
               this.rechecker = data[0].recheck;
             }
+
+
           }
 
         }),
@@ -213,6 +224,7 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
       )
       .subscribe(data => {
         this.processing = false;
+
         // data = data.sort((a, b) => {
         //   return parseInt(a.prescription_date, 10) - parseInt(b.prescription_date, 10);
         // });
@@ -492,14 +504,64 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
 
    // console.log('[517][순서변경후][DNA, RNA]', this.dnaLists, this.rnaLists);
     this.dnaLists.forEach((list, index) => {
+      if (list.jindan.length) {  // 2022.11.24 추가
+        this.jindanDNALists.push(list.jindan);
+      }
+
+      if (list.bigo.length) {
+        this.bigoDNALists.push(list.bigo);
+      }
+
       list.id = index.toString();
       this.dnaFormLists().push(this.createDNA(list));
     });
 
+    if (this.jindanDNALists.length) { // 2022.11.24 수정
+      this.jindanDNAExist = true;
+      this.jindanDNALists = [];
+    } else {
+      this.jindanDNAExist = false;
+      this.jindanDNALists = [];
+    }
+
+    if (this.bigoDNALists.length) { // 2022.11.24 수정
+      this.bigoDNAExist = true;
+      this.bigoDNALists = [];
+    } else {
+      this.bigoDNAExist = false;
+      this.bigoDNALists = [];
+    }
+
     this.rnaLists.forEach((list, index) => {
+      if (list.jindan.length) {  // 2022.11.24 추가
+        this.jindanRNALists.push(list.jindan);
+      }
+
+      if (list.bigo.length) {
+        this.bigoRNALists.push(list.bigo);
+      }
       list.id = index.toString();
       this.rnaFormLists().push(this.createRNA(list));
     });
+
+    if (this.jindanRNALists.length) { // 2022.11.24 수정
+      this.jindanRNAExist = true;
+      this.jindanRNALists = [];
+    } else {
+      this.jindanRNAExist = false;
+      this.jindanRNALists = [];
+    }
+
+    if (this.bigoRNALists.length) { // 2022.11.24 수정
+      this.bigoRNAExist = true;
+      this.bigoRNALists = [];
+    } else {
+      this.bigoRNAExist = false;
+      this.bigoRNALists = [];
+    }
+
+
+
   }
 
   testSearch(info: string): void {

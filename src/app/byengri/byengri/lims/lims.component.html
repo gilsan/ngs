@@ -84,11 +84,11 @@
                   <col width="80px">
                   <col width="80px">
                   <col width="120px"> <!--  검체-->
-                  <col width="80px">  <!-- 조직학적 진단  -->
+                  <col width="80px" *ngIf="jindanDNAExist">  <!-- 조직학적 진단  -->
                   <col width="50px">
                   <col width="150px">
                   <col width="80px">  <!-- tumor %  -->
-                  <col width="180px"> <!-- 비고  -->
+                  <col width="180px" *ngIf="bigoDNAExist"> <!-- 비고  -->
                   <col width="80px">
                   <col width="80px">
                   <col width="80px">
@@ -131,11 +131,11 @@
                     <th>블록수</th>
                     <th>key block</th>
                     <th>검체</th>
-                    <th>조직학적<br>진단</th>
+                    <th *ngIf="jindanDNAExist">조직학적<br>진단</th>
                     <th>암종<br>번호</th>
                     <th>암종</th>
                     <th>tumor %</th>
-                    <th>비 고</th>
+                    <th *ngIf="bigoDNAExist">비 고</th>
                     <th>ng/ul</th>
                     <th>260/280</th>
                     <th>260/230</th>
@@ -239,7 +239,7 @@
                           #prescriptioncode  [matTooltip]="group.get('prescription_code').value"
                           (change)="prescriptionCodeSync(group.get('pathology_num').value, prescriptioncode.value, 'DNA')">
                       </td>
-                      <td>
+                      <td *ngIf="jindanDNAExist">
                         <input type="text" size="10" class="clr-input" formControlName="jindan"
                         [matTooltip]="group.get('jindan').value"
                         (click)="jindanDNA(i)" readonly>
@@ -259,7 +259,7 @@
                           (change)="tumorcellperSync(group.get('pathology_num').value, tumorper.value, 'DNA')" #tumorper
                           formControlName="tumorburden">
                       </td>
-                      <td>
+                      <td *ngIf="bigoDNAExist">
                         <input type="text" size="20" class="clr-input" #bigo (change)="bigoSync(i,bigo.value, 'DNA')"
                           formControlName="bigo" [matTooltip]="group.get('bigo').value">
                       </td> <!-- 비고  -->
@@ -375,11 +375,11 @@
                   <col width="80px">
                   <col width="80px">
                   <col width="120px"> <!--  -->
-                  <col width="80px">  <!-- 조직학적 진단  -->
+                  <col width="80px" *ngIf="jindanRNAExist">  <!-- 조직학적 진단  -->
                   <col width="50px">
                   <col width="150px">
                   <col width="80px">
-                  <col width="180px"> <!-- 비고  -->
+                  <col width="180px" *ngIf="bigoRNAExist"> <!-- 비고  -->
                   <col width="80px">
                   <col width="80px">
                   <col width="80px">
@@ -422,11 +422,11 @@
                     <th>블록수</th>
                     <th>key block</th>
                     <th>검체</th>
-                    <th>조직학적<br>진단</th>
+                    <th *ngIf="jindanRNAExist">조직학적<br>진단</th>
                     <th>암종<br>번호</th>
                     <th>암종</th>
                     <th>tumor %</th>
-                    <th>비 고</th>
+                    <th *ngIf="bigoRNAExist">비 고</th>
                     <th>ng/ul</th>
                     <th>260/280</th>
                     <th>260/230</th>
@@ -527,7 +527,7 @@
                           #rnaprescriptioncode  [matTooltip]="group.get('prescription_code').value"
                           (change)="prescriptionCodeSync(group.get('pathology_num').value, rnaprescriptioncode.value, 'RNA')">
                       </td>
-                      <td>
+                      <td *ngIf="jindanRNAExist">
                         <input type="text" size="10" class="clr-input" formControlName="jindan"
                         [matTooltip]="group.get('jindan').value"
                         (click)="jindanRNA(i)" readonly>
@@ -548,7 +548,7 @@
                           (change)="tumorcellperSync(group.get('pathology_num').value, rnatumorper.value, 'RNA')"
                           #rnatumorper formControlName="tumorburden">
                       </td>
-                      <td>
+                      <td *ngIf="bigoRNAExist">
                         <input type="text" size="20" class="clr-input"  #rnabigo (change)="bigoSync(i,rnabigo.value,'RNA')"
                         formControlName="bigo" [matTooltip]="group.get('bigo').value">
                       </td> <!-- 비고  -->

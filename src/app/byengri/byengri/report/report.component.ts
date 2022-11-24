@@ -188,6 +188,10 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 
   [NOTE3]
   본 검체는 copy number variation 분석에 필요한 Q.C를 만족하지 못하여 amplification은 확인할 수 없습니다. 결과에 참고하시기 바랍니다.`;
+
+  notement3 = `[NOTE]
+  본 검체에서 추출 된 RNA는 일부 QC를 만족하지 못하여 49개의 유전자(AKT1, AKT2, AKT3, ALK, AR, BRAF, BRCA1, CDKN2A, EGFR, ERBB2, ERBB4, ERG, ESR1, ETV1, ETV4, ETV5, FGFR1, FGFR2, FGFR3, MAP3K8, MET, MTAP, MYB, MYBL1, NOTCH1, NOTCH2, NOTCH3, NRG1, NTRK1, NTRK2, NTRK3, NUTM1, PIK3CA, PIK3CB, PPARG, PRKACA, PRKACB, RAF1, RARA, RELA, RET, ROS1, RSPO2, RSPO3, STAT6, TERT, TFE3, TFEB, YAP1)에 대한 fusion은 확인 할 수 없었습니다. 결과에 참고하시기 바랍니다.
+  `;
   notecontents = '';
 
 
@@ -374,7 +378,12 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
         this.extraction.diagnosis = this.patientInfo.pathological_dx;
       }
 
-      this.tumorMutationalBurden = this.patientInfo.tumorburden;
+      if (this.patientInfo.tumorburden.length === 0) { // 2022.11.24 추가
+         this.tumorMutationalBurden = 'row';
+      } else {
+        this.tumorMutationalBurden = this.patientInfo.tumorburden;
+      }
+
       this.extraction.tumorburden = this.tumorMutationalBurden;
 
       if (this.patientInfo.msiscore.split('').includes('(')) {
@@ -732,7 +741,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   // tsv 화일에서 분류한 것을 디비에 저장후, 디비에서 불러온것
   initByDB(pathologynum: string): void {
     let tumortypes;
-    let deletion = '';
+    const deletion = '';
     // console.log('[663][initByDB][tsv화일 올린후]', pathologynum);
     this.reportday = this.today();
     const filteredOriginaData$ = this.filteredService.getfilteredOriginDataList(pathologynum)
@@ -771,12 +780,18 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
           this.extraction.msiscore = '';
         }
 
+        // 2022.11.24 수정
         if (tumorMutationalBurdenVal.length > 0) {
-          this.tumorMutationalBurden = tumorMutationalBurdenVal[0].tumorMutationalBurden;
-          this.extraction.tumorburden = tumorMutationalBurdenVal[0].tumorMutationalBurden;
+          if (tumorMutationalBurdenVal[0].tumorMutationalBurden.length) {
+            this.tumorMutationalBurden = tumorMutationalBurdenVal[0].tumorMutationalBurden;
+            this.extraction.tumorburden = tumorMutationalBurdenVal[0].tumorMutationalBurden;
+          } else {
+            this.tumorMutationalBurden = 'row';
+            this.extraction.tumorburden = 'row';
+          }
         } else {
-          this.tumorMutationalBurden = '';
-          this.extraction.tumorburden = '';
+          this.tumorMutationalBurden = 'row';
+          this.extraction.tumorburden = 'row';
         }
 
         if (tumortypeVal.length > 0) {
@@ -1074,10 +1089,10 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
         this.filteredOriginData.forEach(item => {
           let tempaminoAcidChange = '';
           let oncomine = '';
-          const type = item.type;
+          const type: string = item.type.toLowerCase();
           const oncomineVariant = item.OncomineVariant.toLocaleLowerCase();
           // console.log('[report][1079] ==>', item, type, oncomineVariant, this.fuLists );
-          if (type === 'SNV' &&  this.muLists.includes(oncomineVariant)) {
+          if (type === 'snv' &&  this.muLists.includes(oncomineVariant)) {
                 const mutation = this.mutation.filter( list => list.gene === item.gene);
                 if (item.aminoAcidChange === '' || item.aminoAcidChange === null) {
                   tempaminoAcidChange = mutation[0].aminoAcidChange;
@@ -1119,7 +1134,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                   });
                 }
 
-          } else if (type === 'CNV' &&  this.amLists.includes(oncomineVariant)) {
+          } else if (type === 'cnv' &&  this.amLists.includes(oncomineVariant)) {
                 const amplification = this.amplifications.filter( list => list.gene === item.gene);
                 const cytoband = item.cytoband.split(')');
                 if (amplification.length === 1) {
@@ -1140,7 +1155,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                   });
                 }
 
-          } else if (type !== 'CNV' && type !== 'SNV' &&  this.fuLists.includes(oncomineVariant)) {
+          } else if (type !== 'cnv' && type !== 'snv'  &&  this.fuLists.includes(oncomineVariant)) {
                // console.log('[report][1144]==>', item, this.fuLists);
                 const fusion = this.fusion.filter( list => list.gene === item.gene);
                 if (item.oncomine.toLocaleLowerCase() === 'loss-of-function') {
@@ -1207,7 +1222,8 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
           const gene = temps[0].trim().replace(/"/g, '');
           const type = temps[1].trim().replace(/"/g, '');
 
-          if (type.charAt(0) === 'p' || type.charAt(0) === 'c') {  // 임시수정
+          if (type.charAt(0) === 'p' || type.charAt(0) === 'c' || type.includes('*')) {  // 임시수정
+
             let customid = '';
             let transcript = '';
             let aminoAcidchange = '';
@@ -1229,6 +1245,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                 tempaminoAcidchange = items[2];
               }
             }
+
 
             // 유전자와 nucleotidechange 2개로 찿는다.
             const indexm = this.withGeneCoding(gene, nucleotidechange);
@@ -1265,6 +1282,29 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
               customid = '';
             }
 
+            if (!items[1].includes('*')) {
+
+            }
+
+
+            // 2022.11.24 수정
+            if (items[1].includes('*')) {
+              this.filteredOriginData.forEach( list => {
+                if (list.gene === items[0] && list.type.toLowerCase() === 'indel') {
+                  this.imutation.push({
+                    gene: items[0],
+                    aminoAcidChange: list.aminoAcidChange,
+                    nucleotideChange: list.coding,
+                    variantAlleleFrequency: list.frequency,
+                    ID: list.variantID,
+                    tier: '',
+                    transcript: list.transcript
+                  });
+
+                }
+            });
+              console.log('[1319] ==> ', items[0], items[1],   this.filteredOriginData);
+          } else {
             const result = this.removeGeneCheck(gene, aminoAcidchange, nucleotidechange);
             if (result === -1) {
               //  vc.novel.1169, 계열은 ID 에 빈공간으로 만듬.
@@ -1288,6 +1328,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                 transcript
               });
             }
+          }
 
           } else if (type === 'amplification') {
             const indexa = this.findGeneInfo(gene);
@@ -1535,7 +1576,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     if (val <= 0.5) {
       this.notecontents = this.notement;
     } else {
-      this.notecontents = this.notement2;
+      this.notecontents = this.notement3; // notement2 => notement3 로 2022.11.24 수정
     }
   }
 
