@@ -1099,7 +1099,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                 } else  {
                   tempaminoAcidChange = item.aminoAcidChange;
                 }
-                // console.log('[1087][]', item, mutation, tempaminoAcidChange);
+               // console.log('[1102][]===>', item, mutation, tempaminoAcidChange);
                 if (mutation.length === 1) {
                         this.mutationNew.push({
                         gene: item.gene,
@@ -1107,7 +1107,8 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                         nucleotideChange:   item.coding,
                         variantAlleleFrequency:   item.frequency,
                         ID: item.variantID,
-                        tier: mutation.length ? mutation[0].tier : '',
+                        // tier: mutation.length ? mutation[0].tier : '', // 2022.11.25 수정
+                        tier: this.findTier(item.gene),
                         transcript: item.transcript
                       });
                 } else if (mutation.length > 1) {
@@ -1118,7 +1119,8 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                       nucleotideChange:   item.coding,
                       variantAlleleFrequency:   item.frequency,
                       ID: item.variantID,
-                      tier:  mut.tier,
+                      // tier:  mut.tier,  // 2022.11.25 수정
+                      tier: this.findTier(item.gene),
                       transcript: item.transcript
                     });
                   });
@@ -1129,7 +1131,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                     nucleotideChange: item.coding,
                     variantAlleleFrequency: item.frequency,
                     ID: item.variantID,
-                    tier:  '',
+                    tier: this.findTier(item.gene),
                     transcript: item.transcript
                   });
                 }
@@ -1282,13 +1284,9 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
               customid = '';
             }
 
-            if (!items[1].includes('*')) {
-
-            }
-
-
             // 2022.11.24 수정
             if (items[1].includes('*')) {
+             // console.log('[1289] ===> ', items);
               this.filteredOriginData.forEach( list => {
                 if (list.gene === items[0] && list.type.toLowerCase() === 'indel') {
                   this.imutation.push({
@@ -1303,7 +1301,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 
                 }
             });
-              console.log('[1319] ==> ', items[0], items[1],   this.filteredOriginData);
+              console.log('[1303] ==> ', items[0], items[1],   this.filteredOriginData);
           } else {
             const result = this.removeGeneCheck(gene, aminoAcidchange, nucleotidechange);
             if (result === -1) {
@@ -1493,7 +1491,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     const idx = this.clinical.findIndex(list => list.gene === gene);
     // console.log('[248][findTier]', this.clinical[idx]);
     if (idx === -1) {
-      return 'none';
+      return '';
     }
     return this.clinical[idx].tier;
   }

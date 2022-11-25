@@ -304,7 +304,8 @@ export class UploadComponent implements OnInit {
       let tempSave = 'none';
       let tumorBurden = false;
       let idxNo = 0;
-
+      let tierExist = false;
+      let mutExist = false;
       data.filter(list => list[0] !== 'Public data sources included in relevant therapies')
         .forEach((list, index) => {
           if (list[0].length > 0) {
@@ -346,8 +347,8 @@ export class UploadComponent implements OnInit {
 
             }
 
-
             if (list[0] === 'Genomic Alteration' && (list[1] === 'Gene Name')) {
+
               if (count > 0) {
                 status = false;
               } else {
@@ -357,29 +358,66 @@ export class UploadComponent implements OnInit {
               count++;
             }
 
-            if (list[4] === undefined || list[4].length === 0) {
-              status = false;
+            // 있는 파일도 있고, 없는 파일도 있음
+            const temp1 = list[0].split('(');
+            if (temp1[0].trim() === 'Tumor Mutational Burden' && temp1[1] && list[1].length === 0) {
+              status = true;
             }
 
-            if (index >= start && status) {
-              const len = this.checkListNum(list[0]);
+            if (list[2] === 'Tier') {
+                tierExist = true;
+            }
 
-              this.geno.push({ gene: list[0], relevant1: list[4], relevant2: list[5], trial: list[6] });
-              console.log('[366][GENO]', list, this.geno);
+            if (list[4] === 'Mut/WT Ratio') {
+              mutExist = true;
+            }
+
+            if (!tierExist && !mutExist) {
+              if (list[4] === undefined || list[4].length === 0) {
+                status = false;
+              }
+            } else if (tierExist && mutExist) {
+              if (list[6] === undefined || list[6].length === 0) {
+                status = false;
+              }
+            } else if (!tierExist && mutExist) {
+              if (list[4] === undefined || list[4].length === 0) {
+                status = false;
+              }
+            }
+
+
+            // console.log('[390] ========>', index, start, status,   list);
+            if (index >= start && status && temp1[0].trim() !== 'Tumor Mutational Burden') {
+              const len = this.checkListNum(list[0]);
+              if (!tierExist && !mutExist) {
+                this.geno.push({ gene: list[0], relevant1: list[4], relevant2: list[5], trial: list[6] });
+              } else if (tierExist && mutExist) {
+                this.geno.push({ gene: list[0], relevant1: list[6], relevant2: list[7], trial: '' });
+              } else if (tierExist && mutExist) {
+                this.geno.push({ gene: list[0], relevant1: list[4], relevant2: list[5], trial: '' });
+              }
+
+              // console.log('[401][GENO]', list, this.geno, len, count);
               if (len === 1) {
                 const filteredlist = list[0].trim().split(' ');
-                const tier = list[2].substring(0, list[2].length - 1);
+                let tier = '';
+                if (tierExist) {
+                  tier = list[2].substring(0, list[2].length - 1);
+                }
+
                 // filteredlist 길이
                 const filteredlistLen = filteredlist.length;
                 if (filteredlistLen >= 2 && list[0].length) {  //
               //    if (filteredlist[1] !== 'deletion' && filteredlist[1] !== 'stable') { 2022.06.01 수정
                   if (  filteredlist[1] !== 'stable') {
+
                     this.clinical.push({ gene: filteredlist[0], tier, frequency: list[3] });  // 티어
                     this.clinically.push(list[0]); // 유전자
                     this.clinically2.push({ gene: list[0].trim(), seq: clinicallyCount.toString() }); // 신규
                     clinicallyCount++;
                     list[0] = '';
-
+                    console.log('[420] ===>', this.clinical, this.clinically, this.clinically2);
                   }
 
                   if (filteredlist.includes('exon') && filteredlist[1] === 'exon' && list[0].length) {
@@ -426,7 +464,7 @@ export class UploadComponent implements OnInit {
             if (count === 2) { }
 
             if (list[0].trim() === 'Prevalent cancer biomarkers without relevant evidence based on included data sources') {
-
+              status = false; // 2022.11.25 수정
               nextline = index + 1;
             }
 
