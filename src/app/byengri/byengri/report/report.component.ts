@@ -853,6 +853,9 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
           this.stateControl = statcontrolVal[0];
         }
         console.log('[840][tsv 정도관리]', this.stateControl);
+        // MAPD 값이 0.5 이상/이하로 구분
+        this.setMapd(this.stateControl.mapd);
+
         // Genomic Alteration
         if (gemoicVal.length) {
           this.genoLists = gemoicVal;
@@ -1105,7 +1108,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                         gene: item.gene,
                         aminoAcidChange:  item.aminoAcidChange,
                         nucleotideChange:   item.coding,
-                        variantAlleleFrequency:   item.frequency,
+                        variantAlleleFrequency:   item.frequency + '%',
                         ID: item.variantID,
                         // tier: mutation.length ? mutation[0].tier : '', // 2022.11.25 수정
                         tier: this.findTier(item.gene),
@@ -1117,7 +1120,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                       gene: item.gene,
                       aminoAcidChange:  item.aminoAcidChange,
                       nucleotideChange:   item.coding,
-                      variantAlleleFrequency:   item.frequency,
+                      variantAlleleFrequency:   item.frequency + '%',
                       ID: item.variantID,
                       // tier:  mut.tier,  // 2022.11.25 수정
                       tier: this.findTier(item.gene),
@@ -1129,7 +1132,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                     gene: item.gene,
                     aminoAcidChange: item.aminoAcidChange,
                     nucleotideChange: item.coding,
-                    variantAlleleFrequency: item.frequency,
+                    variantAlleleFrequency: item.frequency + '%',
                     ID: item.variantID,
                     tier: this.findTier(item.gene),
                     transcript: item.transcript
@@ -1293,7 +1296,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                     gene: items[0],
                     aminoAcidChange: list.aminoAcidChange,
                     nucleotideChange: list.coding,
-                    variantAlleleFrequency: list.frequency,
+                    variantAlleleFrequency: list.frequency ?  list.frequency + '%' : '', // 2022.11.29 수정
                     ID: list.variantID,
                     tier: '',
                     transcript: list.transcript
@@ -1569,6 +1572,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   setMapd(mapd: string): void {
+    console.log('[1572] ====> ', mapd);
     this.stateControl.mapd = mapd;
     const val = parseFloat(this.stateControl.mapd);
     if (val <= 0.5) {
