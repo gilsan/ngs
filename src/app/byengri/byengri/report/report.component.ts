@@ -1108,7 +1108,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                         gene: item.gene,
                         aminoAcidChange:  item.aminoAcidChange,
                         nucleotideChange:   item.coding,
-                        variantAlleleFrequency:   item.frequency + '%',
+                        variantAlleleFrequency:   item.frequency  ? item.frequency + '%' : '',
                         ID: item.variantID,
                         // tier: mutation.length ? mutation[0].tier : '', // 2022.11.25 수정
                         tier: this.findTier(item.gene),
@@ -1120,7 +1120,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                       gene: item.gene,
                       aminoAcidChange:  item.aminoAcidChange,
                       nucleotideChange:   item.coding,
-                      variantAlleleFrequency:   item.frequency + '%',
+                      variantAlleleFrequency:   item.frequency ? item.frequency + '%' : '',
                       ID: item.variantID,
                       // tier:  mut.tier,  // 2022.11.25 수정
                       tier: this.findTier(item.gene),
@@ -1132,7 +1132,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                     gene: item.gene,
                     aminoAcidChange: item.aminoAcidChange,
                     nucleotideChange: item.coding,
-                    variantAlleleFrequency: item.frequency + '%',
+                    variantAlleleFrequency: item.frequency  ? item.frequency + '%' : '',
                     ID: item.variantID,
                     tier: this.findTier(item.gene),
                     transcript: item.transcript
