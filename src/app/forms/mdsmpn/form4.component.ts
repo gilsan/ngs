@@ -166,9 +166,14 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
   // tslint:disable-next-line:max-line-length
   vusmsg = `VUS는 ExAC, KRGDB등의 Population database에서 관찰되지 않았거나, 임상적 의의가 불분명합니다. 해당변이의 의의를 명확히 하기 위하여 환자의 buccal swab 검체로 germline variant 여부에 대한 확인이 필요 합니다.`;
   tempvusmsg = '';
-  functionalimpact: string[] = ['Pathogenic', 'Likely Pathogenic', 'VUS'];
+  functionalimpact: string[] = ['Pathogenic', 'Likely Pathogenic','VUS','Oncogenic', 'Likely Oncogenic'];
   zygosity: string[] = ['Heterozygous', 'Homozygous'];
-  methodmsg = `Total genomic DNA was extracted from the each sample. The HEMEaccuTest MDS/MPN was used to make the library. The HEMEaccuTest MDS/MPN was used for in-solution enrichment of target regions. The enriched fragments were then amplified and sequenced on the NextSeq550Dx system (illumina). After demultiplexing, the reads were aligned to the human reference genome hg19 (GRCh37) using BWA (0.7.10) and duplicate reads were removed with MarkDuplicates (GATK 4.0.6.0). Local realignment, score recalibiration and filtering sequence data were performed with GATK (4.0.6.0). Variants were annotated using SnpEff (4.3).`;
+
+  // tslint:disable-next-line:max-line-length
+  // methodmsg = `Total genomic DNA was extracted from the each sample. The HEMEaccuTest MDS/MPN was used to make the library. /The HEMEaccuTest MDS/MPN was used for in-solution enrichment of target regions. The enriched fragments were then amplified and sequenced on the NextSeq550Dx system (illumina). After demultiplexing, the reads were aligned to the human reference genome hg19 (GRCh37) using BWA (0.7.10) and duplicate reads were removed with MarkDuplicates (GATK 4.0.6.0). Local realignment, score recalibiration and filtering sequence data were performed with GATK (4.0.6.0). Variants were annotated using SnpEff (4.3).`;
+
+  methodmsg = `Total genomic DNA was extracted from the each sample. The HEMEaccuTest MDS/MPN was used to make the library. The HEMEaccuTest MDS/MPN was used for in-solution enrichment of target regions. The enriched fragments were then amplified and sequenced on the NextSeq550Dx system (illumina). After demultiplexing, the reads were aligned to the human reference genome hg19 (GRCh37) using BWA (0.7.10) and duplicate reads were removed with MarkDuplicates (GATK 4.0.6.0). Local realignment, score recalibiration and filtering sequence data were performed with GATK (4.0.6.0). Variants were annotated using SnpEff (4.3). The detected variants are classified as Oncogenic, Likely Oncogenic, Variant of Uncertain Significance (VUS), Likely Benign, and Benign variant according to the  Somatic Oncogenicity classification [Genetics in Medicine (2022) 24, 986–998]. We only report variants classified as Oncogenic, Likely oncogenic and VUS.`;
+
 
   technique = `The analysis was optimised to identify base pair substitutions with a high sensitivity. The sensitivity for small insertions and deletions was lower. Deep-intronic mutations, mutations in the promoter region, repeats, large exonic deletions and duplications, and other structural variants were not detected by this test.`;
 
