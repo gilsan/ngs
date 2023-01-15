@@ -44,6 +44,9 @@ import { MdsDialogComponent } from './components/mdsmpn/mds-dialog/mds-dialog.co
 import { HereDialogComponent } from './components/hereditary/here-dialog/here-dialog.component';
 import { MlpaDialogComponent } from './components/mlpa/mlpa-dialog/mlpa-dialog.component';
 import { SeqDialogComponent } from './components/sequencing/seq-dialog/seq-dialog.component';
+import { MainListsComponent } from '../forms/ig_tcr/mainList/mainLists.component';
+import { IgTcrSheetComponent } from '../forms/ig_tcr/igtcrSheet/igtcrSheet.component';
+import { JsPDFComponent } from '../forms/ig_tcr/jspdf/jspdf.component';
 
 
 
@@ -72,6 +75,9 @@ import { SeqDialogComponent } from './components/sequencing/seq-dialog/seq-dialo
     DashboardComponent,
     AmlallDialogComponent,
     ResearchUploadComponent,
+    MainListsComponent,
+    IgTcrSheetComponent,
+    JsPDFComponent,
 
     LymDialogComponent,
     MdsDialogComponent,

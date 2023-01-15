@@ -379,6 +379,14 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
   }
 
+  igtcr(): void {
+    this.router.navigate(['/diag', 'igtcrMainLists']);
+  }
+
+  jspdf(): void {
+    this.router.navigate(['/diag', 'jspdf']);
+  }
+
 
   link(url: string): void {
     // event.preventDefault();

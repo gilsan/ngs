@@ -34,6 +34,9 @@ import { Form4Component } from '../forms/mdsmpn/form4.component';
 import { Form3Component } from '../forms/lymphoma/form3.component';
 import { Form2Component } from '../forms/form2/form2.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { MainListsComponent } from '../forms/ig_tcr/mainList/mainLists.component';
+import { IgTcrSheetComponent } from '../forms/ig_tcr/igtcrSheet/igtcrSheet.component';
+import { JsPDFComponent } from '../forms/ig_tcr/jspdf/jspdf.component';
 
 // import { AllamlComponent } from './components/amlall/allaml/allaml.component';
 // import { LymComponent } from './components/lymphoma/lym/lym.component';
@@ -79,6 +82,9 @@ const routes: Routes = [
       { path: 'fileupload', component: FileuploadComponent },
       { path: 'fileupload/:id', component: FileuploadComponent },
       { path: 'inhouse_to_db', component: InhouseToDbComponent },
+      { path: 'igtcrMainLists', component: MainListsComponent},
+      { path: 'igtcrMainLists/igtcrsheet', component: IgTcrSheetComponent },
+      { path: 'jspdf', component: JsPDFComponent},
       // { path: 'disease_to_db', component: DiseaseToDbComponent },
       // { path: 'main', component: MainscreenComponent },
       {

@@ -29,6 +29,7 @@
     "echarts": "^5.2.0",
     "file-saver": "^2.0.5",
     "jsbarcode": "^3.11.3",
+    "jspdf": "^2.5.1",
     "moment": "^2.29.1",
     "ngx-barcode": "^0.3.0",
     "ngx-echarts": "^7.0.2",
