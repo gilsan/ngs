@@ -1,0 +1,204 @@
+<div id="result">
+    <div id="container" style="position: relative;">
+        <h2 style="margin-top: 5px;">IGH CLONALITY REPORT</h2>
+        <button type="button" class="preview__button" (click)="closeModal()">닫기</button>
+
+        <div id="content">
+            <div class="box pd_20">
+                <div class="sub_title">Patient:  홍ㅇㅇ, 36761316 (M/16)</div>
+
+                <div class="sub_title">Test Information</div>
+                <table cellpadding="0" cellspacing="0" class="table_result02">
+                  <colgroup>
+                  <col style="width:50%;" />
+                  <col style="width:50%;" />
+                  </colgroup>
+                  <tbody>
+                      <tr>
+                          <td> SPECIMEN: Genomic DNA isolated from Bone marrow</td>
+                          <td> REQUEST: 김성구/소아청소년과</td>
+                      </tr>
+                  </tbody>
+                </table>
+
+                <div class="sub_title">검사원리</div>
+                <table cellpadding="0" cellspacing="0" class="table_result02">
+                    <colgroup>
+                        <col style="width:100%;" />
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <td>
+                                Illumina®  MiSeqDx 및 LymphoTrack(Invivoscribe Inc, San Diego, CA)을 이용하여 high throughput sequencing 방법으로 면역글로불린 유전자 재배열을 확인하고 정량하는 검사입니다.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- 
+                    <div class="pd_r20">
+                    <textarea class="textarea_01" ></textarea>
+                </div>
+                 -->
+
+                <div class="sub_title">검사원리</div>
+                <table cellpadding="0" cellspacing="0" class="table_result02">
+                    <colgroup>
+                        <col style="width:50%;" />
+                        <col style="width:50%;" />
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <td colspan="2">
+                                미세잔존질환(MRD) 추적에 적합한 IGH 클론이 두 개 검출됩니다.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                % of clonal cells (estimated value) :
+                            </td>
+                            <td>
+                                76.70% / total B-cells , 50.90% / total B-cells  
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- 
+                    <div class="pd_r20">
+                    <textarea class="textarea_01" ></textarea>
+                </div>
+                 -->
+
+                <div class="sub_title">검출된 클론</div>
+                    <div class="box">
+
+                        <table class="table_list td-fix st-01">
+                            <colgroup>
+                                <col style="width:60px"/>  <!-- #   -->
+                                <col style="width:100px"/>  <!-- V region    -->
+                                <col style="width:100px"/>  <!-- J region    -->
+                                <col style="width:100px"/>  <!-- Length (dp)   -->
+                                <col style="width:100px"/>  <!-- Total IGH read depth    -->
+                                <col style="width:80px"/>  <!-- Clonal IGH depth    -->
+                                <col style="width:100px"/>  <!-- Clonal/total IGH read depth (%)*    -->
+                                <col style="width:150px"/>  <!-- Clonal cell equivalent**    -->
+                                <col style="width:100px"/>  <!-- Clonal cell sequence    -->
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>V region</th>
+                                    <th>J region</th>
+                                    <th>Length (dp)</th>
+                                    <th>Total IGH read depth</th>
+                                    <th>Clonal IGH depth</th>
+                                    <th>Clonal/total IGH read depth (%)*</th>
+                                    <th>Clonal cell equivalent**</th>
+                                    <th>Clonal cell sequence</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="s-text-center">2</td>
+                                    <td class="s-text-center">IGHV3-30-05</td>
+                                    <td class="s-text-center">IGHJ6-03</td>
+                                    <td class="s-text-center">300</td>
+                                    <td class="s-text-right">300,000</td>
+                                    <td class="s-text-right">256,487</td>
+                                    <td class="s-text-right">50.90</td>
+                                    <td class="s-text-left">148,667</td>
+                                    <td class="s-text-left">TCAACGTGTCAACGTGTCAACGTG</td>
+                                </tr>
+                                <tr>
+                                    <td class="s-text-center">1</td>
+                                    <td class="s-text-center">IGHV3-30-04</td>
+                                    <td class="s-text-center">IGHJ6-03</td>
+                                    <td class="s-text-center">322</td>
+                                    <td class="s-text-right">291,913</td>
+                                    <td class="s-text-right">224,487</td>
+                                    <td class="s-text-right">76.90</td>
+                                    <td class="s-text-left">148,667</td>
+                                    <td class="s-text-left">TCAACGTGTCAACGTGTCAACGTG</td>
+                                </tr>
+                                <tr>
+                                    <td class="s-text-center">LQIC</td>
+                                    <td class="s-text-center">IGHV1-69-13</td>
+                                    <td class="s-text-center">IGHJ6-03</td>
+                                    <td class="s-text-center">298</td>
+                                    <td class="s-text-right">291,913</td>
+                                    <td class="s-text-right">151</td>
+                                    <td class="s-text-right">0.05</td>
+                                    <td class="s-text-left">100</td>
+                                    <td class="s-text-left">TCAACGTGTCAACGTGTCAACGTG</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+                
+                <div class="sub_title">검사원리</div>
+                <table cellpadding="0" cellspacing="0" class="table_result02 st-01">
+                    <colgroup>
+                        <col style="width:50%;" />
+                        <col style="width:50%;" />
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <td class="s-text-right">
+                                Input DNA =
+                            </td>
+                            <td class="s-text-left">
+                                400ng
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="s-text-right">
+                                Total nucleated cells (estimated) =
+                            </td>
+                            <td class="s-text-left">
+                                61,538 cell equivalents (Estimated DNA mass per 1 cell = 6.5 pg)  
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="s-text-right">
+                                Total B-cell coune =
+                            </td>
+                            <td class="s-text-left">
+                                217,735 cell equivalents (Total read count/ LQIC read count)-LQIC
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="sub_title">Comment</div>
+                <div class="pd_r20">
+                    <textarea class="textarea_01" >{{comment2}}</textarea>
+                </div>
+                <!-- <table cellpadding="0" cellspacing="0" class="table_result02">
+                    <colgroup>
+                        <col style="width:100%;" />
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <td>
+                                * Clonal IGH read depth를 전체 IGH read depth로 나눈 값으로 B 세포 중의 클론의 비율을 의미합니다.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table> -->
+
+                <hr class="mg_t30 mg_b20"/>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td class="txt_l font_16 fb">검사의뢰일/검사보고일/수정보고일: 2021.12.06/-/-</td>
+                        <td class="txt_1 font_16 fb">검사자:  <input type="text" class="input_02" size="30"></td>
+                        <td class="txt_1 font_16 fb">판독의사: <input type="text" class="input_02" size="30"></td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
