@@ -4,6 +4,9 @@ import { EChartsOption } from 'echarts';
 import { PatientsListService } from 'src/app/home/services/patientslist';
 import { SubSink } from 'subsink';
 
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+
 @Component({
   selector: 'app-typestatics',
   templateUrl: './typestatics.component.html',
@@ -117,6 +120,31 @@ export class TypestaticsComponent implements OnInit, OnDestroy {
 
 
   }
+
+  createPdf(): void {
+    // https://www.giftofspeed.com/base64-encoder/
+    const pText = `안녕하세요. 반갑습니다.`;
+
+
+    const pdf = new jsPDF('p', 'in', 'a4'); // pixcel per inch = 72
+    // pdf.text(pText, 10, 10);
+    // margin lines: A4 = inch w: 8.25 / H:11.75; 11.75 - 0.5; = 11.25
+    pdf.setDrawColor('black');
+    pdf.setLineWidth(1 / 72);
+    pdf.line(0.5,0.5, 0.5, 11.25);
+    pdf.line(7.75, 0.5, 7.75, 11.25);
+    // x= 0
+    // y = 0
+    // break the long text
+    const textlines = pdf.setFont('Arial')
+                      .setFontSize(12)
+                      .splitTextToSize(pText, 7.25);
+    let verticalOffset = 0.5;
+    pdf.text(textlines, 0.5, verticalOffset + 12 / 72);
+    verticalOffset += (textlines.length + 0.5) * 12 /72;
+    pdf.save('a4.pdf');
+
+}
 
 
 

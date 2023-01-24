@@ -2,10 +2,11 @@
         <div id="content">
             <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mg_b10">
                 <tr>
-                    <td  class="mail_title">서식 결과지별 통계</td>
+                    <td  class="mail_title">PDF로 변환</td>
                     <td class="main_btn"> </td>
                 </tr>
             </table>
+            <!--
             <div class="box mg_b20 pd_20">
                 <select class="select_01 select_001" #gene>
                   <option value="AML">AML</option>
@@ -17,12 +18,17 @@
                 <input type="date" [value]="endToday()" class="input_01"   #end   style="width:180px;"/> &nbsp;&nbsp;&nbsp;
                 <button type="button" class="btn btn_02" >조회</button>
             </div>
+            -->
             <div class="box">
                <div class="box_100">
                     <div class="realtime">
                        <h4>그래프: </h4>
                        <div echarts [options]="chartOption" class="demo-chart"></div>
                     </div>
+               </div>
+               <div  class="box mg_b20 pd_20">
+                <button type="button" class="btn btn_02"
+                (click)="createPdf()" >PDF만들기</button>
                </div>
             </div>
         </div>
