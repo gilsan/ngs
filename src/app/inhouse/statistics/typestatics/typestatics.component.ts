@@ -14,6 +14,7 @@ import html2canvas from 'html2canvas';
 })
 export class TypestaticsComponent implements OnInit, OnDestroy {
 
+  comment2 ='시험용';
   startday: string;
   endday: string;
   storeStartDay: string;
@@ -125,7 +126,22 @@ export class TypestaticsComponent implements OnInit, OnDestroy {
     // https://www.giftofspeed.com/base64-encoder/
     const pText = `안녕하세요. 반갑습니다.`;
 
+    let DATA: any = document.getElementById('result');
+    html2canvas(DATA).then((canvas) => {
+      let fileWidth = 208;
+      let fileHeight = (canvas.height * fileWidth) / canvas.width;
+      const FILEURI = canvas.toDataURL('image/png');
+      let PDF = new jsPDF('p', 'mm', 'a4');
+      let position = 0;
+      PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight);
+      PDF.save('angular-demo.pdf');
+    });
 
+
+
+
+
+    /*
     const pdf = new jsPDF('p', 'in', 'a4'); // pixcel per inch = 72
     // pdf.text(pText, 10, 10);
     // margin lines: A4 = inch w: 8.25 / H:11.75; 11.75 - 0.5; = 11.25
@@ -143,7 +159,12 @@ export class TypestaticsComponent implements OnInit, OnDestroy {
     pdf.text(textlines, 0.5, verticalOffset + 12 / 72);
     verticalOffset += (textlines.length + 0.5) * 12 /72;
     pdf.save('a4.pdf');
+    */
 
+}
+
+closeModal(): void {
+  console.log('시험용');
 }
 
 

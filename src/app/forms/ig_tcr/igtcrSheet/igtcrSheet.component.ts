@@ -5,10 +5,11 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-igtcr-sheet',
   templateUrl: './igtcrSheet.component.html',
-  styleUrls: ['./igtcrSheet.component.scss']
+  styleUrls: [ './igtcrSheet.component.scss']
 })
 export class IgTcrSheetComponent implements OnInit {
 
+  comment2 ='시험용';
   constructor(
     private router: Router,
   ){}
@@ -19,6 +20,10 @@ export class IgTcrSheetComponent implements OnInit {
 
   igtcr(): void {
     this.router.navigate(['/diag', 'igtcrMainLists']);
+  }
+
+  closeModal(): void {
+    console.log('시험용');
   }
 
 }
