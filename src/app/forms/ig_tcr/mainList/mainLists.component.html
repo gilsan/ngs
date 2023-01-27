@@ -67,20 +67,20 @@
           </thead>
           <div></div>
           <tbody>
-            <tr>
-              <td class="txt_c"></td>
-              <td class="txt_c"></td>
-              <td class="txt_c"></td>
-              <td class="txt_c"></td>
-              <td class="txt_c"></td>
-              <td class="txt_c"></td>
-              <td class="txt_c"></td>
-              <td class="txt_c"></td>
-              <td class="txt_c"></td>
-              <td class="txt_c"></td>
+            <tr  *ngFor="let list of  lists; let i = index;">
+              <td class="txt_c">{{ i + 1}}</td>
+              <td class="txt_c">{{list.accept_date}}</td>
+              <td class="txt_c">{{list.name}}</td>
+              <td class="txt_c">{{list.age}}</td>
+              <td class="txt_c">{{list.gender}}</td>
+              <td class="txt_c">{{list.patientID}}</td>
+              <td class="txt_c">{{list.test_code}}</td>
+              <td class="txt_c">{{list.reportTitle}}</td>
+              <td class="txt_c">{{list.specimenNo}}</td>
+              <td class="txt_c">{{processingStatus(i)}}</td>
               <td class="txt_c">
                 <button type="button" class="btn btn_03"
-                 (click)="sheet()">결과지/보고서</button>
+                 (click)="goReporter(i)">결과지/보고서</button>
               </td>
             </tr>
           </tbody>

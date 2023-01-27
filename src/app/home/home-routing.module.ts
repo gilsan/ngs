@@ -83,7 +83,7 @@ const routes: Routes = [
       { path: 'fileupload/:id', component: FileuploadComponent },
       { path: 'inhouse_to_db', component: InhouseToDbComponent },
       { path: 'igtcrMainLists', component: MainListsComponent},
-      { path: 'igtcrMainLists/igtcrsheet', component: IgTcrSheetComponent },
+      { path: 'igtcrMainLists/igtcrsheet/:type/:id', component: IgTcrSheetComponent },
       { path: 'jspdf', component: JsPDFComponent},
       // { path: 'disease_to_db', component: DiseaseToDbComponent },
       // { path: 'main', component: MainscreenComponent },
