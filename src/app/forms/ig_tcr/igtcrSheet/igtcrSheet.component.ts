@@ -6,7 +6,7 @@ import { SubSink } from 'subsink';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-import { IPatient, IClonal } from '../igtcr.model';
+import { IPatient, IClonal, INoGraph, IWGraph } from '../igtcr.model';
 import { IgtcrService } from '../igtcr.services';
 import { init } from 'echarts';
 
@@ -68,7 +68,10 @@ export class IgTcrSheetComponent implements OnInit , OnDestroy {
 };
 
 mockData: IClonal[] = [];
+formWithoutgraph: INoGraph[] =[];
+formWithgraph: IWGraph[] = [];
 tablerowForm: FormGroup ;
+ 
 
   constructor(
     private fb: FormBuilder,
@@ -121,9 +124,50 @@ tablerowForm: FormGroup ;
     this.subs.unsubscribe();
   }
 
-  createPdf(): void {
+
+  putFormWithoutgraph(
+    index: string,
+    vregion: number,
+    jregion: number,
+    length: string,
+    totalIGHreadDepth: string,
+    clonalIGHDepth: number,
+    clonalTotalIGHReadDepth: string,
+    clonalCellEquivalent: string,
+    ClonalCellSequence:string
+) {
+  this.formWithoutgraph.push({
+    index,
+    vregion,
+    jregion,
+    length,
+    totalIGHreadDepth,
+    clonalIGHDepth,
+    clonalTotalIGHReadDepth,
+    clonalCellEquivalent,
+    ClonalCellSequence
+  });
+
+}
+
+////////////////////////////////////////////
+createPdf() {
+  this.makePDFData();
+  setTimeout(() => {
+    this.createPdf2();
+  }, 2000);
+}
+  createPdf2(): void {
+    const tableRows = this.tablerowForm.get('tableRows') as FormArray;
+
+    let DATA: any;
+
+    if (tableRows.length === 1) {
+      DATA = document.getElementById('resultSheet');
+    } else {
+      DATA = document.getElementById('resultMRD');
+    }
     
-    let DATA: any = document.getElementById('resultSheet');
     html2canvas(DATA).then((canvas) => {
       let fileWidth = 208;
       let fileHeight = (canvas.height * fileWidth) / canvas.width;
@@ -411,38 +455,401 @@ get getFormControls(): FormArray {
 
   return control;
 }
+ 
 
-// addNewRow(row: IClonal): void {
-
-//   const control = this.tablerowForm.get('tableRows') as FormArray;
-//   control.push(this.makeNewRow(row));
-// }
-
-// removeTableRow(i: number): void {
-//   this.getFormControls().removeAt(i);
-// }
-
-
-// getFormControls(): any {
-//   const control = this.tablerowForm.get('tableRows') as FormArray;
-//   return control;
-// }
-////////////////////////////////////////////////
-/////////////////  각종 식  ///////////////////////////////////////////////////////
-totalReadCount(index: number, count: string, readOfLQIC: number): void {
+/////////////////  각종 식  /////////////////////////////////////////////////////////////
+// TotalReadCount 값 변경시 percent % total reads1-10 = Raw count1-10 / Total read count
+// % of LQIC 에 값 넣음
+totalReadCount(index: number, totalReadCount: string): void {
   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
-  const newPercentOfLQIC = ((readOfLQIC/parseInt(count)) * 100).toFixed(2);
-  tableRows.at(index).patchValue({ percent_of_LQIC: newPercentOfLQIC });
-  console.log('...', index, count, readOfLQIC, newPercentOfLQIC);
+  const readOfLQIC = tableRows.at(index).get('read_of_LQIC')?.value;
+
+  this.percentOfLQIC(index, parseInt(totalReadCount), readOfLQIC);  // 3번
+  this.totalBcellTcellCount(index, parseInt(totalReadCount), readOfLQIC); // 4번
+
+  // 7번
+  const rawCount1 = tableRows.at(index).get('raw_count1')?.value;
+  if (rawCount1 !== 0 && rawCount1 !== null && rawCount1 !== undefined &&  String(rawCount1).length !== 0) {
+    this.percentTotalReads(index, rawCount1, Number(totalReadCount), 1);
+  }
+
+  const rawCount2 = tableRows.at(index).get('raw_count2')?.value;
+  if (rawCount2 !== 0 && rawCount2 !== null && rawCount2 !== undefined &&  String(rawCount2).length !== 0) {
+    this.percentTotalReads(index, rawCount2, Number(totalReadCount), 2);
+  }
+
+  const rawCount3 = tableRows.at(index).get('raw_count3')?.value;
+  if (rawCount3 !== 0 && rawCount3 !== null && rawCount3 !== undefined &&  String(rawCount3).length !== 0) {
+    this.percentTotalReads(index, rawCount3, Number(totalReadCount), 3);
+  }
+
+  const rawCount4 = tableRows.at(index).get('raw_count4')?.value;
+  if (rawCount4 !== 0 && rawCount4 !== null && rawCount4 !== undefined &&  String(rawCount4).length !== 0) {
+    this.percentTotalReads(index, rawCount4, Number(totalReadCount), 4);
+  }
+
+  const rawCount5 = tableRows.at(index).get('raw_count5')?.value;
+  if (rawCount5 !== 0 && rawCount5 !== null && rawCount5 !== undefined &&  String(rawCount5).length !== 0) {
+    this.percentTotalReads(index, rawCount5, Number(totalReadCount), 5);
+  }
+
+  const rawCount6 = tableRows.at(index).get('raw_count6')?.value;
+  if (rawCount6 !== 0 && rawCount6 !== null && rawCount6 !== undefined &&  String(rawCount6).length !== 0) {
+    this.percentTotalReads(index, rawCount6, Number(totalReadCount), 6);
+  }
+
+  const rawCount7 = tableRows.at(index).get('raw_count7')?.value;
+  if (rawCount7 !== 0 && rawCount7 !== null && rawCount7 !== undefined &&  String(rawCount7).length !== 0) {
+    this.percentTotalReads(index, rawCount7, Number(totalReadCount), 7);
+  }
+
+  const rawCount8 = tableRows.at(index).get('raw_count8')?.value;
+  if (rawCount8 !== 0 && rawCount8 !== null && rawCount8 !== undefined &&  String(rawCount8).length !== 0) {
+    this.percentTotalReads(index, rawCount8, Number(totalReadCount), 8);
+  }
+
+  const rawCount9 = tableRows.at(index).get('raw_count9')?.value;
+  if (rawCount9 !== 0 && rawCount9 !== null && rawCount9 !== undefined &&  String(rawCount9).length !== 0) {
+    this.percentTotalReads(index, rawCount9, Number(totalReadCount), 9);
+  }
+
+  const rawCount10 = tableRows.at(index).get('raw_count10')?.value;
+  if (rawCount10 !== 0 && rawCount10 !== null && rawCount10 !== undefined &&  String(rawCount10).length !== 0) {
+    this.percentTotalReads(index, rawCount10, Number(totalReadCount), 10);
+  }
+
 }
 
-totalBCellTCellCount(index: number, totalReadCount: number, count: string): void {
+
+// Read of LQIC 값 변경시
+// Total B-Cell/T-Cell count 에 값 넣음
+readOfLQIC(index: number, readOfLQIC: string): void {
  const tableRows = this.tablerowForm.get('tableRows') as FormArray;
- const newTotalBcell = ((totalReadCount/parseInt(count)) * 100).toFixed(0);
+ const totalReadCount = tableRows.at(index).get('total_read_count')?.value;
+
+ this.percentOfLQIC(index, totalReadCount, parseInt(readOfLQIC));
+ this.totalBcellTcellCount(index, totalReadCount, parseInt(readOfLQIC));
+}
+
+
+percentOfLQIC(index: number, totalReadCount: number, readOfLQIC: number) : string{
+ const tableRows = this.tablerowForm.get('tableRows') as FormArray;
+ const newPercentOfLQIC = ((readOfLQIC/totalReadCount) * 100).toFixed(2);
+ tableRows.at(index).patchValue({ percent_of_LQIC: newPercentOfLQIC });
+ return newPercentOfLQIC;
+}
+
+totalBcellTcellCount(index: number, totalReadCount: number, readOfLQIC: number) {
+ const tableRows = this.tablerowForm.get('tableRows') as FormArray;
+ const newTotalBcell = ((totalReadCount/readOfLQIC) * 100 ).toFixed(0);
  tableRows.at(index).patchValue({ total_Bcell_Tcell_count: newTotalBcell });
 }
 
+// Raw count1 변경시  percent % total reads1 = Raw count1 / Total read count
+// % total reads 1 - 10 에 값 넣음
+rawCount1(index: number , rawcount1: string) {
+ const tableRows = this.tablerowForm.get('tableRows') as FormArray;
+ const totalReadCount =  tableRows.at(index).get('total_read_count')?.value;
+ this.percentTotalReads(index, parseInt(rawcount1), totalReadCount, 1);
+ this.clonalTotalIGHReadDepth(index); // 9번
+ this.clonalTotalNuclelatedCell(index);
+ this.totalCellEquivalent(index);
+}
 
-/////////////////////////////////////////////////////////////////////////////////////
+rawCount2(index: number , rawcount2: string) {
+ const tableRows = this.tablerowForm.get('tableRows') as FormArray;
+ const totalReadCount =  tableRows.at(index).get('total_read_count')?.value;
+ this.percentTotalReads(index, parseInt(rawcount2), totalReadCount, 2);
+ this.clonalTotalIGHReadDepth(index); // 9번
+ this.clonalTotalNuclelatedCell(index);
+ this.totalCellEquivalent(index);
+}
+
+rawCount3(index: number , rawcount3: string) {
+ const tableRows = this.tablerowForm.get('tableRows') as FormArray;
+ const totalReadCount =  tableRows.at(index).get('total_read_count')?.value;
+ this.percentTotalReads(index, parseInt(rawcount3), totalReadCount, 3);
+ this.clonalTotalIGHReadDepth(index); // 9번
+ this.clonalTotalNuclelatedCell(index);
+ this.totalCellEquivalent(index);
+}
+
+rawCount4(index: number , rawcount4: string) {
+ const tableRows = this.tablerowForm.get('tableRows') as FormArray;
+ const totalReadCount =  tableRows.at(index).get('total_read_count')?.value;
+ this.percentTotalReads(index, parseInt(rawcount4), totalReadCount, 4);
+ this.clonalTotalIGHReadDepth(index); // 9번
+ this.clonalTotalNuclelatedCell(index);
+ this.totalCellEquivalent(index);
+}
+
+rawCount5(index: number , rawcount5: string) {
+ const tableRows = this.tablerowForm.get('tableRows') as FormArray;
+ const totalReadCount =  tableRows.at(index).get('total_read_count')?.value;
+ this.percentTotalReads(index, parseInt(rawcount5), totalReadCount, 5);
+ this.clonalTotalIGHReadDepth(index); // 9번
+ this.clonalTotalNuclelatedCell(index);
+ this.totalCellEquivalent(index);
+}
+
+rawCount6(index: number , rawcount6: string) {
+ const tableRows = this.tablerowForm.get('tableRows') as FormArray;
+ const totalReadCount =  tableRows.at(index).get('total_read_count')?.value;
+ this.percentTotalReads(index, parseInt(rawcount6), totalReadCount, 6);
+ this.clonalTotalIGHReadDepth(index); // 9번
+ this.clonalTotalNuclelatedCell(index);
+ this.totalCellEquivalent(index);
+}
+
+rawCount7(index: number , rawcount7: string) {
+ const tableRows = this.tablerowForm.get('tableRows') as FormArray;
+ const totalReadCount =  tableRows.at(index).get('total_read_count')?.value;
+ this.percentTotalReads(index, parseInt(rawcount7), totalReadCount, 7);
+ this.clonalTotalIGHReadDepth(index); // 9번
+ this.clonalTotalNuclelatedCell(index);
+ this.totalCellEquivalent(index);
+}
+
+rawCount8(index: number , rawcount8: string) {
+ const tableRows = this.tablerowForm.get('tableRows') as FormArray;
+ const totalReadCount =  tableRows.at(index).get('total_read_count')?.value;
+ this.percentTotalReads(index, parseInt(rawcount8), totalReadCount, 8);
+ this.clonalTotalIGHReadDepth(index); // 9번
+ this.clonalTotalNuclelatedCell(index);
+ this.totalCellEquivalent(index);
+}
+
+rawCount9(index: number , rawcount9: string) {
+ const tableRows = this.tablerowForm.get('tableRows') as FormArray;
+ const totalReadCount =  tableRows.at(index).get('total_read_count')?.value;
+ this.percentTotalReads(index, parseInt(rawcount9), totalReadCount, 9);
+ this.clonalTotalIGHReadDepth(index); // 9번
+ this.clonalTotalNuclelatedCell(index);
+ this.totalCellEquivalent(index);
+}
+
+rawCount10(index: number , rawcount7: string) {
+ const tableRows = this.tablerowForm.get('tableRows') as FormArray;
+ const totalReadCount =  tableRows.at(index).get('total_read_count')?.value;
+ this.percentTotalReads(index, parseInt(rawcount7), totalReadCount, 10);
+ this.clonalTotalIGHReadDepth(index); // 9번
+ this.clonalTotalNuclelatedCell(index);
+ this.totalCellEquivalent(index);
+}
+
+
+percentTotalReads(index: number, rawCount: number, totalReadCount:number , clonalNo: number) {
+       const tableRows = this.tablerowForm.get('tableRows') as FormArray;
+       const newPercentTotalReads =   ((rawCount/totalReadCount)* 100).toFixed(2);
+      const newPercentOfLQIC = tableRows.at(index).get('percent_of_LQIC')?.value;
+
+
+     if (clonalNo === 1) {
+         tableRows.at(index).patchValue({ percent_total_reads1: newPercentTotalReads});
+     } else if (clonalNo === 2) {
+         tableRows.at(index).patchValue({ percent_total_reads2: newPercentTotalReads});
+     } else if (clonalNo === 3) {
+       tableRows.at(index).patchValue({ percent_total_reads3: newPercentTotalReads});
+     } else if (clonalNo === 4) {
+       tableRows.at(index).patchValue({ percent_total_reads4: newPercentTotalReads});
+     }  else if (clonalNo === 5) {
+       tableRows.at(index).patchValue({ percent_total_reads5: newPercentTotalReads});
+     }  else if (clonalNo === 6) {
+       tableRows.at(index).patchValue({ percent_total_reads6: newPercentTotalReads});
+     }  else if (clonalNo === 7) {
+       tableRows.at(index).patchValue({ percent_total_reads7: newPercentTotalReads});
+     }  else if (clonalNo === 8) {
+       tableRows.at(index).patchValue({ percent_total_reads8: newPercentTotalReads});
+     }  else if (clonalNo === 9) {
+       tableRows.at(index).patchValue({ percent_total_reads9: newPercentTotalReads});
+     } else if (clonalNo === 10) {
+       tableRows.at(index).patchValue({ percent_total_reads10: newPercentTotalReads});
+     }
+
+     this.cellEquivalent(index, Number(newPercentTotalReads), Number(newPercentOfLQIC),clonalNo); // 8번
+
+}
+
+cellEquivalent(index: number, percentTotalReads: number, percentOfLQIC: number, clonalNo: number) {
+       const tableRows = this.tablerowForm.get('tableRows') as FormArray;
+       const newCellEquivalent = ((percentTotalReads/percentOfLQIC)*100 ).toFixed(0);
+       // console.log('[597][cellEquivalent]'+ '['+ percentTotalReads +']['+ percentOfLQIC +']['+ newCellEquivalent+ ']' );
+       if (clonalNo === 1) {
+         tableRows.at(index).patchValue({ cell_equipment1: newCellEquivalent});
+       } else if (clonalNo === 2) {
+         tableRows.at(index).patchValue({ cell_equipment2: newCellEquivalent});
+       }  else if (clonalNo === 3) {
+         tableRows.at(index).patchValue({ cell_equipment3: newCellEquivalent});
+       } else if (clonalNo === 4) {
+         tableRows.at(index).patchValue({ cell_equipment4: newCellEquivalent});
+       } else if (clonalNo === 5) {
+         tableRows.at(index).patchValue({ cell_equipment5: newCellEquivalent});
+       } else if (clonalNo === 6) {
+         tableRows.at(index).patchValue({ cell_equipment6: newCellEquivalent});
+       } else if (clonalNo === 7) {
+         tableRows.at(index).patchValue({ cell_equipment7: newCellEquivalent});
+       } else if (clonalNo === 8) {
+         tableRows.at(index).patchValue({ cell_equipment8: newCellEquivalent});
+       } else if (clonalNo === 9) {
+         tableRows.at(index).patchValue({ cell_equipment9: newCellEquivalent});
+       } else if (clonalNo === 10) {
+         tableRows.at(index).patchValue({ cell_equipment10: newCellEquivalent});
+       }
+}
+// 9번
+clonalTotalIGHReadDepth(index: number) {
+ const tableRows = this.tablerowForm.get('tableRows') as FormArray;
+ const clonalTotalIGHReadDepth = this.getClonalTotalIGHReadDepth(index);
+ tableRows.at(index).patchValue({ total_IGH_read_depth: clonalTotalIGHReadDepth});
+
+}
+
+getClonalTotalIGHReadDepth(index: number): string {
+   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
+   const totalReadCount =  tableRows.at(index).get('total_read_count')?.value;
+   const rawCount1 = tableRows.at(index).get('raw_count1')?.value;
+   const rawCount2 = tableRows.at(index).get('raw_count2')?.value;
+   const rawCount3 = tableRows.at(index).get('raw_count3')?.value;
+   const rawCount4 = tableRows.at(index).get('raw_count4')?.value;
+   const rawcount5 = tableRows.at(index).get('raw_count5')?.value;
+   const rawCount6 = tableRows.at(index).get('raw_count6')?.value;
+   const rawcount7 = tableRows.at(index).get('raw_count7')?.value;
+   const rawCount8 = tableRows.at(index).get('raw_count8')?.value;
+   const rawCount9 = tableRows.at(index).get('raw_count9')?.value;
+   const rawCount10 = tableRows.at(index).get('raw_count10')?.value;
+
+   const totalRawCount =(Number(rawCount1) + Number(rawCount2) + Number(rawCount3) + Number(rawCount4) + Number(rawcount5) +
+      Number(rawCount6) + Number(rawcount7) + Number(rawCount8) + Number(rawCount9) + Number(rawCount10));
+   const totalIGH = (totalRawCount / totalReadCount).toFixed(0);
+   return totalIGH;
+}
+
+// 10 번
+clonalTotalNuclelatedCell(index: number) {
+ const tableRows = this.tablerowForm.get('tableRows') as FormArray;
+ const clonalTotalNuclelatedCell = this.getClonalTotalNuclelatedCell(index);
+ tableRows.at(index).patchValue({ total_nucelated_cells: clonalTotalNuclelatedCell});
+}
+
+getClonalTotalNuclelatedCell(index: number): string {
+ const tableRows = this.tablerowForm.get('tableRows') as FormArray;
+ const totalBcellTcellCount = tableRows.at(index).get('total_Bcell_Tcell_count')?.value / 100;
+ const clonalTotalIGHReadDepth = tableRows.at(index).get('total_IGH_read_depth')?.value / 100;
+ const clonalTotalNuclatedCell = (((totalBcellTcellCount / 36923) * clonalTotalIGHReadDepth) * 100).toFixed(4);
+ return clonalTotalNuclatedCell;
+}
+
+totalCellEquivalent(index: number) {
+   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
+   const percentOfLQIC = tableRows.at(index).get('percent_of_LQIC')?.value;
+   const totalRawCount = this.getClonalTotalIGHReadDepth(index);
+
+   const cellEquivalent = ((Number(percentOfLQIC) / ( Number(totalRawCount)/ 100)) * 100).toFixed(0);
+
+   tableRows.at(index).patchValue({ total_cell_equipment: cellEquivalent});
+}
+
+///////////////////////////////////////////////////////////////////////////////////
+makePDFData() {
+
+ // 데이터 길이 기준으로 폼종류로 분류
+ const clonalListsLength = this.clonalLists.length;
+ const control = this.tablerowForm.get('tableRows') as FormArray;
+ 
+ if ( clonalListsLength === 1) {
+    
+   const totalIGHreadDepth = control.at(0).get('total_read_count')?.value;
+   const clonalTotalIGHReadDepth = control.at(0).get('total_IGH_read_depth')?.value;
+   const clonalCellEquivalent = control.at(0).get('total_cell_equipment')?.value;
+   const ClonalCellSequence = control.at(0).get('bigo')?.value;
+
+   const vregion1 = Number(control.at(0).get('v_gene1')?.value);
+   const jregion1 = Number(control.at(0).get('j_gene1')?.value);
+   const length1  = control.at(0).get('sequence_length1')?.value;
+   const clonalIGHDepth1  = Number(control.at(0).get('raw_count1')?.value);
+
+   if (vregion1 !== 0 && jregion1 !== 0) {
+     this.putFormWithoutgraph('1',vregion1,jregion1,length1,totalIGHreadDepth,clonalIGHDepth1,clonalTotalIGHReadDepth,clonalCellEquivalent,ClonalCellSequence);
+   }
+
+   const vregion2 = Number(control.at(0).get('v_gene2')?.value);
+   const jregion2 = Number(control.at(0).get('j_gene2')?.value);
+   const length2  = control.at(0).get('sequence_length2')?.value;
+   const clonalIGHDepth2  = Number(control.at(0).get('raw_count2')?.value);
+   if (vregion2 !== 0 && jregion2 !== 0) {
+     this.putFormWithoutgraph('2',vregion2,jregion2,length2,totalIGHreadDepth,clonalIGHDepth2,clonalTotalIGHReadDepth,clonalCellEquivalent,ClonalCellSequence);
+   }
+
+   const vregion3 = Number(control.at(0).get('v_gene3')?.value);
+   const jregion3 = Number(control.at(0).get('j_gene3')?.value);
+   const length3  = control.at(0).get('sequence_length3')?.value;
+   const clonalIGHDepth3  = Number(control.at(0).get('raw_count3')?.value);
+   if (vregion3 !== 0 && jregion3 !== 0) {
+     this.putFormWithoutgraph('3',vregion3,jregion3,length3,totalIGHreadDepth,clonalIGHDepth3,clonalTotalIGHReadDepth,clonalCellEquivalent,ClonalCellSequence);
+   }
+
+   const vregion4 = Number(control.at(0).get('v_gene4')?.value);
+   const jregion4 = Number(control.at(0).get('j_gene4')?.value);
+   const length4  = control.at(0).get('sequence_length4')?.value;
+   const clonalIGHDepth4  = Number(control.at(0).get('raw_count4')?.value);
+   if (vregion4 !== 0 && jregion4 !== 0) {
+     this.putFormWithoutgraph('4',vregion4,jregion4,length4,totalIGHreadDepth,clonalIGHDepth4,clonalTotalIGHReadDepth,clonalCellEquivalent,ClonalCellSequence);
+   }
+
+   const vregion5 = Number(control.at(0).get('v_gene5')?.value);
+   const jregion5 = Number(control.at(0).get('j_gene5')?.value);
+   const length5  = control.at(0).get('sequence_length5')?.value;
+   const clonalIGHDepth5  = Number(control.at(0).get('raw_count5')?.value);
+   if (vregion5 !== 0 && jregion5 !== 0) {
+     this.putFormWithoutgraph('5',vregion5,jregion5,length5,totalIGHreadDepth,clonalIGHDepth5,clonalTotalIGHReadDepth,clonalCellEquivalent,ClonalCellSequence);
+   }
+
+   const vregion6 = Number(control.at(0).get('v_gene6')?.value);
+   const jregion6 = Number(control.at(0).get('j_gene6')?.value);
+   const length6  = control.at(0).get('sequence_length6')?.value;
+   const clonalIGHDepth6  = Number(control.at(0).get('raw_count6')?.value);
+   if (vregion6 !== 0 && jregion6 !== 0) {
+     this.putFormWithoutgraph('6',vregion6,jregion6,length6,totalIGHreadDepth,clonalIGHDepth6,clonalTotalIGHReadDepth,clonalCellEquivalent,ClonalCellSequence);
+   }
+
+   const vregion7 = Number(control.at(0).get('v_gene7')?.value);
+   const jregion7 = Number(control.at(0).get('j_gene7')?.value);
+   const length7  = control.at(0).get('sequence_length7')?.value;
+   const clonalIGHDepth7  = Number(control.at(0).get('raw_count7')?.value);
+   if (vregion7 !== 0 && jregion7 !== 0) {
+     this.putFormWithoutgraph('7',vregion7,jregion7,length7,totalIGHreadDepth,clonalIGHDepth7,clonalTotalIGHReadDepth,clonalCellEquivalent,ClonalCellSequence);
+   }
+
+   const vregion8 = Number(control.at(0).get('v_gene8')?.value);
+   const jregion8 = Number(control.at(0).get('j_gene8')?.value);
+   const length8  = control.at(0).get('sequence_length8')?.value;
+   const clonalIGHDepth8  = Number(control.at(0).get('raw_count8')?.value);
+   if (vregion8 !== 0 && jregion8 !== 0) {
+     this.putFormWithoutgraph('8',vregion8,jregion8,length8,totalIGHreadDepth,clonalIGHDepth8,clonalTotalIGHReadDepth,clonalCellEquivalent,ClonalCellSequence);
+   }
+
+   const vregion9 = Number(control.at(0).get('v_gene9')?.value);
+   const jregion9 = Number(control.at(0).get('j_gene9')?.value);
+   const length9  = control.at(0).get('sequence_length9')?.value;
+   const clonalIGHDepth9  = Number(control.at(0).get('raw_count9')?.value);
+   if (vregion9 !== 0 && jregion9 !== 0) {
+     this.putFormWithoutgraph('9',vregion9,jregion9,length9,totalIGHreadDepth,clonalIGHDepth9,clonalTotalIGHReadDepth,clonalCellEquivalent,ClonalCellSequence);
+   }
+
+   const vregion10 = Number(control.at(0).get('v_gene10')?.value);
+   const jregion10 = Number(control.at(0).get('j_gene10')?.value);
+   const length10  = control.at(0).get('sequence_length10')?.value;
+   const clonalIGHDepth10  = Number(control.at(0).get('raw_count10')?.value);
+   if (vregion10 !== 0 && jregion10 !== 0) {
+     this.putFormWithoutgraph('10',vregion10,jregion10,length10,totalIGHreadDepth,clonalIGHDepth10,clonalTotalIGHReadDepth,clonalCellEquivalent,ClonalCellSequence);
+   }
+
+ }  
+
+}
+
+ 
+
+////////////////////////////////////////////////////////////////////////
 
 }

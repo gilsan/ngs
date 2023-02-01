@@ -165,6 +165,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
   tsvVersion = '510'; // v5.16 버전확인
   // tslint:disable-next-line:max-line-length
   vusmsg = `VUS는 ExAC, KRGDB등의 Population database에서 관찰되지 않았거나, 임상적 의의가 불분명합니다. 해당변이의 의의를 명확히 하기 위하여 환자의 buccal swab 검체로 germline variant 여부에 대한 확인이 필요 합니다.`;
+  vusmsg2 = `VUS는 ExAC, KRGDB등의 Population database에서 관찰되지 않았거나, 임상적 의의가 불분명합니다. 해당변이의 의의를 명확히 하기 위하여 환자의 buccal swab 검체로 germline variant 여부에 대한 확인이 필요 합니다.`;
   tempvusmsg = '';
   functionalimpact: string[] = ['Pathogenic', 'Likely Pathogenic','VUS','Oncogenic', 'Likely Oncogenic'];
   zygosity: string[] = ['Heterozygous', 'Homozygous'];
@@ -386,6 +387,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
   ////////////////////////////////////////
   recoverDetected(): void {
     // 디비에서 Detected variant_id 가져오기
+    // vus 문구는 무조건 출력
     this.subs.sink = this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {
       for (const el of data) {
         el.nucleotide_change = el.nucleotide_change.replace(/(\r\n|\r)/gm, '');
@@ -404,8 +406,12 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
         // 2022.05-08 수정
         // this.vusmsg = this.vusmsg;
         // this.tempvusmsg = this.vusmsg;
-        this.vusmsg = this.patientInfo.vusmsg;
-        this.tempvusmsg = this.patientInfo.vusmsg;
+        //
+        if (this.patientInfo.vusmsg.length > 1) {
+          this.vusmsg = this.patientInfo.vusmsg;
+          this.tempvusmsg = this.patientInfo.vusmsg;
+        }
+        
       } else if (this.patientInfo.vusmsg.length > 0 && vusIdx === -1) {
         if (this.patientInfo.vusmsg === this.vusmsg) {
           // this.vusmsg = '';
@@ -504,8 +510,12 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
           if (vusIdx !== -1) { // 있는경우
             // this.vusmsg = this.vusmsg;
             // this.tempvusmsg = this.vusmsg;
-            this.vusmsg = this.patientInfo.vusmsg;
-            this.tempvusmsg = this.patientInfo.vusmsg;
+            if (this.patientInfo.vusmsg.length > 1) {
+              this.vusmsg = this.patientInfo.vusmsg;
+              this.tempvusmsg = this.patientInfo.vusmsg;
+            }
+            // this.vusmsg = this.patientInfo.vusmsg;
+            // this.tempvusmsg = this.patientInfo.vusmsg;
           } else if (this.patientInfo.vusmsg.length > 0 && vusIdx === -1) {
             if (this.patientInfo.vusmsg === this.vusmsg) {
               // this.vusmsg = '';

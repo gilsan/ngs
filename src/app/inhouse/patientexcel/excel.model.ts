@@ -106,6 +106,7 @@ export interface IGenetic {
   nucleotideChange: string;
   aminoAcidChange: string;
   zygosity: string;
+  comment?: string;
 }
 
 export interface ISEQ {
@@ -128,6 +129,7 @@ export interface ISEQ {
   zygosity: string;
   rsid: string;
   genbank: string;
+  comment?: string;
 
 }
 

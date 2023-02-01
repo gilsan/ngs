@@ -91,7 +91,7 @@ export function makeBForm(
 			<Row>
 				<Col id="patient">${patientInfo.name}, ${patientInfo.patientID} (${patientInfo.gender}/${patientInfo.age})</Col>
 				<Col id="result">${resultStatus}</Col>
-				<Col id="rsltleft1">Leukemia associated fusion</Col>
+				<Col id="rsltleft1">Gene fusion</Col>
 				<Col id="rsltleft2"><![CDATA[${profile.leukemia}]]></Col>
 				<Col id="rsltcenter1">FLT3-ITD</Col>
 				<Col id="rsltcenter2"><![CDATA[${profile.flt3itd}]]></Col>

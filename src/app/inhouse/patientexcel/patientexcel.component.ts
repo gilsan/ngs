@@ -104,6 +104,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         }),
       )
       .subscribe(data => {
+        console.log('[107][patientExcel] ... ', data)
         if (data.type === 'AMLALL') {
           this.pushAmlAll(data);
         } else if (data.type === 'LYM') {
@@ -548,6 +549,8 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
           dbSNPHGMD: '',
           gnomADEAS: '',
           OMIM: '',
+          comment: ''
+          
         });
       };
     } else {
@@ -583,6 +586,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
             dbSNPHGMD: item.dbSNPHGMD,
             gnomADEAS: item.gnomADEAS,
             OMIM: item.OMIM,
+            comment: item.comment
           });
         }
 
@@ -621,7 +625,8 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
           aminoAcidChange: '',
           zygosity: '',
           rsid: '',
-          genbank: ''
+          genbank: '',
+          comment: ''
         });
       }
 
@@ -653,7 +658,8 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
             aminoAcidChange: item.amino_acid_change,
             zygosity: item.zygosity,
             rsid: item.cosmic_id,
-            genbank: item.reference
+            genbank: item.reference,
+            comment: item.comment
           });
         }
 
@@ -811,13 +817,14 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
       dbSNPHGMD: 'dbSNP/HGMD',
       gnomADEAS: 'gnomAD EAS',
       OMIM: 'OMIM',
+      comment: 'Comment'
     });
 
     const width = [{ width: 9 }, { width: 29 }, { width: 9 }, { width: 9 }, { width: 9 },
     { width: 11 }, { width: 12 }, { width: 12 }, { width: 12 }, { width: 16 },
     { width: 10 }, { width: 52 }, { width: 9 }, { width: 12 }, { width: 16 }, { width: 18 },
     { width: 18 }, { width: 34 }, { width: 18 }, { width: 18 }, { width: 13 },
-    { width: 19 }, { width: 12 }, { width: 9 }
+    { width: 19 }, { width: 12 }, { width: 9 }, { width: 60 }
 
     ];
     console.log('[822][유전성]', this.genetic);
@@ -845,13 +852,14 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
       zygosity: 'Zygosity',
       rsid: 'rs ID',
       genbank: 'GenBank accesion no.',
+      comment: 'Comment'
 
     });
 
     const width = [{ width: 9 }, { width: 29 }, { width: 9 }, { width: 9 }, { width: 9 },
     { width: 11 }, { width: 12 }, { width: 12 }, { width: 12 }, { width: 16 },
     { width: 10 }, { width: 9 }, { width: 9 }, { width: 12 }, { width: 17 },
-    { width: 18 }, { width: 14 }, { width: 9 }, { width: 20 }
+    { width: 18 }, { width: 14 }, { width: 9 }, { width: 20 }, { width: 60 }
     ];
     this.excel.exportAsExcelFileWidth(this.seq, 'SEQ', width);
   }

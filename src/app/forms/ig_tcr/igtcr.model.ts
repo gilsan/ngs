@@ -134,4 +134,24 @@ export interface IPatient {
     v_gene9: string;
     v_gene10: string;
     }
-  
+    
+    export interface INoGraph {
+        index: string;
+        vregion: number;
+        jregion: number;
+        length: string;
+        totalIGHreadDepth: string;
+        clonalIGHDepth: number;
+        clonalTotalIGHReadDepth: string;
+        clonalCellEquivalent: string;
+        ClonalCellSequence: string;
+      }
+      
+      export interface IWGraph {
+        totalIGHreadDepth: string;
+        LQICReadDepth: string;
+        clonalIGHDepth: string;
+        clonalTotalIGHReadDepth: string;
+        clonalTotalNucelatedCells: string;
+        clonalCellEquivalent: string;
+      }

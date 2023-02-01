@@ -132,8 +132,17 @@ table.st-01 .s-text-right {
 
 #resultSheet {
   position: absolute;
-  top: 300%;
-  left: 400%;
+  top: 100%;
+  left: 100%;
+  z-index: -9;
+}
+
+
+#resultMRD {
+  position: absolute;
+  top: 100%;
+  left: 0%;
+  z-index: 9;
 }
 
 .textleft {
