@@ -30,8 +30,8 @@
               <div class="sub_title">
                   Detected variants&nbsp;&nbsp;
                   <button class="btn btn_01" (click)="addNewRow()">추가</button>
-                  <button class="btn btn_01">+</button>
-                  <button class="btn btn_01">-</button>
+                  <button class="btn btn_01" (click)="increaseClonal()">+</button>
+                  <button class="btn btn_01" (click)="decreaseClonal()">-</button>
               </div>
             <div class="box">
                 <div class="box_100">
@@ -70,61 +70,61 @@
                                 <col style="width:50px"/>
                                 <col style="width:50px"/>
                                 <!-- Clonal sequence 4 -->
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
+                                <col style="width:50px" [hidden]="clonalDisplay4" />
+                                <col style="width:50px" [hidden]="clonalDisplay4" />
+                                <col style="width:50px" [hidden]="clonalDisplay4" />
+                                <col style="width:50px" [hidden]="clonalDisplay4" />
+                                <col style="width:50px" [hidden]="clonalDisplay4" />
+                                <col style="width:50px" [hidden]="clonalDisplay4" />
+                                <col style="width:50px" [hidden]="clonalDisplay4" />
                                 <!-- Clonal sequence 5 -->
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
+                                <col style="width:50px" [hidden]="clonalDisplay5" />
+                                <col style="width:50px" [hidden]="clonalDisplay5" />
+                                <col style="width:50px" [hidden]="clonalDisplay5" />
+                                <col style="width:50px" [hidden]="clonalDisplay5" />
+                                <col style="width:50px" [hidden]="clonalDisplay5" />
+                                <col style="width:50px" [hidden]="clonalDisplay5" />
+                                <col style="width:50px" [hidden]="clonalDisplay5" />
                                 <!-- Clonal sequence 6 -->
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
+                                <col style="width:50px" [hidden]="clonalDisplay6" />
+                                <col style="width:50px" [hidden]="clonalDisplay6" />
+                                <col style="width:50px" [hidden]="clonalDisplay6" />
+                                <col style="width:50px" [hidden]="clonalDisplay6" />
+                                <col style="width:50px" [hidden]="clonalDisplay6" />
+                                <col style="width:50px" [hidden]="clonalDisplay6" />
+                                <col style="width:50px" [hidden]="clonalDisplay6" />
                                 <!-- Clonal sequence 7 -->
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
+                                <col style="width:50px" [hidden]="clonalDisplay7" />
+                                <col style="width:50px" [hidden]="clonalDisplay7" />
+                                <col style="width:50px" [hidden]="clonalDisplay7" />
+                                <col style="width:50px" [hidden]="clonalDisplay7" />
+                                <col style="width:50px" [hidden]="clonalDisplay7" />
+                                <col style="width:50px" [hidden]="clonalDisplay7" />
+                                <col style="width:50px" [hidden]="clonalDisplay7" />
                                 <!-- Clonal sequence 8 -->
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
+                                <col style="width:50px" [hidden]="clonalDisplay8" />
+                                <col style="width:50px" [hidden]="clonalDisplay8" />
+                                <col style="width:50px" [hidden]="clonalDisplay8" />
+                                <col style="width:50px" [hidden]="clonalDisplay8" />
+                                <col style="width:50px" [hidden]="clonalDisplay8" />
+                                <col style="width:50px" [hidden]="clonalDisplay8" />
+                                <col style="width:50px" [hidden]="clonalDisplay8" />
                                 <!-- Clonal sequence 9 -->
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
+                                <col style="width:50px" [hidden]="clonalDisplay9" />
+                                <col style="width:50px" [hidden]="clonalDisplay9" />
+                                <col style="width:50px" [hidden]="clonalDisplay9" />
+                                <col style="width:50px" [hidden]="clonalDisplay9" />
+                                <col style="width:50px" [hidden]="clonalDisplay9" />
+                                <col style="width:50px" [hidden]="clonalDisplay9" />
+                                <col style="width:50px" [hidden]="clonalDisplay9" />
                                 <!-- Clonal sequence 10 -->
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
+                                <col style="width:50px" [hidden]="clonalDisplay10" />
+                                <col style="width:50px" [hidden]="clonalDisplay10" />
+                                <col style="width:50px" [hidden]="clonalDisplay10" />
+                                <col style="width:50px" [hidden]="clonalDisplay10" />
+                                <col style="width:50px" [hidden]="clonalDisplay10" />
+                                <col style="width:50px" [hidden]="clonalDisplay10" />
+                                <col style="width:50px" [hidden]="clonalDisplay10" />
 
                                 <col style="width:50px"/>
                                 <col style="width:50px"/>
@@ -146,13 +146,13 @@
                                 <th colspan="7">Clonal sequence 1</th>
                                 <th colspan="7">Clonal sequence 2</th>
                                 <th colspan="7">Clonal sequence 3</th>
-                                <th colspan="7">Clonal sequence 4</th>
-                                <th colspan="7">Clonal sequence 5</th>
-                                <th colspan="7">Clonal sequence 6</th>
-                                <th colspan="7">Clonal sequence 7</th>
-                                <th colspan="7">Clonal sequence 8</th>
-                                <th colspan="7">Clonal sequence 9</th>
-                                <th colspan="7">Clonal sequence 10</th>
+                                <th colspan="7" [hidden]="clonalDisplay4">Clonal sequence 4</th>
+                                <th colspan="7" [hidden]="clonalDisplay5">Clonal sequence 5</th>
+                                <th colspan="7" [hidden]="clonalDisplay6">Clonal sequence 6</th>
+                                <th colspan="7" [hidden]="clonalDisplay7">Clonal sequence 7</th>
+                                <th colspan="7" [hidden]="clonalDisplay8">Clonal sequence 8</th>
+                                <th colspan="7" [hidden]="clonalDisplay9">Clonal sequence 9</th>
+                                <th colspan="7" [hidden]="clonalDisplay10">Clonal sequence 10</th>
                                 <!--  -->
                                 <th colspan="3">total</th>
                                 <th></th>
@@ -185,61 +185,61 @@
                                 <th>% total<br/>reads</th>
                                 <th>cell<br/>equivalent</th>
                                 <!-- Clonal sequence 4 -->
-                                <th>Sequence</th>
-                                <th>Length</th>
-                                <th>Raw count</th>
-                                <th>V-gene</th>
-                                <th>J-gene</th>
-                                <th>% total<br/>reads</th>
-                                <th>cell<br/>equivalent</th>
+                                <th [hidden]="clonalDisplay4">Sequence</th>
+                                <th [hidden]="clonalDisplay4">Length</th>
+                                <th [hidden]="clonalDisplay4">Raw count</th>
+                                <th [hidden]="clonalDisplay4">V-gene</th>
+                                <th [hidden]="clonalDisplay4">J-gene</th>
+                                <th [hidden]="clonalDisplay4">% total<br/>reads</th>
+                                <th [hidden]="clonalDisplay4">cell<br/>equivalent</th>
                                 <!-- Clonal sequence 5 -->
-                                <th>Sequence</th>
-                                <th>Length</th>
-                                <th>Raw count</th>
-                                <th>V-gene</th>
-                                <th>J-gene</th>
-                                <th>% total<br/>reads</th>
-                                <th>cell<br/>equivalent</th>
+                                <th [hidden]="clonalDisplay5">Sequence</th>
+                                <th [hidden]="clonalDisplay5">Length</th>
+                                <th [hidden]="clonalDisplay5">Raw count</th>
+                                <th [hidden]="clonalDisplay5">V-gene</th>
+                                <th [hidden]="clonalDisplay5">J-gene</th>
+                                <th [hidden]="clonalDisplay5">% total<br/>reads</th>
+                                <th [hidden]="clonalDisplay5">cell<br/>equivalent</th>
                                 <!-- Clonal sequence 6 -->
-                                <th>Sequence</th>
-                                <th>Length</th>
-                                <th>Raw count</th>
-                                <th>V-gene</th>
-                                <th>J-gene</th>
-                                <th>% total<br/>reads</th>
-                                <th>cell<br/>equivalent</th>
+                                <th [hidden]="clonalDisplay6">Sequence</th>
+                                <th [hidden]="clonalDisplay6">Length</th>
+                                <th [hidden]="clonalDisplay6">Raw count</th>
+                                <th [hidden]="clonalDisplay6">V-gene</th>
+                                <th [hidden]="clonalDisplay6">J-gene</th>
+                                <th [hidden]="clonalDisplay6">% total<br/>reads</th>
+                                <th [hidden]="clonalDisplay6">cell<br/>equivalent</th>
                                 <!-- Clonal sequence 7 -->
-                                <th>Sequence</th>
-                                <th>Length</th>
-                                <th>Raw count</th>
-                                <th>V-gene</th>
-                                <th>J-gene</th>
-                                <th>% total<br/>reads</th>
-                                <th>cell<br/>equivalent</th>
+                                <th [hidden]="clonalDisplay7">Sequence</th>
+                                <th [hidden]="clonalDisplay7">Length</th>
+                                <th [hidden]="clonalDisplay7">Raw count</th>
+                                <th [hidden]="clonalDisplay7">V-gene</th>
+                                <th [hidden]="clonalDisplay7">J-gene</th>
+                                <th [hidden]="clonalDisplay7">% total<br/>reads</th>
+                                <th [hidden]="clonalDisplay7">cell<br/>equivalent</th>
                                 <!-- Clonal sequence 8 -->
-                                <th>Sequence</th>
-                                <th>Length</th>
-                                <th>Raw count</th>
-                                <th>V-gene</th>
-                                <th>J-gene</th>
-                                <th>% total<br/>reads</th>
-                                <th>cell<br/>equivalent</th>
+                                <th [hidden]="clonalDisplay8">Sequence</th>
+                                <th [hidden]="clonalDisplay8">Length</th>
+                                <th [hidden]="clonalDisplay8">Raw count</th>
+                                <th [hidden]="clonalDisplay8">V-gene</th>
+                                <th [hidden]="clonalDisplay8">J-gene</th>
+                                <th [hidden]="clonalDisplay8">% total<br/>reads</th>
+                                <th [hidden]="clonalDisplay8">cell<br/>equivalent</th>
                                 <!-- Clonal sequence 9 -->
-                                <th>Sequence</th>
-                                <th>Length</th>
-                                <th>Raw count</th>
-                                <th>V-gene</th>
-                                <th>J-gene</th>
-                                <th>% total<br/>reads</th>
-                                <th>cell<br/>equivalent</th>
+                                <th [hidden]="clonalDisplay9">Sequence</th>
+                                <th [hidden]="clonalDisplay9">Length</th>
+                                <th [hidden]="clonalDisplay9">Raw count</th>
+                                <th [hidden]="clonalDisplay9">V-gene</th>
+                                <th [hidden]="clonalDisplay9">J-gene</th>
+                                <th [hidden]="clonalDisplay9">% total<br/>reads</th>
+                                <th [hidden]="clonalDisplay9">cell<br/>equivalent</th>
                                 <!-- Clonal sequence 10 -->
-                                <th>Sequence</th>
-                                <th>Length</th>
-                                <th>Raw count</th>
-                                <th>V-gene</th>
-                                <th>J-gene</th>
-                                <th>% total<br/>reads</th>
-                                <th>cell<br/>equivalent</th>
+                                <th [hidden]="clonalDisplay10">Sequence</th>
+                                <th [hidden]="clonalDisplay10">Length</th>
+                                <th [hidden]="clonalDisplay10">Raw count</th>
+                                <th [hidden]="clonalDisplay10">V-gene</th>
+                                <th [hidden]="clonalDisplay10">J-gene</th>
+                                <th [hidden]="clonalDisplay10">% total<br/>reads</th>
+                                <th [hidden]="clonalDisplay10">cell<br/>equivalent</th>
                                 <!-- total -->
                                 <th>Clonal/<br/>total IGH<br/>read depth<br/>(%)*</th>
                                 <th>Clonal/total<br/>nucelated cells<br/>(%)**</th>
@@ -267,7 +267,7 @@
                                     </td>
                                     <td>{{list.get('percent_of_LQIC')?.value}}% </td>
                                     <td>
-                                        {{list.get('total_Bcell_Tcell_count')?.value}}
+                                        {{list.get('total_Bcell_Tcell_count')?.value | number}}
                                     </td>
                                     <!--   Clonal sequence 1    -->
                                     <td>
@@ -286,7 +286,7 @@
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="j_gene1">
                                     </td>
                                     <td>{{list.get('percent_total_reads1')?.value}}%</td>
-                                    <td>{{list.get('cell_equipment1')?.value}}</td>
+                                    <td>{{list.get('cell_equipment1')?.value | number}}</td>
                                     <!--   Clonal sequence 2    -->
                                     <td>
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence2">
@@ -304,7 +304,7 @@
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="j_gene2">
                                     </td>
                                     <td>{{list.get('percent_total_reads2')?.value}}%</td>
-                                    <td>{{list.get('cell_equipment2')?.value}}</td>
+                                    <td>{{list.get('cell_equipment2')?.value | number}}</td>
                                     <!--   Clonal sequence 3    -->
                                     <td>
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence3">
@@ -322,133 +322,133 @@
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="j_gene3">
                                     </td>
                                     <td>{{list.get('percent_total_reads3')?.value}}%</td>
-                                    <td>{{list.get('cell_equipment3')?.value}}</td>
+                                    <td>{{list.get('cell_equipment3')?.value | number}}</td>
                                     <!--   Clonal sequence 4    -->
-                                    <td>
+                                    <td [hidden]="clonalDisplay4">
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence4">
                                     </td>
-                                    <td>
+                                    <td [hidden]="clonalDisplay4">
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="sequence_length4">
                                     </td>
-                                    <td>
+                                    <td [hidden]="clonalDisplay4">
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="raw_count4"  (change)="rawCount4(i, rawcount4.value)" #rawcount4>
                                     </td>
-                                    <td>
+                                    <td [hidden]="clonalDisplay4">
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="v_gene4">
                                     </td>
-                                    <td>
+                                    <td [hidden]="clonalDisplay4">
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="j_gene4">
                                     </td>
-                                    <td>{{list.get('percent_total_reads4')?.value}}%</td>
-                                    <td>{{list.get('cell_equipment4')?.value}}</td>
+                                    <td [hidden]="clonalDisplay4">{{list.get('percent_total_reads4')?.value}}%</td>
+                                    <td [hidden]="clonalDisplay4">{{list.get('cell_equipment4')?.value | number}}</td>
                                     <!--   Clonal sequence 5    -->
-                                    <td>
+                                    <td [hidden]="clonalDisplay5">
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence5">
                                     </td>
-                                    <td>
+                                    <td [hidden]="clonalDisplay5">
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="sequence_length5"  (change)="rawCount5(i, rawcount5.value)" #rawcount5>
                                     </td>
-                                    <td>
+                                    <td [hidden]="clonalDisplay5">
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="raw_count5">
                                     </td>
-                                    <td>
+                                    <td [hidden]="clonalDisplay5">
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="v_gene5">
                                     </td>
-                                    <td>
+                                    <td [hidden]="clonalDisplay5">
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="j_gene5">
                                     </td>
-                                    <td>{{list.get('percent_total_reads5')?.value}}%</td>
-                                    <td>{{list.get('cell_equipment5')?.value}}</td>
+                                    <td [hidden]="clonalDisplay5">{{list.get('percent_total_reads5')?.value}}%</td>
+                                    <td [hidden]="clonalDisplay5">{{list.get('cell_equipment5')?.value | number}}</td>
                                     <!--   Clonal sequence 6    -->
-                                    <td>
+                                    <td [hidden]="clonalDisplay6">
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence6">
                                     </td>
-                                    <td>
+                                    <td [hidden]="clonalDisplay6">
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="sequence_length6">
                                     </td>
-                                    <td>
+                                    <td [hidden]="clonalDisplay6">
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="raw_count6"  (change)="rawCount6(i, rawcount6.value)" #rawcount6>
                                     </td>
-                                    <td>
+                                    <td [hidden]="clonalDisplay6">
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="v_gene6">
                                     </td>
-                                    <td>
+                                    <td [hidden]="clonalDisplay6">
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="j_gene6">
                                     </td>
-                                    <td>{{list.get('percent_total_reads6')?.value}}%</td>
-                                    <td>{{list.get('cell_equipment6')?.value}}</td>
+                                    <td [hidden]="clonalDisplay6">{{list.get('percent_total_reads6')?.value}}%</td>
+                                    <td [hidden]="clonalDisplay6">{{list.get('cell_equipment6')?.value | number}}</td>
                                     <!--   Clonal sequence 7    -->
-                                    <td>
+                                    <td [hidden]="clonalDisplay7">
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence7">
                                     </td>
-                                    <td>
+                                    <td [hidden]="clonalDisplay7">
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="sequence_length7">
                                     </td>
-                                    <td>
+                                    <td [hidden]="clonalDisplay7">
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="raw_count7"  (change)="rawCount7(i, rawcount7.value)" #rawcount7>
                                     </td>
-                                    <td>
+                                    <td [hidden]="clonalDisplay7">
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="v_gene7">
                                     </td>
-                                    <td>
+                                    <td [hidden]="clonalDisplay7">
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="j_gene7">
                                     </td>
-                                    <td>{{list.get('percent_total_reads7')?.value}}%</td>
-                                    <td>{{list.get('cell_equipment7')?.value}}</td>
+                                    <td [hidden]="clonalDisplay7">{{list.get('percent_total_reads7')?.value}}%</td>
+                                    <td [hidden]="clonalDisplay7">{{list.get('cell_equipment7')?.value | number}}</td>
                                     <!--   Clonal sequence 8    -->
-                                    <td>
+                                    <td [hidden]="clonalDisplay8">
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence8">
                                     </td>
-                                    <td>
+                                    <td [hidden]="clonalDisplay8">
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="sequence_length8">
                                     </td>
-                                    <td>
+                                    <td [hidden]="clonalDisplay8">
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="raw_count8"  (change)="rawCount8(i, rawcount8.value)" #rawcount8>
                                     </td>
-                                    <td>
+                                    <td [hidden]="clonalDisplay8">
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="v_gene8">
                                     </td>
-                                    <td>
+                                    <td [hidden]="clonalDisplay8">
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="j_gene8">
                                     </td>
-                                    <td>{{list.get('percent_total_reads8')?.value}}%</td>
-                                    <td>{{list.get('cell_equipment8')?.value}}</td>
+                                    <td [hidden]="clonalDisplay8">{{list.get('percent_total_reads8')?.value}}%</td>
+                                    <td [hidden]="clonalDisplay8">{{list.get('cell_equipment8')?.value | number}}</td>
                                     <!--   Clonal sequence 9    -->
-                                    <td>
+                                    <td [hidden]="clonalDisplay9">
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence9">
                                     </td>
-                                    <td>
+                                    <td [hidden]="clonalDisplay9">
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="sequence_length9">
                                     </td>
-                                    <td>
+                                    <td [hidden]="clonalDisplay9">
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="raw_count9"  (change)="rawCount9(i, rawcount9.value)" #rawcount9>
                                     </td>
-                                    <td>
+                                    <td [hidden]="clonalDisplay9">
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="v_gene9">
                                     </td>
-                                    <td>
+                                    <td [hidden]="clonalDisplay9">
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="j_gene9">
                                     </td>
-                                    <td>{{list.get('percent_total_reads9')?.value}}%</td>
-                                    <td>{{list.get('cell_equipment9')?.value}}</td>
+                                    <td [hidden]="clonalDisplay9">{{list.get('percent_total_reads9')?.value}}%</td>
+                                    <td [hidden]="clonalDisplay9">{{list.get('cell_equipment9')?.value | number}}</td>
                                     <!--   Clonal sequence 10    -->
-                                    <td>
+                                    <td [hidden]="clonalDisplay10">
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence10">
                                     </td>
-                                    <td>
+                                    <td [hidden]="clonalDisplay10">
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="sequence_length10">
                                     </td>
-                                    <td>
+                                    <td [hidden]="clonalDisplay10">
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="raw_count10"  (change)="rawCount10(i, rawcount10.value)" #rawcount10>
                                     </td>
-                                    <td>
+                                    <td [hidden]="clonalDisplay10">
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="v_gene10">
                                     </td>
-                                    <td>
+                                    <td [hidden]="clonalDisplay10">
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="j_gene10">
                                     </td>
-                                    <td>{{list.get('percent_total_reads10')?.value}}%</td>
-                                    <td>{{list.get('cell_equipment10')?.value}}</td>
+                                    <td [hidden]="clonalDisplay10">{{list.get('percent_total_reads10')?.value}}%</td>
+                                    <td [hidden]="clonalDisplay10">{{list.get('cell_equipment10')?.value | number}}</td>
                                     <!-- total  -->
                                     <td>{{list.get('total_IGH_read_depth')?.value}}%</td>
                                     <td>{{list.get('total_nucelated_cells')?.value}}%</td>
@@ -457,9 +457,6 @@
                                     <td><input type="text" size="10" class="clr-input textcenter tdbox" formControlName="IGHV_mutation"></td>
                                     <td><input type="text" size="10" class="clr-input textcenter tdbox" formControlName="bigo"></td>
                                     <td><input type="text" size="10" class="clr-input textcenter tdbox" formControlName="comment"></td>
-                                    <td>
-                                        <button class="btn-s blue">저장</button>
-                                    </td>
                                 </tr>
                             
                             </ng-container>
@@ -488,9 +485,7 @@
                     <li>
                         <button class="btn btn_01">수정</button>
                     </li>
-                    <li>
-                        <button class="btn btn_01">임시저장</button>
-                    </li>
+   
                     <li>
                         <button class="btn btn_01">스크린완료</button>
                     </li>
@@ -547,11 +542,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <!--
-                    <div class="pd_r20">
-                    <textarea class="textarea_01" ></textarea>
-                </div>
-                 -->
+
   
                 <div class="sub_title">검사원리</div>
                 <table cellpadding="0" cellspacing="0" class="table_result02">
@@ -575,11 +566,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <!--
-                    <div class="pd_r20">
-                    <textarea class="textarea_01" ></textarea>
-                </div>
-                 -->
+
   
                 <div class="sub_title">검출된 클론</div>
                     <div class="box">
@@ -816,8 +803,12 @@
     
                                 </tbody>
                             </table>
-                        </form>
-    
+                        </form> 
+                    </div>
+                    <div class="demo">
+                        <div class="demo__chart demo__chart--1">
+                            <div echarts [options]="options" class="chart"></div>
+                        </div>
                     </div>
                 </div>
     

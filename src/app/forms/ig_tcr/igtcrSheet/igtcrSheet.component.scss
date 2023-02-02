@@ -145,6 +145,19 @@ table.st-01 .s-text-right {
   z-index: 9;
 }
 
+.demo {
+  width: 85%;
+  height: 400px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  &__chart {
+      .chart {
+          width: 600px;
+      }
+  }
+}
+
 .textleft {
   text-align: left;
 }

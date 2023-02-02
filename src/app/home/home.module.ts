@@ -47,6 +47,7 @@ import { SeqDialogComponent } from './components/sequencing/seq-dialog/seq-dialo
 import { MainListsComponent } from '../forms/ig_tcr/mainList/mainLists.component';
 import { IgTcrSheetComponent } from '../forms/ig_tcr/igtcrSheet/igtcrSheet.component';
 import { JsPDFComponent } from '../forms/ig_tcr/jspdf/jspdf.component';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 
 
@@ -95,7 +96,10 @@ import { JsPDFComponent } from '../forms/ig_tcr/jspdf/jspdf.component';
     ReactiveFormsModule,
     MaterialModule,
     //  ClarityModule,
-    SaintFormsModule
+    SaintFormsModule,
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts')
+    }),
   ],
   entryComponents: [
     DiagpasswdchangeComponent
