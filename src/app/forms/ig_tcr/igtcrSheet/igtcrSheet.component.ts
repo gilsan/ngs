@@ -69,14 +69,14 @@ export class IgTcrSheetComponent implements OnInit {
   formWithgraph: IWGraph[] = [];
 
   tablerowForm: FormGroup ;
-  clonalNo = 10;
-  clonalDisplay4 = false;
-  clonalDisplay5 = false;
-  clonalDisplay6 = false;
-  clonalDisplay7 = false;
-  clonalDisplay8 = false;
-  clonalDisplay9 = false;
-  clonalDisplay10 = false;
+  clonalNo = 3;
+  clonalDisplay4 = true;
+  clonalDisplay5 = true;
+  clonalDisplay6 = true;
+  clonalDisplay7 = true;
+  clonalDisplay8 = true;
+  clonalDisplay9 = true;
+  clonalDisplay10 = true;
 
   // 그래프 데이터
   checkDate: string[] = [];
@@ -84,6 +84,12 @@ export class IgTcrSheetComponent implements OnInit {
   clonalTotalnuclelatedCellsData: number[] = [];
   options: any = {};
   colors = ['#5470C6',  '#EE6666'];
+
+  examin = ''; // 검사자
+  recheck = ''; // 확인자
+  requestDate = ''; // 검사의뢰일
+  firstReportDay = '-'; // 검사보고일
+  lastReportDay = '-';  // 수정보고일
 
   constructor(
     private fb: FormBuilder,
@@ -152,6 +158,14 @@ export class IgTcrSheetComponent implements OnInit {
       switchMap(data => of(data['id'])),
       tap(data => {
         this.patientInfo = this.service.patientLists[data];
+        // 판독자 , 검사자
+        if (this.patientInfo.examin?.length) {
+            this.examin = this.patientInfo.examin;
+        }
+
+        if (this.patientInfo.recheck?.length) {
+                this.recheck = this.patientInfo.recheck;
+            }
       }),
       concatMap(() => {
        return this.service.igtcrListInfo(this.patientInfo.specimenNo)
