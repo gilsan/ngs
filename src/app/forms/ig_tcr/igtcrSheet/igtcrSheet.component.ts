@@ -958,6 +958,24 @@ decreaseClonal() {
     this.clonalNo--;
   }
 }
+
+//////////////////////////////////////////////////////////////////////////////
+// 저장 하기
+saveAllData() {
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    const formData = control.getRawValue();
+  
+    console.log('[저장][962]', formData);
+  
+    // 환자정보 저장
+    this.patientInfo.examin = this.examin; // 검사자
+    this.patientInfo.recheck = this.recheck; // 확인자
+  
+  
+  
+  
+  }
+
 ////////////////////////////////////////////////////////////////////////
 
 }

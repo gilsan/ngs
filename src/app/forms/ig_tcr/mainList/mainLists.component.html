@@ -9,9 +9,9 @@
     </table>
       <div class="box mg_b20 pd_20">
 
-        <input name="" type="text" placeholder="검체번호" class="input_01" style="width: 100px;"/>&nbsp;&nbsp;
-        <input name="" type="text" placeholder="환자ID" class="input_01" style="width: 100px;"/>&nbsp;&nbsp;
-        <input name="" type="text" placeholder="환자이름" class="input_01" style="width: 100px;"/>&nbsp;&nbsp;
+        <input name="" type="text" placeholder="검체번호" #testedID class="input_01" style="width: 100px;"/>&nbsp;&nbsp;
+        <input name="" type="text" placeholder="환자ID" #patientID class="input_01" style="width: 100px;"/>&nbsp;&nbsp;
+        <input name="" type="text" placeholder="환자이름"  #patientName class="input_01" style="width: 100px;"/>&nbsp;&nbsp;
         <!--
         <select class="select_01 select_001">
           <option>전체</option>
@@ -23,11 +23,11 @@
           <option>전체</option>
         </select>&nbsp;&nbsp;&nbsp;
         -->
-        <input type="date" class="input_01" style="width:150px;" />
+        <input type="date" class="input_01" #start [value]="startToday()" style="width:150px;" />
         ~
-        <input type="date" class="input_01" style="width:150px;">
+        <input type="date" class="input_01" #end [value]="endToday()" style="width:150px;">
 
-        <button type="button" class="btn btn_02" style="margin-left: 10px;">조 회</button>
+        <button type="button" class="btn btn_02" style="margin-left: 10px;" (click)="search(start.value, end.value, testedID.value, patientID.value, patientName.value)">조 회</button>
         
         &nbsp;&nbsp;
         <!--
