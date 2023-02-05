@@ -926,14 +926,18 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
         // tslint:disable-next-line:prefer-const
         ////////////////////////////////// clinically 시작
         this.clinically.forEach(items => {
-
+          let type = '';
           const sepItems = items.split(';');
-          // console.log('[887][유전자추적]', sepItems);
+        
           sepItems.forEach(item => {  //
             const members = item.trim().split(' ');
-
+          
             const gene = members[0].trim().replace(/"/g, '');
-            let type = members[1].trim().replace(/[",;]/g, '');
+            // let type = members[1].trim().replace(/[",;]/g, '');
+            if(members[1] !== undefined) {
+              type = members[1].trim().replace(/[",;]/g, '');
+            }
+            
             if (members.length === 4) {
               // if (members[1].toLowerCase() === 'exon' && members[3].toLowerCase() === 'deletion') {
               //   type = 'exon';
