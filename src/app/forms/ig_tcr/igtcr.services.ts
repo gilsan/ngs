@@ -5,6 +5,7 @@ import { emrUrl } from 'src/app/config';
 import { Observable } from 'rxjs';
 import { shareReplay, tap } from 'rxjs/operators';
 import { IPatient } from 'src/app/home/models/patients';
+import { ITcrData } from './igtcr.model';
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +54,32 @@ public igtcrListInfo(specimenNo: string): Observable<any> {
 
   return this.http.post(`${this.apiUrl}/igtcr/list`, {specimenNo})
 
+}
+
+// http://183.98.12.201:3000/igtcr/save
+public igtSave(data: ITcrData) {
+  return this.http.post(`${this.apiUrl}/igtcr/save`, data);
+}
+
+// pdf api
+// post http://183.98.12.201:3000/igtcr/report
+// {
+//     "specimenNo": "M20-999"
+// }
+public igtcrReport1(specimenNo: string): Observable<any> {
+  return this.http.post(`${this.apiUrl}/igtcr/report`, {specimenNo});
+}
+
+
+
+// pdf api 2
+// post http://183.98.12.201:3000/igtcr/report2
+// {
+//     "specimenNo": "M20-999"
+// }
+
+public igtcrReport2(specimenNo: string) {
+  return this.http.post(`${this.apiUrl}/igtcr/report2`, {specimenNo});
 }
 
 

@@ -135,6 +135,15 @@ export interface IPatient {
     v_gene10: string;
     }
     
+    export interface ITcrData {
+      specimenNo: string;
+      method: string;
+      recheck: string;
+      examin: string;
+      data: IClonal[]
+    }
+
+
     export interface INoGraph {
         index: string;
         vregion: number;

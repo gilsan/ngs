@@ -104,7 +104,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         }),
       )
       .subscribe(data => {
-        console.log('[107][patientExcel] ... ', data)
+        // console.log('[107][patientExcel] ... ', data)
         if (data.type === 'AMLALL') {
           this.pushAmlAll(data);
         } else if (data.type === 'LYM') {
@@ -598,7 +598,8 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
 
   pushSeq(list): void {
     let check = '';
-
+ 
+    
     if (list.data.length === 0) {
       if (parseInt(list.screenstatus, 10) === 3) {
         if (parseInt(list.detected, 10) === 0) {
@@ -631,6 +632,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
       }
 
     } else {
+      console.log('[637][SEQ]==>', list);
       list.data.forEach(item => {
         if (parseInt(item.sendyn, 10) === 3) {
           console.log(list);

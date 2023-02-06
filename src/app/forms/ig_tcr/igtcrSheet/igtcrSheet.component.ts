@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { IPatient } from 'src/app/home/models/patients';
-import { IClonal, INoGraph, IWGraph } from '../igtcr.model';
+import { IClonal, INoGraph, ITcrData, IWGraph } from '../igtcr.model';
 import { IgtcrService } from '../igtcr.services';
 
 // import { EChartsOption } from 'echarts';
@@ -90,6 +90,14 @@ export class IgTcrSheetComponent implements OnInit {
   requestDate = ''; // 검사의뢰일
   firstReportDay = '-'; // 검사보고일
   lastReportDay = '-';  // 수정보고일
+
+  igTcrData: ITcrData = {
+    specimenNo: this.patientInfo.specimenNo,
+    method: this.title,
+    recheck: this.recheck,
+    examin: this.examin,
+    data:  []
+  };
 
   constructor(
     private fb: FormBuilder,
@@ -964,14 +972,22 @@ decreaseClonal() {
 saveAllData() {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
-  
-    console.log('[저장][962]', formData);
-  
+   
     // 환자정보 저장
     this.patientInfo.examin = this.examin; // 검사자
     this.patientInfo.recheck = this.recheck; // 확인자
   
-  
+    this.igTcrData = {
+        specimenNo: this.patientInfo.specimenNo,
+        method: this.title,
+        recheck: this.recheck,
+        examin: this.examin,
+        data:  formData
+      };
+    
+      this.service.igtSave(this.igTcrData).subscribe(data => {
+        console.log('[저장][989], ', data);
+      });
   
   
   }
