@@ -41,8 +41,6 @@
                         <button mat-menu-item (click)="url('hereditary')">유전성유전질환</button>
                         <button mat-menu-item (click)="url('sequencing')">Sequencing</button>
                         <button mat-menu-item (click)="url('mlpa')">MLPA</button>
-                       
-                        <button mat-menu-item (click)="igtcr()">IG-TCR</button>
                       </mat-menu>
                   </td>
 
@@ -53,10 +51,10 @@
                         <button mat-menu-item (click)="link('mutation')">Mutation</button>
                         <button mat-menu-item (click)="link('comments')">Comments</button>
                         <button mat-menu-item (click)="link('genemgn')">유전자관리</button>
-                        <button mat-menu-item (click)="ngsExcelLink()">환자정보 다운로드</button>
-                        <button mat-menu-item (click)="ngslink()">건강보험심사평가원 NGS 통계</button>
+                        <button mat-menu-item (click)="ngsExcelLink()">환자정보다운로드</button>
+                        <!--button mat-menu-item (click)="ngslink()">건강보험심사평가원 NGS 통계</button>
                         <button mat-menu-item (click)="ment()">기본입력값 설정</button>
-                        <button mat-menu-item (click)="codemgn()">판독예문관리</button>
+                        <button mat-menu-item (click)="codemgn()">판독예문관리</button-->
                       </mat-menu>
 
 
@@ -74,16 +72,16 @@
                   </td>
                 -->
 
-
-                  <!--td class="menu06">
+                 
+                  <td class="menu06">
                   <a routerLink="/diag/manageusers"><span class="nav-text"></span></a>
                     <ul  class="sub-menu">
                           <li><span (click)="url('users')">사용자관리</span></li>
-                          <li><span (click)="url('reportmgn')">결과지별담당자</span></li>
+                          <!--li><span (click)="url('reportmgn')">결과지별담당자</span></li-->
                     </ul>
-                  </td-->
-
-                  <td>
+                  </td>
+                  
+                  <!--td>
                      <button mat-button [matMenuTriggerFor]="menu" id="menu060"></button>
                       <mat-menu #menu="matMenu">
                         <button mat-menu-item (click)="url('users')"  id="item item1">사용자관리</button>
@@ -91,7 +89,7 @@
                        <button mat-menu-item (click)="url('reportmgn')" id="item item2">결과지별담당자</button>
 
                       </mat-menu>
-                  </td>
+                  </td-->
                   <!--
                          <button mat-button [matMenuTriggerFor]="menu"></button>
                      </div>
@@ -102,19 +100,19 @@
 
                   -->
 
-                  <!--  
+                  <!--
                   <td>
                      <div  class="statistics">
-                         <button mat-button [matMenuTriggerFor]="menu1000" class="statistics_btn">통계2</button>
+                         <button mat-button [matMenuTriggerFor]="menu" class="statistics_btn">통계</button>
                      </div>
 
-                      <mat-menu #menu1000="matMenu">
-                        <button mat-menu-item routerLink="/diag/typestatics">PDF 예제</button>
+                      <mat-menu #menu="matMenu">
+                        <button mat-menu-item routerLink="/diag/typestatics">결과지</button>
                         <button mat-menu-item>유전자</button>
                         <button mat-menu-item routerLink="/diag/fileupload">임시업로드</button>
                       </mat-menu>
                   </td>
-                   -->
+                 -->
                 <!--  -->
                  <!--  <td class="menu03"><a href="#"> </a></td>
                   <td><a href="#"><img src="../images/menu_040_on.png" alt="서비스 이력/통계" border="0" /></a></td>
