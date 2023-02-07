@@ -549,7 +549,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
           dbSNPHGMD: '',
           gnomADEAS: '',
           OMIM: '',
-          comment: ''
+          comment: list.comment_gene
           
         });
       };
@@ -586,7 +586,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
             dbSNPHGMD: item.dbSNPHGMD,
             gnomADEAS: item.gnomADEAS,
             OMIM: item.OMIM,
-            comment: item.comment
+            comment: list.comment_gene
           });
         }
 
@@ -627,7 +627,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
           zygosity: '',
           rsid: '',
           genbank: '',
-          comment: ''
+          comment: list.comment
         });
       }
 
@@ -661,7 +661,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
             zygosity: item.zygosity,
             rsid: item.cosmic_id,
             genbank: item.reference,
-            comment: item.comment
+            comment: list.comment
           });
         }
 
