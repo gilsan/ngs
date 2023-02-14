@@ -9,7 +9,7 @@ import html2canvas from 'html2canvas';
 import { IPatient } from 'src/app/home/models/patients';
 import { IClonal, INoGraph, ITcrData, IWGraph } from '../igtcr.model';
 import { IgtcrService } from '../igtcr.services';
-
+import * as moment from 'moment';
 // import { EChartsOption } from 'echarts';
 
 
@@ -21,9 +21,9 @@ import { IgtcrService } from '../igtcr.services';
 export class IgTcrSheetComponent implements OnInit {
 
   comment2 ='시험용';
-  reportType = '';
+  testCode = '';
   reportID = '';
-
+  screenstatus = ''; 
 
   resultStatus = 'Detected';
   title = '';
@@ -155,17 +155,18 @@ export class IgTcrSheetComponent implements OnInit {
     .pipe(
 
       tap(data => {
-        this.reportType = data['type'];
+        this.testCode = data['type'];
         this.reportID = data['id'];
-        // if (this.reportType === 'LPE555') {
-
-        // } else if (this.reportType === 'LPE556') {
-
-        // }
+ 
       }),
       switchMap(data => of(data['id'])),
       tap(data => {
         this.patientInfo = this.service.patientLists[data];
+        if (this.testCode === 'TRB') {
+            this.patientInfo.reportTitle = 'TRB Gene Rearrangement Analysis [NGS]';
+          } else if (this.testCode == 'TRG') {
+            this.patientInfo.reportTitle = 'TRG Gene Rearrangement Analysis [NGS]';
+          }
         // 판독자 , 검사자
         if (this.patientInfo.examin?.length) {
             this.examin = this.patientInfo.examin;
@@ -174,6 +175,8 @@ export class IgTcrSheetComponent implements OnInit {
         if (this.patientInfo.recheck?.length) {
                 this.recheck = this.patientInfo.recheck;
             }
+
+        this.requestDate = this.patientInfo.accept_date;   
       }),
       concatMap(() => {
        return this.service.igtcrListInfo(this.patientInfo.specimenNo)
@@ -433,7 +436,7 @@ makeNewRow(): FormGroup  {
     raw_count9: [''],
     raw_count10: [''],
     read_of_LQIC: [''],
-    report_date: [''],
+    report_date: [this.today()],
     sequence1: [''],
     sequence2: [''],
     sequence3: [''],
@@ -510,8 +513,8 @@ totalReadCount(index: number, totalReadCount: string): void {
    const tableRows = this.tablerowForm.get('tableRows') as FormArray;
    const readOfLQIC = tableRows.at(index).get('read_of_LQIC')?.value;
 
-   this.percentOfLQIC(index, parseInt(totalReadCount), readOfLQIC);  // 3번
-   this.totalBcellTcellCount(index, parseInt(totalReadCount), readOfLQIC); // 4번
+   this.percentOfLQIC(index, parseInt(totalReadCount), readOfLQIC);  // 3번 & of LQIC
+   this.totalBcellTcellCount(index, parseInt(totalReadCount), readOfLQIC); // 4번 Total B-Cell T-Cell count
 
    // 7번
    const rawCount1 = tableRows.at(index).get('raw_count1')?.value;
@@ -718,37 +721,55 @@ percentTotalReads(index: number, rawCount: number, totalReadCount:number , clona
 
 cellEquivalent(index: number, percentTotalReads: number, percentOfLQIC: number, clonalNo: number) {
         const tableRows = this.tablerowForm.get('tableRows') as FormArray;
-        const newCellEquivalent = ((percentTotalReads/percentOfLQIC)*100 ).toFixed(0);
-        // console.log('[597][cellEquivalent]'+ '['+ percentTotalReads +']['+ percentOfLQIC +']['+ newCellEquivalent+ ']' );
+        const totalReadCount =  tableRows.at(index).get('total_read_count')?.value; // total read count
+        const readOfLQIC =  tableRows.at(index).get('read_of_LQIC')?.value; // read of LQIC
+
         if (clonalNo === 1) {
-          tableRows.at(index).patchValue({ cell_equipment1: newCellEquivalent});
+          const rawCount1 =  tableRows.at(index).get('raw_count1')?.value;
+          tableRows.at(index).patchValue({ cell_equipment1: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount1))});
         } else if (clonalNo === 2) {
-          tableRows.at(index).patchValue({ cell_equipment2: newCellEquivalent});
+          const rawCount2 =  tableRows.at(index).get('raw_count2')?.value;
+          tableRows.at(index).patchValue({ cell_equipment2: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount2))});
         }  else if (clonalNo === 3) {
-          tableRows.at(index).patchValue({ cell_equipment3: newCellEquivalent});
+          const rawCount3 =  tableRows.at(index).get('raw_count3')?.value;
+          tableRows.at(index).patchValue({ cell_equipment3: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount3))});
         } else if (clonalNo === 4) {
-          tableRows.at(index).patchValue({ cell_equipment4: newCellEquivalent});
+          const rawCount4 =  tableRows.at(index).get('raw_count4')?.value;
+          tableRows.at(index).patchValue({ cell_equipment4: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount4))});
         } else if (clonalNo === 5) {
-          tableRows.at(index).patchValue({ cell_equipment5: newCellEquivalent});
+          const rawCount5 =  tableRows.at(index).get('raw_count5')?.value;
+          tableRows.at(index).patchValue({ cell_equipment5: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount5))});
         } else if (clonalNo === 6) {
-          tableRows.at(index).patchValue({ cell_equipment6: newCellEquivalent});
+          const rawCount6 =  tableRows.at(index).get('raw_count6')?.value;
+          tableRows.at(index).patchValue({ cell_equipment6: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount6))});
         } else if (clonalNo === 7) {
-          tableRows.at(index).patchValue({ cell_equipment7: newCellEquivalent});
+          const rawCount7 =  tableRows.at(index).get('raw_count7')?.value;
+          tableRows.at(index).patchValue({ cell_equipment7: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount7))});
         } else if (clonalNo === 8) {
-          tableRows.at(index).patchValue({ cell_equipment8: newCellEquivalent});
+          const rawCount8 =  tableRows.at(index).get('raw_count8')?.value;
+          tableRows.at(index).patchValue({ cell_equipment8: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount8))});
         } else if (clonalNo === 9) {
-          tableRows.at(index).patchValue({ cell_equipment9: newCellEquivalent});
+          const rawCount9 =  tableRows.at(index).get('raw_count9')?.value;
+          tableRows.at(index).patchValue({ cell_equipment9: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount9))});
         } else if (clonalNo === 10) {
-          tableRows.at(index).patchValue({ cell_equipment10: newCellEquivalent});
+          const rawCount10 =  tableRows.at(index).get('raw_count10')?.value;
+          tableRows.at(index).patchValue({ cell_equipment10: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount10))});
         }
 }
-// 9번
+
+calulateCellEquivalent(totalReadCount: number, readOfLQIC: number, rawCount: number): string {
+  const totalReadCountRawCount = totalReadCount * rawCount;
+  const totalReadCountreadOfLQIC =  totalReadCount * readOfLQIC;
+  return ((totalReadCountRawCount/totalReadCountreadOfLQIC)*100).toFixed(0)
+}
+
+// clonal total IGH read depth %
 clonalTotalIGHReadDepth(index: number) {
   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
   const reportDate = tableRows.at(index).get('report_date')?.value;
   const clonalTotalIGHReadDepth = this.getClonalTotalIGHReadDepth(index);
   tableRows.at(index).patchValue({ total_IGH_read_depth: clonalTotalIGHReadDepth});
-  console.log('[703]', index, clonalTotalIGHReadDepth);
+  // console.log('[703]', index, clonalTotalIGHReadDepth);
   this.makeGraphclonalTotalIGHReadDepthData(index, reportDate, clonalTotalIGHReadDepth);
 
 }
@@ -769,11 +790,11 @@ getClonalTotalIGHReadDepth(index: number): string {
 
     const totalRawCount =(Number(rawCount1) + Number(rawCount2) + Number(rawCount3) + Number(rawCount4) + Number(rawcount5) +
        Number(rawCount6) + Number(rawcount7) + Number(rawCount8) + Number(rawCount9) + Number(rawCount10));
-    const totalIGH = (totalRawCount / totalReadCount).toFixed(0);
+       const totalIGH = (totalRawCount / Number(totalReadCount)* 100).toFixed(2);
     return totalIGH;
 }
 
-// 10 번
+// Clonal/ total nuclelated cells %
 clonalTotalNuclelatedCell(index: number) {
   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
   const reportDate = tableRows.at(index).get('report_date')?.value;
@@ -786,18 +807,48 @@ clonalTotalNuclelatedCell(index: number) {
 
 getClonalTotalNuclelatedCell(index: number): string {
   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
-  const totalBcellTcellCount = tableRows.at(index).get('total_Bcell_Tcell_count')?.value / 100;
-  const clonalTotalIGHReadDepth = tableRows.at(index).get('total_IGH_read_depth')?.value / 100;
-  const clonalTotalNuclatedCell = (((totalBcellTcellCount / 36923) * clonalTotalIGHReadDepth) * 100).toFixed(4);
+  const totalReadCount =  tableRows.at(index).get('total_read_count')?.value; // total read count
+  const readOfLQIC =  tableRows.at(index).get('read_of_LQIC')?.value; // read of LQIC
+ 
+  const totalReadCountReadOfLQIC = ((Number(totalReadCount)/Number(readOfLQIC)) / 36923) * 100;
+  const totalRawCount = this.totalRawCount(index)
+  const clonalTotalIGHReadDepth =  (totalRawCount / Number(totalReadCount))* 100;
+  const clonalTotalNuclatedCell = (Number(totalReadCountReadOfLQIC) * Number(clonalTotalIGHReadDepth)).toFixed(4);
   return clonalTotalNuclatedCell;
 }
 
-totalCellEquivalent(index: number) {
-    const tableRows = this.tablerowForm.get('tableRows') as FormArray;
-    const percentOfLQIC = tableRows.at(index).get('percent_of_LQIC')?.value;
-    const totalRawCount = this.getClonalTotalIGHReadDepth(index);
+totalRawCount(index: number): number {
+  const tableRows = this.tablerowForm.get('tableRows') as FormArray;
+  const rawCount1 = tableRows.at(index).get('raw_count1')?.value;
+  const rawCount2 = tableRows.at(index).get('raw_count2')?.value;
+  const rawCount3 = tableRows.at(index).get('raw_count3')?.value;
+  const rawCount4 = tableRows.at(index).get('raw_count4')?.value;
+  const rawcount5 = tableRows.at(index).get('raw_count5')?.value;
+  const rawCount6 = tableRows.at(index).get('raw_count6')?.value;
+  const rawcount7 = tableRows.at(index).get('raw_count7')?.value;
+  const rawCount8 = tableRows.at(index).get('raw_count8')?.value;
+  const rawCount9 = tableRows.at(index).get('raw_count9')?.value;
+  const rawCount10 = tableRows.at(index).get('raw_count10')?.value;
 
-    const cellEquivalent = ((Number(percentOfLQIC) / ( Number(totalRawCount)/ 100)) * 100).toFixed(0);
+  const totalRawCount =(Number(rawCount1) + Number(rawCount2) + Number(rawCount3) + Number(rawCount4) + Number(rawcount5) +
+     Number(rawCount6) + Number(rawcount7) + Number(rawCount8) + Number(rawCount9) + Number(rawCount10));
+
+  return totalRawCount;
+}
+
+
+totalCellEquivalent(index: number) {
+  // 공식(rawCount sum / total_read_count) / (read_of_LQIC / total_read_count) * 100
+  const tableRows = this.tablerowForm.get('tableRows') as FormArray;
+  const totalReadCount =  tableRows.at(index).get('total_read_count')?.value; // total read count
+  const readOfLQIC =  tableRows.at(index).get('read_of_LQIC')?.value; // read of LQIC
+  const totalRawCount = this.totalRawCount(index);
+
+  const totalReadCountTotalRawCount = (totalRawCount/Number(totalReadCount));
+
+  // 분수의 역수를 곱한다.
+  const totalReadCountRawCountTotalReadCount =  Number(totalReadCountTotalRawCount) * Number(totalReadCount);
+  const cellEquivalent = ((Number(totalReadCountRawCountTotalReadCount) /Number(readOfLQIC)) * 100).toFixed(0);
 
     tableRows.at(index).patchValue({ total_cell_equipment: cellEquivalent});
 }
@@ -989,8 +1040,88 @@ saveAllData() {
         console.log('[저장][989], ', data);
       });
   
+  }
+
+
+
+  // 스크린 판독
+screenRead(): void {
+    this.patientInfo.screenstatus = '1';
+  }
+  
+  
+  // 판독완료
+  screenReadFinish(): void {
+    this.patientInfo.screenstatus = '2';
+  }
+
+  //// 스크린판독 ////
+getStatus(index: number): boolean {
+    // console.log('[834][getStatus]', index, this.screenstatus);
+    if (index === 1) {  // 스크린 완료
+      if (parseInt(this.screenstatus, 10) === 0) {
+        return false;
+      } else if (parseInt(this.screenstatus, 10) === 1) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 2) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 3) {
+        return true;
+      }
+  
+    } else if (index === 2) {  // 판독완료
+      if (parseInt(this.screenstatus, 10) === 0) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 1) {
+        return false;
+      } else if (parseInt(this.screenstatus, 10) === 2) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 3) {
+        return true;
+      }
+    } else if (index === 3) {  // EMR 전송
+      if (parseInt(this.screenstatus, 10) === 0) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 1) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 2) {
+        return false;
+      } else if (parseInt(this.screenstatus, 10) === 3) {
+        return true;
+      }
+    } else if (index === 4) {  // 수정
+      if (parseInt(this.screenstatus, 10) === 0) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 1) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 2) {
+        return true;
+      } else if (parseInt(this.screenstatus, 10) === 3) {
+        return false;
+      }
+    }
+    return false;
   
   }
+  
+
+  ///////////////////////////////////////////////////////////////
+
+    // tslint:disable-next-line: typedef
+    startToday(): string {
+        const oneMonthsAgo = moment().subtract(3, 'months');
+    
+        const yy = oneMonthsAgo.format('YYYY');
+        const mm = oneMonthsAgo.format('MM');
+        const dd = oneMonthsAgo.format('DD');
+    
+        const now1 = yy + '-' + mm + '-' + dd;
+    
+        return now1;
+    }
+
+//////////////////////////////////////////
+
 
 ////////////////////////////////////////////////////////////////////////
 

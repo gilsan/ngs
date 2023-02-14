@@ -12,17 +12,22 @@
         <input name="" type="text" placeholder="검체번호" #testedID class="input_01" style="width: 100px;"/>&nbsp;&nbsp;
         <input name="" type="text" placeholder="환자ID" #patientID class="input_01" style="width: 100px;"/>&nbsp;&nbsp;
         <input name="" type="text" placeholder="환자이름"  #patientName class="input_01" style="width: 100px;"/>&nbsp;&nbsp;
-        <!--
-        <select class="select_01 select_001">
-          <option>전체</option>
+        
+        <select class="select_01 select_001"  #status>
+          <option value="all">전체</option>
+          <option value="1">접수</option>
+          <option value="4">판독완료</option>
         </select>&nbsp;&nbsp;
-        <select class="select_01 select_001">
-          <option>전체</option>
+        <select class="select_01 select_001"  #lpeNo>
+          <option value="100">전체</option>
+          <option value="LPE555">LPE555</option>
+          <option value="LPE556">LPE556</option>
+          <option value="LPE557">LPE557</option>
         </select>&nbsp;&nbsp;
         <select class="select_01 select_001">
           <option>전체</option>
         </select>&nbsp;&nbsp;&nbsp;
-        -->
+       
         <input type="date" class="input_01" #start [value]="startToday()" style="width:150px;" />
         ~
         <input type="date" class="input_01" #end [value]="endToday()" style="width:150px;">
@@ -50,6 +55,7 @@
             <col width="8%">
             <col width="7%">
             <col width="8%">
+            <col width="8%">
             <col width="5%">
           </colgroup>
           <thead>
@@ -64,6 +70,7 @@
               <th>결과지명</th>
               <th>검체번호</th>
               <th>진행상태</th>
+              <th>&nbsp;</th>
               <th>&nbsp;</th>
               <th>&nbsp;</th>
             </tr>
@@ -81,10 +88,16 @@
               <td class="txt_c">{{list.reportTitle}}</td>
               <td class="txt_c">{{list.specimenNo}}</td>
               <td class="txt_c">{{processingStatus(i)}}</td>
-              <td class="txt_c">
-                <button type="button" class="btn btn_03"
-                 (click)="goReporter(i)">결과지/보고서</button>
-              </td>
+              <td class="txt_c" *ngIf="list.test_code !== 'LPE557'">
+                <button type="button" class="btn btn_03" (click)="goReporter(i,'NONE')">결과지/보고서</button>
+            </td>
+            <td class="txt_c" *ngIf="list.test_code === 'LPE557'">
+                <button type="button" class="btn btn_03" (click)="goReporter(i, 'TRB')">결과지(TRB)</button>
+            </td>
+            <td class="txt_c" *ngIf="list.test_code === 'LPE557'">
+                <button type="button" class="btn btn_03" (click)="goReporter(i, 'TRG')">결과지(TRG)</button>
+            </td>
+            <td class="txt_c" *ngIf="list.test_code !== 'LPE557'"></td>
               <td>
                 <button class="btn btn_03">연구용</button>
             </td>

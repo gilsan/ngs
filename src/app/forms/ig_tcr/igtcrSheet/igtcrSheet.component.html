@@ -1,7 +1,9 @@
 <div id="result">
   <div id="container" style="position: relative;">
-      <h2 style="margin-top: 5px;">IGH Gene Rearrangement Analysis [NGS]</h2>
+      <!-- <h2 style="margin-top: 5px;">IGH Gene Rearrangement Analysis [NGS]</h2> -->
+
       <div id="content">
+        <input type="text" class="input_title textcenter input_center" (change)="changeTitle(title.value)" #title list="luke" [(ngModel)]="patientInfo.reportTitle" [ngModelOptions]="{standalone: true}">
           <div class="box pd_20">
               <div class="sub_title">Patient: {{patientInfo.name}}, {{patientInfo.patientID}}({{patientInfo.gender}}/{{patientInfo.age}})</div>
               <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -24,6 +26,7 @@
                   <tbody>
                       <tr>
                           <td>SPECIMEN : Genomic DNA isolated from Bone marrow</td>
+                          <td> REQUEST: {{patientInfo.request}}</td>
                       </tr>
                   </tbody>
               </table>
@@ -254,7 +257,7 @@
                                         <img [src]="'assets/images/cancel.png'">
                                     </td>
                                     <td>
-                                        {{list.get('report_date')?.value}}
+                                        <input type="date" class="input_01" #start [value]="startToday()" formControlName='report_date' style="width:150px;" />
                                     </td>
                                     <td>
                                         <input type="text" size="10" size="10" class="clr-input" formControlName="gene">
@@ -263,11 +266,11 @@
                                         <input type="text" size="10" matInput class="clr-input textleft tdbox" formControlName="total_read_count" #totalReadcount (change)="totalReadCount(i,totalReadcount.value, list.get('read_of_LQIC')?.value)">
                                     </td>
                                     <td>
-                                        <input type="text" size="10" matInput class="clr-input textleft tdbox" formControlName="read_of_LQIC" #readOfLqic (change)="totalBCellTCellCount(i,list.get('total_read_count')?.value , readOfLqic.value)">
+                                        <input type="text" size="10" matInput class="clr-input textleft tdbox" formControlName="read_of_LQIC" #readOfLqic (change)="readOfLQIC(i, readOfLqic.value)">
                                     </td>
                                     <td>{{list.get('percent_of_LQIC')?.value}}% </td>
                                     <td>
-                                        {{list.get('total_Bcell_Tcell_count')?.value | number}}
+                                        {{list.get('total_Bcell_Tcell_count')?.value }}
                                     </td>
                                     <!--   Clonal sequence 1    -->
                                     <td>
@@ -286,7 +289,7 @@
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="j_gene1">
                                     </td>
                                     <td>{{list.get('percent_total_reads1')?.value}}%</td>
-                                    <td>{{list.get('cell_equipment1')?.value | number}}</td>
+                                    <td>{{list.get('cell_equipment1')?.value}}</td>
                                     <!--   Clonal sequence 2    -->
                                     <td>
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence2">
@@ -304,7 +307,7 @@
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="j_gene2">
                                     </td>
                                     <td>{{list.get('percent_total_reads2')?.value}}%</td>
-                                    <td>{{list.get('cell_equipment2')?.value | number}}</td>
+                                    <td>{{list.get('cell_equipment2')?.value }}</td>
                                     <!--   Clonal sequence 3    -->
                                     <td>
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence3">
@@ -322,7 +325,7 @@
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="j_gene3">
                                     </td>
                                     <td>{{list.get('percent_total_reads3')?.value}}%</td>
-                                    <td>{{list.get('cell_equipment3')?.value | number}}</td>
+                                    <td>{{list.get('cell_equipment3')?.value}}</td>
                                     <!--   Clonal sequence 4    -->
                                     <td [hidden]="clonalDisplay4">
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence4">
@@ -340,7 +343,7 @@
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="j_gene4">
                                     </td>
                                     <td [hidden]="clonalDisplay4">{{list.get('percent_total_reads4')?.value}}%</td>
-                                    <td [hidden]="clonalDisplay4">{{list.get('cell_equipment4')?.value | number}}</td>
+                                    <td [hidden]="clonalDisplay4">{{list.get('cell_equipment4')?.value }}</td>
                                     <!--   Clonal sequence 5    -->
                                     <td [hidden]="clonalDisplay5">
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence5">
@@ -358,7 +361,7 @@
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="j_gene5">
                                     </td>
                                     <td [hidden]="clonalDisplay5">{{list.get('percent_total_reads5')?.value}}%</td>
-                                    <td [hidden]="clonalDisplay5">{{list.get('cell_equipment5')?.value | number}}</td>
+                                    <td [hidden]="clonalDisplay5">{{list.get('cell_equipment5')?.value}}</td>
                                     <!--   Clonal sequence 6    -->
                                     <td [hidden]="clonalDisplay6">
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence6">
@@ -376,7 +379,7 @@
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="j_gene6">
                                     </td>
                                     <td [hidden]="clonalDisplay6">{{list.get('percent_total_reads6')?.value}}%</td>
-                                    <td [hidden]="clonalDisplay6">{{list.get('cell_equipment6')?.value | number}}</td>
+                                    <td [hidden]="clonalDisplay6">{{list.get('cell_equipment6')?.value}}</td>
                                     <!--   Clonal sequence 7    -->
                                     <td [hidden]="clonalDisplay7">
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence7">
@@ -394,7 +397,7 @@
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="j_gene7">
                                     </td>
                                     <td [hidden]="clonalDisplay7">{{list.get('percent_total_reads7')?.value}}%</td>
-                                    <td [hidden]="clonalDisplay7">{{list.get('cell_equipment7')?.value | number}}</td>
+                                    <td [hidden]="clonalDisplay7">{{list.get('cell_equipment7')?.value}}</td>
                                     <!--   Clonal sequence 8    -->
                                     <td [hidden]="clonalDisplay8">
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence8">
@@ -412,7 +415,7 @@
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="j_gene8">
                                     </td>
                                     <td [hidden]="clonalDisplay8">{{list.get('percent_total_reads8')?.value}}%</td>
-                                    <td [hidden]="clonalDisplay8">{{list.get('cell_equipment8')?.value | number}}</td>
+                                    <td [hidden]="clonalDisplay8">{{list.get('cell_equipment8')?.value}}</td>
                                     <!--   Clonal sequence 9    -->
                                     <td [hidden]="clonalDisplay9">
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence9">
@@ -430,7 +433,7 @@
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="j_gene9">
                                     </td>
                                     <td [hidden]="clonalDisplay9">{{list.get('percent_total_reads9')?.value}}%</td>
-                                    <td [hidden]="clonalDisplay9">{{list.get('cell_equipment9')?.value | number}}</td>
+                                    <td [hidden]="clonalDisplay9">{{list.get('cell_equipment9')?.value}}</td>
                                     <!--   Clonal sequence 10    -->
                                     <td [hidden]="clonalDisplay10">
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence10">
@@ -448,7 +451,7 @@
                                         <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="j_gene10">
                                     </td>
                                     <td [hidden]="clonalDisplay10">{{list.get('percent_total_reads10')?.value}}%</td>
-                                    <td [hidden]="clonalDisplay10">{{list.get('cell_equipment10')?.value | number}}</td>
+                                    <td [hidden]="clonalDisplay10">{{list.get('cell_equipment10')?.value}}</td>
                                     <!-- total  -->
                                     <td>{{list.get('total_IGH_read_depth')?.value}}%</td>
                                     <td>{{list.get('total_nucelated_cells')?.value}}%</td>
@@ -490,7 +493,10 @@
                         <button class="btn btn_01"  (click)="saveAllData()">임시저장</button>
                     </li>
                     <li>
-                        <button class="btn btn_01">판독완료</button>
+                        <button class="btn btn_01" (click)="screenRead()" >스크린완료</button>
+                    </li>
+                    <li>
+                        <button class="btn btn_01" (click)="screenReadFinish()">판독완료</button>
                     </li>
                     <li>
                         <button class="btn btn_01" (click)="createPdf()">PDF 파일로 저장</button>
@@ -513,7 +519,7 @@
   
         <div id="content">
             <div class="box pd_20">
-                <div class="sub_title">Patient:  홍ㅇㅇ, 36761316 (M/16)</div>
+                <div class="sub_title">Patient:  {{patientInfo.name}}, {{patientInfo.patientID}}({{patientInfo.gender}}/{{patientInfo.age}})</div>
   
                 <div class="sub_title">Test Information</div>
                 <table cellpadding="0" cellspacing="0" class="table_result02">
@@ -524,7 +530,7 @@
                   <tbody>
                       <tr>
                           <td> SPECIMEN: Genomic DNA isolated from Bone marrow</td>
-                          <td> REQUEST: 김성구/소아청소년과</td>
+                          <td> REQUEST: {{patientInfo.request}}</td>
                       </tr>
                   </tbody>
                 </table>
@@ -679,9 +685,9 @@
                 <hr class="mg_t30 mg_b20"/>
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr>
-                        <td class="txt_l font_16 fb">검사의뢰일/검사보고일/수정보고일: 2021.12.06/-/-</td>
-                        <td class="txt_1 font_16 fb">검사자:  <input type="text" class="input_02" size="30"></td>
-                        <td class="txt_1 font_16 fb">판독의사: <input type="text" class="input_02" size="30"></td>
+                        <td class="txt_l font_16 fb">검사의뢰일/검사보고일/수정보고일: {{requestDate | date: 'yyyy.MM.dd'}}/{{firstReportDay}}/{{lastReportDay}}</td>
+                        <td class="txt_1 font_16 fb">검사자:  <input type="text" [(ngModel)]="examin" class="input_02" size="30"></td>
+                        <td class="txt_1 font_16 fb">판독의사: <input type="text" [(ngModel)]="recheck" class="input_02" size="30"></td>
                     </tr>
                 </table>
   
@@ -855,9 +861,9 @@
                 <hr class="mg_t30 mg_b20" />
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr>
-                        <td class="txt_l font_16 fb">검사의뢰일/검사보고일/수정보고일: 2021.12.06/-/-</td>
-                        <td class="txt_1 font_16 fb">검사자: <input type="text" class="input_02" size="30"></td>
-                        <td class="txt_1 font_16 fb">판독의사: <input type="text" class="input_02" size="30"></td>
+                        <td class="txt_l font_16 fb">검사의뢰일/검사보고일/수정보고일: {{requestDate | date: 'yyyy.MM.dd'}}/{{firstReportDay}}/{{lastReportDay}}</td>
+                        <td class="txt_1 font_16 fb">검사자: <input type="text" [(ngModel)]="examin" class="input_02" size="30"></td>
+                        <td class="txt_1 font_16 fb">판독의사: <input type="text" [(ngModel)]="recheck" class="input_02" size="30"></td>
                     </tr>
                 </table>
     

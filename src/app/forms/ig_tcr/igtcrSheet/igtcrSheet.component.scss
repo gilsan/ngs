@@ -130,19 +130,38 @@ table.st-01 .s-text-right {
   text-align: right;
 }
 
+.input_center {
+  position: absolute;
+  margin-top: 5px;
+  padding: 20px 0 50px 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.input_title {
+  outline: none;
+  width: 500px;
+  height: 40px;
+  background-color: #fff;
+  margin-top: 60px;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 5px 0 15px 0;
+}
+
+
 #resultSheet {
   position: absolute;
-  top: 100%;
+  top: -100%;
   left: 100%;
   z-index: -9;
 }
 
-
 #resultMRD {
   position: absolute;
-  top: 100%;
-  left: 0%;
-  z-index: 9;
+  top: -100%;
+  right: 100%;
+  z-index: -9;
 }
 
 .demo {
@@ -160,4 +179,9 @@ table.st-01 .s-text-right {
 
 .textleft {
   text-align: left;
+}
+
+.textcenter {
+  text-align: center;
+  outline-style: none;
 }
