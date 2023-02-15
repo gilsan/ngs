@@ -150,6 +150,20 @@ table.st-01 .s-text-right {
 }
 
 
+// #resultSheet {
+//   position: absolute;
+//   top: 100%;
+//   left: 100%;
+//   z-index: -9;
+// }
+
+// #resultMRD {
+//   position: absolute;
+//   top: 100%;
+//   right: 0%;
+//   z-index: 9;
+// }
+
 #resultSheet {
   position: absolute;
   top: -100%;
@@ -184,4 +198,14 @@ table.st-01 .s-text-right {
 .textcenter {
   text-align: center;
   outline-style: none;
+}
+
+// 230214 추가
+.m-r-3 {
+  margin-right: 10px;
+}
+
+.textarea_01 {
+  width: 1000px;
+  height: 130px;
 }

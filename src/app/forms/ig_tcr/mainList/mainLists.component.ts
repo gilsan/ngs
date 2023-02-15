@@ -14,7 +14,7 @@ export class MainListsComponent implements OnInit {
 
   startDay = this.startToday();
   endDay = this.endToday();
-  testId = '';
+  specimenNo = '';
   patientname = '';
   patientid = '';
   lists: IPatient[] = [];
@@ -43,16 +43,17 @@ export class MainListsComponent implements OnInit {
 
 
 
-  search(start: string, end: string, testid: string='', patientId: string='', patientname: string = ''): void {
+  search(start: string, end: string, specimenNo: string='', patientId: string='', patientname: string = '',
+  status: string = '', sheet: string = '', research1: string = ''): void {
     this.startDay = start;
     this.endDay = end;
-    this.testId = testid;
+    this.specimenNo = specimenNo;
     this.patientid = patientId;
     this.patientname = patientname;
     const startdate = start.toString().replace(/-/gi, '');
     const enddate = end.toString().replace(/-/gi, '');
 
-    this.service.igtcrListsSearch(start, end).subscribe((data: IPatient[]) => {
+    this.service.igtcrListsSearch(start, end,this.specimenNo, this.patientid, patientname, status, sheet, research1).subscribe((data: IPatient[]) => {
       if (data.length) {
         this.lists = data;
         console.log(this.lists);

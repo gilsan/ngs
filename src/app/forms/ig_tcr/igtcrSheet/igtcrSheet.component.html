@@ -5,37 +5,37 @@
       <div id="content">
         <input type="text" class="input_title textcenter input_center" (change)="changeTitle(title.value)" #title list="luke" [(ngModel)]="patientInfo.reportTitle" [ngModelOptions]="{standalone: true}">
           <div class="box pd_20">
-              <div class="sub_title">Patient: {{patientInfo.name}}, {{patientInfo.patientID}}({{patientInfo.gender}}/{{patientInfo.age}})</div>
-              <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                <tr>
-                    <td class="txt_02" ><span class="fb">Result </span>:
-                        <input type="radio" id="vertical-radio2" name="radio-full" class="clr-radio"  [value]="'Detected'" [checked]="radioStatus('Detected')" (change)="result($event)">
-                        <label for="vertical-radio2" class="  clr-col-12 clr-col-md-2">Detected</label>
-                        &nbsp;&nbsp;
-                        <input type="radio" id="vertical-radio1" name="radio-full" class="clr-radio"  [value]="'Not Detected'" (change)="result($event)" [checked]="radioStatus('Not Detected')">
-                        <label for="vertical-radio1" class="clr-col-12 clr-col-md-2">Not Detected</label>
-                    </td>
-                </tr>
-              </table>
-              <div class="sub_title">Test Information</div>
-              <table cellpadding="0" cellspacing="0" class="table_result02">
-                  <colgroup>
-                  <col style="width:50%;" />
-                  <col style="width:50%;" />
-                  </colgroup>
-                  <tbody>
-                      <tr>
-                          <td>SPECIMEN : Genomic DNA isolated from Bone marrow</td>
-                          <td> REQUEST: {{patientInfo.request}}</td>
-                      </tr>
-                  </tbody>
-              </table>
-              <div class="sub_title">
-                  Detected variants&nbsp;&nbsp;
-                  <button class="btn btn_01" (click)="addNewRow()">추가</button>
-                  <button class="btn btn_01" (click)="increaseClonal()">+</button>
-                  <button class="btn btn_01" (click)="decreaseClonal()">-</button>
-              </div>
+            <div class="sub_title">Patient: {{patientInfo.name}}, {{patientInfo.patientID}}({{patientInfo.gender}}/{{patientInfo.age}})</div>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td class="txt_02" ><span class="fb">Result </span>:
+                    <input type="radio" id="vertical-radio2" name="radio-full" class="clr-radio"  [value]="'Detected'" [checked]="radioStatus('Detected')" (change)="result($event)">
+                    <label for="vertical-radio2" class="  clr-col-12 clr-col-md-2">Detected</label>
+                    &nbsp;&nbsp;
+                    <input type="radio" id="vertical-radio1" name="radio-full" class="clr-radio"  [value]="'Not Detected'" (change)="result($event)" [checked]="radioStatus('Not Detected')">
+                    <label for="vertical-radio1" class="clr-col-12 clr-col-md-2">Not Detected</label>
+                </td>
+            </tr>
+            </table>
+            <div class="sub_title">Test Information</div>
+            <table cellpadding="0" cellspacing="0" class="table_result02">
+                <colgroup>
+                <col style="width:50%;" />
+                <col style="width:50%;" />
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td>SPECIMEN : Genomic DNA isolated from Bone marrow</td>
+                        <td> REQUEST: {{patientInfo.request}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="sub_title">
+                Detected variants&nbsp;&nbsp;
+                <button class="btn btn_01 m-r-3" (click)="addNewRow()">추가</button>
+                <button class="btn btn_01 m-r-3" (click)="increaseClonal()">+</button>
+                <button class="btn btn_01" (click)="decreaseClonal()">-</button>
+            </div>
             <div class="box">
                 <div class="box_100">
                     <form [formGroup]="tablerowForm">
@@ -466,45 +466,44 @@
                         </tbody>
                         </table>
                     </form>
-                        <hr class="mg_t30 mg_b20"/>
-                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                            <tr>
-                                <td class="txt_l font_16 fb">검사의뢰일/검사보고일/수정보고일: {{requestDate | date: 'yyyy.MM.dd'}}/{{firstReportDay}}/{{lastReportDay}}</td>
-                                <td class="txt_1 font_16 fb">검사자:  <input type="text" [(ngModel)]="examin" class="input_02" size="30"></td>
-                                <td class="txt_1 font_16 fb">판독의사: <input type="text" [(ngModel)]="recheck" class="input_02" size="30"></td>
-                            </tr>
-                        </table>
-                        
-                </div>
-                <br />
-                <div class="foot_btn mg_t30 pd_b30 txt_c main_btn" >
-                <ul>
-                    <li>
-                        <button type="button" class="btn btn_01" (click)="igtcr()">HOME</button>
-                    </li>
-                    <li>
-                        <button type="button" class="btn btn_01">미리보기</button>
-                    </li>
-                    <li>
-                        <button class="btn btn_01">수정</button>
-                    </li>
-   
-                    <li>
-                        <button class="btn btn_01"  (click)="saveAllData()">임시저장</button>
-                    </li>
-                    <li>
-                        <button class="btn btn_01" (click)="screenRead()" >스크린완료</button>
-                    </li>
-                    <li>
-                        <button class="btn btn_01" (click)="screenReadFinish()">판독완료</button>
-                    </li>
-                    <li>
-                        <button class="btn btn_01" (click)="createPdf()">PDF 파일로 저장</button>
-                    </li>
-                </ul>
                 </div>
             </div>
-         </div>   
+            <hr class="mg_t30 mg_b20"/>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td class="txt_l font_16 fb">검사의뢰일/검사보고일/수정보고일: {{requestDate | date: 'yyyy.MM.dd'}}/{{firstReportDay}}/{{lastReportDay}}</td>
+                    <td class="txt_1 font_16 fb">검사자:  <input type="text" [(ngModel)]="examin" class="input_02" size="30"></td>
+                    <td class="txt_1 font_16 fb">판독의사: <input type="text" [(ngModel)]="recheck" class="input_02" size="30"></td>
+                </tr>
+            </table>
+        </div>
+        <br />
+        <div class="foot_btn mg_t30 pd_b30 txt_c main_btn" >
+            <ul>
+                <li>
+                    <button type="button" class="btn btn_01" (click)="igtcr()">HOME</button>
+                </li>
+                <li>
+                    <button type="button" class="btn btn_01">미리보기</button>
+                </li>
+                <li>
+                    <button class="btn btn_01">수정</button>
+                </li>
+
+                <li>
+                    <button class="btn btn_01"  (click)="saveAllData()">임시저장</button>
+                </li>
+                <li>
+                    <button class="btn btn_01" (click)="screenRead()" >스크린완료</button>
+                </li>
+                <li>
+                    <button class="btn btn_01" (click)="screenReadFinish()">판독완료</button>
+                </li>
+                <li>
+                    <button class="btn btn_01" (click)="createPdf()">PDF 파일로 저장</button>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
 
@@ -518,7 +517,7 @@
         <!-- <button type="button" class="preview__button" (click)="closeModal()">닫기</button> -->
   
         <div id="content">
-            <div class="box pd_20">
+            <!-- <div class="box pd_20"> -->
                 <div class="sub_title">Patient:  {{patientInfo.name}}, {{patientInfo.patientID}}({{patientInfo.gender}}/{{patientInfo.age}})</div>
   
                 <div class="sub_title">Test Information</div>
@@ -550,24 +549,20 @@
                 </table>
 
   
-                <div class="sub_title">검사원리</div>
+                <div class="sub_title">검사결과</div>
                 <table cellpadding="0" cellspacing="0" class="table_result02">
                     <colgroup>
-                        <col style="width:50%;" />
-                        <col style="width:50%;" />
+                        <col style="width:100%;" />
                     </colgroup>
                     <tbody>
                         <tr>
-                            <td colspan="2">
+                            <td>
                                 미세잔존질환(MRD) 추적에 적합한 IGH 클론이 두 개 검출됩니다.
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                % of clonal cells (estimated value) :
-                            </td>
-                            <td>
-                                76.70% / total B-cells , 50.90% / total B-cells
+                                % of clonal cells (estimated value) : 76.70% / total B-cells , 50.90% / total B-cells
                             </td>
                         </tr>
                     </tbody>
@@ -629,9 +624,9 @@
                         </table>
                      </form>
                     </div>
-                </div>
+                
   
-                <div class="sub_title">검사원리</div>
+                <div class="sub_title">검체정보</div>
                 <table cellpadding="0" cellspacing="0" class="table_result02 st-01">
                     <colgroup>
                         <col style="width:50%;" />
@@ -733,7 +728,7 @@
                     </table>
     
     
-                    <div class="sub_title">검사원리</div>
+                    <div class="sub_title">검사결과</div>
                     <table cellpadding="0" cellspacing="0" class="table_result02">
                         <colgroup>
                             <col style="width:50%;" />
@@ -818,7 +813,7 @@
                     </div>
                 </div>
     
-                <div class="sub_title">검사원리</div>
+                <div class="sub_title">검체정보</div>
                 <table cellpadding="0" cellspacing="0" class="table_result02 st-01">
                     <colgroup>
                         <col style="width:50%;" />
@@ -854,7 +849,7 @@
     
                 <div class="sub_title">Comment</div>
                 <div class="pd_r20">
-                    <textarea class="textarea_01">{{comment2}}</textarea>
+                    <textarea class="textarea_01">{{commentMRD}}</textarea>
                 </div>
     
     

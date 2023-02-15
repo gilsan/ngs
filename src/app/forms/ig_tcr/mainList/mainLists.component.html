@@ -14,25 +14,31 @@
         <input name="" type="text" placeholder="환자이름"  #patientName class="input_01" style="width: 100px;"/>&nbsp;&nbsp;
         
         <select class="select_01 select_001"  #status>
-          <option value="all">전체</option>
-          <option value="1">접수</option>
-          <option value="4">판독완료</option>
+          <option value="100"  >전체</option>
+          <option value="10"  >접수</option>
+          <option value="0"  >시작</option>
+          <option value="1"  >스크린판독</option>
+          <option value="2"  >판독완료</option>
+          <option value="3"  >EMR전송</option>
+          <option value="5"  >접수취소</option>
         </select>&nbsp;&nbsp;
-        <select class="select_01 select_001"  #lpeNo>
+        <select class="select_01 select_001"  #sheet>
           <option value="100">전체</option>
           <option value="LPE555">LPE555</option>
           <option value="LPE556">LPE556</option>
           <option value="LPE557">LPE557</option>
         </select>&nbsp;&nbsp;
-        <select class="select_01 select_001">
-          <option>전체</option>
+        <select class="select_01 select_001" #research1>
+          <option value="TOTAL">전체</option>
+          <option value="diag">환자용</option>
+          <option value="RESEARCH">연구용</option>
         </select>&nbsp;&nbsp;&nbsp;
        
         <input type="date" class="input_01" #start [value]="startToday()" style="width:150px;" />
         ~
         <input type="date" class="input_01" #end [value]="endToday()" style="width:150px;">
 
-        <button type="button" class="btn btn_02" style="margin-left: 10px;" (click)="search(start.value, end.value, testedID.value, patientID.value, patientName.value)">조 회</button>
+        <button type="button" class="btn btn_02" style="margin-left: 10px;" (click)="search(start.value, end.value, testedID.value, patientID.value, patientName.value, status.value, sheet.value, research1.value)">조 회</button>
         
         &nbsp;&nbsp;
         <!--

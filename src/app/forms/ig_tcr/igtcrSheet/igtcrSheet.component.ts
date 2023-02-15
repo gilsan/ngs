@@ -10,6 +10,7 @@ import { IPatient } from 'src/app/home/models/patients';
 import { IClonal, INoGraph, ITcrData, IWGraph } from '../igtcr.model';
 import { IgtcrService } from '../igtcr.services';
 import * as moment from 'moment';
+import { PatientsListService } from 'src/app/home/services/patientslist';
 // import { EChartsOption } from 'echarts';
 
 
@@ -20,7 +21,12 @@ import * as moment from 'moment';
 })
 export class IgTcrSheetComponent implements OnInit {
 
-  comment2 ='시험용';
+  comment2 =' * Clonal IGH read depth를 전체 IGH read depth로 나눈 값으로 B 세포 중의 클론의 비율을 의미합니다.';
+  commentMRD = `* Clonal IGH read depth를 전체 IGH read depth로 나눈 값으로 B 세포 중의 클론의 비율을 의미합니다.
+** LymphoQuant Internal Control (LQIC)을 이용하여 clonal IGH를 전체 유핵세포 내의 세포수 비율로 환산한 근사치입니다.
+*** 검체 당 B 세포 100개 정도의 DNA(LymphoQuant Internal Control, LQIC)를 혼합하여 측정된 값을 변환한 것입니다.
+  - PCR 증폭은 B 세포의 DNA양에 영향을 받으며 primer결합 부위 변이가 있는 경우 위음성을 보일 가능성이 있습니다.
+  - 검사의 분석 민감도는 약 〖10〗^(-4) ~ 〖10〗^(-5)입니다.`;
   testCode = '';
   reportID = '';
   screenstatus = ''; 
@@ -66,6 +72,7 @@ export class IgTcrSheetComponent implements OnInit {
 
   mockData: IClonal[] = [];
   formWithoutgraph: INoGraph[] =[];
+  totalBCells = 0;
   formWithgraph: IWGraph[] = [];
 
   tablerowForm: FormGroup ;
@@ -103,7 +110,9 @@ export class IgTcrSheetComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    public service : IgtcrService
+    public service : IgtcrService,
+    private patientsListService: PatientsListService,
+
   ){
     this.tablerowForm = this.fb.group({
       tableRows: this.fb.array(this.mockData.map(list => this.createRow(list))),
@@ -228,6 +237,10 @@ export class IgTcrSheetComponent implements OnInit {
     setTimeout(() => {
       this.createPdf2();
     }, 2000);
+
+    this.patientsListService.changescreenstatus( this.patientInfo.specimenNo,'3','', '').subscribe(data => {
+      console.log('[241][PDF]][3]...',);
+   });
   }
 
   createPdf2() {
@@ -1044,15 +1057,29 @@ saveAllData() {
 
 
 
-  // 스크린 판독
-screenRead(): void {
+  screenRead(): void {
+
+
     this.patientInfo.screenstatus = '1';
+    // this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimenNo);
+    // this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimenNo);
+      /// specimenNo: string, num, userid: string, type: string
+      this.patientsListService.changescreenstatus( this.patientInfo.specimenNo,'1','', '').subscribe(data => {
+         console.log('[스크린판독][1]',);
+      });
+  
+  
+    console.log('[1071] 스크린 판독', this.patientInfo.screenstatus);
   }
   
   
   // 판독완료
   screenReadFinish(): void {
     this.patientInfo.screenstatus = '2';
+    console.log('[1078] 판독완료', this.patientInfo.screenstatus);
+    this.patientsListService.changescreenstatus( this.patientInfo.specimenNo,'2','', '').subscribe(data => {
+      console.log('[판독완료][2]',);
+   })
   }
 
   //// 스크린판독 ////

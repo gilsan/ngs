@@ -29,11 +29,18 @@ export class  IgtcrService {
   }
 
 
-  public igtcrListsSearch(start: string, end: string, testID: string = '',
-  patientID: string = '', specimenNo: string = '', status: string ='',
-  sheet: string = '', research: string = ''): Observable<IPatient[]> {
+  public igtcrListsSearch(start: string, end: string, specimenNo: string = '',
+  patientID: string = '',  name: string = '', status: string ='',
+  sheet: string = '', research1: string = ''): Observable<IPatient[]> {
   return this.http.post<IPatient[]>(`${this.apiUrl}/searchpatient_diag/listigtcr`,
-  { start, end , patientID, specimenNo, status, sheet, research })
+  { start ,
+    end ,
+    patientID,
+    name,
+    specimenNo,
+    status ,
+    sheet ,
+    research1 })
   .pipe(
     tap(data => {
       this.patientLists = data
