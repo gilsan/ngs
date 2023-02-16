@@ -42,7 +42,7 @@
         
         &nbsp;&nbsp;
         
-        <button type="button" class="btn btn_02" style="margin-left: 10px;">연구용추가</button>&nbsp;&nbsp;
+        <button type="button" class="btn btn_02" style="margin-left: 10px;"  (click)="openDialog()">연구용추가</button>&nbsp;&nbsp;
         <!--
         <button type="button" class="btn btn_02" style="margin-left: 10px;">DashBoard</button>
           -->
@@ -105,9 +105,10 @@
                 <button type="button" class="btn btn_03" (click)="goReporter(i, 'TRG')">결과지(TRG)</button>
             </td>
             <td class="txt_c" *ngIf="list.test_code !== 'LPE557'"></td>
-              <td>
-                <button class="btn btn_03">연구용</button>
+            <td  class="txt_c" *ngIf="list.gbn === 'RESEARCH'; else research;">
+              <span>연구용</span>
             </td>
+            <ng-template #research><td></td></ng-template>
             </tr>
           </tbody>
         </table>

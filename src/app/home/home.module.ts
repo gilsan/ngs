@@ -48,6 +48,7 @@ import { MainListsComponent } from '../forms/ig_tcr/mainList/mainLists.component
 import { IgTcrSheetComponent } from '../forms/ig_tcr/igtcrSheet/igtcrSheet.component';
 import { JsPDFComponent } from '../forms/ig_tcr/jspdf/jspdf.component';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { ResearchDialogComponent } from '../forms/ig_tcr/mainList/research-dialog/researchTcr.component';
 
 
 
@@ -78,6 +79,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
     ResearchUploadComponent,
     MainListsComponent,
     IgTcrSheetComponent,
+    ResearchDialogComponent,
     JsPDFComponent,
 
     LymDialogComponent,

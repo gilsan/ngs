@@ -3,7 +3,10 @@ import { Router } from '@angular/router';
 
 import * as moment from 'moment';
 import { IPatient } from 'src/app/home/models/patients';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+
 import { IgtcrService } from '../igtcr.services';
+import { ResearchDialogComponent } from './research-dialog/researchTcr.component';
 @Component({
   selector: 'app-main-lists',
   templateUrl: './mainLists.component.html',
@@ -21,7 +24,8 @@ export class MainListsComponent implements OnInit {
 
   constructor(
     private router: Router,
-    public service: IgtcrService
+    public service: IgtcrService,
+    public dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
@@ -110,6 +114,20 @@ processingStatus(i: number): string {
     return now;
   }
 
+      ////////// 연구용
+      openDialog(): void {
+        const dialogConfig = new MatDialogConfig();
+  
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+        dialogConfig.maxWidth = '100vw';
+        dialogConfig.maxHeight = '100vh';
+        const dialogRef = this.dialog.open(ResearchDialogComponent, dialogConfig);
+        dialogRef.afterClosed().subscribe(data => {
+         // this.checkStore();
+         console.log('[Dialog...]');
+        });
+      }
 
 
 }
