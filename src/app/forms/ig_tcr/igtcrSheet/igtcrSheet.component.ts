@@ -11,6 +11,7 @@ import { IClonal, INoGraph, ITcrData, IWGraph } from '../igtcr.model';
 import { IgtcrService } from '../igtcr.services';
 import * as moment from 'moment';
 import { PatientsListService } from 'src/app/home/services/patientslist';
+import { UtilsService } from '../../commons/utils.service';
 // import { EChartsOption } from 'echarts';
 
 
@@ -29,6 +30,11 @@ export class IgTcrSheetComponent implements OnInit {
   - 검사의 분석 민감도는 약 〖10〗^(-4) ~ 〖10〗^(-5)입니다.`;
   testCode = '';
   reportID = '';
+  bcellLPE555LPE556 = '';
+  pcellLPE557 = '';
+  mrdBcellLPE555LPE556 = '';
+  mrdPcellLPE557 = '';
+  mrdnucleatedCells = '';
   screenstatus = ''; 
 
   resultStatus = 'Detected';
@@ -103,6 +109,8 @@ export class IgTcrSheetComponent implements OnInit {
     method: this.title,
     recheck: this.recheck,
     examin: this.examin,
+    sendEMRDate: this.patientInfo.sendEMRDate,
+    report_date: this.patientInfo.sendEMRDate,
     data:  []
   };
 
@@ -112,6 +120,7 @@ export class IgTcrSheetComponent implements OnInit {
     private route: ActivatedRoute,
     public service : IgtcrService,
     private patientsListService: PatientsListService,
+    private utilsService: UtilsService,
 
   ){
     this.tablerowForm = this.fb.group({
@@ -186,6 +195,11 @@ export class IgTcrSheetComponent implements OnInit {
             }
 
         this.requestDate = this.patientInfo.accept_date;   
+        if (this.patientInfo.sendEMRDate !== undefined || this.patientInfo.sendEMRDate !== null) {
+          this.firstReportDay = this.patientInfo.sendEMRDate;
+          this.lastReportDay = this.patientInfo.sendEMRDate;
+        }
+        this.screenstatus = this.patientInfo.screenstatus;
       }),
       concatMap(() => {
        return this.service.igtcrListInfo(this.patientInfo.specimenNo)
@@ -199,10 +213,14 @@ export class IgTcrSheetComponent implements OnInit {
         this.clonalTotalIGHReadDepth(index);
         this.clonalTotalNuclelatedCell(index);
         this.totalCellEquivalent(index);
-
       });
-
-
+      
+    });
+    
+    this.utilsService.getListsDig('AMLALL')
+    .subscribe(data => {
+      this.examin = data[0].checker;
+      this.recheck = data[0].reader;
     });
   }
 //////////////////////////////////////////
@@ -233,12 +251,24 @@ export class IgTcrSheetComponent implements OnInit {
 
 ////////////////////////////////////////////
   createPdf() {
+ 
+    this.saveAllData();
+    const tableRows = this.tablerowForm.get('tableRows') as FormArray;
+    const totalIGHReadDepth = tableRows.at(tableRows.length- 1).get('total_IGH_read_depth')?.value;
+    this.mrdPcellLPE557 = tableRows.at(tableRows.length- 1).get('total_nucelated_cells')?.value;
+
+    if (this.patientInfo.test_code === 'LPE555' || this.patientInfo.test_code === 'LPE555') {
+      this.mrdBcellLPE555LPE556 = totalIGHReadDepth;
+    } else if(this.patientInfo.test_code === 'LPE557') {
+      this.mrdPcellLPE557 = totalIGHReadDepth;
+    }
+
     this.makePDFData();
     setTimeout(() => {
       this.createPdf2();
     }, 2000);
 
-    this.patientsListService.changescreenstatus( this.patientInfo.specimenNo,'3','', '').subscribe(data => {
+    this.patientsListService.changescreenstatus( this.patientInfo.specimenNo,'3','3000', 'userid').subscribe(data => {
       console.log('[241][PDF]][3]...',);
    });
   }
@@ -309,7 +339,19 @@ export class IgTcrSheetComponent implements OnInit {
     return now;
   }
 
+  today2(): string {
+    const today = new Date();
 
+    const year = today.getFullYear(); // 년도
+    const month = today.getMonth() + 1;  // 월
+    const date = today.getDate();  // 날짜
+    const day = today.getDay() - 1;  // 요일
+    const newmon = ('0' + month).substr(-2);
+    const newday = ('0' + date).substr(-2);
+    const now = year + '-' + newmon + '-' + newday;
+
+    return now;
+  }
 
 ///////////////////////////////////////
 createRow(item: IClonal): FormGroup {
@@ -783,6 +825,14 @@ clonalTotalIGHReadDepth(index: number) {
   const clonalTotalIGHReadDepth = this.getClonalTotalIGHReadDepth(index);
   tableRows.at(index).patchValue({ total_IGH_read_depth: clonalTotalIGHReadDepth});
   // console.log('[703]', index, clonalTotalIGHReadDepth);
+    // LPE555 LPE556 B-Cells
+  // LPE557 P-Cells
+  if (this.patientInfo.test_code === 'LPE555' || this.patientInfo.test_code === 'LPE555') {
+    this.bcellLPE555LPE556 = clonalTotalIGHReadDepth;
+  } else if(this.patientInfo.test_code === 'LPE557') {
+    this.pcellLPE557 = clonalTotalIGHReadDepth;
+  }
+
   this.makeGraphclonalTotalIGHReadDepthData(index, reportDate, clonalTotalIGHReadDepth);
 
 }
@@ -971,7 +1021,7 @@ makeGraphclonalTotalIGHReadDepthData(index: number = 0, date: string = '', clona
    this.checkDate[index] = date;
    this.clonalTotalIGHReadDepthData[index]= Number(clonalTotalIGHReadDepthData)/100;
 
-   console.log('[862][날자][데이터]',  this.checkDate, this.clonalTotalIGHReadDepthData);
+   console.log('[1026][날자][데이터]',  this.checkDate, this.clonalTotalIGHReadDepthData);
 }
 
 makeGraphclonalTotalNuclelatedCellsData(index: number = 0, date: string = '',   clonalTotalnuclelatedCells: string = '') {
@@ -1040,46 +1090,58 @@ saveAllData() {
     // 환자정보 저장
     this.patientInfo.examin = this.examin; // 검사자
     this.patientInfo.recheck = this.recheck; // 확인자
-  
+    this.patientInfo.accept_date = this.requestDate; // 의뢰한 날자
+
+    // console.log('[저장][962]', formData);
+    this.firstReportDay = this.today2().replace(/-/g, '.'); 
     this.igTcrData = {
         specimenNo: this.patientInfo.specimenNo,
         method: this.title,
         recheck: this.recheck,
         examin: this.examin,
+        sendEMRDate: this.firstReportDay,
+        report_date: '',
         data:  formData
       };
     
       this.service.igtSave(this.igTcrData).subscribe(data => {
-        console.log('[저장][989], ', data);
+        if (data.message === 'OK') {
+          alert('저장 했습니다.');
+        } else {
+          alert('저장 실패.');
+        }
       });
   
   }
 
-
-
   screenRead(): void {
-
-
     this.patientInfo.screenstatus = '1';
-    // this.patientsListService.updateExaminer('recheck', this.patientInfo.recheck, this.patientInfo.specimenNo);
-    // this.patientsListService.updateExaminer('exam', this.patientInfo.examin, this.patientInfo.specimenNo);
-      /// specimenNo: string, num, userid: string, type: string
-      this.patientsListService.changescreenstatus( this.patientInfo.specimenNo,'1','', '').subscribe(data => {
-         console.log('[스크린판독][1]',);
+      this.patientsListService.changescreenstatus( this.patientInfo.specimenNo,'1','1000', 'userid').subscribe(data => {
+        this.saveAllData();
+        alert('저장했습니다.');
       });
-  
-  
-    console.log('[1071] 스크린 판독', this.patientInfo.screenstatus);
+     
   }
   
   
   // 판독완료
   screenReadFinish(): void {
-    this.patientInfo.screenstatus = '2';
-    console.log('[1078] 판독완료', this.patientInfo.screenstatus);
-    this.patientsListService.changescreenstatus( this.patientInfo.specimenNo,'2','', '').subscribe(data => {
-      console.log('[판독완료][2]',);
+    this.patientInfo.screenstatus = '2';   
+    this.patientsListService.changescreenstatus( this.patientInfo.specimenNo,'2','2000', 'userid').subscribe(data => {
+      this.saveAllData();
+      alert('저장했습니다.');
    })
+  }
+
+  reset(): void {
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    const temp = control.getRawValue();
+    this.patientInfo.screenstatus = '1';
+    this.screenstatus = '1';
+    this.patientsListService.changescreenstatus( this.patientInfo.specimenNo,'1','100', 'userid').subscribe(data => {
+      alert('변경했습니다.');
+   })
+  
   }
 
   //// 스크린판독 ////

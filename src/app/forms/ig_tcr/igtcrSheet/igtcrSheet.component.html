@@ -487,20 +487,20 @@
                     <button type="button" class="btn btn_01">미리보기</button>
                 </li>
                 <li>
-                    <button class="btn btn_01">수정</button>
+                    <button class="btn btn_01" [disabled]="getStatus(4)" (click)="reset()">수정</button>
                 </li>
 
                 <li>
                     <button class="btn btn_01"  (click)="saveAllData()">임시저장</button>
                 </li>
                 <li>
-                    <button class="btn btn_01" (click)="screenRead()" >스크린완료</button>
+                    <button class="btn btn_01" (click)="screenRead()" [disabled]="getStatus(1)">스크린완료</button>
                 </li>
                 <li>
-                    <button class="btn btn_01" (click)="screenReadFinish()">판독완료</button>
+                    <button class="btn btn_01" (click)="screenReadFinish()" [disabled]="getStatus(2)">판독완료</button>
                 </li>
                 <li>
-                    <button class="btn btn_01" (click)="createPdf()">PDF 파일로 저장</button>
+                    <button class="btn btn_01" (click)="createPdf()" [disabled]="getStatus(3)">PDF 파일로 저장</button>
                 </li>
             </ul>
         </div>
@@ -562,7 +562,7 @@
                         </tr>
                         <tr>
                             <td>
-                                % of clonal cells (estimated value) : 76.70% / total B-cells , 50.90% / total B-cells
+                                % of clonal cells (estimated value) : {{bcellLPE555LPE556}}% / total B-cells , {{pcellLPE557}}% / total P-cells
                             </td>
                         </tr>
                     </tbody>
@@ -737,15 +737,18 @@
                         <tbody>
                             <tr>
                                 <td colspan="2">
-                                    미세잔존질환(MRD) 추적에 적합한 IGH 클론이 두 개 검출됩니다.
+                                    IGH MRD Result : Detected
                                 </td>
                             </tr>
                             <tr>
                                 <td>
                                     % of clonal cells (estimated value) :
                                 </td>
-                                <td>
-                                    76.70% / total B-cells , 50.90% / total B-cells
+                                <td *ngIf="patientInfo.test_code === 'LPE555' || patientInfo.test_code === 'LPE556'">
+                                    {{mrdPcellLPE557}}% / total B-cells , {{mrdnucleatedCells}}% / total nucleated cells
+                                </td>
+                                <td  *ngIf="patientInfo.test_code === 'LPE557'">
+                                    {{mrdPcellLPE557}}% / total P-cells , {{mrdnucleatedCells}}% / total nucleated cells
                                 </td>
                             </tr>
                         </tbody>
