@@ -14,6 +14,7 @@
                     &nbsp;&nbsp;
                     <input type="radio" id="vertical-radio1" name="radio-full" class="clr-radio"  [value]="'Not Detected'" (change)="result($event)" [checked]="radioStatus('Not Detected')">
                     <label for="vertical-radio1" class="clr-col-12 clr-col-md-2">Not Detected</label>
+                    <input type="text" size="50" matInput class="clr-input textleft tdbox" [(ngModel)]="comment">
                 </td>
             </tr>
             </table>
@@ -483,9 +484,9 @@
                 <li>
                     <button type="button" class="btn btn_01" (click)="igtcr()">HOME</button>
                 </li>
-                <li>
+                <!-- <li>
                     <button type="button" class="btn btn_01">미리보기</button>
-                </li>
+                </li> -->
                 <li>
                     <button class="btn btn_01" [disabled]="getStatus(4)" (click)="reset()">수정</button>
                 </li>

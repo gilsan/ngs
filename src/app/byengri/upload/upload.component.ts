@@ -338,8 +338,7 @@ export class UploadComponent implements OnInit {
       console.log('[336][Tumor 존재여부] ===> ', this.burden);
       data.filter(list => list[0] !== 'Public data sources included in relevant therapies')
         .forEach((list, index) => {
-
-
+        
           if (list[0].length > 0) {
 
             if (list[0].trim() === 'Sample Cancer Type') {
@@ -363,11 +362,13 @@ export class UploadComponent implements OnInit {
             if (temp1[0].trim() === 'Tumor Mutational Burden' && temp1[1] && list[1].length === 0) {
               status = true;
             }
-
+            
             if (list[2] === 'Tier') {
                 tierExist = true;
+            } else {
+              tierExist = false;
             }
-
+            // console.log('[365] ==> ', list[2], list, tierExist);
             if (list[4] === 'Mut/WT Ratio') {
               mutExist = true;
             }
@@ -403,7 +404,8 @@ export class UploadComponent implements OnInit {
                 const filteredlist = list[0].trim().split(' ');
                 let tier = '';
                 if (tierExist) {
-                  tier = list[2].substring(0, list[2].length - 1);
+                    console.group('[406] ===>',tierExist, list);                  
+                        tier = list[2].substring(0, list[2].length - 1);                                   
                 }
 
                 // filteredlist 길이

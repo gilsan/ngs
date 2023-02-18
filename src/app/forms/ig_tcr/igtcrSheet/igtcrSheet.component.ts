@@ -35,6 +35,7 @@ export class IgTcrSheetComponent implements OnInit {
   mrdBcellLPE555LPE556 = '';
   mrdPcellLPE557 = '';
   mrdnucleatedCells = '';
+  comment = '';
   screenstatus = ''; 
 
   resultStatus = 'Detected';
@@ -74,6 +75,7 @@ export class IgTcrSheetComponent implements OnInit {
     screenstatus: '',
     recheck: '',
     examin: '',
+    comment: ''
   };
 
   mockData: IClonal[] = [];
@@ -109,6 +111,7 @@ export class IgTcrSheetComponent implements OnInit {
     method: this.title,
     recheck: this.recheck,
     examin: this.examin,
+    comment: '',
     sendEMRDate: this.patientInfo.sendEMRDate,
     report_date: this.patientInfo.sendEMRDate,
     data:  []
@@ -126,41 +129,8 @@ export class IgTcrSheetComponent implements OnInit {
     this.tablerowForm = this.fb.group({
       tableRows: this.fb.array(this.mockData.map(list => this.createRow(list))),
     });
+    this.updateGraphData();
 
-    this.options = {
-      color: this.colors,
-      legend: {
-        data: ['Clonal total IGH read depth', 'Clonal total nuclelated cells']
-      },
-      xAxis: {
-        type: 'category',
-        data:  this.checkDate,
-      },
-      yAxis: [
-        {
-            type: 'value',
-
-       },
-       {
-            type: 'value',
-
-          }
-      ]
-
-        ,
-      series: [
-        {
-          name: 'Clonal total IGH read depth',
-          type: 'line',
-          data: this.clonalTotalIGHReadDepthData,
-        },
-        {
-          name: 'Clonal total nuclelated cells',
-          type: 'line',
-          data: this.clonalTotalnuclelatedCellsData
-        }
-      ],
-    };
   }
 
   ngOnInit(): void {
@@ -200,6 +170,7 @@ export class IgTcrSheetComponent implements OnInit {
           this.lastReportDay = this.patientInfo.sendEMRDate;
         }
         this.screenstatus = this.patientInfo.screenstatus;
+        this.comment = this.patientInfo.comment;
       }),
       concatMap(() => {
        return this.service.igtcrListInfo(this.patientInfo.specimenNo)
@@ -1030,7 +1001,40 @@ makeGraphclonalTotalNuclelatedCellsData(index: number = 0, date: string = '',   
 }
 
 updateGraphData() {
+  this.options = {
+    color: this.colors,
+    legend: {
+      data: ['Clonal total IGH read depth', 'Clonal total nuclelated cells']
+    },
+    xAxis: {
+      type: 'category',
+      data:  this.checkDate,
+    },
+    yAxis: [
+      {
+          type: 'value',
 
+     },
+     {
+          type: 'value',
+
+        }
+    ]
+
+      ,
+    series: [
+      {
+        name: 'Clonal total IGH read depth',
+        type: 'line',
+        data: this.clonalTotalIGHReadDepthData,
+      },
+      {
+        name: 'Clonal total nuclelated cells',
+        type: 'line',
+        data: this.clonalTotalnuclelatedCellsData
+      }
+    ],
+  };
 }
 ////////////////////////////////////////////////////////////////////////
 increaseClonal() {
@@ -1101,6 +1105,7 @@ saveAllData() {
         examin: this.examin,
         sendEMRDate: this.firstReportDay,
         report_date: '',
+        comment: this.comment,
         data:  formData
       };
     

@@ -142,6 +142,7 @@ export interface IPatient {
       examin: string;
       sendEMRDate: string;
       report_date: string;
+      comment: string;
       data: IClonal[]
     }
 

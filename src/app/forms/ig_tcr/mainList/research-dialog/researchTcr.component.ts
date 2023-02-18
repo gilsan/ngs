@@ -53,7 +53,7 @@ export class ResearchDialogComponent implements OnInit {
     let resultName = '';
     this.researchService.getPatientLists()
       .subscribe(data => {
-        console.log('[56] ===> ', data);
+         
         this.patientLists = data;
         if (data.length > 0) {
           const control = this.tablerowForm.get('tableRows') as FormArray;
@@ -145,7 +145,7 @@ export class ResearchDialogComponent implements OnInit {
       gender: [list.gender],
       patientID: [list.patientID],
       test_code: [list.test_code],
-      testname: [list.testname],
+      testname: [list.test_code],
       reportTitle: [list.reportTitle],
       specimenNo: [list.specimenNo],
       isSaved: [true]
@@ -192,11 +192,13 @@ export class ResearchDialogComponent implements OnInit {
   changetype(i: number, option: string): void {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     // console.log('[200][changetype]', option);
-    if (option === 'AML') {
-      control.at(i).patchValue({ reportTitle: 'Acute Myeloid Leukemia NGS', test_code: 'LPE471', testname: option });
-    } else if (option === 'ALL') {
-      control.at(i).patchValue({ reportTitle: 'Acute Lymphoblastic Leukemia NGS', test_code: 'LPE472', testname: option });
-    }
+    if (option === 'LPE555') {
+        control.at(i).patchValue({ reportTitle: 'IGH Gene Rearrangement Analysis [NGS]', test_code: 'LPE555', testname: option });
+      } else if (option === 'LPE556') {
+        control.at(i).patchValue({ reportTitle: 'IGH/IGK Gene Rearrangement Analysis [NGS]', test_code: 'LPE556', testname: option });
+      } else if (option === 'LPE557') {
+        control.at(i).patchValue({ reportTitle: 'TRB/TRG Gene Rearrangement Analysis [NGS]', test_code: 'LPE556', testname: option });
+      }
     console.log(control.at(i).value);
   }
 
