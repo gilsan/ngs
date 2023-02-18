@@ -79,7 +79,7 @@ processingStatus(i: number): string {
   } else if (parseInt(status, 10) === 2) {
     return '판독완료';
   } else if (parseInt(status, 10) === 3) {
-    return '전송완료';
+    return 'PDF저장';
   } else if (parseInt(status, 10) === 5) {
     return '접수취소';
   } else {

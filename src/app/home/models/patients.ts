@@ -49,7 +49,7 @@ export interface IPatient {
   genetic4?: string;
   gbn?: string;
   saveyn?: string;
-  comment: string;
+  comment?: string;
 }
 
 export interface IProfile {

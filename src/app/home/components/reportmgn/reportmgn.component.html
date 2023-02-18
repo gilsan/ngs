@@ -128,6 +128,25 @@
                                      </div>
                             </td>
                     </tr>
+                    <tr class="table_bg">
+                        <td class="wid120 bdnone" >IG-TCR</td>
+                        <td>
+                            <input type="text" size="40" class="clr-input  tdbox" #igtcrchecker [value]="mlpaChecker">
+                        </td>
+                        <td>
+                            <input type="text" size="40" class="clr-input  tdbox" #igtcrreader [value]="mlpaReader">
+                        </td>
+                        <td >
+                                 <div class="select_box">
+                                     <button type="button" class="btn btn_01"
+                                     (click)="retrive('IGTCR')">불러오기</button>
+                                     <button type="button" class="btn btn_01"
+                                     (click)="save('IGTCR', igtcrchecker.value,igtcrreader.value)" >저장</button>
+                                 </div>
+                        </td>
+                </tr>
+
+
                 </tbody>
             </table>
         </div>

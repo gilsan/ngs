@@ -149,8 +149,8 @@ export interface IPatient {
 
     export interface INoGraph {
         index: string;
-        vregion: number;
-        jregion: number;
+        vregion: string;
+        jregion: string;
         length: string;
         totalIGHreadDepth: string;
         clonalIGHDepth: number;
