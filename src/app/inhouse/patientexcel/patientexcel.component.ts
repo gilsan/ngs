@@ -10,7 +10,7 @@ import { CodeDefaultValue } from 'src/app/services/codedefaultvalue';
 
 import { catchError, concatMap, filter, map, switchMap, tap } from 'rxjs/operators';
 import { from, throwError } from 'rxjs';
-import { IAMLALL, IGenetic, ILYM, IMDS, ISEQ } from './excel.model';
+import { IAMLALL, IGenetic, IIGTCR, ILYM, IMDS, ISEQ } from './excel.model';
 import { DetectedVariantsService } from 'src/app/home/services/detectedVariants';
 import { AnalysisService } from 'src/app/forms/commons/analysis.service';
 
@@ -37,6 +37,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
   mds: IMDS[] = [];
   genetic: IGenetic[] = [];
   seq: ISEQ[] = [];
+  igtcr: IIGTCR[] =[];
   processing = false;
 
 
@@ -74,6 +75,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
     this.mds = [];
     this.genetic = [];
     this.seq = [];
+    this.igtcr = [];
 
     this.patientsList.patientSearch(start.replace(/-/g, ''), end.replace(/-/g, ''))
       .pipe(
@@ -115,6 +117,8 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
           this.pushGenetic(data);
         } else if (data.type === 'SEQ') {
           this.pushSeq(data);
+        } else if (data.type === 'IGTCR') {
+        
         }
       },
         err => console.log(err),
@@ -671,6 +675,10 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
 
   }
 
+  pushIgtcl() {
+    
+  }
+
 
 
   excelAMLALL(): void {
@@ -865,6 +873,8 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
     ];
     this.excel.exportAsExcelFileWidth(this.seq, 'SEQ', width);
   }
+
+
 
 
 

@@ -28,6 +28,8 @@ export class ReportmgnComponent implements OnInit, OnDestroy {
   seqReader = '';
   mlpaChecker = '';
   mlpaReader = '';
+  igtcrChecker = '';
+  igtcrReader = '';
 
   private subs = new SubSink();
 
@@ -38,6 +40,7 @@ export class ReportmgnComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subs.sink = this.reportService.getLists()
       .subscribe((data: Result[]) => {
+        console.log('[43]', data);
         this.displayReaderChecker(data);
       });
   }

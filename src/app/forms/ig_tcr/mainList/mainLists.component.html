@@ -105,7 +105,7 @@
                 <button type="button" class="btn btn_03" (click)="goReporter(i, 'TRG')">결과지(TRG)</button>
             </td>
             <td class="txt_c" *ngIf="list.test_code !== 'LPE557'"></td>
-            <td  class="txt_c" class="btn btn_03" *ngIf="list.gbn === 'RESEARCH'; else research;">
+            <td  class="txt_c"  *ngIf="list.gbn === 'RESEARCH'; else research;">
               <span>연구용</span>
             </td>
             <ng-template #research><td></td></ng-template>
