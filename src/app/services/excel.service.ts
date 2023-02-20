@@ -40,6 +40,52 @@ export class ExcelService {
     FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
   }
 
+
+  public exportIGTCR(jsonData: any[]) {
+     
+    const jsondata = [];
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(jsonData, { skipHeader: true });
+    // ws['!cols'] = width;
+    ws['!rows'] = [{ hpx: 57 }];
+
+    ws.A0 = {   height: 50, width: 12   };
+    ws.A1 = { t: 's', v: '이름' };
+    ws.A1.s = { alignment: { horizontal: 'center', vertical: 'center' }, height: 50, width: 12  };
+
+    const a0 = [{ s: { c: 0, r: 0 }, e: { c: 0, r: 1 } },
+      { s: { c: 1, r: 0 }, e: { c: 1, r: 1 } },
+      { s: { c: 2, r: 0 }, e: { c: 2, r: 1 } },
+      { s: { c: 3, r: 0 }, e: { c: 3, r: 1 } },
+      { s: { c: 4, r: 0 }, e: { c: 4, r: 1 } },
+      { s: { c: 5, r: 0 }, e: { c: 5, r: 1 } },
+      { s: { c: 6, r: 0 }, e: { c: 6, r: 1 } },
+      { s: { c: 7, r: 0 }, e: { c: 13, r: 0 } },
+      { s: { c: 14, r: 0 }, e: { c: 20, r: 0 } },
+      { s: { c: 21, r: 0 }, e: { c: 27, r: 0 } },
+      { s: { c: 28, r: 0 }, e: { c: 34, r: 0 } },
+      { s: { c: 35, r: 0 }, e: { c: 41, r: 0 } },
+      { s: { c: 42, r: 0 }, e: { c: 48, r: 0 } },
+      { s: { c: 49, r: 0 }, e: { c: 55, r: 0 } },
+      { s: { c: 56, r: 0 }, e: { c: 62, r: 0 } },
+      { s: { c: 63, r: 0 }, e: { c: 69, r: 0 } },
+      { s: { c: 70, r: 0 }, e: { c: 76, r: 0 } },
+      { s: { c: 77, r: 0 }, e: { c: 79, r: 0 } },
+      { s: { c: 81, r: 0 }, e: { c: 81, r: 1 } },
+      { s: { c: 81, r: 0 }, e: { c: 81, r: 1 } }
+      ];
+      ws['!merges'] = a0;
+
+      const workbook: XLSX.WorkBook = { Sheets: { data: ws }, SheetNames: ['data'] };
+      const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+  
+      this.saveAsExcelFile(excelBuffer, 'test');
+
+
+
+  }
+
+
+
   public exortAsNGSTest(jsonData: any[], excelFileName: string, width: any[]): void {
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(jsonData, { skipHeader: true });
     ws['!cols'] = width;
@@ -202,8 +248,6 @@ export class ExcelService {
     ws.AL2 = { t: 's', v: 'F3' };
     ws.AL2.s = { alignment: { horizontal: 'center' } };
     ws.AL3 = { t: 's', v: '기타 특이사항' };
-
-
 
 
 

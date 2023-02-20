@@ -134,6 +134,7 @@ export interface ISEQ {
 }
 
 export interface IIGTCR {
+  name: string;
   IGHV_mutation : string;
 bigo : string;
 cell_equipment1: string;

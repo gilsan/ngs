@@ -188,7 +188,7 @@ export class IgTcrSheetComponent implements OnInit {
       
     });
     
-    this.utilsService.getListsDig('AMLALL')
+    this.utilsService.getListsDig('IGTCR')
     .subscribe(data => {
       this.examin = data[0].checker;
       this.recheck = data[0].reader;
@@ -1024,7 +1024,7 @@ updateGraphData() {
   this.options = {
     color: this.colors,
     legend: {
-      data: ['Clonal total IGH read depth', 'Clonal total nuclelated cells']
+      data: ['Clonal/total IGH read depth (%)*', 'Clonal/total nuclelated cells (%)**']
     },
     xAxis: {
       type: 'category',
@@ -1225,7 +1225,7 @@ getStatus(index: number): boolean {
 
     // tslint:disable-next-line: typedef
     startToday(): string {
-        const oneMonthsAgo = moment().subtract(3, 'months');
+        const oneMonthsAgo = moment().subtract('months');
     
         const yy = oneMonthsAgo.format('YYYY');
         const mm = oneMonthsAgo.format('MM');

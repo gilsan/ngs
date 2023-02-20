@@ -106,6 +106,8 @@ export class ReportmgnComponent implements OnInit, OnDestroy {
       this.seqChecker = checker;
     } else if (type === 'MLPA') {
       this.mlpaChecker = checker;
+    } else if (type === 'IGTCR') {
+      this.igtcrChecker =  checker;
     }
   }
 
@@ -122,6 +124,8 @@ export class ReportmgnComponent implements OnInit, OnDestroy {
       this.seqReader = reader;
     } else if (type === 'MLPA') {
       this.mlpaReader = reader;
+    } else if (type === 'IGTCR') {
+      this.igtcrReader = reader;
     }
   }
 
@@ -145,6 +149,9 @@ export class ReportmgnComponent implements OnInit, OnDestroy {
       } else if (list.type === 'MLPA') {
         this.mlpaChecker = list.checker;
         this.mlpaReader = list.reader;
+      } else if (list.type === 'IGTCR') {
+        this.igtcrChecker = list.checker;
+        this.igtcrReader = list.reader;
       }
     })
 

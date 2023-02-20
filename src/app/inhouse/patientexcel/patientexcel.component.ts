@@ -13,6 +13,7 @@ import { from, throwError } from 'rxjs';
 import { IAMLALL, IGenetic, IIGTCR, ILYM, IMDS, ISEQ } from './excel.model';
 import { DetectedVariantsService } from 'src/app/home/services/detectedVariants';
 import { AnalysisService } from 'src/app/forms/commons/analysis.service';
+import { IgTcrService } from 'src/app/services/igtcr.service';
 
 export interface ITYPE {
   type: string;
@@ -37,7 +38,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
   mds: IMDS[] = [];
   genetic: IGenetic[] = [];
   seq: ISEQ[] = [];
-  igtcr: IIGTCR[] =[];
+  excelData:  IIGTCR[] =[];
   processing = false;
 
 
@@ -48,7 +49,8 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
     private patientsList: PatientsListService,
     private codeDefaultValueService: CodeDefaultValue,
     private variantsService: DetectedVariantsService,
-    private analysisService: AnalysisService
+    private analysisService: AnalysisService,
+    private igtcrService: IgTcrService
   ) { }
 
   ngOnInit(): void {
@@ -75,7 +77,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
     this.mds = [];
     this.genetic = [];
     this.seq = [];
-    this.igtcr = [];
+
 
     this.patientsList.patientSearch(start.replace(/-/g, ''), end.replace(/-/g, ''))
       .pipe(
@@ -118,7 +120,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         } else if (data.type === 'SEQ') {
           this.pushSeq(data);
         } else if (data.type === 'IGTCR') {
-        
+          this.pushIgtcr(data.name , data.specimenNo);
         }
       },
         err => console.log(err),
@@ -133,6 +135,8 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
             this.excelGenetic();
           } else if (gubun === 'SEQ') {
             this.excelSEQ();
+          }else if (gubun === 'IGTCR') {
+            this.printIGTCRInfoEachPatient();
           }
           this.processing = false;
         });
@@ -873,6 +877,32 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
     ];
     this.excel.exportAsExcelFileWidth(this.seq, 'SEQ', width);
   }
+
+  ///////////////////////// IG-TCR
+ pushIgtcr(name: string, specimenno: string ) {
+  this.igtcrService.igtcrListInfo(specimenno)
+  .pipe(
+    map(data => data.map(item => {
+      item.name = name;
+      this.excelData.push(item);
+      return  item;
+    }))
+  ).subscribe(data => {
+    if (data.length) {
+     // console.log('[889]', this.igtcrData);
+    }
+  })
+}
+
+printIGTCRInfoEachPatient() {
+  const width = [{ width: 9 }, { width: 29 }, { width: 9 }, { width: 9 }, { width: 9 },
+    { width: 11 }, { width: 12 }, { width: 12 }, { width: 12 }, { width: 16 },
+    { width: 10 }, { width: 9 }, { width: 9 }, { width: 12 }, { width: 17 },
+    { width: 18 }, { width: 14 }, { width: 9 }, { width: 20 }, { width: 60 }
+    ];
+   // this.excel.exortAsNGSTest(this.excelData, 'test', width);
+   this.excel.exportIGTCR(this.excelData);
+ }
 
 
 

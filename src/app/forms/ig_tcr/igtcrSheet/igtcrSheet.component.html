@@ -562,8 +562,14 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>
+                            <!-- <td>
                                 % of clonal cells (estimated value) : {{bcellLPE555LPE556}}% / total B-cells , {{pcellLPE557}}% / total P-cells
+                            </td> -->
+                            <td *ngIf="bcellLPE555LPE556.length">
+                                {{bcellLPE555LPE556}} / total B-cells
+                            </td>
+                            <td *ngIf="pcellLPE557.length">
+                                {{pcellLPE557}}/ total P-cells
                             </td>
                         </tr>
                     </tbody>
@@ -610,7 +616,7 @@
                                     <td class="s-text-center">{{list.clonalCellEquivalent}}</td>
                                     <td class="s-text-center">{{list.ClonalCellSequence}}</td>
                                 </tr>
-                                <tr>
+                                <!-- <tr>
                                     <td class="s-text-center">LQIC</td>
                                     <td class="s-text-center">IGHV1-69-13</td>
                                     <td class="s-text-center">IGHJ6-03</td>
@@ -620,7 +626,7 @@
                                     <td class="s-text-center"></td>
                                     <td class="s-text-center"></td>
                                     <td class="s-text-center"></td>
-                                </tr>                               
+                                </tr>                                -->
                             </tbody>
                         </table>
                      </form>
@@ -639,7 +645,7 @@
                                 Input DNA =
                             </td>
                             <td class="s-text-left">
-                                400ng
+                                240 ng
                             </td>
                         </tr>
                         <tr>
@@ -647,7 +653,7 @@
                                 Total nucleated cells (estimated) =
                             </td>
                             <td class="s-text-left">
-                                61,538 cell equivalents (Estimated DNA mass per 1 cell = 6.5 pg)
+                                36,932 cell equivalents (Estimated DNA mass per 1 cell = 6.5 pg)
                             </td>
                         </tr>
                         <tr>
@@ -655,7 +661,7 @@
                                 Total B-cell coune =
                             </td>
                             <td class="s-text-left">
-                                217,735 cell equivalents (Total read count/ LQIC read count)-LQIC
+                                193,220 cell equivalents (Total read count/ LQIC read count)-LQIC
                             </td>
                         </tr>
                     </tbody>
@@ -738,7 +744,7 @@
                         <tbody>
                             <tr>
                                 <td colspan="2">
-                                    IGH MRD Result : Detected
+                                    IGH MRD Result : Detected   {{comment}}
                                 </td>
                             </tr>
                             <tr>
@@ -837,7 +843,7 @@
                                 Total nucleated cells (estimated) =
                             </td>
                             <td class="s-text-left">
-                                36,923 cell equivalents (Estimated DNA mass per 1 cell = 6.5 pg)
+                                61,538 cell equivalents (Estimated DNA mass per 1 cell = 6.5 pg)
                             </td>
                         </tr>
                         <tr>
@@ -845,7 +851,7 @@
                                 Total B-cell coune =
                             </td>
                             <td class="s-text-left">
-                                193,320 cell equivalents (Total read count/ LQIC read count)-LQIC
+                                217,735 cell equivalents (Total read count/ LQIC read count)-LQIC
                             </td>
                         </tr>
                     </tbody>
@@ -884,7 +890,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    - 검사의 분석 민감도는 약 〖10〗^(-4) ~ 〖10〗^(-5)입니다.
+                                    - 검사의 분석 민감도는 약 10<sup>-4</sup> ~ 10<sup>-5</sup>입니다.
                                 </td>
                             </tr>
                         </tbody>
