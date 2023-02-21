@@ -41,16 +41,214 @@ export class ExcelService {
   }
 
 
-  public exportIGTCR(jsonData: any[]) {
-     
-    const jsondata = [];
-    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(jsonData, { skipHeader: true });
-    // ws['!cols'] = width;
-    ws['!rows'] = [{ hpx: 57 }];
+  public exportIGTCR(jsonData: any[], excelFileName: string, width: any) {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(jsonData, { skipHeader: true  });
+    worksheet['!cols'] = width;
+    worksheet['!rows'] = [{ hpx: 50 }];
 
-    ws.A0 = {   height: 50, width: 12   };
-    ws.A1 = { t: 's', v: '이름' };
-    ws.A1.s = { alignment: { horizontal: 'center', vertical: 'center' }, height: 50, width: 12  };
+    // worksheet.A0 = {   hpx: 50, width: 12   };
+    worksheet.A1 = { t: 's', v: '이름' };
+    worksheet.A1.s = { alignment: { horizontal: 'center', vertical: 'center' }   };
+    worksheet.B1 = { t: 's', v: '접수 Date' };
+    worksheet.B1.s = { alignment: { horizontal: 'center', vertical: 'center' }   };  
+    worksheet.C1 = { t: 's', v: 'gene' };
+    worksheet.C1.s = { alignment: { horizontal: 'center', vertical: 'center' }   };      
+    worksheet.D1 = { t: 's', v: 'Total read\r\n Count' };
+    worksheet.D1.s = { alignment: { horizontal: 'center', vertical: 'center', wrapText: true }   };   
+    worksheet.E1 = { t: 's', v: 'Read\r\n of LQIC' };
+    worksheet.E1.s = { alignment: { horizontal: 'center', vertical: 'center', wrapText: true }   };   
+    worksheet.F1 = { t: 's', v: '% \r\n of LQIC' };
+    worksheet.F1.s = { alignment: { horizontal: 'center', vertical: 'center', wrapText: true }   }; 
+    worksheet.G1 = { t: 's', v: 'Total B-Cell \r\n T-Cell count' };
+    worksheet.G1.s = { alignment: { horizontal: 'center', vertical: 'center', wrapText: true }   }; 
+
+    worksheet.H1 = { t: 's', v: 'Clonal sequence 1' };
+    worksheet.H1.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.H2 = { t: 's', v: 'sequence' };
+    worksheet.H2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.I2 = { t: 's', v: 'Length' };
+    worksheet.I2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.J2 = { t: 's', v: 'Raw count' };
+    worksheet.J2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.K2 = { t: 's', v: 'V-gene' };
+    worksheet.K2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.L2 = { t: 's', v: 'J-gene' };
+    worksheet.L2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.M2 = { t: 's', v: '% total \r\n reads' };
+    worksheet.M2.s = { alignment: { horizontal: 'center', vertical: 'center', wrapText: true }   };   
+    worksheet.N2 = { t: 's', v: 'cell \r\n equivalent' };
+    worksheet.N2.s = { alignment: { horizontal: 'center', vertical: 'center', wrapText: true }   };   
+
+
+    worksheet.O1 = { t: 's', v: 'Clonal sequence 2' };
+    worksheet.O1.s = { alignment: { horizontal: 'center', vertical: 'center' }   };  
+    worksheet.O2 = { t: 's', v: 'sequence' };
+    worksheet.O2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.P2 = { t: 's', v: 'Length' };
+    worksheet.P2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.Q2 = { t: 's', v: 'Raw count' };
+    worksheet.Q2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.R2 = { t: 's', v: 'V-gene' };
+    worksheet.R2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.S2 = { t: 's', v: 'J-gene' };
+    worksheet.S2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.T2 = { t: 's', v: '% total \r\n reads' };
+    worksheet.T2.s = { alignment: { horizontal: 'center', vertical: 'center', wrapText: true }   };   
+    worksheet.U2 = { t: 's', v: 'cell \r\n equivalent' };
+    worksheet.U2.s = { alignment: { horizontal: 'center', vertical: 'center', wrapText: true }   };   
+
+    worksheet.V1 = { t: 's', v: 'Clonal sequence 3' };
+    worksheet.V1.s = { alignment: { horizontal: 'center', vertical: 'center' }   };  
+    worksheet.V2 = { t: 's', v: 'sequence' };
+    worksheet.V2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.W2 = { t: 's', v: 'Length' };
+    worksheet.W2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.X2 = { t: 's', v: 'Raw count' };
+    worksheet.X2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.Y2 = { t: 's', v: 'V-gene' };
+    worksheet.Y2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.Z2 = { t: 's', v: 'J-gene' };
+    worksheet.Z2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.AA2 = { t: 's', v: '% total \r\n reads' };
+    worksheet.AA2.s = { alignment: { horizontal: 'center', vertical: 'center', wrapText: true }   };   
+    worksheet.AB2 = { t: 's', v: 'cell \r\n equivalent' };
+    worksheet.AB2.s = { alignment: { horizontal: 'center', vertical: 'center', wrapText: true }   };   
+
+    worksheet.AC1 = { t: 's', v: 'Clonal sequence 4' };
+    worksheet.AC1.s = { alignment: { horizontal: 'center', vertical: 'center' }   };  
+    worksheet.AC2 = { t: 's', v: 'sequence' };
+    worksheet.AC2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.AD2 = { t: 's', v: 'Length' };
+    worksheet.AD2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.AE2 = { t: 's', v: 'Raw count' };
+    worksheet.AE2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.AF2 = { t: 's', v: 'V-gene' };
+    worksheet.AF2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.AG2 = { t: 's', v: 'J-gene' };
+    worksheet.AG2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.AH2 = { t: 's', v: '% total \r\n reads' };
+    worksheet.AH2.s = { alignment: { horizontal: 'center', vertical: 'center', wrapText: true }   };   
+    worksheet.AI2 = { t: 's', v: 'cell \r\n equivalent' };
+    worksheet.AI2.s = { alignment: { horizontal: 'center', vertical: 'center', wrapText: true }   };   
+
+    worksheet.AJ1 = { t: 's', v: 'Clonal sequence 5' };
+    worksheet.AJ1.s = { alignment: { horizontal: 'center', vertical: 'center' }   };  
+    worksheet.AJ2 = { t: 's', v: 'sequence' };
+    worksheet.AJ2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.AK2 = { t: 's', v: 'Length' };
+    worksheet.AK2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.AL2 = { t: 's', v: 'Raw count' };
+    worksheet.AL2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.AM2 = { t: 's', v: 'V-gene' };
+    worksheet.AM2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.AN2 = { t: 's', v: 'J-gene' };
+    worksheet.AN2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.AO2 = { t: 's', v: '% total \r\n reads' };
+    worksheet.AO2.s = { alignment: { horizontal: 'center', vertical: 'center', wrapText: true }   };   
+    worksheet.AP2 = { t: 's', v: 'cell \r\n equivalent' };
+    worksheet.AP2.s = { alignment: { horizontal: 'center', vertical: 'center', wrapText: true }   };   
+
+    worksheet.AQ1 = { t: 's', v: 'Clonal sequence 6' };
+    worksheet.AQ1.s = { alignment: { horizontal: 'center', vertical: 'center' }   };  
+    worksheet.AQ2 = { t: 's', v: 'sequence' };
+    worksheet.AQ2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.AR2 = { t: 's', v: 'Length' };
+    worksheet.AR2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.AS2 = { t: 's', v: 'Raw count' };
+    worksheet.AS2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.AT2 = { t: 's', v: 'V-gene' };
+    worksheet.AT2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.AU2 = { t: 's', v: 'J-gene' };
+    worksheet.AU2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.AV2 = { t: 's', v: '% total \r\n reads' };
+    worksheet.AV2.s = { alignment: { horizontal: 'center', vertical: 'center', wrapText: true }   };   
+    worksheet.AW2 = { t: 's', v: 'cell \r\n equivalent' };
+    worksheet.AW2.s = { alignment: { horizontal: 'center', vertical: 'center', wrapText: true }   };  
+
+    worksheet.AX1 = { t: 's', v: 'Clonal sequence 7' };
+    worksheet.AX1.s = { alignment: { horizontal: 'center', vertical: 'center' }   };  
+    worksheet.AX2 = { t: 's', v: 'sequence' };
+    worksheet.AX2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.AY2 = { t: 's', v: 'Length' };
+    worksheet.AY2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.AZ2 = { t: 's', v: 'Raw count' };
+    worksheet.AZ2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.BA2 = { t: 's', v: 'V-gene' };
+    worksheet.BA2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.BB2 = { t: 's', v: 'J-gene' };
+    worksheet.BB2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.BC2 = { t: 's', v: '% total \r\n reads' };
+    worksheet.BC2.s = { alignment: { horizontal: 'center', vertical: 'center',  wrapText: true }   };   
+    worksheet.BD2 = { t: 's', v: 'cell \r\n equivalent' };
+    worksheet.BD2.s = { alignment: { horizontal: 'center', vertical: 'center', wrapText: true }   };  
+
+    worksheet.BE1 = { t: 's', v: 'Clonal sequence 8' };
+    worksheet.BE1.s = { alignment: { horizontal: 'center', vertical: 'center' }   };  
+    worksheet.BE2 = { t: 's', v: 'sequence' };
+    worksheet.BE2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.BF2 = { t: 's', v: 'Length' };
+    worksheet.BF2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.BG2 = { t: 's', v: 'Raw count' };
+    worksheet.BG2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.BH2 = { t: 's', v: 'V-gene' };
+    worksheet.BH2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.BI2 = { t: 's', v: 'J-gene' };
+    worksheet.BI2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.BJ2 = { t: 's', v: '% total \r\n reads' };
+    worksheet.BJ2.s = { alignment: { horizontal: 'center', vertical: 'center', wrapText: true }   };   
+    worksheet.BK2 = { t: 's', v: 'cell \r\n equivalent' };
+    worksheet.BK2.s = { alignment: { horizontal: 'center', vertical: 'center', wrapText: true }   };  
+
+    worksheet.BL1 = { t: 's', v: 'Clonal sequence 9' };
+    worksheet.BL1.s = { alignment: { horizontal: 'center', vertical: 'center' }   };  
+    worksheet.BL2 = { t: 's', v: 'sequence' };
+    worksheet.BL2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.BM2 = { t: 's', v: 'Length' };
+    worksheet.BM2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.BN2 = { t: 's', v: 'Raw count' };
+    worksheet.BN2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.BO2 = { t: 's', v: 'V-gene' };
+    worksheet.BO2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.BP2 = { t: 's', v: 'J-gene' };
+    worksheet.BP2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.BQ2 = { t: 's', v: '% total \r\n reads' };
+    worksheet.BQ2.s = { alignment: { horizontal: 'center', vertical: 'center', wrapText: true }   };   
+    worksheet.BR2 = { t: 's', v: 'cell \r\n equivalent' };
+    worksheet.BR2.s = { alignment: { horizontal: 'center', vertical: 'center', wrapText: true }   }; 
+
+    worksheet.BS1 = { t: 's', v: 'Clonal sequence 10' };
+    worksheet.BS1.s = { alignment: { horizontal: 'center', vertical: 'center' }   };  
+    worksheet.BS2 = { t: 's', v: 'sequence' };
+    worksheet.BS2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.BT2 = { t: 's', v: 'Length' };
+    worksheet.BT2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.BU2 = { t: 's', v: 'Raw count' };
+    worksheet.BU2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.BV2 = { t: 's', v: 'V-gene' };
+    worksheet.BV2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.BW2 = { t: 's', v: 'J-gene' };
+    worksheet.BW2.s = { alignment: { horizontal: 'center', vertical: 'center' }   };   
+    worksheet.BX2 = { t: 's', v: '% total \r\n reads' };
+    worksheet.BX2.s = { alignment: { horizontal: 'center', vertical: 'center', wrapText: true }   };   
+    worksheet.BY2 = { t: 's', v: 'cell \r\n equivalent' };
+    worksheet.BY2.s = { alignment: { horizontal: 'center', vertical: 'center', wrapText: true }   }; 
+
+    worksheet.BZ1 = { t: 's', v: 'total' };
+    worksheet.BZ1.s = { alignment: { horizontal: 'center', vertical: 'center' }   };  
+    worksheet.BZ2 = { t: 's', v: 'Clonal\r\n total IGH \r\n read depth \r\n (%)*' };
+    worksheet.BZ2.s = { alignment: { horizontal: 'center', vertical: 'center', wrapText: true }   };   
+    worksheet.CA2 = { t: 's', v: 'Clonal total\r\n nucelated cells \r\n (%)**' };
+    worksheet.CA2.s = { alignment: { horizontal: 'center', vertical: 'center', wrapText: true }   };   
+    worksheet.CB2 = { t: 's', v: 'Cell \r\n equivalent' };
+    worksheet.CB2.s = { alignment: { horizontal: 'center', vertical: 'center', wrapText: true }   }; 
+
+    worksheet.CC1 = { t: 's', v: 'IGHV \r\n mutation' };
+    worksheet.CC1.s = { alignment: { horizontal: 'center', vertical: 'center', wrapText: true }   }; 
+    worksheet.CD1 = { t: 's', v: '비고' };
+    worksheet.CD1.s = { alignment: { horizontal: 'center', vertical: 'center' }   }; 
+    worksheet.CE1 = { t: 's', v: 'Comment' };
+    worksheet.CE1.s = { alignment: { horizontal: 'center', vertical: 'center' }   }; 
+
 
     const a0 = [{ s: { c: 0, r: 0 }, e: { c: 0, r: 1 } },
       { s: { c: 1, r: 0 }, e: { c: 1, r: 1 } },
@@ -70,18 +268,17 @@ export class ExcelService {
       { s: { c: 63, r: 0 }, e: { c: 69, r: 0 } },
       { s: { c: 70, r: 0 }, e: { c: 76, r: 0 } },
       { s: { c: 77, r: 0 }, e: { c: 79, r: 0 } },
-      { s: { c: 81, r: 0 }, e: { c: 81, r: 1 } },
-      { s: { c: 81, r: 0 }, e: { c: 81, r: 1 } }
+      { s: { c: 80, r: 0 }, e: { c: 80, r: 1 } }, 
+      { s: { c: 81, r: 0 }, e: { c: 81, r: 1 } }, 
+      { s: { c: 82, r: 0 }, e: { c: 82, r: 1 } }, 
       ];
-      ws['!merges'] = a0;
-
-      const workbook: XLSX.WorkBook = { Sheets: { data: ws }, SheetNames: ['data'] };
+     
+      worksheet['!merges'] = a0;
+      
+      const workbook: XLSX.WorkBook = { Sheets: { data: worksheet  }, SheetNames: ['data'] };
       const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
   
-      this.saveAsExcelFile(excelBuffer, 'test');
-
-
-
+      this.saveAsExcelFile(excelBuffer, excelFileName);
   }
 
 

@@ -553,11 +553,12 @@
                 <div class="sub_title">검사결과</div>
                 <table cellpadding="0" cellspacing="0" class="table_result02">
                     <colgroup>
-                        <col style="width:100%;" />
+                        <col style="width:50%;" />
+                        <col style="width:50%;" />
                     </colgroup>
                     <tbody>
                         <tr>
-                            <td>
+                            <td colspan="2">
                                 미세잔존질환(MRD) 추적에 적합한 IGH 클론이 두 개 검출됩니다.
                             </td>
                         </tr>
@@ -565,6 +566,9 @@
                             <!-- <td>
                                 % of clonal cells (estimated value) : {{bcellLPE555LPE556}}% / total B-cells , {{pcellLPE557}}% / total P-cells
                             </td> -->
+                            <td>
+                                % of clonal cells (estimated value) :
+                            </td>
                             <td *ngIf="bcellLPE555LPE556.length">
                                 {{bcellLPE555LPE556}} / total B-cells
                             </td>
@@ -752,7 +756,7 @@
                                     % of clonal cells (estimated value) :
                                 </td>
                                 <td *ngIf="patientInfo.test_code === 'LPE555' || patientInfo.test_code === 'LPE556'">
-                                    {{mrdPcellLPE557}}% / total B-cells , {{mrdnucleatedCells}}% / total nucleated cells
+                                    {{mrdBcellLPE555LPE556}}% / total B-cells , {{mrdnucleatedCells}}% / total nucleated cells
                                 </td>
                                 <td  *ngIf="patientInfo.test_code === 'LPE557'">
                                     {{mrdPcellLPE557}}% / total P-cells , {{mrdnucleatedCells}}% / total nucleated cells

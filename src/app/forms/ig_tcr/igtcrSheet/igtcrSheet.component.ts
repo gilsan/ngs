@@ -106,6 +106,9 @@ export class IgTcrSheetComponent implements OnInit {
   firstReportDay = '-'; // 검사보고일
   lastReportDay = '-';  // 수정보고일
 
+  acceptDate = ''; // 접수일자
+  tableLength = 0;
+
   igTcrData: ITcrData = {
     specimenNo: this.patientInfo.specimenNo,
     method: this.patientInfo.reportTitle,
@@ -171,6 +174,8 @@ export class IgTcrSheetComponent implements OnInit {
         }
         this.screenstatus = this.patientInfo.screenstatus;
         this.comment = this.patientInfo.comment;
+        this.acceptDate = this.patientInfo.accept_date.replace(/\./g,'-');
+         
       }),
       concatMap(() => {
        return this.service.igtcrListInfo(this.patientInfo.specimenNo)
@@ -229,10 +234,10 @@ export class IgTcrSheetComponent implements OnInit {
    });
    
     const tableRows = this.tablerowForm.get('tableRows') as FormArray;
-    const totalIGHReadDepth = tableRows.at(tableRows.length- 1).get('total_IGH_read_depth')?.value;
-    this.mrdPcellLPE557 = tableRows.at(tableRows.length- 1).get('total_nucelated_cells')?.value;
+    const totalIGHReadDepth = tableRows.at(0).get('total_IGH_read_depth')?.value;
+    this.mrdnucleatedCells = tableRows.at(0).get('total_nucelated_cells')?.value;
 
-    if (this.patientInfo.test_code === 'LPE555' || this.patientInfo.test_code === 'LPE555') {
+    if (this.patientInfo.test_code === 'LPE555' || this.patientInfo.test_code === 'LPE556') {
       this.mrdBcellLPE555LPE556 = totalIGHReadDepth;
     } else if(this.patientInfo.test_code === 'LPE557') {
       this.mrdPcellLPE557 = totalIGHReadDepth;
@@ -244,7 +249,7 @@ export class IgTcrSheetComponent implements OnInit {
     }, 2000);
 
     this.patientsListService.changescreenstatus( this.patientInfo.specimenNo,'3','3000', 'userid').subscribe(data => {
-      console.log('[241][PDF]][3]...',);
+      // console.log('[241][PDF]][3]...',);
    });
   }
 
@@ -471,7 +476,7 @@ makeNewRow(): FormGroup  {
     raw_count9: [''],
     raw_count10: [''],
     read_of_LQIC: [''],
-    report_date: [this.startToday()],
+    report_date: [this.tableLength ? this.startToday() : this.acceptDate],
     sequence1: [''],
     sequence2: [''],
     sequence3: [''],
@@ -515,6 +520,7 @@ makeNewRow(): FormGroup  {
 addNewRow(): void {
 
   const control = this.tablerowForm.get('tableRows') as FormArray;
+  this.tableLength = control.length;
   control.push(this.makeNewRow());
 }
 
@@ -1044,12 +1050,12 @@ updateGraphData() {
       ,
     series: [
       {
-        name: 'Clonal total IGH read depth',
+        name: 'Clonal/total IGH read depth (%)*',
         type: 'line',
         data: this.clonalTotalIGHReadDepthData,
       },
       {
-        name: 'Clonal total nuclelated cells',
+        name: 'Clonal/total nuclelated cells (%)**',
         type: 'line',
         data: this.clonalTotalnuclelatedCellsData
       }
