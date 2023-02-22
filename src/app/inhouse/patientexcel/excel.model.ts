@@ -218,6 +218,8 @@ v_gene7: string;
 v_gene8: string;
 v_gene9: string;
 v_gene10: string;
+density: string;
+patientId: string;
 }
 
 export interface IIGTCREXCEL {
@@ -304,6 +306,8 @@ export interface IIGTCREXCEL {
   IGHV_mutation : string;
   bigo : string;
   comment: string;
+  density: string;
+  patientId: string;
   }
 
 

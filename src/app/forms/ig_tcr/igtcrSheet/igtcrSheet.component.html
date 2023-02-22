@@ -50,11 +50,11 @@
                                 <col style="width:50px"/>
                                 <col style="width:50px"/>
                                 <!-- Clonal sequence 1 -->
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
+                                <col style="width:40px"/>
+                                <col style="width:30px"/>
+                                <col style="width:30px"/>
+                                <col style="width:20px"/>
+                                <col style="width:20px"/>
                                 <col style="width:50px"/>
                                 <col style="width:50px"/>
                                 <!-- Clonal sequence 2 -->
@@ -136,6 +136,7 @@
                                 <col style="width:50px"/>
                                 <col style="width:50px"/>
                                 <col style="width:50px"/>
+                                <col style="width:30px" />
                             </colgroup>
                         <thead>
                             <tr>
@@ -162,6 +163,7 @@
                                 <th></th>
                                 <th rowspan="2">비고</th>
                                 <th rowspan="2">Comment</th>
+                                <th rowspan="2">농도</th>
                             </tr>
                             <tr>
                                 <!-- Clonal sequence 1 -->
@@ -249,6 +251,7 @@
                                 <th>Clonal/total<br/>nucelated cells<br/>(%)**</th>
                                 <th>cell<br/>equivalent</th>
                                 <th>IGHV<br/>mutation</th>
+                                
                             </tr>
                         </thead>
                         <tbody>
@@ -278,16 +281,16 @@
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence1">
                                     </td>
                                     <td>
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="sequence_length1">
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="sequence_length1">
                                     </td>
                                     <td>
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="raw_count1"  (change)="rawCount1(i, rawcount1.value)" #rawcount1>
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="raw_count1"  (change)="rawCount1(i, rawcount1.value)" #rawcount1>
                                     </td>
                                     <td>
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="v_gene1">
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="v_gene1">
                                     </td>
                                     <td>
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="j_gene1">
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="j_gene1">
                                     </td>
                                     <td>{{list.get('percent_total_reads1')?.value}}%</td>
                                     <td>{{list.get('cell_equipment1')?.value}}</td>
@@ -296,16 +299,16 @@
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence2">
                                     </td>
                                     <td>
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="sequence_length2">
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="sequence_length2">
                                     </td>
                                     <td>
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="raw_count2"  (change)="rawCount2(i, rawcount2.value)" #rawcount2>
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="raw_count2"  (change)="rawCount2(i, rawcount2.value)" #rawcount2>
                                     </td>
                                     <td>
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="v_gene2">
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="v_gene2">
                                     </td>
                                     <td>
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="j_gene2">
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="j_gene2">
                                     </td>
                                     <td>{{list.get('percent_total_reads2')?.value}}%</td>
                                     <td>{{list.get('cell_equipment2')?.value }}</td>
@@ -314,16 +317,16 @@
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence3">
                                     </td>
                                     <td>
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="sequence_length3">
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="sequence_length3">
                                     </td>
                                     <td>
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="raw_count3"  (change)="rawCount3(i, rawcount3.value)" #rawcount3>
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="raw_count3"  (change)="rawCount3(i, rawcount3.value)" #rawcount3>
                                     </td>
                                     <td>
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="v_gene3">
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="v_gene3">
                                     </td>
                                     <td>
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="j_gene3">
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="j_gene3">
                                     </td>
                                     <td>{{list.get('percent_total_reads3')?.value}}%</td>
                                     <td>{{list.get('cell_equipment3')?.value}}</td>
@@ -332,16 +335,16 @@
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence4">
                                     </td>
                                     <td [hidden]="clonalDisplay4">
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="sequence_length4">
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="sequence_length4">
                                     </td>
                                     <td [hidden]="clonalDisplay4">
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="raw_count4"  (change)="rawCount4(i, rawcount4.value)" #rawcount4>
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="raw_count4"  (change)="rawCount4(i, rawcount4.value)" #rawcount4>
                                     </td>
                                     <td [hidden]="clonalDisplay4">
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="v_gene4">
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="v_gene4">
                                     </td>
                                     <td [hidden]="clonalDisplay4">
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="j_gene4">
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="j_gene4">
                                     </td>
                                     <td [hidden]="clonalDisplay4">{{list.get('percent_total_reads4')?.value}}%</td>
                                     <td [hidden]="clonalDisplay4">{{list.get('cell_equipment4')?.value }}</td>
@@ -350,16 +353,16 @@
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence5">
                                     </td>
                                     <td [hidden]="clonalDisplay5">
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="sequence_length5"  (change)="rawCount5(i, rawcount5.value)" #rawcount5>
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="sequence_length5"  (change)="rawCount5(i, rawcount5.value)" #rawcount5>
                                     </td>
                                     <td [hidden]="clonalDisplay5">
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="raw_count5">
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="raw_count5">
                                     </td>
                                     <td [hidden]="clonalDisplay5">
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="v_gene5">
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="v_gene5">
                                     </td>
                                     <td [hidden]="clonalDisplay5">
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="j_gene5">
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="j_gene5">
                                     </td>
                                     <td [hidden]="clonalDisplay5">{{list.get('percent_total_reads5')?.value}}%</td>
                                     <td [hidden]="clonalDisplay5">{{list.get('cell_equipment5')?.value}}</td>
@@ -368,16 +371,16 @@
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence6">
                                     </td>
                                     <td [hidden]="clonalDisplay6">
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="sequence_length6">
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="sequence_length6">
                                     </td>
                                     <td [hidden]="clonalDisplay6">
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="raw_count6"  (change)="rawCount6(i, rawcount6.value)" #rawcount6>
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="raw_count6"  (change)="rawCount6(i, rawcount6.value)" #rawcount6>
                                     </td>
                                     <td [hidden]="clonalDisplay6">
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="v_gene6">
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="v_gene6">
                                     </td>
                                     <td [hidden]="clonalDisplay6">
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="j_gene6">
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="j_gene6">
                                     </td>
                                     <td [hidden]="clonalDisplay6">{{list.get('percent_total_reads6')?.value}}%</td>
                                     <td [hidden]="clonalDisplay6">{{list.get('cell_equipment6')?.value}}</td>
@@ -386,16 +389,16 @@
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence7">
                                     </td>
                                     <td [hidden]="clonalDisplay7">
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="sequence_length7">
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="sequence_length7">
                                     </td>
                                     <td [hidden]="clonalDisplay7">
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="raw_count7"  (change)="rawCount7(i, rawcount7.value)" #rawcount7>
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="raw_count7"  (change)="rawCount7(i, rawcount7.value)" #rawcount7>
                                     </td>
                                     <td [hidden]="clonalDisplay7">
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="v_gene7">
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="v_gene7">
                                     </td>
                                     <td [hidden]="clonalDisplay7">
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="j_gene7">
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="j_gene7">
                                     </td>
                                     <td [hidden]="clonalDisplay7">{{list.get('percent_total_reads7')?.value}}%</td>
                                     <td [hidden]="clonalDisplay7">{{list.get('cell_equipment7')?.value}}</td>
@@ -404,16 +407,16 @@
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence8">
                                     </td>
                                     <td [hidden]="clonalDisplay8">
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="sequence_length8">
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="sequence_length8">
                                     </td>
                                     <td [hidden]="clonalDisplay8">
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="raw_count8"  (change)="rawCount8(i, rawcount8.value)" #rawcount8>
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="raw_count8"  (change)="rawCount8(i, rawcount8.value)" #rawcount8>
                                     </td>
                                     <td [hidden]="clonalDisplay8">
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="v_gene8">
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="v_gene8">
                                     </td>
                                     <td [hidden]="clonalDisplay8">
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="j_gene8">
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="j_gene8">
                                     </td>
                                     <td [hidden]="clonalDisplay8">{{list.get('percent_total_reads8')?.value}}%</td>
                                     <td [hidden]="clonalDisplay8">{{list.get('cell_equipment8')?.value}}</td>
@@ -422,16 +425,16 @@
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence9">
                                     </td>
                                     <td [hidden]="clonalDisplay9">
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="sequence_length9">
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="sequence_length9">
                                     </td>
                                     <td [hidden]="clonalDisplay9">
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="raw_count9"  (change)="rawCount9(i, rawcount9.value)" #rawcount9>
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="raw_count9"  (change)="rawCount9(i, rawcount9.value)" #rawcount9>
                                     </td>
                                     <td [hidden]="clonalDisplay9">
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="v_gene9">
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="v_gene9">
                                     </td>
                                     <td [hidden]="clonalDisplay9">
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="j_gene9">
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="j_gene9">
                                     </td>
                                     <td [hidden]="clonalDisplay9">{{list.get('percent_total_reads9')?.value}}%</td>
                                     <td [hidden]="clonalDisplay9">{{list.get('cell_equipment9')?.value}}</td>
@@ -440,16 +443,16 @@
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence10">
                                     </td>
                                     <td [hidden]="clonalDisplay10">
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="sequence_length10">
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="sequence_length10">
                                     </td>
                                     <td [hidden]="clonalDisplay10">
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="raw_count10"  (change)="rawCount10(i, rawcount10.value)" #rawcount10>
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="raw_count10"  (change)="rawCount10(i, rawcount10.value)" #rawcount10>
                                     </td>
                                     <td [hidden]="clonalDisplay10">
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="v_gene10">
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="v_gene10">
                                     </td>
                                     <td [hidden]="clonalDisplay10">
-                                        <input type="text" size="10" class="clr-input textcenter tdbox" formControlName="j_gene10">
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="j_gene10">
                                     </td>
                                     <td [hidden]="clonalDisplay10">{{list.get('percent_total_reads10')?.value}}%</td>
                                     <td [hidden]="clonalDisplay10">{{list.get('cell_equipment10')?.value}}</td>
@@ -461,6 +464,7 @@
                                     <td><input type="text" size="10" class="clr-input textcenter tdbox" formControlName="IGHV_mutation"></td>
                                     <td><input type="text" size="10" class="clr-input textcenter tdbox" formControlName="bigo"></td>
                                     <td><input type="text" size="10" class="clr-input textcenter tdbox" formControlName="comment"></td>
+                                    <td><input type="text" size="10" class="clr-input textcenter tdbox" formControlName="density"></td>
                                 </tr>
                             
                             </ng-container>
@@ -799,7 +803,7 @@
                                         <th>Clonal IGH depth</th>
                                         <th>Clonal/total IGH read depth (%)*</th>
                                         <th>Clonal/total nuclelated cells (%)**</th>
-                                        <th>Clonal cell equivalent**</th>
+                                        <th>Clonal cell equivalent***</th>
                                     </tr>
                                 </thead>
                                 <tbody>

@@ -35,6 +35,8 @@ export class IgTcrSheetComponent implements OnInit {
   mrdBcellLPE555LPE556 = '';
   mrdPcellLPE557 = '';
   mrdnucleatedCells = '';
+  densityTablePdf1 = ''; // 400 or 240
+  densityTablePdf2 = '';
   comment = '';
   screenstatus = ''; 
 
@@ -234,13 +236,23 @@ export class IgTcrSheetComponent implements OnInit {
    });
    
     const tableRows = this.tablerowForm.get('tableRows') as FormArray;
-    const totalIGHReadDepth = tableRows.at(0).get('total_IGH_read_depth')?.value;
-    this.mrdnucleatedCells = tableRows.at(0).get('total_nucelated_cells')?.value;
-
-    if (this.patientInfo.test_code === 'LPE555' || this.patientInfo.test_code === 'LPE556') {
-      this.mrdBcellLPE555LPE556 = totalIGHReadDepth;
-    } else if(this.patientInfo.test_code === 'LPE557') {
-      this.mrdPcellLPE557 = totalIGHReadDepth;
+    if (tableRows.length === 1) {
+      const totalIGHReadDepth = tableRows.at(0).get('total_IGH_read_depth')?.value;
+      this.densityTablePdf1 = tableRows.at(0).get('density')?.value;
+      if (this.patientInfo.test_code === 'LPE555' || this.patientInfo.test_code === 'LPE556') {
+        this.bcellLPE555LPE556 = totalIGHReadDepth;
+      } else if(this.patientInfo.test_code === 'LPE557') {
+        this.pcellLPE557 = totalIGHReadDepth;
+      }
+    } else if (tableRows.length > 1){
+      const totalIGHReadDepth = tableRows.at(tableRows.length -1).get('total_IGH_read_depth')?.value;
+      this.mrdnucleatedCells = tableRows.at(tableRows.length -1).get('total_nucelated_cells')?.value;
+      this.densityTablePdf1 = tableRows.at(tableRows.length -1).get('density')?.value;
+      if (this.patientInfo.test_code === 'LPE555' || this.patientInfo.test_code === 'LPE556') {
+        this.mrdBcellLPE555LPE556 = totalIGHReadDepth;
+      } else if(this.patientInfo.test_code === 'LPE557') {
+        this.mrdPcellLPE557 = totalIGHReadDepth;
+      }
     }
 
     this.makePDFData();
@@ -425,6 +437,7 @@ createRow(item: IClonal): FormGroup {
     v_gene8: [item.v_gene8],
     v_gene9: [item.v_gene9],
     v_gene10: [item.v_gene10],
+    density: [item.density]
   });
 }
 
@@ -513,6 +526,7 @@ makeNewRow(): FormGroup  {
     v_gene8: [''],
     v_gene9: [''],
     v_gene10: [''],
+    density: ['400']
   });
 }
 
@@ -545,65 +559,77 @@ get getFormControls(): FormArray {
   return control;
 }
 //////////////////////////////////////////////////////////////////////////
-
+existComma( checkData: string): string {
+  let resultValue = '';
+  const exist = checkData.indexOf(',');
+  if (exist !== -1) {
+    resultValue = checkData.replace(/,/g, '');
+  } else {
+    resultValue = checkData;
+  }
+  return resultValue;
+}
 
 /////////////////  각종 식  /////////////////////////////////////////////////////////////
 // TotalReadCount 값 변경시 percent % total reads1-10 = Raw count1-10 / Total read count
 // % of LQIC 에 값 넣음
-totalReadCount(index: number, totalReadCount: string): void {
-   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
-   const readOfLQIC = tableRows.at(index).get('read_of_LQIC')?.value;
+totalReadCount(index: number, totalReadCountwComma: string): void {
+  const tableRows = this.tablerowForm.get('tableRows') as FormArray;
+  const readOfLQICwComma = tableRows.at(index).get('read_of_LQIC')?.value;
+
+  const totalReadCount = this.existComma(totalReadCountwComma);
+  const readOfLQIC = Number(this.existComma(readOfLQICwComma));
 
    this.percentOfLQIC(index, parseInt(totalReadCount), readOfLQIC);  // 3번 & of LQIC
    this.totalBcellTcellCount(index, parseInt(totalReadCount), readOfLQIC); // 4번 Total B-Cell T-Cell count
 
    // 7번
-   const rawCount1 = tableRows.at(index).get('raw_count1')?.value;
+   const rawCount1 = Number(this.existComma(tableRows.at(index).get('raw_count1')?.value));
    if (rawCount1 !== 0 && rawCount1 !== null && rawCount1 !== undefined &&  String(rawCount1).length !== 0) {
      this.percentTotalReads(index, rawCount1, Number(totalReadCount), 1);
    }
 
-   const rawCount2 = tableRows.at(index).get('raw_count2')?.value;
+   const rawCount2 = Number(this.existComma(tableRows.at(index).get('raw_count2')?.value));
    if (rawCount2 !== 0 && rawCount2 !== null && rawCount2 !== undefined &&  String(rawCount2).length !== 0) {
      this.percentTotalReads(index, rawCount2, Number(totalReadCount), 2);
    }
 
-   const rawCount3 = tableRows.at(index).get('raw_count3')?.value;
+   const rawCount3 = Number(this.existComma(tableRows.at(index).get('raw_count3')?.value));
    if (rawCount3 !== 0 && rawCount3 !== null && rawCount3 !== undefined &&  String(rawCount3).length !== 0) {
      this.percentTotalReads(index, rawCount3, Number(totalReadCount), 3);
    }
 
-   const rawCount4 = tableRows.at(index).get('raw_count4')?.value;
+   const rawCount4 = Number(this.existComma(tableRows.at(index).get('raw_count4')?.value));
    if (rawCount4 !== 0 && rawCount4 !== null && rawCount4 !== undefined &&  String(rawCount4).length !== 0) {
      this.percentTotalReads(index, rawCount4, Number(totalReadCount), 4);
    }
 
-   const rawCount5 = tableRows.at(index).get('raw_count5')?.value;
+   const rawCount5 = Number(this.existComma(tableRows.at(index).get('raw_count5')?.value));
    if (rawCount5 !== 0 && rawCount5 !== null && rawCount5 !== undefined &&  String(rawCount5).length !== 0) {
      this.percentTotalReads(index, rawCount5, Number(totalReadCount), 5);
    }
 
-   const rawCount6 = tableRows.at(index).get('raw_count6')?.value;
+   const rawCount6 = Number(this.existComma(tableRows.at(index).get('raw_count6')?.value));
    if (rawCount6 !== 0 && rawCount6 !== null && rawCount6 !== undefined &&  String(rawCount6).length !== 0) {
      this.percentTotalReads(index, rawCount6, Number(totalReadCount), 6);
    }
 
-   const rawCount7 = tableRows.at(index).get('raw_count7')?.value;
+   const rawCount7 = Number(this.existComma(tableRows.at(index).get('raw_count7')?.value));
    if (rawCount7 !== 0 && rawCount7 !== null && rawCount7 !== undefined &&  String(rawCount7).length !== 0) {
      this.percentTotalReads(index, rawCount7, Number(totalReadCount), 7);
    }
 
-   const rawCount8 = tableRows.at(index).get('raw_count8')?.value;
+   const rawCount8 = Number(this.existComma(tableRows.at(index).get('raw_count8')?.value));
    if (rawCount8 !== 0 && rawCount8 !== null && rawCount8 !== undefined &&  String(rawCount8).length !== 0) {
      this.percentTotalReads(index, rawCount8, Number(totalReadCount), 8);
    }
 
-   const rawCount9 = tableRows.at(index).get('raw_count9')?.value;
+   const rawCount9 = Number(this.existComma(tableRows.at(index).get('raw_count9')?.value));
    if (rawCount9 !== 0 && rawCount9 !== null && rawCount9 !== undefined &&  String(rawCount9).length !== 0) {
      this.percentTotalReads(index, rawCount9, Number(totalReadCount), 9);
    }
 
-   const rawCount10 = tableRows.at(index).get('raw_count10')?.value;
+   const rawCount10 = Number(this.existComma(tableRows.at(index).get('raw_count10')?.value));
    if (rawCount10 !== 0 && rawCount10 !== null && rawCount10 !== undefined &&  String(rawCount10).length !== 0) {
      this.percentTotalReads(index, rawCount10, Number(totalReadCount), 10);
    }
@@ -613,9 +639,12 @@ totalReadCount(index: number, totalReadCount: string): void {
 
 // Read of LQIC 값 변경시
 // Total B-Cell/T-Cell count 에 값 넣음
-readOfLQIC(index: number, readOfLQIC: string): void {
+readOfLQIC(index: number, readOfLQICwComma: string): void {
   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
-  const totalReadCount = tableRows.at(index).get('total_read_count')?.value;
+  const totalReadCountwComma = tableRows.at(index).get('total_read_count')?.value;
+
+  const totalReadCount = Number(this.existComma(totalReadCountwComma));
+  const readOfLQIC = this.existComma(readOfLQICwComma);
 
   this.percentOfLQIC(index, totalReadCount, parseInt(readOfLQIC));
   this.totalBcellTcellCount(index, totalReadCount, parseInt(readOfLQIC));
@@ -637,91 +666,102 @@ totalBcellTcellCount(index: number, totalReadCount: number, readOfLQIC: number) 
 
 // Raw count1 변경시  percent % total reads1 = Raw count1 / Total read count
 // % total reads 1 - 10 에 값 넣음
-rawCount1(index: number , rawcount1: string) {
+rawCount1(index: number , rawcount1wComma: string) {
+  console.log('[658][rawCount1]', rawcount1wComma);
   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
-  const totalReadCount =  tableRows.at(index).get('total_read_count')?.value;
+  const totalReadCount =  Number(this.existComma(tableRows.at(index).get('total_read_count')?.value));
+  const rawcount1 = this.existComma(rawcount1wComma);
   this.percentTotalReads(index, parseInt(rawcount1), totalReadCount, 1);
   this.clonalTotalIGHReadDepth(index); // 9번
   this.clonalTotalNuclelatedCell(index);
   this.totalCellEquivalent(index);
 }
 
-rawCount2(index: number , rawcount2: string) {
+rawCount2(index: number , rawcount2wComma: string) {
   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
-  const totalReadCount =  tableRows.at(index).get('total_read_count')?.value;
+  const totalReadCount =  Number(this.existComma(tableRows.at(index).get('total_read_count')?.value));
+  const rawcount2 = this.existComma(rawcount2wComma);
   this.percentTotalReads(index, parseInt(rawcount2), totalReadCount, 2);
   this.clonalTotalIGHReadDepth(index); // 9번
   this.clonalTotalNuclelatedCell(index);
   this.totalCellEquivalent(index);
 }
 
-rawCount3(index: number , rawcount3: string) {
+rawCount3(index: number , rawcount3wComma: string) {
   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
-  const totalReadCount =  tableRows.at(index).get('total_read_count')?.value;
+  const totalReadCount =  Number(this.existComma(tableRows.at(index).get('total_read_count')?.value));
+  const rawcount3 = this.existComma(rawcount3wComma);
   this.percentTotalReads(index, parseInt(rawcount3), totalReadCount, 3);
   this.clonalTotalIGHReadDepth(index); // 9번
   this.clonalTotalNuclelatedCell(index);
   this.totalCellEquivalent(index);
 }
 
-rawCount4(index: number , rawcount4: string) {
+rawCount4(index: number , rawcount4wComma: string) {
   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
-  const totalReadCount =  tableRows.at(index).get('total_read_count')?.value;
+  const totalReadCount =  Number(this.existComma(tableRows.at(index).get('total_read_count')?.value));
+  const rawcount4 = this.existComma(rawcount4wComma);
   this.percentTotalReads(index, parseInt(rawcount4), totalReadCount, 4);
   this.clonalTotalIGHReadDepth(index); // 9번
   this.clonalTotalNuclelatedCell(index);
   this.totalCellEquivalent(index);
 }
 
-rawCount5(index: number , rawcount5: string) {
+rawCount5(index: number , rawcount5wComma: string) {
   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
-  const totalReadCount =  tableRows.at(index).get('total_read_count')?.value;
+  const totalReadCount =  Number(this.existComma(tableRows.at(index).get('total_read_count')?.value));
+  const rawcount5 = this.existComma(rawcount5wComma);
   this.percentTotalReads(index, parseInt(rawcount5), totalReadCount, 5);
   this.clonalTotalIGHReadDepth(index); // 9번
   this.clonalTotalNuclelatedCell(index);
   this.totalCellEquivalent(index);
 }
 
-rawCount6(index: number , rawcount6: string) {
+rawCount6(index: number , rawcount6wComma: string) {
   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
   const totalReadCount =  tableRows.at(index).get('total_read_count')?.value;
+  const rawcount6 = this.existComma(rawcount6wComma);
   this.percentTotalReads(index, parseInt(rawcount6), totalReadCount, 6);
   this.clonalTotalIGHReadDepth(index); // 9번
   this.clonalTotalNuclelatedCell(index);
   this.totalCellEquivalent(index);
 }
 
-rawCount7(index: number , rawcount7: string) {
+rawCount7(index: number , rawcount7wComma: string) {
   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
-  const totalReadCount =  tableRows.at(index).get('total_read_count')?.value;
+  const totalReadCount =  Number(this.existComma(tableRows.at(index).get('total_read_count')?.value));
+  const rawcount7 = this.existComma(rawcount7wComma);
   this.percentTotalReads(index, parseInt(rawcount7), totalReadCount, 7);
   this.clonalTotalIGHReadDepth(index); // 9번
   this.clonalTotalNuclelatedCell(index);
   this.totalCellEquivalent(index);
 }
 
-rawCount8(index: number , rawcount8: string) {
+rawCount8(index: number , rawcount8wComma: string) {
   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
-  const totalReadCount =  tableRows.at(index).get('total_read_count')?.value;
+  const totalReadCount =  Number(this.existComma(tableRows.at(index).get('total_read_count')?.value));
+  const rawcount8 = this.existComma(rawcount8wComma);
   this.percentTotalReads(index, parseInt(rawcount8), totalReadCount, 8);
   this.clonalTotalIGHReadDepth(index); // 9번
   this.clonalTotalNuclelatedCell(index);
   this.totalCellEquivalent(index);
 }
 
-rawCount9(index: number , rawcount9: string) {
+rawCount9(index: number , rawcount9wComma: string) {
   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
-  const totalReadCount =  tableRows.at(index).get('total_read_count')?.value;
+  const totalReadCount =  Number(this.existComma(tableRows.at(index).get('total_read_count')?.value));
+  const rawcount9 = this.existComma(rawcount9wComma);
   this.percentTotalReads(index, parseInt(rawcount9), totalReadCount, 9);
   this.clonalTotalIGHReadDepth(index); // 9번
   this.clonalTotalNuclelatedCell(index);
   this.totalCellEquivalent(index);
 }
 
-rawCount10(index: number , rawcount7: string) {
+rawCount10(index: number , rawcount10wComma: string) {
   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
-  const totalReadCount =  tableRows.at(index).get('total_read_count')?.value;
-  this.percentTotalReads(index, parseInt(rawcount7), totalReadCount, 10);
+  const totalReadCount =  Number(this.existComma(tableRows.at(index).get('total_read_count')?.value));
+  const rawcount10 = this.existComma(rawcount10wComma);
+  this.percentTotalReads(index, parseInt(rawcount10), totalReadCount, 10);
   this.clonalTotalIGHReadDepth(index); // 9번
   this.clonalTotalNuclelatedCell(index);
   this.totalCellEquivalent(index);
@@ -762,38 +802,39 @@ percentTotalReads(index: number, rawCount: number, totalReadCount:number , clona
 
 cellEquivalent(index: number, percentTotalReads: number, percentOfLQIC: number, clonalNo: number) {
         const tableRows = this.tablerowForm.get('tableRows') as FormArray;
-        const totalReadCount =  tableRows.at(index).get('total_read_count')?.value; // total read count
-        const readOfLQIC =  tableRows.at(index).get('read_of_LQIC')?.value; // read of LQIC
+
+        const totalReadCount  =  this.existComma(tableRows.at(index).get('total_read_count')?.value); // total read count
+        const readOfLQIC  =  this.existComma(tableRows.at(index).get('read_of_LQIC')?.value); // read of LQIC
 
         if (clonalNo === 1) {
-          const rawCount1 =  tableRows.at(index).get('raw_count1')?.value;
+          const rawCount1 =  this.existComma(tableRows.at(index).get('raw_count1')?.value);
           tableRows.at(index).patchValue({ cell_equipment1: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount1))});
         } else if (clonalNo === 2) {
-          const rawCount2 =  tableRows.at(index).get('raw_count2')?.value;
+          const rawCount2 =  this.existComma(tableRows.at(index).get('raw_count2')?.value);
           tableRows.at(index).patchValue({ cell_equipment2: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount2))});
         }  else if (clonalNo === 3) {
-          const rawCount3 =  tableRows.at(index).get('raw_count3')?.value;
+          const rawCount3 =  this.existComma(tableRows.at(index).get('raw_count3')?.value);
           tableRows.at(index).patchValue({ cell_equipment3: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount3))});
         } else if (clonalNo === 4) {
-          const rawCount4 =  tableRows.at(index).get('raw_count4')?.value;
+          const rawCount4 =  this.existComma(tableRows.at(index).get('raw_count4')?.value);
           tableRows.at(index).patchValue({ cell_equipment4: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount4))});
         } else if (clonalNo === 5) {
-          const rawCount5 =  tableRows.at(index).get('raw_count5')?.value;
+          const rawCount5 =  this.existComma(tableRows.at(index).get('raw_count5')?.value);
           tableRows.at(index).patchValue({ cell_equipment5: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount5))});
         } else if (clonalNo === 6) {
-          const rawCount6 =  tableRows.at(index).get('raw_count6')?.value;
+          const rawCount6 =  (tableRows.at(index).get('raw_count6')?.value);
           tableRows.at(index).patchValue({ cell_equipment6: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount6))});
         } else if (clonalNo === 7) {
-          const rawCount7 =  tableRows.at(index).get('raw_count7')?.value;
+          const rawCount7 =  (tableRows.at(index).get('raw_count7')?.value);
           tableRows.at(index).patchValue({ cell_equipment7: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount7))});
         } else if (clonalNo === 8) {
           const rawCount8 =  tableRows.at(index).get('raw_count8')?.value;
           tableRows.at(index).patchValue({ cell_equipment8: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount8))});
         } else if (clonalNo === 9) {
-          const rawCount9 =  tableRows.at(index).get('raw_count9')?.value;
+          const rawCount9 =  this.existComma(tableRows.at(index).get('raw_count9')?.value);
           tableRows.at(index).patchValue({ cell_equipment9: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount9))});
         } else if (clonalNo === 10) {
-          const rawCount10 =  tableRows.at(index).get('raw_count10')?.value;
+          const rawCount10 =  this.existComma(tableRows.at(index).get('raw_count10')?.value);
           tableRows.at(index).patchValue({ cell_equipment10: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount10))});
         }
 }
@@ -825,17 +866,17 @@ clonalTotalIGHReadDepth(index: number) {
 
 getClonalTotalIGHReadDepth(index: number): string {
     const tableRows = this.tablerowForm.get('tableRows') as FormArray;
-    const totalReadCount =  tableRows.at(index).get('total_read_count')?.value;
-    const rawCount1 = tableRows.at(index).get('raw_count1')?.value;
-    const rawCount2 = tableRows.at(index).get('raw_count2')?.value;
-    const rawCount3 = tableRows.at(index).get('raw_count3')?.value;
-    const rawCount4 = tableRows.at(index).get('raw_count4')?.value;
-    const rawcount5 = tableRows.at(index).get('raw_count5')?.value;
-    const rawCount6 = tableRows.at(index).get('raw_count6')?.value;
-    const rawcount7 = tableRows.at(index).get('raw_count7')?.value;
-    const rawCount8 = tableRows.at(index).get('raw_count8')?.value;
-    const rawCount9 = tableRows.at(index).get('raw_count9')?.value;
-    const rawCount10 = tableRows.at(index).get('raw_count10')?.value;
+    const totalReadCount  =  this.existComma(tableRows.at(index).get('total_read_count')?.value);
+    const rawCount1 =  this.existComma(tableRows.at(index).get('raw_count1')?.value);
+    const rawCount2 =  this.existComma(tableRows.at(index).get('raw_count2')?.value);
+    const rawCount3 =  this.existComma(tableRows.at(index).get('raw_count3')?.value);
+    const rawCount4 =  this.existComma(tableRows.at(index).get('raw_count4')?.value);
+    const rawcount5 =  this.existComma(tableRows.at(index).get('raw_count5')?.value);
+    const rawCount6 =  this.existComma(tableRows.at(index).get('raw_count6')?.value);
+    const rawcount7 =  this.existComma(tableRows.at(index).get('raw_count7')?.value);
+    const rawCount8 =  this.existComma(tableRows.at(index).get('raw_count8')?.value);
+    const rawCount9 =  this.existComma(tableRows.at(index).get('raw_count9')?.value);
+    const rawCount10 = this.existComma(tableRows.at(index).get('raw_count10')?.value);
 
     const totalRawCount =(Number(rawCount1) + Number(rawCount2) + Number(rawCount3) + Number(rawCount4) + Number(rawcount5) +
        Number(rawCount6) + Number(rawcount7) + Number(rawCount8) + Number(rawCount9) + Number(rawCount10));
@@ -855,11 +896,20 @@ clonalTotalNuclelatedCell(index: number) {
 }
 
 getClonalTotalNuclelatedCell(index: number): string {
+  let totalReadCountReadOfLQIC = 0;
   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
-  const totalReadCount =  tableRows.at(index).get('total_read_count')?.value; // total read count
-  const readOfLQIC =  tableRows.at(index).get('read_of_LQIC')?.value; // read of LQIC
+  const totalReadCount =  this.existComma(tableRows.at(index).get('total_read_count')?.value); // total read count
+  const readOfLQIC =  this.existComma(tableRows.at(index).get('read_of_LQIC')?.value); // read of LQIC
  
-  const totalReadCountReadOfLQIC = ((Number(totalReadCount)/Number(readOfLQIC)) / 36923) * 100;
+  const density = tableRows.at(index).get('density')?.value;
+
+  if (density === '400') {
+    totalReadCountReadOfLQIC = ((Number(totalReadCount)/Number(readOfLQIC)) / 61539) * 100;
+  } else  if(density === '240') {
+    totalReadCountReadOfLQIC = ((Number(totalReadCount)/Number(readOfLQIC)) / 36923) * 100;
+  }
+
+  // const totalReadCountReadOfLQIC = ((Number(totalReadCount)/Number(readOfLQIC)) / 36923) * 100;
   const totalRawCount = this.totalRawCount(index)
   const clonalTotalIGHReadDepth =  (totalRawCount / Number(totalReadCount))* 100;
   const clonalTotalNuclatedCell = (Number(totalReadCountReadOfLQIC) * Number(clonalTotalIGHReadDepth)).toFixed(4);
@@ -868,16 +918,16 @@ getClonalTotalNuclelatedCell(index: number): string {
 
 totalRawCount(index: number): number {
   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
-  const rawCount1 = tableRows.at(index).get('raw_count1')?.value;
-  const rawCount2 = tableRows.at(index).get('raw_count2')?.value;
-  const rawCount3 = tableRows.at(index).get('raw_count3')?.value;
-  const rawCount4 = tableRows.at(index).get('raw_count4')?.value;
-  const rawcount5 = tableRows.at(index).get('raw_count5')?.value;
-  const rawCount6 = tableRows.at(index).get('raw_count6')?.value;
-  const rawcount7 = tableRows.at(index).get('raw_count7')?.value;
-  const rawCount8 = tableRows.at(index).get('raw_count8')?.value;
-  const rawCount9 = tableRows.at(index).get('raw_count9')?.value;
-  const rawCount10 = tableRows.at(index).get('raw_count10')?.value;
+  const rawCount1 = this.existComma(tableRows.at(index).get('raw_count1')?.value);
+  const rawCount2 = this.existComma(tableRows.at(index).get('raw_count2')?.value);
+  const rawCount3 = this.existComma(tableRows.at(index).get('raw_count3')?.value);
+  const rawCount4 = this.existComma(tableRows.at(index).get('raw_count4')?.value);
+  const rawcount5 = this.existComma(tableRows.at(index).get('raw_count5')?.value);
+  const rawCount6 = this.existComma(tableRows.at(index).get('raw_count6')?.value);
+  const rawcount7 = this.existComma(tableRows.at(index).get('raw_count7')?.value);
+  const rawCount8 = this.existComma(tableRows.at(index).get('raw_count8')?.value);
+  const rawCount9 = this.existComma(tableRows.at(index).get('raw_count9')?.value);
+  const rawCount10 = this.existComma(tableRows.at(index).get('raw_count10')?.value);
 
   const totalRawCount =(Number(rawCount1) + Number(rawCount2) + Number(rawCount3) + Number(rawCount4) + Number(rawcount5) +
      Number(rawCount6) + Number(rawcount7) + Number(rawCount8) + Number(rawCount9) + Number(rawCount10));
@@ -910,7 +960,7 @@ makePDFData() {
   const control = this.tablerowForm.get('tableRows') as FormArray;
 
   // if ( clonalListsLength === 1) {
-    const totalIGHreadDepth = control.at(0).get('total_read_count')?.value;
+    const totalIGHreadDepth = this.existComma(control.at(0).get('total_read_count')?.value);
     const clonalTotalIGHReadDepth = control.at(0).get('total_IGH_read_depth')?.value;
     const clonalCellEquivalent = control.at(0).get('total_cell_equipment')?.value;
    // const ClonalCellSequence = control.at(0).get('sequence1')?.value;
@@ -1014,15 +1064,18 @@ makePDFData() {
 //////////////////////////////////////////////////////////////////////
 // 그래프 데이타
 makeGraphclonalTotalIGHReadDepthData(index: number = 0, date: string = '', clonalTotalIGHReadDepthData: string = '' ) {
-   this.checkDate[index] = date;
-   this.clonalTotalIGHReadDepthData[index]= Number(clonalTotalIGHReadDepthData)/100;
+   //this.checkDate[index] = date; 
+   // this.clonalTotalIGHReadDepthData[index]= Number(clonalTotalIGHReadDepthData)/100;
+   this.clonalTotalIGHReadDepthData.unshift(Number(clonalTotalIGHReadDepthData)/100);
+   this.checkDate.unshift(date);
    this.updateGraphData();
-   console.log('[1026][날자][데이터]',  this.checkDate, this.clonalTotalIGHReadDepthData);
+   // console.log('[1026][날자][데이터]',  this.checkDate, this.clonalTotalIGHReadDepthData);
 }
 
 makeGraphclonalTotalNuclelatedCellsData(index: number = 0, date: string = '',   clonalTotalnuclelatedCells: string = '') {
-  this.checkDate[index] = date;
-  this.clonalTotalnuclelatedCellsData[index] = Number(clonalTotalnuclelatedCells) /100;
+  // this.checkDate[index] = date;
+  // this.clonalTotalnuclelatedCellsData[index] = Number(clonalTotalnuclelatedCells) /100;
+  this.clonalTotalnuclelatedCellsData.unshift(Number(clonalTotalnuclelatedCells) /100);
   this.updateGraphData();
 }
 

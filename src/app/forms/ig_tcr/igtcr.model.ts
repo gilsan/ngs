@@ -133,6 +133,7 @@ export interface IPatient {
     v_gene8: string;
     v_gene9: string;
     v_gene10: string;
+    density: string;
     }
     
     export interface ITcrData {

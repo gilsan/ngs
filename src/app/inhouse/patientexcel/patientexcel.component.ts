@@ -108,7 +108,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         }),
       )
       .subscribe(data => {
-        // console.log('[107][patientExcel] ... ', data)
+        // console.log('[111][patientExcel] ... ', data)
         if (data.type === 'AMLALL') {
           this.pushAmlAll(data);
         } else if (data.type === 'LYM') {
@@ -120,7 +120,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         } else if (data.type === 'SEQ') {
           this.pushSeq(data);
         } else if (data.type === 'IGTCR') {
-          this.pushIgtcr(data.name , data.specimenNo);
+          this.pushIgtcr(data.name , data.specimenNo, data.patientID);
         }
       },
         err => console.log(err),
@@ -879,17 +879,18 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
   }
 
   ///////////////////////// IG-TCR
- pushIgtcr(name: string, specimenno: string ) {
+ pushIgtcr(name: string, specimenno: string, patientID: string ) {
   this.igtcrService.igtcrListInfo(specimenno)
   .pipe(
     map(data => data.map(item => {
-       
+        
       this.excelData.push({
         name,
+        patientId: patientID,
         report_date: item.report_date,
         gene: item.gene,
         total_read_count: item.total_read_count,
-        read_of_LQIC: item.read_of_LQIC.length ? item.read_of_LQIC+'%' : '',
+        read_of_LQIC: item.read_of_LQIC?.length ? item.read_of_LQIC+'%' : '',
         percent_of_LQIC: item.percent_of_LQIC,
         total_Bcell_Tcell_count: item.total_Bcell_Tcell_count,
         sequence1: item.sequence1,
@@ -967,7 +968,8 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         total_cell_equipment: item.total_cell_equipment,
         IGHV_mutation : item.IGHV_mutation,
         bigo : item.bigo,
-        comment: item.comment
+        comment: item.comment,
+        density: item.density
       });
 
       return  item;
@@ -980,7 +982,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
 }
 
 printIGTCRInfoEachPatient() {
-  const width = [{ width: 9 }, { width: 12 }, { width: 9 }, { width: 9 }, { width: 9 },
+  const width = [{ width: 9 },  { width: 12 },{ width: 12 }, { width: 9 }, { width: 9 }, { width: 9 },
     { width: 12 }, { width: 12 }, { width: 12 }, { width: 12 }, { width: 12 },
     { width: 12 }, { width: 12 }, { width: 12 }, { width: 12 }, { width: 12 },
     { width: 12 }, { width: 12 }, { width: 12 }, { width: 12 }, { width: 12 },
@@ -996,7 +998,7 @@ printIGTCRInfoEachPatient() {
     { width: 12 }, { width: 12 }, { width: 12 }, { width: 12 }, { width: 12 },
     { width: 12 }, { width: 12 }, { width: 12 }, { width: 12 }, { width: 12 },
     { width: 12 }, { width: 12 }, { width: 12 }, { width: 12 }, { width: 12 },
-    { width: 12 }, { width: 12 }, { width: 12 }
+    { width: 12 }, { width: 12 }, { width: 12 }, { width: 12}
     ];
 
     // this.excelData.unshift({
@@ -1087,6 +1089,7 @@ printIGTCRInfoEachPatient() {
 
     this.excelData.unshift({
       name: '',
+      patientId: '',
       report_date: '',
       gene: '',
       total_read_count: '',
@@ -1168,11 +1171,13 @@ printIGTCRInfoEachPatient() {
       total_cell_equipment: '',
       IGHV_mutation : '',
       bigo : '',
-      comment: ''
+      comment: '',
+      density: ''
     });
 
     this.excelData.unshift({
       name: '',
+      patientId: '',
       report_date: '',
       gene: '',
       total_read_count: '',
@@ -1254,7 +1259,8 @@ printIGTCRInfoEachPatient() {
       total_cell_equipment: '',
       IGHV_mutation : '',
       bigo : '',
-      comment: ''
+      comment: '',
+      density: ''
     });
     
 
