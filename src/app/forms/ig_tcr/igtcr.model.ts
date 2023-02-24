@@ -158,6 +158,7 @@ export interface IPatient {
         clonalTotalIGHReadDepth: string;
         clonalCellEquivalent: string;
         ClonalCellSequence: string;
+        PercentTotalReads: string;
       }
       
       export interface IWGraph {

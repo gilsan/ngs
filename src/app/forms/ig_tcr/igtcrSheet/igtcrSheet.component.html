@@ -574,10 +574,10 @@
                                 % of clonal cells (estimated value) :
                             </td>
                             <td *ngIf="bcellLPE555LPE556.length">
-                                {{bcellLPE555LPE556}} / total B-cells
+                                {{bcellLPE555LPE556}}% / total B-cells
                             </td>
                             <td *ngIf="pcellLPE557.length">
-                                {{pcellLPE557}}/ total P-cells
+                                {{pcellLPE557}}% / total P-cells
                             </td>
                         </tr>
                     </tbody>
@@ -620,21 +620,11 @@
                                     <td class="s-text-center">{{list.length}}</td>
                                     <td class="s-text-center">{{list.totalIGHreadDepth}}</td>
                                     <td class="s-text-center">{{list.clonalIGHDepth}}</td>
-                                    <td class="s-text-center">{{list.clonalTotalIGHReadDepth}}</td>
+                                    <td class="s-text-center">{{list.PercentTotalReads}}</td>
                                     <td class="s-text-center">{{list.clonalCellEquivalent}}</td>
                                     <td class="s-text-center">{{list.ClonalCellSequence}}</td>
                                 </tr>
-                                <!-- <tr>
-                                    <td class="s-text-center">LQIC</td>
-                                    <td class="s-text-center">IGHV1-69-13</td>
-                                    <td class="s-text-center">IGHJ6-03</td>
-                                    <td class="s-text-center">298</td>
-                                    <td class="s-text-center"></td>
-                                    <td class="s-text-center"></td>
-                                    <td class="s-text-center"></td>
-                                    <td class="s-text-center"></td>
-                                    <td class="s-text-center"></td>
-                                </tr>                                -->
+                             
                             </tbody>
                         </table>
                      </form>
