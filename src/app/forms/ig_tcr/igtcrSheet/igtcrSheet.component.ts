@@ -22,7 +22,8 @@ import { UtilsService } from '../../commons/utils.service';
 })
 export class IgTcrSheetComponent implements OnInit {
 
-  comment2 =' * Clonal IGH read depth를 전체 IGH read depth로 나눈 값으로 B 세포 중의 클론의 비율을 의미합니다.';
+  comment2B =' * Clonal IGH read depth를 전체 IGH read depth로 나눈 값으로 B 세포 중의 클론의 비율을 의미합니다.';
+  comment2T = ' * Clonal IGH read depth를 전체 IGH read depth로 나눈 값으로 T 세포 중의 클론의 비율을 의미합니다.';
   commentMRD = `* Clonal IGH read depth를 전체 IGH read depth로 나눈 값으로 B 세포 중의 클론의 비율을 의미합니다.
 ** LymphoQuant Internal Control (LQIC)을 이용하여 clonal IGH를 전체 유핵세포 내의 세포수 비율로 환산한 근사치입니다.
 *** 검체 당 B 세포 100개 정도의 DNA(LymphoQuant Internal Control, LQIC)를 혼합하여 측정된 값을 변환한 것입니다.
@@ -37,6 +38,8 @@ export class IgTcrSheetComponent implements OnInit {
   mrdnucleatedCells = '';
   densityTablePdf1 = ''; // 400 or 240
   densityTablePdf2 = '';
+  densityTablePdf1CellFEquivalent1 = ''; // 첫번째 검사보고서
+  densityTablePdf1CellFEquivalent2 = ''; // 두번째 검사보고서
   comment = '';
   screenstatus = ''; 
 
@@ -111,6 +114,15 @@ export class IgTcrSheetComponent implements OnInit {
   acceptDate = ''; // 접수일자
   tableLength = 0;
 
+  /***
+   *  LPE555 => IGH CLONALITY REPORT   // IGH MRD REPORT
+   *  LPE556 => IGH/IGK CLONALITY REPORT // IGH/IGK MRD REPORT TRG CLONALITY REPORT
+   *  LPE557 => TRB CLONALITY REPORT // TRB MRD REPORT TRG MRD REPORT
+   */
+   pdfFirstTitle = ''; // 첫번째 검사 제목
+   pdfMDRTitle = '';   // 두번째 검사 제목
+
+
   igTcrData: ITcrData = {
     specimenNo: this.patientInfo.specimenNo,
     method: this.patientInfo.reportTitle,
@@ -177,6 +189,18 @@ export class IgTcrSheetComponent implements OnInit {
         this.screenstatus = this.patientInfo.screenstatus;
         this.comment = this.patientInfo.comment;
         this.acceptDate = this.patientInfo.accept_date.replace(/\./g,'-');
+
+        // pdf 제목
+        if (this.patientInfo.test_code === 'LPE555') {
+          this.pdfFirstTitle = 'IGH CLONALITY REPORT'; // 첫번째 검사 제목
+          this.pdfMDRTitle = 'IGH MRD REPORT';   // 두번째 검사 제목
+        } else if (this.patientInfo.test_code === 'LPE556') {
+          this.pdfFirstTitle = 'IGH/IGK CLONALITY REPORT';
+          this.pdfMDRTitle = 'IGH/IGK MRD REPORT';
+        }  else if (this.patientInfo.test_code === 'LPE557') {
+          this.pdfFirstTitle = 'TRB CLONALITY REPORT';
+          this.pdfMDRTitle = 'TRB MRD REPORT';
+        }
          
       }),
       concatMap(() => {
@@ -241,6 +265,11 @@ export class IgTcrSheetComponent implements OnInit {
     if (tableRows.length === 1) {
       const totalIGHReadDepth = tableRows.at(0).get('total_IGH_read_depth')?.value;
       this.densityTablePdf1 = tableRows.at(0).get('density')?.value;
+      if (this.densityTablePdf1 === '400') {
+          this.densityTablePdf1CellFEquivalent1 = '61,538';
+      } else if(this.densityTablePdf1 === '240') {
+        this.densityTablePdf1CellFEquivalent1 = '36,923';
+      }
       if (this.patientInfo.test_code === 'LPE555' || this.patientInfo.test_code === 'LPE556') {
         this.bcellLPE555LPE556 = totalIGHReadDepth;
       } else if(this.patientInfo.test_code === 'LPE557') {
@@ -250,6 +279,12 @@ export class IgTcrSheetComponent implements OnInit {
       const totalIGHReadDepth = tableRows.at(tableRows.length -1).get('total_IGH_read_depth')?.value;
       this.mrdnucleatedCells = tableRows.at(tableRows.length -1).get('total_nucelated_cells')?.value;
       this.densityTablePdf2 = tableRows.at(tableRows.length -1).get('density')?.value;
+      if (this.densityTablePdf2 === '400') {
+        this.densityTablePdf1CellFEquivalent2 = '61,538';
+      } else if(this.densityTablePdf2 === '240') {
+       this.densityTablePdf1CellFEquivalent2= '36,923';
+      }
+
       if (this.patientInfo.test_code === 'LPE555' || this.patientInfo.test_code === 'LPE556') {
         this.mrdBcellLPE555LPE556 = totalIGHReadDepth;
       } else if(this.patientInfo.test_code === 'LPE557') {
@@ -257,6 +292,7 @@ export class IgTcrSheetComponent implements OnInit {
       }
     }
 
+    this.getAllData();
     this.makePDFData();
     setTimeout(() => {
       this.createPdf2();
@@ -537,7 +573,8 @@ addNewRow(): void {
 
   const control = this.tablerowForm.get('tableRows') as FormArray;
   this.tableLength = control.length;
-  control.push(this.makeNewRow());
+  control.insert(0, this.makeNewRow());
+  // control.push(this.makeNewRow());
 }
 
 addRow(item: IClonal): void {
@@ -862,7 +899,7 @@ clonalTotalIGHReadDepth(index: number) {
     this.pcellLPE557 = clonalTotalIGHReadDepth;
   }
 
-  this.makeGraphclonalTotalIGHReadDepthData(index, reportDate, clonalTotalIGHReadDepth);
+ // this.makeGraphclonalTotalIGHReadDepthData(index, reportDate, clonalTotalIGHReadDepth);
 
 }
 
@@ -893,7 +930,7 @@ clonalTotalNuclelatedCell(index: number) {
   const clonalTotalNuclelatedCell = this.getClonalTotalNuclelatedCell(index);
   tableRows.at(index).patchValue({ total_nucelated_cells: clonalTotalNuclelatedCell});
 
-  this.makeGraphclonalTotalNuclelatedCellsData(index, reportDate,  clonalTotalNuclelatedCell);
+  // this.makeGraphclonalTotalNuclelatedCellsData(index, reportDate,  clonalTotalNuclelatedCell);
 
 }
 
@@ -1091,6 +1128,21 @@ makeGraphclonalTotalNuclelatedCellsData(index: number = 0, date: string = '',   
   // this.checkDate[index] = date;
   // this.clonalTotalnuclelatedCellsData[index] = Number(clonalTotalnuclelatedCells) /100;
   this.clonalTotalnuclelatedCellsData.unshift(Number(clonalTotalnuclelatedCells) /100);
+  this.updateGraphData();
+}
+
+getAllData() {
+  const control = this.tablerowForm.get('tableRows') as FormArray;
+  const formValue = control.getRawValue();
+  this.clonalTotalIGHReadDepthData= [];
+  this.clonalTotalnuclelatedCellsData = [];
+  this.checkDate= [];
+  
+  formValue.forEach( (item, index) => {
+      this.makeGraphclonalTotalIGHReadDepthData(index, item.report_date, item.total_IGH_read_depth );
+      this.makeGraphclonalTotalNuclelatedCellsData(index,item.date, item.total_nucelated_cells);
+  });
+
   this.updateGraphData();
 }
 

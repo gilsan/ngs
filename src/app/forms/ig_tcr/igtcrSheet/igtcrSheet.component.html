@@ -293,7 +293,7 @@
                                         <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="j_gene1">
                                     </td>
                                     <td>{{list.get('percent_total_reads1')?.value}}%</td>
-                                    <td>{{list.get('cell_equipment1')?.value}}</td>
+                                    <td>{{list.get('cell_equipment1')?.value | number:'1.0-0'}}</td>
                                     <!--   Clonal sequence 2    -->
                                     <td>
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence2">
@@ -311,7 +311,7 @@
                                         <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="j_gene2">
                                     </td>
                                     <td>{{list.get('percent_total_reads2')?.value}}%</td>
-                                    <td>{{list.get('cell_equipment2')?.value }}</td>
+                                    <td>{{list.get('cell_equipment2')?.value | number:'1.0-0'}}</td>
                                     <!--   Clonal sequence 3    -->
                                     <td>
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence3">
@@ -329,7 +329,7 @@
                                         <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="j_gene3">
                                     </td>
                                     <td>{{list.get('percent_total_reads3')?.value}}%</td>
-                                    <td>{{list.get('cell_equipment3')?.value}}</td>
+                                    <td>{{list.get('cell_equipment3')?.value | number:'1.0-0'}}</td>
                                     <!--   Clonal sequence 4    -->
                                     <td [hidden]="clonalDisplay4">
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence4">
@@ -347,7 +347,7 @@
                                         <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="j_gene4">
                                     </td>
                                     <td [hidden]="clonalDisplay4">{{list.get('percent_total_reads4')?.value}}%</td>
-                                    <td [hidden]="clonalDisplay4">{{list.get('cell_equipment4')?.value }}</td>
+                                    <td [hidden]="clonalDisplay4">{{list.get('cell_equipment4')?.value | number:'1.0-0'}}</td>
                                     <!--   Clonal sequence 5    -->
                                     <td [hidden]="clonalDisplay5">
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence5">
@@ -365,7 +365,7 @@
                                         <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="j_gene5">
                                     </td>
                                     <td [hidden]="clonalDisplay5">{{list.get('percent_total_reads5')?.value}}%</td>
-                                    <td [hidden]="clonalDisplay5">{{list.get('cell_equipment5')?.value}}</td>
+                                    <td [hidden]="clonalDisplay5">{{list.get('cell_equipment5')?.value | number:'1.0-0'}}</td>
                                     <!--   Clonal sequence 6    -->
                                     <td [hidden]="clonalDisplay6">
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence6">
@@ -383,7 +383,7 @@
                                         <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="j_gene6">
                                     </td>
                                     <td [hidden]="clonalDisplay6">{{list.get('percent_total_reads6')?.value}}%</td>
-                                    <td [hidden]="clonalDisplay6">{{list.get('cell_equipment6')?.value}}</td>
+                                    <td [hidden]="clonalDisplay6">{{list.get('cell_equipment6')?.value | number:'1.0-0'}}</td>
                                     <!--   Clonal sequence 7    -->
                                     <td [hidden]="clonalDisplay7">
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence7">
@@ -401,7 +401,7 @@
                                         <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="j_gene7">
                                     </td>
                                     <td [hidden]="clonalDisplay7">{{list.get('percent_total_reads7')?.value}}%</td>
-                                    <td [hidden]="clonalDisplay7">{{list.get('cell_equipment7')?.value}}</td>
+                                    <td [hidden]="clonalDisplay7">{{list.get('cell_equipment7')?.value | number:'1.0-0'}}</td>
                                     <!--   Clonal sequence 8    -->
                                     <td [hidden]="clonalDisplay8">
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence8">
@@ -419,7 +419,7 @@
                                         <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="j_gene8">
                                     </td>
                                     <td [hidden]="clonalDisplay8">{{list.get('percent_total_reads8')?.value}}%</td>
-                                    <td [hidden]="clonalDisplay8">{{list.get('cell_equipment8')?.value}}</td>
+                                    <td [hidden]="clonalDisplay8">{{list.get('cell_equipment8')?.value | number:'1.0-0'}}</td>
                                     <!--   Clonal sequence 9    -->
                                     <td [hidden]="clonalDisplay9">
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence9">
@@ -437,7 +437,7 @@
                                         <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="j_gene9">
                                     </td>
                                     <td [hidden]="clonalDisplay9">{{list.get('percent_total_reads9')?.value}}%</td>
-                                    <td [hidden]="clonalDisplay9">{{list.get('cell_equipment9')?.value}}</td>
+                                    <td [hidden]="clonalDisplay9">{{list.get('cell_equipment9')?.value | number:'1.0-0'}}</td>
                                     <!--   Clonal sequence 10    -->
                                     <td [hidden]="clonalDisplay10">
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence10">
@@ -455,11 +455,11 @@
                                         <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="j_gene10">
                                     </td>
                                     <td [hidden]="clonalDisplay10">{{list.get('percent_total_reads10')?.value}}%</td>
-                                    <td [hidden]="clonalDisplay10">{{list.get('cell_equipment10')?.value}}</td>
+                                    <td [hidden]="clonalDisplay10">{{list.get('cell_equipment10')?.value | number:'1.0-0'}}</td>
                                     <!-- total  -->
                                     <td>{{list.get('total_IGH_read_depth')?.value}}%</td>
                                     <td>{{list.get('total_nucelated_cells')?.value}}%</td>
-                                    <td>{{list.get('total_cell_equipment')?.value}}</td>
+                                    <td>{{list.get('total_cell_equipment')?.value | number:'1.0-0'}}</td>
 
                                     <td><input type="text" size="10" class="clr-input textcenter tdbox" formControlName="IGHV_mutation"></td>
                                     <td><input type="text" size="10" class="clr-input textcenter tdbox" formControlName="bigo"></td>
@@ -518,7 +518,7 @@
 
 <div id="resultSheet" >
     <div id="container" style="position: relative;">
-        <h2 style="margin-top: 5px;">IGH CLONALITY REPORT</h2>
+        <h2 style="margin-top: 5px;">{{pdfFirstTitle}}</h2>
         <!-- <button type="button" class="preview__button" (click)="closeModal()">닫기</button> -->
   
         <div id="content">
@@ -577,7 +577,7 @@
                                 {{bcellLPE555LPE556}}% / total B-cells
                             </td>
                             <td *ngIf="pcellLPE557.length">
-                                {{pcellLPE557}}% / total P-cells
+                                {{pcellLPE557}}% / total T-cells
                             </td>
                         </tr>
                     </tbody>
@@ -621,7 +621,7 @@
                                     <td class="s-text-center">{{list.totalIGHreadDepth}}</td>
                                     <td class="s-text-center">{{list.clonalIGHDepth}}</td>
                                     <td class="s-text-center">{{list.PercentTotalReads}}</td>
-                                    <td class="s-text-center">{{list.clonalCellEquivalent}}</td>
+                                    <td class="s-text-center">{{list.clonalCellEquivalent | number:'1.0-0'}}</td>
                                     <td class="s-text-center">{{list.ClonalCellSequence}}</td>
                                 </tr>
                              
@@ -643,7 +643,7 @@
                                 Input DNA =
                             </td>
                             <td class="s-text-left">
-                                240 ng
+                                {{densityTablePdf1}} ng
                             </td>
                         </tr>
                         <tr>
@@ -651,12 +651,15 @@
                                 Total nucleated cells (estimated) =
                             </td>
                             <td class="s-text-left">
-                                36,932 cell equivalents (Estimated DNA mass per 1 cell = 6.5 pg)
+                                {{densityTablePdf1CellFEquivalent1}} cell equivalents (Estimated DNA mass per 1 cell = 6.5 pg)
                             </td>
                         </tr>
                         <tr>
-                            <td class="s-text-right">
-                                Total B-cell coune =
+                            <td class="s-text-right"  *ngIf="bcellLPE555LPE556.length">
+                                Total B-cell count =
+                            </td>
+                            <td class="s-text-right"*ngIf="pcellLPE557.length">
+                              Total T-cell count =
                             </td>
                             <td class="s-text-left">
                                 193,220 cell equivalents (Total read count/ LQIC read count)-LQIC
@@ -665,23 +668,11 @@
                     </tbody>
                 </table>
   
-                <div class="sub_title">Comment</div>
+                <div class="sub_title" >Comment</div>
                 <div class="pd_r20">
-                    <textarea class="textarea_01" >{{comment2}}</textarea>
-                </div>
-                <!-- <table cellpadding="0" cellspacing="0" class="table_result02">
-                    <colgroup>
-                        <col style="width:100%;" />
-                    </colgroup>
-                    <tbody>
-                        <tr>
-                            <td>
-                                * Clonal IGH read depth를 전체 IGH read depth로 나눈 값으로 B 세포 중의 클론의 비율을 의미합니다.
-                            </td>
-                        </tr>
-                    </tbody>
-                </table> -->
-  
+                    <textarea class="textarea_01"   *ngIf="bcellLPE555LPE556.length">{{comment2B}}</textarea>
+                    <textarea class="textarea_01"   *ngIf="pcellLPE557.length">{{comment2T}}</textarea>
+                </div> 
                 <hr class="mg_t30 mg_b20"/>
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr>
@@ -697,11 +688,11 @@
 
     <div id="resultMRD">
         <div id="container" style="position: relative;">
-            <h2 style="margin-top: 5px;">IGH MRD REPORT</h2>
+            <h2 style="margin-top: 5px;">{{pdfMDRTitle}}</h2>
     
     
             <div id="content">
-                <div class="box pd_20">
+                <div class="pd_20">
                     <div class="sub_title">Patient: {{patientInfo.name}}, {{patientInfo.patientID}}({{patientInfo.gender}}/{{patientInfo.age}})</div>
     
                     <div class="sub_title">Test Information</div>
@@ -753,7 +744,7 @@
                                     {{mrdBcellLPE555LPE556}}% / total B-cells , {{mrdnucleatedCells}}% / total nucleated cells
                                 </td>
                                 <td  *ngIf="patientInfo.test_code === 'LPE557'">
-                                    {{mrdPcellLPE557}}% / total P-cells , {{mrdnucleatedCells}}% / total nucleated cells
+                                    {{mrdPcellLPE557}}% / total T-cells , {{mrdnucleatedCells}}% / total nucleated cells
                                 </td>
                             </tr>
                         </tbody>
@@ -765,22 +756,14 @@
                         <form [formGroup]="tablerowForm">
                             <table class="table_list td-fix st-01">
                                 <colgroup>
-                                    <col style="width:60px" />
-    
-                                    <col style="width:100px" />
-    
-                                    <col style="width:100px" />
-    
-                                    <col style="width:100px" />
-    
-                                    <col style="width:100px" />
-    
-                                    <col style="width:80px" />
-    
-                                    <col style="width:100px" />
-    
-                                    <col style="width:150px" />
-    
+                                    <col style="width:60px" />   
+                                    <col style="width:100px" />   
+                                    <col style="width:100px" />   
+                                    <col style="width:100px" />  
+                                    <col style="width:100px" />   
+                                    <col style="width:80px" />  
+                                    <col style="width:100px" />   
+                                    <col style="width:150px" />   
                                     <col style="width:100px" />
     
                                 </colgroup>
@@ -806,7 +789,7 @@
                                             <td class="s-text-center">{{list.get('total_Bcell_Tcell_count')?.value}}</td>
                                             <td class="s-text-center">{{list.get('total_IGH_read_depth')?.value}}%</td>
                                             <td class="s-text-center">{{list.get('total_nucelated_cells')?.value}}%</td>
-                                            <td class="s-text-center">{{list.get('total_cell_equipment')?.value}}</td>
+                                            <td class="s-text-center">{{list.get('total_cell_equipment')?.value | number:'1.0-0'}}</td>
                                         </tr>
                                     </ng-container>
     
@@ -833,7 +816,7 @@
                                 Input DNA =
                             </td>
                             <td class="s-text-left">
-                                400ng
+                                {{densityTablePdf2}}ng
                             </td>
                         </tr>
                         <tr>
@@ -841,12 +824,15 @@
                                 Total nucleated cells (estimated) =
                             </td>
                             <td class="s-text-left">
-                                61,538 cell equivalents (Estimated DNA mass per 1 cell = 6.5 pg)
+                                 {{densityTablePdf1CellFEquivalent2}} cell equivalents (Estimated DNA mass per 1 cell = 6.5 pg)
                             </td>
                         </tr>
                         <tr>
-                            <td class="s-text-right">
-                                Total B-cell coune =
+                            <td class="s-text-right"  *ngIf="patientInfo.test_code === 'LPE555' || patientInfo.test_code === 'LPE556'">
+                                Total B-cell count =
+                            </td>
+                            <td class="s-text-right"  *ngIf="patientInfo.test_code === 'LPE557'">
+                                Total T-cell count =
                             </td>
                             <td class="s-text-left">
                                 217,735 cell equivalents (Total read count/ LQIC read count)-LQIC
@@ -867,9 +853,12 @@
                         </colgroup>
                         <tbody>
                             <tr>
-                                <td>
+                                <td   *ngIf="patientInfo.test_code === 'LPE555' || patientInfo.test_code === 'LPE556'">
                                     * Clonal IGH read depth를 전체 IGH read depth로 나눈 값으로 B 세포 중의 클론의 비율을 의미합니다.
                                 </td>
+                                <td   *ngIf="patientInfo.test_code === 'LPE557'">
+                                    * Clonal IGH read depth를 전체 IGH read depth로 나눈 값으로 T 세포 중의 클론의 비율을 의미합니다.
+                                </td>                               
                             </tr>
                             <tr>
                                 <td>
@@ -877,13 +866,19 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>
+                                <td  *ngIf="patientInfo.test_code === 'LPE555' || patientInfo.test_code === 'LPE556'">
                                     *** 검체 당 B 세포 100개 정도의 DNA(LymphoQuant Internal Control, LQIC)를 혼합하여 측정된 값을 변환한 것입니다.
+                                </td>
+                                <td  *ngIf="patientInfo.test_code === 'LPE557'">
+                                    *** 검체 당 T 세포 100개 정도의 DNA(LymphoQuant Internal Control, LQIC)를 혼합하여 측정된 값을 변환한 것입니다.
                                 </td>
                             </tr>
                             <tr>
-                                <td>
+                                <td  *ngIf="patientInfo.test_code === 'LPE555' || patientInfo.test_code === 'LPE556'">
                                     - PCR 증폭은 B 세포의 DNA양에 영향을 받으며 primer결합 부위 변이가 있는 경우 위음성을 보일 가능성이 있습니다.
+                                </td>
+                                <td  *ngIf="patientInfo.test_code === 'LPE557'">
+                                    - PCR 증폭은 T 세포의 DNA양에 영향을 받으며 primer결합 부위 변이가 있는 경우 위음성을 보일 가능성이 있습니다.
                                 </td>
                             </tr>
                             <tr>
@@ -893,7 +888,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <!-- <textarea class="textarea_01">{{commentMRD}}</textarea> -->
+                  
                 </div>
     
     
