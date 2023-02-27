@@ -275,7 +275,7 @@ export class IgTcrSheetComponent implements OnInit {
       } else if(this.patientInfo.test_code === 'LPE557') {
         this.pcellLPE557 = totalIGHReadDepth;
       }
-
+      this.makePDFData();
       // 클론갯수 구하기
       const clonalCount = this.formWithoutgraph.length;
       if (clonalCount === 1) {
@@ -319,7 +319,6 @@ export class IgTcrSheetComponent implements OnInit {
     }
 
     this.getAllData();
-    this.makePDFData();
     setTimeout(() => {
       this.createPdf2();
     }, 2000);
@@ -1034,7 +1033,8 @@ totalCellEquivalent(index: number) {
 
 ///////////////////////////////////////////////////////////////////////////////////
 makePDFData() {
-
+  /// 초기화
+  this.formWithoutgraph = [];
   // 데이터 길이 기준으로 폼종류로 분류
   const clonalListsLength = this.clonalLists.length;
   const control = this.tablerowForm.get('tableRows') as FormArray;

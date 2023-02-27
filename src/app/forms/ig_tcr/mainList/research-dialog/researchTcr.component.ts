@@ -197,7 +197,7 @@ export class ResearchDialogComponent implements OnInit {
       } else if (option === 'LPE556') {
         control.at(i).patchValue({ reportTitle: 'IGH/IGK Gene Rearrangement Analysis [NGS]', test_code: 'LPE556', testname: option });
       } else if (option === 'LPE557') {
-        control.at(i).patchValue({ reportTitle: 'TRB/TRG Gene Rearrangement Analysis [NGS]', test_code: 'LPE556', testname: option });
+        control.at(i).patchValue({ reportTitle: 'TRB/TRG Gene Rearrangement Analysis [NGS]', test_code: 'LPE557', testname: option });
       }
     console.log(control.at(i).value);
   }
