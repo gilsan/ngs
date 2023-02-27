@@ -121,7 +121,7 @@ export class IgTcrSheetComponent implements OnInit {
    */
    pdfFirstTitle = ''; // 첫번째 검사 제목
    pdfMDRTitle = '';   // 두번째 검사 제목
-
+   clonalCountTitle = '';
 
   igTcrData: ITcrData = {
     specimenNo: this.patientInfo.specimenNo,
@@ -265,24 +265,50 @@ export class IgTcrSheetComponent implements OnInit {
     if (tableRows.length === 1) {
       const totalIGHReadDepth = tableRows.at(0).get('total_IGH_read_depth')?.value;
       this.densityTablePdf1 = tableRows.at(0).get('density')?.value;
-      if (this.densityTablePdf1 === '400') {
-          this.densityTablePdf1CellFEquivalent1 = '61,538';
-      } else if(this.densityTablePdf1 === '240') {
+      if(this.densityTablePdf1 === '240') {
         this.densityTablePdf1CellFEquivalent1 = '36,923';
+      } else {
+        this.densityTablePdf1CellFEquivalent1 = '61,538';
       }
       if (this.patientInfo.test_code === 'LPE555' || this.patientInfo.test_code === 'LPE556') {
         this.bcellLPE555LPE556 = totalIGHReadDepth;
       } else if(this.patientInfo.test_code === 'LPE557') {
         this.pcellLPE557 = totalIGHReadDepth;
       }
+
+      // 클론갯수 구하기
+      const clonalCount = this.formWithoutgraph.length;
+      if (clonalCount === 1) {
+          this.clonalCountTitle = '한';
+      } else if (clonalCount === 2) {
+        this.clonalCountTitle = '두';
+      } else if (clonalCount === 3) {
+        this.clonalCountTitle = '세';
+      } else if (clonalCount === 4) {
+        this.clonalCountTitle = '네';
+      } else if (clonalCount === 5) {
+        this.clonalCountTitle = '다섯';
+      } else if (clonalCount === 6) {
+        this.clonalCountTitle = '여섯';
+      } else if (clonalCount === 7) {
+        this.clonalCountTitle = '일곱';
+      } else if (clonalCount === 8) {
+        this.clonalCountTitle = '여덜';
+      } else if (clonalCount === 9) {
+        this.clonalCountTitle = '아홉';
+      } else if (clonalCount === 10) {
+        this.clonalCountTitle = '열';
+      }
+
+
     } else if (tableRows.length > 1){
-      const totalIGHReadDepth = tableRows.at(tableRows.length -1).get('total_IGH_read_depth')?.value;
-      this.mrdnucleatedCells = tableRows.at(tableRows.length -1).get('total_nucelated_cells')?.value;
-      this.densityTablePdf2 = tableRows.at(tableRows.length -1).get('density')?.value;
-      if (this.densityTablePdf2 === '400') {
-        this.densityTablePdf1CellFEquivalent2 = '61,538';
-      } else if(this.densityTablePdf2 === '240') {
+      const totalIGHReadDepth = tableRows.at(0).get('total_IGH_read_depth')?.value;
+      this.mrdnucleatedCells = tableRows.at(0).get('total_nucelated_cells')?.value;
+      this.densityTablePdf2 = tableRows.at(0).get('density')?.value;
+      if(this.densityTablePdf2 === '240') {
        this.densityTablePdf1CellFEquivalent2= '36,923';
+      } else {
+        this.densityTablePdf1CellFEquivalent2 = '61,538';
       }
 
       if (this.patientInfo.test_code === 'LPE555' || this.patientInfo.test_code === 'LPE556') {
@@ -322,10 +348,22 @@ export class IgTcrSheetComponent implements OnInit {
       let PDF = new jsPDF('p', 'mm', 'a4');
       let position = 0;
       PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight);
-      if (tableRows.length === 1) {
-        filename = 'IGH_CLONALITY_REPORT_'+this.patientInfo.patientID+'_'+this.today() ;
-      } else {
-        filename = 'IGH_MRD_REPORT_'+this.patientInfo.patientID+'_'+this.today() ;
+      if (tableRows.length === 1) { // 첫번찌
+        if (this.patientInfo.test_code === 'LPE555') {
+          filename = 'IGH_CLONALITY_REPORT_'+this.patientInfo.patientID+'_'+this.today() ;
+        } else if(this.patientInfo.test_code === 'LPE556') {
+          filename = 'IGH_IGK_CLONALITY_REPORT_'+this.patientInfo.patientID+'_'+this.today() ;
+        } else if(this.patientInfo.test_code === 'LPE557') {
+          filename = 'TRB_CLONALITY_REPORT_'+this.patientInfo.patientID+'_'+this.today() ;
+        }
+      } else {  // 두번째
+        if (this.patientInfo.test_code === 'LPE555') {
+          filename = 'IGH_MRD_CLONALITY_REPORT_'+this.patientInfo.patientID+'_'+this.today() ;
+        } else if(this.patientInfo.test_code === 'LPE556') {
+          filename = 'IGH_IGK_MRD_CLONALITY_REPORT_'+this.patientInfo.patientID+'_'+this.today() ;
+        } else if(this.patientInfo.test_code === 'LPE557') {
+          filename = 'TRB_MRD_CLONALITY_REPORT_'+this.patientInfo.patientID+'_'+this.today() ;
+        }
       }
       
       PDF.save(filename);
