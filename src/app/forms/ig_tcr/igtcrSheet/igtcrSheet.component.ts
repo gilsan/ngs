@@ -105,8 +105,8 @@ export class IgTcrSheetComponent implements OnInit {
 
   // 그래프 데이터
   checkDate: string[] = [];
-  clonalTotalIGHReadDepthData: number[] = [];
-  clonalTotalnuclelatedCellsData: number[] = [];
+  clonalTotalIGHReadDepthData: any[] = [];
+  clonalTotalnuclelatedCellsData: any[] = [];
   options: any = {};
   colors = ['#5470C6',  '#EE6666'];
 
@@ -378,7 +378,11 @@ export class IgTcrSheetComponent implements OnInit {
         } else if(this.patientInfo.test_code === 'LPE556') {
           filename = 'IGH_IGK_CLONALITY_REPORT_'+this.patientInfo.patientID+'_'+this.today() ;
         } else if(this.patientInfo.test_code === 'LPE557') {
-          filename = 'TRB_CLONALITY_REPORT_'+this.patientInfo.patientID+'_'+this.today() ;
+          if (this.testCode === 'TRB') {
+            filename = 'TRB_CLONALITY_REPORT_'+this.patientInfo.patientID+'_'+this.today() ;
+          } else  {
+            filename = 'TRG_CLONALITY_REPORT_'+this.patientInfo.patientID+'_'+this.today() ;
+          }
         }
       } else {  // 두번째
         if (this.patientInfo.test_code === 'LPE555') {
@@ -386,7 +390,11 @@ export class IgTcrSheetComponent implements OnInit {
         } else if(this.patientInfo.test_code === 'LPE556') {
           filename = 'IGH_IGK_MRD_CLONALITY_REPORT_'+this.patientInfo.patientID+'_'+this.today() ;
         } else if(this.patientInfo.test_code === 'LPE557') {
-          filename = 'TRB_MRD_CLONALITY_REPORT_'+this.patientInfo.patientID+'_'+this.today() ;
+          if (this.testCode === 'TRB') {
+            filename = 'TRB_MDR_CLONALITY_REPORT_'+this.patientInfo.patientID+'_'+this.today() ;
+          } else   {
+            filename = 'TRG_MDR_CLONALITY_REPORT_'+this.patientInfo.patientID+'_'+this.today() ;
+          }
         }
       }
       
@@ -1192,7 +1200,7 @@ makeMRDData() {
         readOfLQIC: item.read_of_LQIC,
         totalBcellTcellCount :item.total_Bcell_Tcell_count,
         totalIGHReadDepth : item.total_IGH_read_depth,
-        totalNucelatedCells : item.total_nucelated_cells,
+        totalNucelatedCells : item.total_IGH_read_depth,
         totalCellEquipment : item.total_cell_equipment,
        });
     } else {
@@ -1215,18 +1223,21 @@ makeMRDData() {
 //////////////////////////////////////////////////////////////////////
 // 그래프 데이타
 makeGraphclonalTotalIGHReadDepthData(index: number = 0, date: string = '', clonalTotalIGHReadDepthData: string = '' ) {
-   //this.checkDate[index] = date; 
-   // this.clonalTotalIGHReadDepthData[index]= Number(clonalTotalIGHReadDepthData)/100;
-   this.clonalTotalIGHReadDepthData.unshift(Number(clonalTotalIGHReadDepthData)/100);
+  if (Number(clonalTotalIGHReadDepthData).toFixed(0) === '0') {
+    this.clonalTotalIGHReadDepthData.unshift('-');
+  } else {
+    this.clonalTotalIGHReadDepthData.unshift(Number(clonalTotalIGHReadDepthData) /100);
+  }
    this.checkDate.unshift(date);
    this.updateGraphData();
-   // console.log('[1026][날자][데이터]',  this.checkDate, this.clonalTotalIGHReadDepthData);
 }
 
 makeGraphclonalTotalNuclelatedCellsData(index: number = 0, date: string = '',   clonalTotalnuclelatedCells: string = '') {
-  // this.checkDate[index] = date;
-  // this.clonalTotalnuclelatedCellsData[index] = Number(clonalTotalnuclelatedCells) /100;
-  this.clonalTotalnuclelatedCellsData.unshift(Number(clonalTotalnuclelatedCells) /100);
+  if (Number(clonalTotalnuclelatedCells).toFixed(0) === '0') {
+    this.clonalTotalnuclelatedCellsData.unshift('-');
+  } else {
+    this.clonalTotalnuclelatedCellsData.unshift(Number(clonalTotalnuclelatedCells) /100);
+  }
   this.updateGraphData();
 }
 
@@ -1260,8 +1271,10 @@ updateGraphData() {
     },
     yAxis: [
       {
-          type: 'value',
-
+        type: 'log',
+        minorSplitLine: {
+            show: true
+        }
      },
  
     ]
