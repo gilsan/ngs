@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { IPatient } from 'src/app/home/models/patients';
-import { IClonal, INoGraph, ITcrData, IWGraph } from '../igtcr.model';
+import { IClonal, IMRDData, INoGraph, ITcrData, IWGraph } from '../igtcr.model';
 import { IgtcrService } from '../igtcr.services';
 import * as moment from 'moment';
 import { PatientsListService } from 'src/app/home/services/patientslist';
@@ -22,13 +22,7 @@ import { UtilsService } from '../../commons/utils.service';
 })
 export class IgTcrSheetComponent implements OnInit {
 
-  comment2B =' * Clonal IGH read depth를 전체 IGH read depth로 나눈 값으로 B 세포 중의 클론의 비율을 의미합니다.';
-  comment2T = ' * Clonal IGH read depth를 전체 IGH read depth로 나눈 값으로 T 세포 중의 클론의 비율을 의미합니다.';
-  commentMRD = `* Clonal IGH read depth를 전체 IGH read depth로 나눈 값으로 B 세포 중의 클론의 비율을 의미합니다.
-** LymphoQuant Internal Control (LQIC)을 이용하여 clonal IGH를 전체 유핵세포 내의 세포수 비율로 환산한 근사치입니다.
-*** 검체 당 B 세포 100개 정도의 DNA(LymphoQuant Internal Control, LQIC)를 혼합하여 측정된 값을 변환한 것입니다.
-  - PCR 증폭은 B 세포의 DNA양에 영향을 받으며 primer결합 부위 변이가 있는 경우 위음성을 보일 가능성이 있습니다.
-  - 검사의 분석 민감도는 약 〖10〗^(-4) ~ 〖10〗^(-5)입니다.`;
+ 
   testCode = '';
   reportID = '';
   bcellLPE555LPE556 = '';
@@ -38,6 +32,16 @@ export class IgTcrSheetComponent implements OnInit {
   mrdnucleatedCells = '';
   densityTablePdf1 = ''; // 400 or 240
   densityTablePdf2 = '';
+  firstTotalBcellTcellCount = '';
+  secondTotalBcellTcellCount = '';
+  geneType = '';
+  comment2B =' * Clonal ' + this.geneType +' read depth를 전체' + this.geneType +'read depth로 나눈 값으로 B 세포 중의 클론의 비율을 의미합니다.';
+  comment2T = ' * Clonal ' + this.geneType +' read depth를 전체 ' + this.geneType +' read depth로 나눈 값으로 T 세포 중의 클론의 비율을 의미합니다.';
+//   commentMRD = `* Clonal IGH read depth를 전체 IGH read depth로 나눈 값으로 B 세포 중의 클론의 비율을 의미합니다.\n
+// ** LymphoQuant Internal Control (LQIC)을 이용하여 clonal IGH를 전체 유핵세포 내의 세포수 비율로 환산한 근사치입니다.\n
+// *** 검체 당 B 세포 100개 정도의 DNA(LymphoQuant Internal Control, LQIC)를 혼합하여 측정된 값을 변환한 것입니다.\n
+//   - PCR 증폭은 B 세포의 DNA양에 영향을 받으며 primer결합 부위 변이가 있는 경우 위음성을 보일 가능성이 있습니다.
+//   - 검사의 분석 민감도는 약 〖10〗^(-4) ~ 〖10〗^(-5)입니다.`;
   densityTablePdf1CellFEquivalent1 = ''; // 첫번째 검사보고서
   densityTablePdf1CellFEquivalent2 = ''; // 두번째 검사보고서
   comment = '';
@@ -46,6 +50,7 @@ export class IgTcrSheetComponent implements OnInit {
   resultStatus = 'Detected';
   // title = '';
   clonalLists: IClonal[] = [];
+  mrdData: IMRDData[] =[];
   patientInfo: IPatient = {
     name: '',
     patientID: '',
@@ -172,6 +177,20 @@ export class IgTcrSheetComponent implements OnInit {
           } else if (this.testCode == 'TRG') {
             this.patientInfo.reportTitle = 'TRG Gene Rearrangement Analysis [NGS]';
           }
+
+          
+        if (this.patientInfo.test_code === 'LPE555') {
+          this.geneType = 'IGH';
+        } else if(this.patientInfo.test_code === 'LPE556') {
+          this.geneType = 'IGK';
+        } else if(this.patientInfo.test_code === 'LPE557') {
+          if (this.testCode === 'TRB') {
+            this.geneType = 'TRB';
+          } else if (this.testCode == 'TRG') {
+            this.geneType = 'TRG';
+          }
+
+        }
         // 판독자 , 검사자
         if (this.patientInfo.examin?.length) {
             this.examin = this.patientInfo.examin;
@@ -265,6 +284,8 @@ export class IgTcrSheetComponent implements OnInit {
     if (tableRows.length === 1) {
       const totalIGHReadDepth = tableRows.at(0).get('total_IGH_read_depth')?.value;
       this.densityTablePdf1 = tableRows.at(0).get('density')?.value;
+      this.firstTotalBcellTcellCount = tableRows.at(0).get('total_Bcell_Tcell_count')?.value;
+
       if(this.densityTablePdf1 === '240') {
         this.densityTablePdf1CellFEquivalent1 = '36,923';
       } else {
@@ -276,6 +297,7 @@ export class IgTcrSheetComponent implements OnInit {
         this.pcellLPE557 = totalIGHReadDepth;
       }
       this.makePDFData();
+    
       // 클론갯수 구하기
       const clonalCount = this.formWithoutgraph.length;
       if (clonalCount === 1) {
@@ -305,6 +327,7 @@ export class IgTcrSheetComponent implements OnInit {
       const totalIGHReadDepth = tableRows.at(0).get('total_IGH_read_depth')?.value;
       this.mrdnucleatedCells = tableRows.at(0).get('total_nucelated_cells')?.value;
       this.densityTablePdf2 = tableRows.at(0).get('density')?.value;
+      this.secondTotalBcellTcellCount = tableRows.at(0).get('total_Bcell_Tcell_count')?.value;
       if(this.densityTablePdf2 === '240') {
        this.densityTablePdf1CellFEquivalent2= '36,923';
       } else {
@@ -316,6 +339,8 @@ export class IgTcrSheetComponent implements OnInit {
       } else if(this.patientInfo.test_code === 'LPE557') {
         this.mrdPcellLPE557 = totalIGHReadDepth;
       }
+
+      this.makeMRDData();
     }
 
     this.getAllData();
@@ -517,6 +542,7 @@ createRow(item: IClonal): FormGroup {
 }
 
 makeNewRow(): FormGroup  {
+
   return this.fb.group({
     IGHV_mutation : [''],
     bigo : [''],
@@ -531,7 +557,7 @@ makeNewRow(): FormGroup  {
     cell_equipment9: [''],
     cell_equipment10: [''],
     comment: [''],
-    gene: [''],
+    gene: [this.geneType],
     j_gene1: [''],
     j_gene2: [''],
     j_gene3: [''],
@@ -1151,6 +1177,41 @@ makePDFData() {
 
 }
 
+makeMRDData() {
+  this.mrdData = [];
+  const control = this.tablerowForm.get('tableRows') as FormArray;
+  const tableLength = control.length -1;
+  const rawValue = control.getRawValue();
+  rawValue.forEach((item, index) => {
+ 
+    if (index === tableLength) {
+      this.mrdData.push({
+        dateSequence: 'initial',
+        reportDate: item.report_date,
+        totalReadCount: item.total_read_count,
+        readOfLQIC: item.read_of_LQIC,
+        totalBcellTcellCount :item.total_Bcell_Tcell_count,
+        totalIGHReadDepth : item.total_IGH_read_depth,
+        totalNucelatedCells : item.total_nucelated_cells,
+        totalCellEquipment : item.total_cell_equipment,
+       });
+    } else {
+      this.mrdData.push({
+        dateSequence: tableLength - index + ' f/u',
+        reportDate: item.report_date,
+        totalReadCount: item.total_read_count,
+        readOfLQIC: item.read_of_LQIC,
+        totalBcellTcellCount :item.total_Bcell_Tcell_count,
+        totalIGHReadDepth : item.total_IGH_read_depth,
+        totalNucelatedCells : item.total_nucelated_cells,
+        totalCellEquipment : item.total_cell_equipment,
+       });
+
+    }
+    
+  });
+     
+}
 //////////////////////////////////////////////////////////////////////
 // 그래프 데이타
 makeGraphclonalTotalIGHReadDepthData(index: number = 0, date: string = '', clonalTotalIGHReadDepthData: string = '' ) {
@@ -1188,7 +1249,10 @@ updateGraphData() {
   this.options = {
     color: this.colors,
     legend: {
-      data: ['Clonal/total IGH read depth (%)*', 'Clonal/total nuclelated cells (%)**']
+      data: ['Clonal/total ' + this.geneType + ' read depth (%)*  ', 'Clonal/total nuclelated cells (%)**'],
+      left: 60,
+      top: 100,
+      bottom: 20,
     },
     xAxis: {
       type: 'category',
@@ -1199,16 +1263,13 @@ updateGraphData() {
           type: 'value',
 
      },
-     {
-          type: 'value',
-
-        }
+ 
     ]
 
       ,
     series: [
       {
-        name: 'Clonal/total IGH read depth (%)*',
+        name: 'Clonal/total ' + this.geneType + ' read depth (%)*  ',
         type: 'line',
         data: this.clonalTotalIGHReadDepthData,
       },

@@ -207,8 +207,10 @@ table.st-01 .s-text-right {
 }
 
 .textarea_01 {
-  width: 1000px;
-  height: 130px;
+  padding: 0 !important;
+  width: 100% !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
 }
 
 .table_list_test {

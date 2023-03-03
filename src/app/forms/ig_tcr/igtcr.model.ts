@@ -147,6 +147,18 @@ export interface IPatient {
       data: IClonal[]
     }
 
+    export interface IMRDData {
+      dateSequence: string;
+      reportDate: string;
+      totalReadCount: string;
+      readOfLQIC: string;
+      totalBcellTcellCount : string;
+      totalIGHReadDepth : string;
+      totalNucelatedCells : string;
+      totalCellEquipment : string;
+
+    }
+
 
     export interface INoGraph {
         index: string;
