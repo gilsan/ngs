@@ -519,7 +519,7 @@
 <div id="resultSheet" >
     <div id="container" style="position: relative;">
         <h2 style="margin-top: 5px;">{{pdfFirstTitle}}</h2>
-        <!-- <button type="button" class="preview__button" (click)="closeModal()">닫기</button> -->
+       
   
         <div id="content">
             <!-- <div class="box pd_20"> -->
@@ -567,9 +567,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <!-- <td>
-                                % of clonal cells (estimated value) : {{bcellLPE555LPE556}}% / total B-cells , {{pcellLPE557}}% / total P-cells
-                            </td> -->
+ 
                             <td>
                                 % of clonal cells (estimated value) :
                             </td>
@@ -782,18 +780,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- <ng-container formArrayName="tableRows" *ngFor="let list of getFormControls.controls; let i=index">
-                                        <tr [formGroupName]="i">
-                                            <td class="s-text-center">{{i+1}}</td>
-                                            <td class="s-text-center">{{list.get('report_date')?.value}}</td>
-                                            <td class="s-text-center">{{list.get('total_read_count')?.value}}</td>
-                                            <td class="s-text-center">{{list.get('read_of_LQIC')?.value}}</td>
-                                            <td class="s-text-center">{{list.get('total_Bcell_Tcell_count')?.value}}</td>
-                                            <td class="s-text-center">{{list.get('total_IGH_read_depth')?.value}}%</td>
-                                            <td class="s-text-center">{{list.get('total_nucelated_cells')?.value}}%</td>
-                                            <td class="s-text-center">{{list.get('total_cell_equipment')?.value | number:'1.0-0'}}</td>
-                                        </tr>
-                                    </ng-container> -->
+                         
                                     <ng-container *ngFor="let list of mrdData; let i=index">
                                         <tr>
                                             <td class="s-text-center">{{list.dateSequence}}</td>
