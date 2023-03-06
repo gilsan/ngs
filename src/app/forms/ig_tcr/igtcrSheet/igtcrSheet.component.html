@@ -264,7 +264,7 @@
                                         <input type="date" class="input_01" #start [value]="startToday()" formControlName='report_date' style="width:150px;" />
                                     </td>
                                     <td>
-                                        <input type="text" size="10" size="10" class="clr-input textcenter" formControlName="gene">
+                                        <input type="text" size="10" size="10" class="clr-input textcenter"  #genetype (change)="changeGeneType(genetype.value)" formControlName="gene">
                                     </td>
                                     <td>
                                         <input type="text" size="10" matInput class="clr-input textleft tdbox" formControlName="total_read_count" #totalReadcount (change)="totalReadCount(i,totalReadcount.value, list.get('read_of_LQIC')?.value)">
@@ -855,7 +855,7 @@
                         <tbody>
                             <tr>
                                 <td   *ngIf="patientInfo.test_code === 'LPE555' || patientInfo.test_code === 'LPE556'">
-                                    * Clonal IGH read depth를 전체 IGH read depth로 나눈 값으로 B 세포 중의 클론의 비율을 의미합니다.
+                                    * Clonal {{geneType}} read depth를 전체 {{geneType}} read depth로 나눈 값으로 B 세포 중의 클론의 비율을 의미합니다.
                                 </td>
                                 <td   *ngIf="patientInfo.test_code === 'LPE557'">
                                     * Clonal {{geneType}} read depth를 전체 {{geneType}} read depth로 나눈 값으로 T 세포 중의 클론의 비율을 의미합니다.

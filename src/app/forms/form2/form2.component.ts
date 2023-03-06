@@ -1353,10 +1353,10 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     if (this.checkboxStatus.length === 0) {
       this.checkboxRefill();
     }
-
+    // check, uncheck 상관없이 모듀 EMR로 전송
     const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
-    console.log('[1372][EMR로 보내기, 체크박스]', this.checkboxStatus);
-    console.log('[1373][EMR로 보내기 DV]', reformData);
+    console.log('[1358][EMR로 보내기, 체크박스]', this.checkboxStatus);
+    console.log('[1359][EMR로 보내기]', formData);
     // 코멘트가 있는경우
     if (this.comments.length) {
       const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
@@ -1401,6 +1401,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       this.vusmsg,    // this.ment,
       this.patientInfo,
       reformData,
+    //  reformData,
       this.comments,
       this.firstReportDay,
       this.lastReportDay,
@@ -1408,7 +1409,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       tsvVersionContents,
       this.specimenMsg
     );
-    console.log('[1295] ', makeForm);
+    console.log('[1412] ', makeForm);
 
     //  실전사용시 사용
     const examcode = this.patientInfo.test_code;
@@ -1463,7 +1464,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
 
     const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
     console.log('[1413][ALL][EMR로 보내기, 체크박스]', this.checkboxStatus);
-    console.log('[1413][ALL][EMR로 보내기 DV][VUSMSG]', reformData, this.vusstatus);
+    console.log('[1467][ALL][EMR로 보내기 DV][VUSMSG]', reformData, this.vusstatus);
     // 코멘트가 있는경우
     if (this.comments.length) {
       const commentControl = this.tablerowForm.get('commentsRows') as FormArray;
@@ -1507,7 +1508,8 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       this.fusion,
       this.vusmsg,            //          this.ment,  // VUS 멘트
       this.patientInfo,
-      reformData,
+      formData,
+      // reformData,
       this.comments,
       this.firstReportDay,
       this.lastReportDay,

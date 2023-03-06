@@ -182,7 +182,7 @@ export class IgTcrSheetComponent implements OnInit {
         if (this.patientInfo.test_code === 'LPE555') {
           this.geneType = 'IGH';
         } else if(this.patientInfo.test_code === 'LPE556') {
-          this.geneType = 'IGK';
+          this.geneType = '';
         } else if(this.patientInfo.test_code === 'LPE557') {
           if (this.testCode === 'TRB') {
             this.geneType = 'TRB';
@@ -229,7 +229,13 @@ export class IgTcrSheetComponent implements OnInit {
       tap(data => this.clonalLists = data)
     )
     .subscribe(data => {
+      // console.log('[232]', this.clonalLists);
       this.clonalLists.forEach((item, index) => {
+        if (index === 0) {
+          if (item.gene.length) {
+            this.geneType = item.gene;
+          }
+        }
         this.addRow(item);
         this.clonalTotalIGHReadDepth(index);
         this.clonalTotalNuclelatedCell(index);
@@ -279,6 +285,11 @@ export class IgTcrSheetComponent implements OnInit {
     this.patientsListService.changescreenstatus( this.patientInfo.specimenNo,'3','3000', 'userid').subscribe(data => {
       this.saveAllData();
    });
+
+    
+    this.pdfFirstTitle = this.geneType + ' CLONALITY REPORT';
+    this.pdfMDRTitle = this.geneType + ' MRD REPORT';
+ 
    
     const tableRows = this.tablerowForm.get('tableRows') as FormArray;
     if (tableRows.length === 1) {
@@ -1457,6 +1468,10 @@ getStatus(index: number): boolean {
     return false;
   
   }
+
+  changeGeneType(gene: string) {
+    this.geneType = gene;
+ }
   
 
   ///////////////////////////////////////////////////////////////
