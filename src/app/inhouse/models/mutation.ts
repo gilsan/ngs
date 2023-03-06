@@ -31,6 +31,8 @@ export interface IMutation {
   dbsnp_hgmd?: string;
   gnomad_eas?: string;
   omim?: string;
+  userid?: string;
+  savetime?: string;
 
 }
 
@@ -81,4 +83,6 @@ export interface IAML {
   cosmic_id: string;
   igv: string;
   sanger: string;
+  userid?: string;
+  savetime?: string;
 }

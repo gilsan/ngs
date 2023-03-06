@@ -185,14 +185,7 @@ export class PatientsListService {
 
 
 
-  // artifacts 삽입
-  public insertArtifacts(type: string, genes: string, loc2: string = '', exon: string = '', transcript: string, coding: string, aminoAcidChange: string) {
-    return this.http.post(`${this.apiUrl}/artifacts/insert`, {
-      type, genes, loc2, exon, transcript, coding, aminoAcidChange
-    }).pipe(
-      shareReplay()
-    );
-  }
+
 
   // 유전체 와 coding 로 Artifacts 레코드에서 존재 유무 정보 가져오기
   public getArtifactsInfoCount(gene: string, coding: string, type: string): Observable<any> {
@@ -288,6 +281,24 @@ export class PatientsListService {
   }
 
 
+  today(): string {
+    const today = new Date();
+
+    const year = today.getFullYear(); // 년도
+    const month = today.getMonth() + 1;  // 월
+    const date = today.getDate();  // 날짜
+    const hour = today.getHours();
+    const min = today.getMinutes();
+    const sec = today.getSeconds();
+
+    const newmon = ('0' + month).substr(-2);
+    const newday = ('0' + date).substr(-2);
+    const now = year + newmon +  newday + '-' + hour +  min + sec;
+
+    return now;
+  }
+
+
 
   // Mutation 저장
   public saveMutation(
@@ -307,6 +318,10 @@ export class PatientsListService {
     references: string,
     cosmicID: string
   ) {
+
+    const userInfo = localStorage.getItem('userpart');
+    const userid = JSON.parse(userInfo).userid;
+
     return this.http.post(`${this.apiUrl}/mutation/insert`, {
       type,
       igv,
@@ -322,11 +337,25 @@ export class PatientsListService {
       zygosity,
       vafPercent,
       references,
-      cosmicID
+      cosmicID,
+      userid,
+      savetime: this.today()
     }).pipe(
       shareReplay()
     );
   }
+
+    // artifacts 삽입
+    public insertArtifacts(type: string, genes: string, loc2: string = '', exon: string = '', transcript: string, coding: string, aminoAcidChange: string) {
+      const userInfo = localStorage.getItem('userpart');
+      const userid = JSON.parse(userInfo).userid;   
+    
+      return this.http.post(`${this.apiUrl}/artifacts/insert`, {
+        type, genes, loc2, exon, transcript, coding, aminoAcidChange, userid, savetime: this.today()
+      }).pipe(
+        shareReplay()
+      );
+    }
 
   // 결과지를 위한 검체정보 저장
   setTestedID(testID: string): void {

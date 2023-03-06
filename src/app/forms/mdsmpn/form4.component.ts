@@ -1035,14 +1035,15 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
 
   // tslint:disable-next-line: typedef
   save(index: number) {
-    console.log('[962][inhousee]', index, this.vd);
+    console.log('[1038][inhousee 저장]', index, this.vd);
 
     const selected = this.vd.find(item => item.sequence === index);
     this.selectedItem = selected.selectedname;
 
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const row = control.value[index];
-    console.log('[969][저장] ', index, this.vd, selected, row);
+    console.log('[1045][저장] ', index, this.vd, selected, row);
+    
     if (this.selectedItem === 'mutation') {
       this.subs.sink = this.patientsListService.saveMutation(
         'MDS',
@@ -1078,7 +1079,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
 
       });
     }
-
+    
   }
 
   //////////////////////////////////////////////////////////////////////////////////////
@@ -1898,12 +1899,12 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     }
     return;
   }
-
+  
   reCall(): void {
     let count = 0;
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData: IAFormVariant[] = control.getRawValue();
-    // console.log('[1776][호출][보낸것]', formData);
+    console.log('[906][호출]', formData);
     formData.forEach((list, index) => {
       const gene = list.gene.split(',');
       gene.forEach(item => {

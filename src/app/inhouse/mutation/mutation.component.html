@@ -377,7 +377,6 @@
                                     <input type="text"  class="clr-input" value="{{list.sanger}}" id="sanger{{list.id}}" >
                                 </span>
                             </td>
-
                             <td class="txt_c"> <!--    -->
                                 <span *ngIf="status.value === 'R'">
                                     <a class="btn-edit" (click)="status.value='U'" >수정</a>
@@ -412,6 +411,8 @@
                               <col width="5%" />
                               <col width="5%" />
                               <col width="5%" />
+                              <col width="5%" />
+                              <col width="5%" />
                               <col width="5%"/>
                           </colgroup>
                           <thead>
@@ -430,6 +431,8 @@
                                   <th >COSMIC ID</th>
                                   <th >Igv</th>
                                   <th >Sanger</th>
+                                  <th>등록ID</th>
+                                  <th>등록일</th>
                                   <th >수정/삭제</th>
                               </tr>
                           </thead>
@@ -476,6 +479,8 @@
                                   <td class="txt_c">
                                           <input type="text"  class="clr-input"  formControlName="sanger">
                                   </td>
+                                  <td class="txt_c"><input type="text"  class="clr-input" formControlName="userid" readonly></td>
+                                  <td class="txt_c"><input type="text"  class="clr-input" formControlName="savetime" readonly></td>
                                   <td class="txt_c">
                                         <button class="btn-save"  (click)="amlSave(i)">저장</button>&nbsp;&nbsp;
                                         <button class="btn-delete" (click)="amlDelete(i)">삭제</button>

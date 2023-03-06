@@ -198,6 +198,8 @@ export class MutationComponent implements OnInit {
       etc1: '',
       etc2: '',
       etc3: '',
+      userid: '',
+      savetime: ''
     });
 
     if (this.gubun === 'Genetic') {
@@ -545,7 +547,9 @@ export class MutationComponent implements OnInit {
   }
 
   makeAmlRows(lists: IMutation[]): void {
+    
     lists.forEach(list => {
+    //  console.log('[552]==>', list.savetime);
       this.amlRows().push(this.createAmlRow({
         id: list.id,
         name: list.patient_name,
@@ -560,7 +564,9 @@ export class MutationComponent implements OnInit {
         reference: list.reference,
         cosmic_id: list.cosmic_id,
         igv: list.igv,
-        sanger: list.sanger
+        sanger: list.sanger,
+        userid: list.userid,
+        savetime: list.savetime
       }));
     });
   }
@@ -580,7 +586,9 @@ export class MutationComponent implements OnInit {
       reference: list.reference,
       cosmic_id: list.cosmic_id,
       igv: list.igv,
-      sanger: list.sanger
+      sanger: list.sanger,
+      userid: list.userid,
+      savetime: list.savetime
     });
   }
 
@@ -600,6 +608,8 @@ export class MutationComponent implements OnInit {
       cosmic_id: '',
       igv: '',
       sanger: '',
+      userid: '',
+      savetime: ''
     });
   }
 
