@@ -81,7 +81,7 @@
                         <th class="txt_l" >Transcript</th>
                         <th class="txt_l">Coding</th>
                         <th class="txt_l">Amino Acid Change</th>
-                        <th>등록ID</th>
+                        <th>등록인</th>
                         <th>등록일</th>
                         <th class="txt_c">수정/삭제</th>
                     </tr>
@@ -180,7 +180,7 @@
                              <span class="bdnone" *ngIf="status.value === 'U'"><input type="text"  class="clr-input"
                              #amino value="{{list.amino_acid_change}}" id="aminoAcidChange{{list.id}}" ></span>
                         </td>
-                        <td>{{list.userid}}</td>
+                        <td>{{list.user_nm}}</td>
                         <td>{{list.savetime}}</td>
                         <td class="text-right">
                             <span class="bdnone" *ngIf="status.value === 'R' ">

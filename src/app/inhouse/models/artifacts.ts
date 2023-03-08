@@ -8,8 +8,9 @@ export interface IArtifacts {
   amino_acid_change: string;
   display?: string;
   type?: string;
-  userid: string;
+  userid?: string;
   savetime: string;
+  user_nm?: string;
 }
 
 export interface IMent {

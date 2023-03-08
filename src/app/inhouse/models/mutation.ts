@@ -33,6 +33,7 @@ export interface IMutation {
   omim?: string;
   userid?: string;
   savetime?: string;
+  user_nm?: string;
 
 }
 
@@ -85,4 +86,5 @@ export interface IAML {
   sanger: string;
   userid?: string;
   savetime?: string;
+  user_nm?: string;
 }

@@ -198,7 +198,7 @@ export class MutationComponent implements OnInit {
       etc1: '',
       etc2: '',
       etc3: '',
-      userid: '',
+      user_nm: '',
       savetime: ''
     });
 
@@ -549,7 +549,7 @@ export class MutationComponent implements OnInit {
   makeAmlRows(lists: IMutation[]): void {
     
     lists.forEach(list => {
-    //  console.log('[552]==>', list.savetime);
+      // console.log('[552]==>', list);
       this.amlRows().push(this.createAmlRow({
         id: list.id,
         name: list.patient_name,
@@ -566,7 +566,8 @@ export class MutationComponent implements OnInit {
         igv: list.igv,
         sanger: list.sanger,
         userid: list.userid,
-        savetime: list.savetime
+        savetime: list.savetime,
+        user_nm: list.user_nm
       }));
     });
   }
@@ -588,7 +589,8 @@ export class MutationComponent implements OnInit {
       igv: list.igv,
       sanger: list.sanger,
       userid: list.userid,
-      savetime: list.savetime
+      savetime: list.savetime,
+      user_nm: list.user_nm
     });
   }
 
@@ -609,7 +611,8 @@ export class MutationComponent implements OnInit {
       igv: '',
       sanger: '',
       userid: '',
-      savetime: ''
+      savetime: '',
+      user_nm: ''
     });
   }
 

@@ -785,12 +785,12 @@
                                         <tr>
                                             <td class="s-text-center">{{list.dateSequence}}</td>
                                             <td class="s-text-center">{{list.reportDate}}</td>
-                                            <td class="s-text-center">{{list.totalReadCount}}</td>
+                                            <td class="s-text-center">{{list.totalReadCount | number:'1.0-0'}}</td>
                                             <td class="s-text-center">{{list.readOfLQIC}}</td>
-                                            <td class="s-text-center">{{list.totalBcellTcellCount}}</td>
+                                            <td class="s-text-center">{{list.totalBcellTcellCount | number:'1.0-0'}}</td>
                                             <td class="s-text-center">{{list.totalIGHReadDepth}}</td>
                                             <td class="s-text-center">{{list.totalNucelatedCells}}</td>
-                                            <td class="s-text-center">{{list.totalCellEquipment}}</td>
+                                            <td class="s-text-center">{{list.totalCellEquipment | number:'1.0-0'}}</td>
                                         </tr>
                                     </ng-container>
     

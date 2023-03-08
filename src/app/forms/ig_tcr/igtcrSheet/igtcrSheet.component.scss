@@ -181,7 +181,7 @@ table.st-01 .s-text-right {
 
 .demo {
   width: 85%;
-  height: 400px;
+  height: 340px;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -190,6 +190,10 @@ table.st-01 .s-text-right {
           width: 700px;
       }
   }
+}
+
+.table_list td {
+  padding: 0 !important;
 }
 
 .textleft {
@@ -225,4 +229,7 @@ table.st-01 .s-text-right {
   background-color: #fff !important;
 }
 
+.sub_title {
+  margin-top: 6px !important;
+}
  

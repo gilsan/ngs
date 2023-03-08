@@ -291,11 +291,15 @@ export class PatientsListService {
     const min = today.getMinutes();
     const sec = today.getSeconds();
 
-    const newmon = ('0' + month).substr(-2);
-    const newday = ('0' + date).substr(-2);
-    const now = year + newmon +  newday + '-' + hour +  min + sec;
+    const newmon = ('0' + month).slice(-2);
+    const newday = ('0' + date).slice(-2);
+    const newhour = ('0' + hour).slice(-2);
+    const newmin = ('0' + min).slice(-2);
+    const newsec = ('0' + sec).slice(-2);
+    const now = year + newmon +  newday + '-' + newhour +  newmin + newsec;
 
     return now;
+ 
   }
 
 
@@ -319,7 +323,8 @@ export class PatientsListService {
     cosmicID: string
   ) {
 
-    const userInfo = localStorage.getItem('userpart');
+    const userInfo = localStorage.getItem('diaguser');
+    console.log('[323][patientlistService]', userInfo);
     const userid = JSON.parse(userInfo).userid;
 
     return this.http.post(`${this.apiUrl}/mutation/insert`, {
@@ -347,7 +352,7 @@ export class PatientsListService {
 
     // artifacts 삽입
     public insertArtifacts(type: string, genes: string, loc2: string = '', exon: string = '', transcript: string, coding: string, aminoAcidChange: string) {
-      const userInfo = localStorage.getItem('userpart');
+      const userInfo = localStorage.getItem('diaguser');
       const userid = JSON.parse(userInfo).userid;   
     
       return this.http.post(`${this.apiUrl}/artifacts/insert`, {

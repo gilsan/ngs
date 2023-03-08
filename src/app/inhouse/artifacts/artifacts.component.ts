@@ -126,7 +126,7 @@ export class ArtifactsComponent implements OnInit {
 
 
   insertRow(): void {
-    this.lists.push({ 'id': '', 'genes': '', 'location': '', 'exon': '', 'transcript': '', 'coding': '', 'amino_acid_change': '','userid': '', 'savetime': '' });
+    this.lists.push({ 'id': '', 'genes': '', 'location': '', 'exon': '', 'transcript': '', 'coding': '', 'amino_acid_change': '','user_nm': '', 'savetime': '' });
   }
 
   goPage(page: string): void {
@@ -183,6 +183,7 @@ export class ArtifactsComponent implements OnInit {
     }
 
     this.lists$.subscribe((data) => {
+      
       this.listArtfacts = data;
       this.mapping();
       this.lists = data.slice(0, 10);

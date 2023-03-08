@@ -402,9 +402,9 @@ export class IgTcrSheetComponent implements OnInit {
           filename = 'IGH_IGK_MRD_REPORT_'+this.patientInfo.patientID+'_'+this.today() ;
         } else if(this.patientInfo.test_code === 'LPE557') {
           if (this.testCode === 'TRB') {
-            filename = 'TRB_MDR_REPORT_'+this.patientInfo.patientID+'_'+this.today() ;
+            filename = 'TRB_MRD_REPORT_'+this.patientInfo.patientID+'_'+this.today() ;
           } else   {
-            filename = 'TRG_MDR_REPORT_'+this.patientInfo.patientID+'_'+this.today() ;
+            filename = 'TRG_MRD_REPORT_'+this.patientInfo.patientID+'_'+this.today() ;
           }
         }
       }
@@ -1207,23 +1207,23 @@ makeMRDData() {
       this.mrdData.push({
         dateSequence: 'initial',
         reportDate: item.report_date,
-        totalReadCount: item.total_read_count,
+        totalReadCount: item.total_read_count.replace(/,/g, ''),
         readOfLQIC: item.read_of_LQIC,
-        totalBcellTcellCount :item.total_Bcell_Tcell_count,
+        totalBcellTcellCount :item.total_Bcell_Tcell_count.replace(/,/g, ''),
         totalIGHReadDepth : item.total_IGH_read_depth,
         totalNucelatedCells : item.total_IGH_read_depth,
-        totalCellEquipment : item.total_cell_equipment,
+        totalCellEquipment : item.total_cell_equipment.replace(/,/g, ''),
        });
     } else {
       this.mrdData.push({
         dateSequence: tableLength - index + ' f/u',
         reportDate: item.report_date,
-        totalReadCount: item.total_read_count,
+        totalReadCount: item.total_read_count.replace(/,/g, ''),
         readOfLQIC: item.read_of_LQIC,
-        totalBcellTcellCount :item.total_Bcell_Tcell_count,
+        totalBcellTcellCount :item.total_Bcell_Tcell_count.replace(/,/g, ''),
         totalIGHReadDepth : item.total_IGH_read_depth,
         totalNucelatedCells : item.total_nucelated_cells,
-        totalCellEquipment : item.total_cell_equipment,
+        totalCellEquipment : item.total_cell_equipment.replace(/,/g, ''),
        });
 
     }
@@ -1249,7 +1249,7 @@ makeGraphclonalTotalNuclelatedCellsData(index: number = 0, date: string = '',   
   } else {
     this.clonalTotalnuclelatedCellsData.unshift(Number(clonalTotalnuclelatedCells) /100);
   }
-  console.log('[1252] ==> ', this.clonalTotalnuclelatedCellsData);
+ // console.log('[1252] ==> ', this.clonalTotalnuclelatedCellsData);
   this.updateGraphData();
 }
 
@@ -1280,7 +1280,6 @@ updateGraphData() {
     legend: {
       data: ['Clonal/total ' + this.geneType + ' read depth (%)*  ', 'Clonal/total nuclelated cells (%)**'],
       left: 60,
-      top: 100,
       bottom: 20,
     },
     xAxis: {
