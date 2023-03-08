@@ -127,7 +127,7 @@ export class MgngeneComponent implements OnInit {
 
 
   insertRow(): void {
-    this.lists.push({ 'id': '', 'genes': '', 'location': '', 'exon': '', 'transcript': '', 'coding': '', 'amino_acid_change': '' });
+    this.lists.push({ 'id': '', 'genes': '', 'location': '', 'exon': '', 'transcript': '', 'coding': '', 'amino_acid_change': '','userid': '', 'savetime': '' });
   }
 
   goPage(page: string): void {

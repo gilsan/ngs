@@ -68,6 +68,8 @@
                     <col width="*" />
                     <col width="*" />
                     <col width="7%" />
+                    <col width="7%" />                   
+                    <col width="7%" />
                 </colgroup>
                 <thead>
                     <tr class="pd-r-12">
@@ -79,6 +81,8 @@
                         <th class="txt_l" >Transcript</th>
                         <th class="txt_l">Coding</th>
                         <th class="txt_l">Amino Acid Change</th>
+                        <th>등록ID</th>
+                        <th>등록일</th>
                         <th class="txt_c">수정/삭제</th>
                     </tr>
                 </thead>
@@ -176,6 +180,8 @@
                              <span class="bdnone" *ngIf="status.value === 'U'"><input type="text"  class="clr-input"
                              #amino value="{{list.amino_acid_change}}" id="aminoAcidChange{{list.id}}" ></span>
                         </td>
+                        <td>{{list.userid}}</td>
+                        <td>{{list.savetime}}</td>
                         <td class="text-right">
                             <span class="bdnone" *ngIf="status.value === 'R' ">
                                 <a class="btn-edit" (click)="status.value='U'">수정</a>
@@ -186,6 +192,7 @@
                                 <a class="btn-save" (click)="updateRow(list.id)">저장</a>
                             </span>
                         </td>
+
                     </tr>
 
                 </tbody>

@@ -397,18 +397,18 @@ export class IgTcrSheetComponent implements OnInit {
         }
       } else {  // 두번째
         if (this.patientInfo.test_code === 'LPE555') {
-          filename = 'IGH_MRD_CLONALITY_REPORT_'+this.patientInfo.patientID+'_'+this.today() ;
+          filename = 'IGH_MRD_REPORT_'+this.patientInfo.patientID+'_'+this.today() ;
         } else if(this.patientInfo.test_code === 'LPE556') {
-          filename = 'IGH_IGK_MRD_CLONALITY_REPORT_'+this.patientInfo.patientID+'_'+this.today() ;
+          filename = 'IGH_IGK_MRD_REPORT_'+this.patientInfo.patientID+'_'+this.today() ;
         } else if(this.patientInfo.test_code === 'LPE557') {
           if (this.testCode === 'TRB') {
-            filename = 'TRB_MDR_CLONALITY_REPORT_'+this.patientInfo.patientID+'_'+this.today() ;
+            filename = 'TRB_MDR_REPORT_'+this.patientInfo.patientID+'_'+this.today() ;
           } else   {
-            filename = 'TRG_MDR_CLONALITY_REPORT_'+this.patientInfo.patientID+'_'+this.today() ;
+            filename = 'TRG_MDR_REPORT_'+this.patientInfo.patientID+'_'+this.today() ;
           }
         }
       }
-      
+      // console.log('[411][]==>', this.patientInfo.test_code, filename);
       PDF.save(filename);
 
     }) ;
@@ -1234,7 +1234,7 @@ makeMRDData() {
 //////////////////////////////////////////////////////////////////////
 // 그래프 데이타
 makeGraphclonalTotalIGHReadDepthData(index: number = 0, date: string = '', clonalTotalIGHReadDepthData: string = '' ) {
-  if (Number(clonalTotalIGHReadDepthData).toFixed(0) === '0') {
+  if (Number(clonalTotalIGHReadDepthData) === 0) {
     this.clonalTotalIGHReadDepthData.unshift('-');
   } else {
     this.clonalTotalIGHReadDepthData.unshift(Number(clonalTotalIGHReadDepthData) /100);
@@ -1244,11 +1244,12 @@ makeGraphclonalTotalIGHReadDepthData(index: number = 0, date: string = '', clona
 }
 
 makeGraphclonalTotalNuclelatedCellsData(index: number = 0, date: string = '',   clonalTotalnuclelatedCells: string = '') {
-  if (Number(clonalTotalnuclelatedCells).toFixed(0) === '0') {
+  if (Number(clonalTotalnuclelatedCells) === 0) {
     this.clonalTotalnuclelatedCellsData.unshift('-');
   } else {
     this.clonalTotalnuclelatedCellsData.unshift(Number(clonalTotalnuclelatedCells) /100);
   }
+  console.log('[1252] ==> ', this.clonalTotalnuclelatedCellsData);
   this.updateGraphData();
 }
 
@@ -1258,10 +1259,16 @@ getAllData() {
   this.clonalTotalIGHReadDepthData= [];
   this.clonalTotalnuclelatedCellsData = [];
   this.checkDate= [];
-  
+  const len = formValue.length -1;
+
   formValue.forEach( (item, index) => {
       this.makeGraphclonalTotalIGHReadDepthData(index, item.report_date, item.total_IGH_read_depth );
-      this.makeGraphclonalTotalNuclelatedCellsData(index,item.date, item.total_nucelated_cells);
+      if (index === len) {
+        this.makeGraphclonalTotalNuclelatedCellsData(index,item.date, item.total_IGH_read_depth);
+      } else {
+        this.makeGraphclonalTotalNuclelatedCellsData(index,item.date, item.total_nucelated_cells);
+      }
+      
   });
 
   this.updateGraphData();
@@ -1381,12 +1388,40 @@ saveAllData() {
       this.service.igtSave(this.igTcrData).subscribe(data => {
         if (data.message === 'OK') {
           alert('저장 했습니다.');
+          this.saveAfterRender();
         } else {
           alert('저장 실패.');
         }
       });
   
   }
+
+  // 저장한것 다시 불러오기
+  saveAfterRender() {
+  this.service.igtcrListInfo(this.patientInfo.specimenNo)
+      .pipe(
+        tap(data => {
+          this.clonalLists = [];
+          this.clonalLists = data
+        })
+      ).subscribe((data) => {
+        const control = this.tablerowForm.get('tableRows') as FormArray;
+        control.clear();
+        this.clonalLists.forEach((item, index) => {
+          if (index === 0) {
+            if (item.gene.length) {
+              this.geneType = item.gene;
+            }
+          }
+          this.addRow(item);
+          this.clonalTotalIGHReadDepth(index);
+          this.clonalTotalNuclelatedCell(index);
+          this.totalCellEquivalent(index);
+        });        
+      });
+
+ 
+}
 
   screenRead(): void {
     this.patientInfo.screenstatus = '1';
