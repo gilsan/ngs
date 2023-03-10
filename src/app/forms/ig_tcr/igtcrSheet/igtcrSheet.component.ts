@@ -13,7 +13,7 @@ import * as moment from 'moment';
 import { PatientsListService } from 'src/app/home/services/patientslist';
 import { UtilsService } from '../../commons/utils.service';
 // import { EChartsOption } from 'echarts';
-
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-igtcr-sheet',
@@ -146,7 +146,7 @@ export class IgTcrSheetComponent implements OnInit {
     public service : IgtcrService,
     private patientsListService: PatientsListService,
     private utilsService: UtilsService,
-
+    public dialog: MatDialog
   ){
     this.tablerowForm = this.fb.group({
       tableRows: this.fb.array(this.mockData.map(list => this.createRow(list))),
