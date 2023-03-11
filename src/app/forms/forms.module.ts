@@ -28,6 +28,7 @@ import { MlpapreviewComponent } from './previews/mlpapreview/mlpapreview.compone
 import { RouterModule } from '@angular/router';
 import { ExamplementComponent } from './examplement/examplement.component';
 
+
 @NgModule({
   declarations: [
     FormsComponent,
@@ -46,7 +47,8 @@ import { ExamplementComponent } from './examplement/examplement.component';
     SequencingComponent,
     // Form1Component,
     MlpapreviewComponent,
-    ExamplementComponent
+    ExamplementComponent,
+
     //  TestformComponent
   ],
   imports: [

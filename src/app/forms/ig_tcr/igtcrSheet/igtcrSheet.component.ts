@@ -13,7 +13,7 @@ import * as moment from 'moment';
 import { PatientsListService } from 'src/app/home/services/patientslist';
 import { UtilsService } from '../../commons/utils.service';
 // import { EChartsOption } from 'echarts';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+ 
 
 @Component({
   selector: 'app-igtcr-sheet',
@@ -41,7 +41,8 @@ export class IgTcrSheetComponent implements OnInit {
 // ** LymphoQuant Internal Control (LQIC)을 이용하여 clonal IGH를 전체 유핵세포 내의 세포수 비율로 환산한 근사치입니다.\n
 // *** 검체 당 B 세포 100개 정도의 DNA(LymphoQuant Internal Control, LQIC)를 혼합하여 측정된 값을 변환한 것입니다.\n
 //   - PCR 증폭은 B 세포의 DNA양에 영향을 받으며 primer결합 부위 변이가 있는 경우 위음성을 보일 가능성이 있습니다.
-//   - 검사의 분석 민감도는 약 〖10〗^(-4) ~ 〖10〗^(-5)입니다.`;
+//   - 검사의 분석 민감도는 약  10<sup>-4</sup> ~ 10<sup>-5</sup>입니다.`;
+ 
   densityTablePdf1CellFEquivalent1 = ''; // 첫번째 검사보고서
   densityTablePdf1CellFEquivalent2 = ''; // 두번째 검사보고서
   comment = '';
@@ -146,7 +147,6 @@ export class IgTcrSheetComponent implements OnInit {
     public service : IgtcrService,
     private patientsListService: PatientsListService,
     private utilsService: UtilsService,
-    public dialog: MatDialog
   ){
     this.tablerowForm = this.fb.group({
       tableRows: this.fb.array(this.mockData.map(list => this.createRow(list))),
@@ -1524,6 +1524,10 @@ getStatus(index: number): boolean {
     }
 
 //////////////////////////////////////////
+ 
+ 
+
+
 
 
 ////////////////////////////////////////////////////////////////////////
