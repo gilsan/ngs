@@ -13,7 +13,7 @@ import * as moment from 'moment';
 import { PatientsListService } from 'src/app/home/services/patientslist';
 import { UtilsService } from '../../commons/utils.service';
 import { initalComment, makeComment } from './commenttype.model';
-// import { EChartsOption } from 'echarts';
+ 
  
 
 @Component({
@@ -228,7 +228,7 @@ export class IgTcrSheetComponent implements OnInit {
       tap(data => this.clonalLists = data)
     )
     .subscribe(data => {
-      // console.log('[232]', this.clonalLists);
+     
       this.clonalLists.forEach((item, index) => {
         if (index === 0) {
           if (item.gene.length) {
@@ -360,7 +360,7 @@ export class IgTcrSheetComponent implements OnInit {
     }, 2000);
 
     this.patientsListService.changescreenstatus( this.patientInfo.specimenNo,'3','3000', 'userid').subscribe(data => {
-      // console.log('[241][PDF]][3]...',);
+      
    });
   }
 
@@ -408,7 +408,7 @@ export class IgTcrSheetComponent implements OnInit {
           }
         }
       }
-      // console.log('[411][]==>', this.patientInfo.test_code, filename);
+      
       PDF.save(filename);
 
     }) ;
