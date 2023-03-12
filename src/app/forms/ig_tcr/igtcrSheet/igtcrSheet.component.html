@@ -31,7 +31,8 @@
                     </tr>
                 </tbody>
             </table>
-            
+            <textarea class="textarea_01" *ngIf="getFormControls.length === 1"  [(ngModel)]="commentInitial"></textarea>
+            <textarea class="textarea_01" *ngIf="getFormControls.length > 1"  [(ngModel)]="commentMRD"></textarea>
             <div class="sub_title">
                 Detected variants&nbsp;&nbsp;
                 <button class="btn btn_01 m-r-3" (click)="addNewRow()">추가</button>
@@ -669,12 +670,13 @@
                 </table>
   
                 <div class="sub_title" >Comment</div>
-                <div class="pd_r20">
+                <pre class="textarea_01 preTextarea">{{commentInitial}}</pre>
+                <!-- <div class="pd_r20">
                     <textarea class="textarea_01" *ngIf="bcellLPE555LPE556.length">* Clonal {{geneType}} read depth를 전체 {{geneType}} read depth로 나눈 값으로 B 세포 중의 클론의 비율을 의미합니다.
                     </textarea>
                     <textarea class="textarea_01" *ngIf="pcellLPE557.length">* Clonal {{geneType}} read depth를 전체 {{geneType}} read depth로 나눈 값으로 T 세포 중의 클론의 비율을 의미합니다.
                     </textarea>
-                </div> 
+                </div>  -->
                 <hr class="mg_t30 mg_b20"/>
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr>
@@ -845,6 +847,9 @@
                 </table>
     
                 <div class="sub_title">Comment</div>
+                <pre class="textarea_01 preTextarea">{{commentMRD}}</pre>
+                
+                <!-- 
                 <div class="pd_r20">
                     <table cellpadding="0" cellspacing="0" class="table_result02">
                         <colgroup>
@@ -893,7 +898,7 @@
                     </table>
                   
                 </div>
-    
+                -->
     
                 <hr class="mg_t30 mg_b20" />
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">

@@ -12,6 +12,7 @@ import { IgtcrService } from '../igtcr.services';
 import * as moment from 'moment';
 import { PatientsListService } from 'src/app/home/services/patientslist';
 import { UtilsService } from '../../commons/utils.service';
+import { initalComment, makeComment } from './commenttype.model';
 // import { EChartsOption } from 'echarts';
  
 
@@ -37,12 +38,9 @@ export class IgTcrSheetComponent implements OnInit {
   geneType = '';
   comment2B =' * Clonal ' + this.geneType +' read depth를 전체' + this.geneType +'read depth로 나눈 값으로 B 세포 중의 클론의 비율을 의미합니다.';
   comment2T = ' * Clonal ' + this.geneType +' read depth를 전체 ' + this.geneType +' read depth로 나눈 값으로 T 세포 중의 클론의 비율을 의미합니다.';
-//   commentMRD = `* Clonal IGH read depth를 전체 IGH read depth로 나눈 값으로 B 세포 중의 클론의 비율을 의미합니다.\n
-// ** LymphoQuant Internal Control (LQIC)을 이용하여 clonal IGH를 전체 유핵세포 내의 세포수 비율로 환산한 근사치입니다.\n
-// *** 검체 당 B 세포 100개 정도의 DNA(LymphoQuant Internal Control, LQIC)를 혼합하여 측정된 값을 변환한 것입니다.\n
-//   - PCR 증폭은 B 세포의 DNA양에 영향을 받으며 primer결합 부위 변이가 있는 경우 위음성을 보일 가능성이 있습니다.
-//   - 검사의 분석 민감도는 약  10<sup>-4</sup> ~ 10<sup>-5</sup>입니다.`;
- 
+  commentInitial = '';
+  commentMRD = '';
+
   densityTablePdf1CellFEquivalent1 = ''; // 첫번째 검사보고서
   densityTablePdf1CellFEquivalent2 = ''; // 두번째 검사보고서
   comment = '';
@@ -147,6 +145,7 @@ export class IgTcrSheetComponent implements OnInit {
     public service : IgtcrService,
     private patientsListService: PatientsListService,
     private utilsService: UtilsService,
+
   ){
     this.tablerowForm = this.fb.group({
       tableRows: this.fb.array(this.mockData.map(list => this.createRow(list))),
@@ -241,7 +240,8 @@ export class IgTcrSheetComponent implements OnInit {
         this.clonalTotalNuclelatedCell(index);
         this.totalCellEquivalent(index);
       });
-      
+      this.commentMRD =  makeComment(this.geneType,this.patientInfo.test_code) ;
+      this.commentInitial =  initalComment(this.geneType,this.patientInfo.test_code) ;
     });
     
     this.utilsService.getListsDig('IGTCR')
@@ -285,7 +285,7 @@ export class IgTcrSheetComponent implements OnInit {
     this.patientsListService.changescreenstatus( this.patientInfo.specimenNo,'3','3000', 'userid').subscribe(data => {
       this.saveAllData();
    });
-
+ 
     
     this.pdfFirstTitle = this.geneType + ' CLONALITY REPORT';
     this.pdfMDRTitle = this.geneType + ' MRD REPORT';
