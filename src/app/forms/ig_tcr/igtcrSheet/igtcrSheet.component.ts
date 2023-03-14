@@ -972,7 +972,7 @@ clonalTotalIGHReadDepth(index: number) {
   const reportDate = tableRows.at(index).get('report_date')?.value;
   const clonalTotalIGHReadDepth = this.getClonalTotalIGHReadDepth(index);
   tableRows.at(index).patchValue({ total_IGH_read_depth: clonalTotalIGHReadDepth});
-  // console.log('[703]', index, clonalTotalIGHReadDepth);
+  
     // LPE555 LPE556 B-Cells
   // LPE557 P-Cells
   if (this.patientInfo.test_code === 'LPE555' || this.patientInfo.test_code === 'LPE555') {
@@ -981,7 +981,7 @@ clonalTotalIGHReadDepth(index: number) {
     this.pcellLPE557 = clonalTotalIGHReadDepth;
   }
 
- // this.makeGraphclonalTotalIGHReadDepthData(index, reportDate, clonalTotalIGHReadDepth);
+ 
 
 }
 
@@ -1012,7 +1012,7 @@ clonalTotalNuclelatedCell(index: number) {
   const clonalTotalNuclelatedCell = this.getClonalTotalNuclelatedCell(index);
   tableRows.at(index).patchValue({ total_nucelated_cells: clonalTotalNuclelatedCell});
 
-  // this.makeGraphclonalTotalNuclelatedCellsData(index, reportDate,  clonalTotalNuclelatedCell);
+   
 
 }
 
@@ -1030,7 +1030,7 @@ getClonalTotalNuclelatedCell(index: number): string {
     totalReadCountReadOfLQIC = ((Number(totalReadCount)/Number(readOfLQIC)) / 36923) * 100;
   }
 
-  // const totalReadCountReadOfLQIC = ((Number(totalReadCount)/Number(readOfLQIC)) / 36923) * 100;
+  
   const totalRawCount = this.totalRawCount(index)
   const clonalTotalIGHReadDepth =  (totalRawCount / Number(totalReadCount))* 100;
   const clonalTotalNuclatedCell = (Number(totalReadCountReadOfLQIC) * Number(clonalTotalIGHReadDepth)).toFixed(4);
@@ -1060,8 +1060,7 @@ totalRawCount(index: number): number {
 totalCellEquivalent(index: number) {
   // 공식(rawCount sum / total_read_count) / (read_of_LQIC / total_read_count) * 100
   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
-  // const totalReadCount =  tableRows.at(index).get('total_read_count')?.value; // total read count
-  // const readOfLQIC =  tableRows.at(index).get('read_of_LQIC')?.value; // read of LQIC
+   
   const totalReadCount =  this.existComma(tableRows.at(index).get('total_read_count')?.value); // total read count
   const readOfLQIC =  this.existComma(tableRows.at(index).get('read_of_LQIC')?.value); // read of LQIC 
   const totalRawCount = this.totalRawCount(index);
@@ -1084,11 +1083,11 @@ makePDFData() {
   const clonalListsLength = this.clonalLists.length;
   const control = this.tablerowForm.get('tableRows') as FormArray;
 
-  // if ( clonalListsLength === 1) {
+  
     const totalIGHreadDepth = this.existComma(control.at(0).get('total_read_count')?.value);
     const clonalTotalIGHReadDepth = control.at(0).get('total_IGH_read_depth')?.value;
     const clonalCellEquivalent = control.at(0).get('total_cell_equipment')?.value;
-   // const ClonalCellSequence = control.at(0).get('sequence1')?.value;
+   
 
 
     const vregion1 = control.at(0).get('v_gene1')?.value;
@@ -1192,7 +1191,7 @@ makePDFData() {
       this.putFormWithoutgraph('10',vregion10,jregion10,length10,totalIGHreadDepth,clonalIGHDepth10,clonalTotalIGHReadDepth,clonalCellEquivalent,sequence10,percentTotalReads10);
     }
 
- // }
+ 
 
 }
 
@@ -1249,7 +1248,7 @@ makeGraphclonalTotalNuclelatedCellsData(index: number = 0, date: string = '',   
   } else {
     this.clonalTotalnuclelatedCellsData.unshift(Number(clonalTotalnuclelatedCells) /100);
   }
- // console.log('[1252] ==> ', this.clonalTotalnuclelatedCellsData);
+  
   this.updateGraphData();
 }
 
@@ -1371,7 +1370,7 @@ saveAllData() {
     this.patientInfo.recheck = this.recheck; // 확인자
     this.patientInfo.accept_date = this.requestDate; // 의뢰한 날자
 
-    // console.log('[저장][962]', formData);
+     
     this.firstReportDay = this.today2().replace(/-/g, '.'); 
     this.igTcrData = {
         specimenNo: this.patientInfo.specimenNo,
@@ -1456,7 +1455,7 @@ saveAllData() {
 
   //// 스크린판독 ////
 getStatus(index: number): boolean {
-    // console.log('[834][getStatus]', index, this.screenstatus);
+    
     if (index === 1) {  // 스크린 완료
       if (parseInt(this.screenstatus, 10) === 0) {
         return false;
