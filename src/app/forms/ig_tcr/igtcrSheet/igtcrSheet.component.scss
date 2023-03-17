@@ -144,8 +144,8 @@ table.st-01 .s-text-right {
   width: 500px;
   height: 40px;
   background-color: #fff;
-  margin-top: 60px;
-  font-size: 1rem;
+  margin-top: 24px;
+  font-size: 1.5rem;
   font-weight: bold;
   padding: 5px 0 15px 0;
 }
@@ -175,7 +175,7 @@ table.st-01 .s-text-right {
 #resultMRD {
   position: absolute;
   top: -100%;
-  right: 100%;
+  right: 0%;
   z-index: -9;
 }
 
@@ -233,4 +233,78 @@ table.st-01 .s-text-right {
 .sub_title {
   margin-top: 6px !important;
 }
+
+//////////////////////////////////
+.table_list tr td:nth-child(1),
+.table_list tr .fixhead:nth-child(1),
+.table_list tr td:nth-child(2),
+.table_list tr .fixhead:nth-child(2),
+.table_list tr td:nth-child(3),
+.table_list tr .fixhead:nth-child(3),
+.table_list tr td:nth-child(4),
+.table_list tr .fixhead:nth-child(4),
+.table_list tr td:nth-child(5),
+.table_list tr .fixhead:nth-child(5),
+.table_list tr td:nth-child(6),
+.table_list tr .fixhead:nth-child(6),
+.table_list tr td:nth-child(7),
+.table_list tr .fixhead:nth-child(7),
+.table_list tr td:nth-child(8),
+.table_list tr .fixhead:nth-child(8)
+  {
+
+  position: sticky;
+  background-color: white;
+}
+
+.table_list tr td:nth-child(1),
+.table_list tr .fixhead:nth-child(1)
+  {
+  left: 0;
+}
+
+.table_list tr td:nth-child(2),
+.table_list tr .fixhead:nth-child(2)
+  {
+  left: 21px;
+}
+
+.table_list tr td:nth-child(3),
+.table_list tr .fixhead:nth-child(3)
+  {
+  left: 171px;
+}
+
+.table_list tr td:nth-child(4),
+.table_list tr .fixhead:nth-child(4)
+  {
+  left: 192px;
+}
+
+.table_list tr td:nth-child(5),
+.table_list tr .fixhead:nth-child(5)
+  {
+  left: 295px;
+}
+
+.table_list tr td:nth-child(6),
+.table_list tr .fixhead:nth-child(6)
+  {
+  left: 398px;
+}
+
+.table_list tr td:nth-child(7),
+.table_list tr .fixhead:nth-child(7)
+  {
+  left: 501px;
+}
+
+.table_list tr td:nth-child(8),
+.table_list tr .fixhead:nth-child(8)
+  {
+  left: 561px;
+}
+
+
+ 
  

@@ -52,6 +52,7 @@ export interface IPatient {
   export interface IClonal {
     IGHV_mutation : string;
     bigo : string;
+    checked: boolean;
     cell_equipment1: string;
     cell_equipment2: string;
     cell_equipment3: string;

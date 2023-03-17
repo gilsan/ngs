@@ -57,9 +57,9 @@ import { ExamplementComponent } from './examplement/examplement.component';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    ClarityModule,
+    ClarityModule,  
+    DragDropModule,
     MaterialModule,
-    DragDropModule
   ],
   exports: [
     FormsComponent,

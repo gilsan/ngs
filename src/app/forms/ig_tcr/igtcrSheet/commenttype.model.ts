@@ -50,3 +50,10 @@ export  const  commentMRD = `* Clonal IGH read depth를 전체 IGH read depth로
     - PCR 증폭은 ${BTtype} 세포의 DNA양에 영향을 받으며 primer결합 부위 변이가 있는 경우 위음성을 보일 가능성이 있습니다.
       `;
   }
+
+
+
+  export function initialTestResult(geneType: string, clonalCountTitle: string) {
+
+    return `미세잔존질환(MRD) 추적에 적합한 ${geneType} 클론이 ${clonalCountTitle} 개 검출됩니다.`;
+  }
