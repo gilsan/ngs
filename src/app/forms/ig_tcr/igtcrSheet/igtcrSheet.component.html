@@ -598,7 +598,7 @@
     </div>
 </div>
 
-<!-- > - -->
+<!-- [disabled]="getStatus(3)" - -->
 
 </div>
 
@@ -867,18 +867,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                     <!-- 
-                                    <tr>
-                                        <td class="s-text-center">test</td>
-                                        <td class="s-text-center">test</td>
-                                        <td class="s-text-center">test</td>
-                                        <td class="s-text-center">test</td>
-                                        <td class="s-text-center">test</td>
-                                        <td class="s-text-center">test</td>
-                                        <td class="s-text-center">test</td>
-                                        <td class="s-text-center">test</td>
-                                    </tr> 
-                                -->             
+             
                                     <ng-container *ngFor="let list of mrdData; let i=index">
                                         <tr>
                                             <td class="s-text-center">{{list.dateSequence}}</td>

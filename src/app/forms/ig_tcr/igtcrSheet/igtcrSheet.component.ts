@@ -347,16 +347,12 @@ export class IgTcrSheetComponent implements OnInit {
  }
 
 
- createPdf20() {
-
- }
-
 
   createPdf() {
     this.screenstatus = '3';
     this.patientInfo.screenstatus = '3';
     this.patientsListService.changescreenstatus( this.patientInfo.specimenNo,'3','3000', 'userid').subscribe(data => {
-     this.saveAllData();
+     // this.saveAllData();
    });
  
     
@@ -1276,48 +1272,37 @@ makeMRDData() {
   const control = this.tablerowForm.get('tableRows') as FormArray;
   const tableLength = control.length -1;
   const rawValue = control.getRawValue();
-   
+  
   rawValue.forEach((item, index) => {
     
+        if (item.checked === false) {
     
-        if (index === tableLength) {
-          this.mrdData.push({
-            dateSequence: 'initial',
-            reportDate: item.report_date,
-            totalReadCount: item.total_read_count.replace(/,/g, ''),
-            readOfLQIC: item.read_of_LQIC,
-            totalBcellTcellCount :item.total_Bcell_Tcell_count.replace(/,/g, ''),
-            totalIGHReadDepth : item.total_IGH_read_depth,
-            totalNucelatedCells : item.total_IGH_read_depth,
-            totalCellEquipment : item.total_cell_equipment.replace(/,/g, ''),
-          });
-        } else {
-          this.mrdData.push({
-            dateSequence: tableLength - index + ' f/u',
-            reportDate: item.report_date,
-            totalReadCount: item.total_read_count.replace(/,/g, ''),
-            readOfLQIC: item.read_of_LQIC,
-            totalBcellTcellCount :item.total_Bcell_Tcell_count.replace(/,/g, ''),
-            totalIGHReadDepth : item.total_IGH_read_depth,
-            totalNucelatedCells : item.total_nucelated_cells,
-            totalCellEquipment : item.total_cell_equipment.replace(/,/g, ''),
-          });   
-    }
-
-    
+              if (index === tableLength) {
+                this.mrdData.push({
+                  dateSequence: 'initial',
+                  reportDate: item.report_date,
+                  totalReadCount: item.total_read_count.replace(/,/g, ''),
+                  readOfLQIC: item.read_of_LQIC,
+                  totalBcellTcellCount :item.total_Bcell_Tcell_count.replace(/,/g, ''),
+                  totalIGHReadDepth : item.total_IGH_read_depth,
+                  totalNucelatedCells : item.total_IGH_read_depth,
+                  totalCellEquipment : item.total_cell_equipment.replace(/,/g, ''),
+                });
+              } else {
+                this.mrdData.push({
+                  dateSequence: tableLength - index + ' f/u',
+                  reportDate: item.report_date,
+                  totalReadCount: item.total_read_count.replace(/,/g, ''),
+                  readOfLQIC: item.read_of_LQIC,
+                  totalBcellTcellCount :item.total_Bcell_Tcell_count.replace(/,/g, ''),
+                  totalIGHReadDepth : item.total_IGH_read_depth,
+                  totalNucelatedCells : item.total_nucelated_cells,
+                  totalCellEquipment : item.total_cell_equipment.replace(/,/g, ''),
+                });   
+            }
+        }
   });
-
-  // this.mrdData.push({
-  //   dateSequence: 'initial',
-  //   reportDate: '2023-02-03',
-  //   totalReadCount: '1111',
-  //   readOfLQIC: '22222',
-  //   totalBcellTcellCount :'3333',
-  //   totalIGHReadDepth : '444',
-  //   totalNucelatedCells : '5555',
-  //   totalCellEquipment : '6666',
-  // });
-     
+   
 }
 //////////////////////////////////////////////////////////////////////
 // 그래프 데이타
@@ -1350,7 +1335,7 @@ getAllData() {
   const len = formValue.length -1;
 
   formValue.forEach( (item, index) => {
-    //  if (item.checked === false ) {
+      if (item.checked === false ) {
         this.makeGraphclonalTotalIGHReadDepthData(index, item.report_date, item.total_IGH_read_depth );
         if (index === len) {
           this.makeGraphclonalTotalNuclelatedCellsData(index,item.date, item.total_IGH_read_depth);
@@ -1358,7 +1343,7 @@ getAllData() {
           this.makeGraphclonalTotalNuclelatedCellsData(index,item.date, item.total_nucelated_cells);
         }
         
-     // }
+      }
 
   });
 
