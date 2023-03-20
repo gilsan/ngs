@@ -124,6 +124,7 @@ export interface IPatient {
     total_cell_equipment: string;
     total_nucelated_cells: string;
     total_read_count: string;
+    use_yn1: boolean;
     v_gene1: string;
     v_gene2: string;
     v_gene3: string;
@@ -145,6 +146,11 @@ export interface IPatient {
       sendEMRDate: string;
       report_date: string;
       comment: string;
+      init_result1: string;
+      init_result2: string;
+      init_comment: string;
+      fu_result: string;
+      fu_comment: string;
       data: IClonal[]
     }
 

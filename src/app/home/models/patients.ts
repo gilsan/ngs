@@ -50,6 +50,12 @@ export interface IPatient {
   gbn?: string;
   saveyn?: string;
   comment?: string;
+  init_result1?: string;
+  init_result2?: string;
+  init_comment?: string;
+  fu_result?: string;
+  fu_comment?: string;
+ 
 }
 
 export interface IProfile {

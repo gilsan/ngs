@@ -59,6 +59,7 @@ export class MainListsComponent implements OnInit {
 
     this.service.igtcrListsSearch(start, end,this.specimenNo, this.patientid, patientname, status, sheet, research1).subscribe((data: IPatient[]) => {
       if (data.length) {
+        
         this.lists = data;
       } else {
         this.lists = [];

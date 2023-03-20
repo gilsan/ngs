@@ -88,7 +88,8 @@ export class IgTcrSheetComponent implements OnInit {
     screenstatus: '',
     recheck: '',
     examin: '',
-    comment: ''
+    comment: '',
+ 
   };
 
   mockData: IClonal[] = [];
@@ -139,6 +140,11 @@ export class IgTcrSheetComponent implements OnInit {
     comment: '',
     sendEMRDate: this.patientInfo.sendEMRDate,
     report_date: this.patientInfo.sendEMRDate,
+    init_result1: '',
+    init_result2: '',
+    init_comment: '',
+    fu_result: '',
+    fu_comment: '',
     data:  []
   };
 
@@ -247,7 +253,17 @@ export class IgTcrSheetComponent implements OnInit {
       this.commentMRD =  makeComment(this.geneType,this.patientInfo.test_code) ;
       this.commentInitial =  initalComment(this.geneType,this.patientInfo.test_code) ;
 
-      this.btCells();
+      if (this.patientInfo.init_result1.length) {
+        this.initialTestResult = this.patientInfo.init_result1;
+        this.initialAddComment = this.patientInfo.init_result2;
+        this.commentInitial = this.patientInfo.init_comment;
+      }  else if (this.patientInfo.fu_comment.length) {
+        this.initialAddComment = this.patientInfo.fu_result;
+        this.commentMRD = this.patientInfo.fu_comment;
+      } else {
+        this.btCells();
+      }
+      
     });
     
     this.utilsService.getListsDig('IGTCR')
@@ -544,7 +560,7 @@ createRow(item: IClonal): FormGroup {
   return this.fb.group({
     IGHV_mutation : [item.IGHV_mutation],
     bigo : [item.bigo],
-    checked: [false],
+    checked: [item.use_yn1],
     cell_equipment1: [item.cell_equipment1],
     cell_equipment2: [item.cell_equipment2],
     cell_equipment3: [item.cell_equipment3],
@@ -1389,7 +1405,7 @@ updateGraphData() {
 }
 ////////////////////////////////////////////////////////////////////////
 increaseClonal() {
-    console.log('[칸번호]: ', this.clonalNo);
+    
     if (this.clonalNo >= 3 && this.clonalNo <= 10) {
       if (this.clonalNo !== 10) {
         this.clonalNo++;
@@ -1442,18 +1458,35 @@ saveAllData() {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
 
+    let init_result1= '';
+    let init_result2= '';
+    let init_comment= '';
+    let fu_result= '';
+    let fu_comment  = '';
     // 삭제된 것 추가함.
     if (this.deletedClonalLists.length) {
       this.deletedClonalLists.forEach(item => {
         formData.push(item);
       });
-
     }
-   
+    console.log('[1462]: ', control.length);
     // 환자정보 저장
     this.patientInfo.examin = this.examin; // 검사자
     this.patientInfo.recheck = this.recheck; // 확인자
     this.patientInfo.accept_date = this.requestDate; // 의뢰한 날자
+    // 멘트저장
+    // initialAddComment
+    //   getFormControls.length === 1" initialTestResult commentInitial  
+    //   getFormControls.length > 1"  [ commentMRD 
+    if (control.length === 1) {
+      init_result1 = this.initialTestResult;
+      init_result2 = this.initialAddComment;
+      init_comment = this.commentInitial;
+    } else {
+      fu_result = this.initialAddComment;
+      fu_comment = this.commentMRD;
+    }
+
 
      
     this.firstReportDay = this.today2().replace(/-/g, '.'); 
@@ -1465,6 +1498,11 @@ saveAllData() {
         sendEMRDate: this.firstReportDay,
         report_date: '',
         comment: this.comment,
+        init_result1,
+        init_result2,
+        init_comment,
+        fu_result,
+        fu_comment,
         data:  formData
       };
     
@@ -1623,8 +1661,8 @@ mrdAddCommentChange(contents: string) {
 
 boxstatus(i: number, event: any) {
   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
-  tableRows.at(i).patchValue({ checked: event.target.checked});
-  const checked = tableRows.at(i).get('checked').value;
+  tableRows.at(i).patchValue({ use_yn1: event.target.checked});
+  // const checked = tableRows.at(i).get('checked').value;
   // console.log('[1631][checkbox]',i, event.target.checked, tableRows.getRawValue());
 }
 
