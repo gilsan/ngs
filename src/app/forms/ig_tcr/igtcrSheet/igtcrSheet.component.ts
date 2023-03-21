@@ -556,11 +556,11 @@ export class IgTcrSheetComponent implements OnInit {
 
 ///////////////////////////////////////
 createRow(item: IClonal): FormGroup {
-
+   
   return this.fb.group({
     IGHV_mutation : [item.IGHV_mutation],
     bigo : [item.bigo],
-    checked: [item.use_yn1],
+    use_yn1: [item.use_yn1.toString() === "true"? true: false],
     cell_equipment1: [item.cell_equipment1],
     cell_equipment2: [item.cell_equipment2],
     cell_equipment3: [item.cell_equipment3],
@@ -651,7 +651,7 @@ makeNewRow(): FormGroup  {
   return this.fb.group({
     IGHV_mutation : [''],
     bigo : [''],
-    checked: [false],
+    use_yn1: [false],
     cell_equipment1: [''],
     cell_equipment2: [''],
     cell_equipment3: [''],
@@ -1291,7 +1291,7 @@ makeMRDData() {
   
   rawValue.forEach((item, index) => {
     
-        if (item.checked === false) {
+        if (item.use_yn1 === false) {
     
               if (index === tableLength) {
                 this.mrdData.push({
@@ -1351,7 +1351,7 @@ getAllData() {
   const len = formValue.length -1;
 
   formValue.forEach( (item, index) => {
-      if (item.checked === false ) {
+      if (item.use_yn1 === false ) {
         this.makeGraphclonalTotalIGHReadDepthData(index, item.report_date, item.total_IGH_read_depth );
         if (index === len) {
           this.makeGraphclonalTotalNuclelatedCellsData(index,item.date, item.total_IGH_read_depth);
@@ -1469,7 +1469,7 @@ saveAllData() {
         formData.push(item);
       });
     }
-    console.log('[1462]: ', control.length);
+    
     // 환자정보 저장
     this.patientInfo.examin = this.examin; // 검사자
     this.patientInfo.recheck = this.recheck; // 확인자
@@ -1509,7 +1509,7 @@ saveAllData() {
       this.service.igtSave(this.igTcrData).subscribe(data => {
         if (data.message === 'OK') {
           alert('저장 했습니다.');
-          this.saveAfterRender(); // 임시
+         // this.saveAfterRender(); // 임시
         } else {
           alert('저장 실패.');
         }
@@ -1662,8 +1662,7 @@ mrdAddCommentChange(contents: string) {
 boxstatus(i: number, event: any) {
   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
   tableRows.at(i).patchValue({ use_yn1: event.target.checked});
-  // const checked = tableRows.at(i).get('checked').value;
-  // console.log('[1631][checkbox]',i, event.target.checked, tableRows.getRawValue());
+   
 }
 
  

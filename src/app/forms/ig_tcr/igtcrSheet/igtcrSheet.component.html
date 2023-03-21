@@ -343,7 +343,7 @@
                                         <input type="date" class="input_01" #start [value]="startToday()" formControlName='report_date' style="width:150px;" />
                                     </td>
                                     <td>
-                                        <input type="checkbox"  class="ckbox"  formControlName="checked"   (change)="boxstatus(i, $event)">
+                                        <input type="checkbox"  class="ckbox"  formControlName="use_yn1"   (change)="boxstatus(i, $event)">
                                     </td>
                                     <td>
                                         <input type="text" size="10" size="10" class="clr-input textcenter"  #genetype (change)="changeGeneType(genetype.value)" formControlName="gene">
@@ -649,7 +649,8 @@
                     <tbody>
                         <tr>
                             <td colspan="2">
-                                미세잔존질환(MRD) 추적에 적합한 {{geneType}} 클론이 {{clonalCountTitle}} 개 검출됩니다.
+                                {{initialTestResult}}
+                               <!-- 미세잔존질환(MRD) 추적에 적합한 {{geneType}} 클론이 {{clonalCountTitle}} 개 검출됩니다. -->
                             </td>
                         </tr>
                         <tr>
