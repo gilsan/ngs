@@ -395,7 +395,7 @@
           <ng-container  *ngIf="gubun === 'AMLALL' || gubun === 'LYM' || gubun === 'MDS'">
               <form  [formGroup]="amlForm">
                       <table border="0" cellpadding="0" cellspacing="0" class="header-fix table_list"
-                         style="min-width:2600px; width:100%">
+                         style="min-width:2700px; width:100%">
                       	<colgroup>
                               <col width="3%" />
                               <col width="5%" />
@@ -410,10 +410,10 @@
                               <col width="5%" />
                               <col width="5%" />
                               <col width="5%" />
+                              <col width="*" />
+                              <col width="*" />
                               <col width="5%" />
-                              <col width="5%" />
-                              <col width="5%" />
-                              <col width="5%"/>
+                              <col width="10%"/>
                           </colgroup>
                           <thead>
                               <tr>
@@ -433,7 +433,7 @@
                                   <th >Sanger</th>
                                   <th>등록인</th>
                                   <th>등록일</th>
-                                  <th >수정/삭제</th>
+                                  <th>수정/삭제</th>
                               </tr>
                           </thead>
                           <tbody>
@@ -481,7 +481,7 @@
                                   </td>
                                   <td class="txt_c"><input type="text"  class="clr-input" formControlName="user_nm" readonly></td>
                                   <td class="txt_c"><input type="text"  class="clr-input" formControlName="savetime" readonly></td>
-                                  <td class="txt_c">
+                                  <td class="txt_c actionBtn" style="width: 120px;">
                                         <button class="btn-save"  (click)="amlSave(i)">저장</button>&nbsp;&nbsp;
                                         <button class="btn-delete" (click)="amlDelete(i)">삭제</button>
                                   </td>

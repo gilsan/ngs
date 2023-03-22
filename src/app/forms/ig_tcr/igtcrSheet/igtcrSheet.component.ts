@@ -13,6 +13,7 @@ import * as moment from 'moment';
 import { PatientsListService } from 'src/app/home/services/patientslist';
 import { UtilsService } from '../../commons/utils.service';
 import { initalComment, initialTestResult, makeComment } from './commenttype.model';
+import { MAT_CHECKBOX_CLICK_ACTION, MAT_CHECKBOX_DEFAULT_OPTIONS_FACTORY } from '@angular/material/checkbox';
  
  
 
@@ -584,16 +585,16 @@ createRow(item: IClonal): FormGroup {
     j_gene9: [item.j_gene9],
     j_gene10: [item.j_gene10],
     percent_of_LQIC: [item.percent_of_LQIC],
-    percent_total_reads1: [item.percent_total_reads1],
-    percent_total_reads2: [item.percent_total_reads2],
-    percent_total_reads3: [item.percent_total_reads3],
-    percent_total_reads4: [item.percent_total_reads4],
-    percent_total_reads5: [item.percent_total_reads5],
-    percent_total_reads6: [item.percent_total_reads6],
-    percent_total_reads7: [item.percent_total_reads7],
-    percent_total_reads8: [item.percent_total_reads8],
-    percent_total_reads9: [item.percent_total_reads9],
-    percent_total_reads10: [item.percent_total_reads10],
+    percent_total_reads1: [item.percent_total_reads1 ],
+    percent_total_reads2: [item.percent_total_reads2 ],
+    percent_total_reads3: [item.percent_total_reads3 ],
+    percent_total_reads4: [item.percent_total_reads4 ],
+    percent_total_reads5: [item.percent_total_reads5 ],
+    percent_total_reads6: [item.percent_total_reads6 ],
+    percent_total_reads7: [item.percent_total_reads7 ],
+    percent_total_reads8: [item.percent_total_reads8 ],
+    percent_total_reads9: [item.percent_total_reads9 ],
+    percent_total_reads10: [item.percent_total_reads10 ],
     raw_count1: [item.raw_count1],
     raw_count2: [item.raw_count2],
     raw_count3: [item.raw_count3],
@@ -764,19 +765,24 @@ formControls(): FormArray {
 
 get getFormControls(): FormArray {
   const control = this.tablerowForm.get('tableRows') as FormArray;
-
+  const val = control.getRawValue();
+   
   return control;
 }
 //////////////////////////////////////////////////////////////////////////
 existComma( checkData: string): string {
   let resultValue = '';
-  const exist = checkData.indexOf(',');
-  if (exist !== -1) {
-    resultValue = checkData.replace(/,/g, '');
-  } else {
-    resultValue = checkData;
+  if (checkData !== null) {
+    const exist = checkData.indexOf(',');
+    if (exist !== -1) {
+      resultValue = checkData.replace(/,/g, '');
+    } else {
+      resultValue = checkData;
+    }
+    return resultValue;
   }
-  return resultValue;
+  return;
+
 }
 
 /////////////////  각종 식  /////////////////////////////////////////////////////////////
@@ -876,7 +882,7 @@ totalBcellTcellCount(index: number, totalReadCount: number, readOfLQIC: number) 
 // Raw count1 변경시  percent % total reads1 = Raw count1 / Total read count
 // % total reads 1 - 10 에 값 넣음
 rawCount1(index: number , rawcount1wComma: string) {
-  console.log('[658][rawCount1]', rawcount1wComma);
+  
   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
   const totalReadCount =  Number(this.existComma(tableRows.at(index).get('total_read_count')?.value));
   const rawcount1 = this.existComma(rawcount1wComma);
@@ -1017,34 +1023,85 @@ cellEquivalent(index: number, percentTotalReads: number, percentOfLQIC: number, 
 
         if (clonalNo === 1) {
           const rawCount1 =  this.existComma(tableRows.at(index).get('raw_count1')?.value);
-          tableRows.at(index).patchValue({ cell_equipment1: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount1))});
+
+          // tableRows.at(index).patchValue({ cell_equipment1: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount1))});
+          if (Number.isNaN(parseInt(rawCount1))) {
+            tableRows.at(index).patchValue({ cell_equipment1:0});
+          } else {
+            tableRows.at(index).patchValue({ cell_equipment1: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount1))});
+          }
         } else if (clonalNo === 2) {
           const rawCount2 =  this.existComma(tableRows.at(index).get('raw_count2')?.value);
-          tableRows.at(index).patchValue({ cell_equipment2: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount2))});
+          // tableRows.at(index).patchValue({ cell_equipment2: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount2))});
+          if (Number.isNaN(parseInt(rawCount2))) {
+            tableRows.at(index).patchValue({ cell_equipment2:0});
+          } else {
+            tableRows.at(index).patchValue({ cell_equipment2: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount2))});
+          }          
         }  else if (clonalNo === 3) {
           const rawCount3 =  this.existComma(tableRows.at(index).get('raw_count3')?.value);
-          tableRows.at(index).patchValue({ cell_equipment3: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount3))});
+          // tableRows.at(index).patchValue({ cell_equipment3: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount3))});
+          if (Number.isNaN(parseInt(rawCount3))) {
+            tableRows.at(index).patchValue({ cell_equipment3:0});
+          } else {
+            tableRows.at(index).patchValue({ cell_equipment3: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount3))});
+          }
         } else if (clonalNo === 4) {
           const rawCount4 =  this.existComma(tableRows.at(index).get('raw_count4')?.value);
-          tableRows.at(index).patchValue({ cell_equipment4: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount4))});
+          // tableRows.at(index).patchValue({ cell_equipment4: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount4))});
+          if (Number.isNaN(parseInt(rawCount4))) {
+            tableRows.at(index).patchValue({ cell_equipment4:0});
+          } else {
+            tableRows.at(index).patchValue({ cell_equipment4: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount4))});
+          }         
         } else if (clonalNo === 5) {
           const rawCount5 =  this.existComma(tableRows.at(index).get('raw_count5')?.value);
-          tableRows.at(index).patchValue({ cell_equipment5: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount5))});
+          // tableRows.at(index).patchValue({ cell_equipment5: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount5))});
+          if (Number.isNaN(parseInt(rawCount5))) {
+            tableRows.at(index).patchValue({ cell_equipment5:0});
+          } else {
+            tableRows.at(index).patchValue({ cell_equipment5: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount5))});
+          }
         } else if (clonalNo === 6) {
           const rawCount6 =  (tableRows.at(index).get('raw_count6')?.value);
-          tableRows.at(index).patchValue({ cell_equipment6: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount6))});
+          // tableRows.at(index).patchValue({ cell_equipment6: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount6))});
+          if (Number.isNaN(parseInt(rawCount6))) {
+            tableRows.at(index).patchValue({ cell_equipment6:0});
+          } else {
+            tableRows.at(index).patchValue({ cell_equipment6: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount6))});
+          }
         } else if (clonalNo === 7) {
           const rawCount7 =  (tableRows.at(index).get('raw_count7')?.value);
-          tableRows.at(index).patchValue({ cell_equipment7: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount7))});
+          // tableRows.at(index).patchValue({ cell_equipment7: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount7))});
+          if (Number.isNaN(parseInt(rawCount7))) {
+            tableRows.at(index).patchValue({ cell_equipment7:0});
+          } else {
+            tableRows.at(index).patchValue({ cell_equipment7: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount7))});
+          }
         } else if (clonalNo === 8) {
           const rawCount8 =  tableRows.at(index).get('raw_count8')?.value;
-          tableRows.at(index).patchValue({ cell_equipment8: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount8))});
+          //tableRows.at(index).patchValue({ cell_equipment8: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount8))});
+          if (Number.isNaN(parseInt(rawCount8))) {
+            tableRows.at(index).patchValue({ cell_equipment8:0});
+          } else {
+            tableRows.at(index).patchValue({ cell_equipment8: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount8))});
+          }
         } else if (clonalNo === 9) {
           const rawCount9 =  this.existComma(tableRows.at(index).get('raw_count9')?.value);
-          tableRows.at(index).patchValue({ cell_equipment9: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount9))});
+          // tableRows.at(index).patchValue({ cell_equipment9: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount9))});
+          if (Number.isNaN(parseInt(rawCount9))) {
+            tableRows.at(index).patchValue({ cell_equipment9:0});
+          } else {
+            tableRows.at(index).patchValue({ cell_equipment9: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount9))});
+          }
         } else if (clonalNo === 10) {
           const rawCount10 =  this.existComma(tableRows.at(index).get('raw_count10')?.value);
-          tableRows.at(index).patchValue({ cell_equipment10: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount10))});
+          // tableRows.at(index).patchValue({ cell_equipment10: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount10))});
+          if (Number.isNaN(parseInt(rawCount10))) {
+            tableRows.at(index).patchValue({ cell_equipment10:0});
+          } else {
+            tableRows.at(index).patchValue({ cell_equipment10: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount10))});
+          }
         }
 }
 
@@ -1059,7 +1116,16 @@ clonalTotalIGHReadDepth(index: number) {
   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
   const reportDate = tableRows.at(index).get('report_date')?.value;
   const clonalTotalIGHReadDepth = this.getClonalTotalIGHReadDepth(index);
-  tableRows.at(index).patchValue({ total_IGH_read_depth: clonalTotalIGHReadDepth});
+
+  // 
+  // tableRows.at(index).patchValue({ total_IGH_read_depth: clonalTotalIGHReadDepth});
+  if (Number.isNaN(parseInt(clonalTotalIGHReadDepth))) {
+    tableRows.at(index).patchValue({ total_IGH_read_depth:  0});
+  } else {
+    tableRows.at(index).patchValue({ total_IGH_read_depth: clonalTotalIGHReadDepth});
+  }
+
+
   
     // LPE555 LPE556 B-Cells
   // LPE557 P-Cells
@@ -1076,19 +1142,30 @@ clonalTotalIGHReadDepth(index: number) {
 getClonalTotalIGHReadDepth(index: number): string {
     const tableRows = this.tablerowForm.get('tableRows') as FormArray;
     const totalReadCount  =  this.existComma(tableRows.at(index).get('total_read_count')?.value);
-    const rawCount1 =  this.existComma(tableRows.at(index).get('raw_count1')?.value);
-    const rawCount2 =  this.existComma(tableRows.at(index).get('raw_count2')?.value);
-    const rawCount3 =  this.existComma(tableRows.at(index).get('raw_count3')?.value);
-    const rawCount4 =  this.existComma(tableRows.at(index).get('raw_count4')?.value);
-    const rawcount5 =  this.existComma(tableRows.at(index).get('raw_count5')?.value);
-    const rawCount6 =  this.existComma(tableRows.at(index).get('raw_count6')?.value);
-    const rawcount7 =  this.existComma(tableRows.at(index).get('raw_count7')?.value);
-    const rawCount8 =  this.existComma(tableRows.at(index).get('raw_count8')?.value);
-    const rawCount9 =  this.existComma(tableRows.at(index).get('raw_count9')?.value);
-    const rawCount10 = this.existComma(tableRows.at(index).get('raw_count10')?.value);
+    let rawCount1 =  this.existComma(tableRows.at(index).get('raw_count1')?.value);
+    let rawCount2 =  this.existComma(tableRows.at(index).get('raw_count2')?.value);
+    let rawCount3 =  this.existComma(tableRows.at(index).get('raw_count3')?.value);
+    let rawCount4 =  this.existComma(tableRows.at(index).get('raw_count4')?.value);
+    let rawCount5 =  this.existComma(tableRows.at(index).get('raw_count5')?.value);
+    let rawCount6 =  this.existComma(tableRows.at(index).get('raw_count6')?.value);
+    let rawCount7 =  this.existComma(tableRows.at(index).get('raw_count7')?.value);
+    let rawCount8 =  this.existComma(tableRows.at(index).get('raw_count8')?.value);
+    let rawCount9 =  this.existComma(tableRows.at(index).get('raw_count9')?.value);
+    let rawCount10 = this.existComma(tableRows.at(index).get('raw_count10')?.value);
 
-    const totalRawCount =(Number(rawCount1) + Number(rawCount2) + Number(rawCount3) + Number(rawCount4) + Number(rawcount5) +
-       Number(rawCount6) + Number(rawcount7) + Number(rawCount8) + Number(rawCount9) + Number(rawCount10));
+    if (Number.isNaN(parseInt(rawCount1))) {   rawCount1 = '0'; }
+    if (Number.isNaN(parseInt(rawCount2))) {  rawCount2 = '0';  }
+    if (Number.isNaN(parseInt(rawCount3))) {  rawCount3 = '0';  }
+    if (Number.isNaN(parseInt(rawCount4))) {  rawCount4 = '0';  }
+    if (Number.isNaN(parseInt(rawCount5))) {  rawCount5 = '0';  }
+    if (Number.isNaN(parseInt(rawCount6))) {  rawCount6 = '0';  }
+    if (Number.isNaN(parseInt(rawCount7))) {  rawCount7 = '0';  }
+    if (Number.isNaN(parseInt(rawCount8))) {  rawCount8 = '0';  }
+    if (Number.isNaN(parseInt(rawCount9))) {   rawCount9 = '0'; }
+    if (Number.isNaN(parseInt(rawCount10))) { rawCount10 = '0'; }
+
+    const totalRawCount =(Number(rawCount1) + Number(rawCount2) + Number(rawCount3) + Number(rawCount4) + Number(rawCount5) +
+       Number(rawCount6) + Number(rawCount7) + Number(rawCount8) + Number(rawCount9) + Number(rawCount10));
        const totalIGH = (totalRawCount / Number(totalReadCount)* 100).toFixed(2);
     return totalIGH;
 }
@@ -1098,8 +1175,13 @@ clonalTotalNuclelatedCell(index: number) {
   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
   const reportDate = tableRows.at(index).get('report_date')?.value;
   const clonalTotalNuclelatedCell = this.getClonalTotalNuclelatedCell(index);
+  
+ // tableRows.at(index).patchValue({ total_nucelated_cells: clonalTotalNuclelatedCell});
+ if (Number.isNaN(parseInt(clonalTotalNuclelatedCell))) {
+  tableRows.at(index).patchValue({ total_nucelated_cells: 0});
+} else {
   tableRows.at(index).patchValue({ total_nucelated_cells: clonalTotalNuclelatedCell});
-
+}
    
 
 }
@@ -1127,19 +1209,30 @@ getClonalTotalNuclelatedCell(index: number): string {
 
 totalRawCount(index: number): number {
   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
-  const rawCount1 = this.existComma(tableRows.at(index).get('raw_count1')?.value);
-  const rawCount2 = this.existComma(tableRows.at(index).get('raw_count2')?.value);
-  const rawCount3 = this.existComma(tableRows.at(index).get('raw_count3')?.value);
-  const rawCount4 = this.existComma(tableRows.at(index).get('raw_count4')?.value);
-  const rawcount5 = this.existComma(tableRows.at(index).get('raw_count5')?.value);
-  const rawCount6 = this.existComma(tableRows.at(index).get('raw_count6')?.value);
-  const rawcount7 = this.existComma(tableRows.at(index).get('raw_count7')?.value);
-  const rawCount8 = this.existComma(tableRows.at(index).get('raw_count8')?.value);
-  const rawCount9 = this.existComma(tableRows.at(index).get('raw_count9')?.value);
-  const rawCount10 = this.existComma(tableRows.at(index).get('raw_count10')?.value);
+  let rawCount1 = this.existComma(tableRows.at(index).get('raw_count1')?.value);
+  let rawCount2 = this.existComma(tableRows.at(index).get('raw_count2')?.value);
+  let rawCount3 = this.existComma(tableRows.at(index).get('raw_count3')?.value);
+  let rawCount4 = this.existComma(tableRows.at(index).get('raw_count4')?.value);
+  let rawCount5 = this.existComma(tableRows.at(index).get('raw_count5')?.value);
+  let rawCount6 = this.existComma(tableRows.at(index).get('raw_count6')?.value);
+  let rawCount7 = this.existComma(tableRows.at(index).get('raw_count7')?.value);
+  let rawCount8 = this.existComma(tableRows.at(index).get('raw_count8')?.value);
+  let rawCount9 = this.existComma(tableRows.at(index).get('raw_count9')?.value);
+  let rawCount10 = this.existComma(tableRows.at(index).get('raw_count10')?.value);
 
-  const totalRawCount =(Number(rawCount1) + Number(rawCount2) + Number(rawCount3) + Number(rawCount4) + Number(rawcount5) +
-     Number(rawCount6) + Number(rawcount7) + Number(rawCount8) + Number(rawCount9) + Number(rawCount10));
+  if (Number.isNaN(parseInt(rawCount1))) {   rawCount1 = '0'; }
+  if (Number.isNaN(parseInt(rawCount2))) {  rawCount2 = '0';  }
+  if (Number.isNaN(parseInt(rawCount3))) {  rawCount3 = '0';  }
+  if (Number.isNaN(parseInt(rawCount4))) {  rawCount4 = '0';  }
+  if (Number.isNaN(parseInt(rawCount5))) {  rawCount5 = '0';  }
+  if (Number.isNaN(parseInt(rawCount6))) {  rawCount6 = '0';  }
+  if (Number.isNaN(parseInt(rawCount7))) {  rawCount7 = '0';  }
+  if (Number.isNaN(parseInt(rawCount8))) {  rawCount8 = '0';  }
+  if (Number.isNaN(parseInt(rawCount9))) {   rawCount9 = '0'; }
+  if (Number.isNaN(parseInt(rawCount10))) { rawCount10 = '0'; }
+
+  const totalRawCount =(Number(rawCount1) + Number(rawCount2) + Number(rawCount3) + Number(rawCount4) + Number(rawCount5) +
+     Number(rawCount6) + Number(rawCount7) + Number(rawCount8) + Number(rawCount9) + Number(rawCount10));
 
   return totalRawCount;
 }
@@ -1159,7 +1252,12 @@ totalCellEquivalent(index: number) {
   const totalReadCountRawCountTotalReadCount =  Number(totalReadCountTotalRawCount) * Number(totalReadCount);
   const cellEquivalent = ((Number(totalReadCountRawCountTotalReadCount) /Number(readOfLQIC)) * 100).toFixed(0);
 
-    tableRows.at(index).patchValue({ total_cell_equipment: cellEquivalent});
+    if (Number.isNaN(parseInt(cellEquivalent))) {
+      tableRows.at(index).patchValue({ total_cell_equipment: 0});
+    } else {
+      tableRows.at(index).patchValue({ total_cell_equipment: cellEquivalent});
+    }
+    
 }
 
 
