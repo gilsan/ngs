@@ -146,6 +146,7 @@ export class IgTcrSheetComponent implements OnInit {
     init_comment: '',
     fu_result: '',
     fu_comment: '',
+    detected: this.patientInfo.detected,
     data:  []
   };
 
@@ -209,6 +210,13 @@ export class IgTcrSheetComponent implements OnInit {
         if (this.patientInfo.recheck?.length) {
                 this.recheck = this.patientInfo.recheck;
             }
+
+            // 검체 감염유부 확인
+        if (parseInt(this.patientInfo.detected, 10) === 0) {
+          this.resultStatus = 'Detected';
+        } else if (parseInt(this.patientInfo.detected, 10) === 1) {
+          this.resultStatus = 'Not Detected';
+        }    
 
         this.requestDate = this.patientInfo.accept_date;   
         if (this.patientInfo.sendEMRDate !== undefined || this.patientInfo.sendEMRDate !== null) {
@@ -1588,6 +1596,7 @@ saveAllData() {
 
      
     this.firstReportDay = this.today2().replace(/-/g, '.'); 
+ 
     this.igTcrData = {
         specimenNo: this.patientInfo.specimenNo,
         method: this.patientInfo.reportTitle,
@@ -1601,6 +1610,7 @@ saveAllData() {
         init_comment,
         fu_result,
         fu_comment,
+        detected: this.resultStatus === "Detected" ? '0' : '1',
         data:  formData
       };
     

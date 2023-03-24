@@ -413,7 +413,7 @@
                               <col width="*" />
                               <col width="*" />
                               <col width="5%" />
-                              <col width="10%"/>
+                              <col width="120px"/>
                           </colgroup>
                           <thead>
                               <tr>
@@ -481,9 +481,11 @@
                                   </td>
                                   <td class="txt_c"><input type="text"  class="clr-input" formControlName="user_nm" readonly></td>
                                   <td class="txt_c"><input type="text"  class="clr-input" formControlName="savetime" readonly></td>
-                                  <td class="txt_c actionBtn" style="width: 120px;">
+                                  <td class="txt_c actionBtn">
+                                    
                                         <button class="btn-save"  (click)="amlSave(i)">저장</button>&nbsp;&nbsp;
                                         <button class="btn-delete" (click)="amlDelete(i)">삭제</button>
+                                                                 
                                   </td>
                               </tr>
                             </ng-container>

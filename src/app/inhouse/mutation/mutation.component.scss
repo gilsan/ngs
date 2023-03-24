@@ -102,5 +102,10 @@ caption {
 }
 
 .actionBtn {
-  width: 120px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  width: 120px !important;
 }
