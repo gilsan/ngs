@@ -1773,18 +1773,7 @@ boxstatus(i: number, event: any) {
    
 }
 
- movingRow() {
-  /*
-.table_list tr .moving:nth-child(1),
-.table_list tr .fixhead:nth-child(1)
-  {
-  left: 0;
-}
-
- // return { height: `${this.maxHeight}px` };
-
-*/
- }
+ 
  
 
 
