@@ -119,14 +119,18 @@
                     <form [formGroup]="tablerowForm">
                         <table class="table_list td-fix"style="text-align: center;">
                             <colgroup>
-                                <col class="fixhead" style="width:50px" />
-                                <col class="fixhead" style="width:50px"/>
-                                <col class="fixhead" style="width:50px"/>
-                                <col class="fixhead" style="width:50px"/>
-                                <col class="fixhead" style="width:50px"/>
-                                <col class="fixhead" style="width:50px"/>
-                                <col class="fixhead" style="width:50px"/>
-                                <col class="fixhead" style="width:50px"/>
+                                <col  style="width:50px" />
+                               
+                                <col   style="width:50px" />
+                                 
+                                <col   style="width:50px" />
+                                 
+                                <col  style="width:50px" />
+                                
+                                <col   style="width:50px"/>
+                                <col   style="width:50px"/>
+                                <col   style="width:50px"/>
+                                <col   style="width:50px"/>
                                 <!-- Clonal sequence 1 -->
                                 <col style="width:40px"/>
                                 <col style="width:30px"/>
@@ -218,14 +222,14 @@
                             </colgroup>
                         <thead>
                             <tr>
-                                <th class="fixhead" rowspan="2"></th>
-                                <th class="fixhead" rowspan="2">접수 Date</th>
-                                <th class="fixhead" rowspan="2"></th>
-                                <th class="fixhead" rowspan="2">gene</th>
-                                <th class="fixhead" rowspan="2">Total read<br/>count</th>
-                                <th class="fixhead" rowspan="2">Read<br/>of LQIC</th>
-                                <th class="fixhead" rowspan="2">%<br/>of LQIC</th>
-                                <th class="fixhead" rowspan="2">Total<br/>B-cell<br/>T-cell<br/>count</th>
+                                <th class="fixhead1" [class.moving1] ="getFormControls.length > 0? true: false" rowspan="2"></th>
+                                <th class="fixhead12" [class.moving2] ="getFormControls.length > 0? true: false" rowspan="2">접수 Date</th>
+                                <th class="fixhead1" [class.moving3] ="getFormControls.length > 0? true: false"   rowspan="2"></th>
+                                <th class="fixhead1" [class.moving4] ="getFormControls.length > 0? true: false" rowspan="2">gene</th>
+                                <th class="fixhead1" [class.moving5] ="getFormControls.length > 0? true: false" rowspan="2">Total read<br/>count</th>
+                                <th class="fixhead1" [class.moving6] ="getFormControls.length > 0? true: false" rowspan="2">Read<br/>of LQIC</th>
+                                <th class="fixhead1" [class.moving7] ="getFormControls.length > 0? true: false" rowspan="2">%<br/>of LQIC</th>
+                                <th class="fixhead1" [class.moving8] ="getFormControls.length > 0? true: false" rowspan="2">Total<br/>B-cell<br/>T-cell<br/>count</th>
                                 <!--  -->
                                 <th colspan="7">Clonal sequence 1</th>
                                 <th colspan="7">Clonal sequence 2</th>
@@ -336,26 +340,26 @@
                         <tbody>
                             <ng-container formArrayName="tableRows" *ngFor="let list of getFormControls.controls; let i=index">
                                 <tr [formGroupName]="i">
-                                    <td class="trash" (click)="removeTableRow(i)">
+                                    <td class="trash moving10" [class.moving1] ="getFormControls.length > 0? true: false" (click)="removeTableRow(i)">
                                         <img [src]="'assets/images/cancel.png'">
                                     </td>
-                                    <td>
+                                    <td class="moving10"  [class.moving2] ="getFormControls.length > 0? true: false">
                                         <input type="date" class="input_01" #start [value]="startToday()" formControlName='report_date' style="width:150px;" />
                                     </td>
-                                    <td>
+                                    <td class="moving10"  [class.moving3] ="getFormControls.length > 0? true: false">
                                         <input type="checkbox"  class="ckbox"  formControlName="use_yn1"   (change)="boxstatus(i, $event)">
                                     </td>
-                                    <td>
+                                    <td class="moving10"  [class.moving4] ="getFormControls.length > 0? true: false">
                                         <input type="text" size="10" size="10" class="clr-input textcenter"  #genetype (change)="changeGeneType(genetype.value)" formControlName="gene">
                                     </td>
-                                    <td>
+                                    <td class="moving10"  [class.moving5] ="getFormControls.length > 0? true: false">
                                         <input type="text" size="10" matInput class="clr-input textleft tdbox" formControlName="total_read_count" #totalReadcount (change)="totalReadCount(i,totalReadcount.value, list.get('read_of_LQIC')?.value)">
                                     </td>
-                                    <td>
+                                    <td class="moving10"  [class.moving6] ="getFormControls.length > 0? true: false">
                                         <input type="text" size="10" matInput class="clr-input textleft tdbox" formControlName="read_of_LQIC" #readOfLqic (change)="readOfLQIC(i, readOfLqic.value)">
                                     </td>
-                                    <td>{{list.get('percent_of_LQIC')?.value}}% </td>
-                                    <td>
+                                    <td class="moving10"  [class.moving7] ="getFormControls.length > 0? true: false">{{list.get('percent_of_LQIC')?.value}}% </td>
+                                    <td class="moving10"  [class.moving8] ="getFormControls.length > 0? true: false">
                                         {{list.get('total_Bcell_Tcell_count')?.value }}
                                     </td>
                                     <!--   Clonal sequence 1    -->

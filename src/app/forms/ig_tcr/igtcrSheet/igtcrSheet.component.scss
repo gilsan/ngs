@@ -257,53 +257,139 @@ table.st-01 .s-text-right {
   background-color: white;
 }
 
-.table_list tr td:nth-child(1),
+/*
+.table_list tr .fixhead:nth-child(1)
+.table_list tr td:first-child {
+ 
+  left: 0;
+  background-color: #fff;
+}
+
+.table_list tr td:first-child+td
+.table_list tr .fixhead:nth-child(2) {
+ 
+  left: 21px;
+  background-color: #fff;
+}
+
+.table_list tr td:first-child+td+td
+.table_list tr .fixhead:nth-child(3) {
+  
+  left: 171px;
+  background-color: #fff;
+}
+
+.table_list tr td:first-child+td+td+td
+.table_list tr .fixhead:nth-child(4) {
+ 
+  left: 192px;
+  background-color: #fff;
+}
+
+*/
+/*
+.table_list tr .moving:nth-child(1),
 .table_list tr .fixhead:nth-child(1)
   {
+
   left: 0;
 }
 
-.table_list tr td:nth-child(2),
+.table_list tr .moving:nth-child(2),
 .table_list tr .fixhead:nth-child(2)
   {
   left: 21px;
 }
 
-.table_list tr td:nth-child(3),
+.table_list tr .moving:nth-child(3),
 .table_list tr .fixhead:nth-child(3)
   {
   left: 171px;
 }
 
-.table_list tr td:nth-child(4),
+.table_list tr .moving:nth-child(4),
 .table_list tr .fixhead:nth-child(4)
   {
   left: 192px;
 }
 
-.table_list tr td:nth-child(5),
+.table_list tr .moving:nth-child(5),
 .table_list tr .fixhead:nth-child(5)
   {
   left: 295px;
 }
 
-.table_list tr td:nth-child(6),
+.table_list tr .moving:nth-child(6),
 .table_list tr .fixhead:nth-child(6)
   {
   left: 398px;
 }
 
-.table_list tr td:nth-child(7),
+.table_list tr .moving:nth-child(7),
 .table_list tr .fixhead:nth-child(7)
   {
   left: 501px;
 }
 
-.table_list tr td:nth-child(8),
+.table_list tr .moving:nth-child(8),
 .table_list tr .fixhead:nth-child(8)
   {
   left: 552px;
 }
+ */
+
+ .fixedhead12 {
+   width: 181px;
+ }
+
+.moving1 {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+}
+
+.moving2 {
+  position: sticky;
+  left: 21px;
+  z-index: 1;
+}
+
+.moving3 {
+  position: sticky;
+  left: 171px;
+  z-index: 1;
+}
+
+.moving4 {
+  position: sticky;
+  left:192px;
+  z-index: 1;
+}
+
+.moving5 {
+  position: sticky;
+  left:295px;
+  z-index: 1;
+}
+
+.moving6 {
+  position: sticky;
+  left: 398px;
+  z-index: 1;
+}
+
+.moving7 {
+  position: sticky;
+  left:  501px;
+  z-index: 1;
+}
+
+.moving8 {
+  position: sticky;
+  left: 552px;
+  z-index: 1;
+}
+
 
 
  
