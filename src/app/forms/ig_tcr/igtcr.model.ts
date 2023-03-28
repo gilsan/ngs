@@ -136,6 +136,7 @@ export interface IPatient {
     v_gene9: string;
     v_gene10: string;
     density: string;
+    deleted: string;
     }
     
     export interface ITcrData {
@@ -152,6 +153,7 @@ export interface IPatient {
       fu_result: string;
       fu_comment: string;
       detected: string;
+      patientid: string;
       data: IClonal[]
     }
 
@@ -207,4 +209,15 @@ export interface IPatient {
       code: string;
       report: string;
       type?: string;
+    }
+
+    export interface ISearch {
+      start: string;
+      end: string;
+      specimenNo : string;
+      patientid: string;
+      patientname: string;
+      status : string;
+      sheet: string;
+      research1: string;
     }

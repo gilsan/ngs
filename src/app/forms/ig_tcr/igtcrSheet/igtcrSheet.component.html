@@ -99,7 +99,7 @@
                         <td colspan="2">
                             <input type="text" size="150" class="clr-input textleft tdbox" 
                             #mrdAddCommentContents (change)="mrdAddCommentChange(mrdAddCommentContents.value)"
-                            [value]="mrdAddComment">
+                            [(ngModel)]="mrdAddComment"  [ngModelOptions]="{standalone: true}">
                         </td>
                     </tr>
                 </tbody>
@@ -669,6 +669,9 @@
                                 {{pcellLPE557}}% / total T-cells
                             </td>
                         </tr>
+                        <tr>
+                            <td colspan="2">{{initialAddComment}}</td>
+                        </tr>
                     </tbody>
                 </table>
 
@@ -839,6 +842,9 @@
                                     {{mrdPcellLPE557}}% / total T-cells , {{mrdnucleatedCells}}% / total nucleated cells
                                 </td>
                             </tr>
+                            <tr>
+                                <td colspan="2">{{mrdAddComment}}</td>
+                            </tr>
                         </tbody>
                     </table>
     
@@ -886,7 +892,7 @@
                                         </tr>
 
                                     </ng-container>
-                                  
+
                             </table>
                         </form> 
                     </div>

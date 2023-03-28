@@ -146,9 +146,12 @@ export class IgTcrSheetComponent implements OnInit {
     init_comment: '',
     fu_result: '',
     fu_comment: '',
+    patientid: '',
     detected: this.patientInfo.detected,
     data:  []
   };
+
+  checkedboxList: {index: number, gene: string} [] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -247,7 +250,7 @@ export class IgTcrSheetComponent implements OnInit {
       tap(data => this.clonalLists = data)
     )
     .subscribe(data => {
-      // console.log('[igtcrSheet][234]', data);
+      // console.log('[igtcrSheet][250][검사데이터]', data);
       this.clonalLists.forEach((item, index) => {
         if (index === 0) {
           if (item.gene.length) {
@@ -262,13 +265,16 @@ export class IgTcrSheetComponent implements OnInit {
       this.commentMRD =  makeComment(this.geneType,this.patientInfo.test_code) ;
       this.commentInitial =  initalComment(this.geneType,this.patientInfo.test_code) ;
 
+
+
       if (this.patientInfo.init_result1.length) {
         this.initialTestResult = this.patientInfo.init_result1;
         this.initialAddComment = this.patientInfo.init_result2;
         this.commentInitial = this.patientInfo.init_comment;
-      }  else if (this.patientInfo.fu_comment.length) {
-        this.initialAddComment = this.patientInfo.fu_result;
+        this.mrdAddComment = this.patientInfo.fu_result;
         this.commentMRD = this.patientInfo.fu_comment;
+      }  else if (this.patientInfo.fu_comment.length) {
+
       } else {
         this.btCells();
       }
@@ -581,7 +587,7 @@ createRow(item: IClonal): FormGroup {
     cell_equipment9: [item.cell_equipment9],
     cell_equipment10: [item.cell_equipment10],
     comment: [item.comment],
-    gene: [item.gene],
+    gene: [item.use_yn1.toString() === "true"? 'New Clonal' : item.gene],
     j_gene1: [item.j_gene1],
     j_gene2: [item.j_gene2],
     j_gene3: [item.j_gene3],
@@ -651,7 +657,8 @@ createRow(item: IClonal): FormGroup {
     v_gene8: [item.v_gene8],
     v_gene9: [item.v_gene9],
     v_gene10: [item.v_gene10],
-    density: [item.density]
+    density: [item.density],
+    deleted: [item.deleted]
   });
 }
 
@@ -742,7 +749,8 @@ makeNewRow(): FormGroup  {
     v_gene8: [''],
     v_gene9: [''],
     v_gene10: [''],
-    density: ['400']
+    density: ['400'],
+    deleted: ['n']
   });
 }
 
@@ -752,6 +760,7 @@ addNewRow(): void {
   const control = this.tablerowForm.get('tableRows') as FormArray;
   this.tableLength = control.length;
   control.insert(0, this.makeNewRow());
+  this.initialTestResult = initialTestResult(this.geneType, this.clonalCountTitle);
   // control.push(this.makeNewRow());
 }
 
@@ -761,6 +770,7 @@ addRow(item: IClonal): void {
 }
 
 removeTableRow(i: number): void {
+  this.formControls().at(i).patchValue({ deleted: 'y' });
   this.deletedClonalLists.push(this.formControls().at(i).value); 
   this.formControls().removeAt(i);
 }
@@ -1282,10 +1292,10 @@ makePDFData() {
     const clonalTotalIGHReadDepth = control.at(0).get('total_IGH_read_depth')?.value;
     const clonalCellEquivalent = control.at(0).get('total_cell_equipment')?.value;
    
+    console.log('[1289]', control.getRawValue(),  control.at(0).get('v_gene1')?.value);
 
-
-    const vregion1 = control.at(0).get('v_gene1')?.value;
-    const jregion1 = control.at(0).get('j_gene1')?.value;
+    const vregion1 = control.at(0).get('v_gene1')?.value ? control.at(0).get('v_gene1')?.value : "";
+    const jregion1 = control.at(0).get('j_gene1')?.value ? control.at(0).get('j_gene1')?.value : "";
     const length1  = control.at(0).get('sequence_length1')?.value;
     const clonalIGHDepth1  = Number(control.at(0).get('raw_count1')?.value);
     const sequence1 = control.at(0).get('sequence1')?.value;
@@ -1300,12 +1310,14 @@ makePDFData() {
     const percentTotalReads9 = control.at(0).get('percent_total_reads9')?.value;
     const percentTotalReads10 = control.at(0).get('percent_total_reads10')?.value;
 
+  
+
     if (vregion1.length !== 0 && jregion1.length !== 0) {
       this.putFormWithoutgraph('1',vregion1,jregion1,length1,totalIGHreadDepth,clonalIGHDepth1,clonalTotalIGHReadDepth,clonalCellEquivalent,sequence1,percentTotalReads1);
     }
 
-    const vregion2 = control.at(0).get('v_gene2')?.value;
-    const jregion2 = control.at(0).get('j_gene2')?.value;
+    const vregion2 = control.at(0).get('v_gene2')?.value ? control.at(0).get('v_gene2')?.value : "";
+    const jregion2 = control.at(0).get('j_gene2')?.value ? control.at(0).get('j_gene2')?.value : "";
     const length2  = control.at(0).get('sequence_length2')?.value;
     const clonalIGHDepth2  = Number(control.at(0).get('raw_count2')?.value);
     const sequence2 = control.at(0).get('sequence2')?.value;
@@ -1313,8 +1325,8 @@ makePDFData() {
       this.putFormWithoutgraph('2',vregion2,jregion2,length2,totalIGHreadDepth,clonalIGHDepth2,clonalTotalIGHReadDepth,clonalCellEquivalent,sequence2,percentTotalReads2);
     }
 
-    const vregion3 = control.at(0).get('v_gene3')?.value;
-    const jregion3 = control.at(0).get('j_gene3')?.value;
+    const vregion3 = control.at(0).get('v_gene3')?.value ? control.at(0).get('v_gene3')?.value : "";
+    const jregion3 = control.at(0).get('j_gene3')?.value ? control.at(0).get('j_gene3')?.value : "";
     const length3  = control.at(0).get('sequence_length3')?.value;
     const clonalIGHDepth3  = Number(control.at(0).get('raw_count3')?.value);
     const sequence3 = control.at(0).get('sequence3')?.value;
@@ -1322,8 +1334,8 @@ makePDFData() {
       this.putFormWithoutgraph('3',vregion3,jregion3,length3,totalIGHreadDepth,clonalIGHDepth3,clonalTotalIGHReadDepth,clonalCellEquivalent,sequence3,percentTotalReads3);
     }
 
-    const vregion4 = control.at(0).get('v_gene4')?.value;
-    const jregion4 = control.at(0).get('j_gene4')?.value;
+    const vregion4 = control.at(0).get('v_gene4')?.value ? control.at(0).get('v_gene5')?.value : "";
+    const jregion4 = control.at(0).get('j_gene4')?.value ? control.at(0).get('j_gene4')?.value : "";
     const length4  = control.at(0).get('sequence_length4')?.value;
     const clonalIGHDepth4  = Number(control.at(0).get('raw_count4')?.value);
     const sequence4 = control.at(0).get('sequence4')?.value;
@@ -1331,8 +1343,8 @@ makePDFData() {
       this.putFormWithoutgraph('4',vregion4,jregion4,length4,totalIGHreadDepth,clonalIGHDepth4,clonalTotalIGHReadDepth,clonalCellEquivalent,sequence4,percentTotalReads4);
     }
 
-    const vregion5 = control.at(0).get('v_gene5')?.value;
-    const jregion5 = control.at(0).get('j_gene5')?.value;
+    const vregion5 = control.at(0).get('v_gene5')?.value ? control.at(0).get('v_gene5')?.value : "";
+    const jregion5 = control.at(0).get('j_gene5')?.value ? control.at(0).get('j_gene5')?.value : "";
     const length5  = control.at(0).get('sequence_length5')?.value;
     const sequence5 = control.at(0).get('sequence5')?.value;
     const clonalIGHDepth5  = Number(control.at(0).get('raw_count5')?.value);
@@ -1340,8 +1352,8 @@ makePDFData() {
       this.putFormWithoutgraph('5',vregion5,jregion5,length5,totalIGHreadDepth,clonalIGHDepth5,clonalTotalIGHReadDepth,clonalCellEquivalent,sequence5,percentTotalReads5);
     }
 
-    const vregion6 = control.at(0).get('v_gene6')?.value;
-    const jregion6 = control.at(0).get('j_gene6')?.value;
+    const vregion6 = control.at(0).get('v_gene6')?.value ? control.at(0).get('v_gene6')?.value : "";
+    const jregion6 = control.at(0).get('j_gene6')?.value ? control.at(0).get('j_gene6')?.value : "";
     const length6  = control.at(0).get('sequence_length6')?.value;
     const clonalIGHDepth6  = Number(control.at(0).get('raw_count6')?.value);
     const sequence6 = control.at(0).get('sequence6')?.value;
@@ -1349,8 +1361,8 @@ makePDFData() {
       this.putFormWithoutgraph('6',vregion6,jregion6,length6,totalIGHreadDepth,clonalIGHDepth6,clonalTotalIGHReadDepth,clonalCellEquivalent,sequence6,percentTotalReads6);
     }
 
-    const vregion7 = control.at(0).get('v_gene7')?.value;
-    const jregion7 = control.at(0).get('j_gene7')?.value;
+    const vregion7 = control.at(0).get('v_gene7')?.value ? control.at(0).get('v_gene7')?.value : "";
+    const jregion7 = control.at(0).get('j_gene7')?.value ? control.at(0).get('j_gene7')?.value : "";
     const length7  = control.at(0).get('sequence_length7')?.value;
     const clonalIGHDepth7  = Number(control.at(0).get('raw_count7')?.value);
     const sequence7 = control.at(0).get('sequence7')?.value;
@@ -1358,8 +1370,8 @@ makePDFData() {
       this.putFormWithoutgraph('7',vregion7,jregion7,length7,totalIGHreadDepth,clonalIGHDepth7,clonalTotalIGHReadDepth,clonalCellEquivalent,sequence7,percentTotalReads7);
     }
 
-    const vregion8 = control.at(0).get('v_gene8')?.value;
-    const jregion8 = control.at(0).get('j_gene8')?.value;
+    const vregion8 = control.at(0).get('v_gene8')?.value ? control.at(0).get('v_gene8')?.value : "";
+    const jregion8 = control.at(0).get('j_gene8')?.value ? control.at(0).get('j_gene8')?.value : "";
     const length8  = control.at(0).get('sequence_length8')?.value;
     const clonalIGHDepth8  = Number(control.at(0).get('raw_count8')?.value);
     const sequence8 = control.at(0).get('sequence8')?.value;
@@ -1367,8 +1379,8 @@ makePDFData() {
       this.putFormWithoutgraph('8',vregion8,jregion8,length8,totalIGHreadDepth,clonalIGHDepth8,clonalTotalIGHReadDepth,clonalCellEquivalent,sequence8,percentTotalReads8);
     }
 
-    const vregion9 = control.at(0).get('v_gene9')?.value;
-    const jregion9 = control.at(0).get('j_gene9')?.value;
+    const vregion9 = control.at(0).get('v_gene9')?.value ? control.at(0).get('v_gene9')?.value : "";
+    const jregion9 = control.at(0).get('j_gene9')?.value ? control.at(0).get('j_gene9')?.value : "";
     const length9  = control.at(0).get('sequence_length9')?.value;
     const clonalIGHDepth9  = Number(control.at(0).get('raw_count9')?.value);
     const sequence9 = control.at(0).get('sequence9')?.value;
@@ -1376,8 +1388,8 @@ makePDFData() {
       this.putFormWithoutgraph('9',vregion9,jregion9,length9,totalIGHreadDepth,clonalIGHDepth9,clonalTotalIGHReadDepth,clonalCellEquivalent,sequence9,percentTotalReads9);
     }
 
-    const vregion10 = control.at(0).get('v_gene10')?.value;
-    const jregion10 = control.at(0).get('j_gene10')?.value;
+    const vregion10 = control.at(0).get('v_gene10')?.value ? control.at(0).get('v_gene10')?.value : "";
+    const jregion10 = control.at(0).get('j_gene10')?.value ? control.at(0).get('j_gene10')?.value : "";
     const length10  = control.at(0).get('sequence_length10')?.value;
     const clonalIGHDepth10  = Number(control.at(0).get('raw_count10')?.value);
     const sequence10 = control.at(0).get('sequence10')?.value;
@@ -1584,14 +1596,14 @@ saveAllData() {
     // initialAddComment
     //   getFormControls.length === 1" initialTestResult commentInitial  
     //   getFormControls.length > 1"  [ commentMRD 
-    if (control.length === 1) {
+    // if (control.length === 1) {
       init_result1 = this.initialTestResult;
       init_result2 = this.initialAddComment;
       init_comment = this.commentInitial;
-    } else {
-      fu_result = this.initialAddComment;
+    // } else {
+      fu_result = this.mrdAddComment;
       fu_comment = this.commentMRD;
-    }
+    //}
 
 
      
@@ -1611,6 +1623,7 @@ saveAllData() {
         fu_result,
         fu_comment,
         detected: this.resultStatus === "Detected" ? '0' : '1',
+        patientid: this.patientInfo.patientID,
         data:  formData
       };
     
@@ -1769,8 +1782,27 @@ mrdAddCommentChange(contents: string) {
 
 boxstatus(i: number, event: any) {
   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
-  tableRows.at(i).patchValue({ use_yn1: event.target.checked});
-   
+  const gene = tableRows.at(i).get('gene')?.value;  
+  // tableRows.at(i).patchValue({ use_yn1: event.target.checked, gene: 'New Clonal'});
+  // console.log('[1784]', event.target.checked);
+   if (event.target.checked === true) {
+    if (gene !== 'New Clonal') {
+      this.checkedboxList.push({index: i, gene});
+      tableRows.at(i).patchValue({ use_yn1: event.target.checked, gene: 'New Clonal'});
+    }
+ 
+   } else {
+     const result = this.checkedboxList.findIndex(item => item.index === i );
+     if (result !== -1) {
+      console.log('[1797]', result);
+      const oldgene = this.checkedboxList[result].gene;
+      this.checkedboxList.splice(result,1);
+      tableRows.at(i).patchValue({ use_yn1: event.target.checked, gene: oldgene});
+      console.log('[1798]', this.checkedboxList.length > 0? this.checkedboxList : '비엇음');
+     }
+     
+  }
+     
 }
 
  

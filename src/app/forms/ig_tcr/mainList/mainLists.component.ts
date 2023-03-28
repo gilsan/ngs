@@ -7,6 +7,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 import { IgtcrService } from '../igtcr.services';
 import { ResearchDialogComponent } from './research-dialog/researchTcr.component';
+import { IGTStoreService } from '../store';
 @Component({
   selector: 'app-main-lists',
   templateUrl: './mainLists.component.html',
@@ -22,14 +23,44 @@ export class MainListsComponent implements OnInit {
   patientid = '';
   lists: IPatient[] = [];
 
+  select0 = false;
+  select1 = false;
+  select2 = false;
+  select3 = false;
+  select5 = false;
+  select10 = false;
+  select100 = false;
+  lpeall = false;
+  lpe555 = false;
+  lpe556 = false;
+  lpe557 = false;
+  researchTOTAL = false;
+  researchDiag = false;
+  researchResearch = false;
+
   constructor(
     private router: Router,
     public service: IgtcrService,
     public dialog: MatDialog,
+    public storeService: IGTStoreService,
+    
   ) {}
 
   ngOnInit(): void {
+   // this.search(this.startDay, this.endDay);
+   const storeData = this.storeService.mainListSearchGet() ;
+    
+   if (storeData.length > 0) {
+    this.selectOption(storeData[0].status);
+    this.sheetOption(storeData[0].sheet);
+    this.researchOption(storeData[0].research1);
+
+    this.search(storeData[0].start, storeData[0].end, storeData[0].specimenNo, storeData[0].patientid,
+    storeData[0].patientname, storeData[0].status === '100' ? '' : storeData[0].status,
+     storeData[0].sheet === '100'? '':storeData[0].sheet,  storeData[0].research1 === '100' ? '' : storeData[0].research1);
+   } else {
     this.search(this.startDay, this.endDay);
+   }
   }
 
 
@@ -46,7 +77,6 @@ export class MainListsComponent implements OnInit {
   }
 
 
-
   search(start: string, end: string, specimenNo: string='', patientId: string='', patientname: string = '',
   status: string = '', sheet: string = '', research1: string = ''): void {
     this.startDay = start;
@@ -56,6 +86,8 @@ export class MainListsComponent implements OnInit {
     this.patientname = patientname;
     const startdate = start.toString().replace(/-/gi, '');
     const enddate = end.toString().replace(/-/gi, '');
+
+    this.storeService.mainListSearchSet(start, end,this.specimenNo, this.patientid, patientname, status, sheet, research1);
 
     this.service.igtcrListsSearch(start, end,this.specimenNo, this.patientid, patientname, status, sheet, research1).subscribe((data: IPatient[]) => {
       if (data.length) {
@@ -130,6 +162,62 @@ processingStatus(i: number): string {
          console.log('[Dialog...]');
         });
       }
+
+          // 메뉴 SCREEN STATUS선택옵션
+          selectOption(status: string): void {
+            this.select0 = false;
+            this.select1 = false;
+            this.select2 = false;
+            this.select3 = false;
+            this.select5 = false;
+            this.select10 = false;
+            this.select100 = false;
+            if (parseInt(status, 10) === 0) {
+              this.select0 = true;
+            } else if (parseInt(status, 10) === 1) {
+              this.select1 = true;
+            } else if (parseInt(status, 10) === 2) {
+              this.select2 = true;
+            } else if (parseInt(status, 10) === 3) {
+              this.select3 = true;
+            } else if (parseInt(status, 10) === 5) {
+              this.select5 = true;
+            } else if (status === 'register' || parseInt(status, 10) === 10) {
+              this.select10 = true;
+            } else if (parseInt(status, 10) === 100) {
+              this.select100 = true;
+            }
+          }
+  
+          sheetOption(sheet: string): void {
+            this.lpeall = false;
+            this.lpe555 = false;
+            this.lpe556 = false;
+            this.lpe557 = false;
+            if (sheet === '100') {
+              this.lpeall = true;
+            } else if (sheet === 'LPE555') {
+              this.lpe555 = true;
+            } else if (sheet === 'LPE556') {
+              this.lpe556 = true;
+            } else if (sheet === 'LPE557') {
+              this.lpe557 = true;
+            }
+          }
+  
+          researchOption(research: string): void {
+            this.researchDiag = false;
+            this.researchResearch = false;
+            this.researchTOTAL = false;
+            if (research === 'diag') {
+              this.researchDiag = true;
+            } else if (research === 'RESEARCH') {
+              this.researchResearch = true;
+            } else if (research === 'TOTAL') {
+              this.researchTOTAL = true;
+            }
+          }
+  
 
 
 }

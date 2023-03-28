@@ -1283,10 +1283,14 @@ export class PatientsListService {
     );
   }
 
+  // http://183.98.12.201:3000/searchpatient_diag/list_excel 
   public patientSearch(start: string, end: string): Observable<any[]> {
-    return this.http.post<any[]>(`${this.apiUrl}/searchpatient_diag/list`, { start, end, patientID: '', specimenNo: '' }).pipe(
+       return this.http.post<any[]>(`${this.apiUrl}/searchpatient_diag/list_excel`, { start, end, patientID: '', specimenNo: '' }).pipe(
       shareReplay()
-    );
+    ); 
+    // return this.http.post<any[]>(`${this.apiUrl}/searchpatient_diag/list`, { start, end, patientID: '', specimenNo: '' }).pipe(
+    //   shareReplay()
+    // );
   }
 
 
