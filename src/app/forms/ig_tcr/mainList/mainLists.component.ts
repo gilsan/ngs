@@ -38,6 +38,12 @@ export class MainListsComponent implements OnInit {
   researchDiag = false;
   researchResearch = false;
 
+  @ViewChild('testedID', { static: true }) testedID: ElementRef;
+  @ViewChild('patientID', { static: true }) patientID: ElementRef;
+  @ViewChild('patientName', { static: true }) patientName: ElementRef;
+  @ViewChild('start', { static: true }) start: ElementRef;
+  @ViewChild('end', { static: true }) end: ElementRef;
+
   constructor(
     private router: Router,
     public service: IgtcrService,
@@ -49,11 +55,18 @@ export class MainListsComponent implements OnInit {
   ngOnInit(): void {
    // this.search(this.startDay, this.endDay);
    const storeData = this.storeService.mainListSearchGet() ;
-    
+    console.log('[ngOnInit]', storeData);
    if (storeData.length > 0) {
+    this.testedID.nativeElement.value = storeData[0].specimenNo;
+    this.patientID.nativeElement.value = storeData[0].patientid;
+    this.patientName.nativeElement.value = storeData[0].patientname;
+
     this.selectOption(storeData[0].status);
     this.sheetOption(storeData[0].sheet);
     this.researchOption(storeData[0].research1);
+
+    this.startDay = storeData[0].start;
+    this.endDay = storeData[0].end;
 
     this.search(storeData[0].start, storeData[0].end, storeData[0].specimenNo, storeData[0].patientid,
     storeData[0].patientname, storeData[0].status === '100' ? '' : storeData[0].status,
@@ -120,6 +133,15 @@ processingStatus(i: number): string {
     return '접수';
   }
 }
+
+  // tslint:disable-next-line: typedef
+  setStartDate(date: string): void {
+    this.startDay = date;
+  }
+
+  setEndDate(date: string): void {
+    this.endDay = date;
+  }
 
   // tslint:disable-next-line: typedef
   startToday(): string {

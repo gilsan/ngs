@@ -151,7 +151,7 @@ export class IgTcrSheetComponent implements OnInit {
     data:  []
   };
 
-  checkedboxList: {index: number, gene: string} [] = [];
+   
 
   constructor(
     private fb: FormBuilder,
@@ -587,7 +587,7 @@ createRow(item: IClonal): FormGroup {
     cell_equipment9: [item.cell_equipment9],
     cell_equipment10: [item.cell_equipment10],
     comment: [item.comment],
-    gene: [item.use_yn1.toString() === "true"? 'New Clonal' : item.gene],
+    gene: [item.use_yn1.toString() === "true"? 'N/C' : item.gene],
     j_gene1: [item.j_gene1],
     j_gene2: [item.j_gene2],
     j_gene3: [item.j_gene3],
@@ -1783,26 +1783,8 @@ mrdAddCommentChange(contents: string) {
 boxstatus(i: number, event: any) {
   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
   const gene = tableRows.at(i).get('gene')?.value;  
-  // tableRows.at(i).patchValue({ use_yn1: event.target.checked, gene: 'New Clonal'});
-  // console.log('[1784]', event.target.checked);
-   if (event.target.checked === true) {
-    if (gene !== 'New Clonal') {
-      this.checkedboxList.push({index: i, gene});
-      tableRows.at(i).patchValue({ use_yn1: event.target.checked, gene: 'New Clonal'});
-    }
- 
-   } else {
-     const result = this.checkedboxList.findIndex(item => item.index === i );
-     if (result !== -1) {
-      console.log('[1797]', result);
-      const oldgene = this.checkedboxList[result].gene;
-      this.checkedboxList.splice(result,1);
-      tableRows.at(i).patchValue({ use_yn1: event.target.checked, gene: oldgene});
-      console.log('[1798]', this.checkedboxList.length > 0? this.checkedboxList : '비엇음');
-     }
-     
-  }
-     
+  tableRows.at(i).patchValue({ use_yn1: event.target.checked});
+  // console.log('[1784]', event.target.checked);   
 }
 
  

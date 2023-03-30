@@ -34,9 +34,9 @@
           <option value="RESEARCH"  [selected]= "researchResearch">연구용</option>
         </select>&nbsp;&nbsp;&nbsp;
        
-        <input type="date" class="input_01" #start [value]="startToday()" style="width:150px;" />
+        <input type="date" class="input_01" #start [value]="startDay" (change)="setStartDate(start.value)" style="width:150px;" />
         ~
-        <input type="date" class="input_01" #end [value]="endToday()" style="width:150px;">
+        <input type="date" class="input_01" #end [value]="endDay" (change)="setEndDate(end.value)" style="width:150px;">
 
         <button type="button" class="btn btn_02" style="margin-left: 10px;" (click)="search(start.value, end.value, testedID.value, patientID.value, patientName.value, status.value, sheet.value, research1.value)">조 회</button>
         

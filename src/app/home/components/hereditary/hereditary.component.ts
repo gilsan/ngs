@@ -162,6 +162,9 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     } else if (parseInt(status, 10) === 100) {
       this.hselect100 = true;
     }
+    if (this.receivedType !== 'none') {
+      this.receivedType = status;
+    }
   }
 
   sheetOption(sheet: string): boolean {
@@ -520,9 +523,11 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
       research = '';
     }
 
-    if (parseInt(status, 10) === 10 || this.receivedType === 'register') {
-      status = '10';
+   if (parseInt(status, 10) === 10 || this.receivedType === 'register') {
+     status = '10'; // 2023.03.29
+     
     }
+    console.log('[527]', this.receivedType);
 
     this.patientsList.hereditarySearch2(startdate, enddate, patientId, specimenNo, status, sheet, research, patientname)
       .then(response => response.json())

@@ -33,7 +33,7 @@
 
             <div class="sub_title">검사결과</div>
 
-            <table cellpadding="0" cellspacing="0" class="table_result02" *ngIf="getFormControls.length === 1">
+            <table cellpadding="0" cellspacing="0" class="table_result02" *ngIf="getFormControls.length === 1 || getFormControls.length === 0">
                 <colgroup>
                     <col style="width:50%;" />
                     <col style="width:50%;" />
@@ -52,17 +52,23 @@
                         <td>
                             % of clonal cells (estimated value) :
                         </td>
-                        <td *ngIf="bcellLPE555LPE556.length">
+                        <td *ngIf="bcellLPE555LPE556.length; else bcellLPE555_556">
                             {{bcellLPE555LPE556}}% / total B-cells
                         </td>
-                        <td *ngIf="pcellLPE557.length">
+                        <ng-template #noregister>
+                            <td>% / total B-cells</td>
+                        </ng-template>
+                        <td *ngIf="pcellLPE557.length; else pcellLPE_557">
                             {{pcellLPE557}}% / total T-cells
                         </td>
+                        <ng-template #pcellLPE_557>
+                            <td>% / total T-cells</td>
+                        </ng-template>                       
                     </tr>
                     <tr>
                         <td colspan="2">
                             <input type="text" size="150" class="clr-input textleft tdbox" 
-                            #initialAddCommentContents (change)="initialAddCommentChange(initialAddCommentContents.value)"
+                            #initialAddCommentContents  
                               [(ngModel)]= "initialAddComment" [ngModelOptions]="{standalone: true}">
                         </td>
                     </tr>
@@ -98,7 +104,7 @@
                     <tr>
                         <td colspan="2">
                             <input type="text" size="150" class="clr-input textleft tdbox" 
-                            #mrdAddCommentContents (change)="mrdAddCommentChange(mrdAddCommentContents.value)"
+                            #mrdAddCommentContents 
                             [(ngModel)]="mrdAddComment"  [ngModelOptions]="{standalone: true}">
                         </td>
                     </tr>
@@ -224,7 +230,7 @@
                             <tr>
                                 <th class="fixhead1" [class.moving1] ="getFormControls.length > 0? true: false" rowspan="2"></th>
                                 <th class="fixhead12" [class.moving2] ="getFormControls.length > 0? true: false" rowspan="2">접수 Date</th>
-                                <th class="fixhead1" [class.moving3] ="getFormControls.length > 0? true: false"   rowspan="2"></th>
+                                <th class="fixhead1" [class.moving3] ="getFormControls.length > 0? true: false"   rowspan="2">New<br/>Clonal</th>
                                 <th class="fixhead1" [class.moving4] ="getFormControls.length > 0? true: false" rowspan="2">gene</th>
                                 <th class="fixhead1" [class.moving5] ="getFormControls.length > 0? true: false" rowspan="2">Total read<br/>count</th>
                                 <th class="fixhead1" [class.moving6] ="getFormControls.length > 0? true: false" rowspan="2">Read<br/>of LQIC</th>
@@ -560,11 +566,11 @@
                 </div>
             </div>
             <hr class="mg_t30 mg_b20"/>
-            <div class="sub_title">
+            <div class="sub_title">Comment</div>
                 <textarea class="textarea_01" *ngIf="getFormControls.length === 1"  [(ngModel)]="commentInitial"></textarea>
                 <textarea class="textarea_01" *ngIf="getFormControls.length > 1"  [(ngModel)]="commentMRD"></textarea>
             
-            </div>
+            
             <hr class="mg_t30 mg_b20"/>
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
