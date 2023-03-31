@@ -273,11 +273,11 @@ export class IgTcrSheetComponent implements OnInit {
         this.commentInitial = this.patientInfo.init_comment;
         this.mrdAddComment = this.patientInfo.fu_result;
         this.commentMRD = this.patientInfo.fu_comment;
-      }  else if (this.patientInfo.fu_comment.length) {
-
       } else {
-        this.btCells();
+       // this.btCells();
       }
+      this.btCells();
+ 
       
     });
     
@@ -332,30 +332,32 @@ export class IgTcrSheetComponent implements OnInit {
       this.pcellLPE557 = totalIGHReadDepth;
     }
    
-    this.makePDFData();
+    this.clonalCounts(); // 클론갯수 구하기
+    // this.makePDFData();
     // 클론갯수 구하기
-    const clonalCount = this.formWithoutgraph.length;
-    if (clonalCount === 1) {
-        this.clonalCountTitle = '한';
-    } else if (clonalCount === 2) {
-      this.clonalCountTitle = '두';
-    } else if (clonalCount === 3) {
-      this.clonalCountTitle = '세';
-    } else if (clonalCount === 4) {
-      this.clonalCountTitle = '네';
-    } else if (clonalCount === 5) {
-      this.clonalCountTitle = '다섯';
-    } else if (clonalCount === 6) {
-      this.clonalCountTitle = '여섯';
-    } else if (clonalCount === 7) {
-      this.clonalCountTitle = '일곱';
-    } else if (clonalCount === 8) {
-      this.clonalCountTitle = '여덜';
-    } else if (clonalCount === 9) {
-      this.clonalCountTitle = '아홉';
-    } else if (clonalCount === 10) {
-      this.clonalCountTitle = '열';
-    }
+    // const clonalCount = this.formWithoutgraph.length;
+    // // console.log('[338][클론갯수 구하기]', clonalCount, this.formWithoutgraph);
+    // if (clonalCount === 1) {
+    //     this.clonalCountTitle = '한';
+    // } else if (clonalCount === 2) {
+    //   this.clonalCountTitle = '두';
+    // } else if (clonalCount === 3) {
+    //   this.clonalCountTitle = '세';
+    // } else if (clonalCount === 4) {
+    //   this.clonalCountTitle = '네';
+    // } else if (clonalCount === 5) {
+    //   this.clonalCountTitle = '다섯';
+    // } else if (clonalCount === 6) {
+    //   this.clonalCountTitle = '여섯';
+    // } else if (clonalCount === 7) {
+    //   this.clonalCountTitle = '일곱';
+    // } else if (clonalCount === 8) {
+    //   this.clonalCountTitle = '여덜';
+    // } else if (clonalCount === 9) {
+    //   this.clonalCountTitle = '아홉';
+    // } else if (clonalCount === 10) {
+    //   this.clonalCountTitle = '열';
+    // }
 
     
     this.initialTestResult = initialTestResult(this.geneType, this.clonalCountTitle);
@@ -407,31 +409,33 @@ export class IgTcrSheetComponent implements OnInit {
       } else if(this.patientInfo.test_code === 'LPE557') {
         this.pcellLPE557 = totalIGHReadDepth;
       }
-      this.makePDFData();
-    
+      
+      this.clonalCounts();
       // 클론갯수 구하기
-      const clonalCount = this.formWithoutgraph.length;
-      if (clonalCount === 1) {
-          this.clonalCountTitle = '한';
-      } else if (clonalCount === 2) {
-        this.clonalCountTitle = '두';
-      } else if (clonalCount === 3) {
-        this.clonalCountTitle = '세';
-      } else if (clonalCount === 4) {
-        this.clonalCountTitle = '네';
-      } else if (clonalCount === 5) {
-        this.clonalCountTitle = '다섯';
-      } else if (clonalCount === 6) {
-        this.clonalCountTitle = '여섯';
-      } else if (clonalCount === 7) {
-        this.clonalCountTitle = '일곱';
-      } else if (clonalCount === 8) {
-        this.clonalCountTitle = '여덜';
-      } else if (clonalCount === 9) {
-        this.clonalCountTitle = '아홉';
-      } else if (clonalCount === 10) {
-        this.clonalCountTitle = '열';
-      }
+ 
+      // this.makePDFData();
+      // const clonalCount = this.formWithoutgraph.length;
+      // if (clonalCount === 1) {
+      //     this.clonalCountTitle = '한';
+      // } else if (clonalCount === 2) {
+      //   this.clonalCountTitle = '두';
+      // } else if (clonalCount === 3) {
+      //   this.clonalCountTitle = '세';
+      // } else if (clonalCount === 4) {
+      //   this.clonalCountTitle = '네';
+      // } else if (clonalCount === 5) {
+      //   this.clonalCountTitle = '다섯';
+      // } else if (clonalCount === 6) {
+      //   this.clonalCountTitle = '여섯';
+      // } else if (clonalCount === 7) {
+      //   this.clonalCountTitle = '일곱';
+      // } else if (clonalCount === 8) {
+      //   this.clonalCountTitle = '여덜';
+      // } else if (clonalCount === 9) {
+      //   this.clonalCountTitle = '아홉';
+      // } else if (clonalCount === 10) {
+      //   this.clonalCountTitle = '열';
+      // }
 
 
     } else if (tableRows.length > 1){
@@ -462,6 +466,33 @@ export class IgTcrSheetComponent implements OnInit {
     this.patientsListService.changescreenstatus( this.patientInfo.specimenNo,'3','3000', 'userid').subscribe(data => {
       
    });
+  }
+
+  clonalCounts() {
+          this.makePDFData();
+          // 클론갯수 구하기
+          const clonalCount = this.formWithoutgraph.length;
+          if (clonalCount === 1) {
+              this.clonalCountTitle = '한';
+          } else if (clonalCount === 2) {
+            this.clonalCountTitle = '두';
+          } else if (clonalCount === 3) {
+            this.clonalCountTitle = '세';
+          } else if (clonalCount === 4) {
+            this.clonalCountTitle = '네';
+          } else if (clonalCount === 5) {
+            this.clonalCountTitle = '다섯';
+          } else if (clonalCount === 6) {
+            this.clonalCountTitle = '여섯';
+          } else if (clonalCount === 7) {
+            this.clonalCountTitle = '일곱';
+          } else if (clonalCount === 8) {
+            this.clonalCountTitle = '여덜';
+          } else if (clonalCount === 9) {
+            this.clonalCountTitle = '아홉';
+          } else if (clonalCount === 10) {
+            this.clonalCountTitle = '열';
+          }
   }
 
   createPdf2() {
@@ -587,7 +618,7 @@ createRow(item: IClonal): FormGroup {
     cell_equipment9: [item.cell_equipment9],
     cell_equipment10: [item.cell_equipment10],
     comment: [item.comment],
-    gene: [item.use_yn1.toString() === "true"? 'N/C' : item.gene],
+    gene: [item.gene],
     j_gene1: [item.j_gene1],
     j_gene2: [item.j_gene2],
     j_gene3: [item.j_gene3],
@@ -760,7 +791,12 @@ addNewRow(): void {
   const control = this.tablerowForm.get('tableRows') as FormArray;
   this.tableLength = control.length;
   control.insert(0, this.makeNewRow());
-  this.initialTestResult = initialTestResult(this.geneType, this.clonalCountTitle);
+  if (control.length === 1) {
+    this.initialTestResult = initialTestResult(this.geneType, '');
+  } else {
+    this.initialTestResult = initialTestResult(this.geneType, this.clonalCountTitle);
+  }
+  
   // control.push(this.makeNewRow());
 }
 
@@ -773,6 +809,11 @@ removeTableRow(i: number): void {
   this.formControls().at(i).patchValue({ deleted: 'y' });
   this.deletedClonalLists.push(this.formControls().at(i).value); 
   this.formControls().removeAt(i);
+
+  if (this.formControls.length === 0) {
+    // const temp = initialTestResult('','');
+     this.initialTestResult = '';
+   }
 }
 
 
@@ -908,6 +949,9 @@ rawCount1(index: number , rawcount1wComma: string) {
   this.clonalTotalIGHReadDepth(index); // 9번
   this.clonalTotalNuclelatedCell(index);
   this.totalCellEquivalent(index);
+
+  // this.clonalCounts();
+  // this.initialTestResult = initialTestResult(this.geneType, this.clonalCountTitle);
 }
 
 rawCount2(index: number , rawcount2wComma: string) {
@@ -1292,10 +1336,11 @@ makePDFData() {
     const clonalTotalIGHReadDepth = control.at(0).get('total_IGH_read_depth')?.value;
     const clonalCellEquivalent = control.at(0).get('total_cell_equipment')?.value;
    
-    console.log('[1289]', control.getRawValue(),  control.at(0).get('v_gene1')?.value);
+    // console.log('[1289]', control.getRawValue(),  control.at(0).get('v_gene1')?.value);
 
     const vregion1 = control.at(0).get('v_gene1')?.value ? control.at(0).get('v_gene1')?.value : "";
     const jregion1 = control.at(0).get('j_gene1')?.value ? control.at(0).get('j_gene1')?.value : "";
+    const rowcount1 = control.at(0).get('raw_count1')?.value ? control.at(0).get('raw_count1')?.value : "";
     const length1  = control.at(0).get('sequence_length1')?.value;
     const clonalIGHDepth1  = Number(control.at(0).get('raw_count1')?.value);
     const sequence1 = control.at(0).get('sequence1')?.value;
@@ -1312,88 +1357,98 @@ makePDFData() {
 
   
 
-    if (vregion1.length !== 0 && jregion1.length !== 0) {
+    if (vregion1.length !== 0 || jregion1.length !== 0 || rowcount1 !== 0) {
       this.putFormWithoutgraph('1',vregion1,jregion1,length1,totalIGHreadDepth,clonalIGHDepth1,clonalTotalIGHReadDepth,clonalCellEquivalent,sequence1,percentTotalReads1);
     }
 
     const vregion2 = control.at(0).get('v_gene2')?.value ? control.at(0).get('v_gene2')?.value : "";
     const jregion2 = control.at(0).get('j_gene2')?.value ? control.at(0).get('j_gene2')?.value : "";
+    const rowcount2 = control.at(0).get('raw_count2')?.value ? control.at(0).get('raw_count2')?.value : "";
     const length2  = control.at(0).get('sequence_length2')?.value;
     const clonalIGHDepth2  = Number(control.at(0).get('raw_count2')?.value);
     const sequence2 = control.at(0).get('sequence2')?.value;
-    if (vregion2.length !== 0 && jregion2.length !== 0) {
+    if (vregion2.length !== 0 || jregion2.length !== 0 || rowcount2.length !== 0) {
       this.putFormWithoutgraph('2',vregion2,jregion2,length2,totalIGHreadDepth,clonalIGHDepth2,clonalTotalIGHReadDepth,clonalCellEquivalent,sequence2,percentTotalReads2);
     }
 
     const vregion3 = control.at(0).get('v_gene3')?.value ? control.at(0).get('v_gene3')?.value : "";
     const jregion3 = control.at(0).get('j_gene3')?.value ? control.at(0).get('j_gene3')?.value : "";
+    const rowcount3 = control.at(0).get('raw_count3')?.value ? control.at(0).get('raw_count3')?.value : "";
     const length3  = control.at(0).get('sequence_length3')?.value;
     const clonalIGHDepth3  = Number(control.at(0).get('raw_count3')?.value);
     const sequence3 = control.at(0).get('sequence3')?.value;
-    if (vregion3.length !== 0 && jregion3.length !== 0) {
+    if (vregion3.length !== 0 || jregion3.length !== 0 || rowcount3.length !== 0) {
       this.putFormWithoutgraph('3',vregion3,jregion3,length3,totalIGHreadDepth,clonalIGHDepth3,clonalTotalIGHReadDepth,clonalCellEquivalent,sequence3,percentTotalReads3);
     }
 
     const vregion4 = control.at(0).get('v_gene4')?.value ? control.at(0).get('v_gene5')?.value : "";
     const jregion4 = control.at(0).get('j_gene4')?.value ? control.at(0).get('j_gene4')?.value : "";
+    const rowcount4 = control.at(0).get('raw_count4')?.value ? control.at(0).get('raw_count4')?.value : "";
     const length4  = control.at(0).get('sequence_length4')?.value;
     const clonalIGHDepth4  = Number(control.at(0).get('raw_count4')?.value);
     const sequence4 = control.at(0).get('sequence4')?.value;
-    if (vregion4.length !== 0 && jregion4.length !== 0) {
+     
+    if (vregion4.length !== 0 || jregion4.length !== 0 || rowcount4.length !== 0) {
       this.putFormWithoutgraph('4',vregion4,jregion4,length4,totalIGHreadDepth,clonalIGHDepth4,clonalTotalIGHReadDepth,clonalCellEquivalent,sequence4,percentTotalReads4);
     }
 
     const vregion5 = control.at(0).get('v_gene5')?.value ? control.at(0).get('v_gene5')?.value : "";
     const jregion5 = control.at(0).get('j_gene5')?.value ? control.at(0).get('j_gene5')?.value : "";
+    const rowcount5 = control.at(0).get('raw_count5')?.value ? control.at(0).get('raw_count5')?.value : "";
     const length5  = control.at(0).get('sequence_length5')?.value;
     const sequence5 = control.at(0).get('sequence5')?.value;
     const clonalIGHDepth5  = Number(control.at(0).get('raw_count5')?.value);
-    if (vregion5.length !== 0 && jregion5.length !== 0) {
+    if (vregion5.length !== 0 || jregion5.length !== 0 || rowcount5.length !== 0) {
       this.putFormWithoutgraph('5',vregion5,jregion5,length5,totalIGHreadDepth,clonalIGHDepth5,clonalTotalIGHReadDepth,clonalCellEquivalent,sequence5,percentTotalReads5);
     }
 
     const vregion6 = control.at(0).get('v_gene6')?.value ? control.at(0).get('v_gene6')?.value : "";
     const jregion6 = control.at(0).get('j_gene6')?.value ? control.at(0).get('j_gene6')?.value : "";
+    const rowcount6 = control.at(0).get('raw_count6')?.value ? control.at(0).get('raw_count6')?.value : "";
     const length6  = control.at(0).get('sequence_length6')?.value;
     const clonalIGHDepth6  = Number(control.at(0).get('raw_count6')?.value);
     const sequence6 = control.at(0).get('sequence6')?.value;
-    if (vregion6.length !== 0 && jregion6.length !== 0) {
+    if (vregion6.length !== 0 || jregion6.length !== 0 || rowcount6.length !== 0) {
       this.putFormWithoutgraph('6',vregion6,jregion6,length6,totalIGHreadDepth,clonalIGHDepth6,clonalTotalIGHReadDepth,clonalCellEquivalent,sequence6,percentTotalReads6);
     }
 
     const vregion7 = control.at(0).get('v_gene7')?.value ? control.at(0).get('v_gene7')?.value : "";
     const jregion7 = control.at(0).get('j_gene7')?.value ? control.at(0).get('j_gene7')?.value : "";
+    const rowcount7 = control.at(0).get('raw_count7')?.value ? control.at(0).get('raw_count7')?.value : "";
     const length7  = control.at(0).get('sequence_length7')?.value;
     const clonalIGHDepth7  = Number(control.at(0).get('raw_count7')?.value);
     const sequence7 = control.at(0).get('sequence7')?.value;
-    if (vregion7.length !== 0 && jregion7.length !== 0) {
+    if (vregion7.length !== 0 || jregion7.length !== 0 || rowcount7.length !== 0) {
       this.putFormWithoutgraph('7',vregion7,jregion7,length7,totalIGHreadDepth,clonalIGHDepth7,clonalTotalIGHReadDepth,clonalCellEquivalent,sequence7,percentTotalReads7);
     }
 
     const vregion8 = control.at(0).get('v_gene8')?.value ? control.at(0).get('v_gene8')?.value : "";
     const jregion8 = control.at(0).get('j_gene8')?.value ? control.at(0).get('j_gene8')?.value : "";
+    const rowcount8 = control.at(0).get('raw_count8')?.value ? control.at(0).get('raw_count8')?.value : "";
     const length8  = control.at(0).get('sequence_length8')?.value;
     const clonalIGHDepth8  = Number(control.at(0).get('raw_count8')?.value);
     const sequence8 = control.at(0).get('sequence8')?.value;
-    if (vregion8.length !== 0 && jregion8.length !== 0) {
+    if (vregion8.length !== 0 || jregion8.length !== 0 || rowcount8.length !== 0) {
       this.putFormWithoutgraph('8',vregion8,jregion8,length8,totalIGHreadDepth,clonalIGHDepth8,clonalTotalIGHReadDepth,clonalCellEquivalent,sequence8,percentTotalReads8);
     }
 
     const vregion9 = control.at(0).get('v_gene9')?.value ? control.at(0).get('v_gene9')?.value : "";
     const jregion9 = control.at(0).get('j_gene9')?.value ? control.at(0).get('j_gene9')?.value : "";
+    const rowcount9 = control.at(0).get('raw_count9')?.value ? control.at(0).get('raw_count9')?.value : "";
     const length9  = control.at(0).get('sequence_length9')?.value;
     const clonalIGHDepth9  = Number(control.at(0).get('raw_count9')?.value);
     const sequence9 = control.at(0).get('sequence9')?.value;
-    if (vregion9.length !== 0 && jregion9.length !== 0) {
+    if (vregion9.length !== 0 || jregion9.length !== 0 || rowcount9.length !== 0) {
       this.putFormWithoutgraph('9',vregion9,jregion9,length9,totalIGHreadDepth,clonalIGHDepth9,clonalTotalIGHReadDepth,clonalCellEquivalent,sequence9,percentTotalReads9);
     }
 
     const vregion10 = control.at(0).get('v_gene10')?.value ? control.at(0).get('v_gene10')?.value : "";
     const jregion10 = control.at(0).get('j_gene10')?.value ? control.at(0).get('j_gene10')?.value : "";
+    const rowcount10 = control.at(0).get('raw_count10')?.value ? control.at(0).get('raw_count10')?.value : "";
     const length10  = control.at(0).get('sequence_length10')?.value;
     const clonalIGHDepth10  = Number(control.at(0).get('raw_count10')?.value);
     const sequence10 = control.at(0).get('sequence10')?.value;
-    if (vregion10.length !== 0 && jregion10.length !== 0) {
+    if (vregion10.length !== 0 || jregion10.length !== 0 || rowcount10.length !== 0) {
       this.putFormWithoutgraph('10',vregion10,jregion10,length10,totalIGHreadDepth,clonalIGHDepth10,clonalTotalIGHReadDepth,clonalCellEquivalent,sequence10,percentTotalReads10);
     }
 

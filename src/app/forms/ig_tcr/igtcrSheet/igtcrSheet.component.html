@@ -52,18 +52,19 @@
                         <td>
                             % of clonal cells (estimated value) :
                         </td>
-                        <td *ngIf="bcellLPE555LPE556.length; else bcellLPE555_556">
+                        <td *ngIf="bcellLPE555LPE556.length   && getFormControls.length === 1">
                             {{bcellLPE555LPE556}}% / total B-cells
-                        </td>
-                        <ng-template #noregister>
-                            <td>% / total B-cells</td>
-                        </ng-template>
-                        <td *ngIf="pcellLPE557.length; else pcellLPE_557">
+                        </td>                     
+                        <td *ngIf="bcellLPE555LPE556.length === 0   && (getFormControls.length === 1 || getFormControls.length === 0)">
+                            % / total B-cells</td>
+                        <td *ngIf="pcellLPE557.length   && getFormControls.length > 1;">
                             {{pcellLPE557}}% / total T-cells
                         </td>
-                        <ng-template #pcellLPE_557>
-                            <td>% / total T-cells</td>
-                        </ng-template>                       
+                         
+                        <td *ngIf="pcellLPE557.length === 0   && getFormControls.length > 1;">
+                             % / total T-cells
+                        </td>
+                                            
                     </tr>
                     <tr>
                         <td colspan="2">

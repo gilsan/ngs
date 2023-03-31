@@ -45,8 +45,8 @@ export  const  commentMRD = `* Clonal IGH read depth를 전체 IGH read depth로
 
       return `* Clonal ${geneType} read depth를 전체 ${geneType} read depth로 나눈 값으로 ${BTtype} 세포 중의 클론의 비율을 의미합니다.
 ** 검체 당 ${BTtype} 세포 100개 정도의 DNA(LymphoQuant Internal Control, LQIC)를 혼합하여 측정된 값을 변환한 것입니다. 
-    - 클론성 염기서열은 검체 내 전체 read depath가 20,000 이상이면서 전체 read depth 중 최소 ≥2.5% 이상, 혹은 전체 read 
-      depath가 10,000 이상이면서 전체 read depth 중 최소 ≥5.0% 이상인 dominant sequence 로 판정합니다.
+    - 클론성 염기서열은 검체 내 전체 read depth가 20,000 이상이면서 전체 read depth 중 최소 ≥2.5% 이상, 혹은 전체 read 
+      depth가 10,000 이상이면서 전체 read depth 중 최소 ≥5.0% 이상인 dominant sequence 로 판정합니다.
     - PCR 증폭은 ${BTtype} 세포의 DNA양에 영향을 받으며 primer결합 부위 변이가 있는 경우 위음성을 보일 가능성이 있습니다.
       `;
   }
