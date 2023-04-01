@@ -950,7 +950,7 @@ rawCount1(index: number , rawcount1wComma: string) {
   this.clonalTotalNuclelatedCell(index);
   this.totalCellEquivalent(index);
 
-  
+
   // this.clonalCounts();
   // this.initialTestResult = initialTestResult(this.geneType, this.clonalCountTitle);
 }
