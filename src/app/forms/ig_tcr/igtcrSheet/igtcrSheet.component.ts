@@ -812,6 +812,8 @@ removeTableRow(i: number): void {
 
   if (this.formControls.length === 0) {
     // const temp = initialTestResult('','');
+     this.pcellLPE557 = '';
+     this.bcellLPE555LPE556 = '';
      this.initialTestResult = '';
    }
 }
@@ -938,6 +940,15 @@ totalBcellTcellCount(index: number, totalReadCount: number, readOfLQIC: number) 
   tableRows.at(index).patchValue({ total_Bcell_Tcell_count: newTotalBcell });
 }
 
+// update clonal rowCount
+upDateColnalCount() {
+  if(this.getFormControls.length === 1) {
+    this.clonalCounts();
+    this.initialTestResult = initialTestResult(this.geneType, this.clonalCountTitle);
+    // console.log('[946][rawCount1]', this.clonalCountTitle);
+  }
+}
+
 // Raw count1 변경시  percent % total reads1 = Raw count1 / Total read count
 // % total reads 1 - 10 에 값 넣음
 rawCount1(index: number , rawcount1wComma: string) {
@@ -950,9 +961,10 @@ rawCount1(index: number , rawcount1wComma: string) {
   this.clonalTotalNuclelatedCell(index);
   this.totalCellEquivalent(index);
 
+  if (tableRows.length === 1) {
+    this.upDateColnalCount();
+  }
 
-  // this.clonalCounts();
-  // this.initialTestResult = initialTestResult(this.geneType, this.clonalCountTitle);
 }
 
 rawCount2(index: number , rawcount2wComma: string) {
@@ -963,6 +975,10 @@ rawCount2(index: number , rawcount2wComma: string) {
   this.clonalTotalIGHReadDepth(index); // 9번
   this.clonalTotalNuclelatedCell(index);
   this.totalCellEquivalent(index);
+
+  if (tableRows.length === 1) {
+    this.upDateColnalCount();
+  }
 }
 
 rawCount3(index: number , rawcount3wComma: string) {
@@ -973,6 +989,10 @@ rawCount3(index: number , rawcount3wComma: string) {
   this.clonalTotalIGHReadDepth(index); // 9번
   this.clonalTotalNuclelatedCell(index);
   this.totalCellEquivalent(index);
+
+  if (tableRows.length === 1) {
+    this.upDateColnalCount();
+  }
 }
 
 rawCount4(index: number , rawcount4wComma: string) {
@@ -983,6 +1003,10 @@ rawCount4(index: number , rawcount4wComma: string) {
   this.clonalTotalIGHReadDepth(index); // 9번
   this.clonalTotalNuclelatedCell(index);
   this.totalCellEquivalent(index);
+
+  if (tableRows.length === 1) {
+    this.upDateColnalCount();
+  }
 }
 
 rawCount5(index: number , rawcount5wComma: string) {
@@ -993,6 +1017,10 @@ rawCount5(index: number , rawcount5wComma: string) {
   this.clonalTotalIGHReadDepth(index); // 9번
   this.clonalTotalNuclelatedCell(index);
   this.totalCellEquivalent(index);
+
+  if (tableRows.length === 1) {
+    this.upDateColnalCount();
+  }
 }
 
 rawCount6(index: number , rawcount6wComma: string) {
@@ -1003,6 +1031,10 @@ rawCount6(index: number , rawcount6wComma: string) {
   this.clonalTotalIGHReadDepth(index); // 9번
   this.clonalTotalNuclelatedCell(index);
   this.totalCellEquivalent(index);
+
+  if (tableRows.length === 1) {
+    this.upDateColnalCount();
+  }
 }
 
 rawCount7(index: number , rawcount7wComma: string) {
@@ -1013,6 +1045,10 @@ rawCount7(index: number , rawcount7wComma: string) {
   this.clonalTotalIGHReadDepth(index); // 9번
   this.clonalTotalNuclelatedCell(index);
   this.totalCellEquivalent(index);
+
+  if (tableRows.length === 1) {
+    this.upDateColnalCount();
+  }
 }
 
 rawCount8(index: number , rawcount8wComma: string) {
@@ -1023,6 +1059,10 @@ rawCount8(index: number , rawcount8wComma: string) {
   this.clonalTotalIGHReadDepth(index); // 9번
   this.clonalTotalNuclelatedCell(index);
   this.totalCellEquivalent(index);
+
+  if (tableRows.length === 1) {
+    this.upDateColnalCount();
+  }
 }
 
 rawCount9(index: number , rawcount9wComma: string) {
@@ -1033,6 +1073,10 @@ rawCount9(index: number , rawcount9wComma: string) {
   this.clonalTotalIGHReadDepth(index); // 9번
   this.clonalTotalNuclelatedCell(index);
   this.totalCellEquivalent(index);
+
+  if (tableRows.length === 1) {
+    this.upDateColnalCount();
+  }
 }
 
 rawCount10(index: number , rawcount10wComma: string) {
@@ -1043,6 +1087,10 @@ rawCount10(index: number , rawcount10wComma: string) {
   this.clonalTotalIGHReadDepth(index); // 9번
   this.clonalTotalNuclelatedCell(index);
   this.totalCellEquivalent(index);
+
+  if (tableRows.length === 1) {
+    this.upDateColnalCount();
+  }
 }
 
 
