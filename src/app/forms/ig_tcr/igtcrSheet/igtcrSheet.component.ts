@@ -811,7 +811,6 @@ removeTableRow(i: number): void {
   this.formControls().removeAt(i);
 
   if (this.formControls.length === 0) {
-    // const temp = initialTestResult('','');
      this.pcellLPE557 = '';
      this.bcellLPE555LPE556 = '';
      this.initialTestResult = '';
