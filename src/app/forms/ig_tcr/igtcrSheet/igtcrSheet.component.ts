@@ -333,33 +333,7 @@ export class IgTcrSheetComponent implements OnInit {
     }
    
     this.clonalCounts(); // 클론갯수 구하기
-    // this.makePDFData();
-    // 클론갯수 구하기
-    // const clonalCount = this.formWithoutgraph.length;
-    // // console.log('[338][클론갯수 구하기]', clonalCount, this.formWithoutgraph);
-    // if (clonalCount === 1) {
-    //     this.clonalCountTitle = '한';
-    // } else if (clonalCount === 2) {
-    //   this.clonalCountTitle = '두';
-    // } else if (clonalCount === 3) {
-    //   this.clonalCountTitle = '세';
-    // } else if (clonalCount === 4) {
-    //   this.clonalCountTitle = '네';
-    // } else if (clonalCount === 5) {
-    //   this.clonalCountTitle = '다섯';
-    // } else if (clonalCount === 6) {
-    //   this.clonalCountTitle = '여섯';
-    // } else if (clonalCount === 7) {
-    //   this.clonalCountTitle = '일곱';
-    // } else if (clonalCount === 8) {
-    //   this.clonalCountTitle = '여덜';
-    // } else if (clonalCount === 9) {
-    //   this.clonalCountTitle = '아홉';
-    // } else if (clonalCount === 10) {
-    //   this.clonalCountTitle = '열';
-    // }
-
-    
+   
     this.initialTestResult = initialTestResult(this.geneType, this.clonalCountTitle);
 
   } else if (tableRows.length > 1){
