@@ -250,7 +250,7 @@ export class IgTcrSheetComponent implements OnInit {
       tap(data => this.clonalLists = data)
     )
     .subscribe(data => {
-      // console.log('[igtcrSheet][250][검사데이터]', data);
+     
       this.clonalLists.forEach((item, index) => {
         if (index === 0) {
           if (item.gene.length) {
