@@ -1108,7 +1108,7 @@ cellEquivalent(index: number, percentTotalReads: number, percentOfLQIC: number, 
         if (clonalNo === 1) {
           const rawCount1 =  this.existComma(tableRows.at(index).get('raw_count1')?.value);
 
-          // tableRows.at(index).patchValue({ cell_equipment1: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount1))});
+         
           if (Number.isNaN(parseInt(rawCount1))) {
             tableRows.at(index).patchValue({ cell_equipment1:0});
           } else {
@@ -1116,7 +1116,7 @@ cellEquivalent(index: number, percentTotalReads: number, percentOfLQIC: number, 
           }
         } else if (clonalNo === 2) {
           const rawCount2 =  this.existComma(tableRows.at(index).get('raw_count2')?.value);
-          // tableRows.at(index).patchValue({ cell_equipment2: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount2))});
+          
           if (Number.isNaN(parseInt(rawCount2))) {
             tableRows.at(index).patchValue({ cell_equipment2:0});
           } else {
@@ -1124,7 +1124,7 @@ cellEquivalent(index: number, percentTotalReads: number, percentOfLQIC: number, 
           }          
         }  else if (clonalNo === 3) {
           const rawCount3 =  this.existComma(tableRows.at(index).get('raw_count3')?.value);
-          // tableRows.at(index).patchValue({ cell_equipment3: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount3))});
+         
           if (Number.isNaN(parseInt(rawCount3))) {
             tableRows.at(index).patchValue({ cell_equipment3:0});
           } else {
@@ -1132,7 +1132,7 @@ cellEquivalent(index: number, percentTotalReads: number, percentOfLQIC: number, 
           }
         } else if (clonalNo === 4) {
           const rawCount4 =  this.existComma(tableRows.at(index).get('raw_count4')?.value);
-          // tableRows.at(index).patchValue({ cell_equipment4: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount4))});
+          
           if (Number.isNaN(parseInt(rawCount4))) {
             tableRows.at(index).patchValue({ cell_equipment4:0});
           } else {
@@ -1140,7 +1140,7 @@ cellEquivalent(index: number, percentTotalReads: number, percentOfLQIC: number, 
           }         
         } else if (clonalNo === 5) {
           const rawCount5 =  this.existComma(tableRows.at(index).get('raw_count5')?.value);
-          // tableRows.at(index).patchValue({ cell_equipment5: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount5))});
+          
           if (Number.isNaN(parseInt(rawCount5))) {
             tableRows.at(index).patchValue({ cell_equipment5:0});
           } else {
@@ -1209,8 +1209,6 @@ clonalTotalIGHReadDepth(index: number) {
     tableRows.at(index).patchValue({ total_IGH_read_depth: clonalTotalIGHReadDepth});
   }
 
-
-  
     // LPE555 LPE556 B-Cells
   // LPE557 P-Cells
   if (this.patientInfo.test_code === 'LPE555' || this.patientInfo.test_code === 'LPE555') {
@@ -1220,7 +1218,6 @@ clonalTotalIGHReadDepth(index: number) {
   }
 
  
-
 }
 
 getClonalTotalIGHReadDepth(index: number): string {
@@ -1267,7 +1264,6 @@ clonalTotalNuclelatedCell(index: number) {
   tableRows.at(index).patchValue({ total_nucelated_cells: clonalTotalNuclelatedCell});
 }
    
-
 }
 
 getClonalTotalNuclelatedCell(index: number): string {
@@ -1358,7 +1354,6 @@ makePDFData() {
     const clonalTotalIGHReadDepth = control.at(0).get('total_IGH_read_depth')?.value;
     const clonalCellEquivalent = control.at(0).get('total_cell_equipment')?.value;
    
-    // console.log('[1289]', control.getRawValue(),  control.at(0).get('v_gene1')?.value);
 
     const vregion1 = control.at(0).get('v_gene1')?.value ? control.at(0).get('v_gene1')?.value : "";
     const jregion1 = control.at(0).get('j_gene1')?.value ? control.at(0).get('j_gene1')?.value : "";
