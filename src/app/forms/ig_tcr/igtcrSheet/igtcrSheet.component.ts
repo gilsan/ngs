@@ -337,17 +337,17 @@ export class IgTcrSheetComponent implements OnInit {
     this.initialTestResult = initialTestResult(this.geneType, this.clonalCountTitle);
 
   } else if (tableRows.length > 1){
-    const totalIGHReadDepth = tableRows.at(0).get('total_IGH_read_depth')?.value;
-    this.mrdnucleatedCells = tableRows.at(0).get('total_nucelated_cells')?.value;
+    // const totalIGHReadDepth = tableRows.at(0).get('total_IGH_read_depth')?.value;
+    // this.mrdnucleatedCells = tableRows.at(0).get('total_nucelated_cells')?.value;
  
-    this.secondTotalBcellTcellCount = tableRows.at(0).get('total_Bcell_Tcell_count')?.value;
+    // this.secondTotalBcellTcellCount = tableRows.at(0).get('total_Bcell_Tcell_count')?.value;
  
-    if (this.patientInfo.test_code === 'LPE555' || this.patientInfo.test_code === 'LPE556') {
-      this.mrdBcellLPE555LPE556 = totalIGHReadDepth;
-    } else if(this.patientInfo.test_code === 'LPE557') {
-      this.mrdPcellLPE557 = totalIGHReadDepth;
-    }
-
+    // if (this.patientInfo.test_code === 'LPE555' || this.patientInfo.test_code === 'LPE556') {
+    //   this.mrdBcellLPE555LPE556 = totalIGHReadDepth;
+    // } else if(this.patientInfo.test_code === 'LPE557') {
+    //   this.mrdPcellLPE557 = totalIGHReadDepth;
+    // }
+    this.getCheckboxMax();
      
   }
 
@@ -363,8 +363,8 @@ export class IgTcrSheetComponent implements OnInit {
    });
  
     
-    this.pdfFirstTitle = this.geneType + ' CLONALITY REPORT';
-    this.pdfMDRTitle = this.geneType + ' MRD REPORT';
+    this.pdfFirstTitle = this.geneType.toUpperCase() + ' CLONALITY REPORT';
+    this.pdfMDRTitle = this.geneType.toUpperCase() + ' MRD REPORT';
  
    
     const tableRows = this.tablerowForm.get('tableRows') as FormArray;
@@ -413,6 +413,37 @@ export class IgTcrSheetComponent implements OnInit {
 
 
     } else if (tableRows.length > 1){
+      let indexNo = -1;
+      let totalIGHReadDepth = '';
+      const tableValues= tableRows.getRawValue();
+      tableValues.forEach((item, index) => {
+    
+        const useYN1 = tableRows.at(index).get('use_yn1')?.value;
+        if (useYN1 === false && indexNo === -1) {
+          indexNo = index;
+          totalIGHReadDepth = tableRows.at(index).get('total_IGH_read_depth')?.value;
+          this.mrdnucleatedCells = tableRows.at(index).get('total_nucelated_cells')?.value;
+          this.secondTotalBcellTcellCount = tableRows.at(index).get('total_Bcell_Tcell_count')?.value;
+          this.densityTablePdf2 = tableRows.at(index).get('density')?.value;
+          this.secondTotalBcellTcellCount = tableRows.at(index).get('total_Bcell_Tcell_count')?.value;
+    
+          if(this.densityTablePdf2 === '240') {
+            this.densityTablePdf1CellFEquivalent2= '36,923';
+           } else {
+             this.densityTablePdf1CellFEquivalent2 = '61,538';
+           }
+
+          if (this.patientInfo.test_code === 'LPE555' || this.patientInfo.test_code === 'LPE556') {
+            this.mrdBcellLPE555LPE556 = totalIGHReadDepth;
+          } else if(this.patientInfo.test_code === 'LPE557') {
+            this.mrdPcellLPE557 = totalIGHReadDepth;
+          }
+        }
+    
+      });
+
+
+      /*
       const totalIGHReadDepth = tableRows.at(0).get('total_IGH_read_depth')?.value;
       this.mrdnucleatedCells = tableRows.at(0).get('total_nucelated_cells')?.value;
       this.densityTablePdf2 = tableRows.at(0).get('density')?.value;
@@ -428,7 +459,7 @@ export class IgTcrSheetComponent implements OnInit {
       } else if(this.patientInfo.test_code === 'LPE557') {
         this.mrdPcellLPE557 = totalIGHReadDepth;
       }
-
+     */
       this.makeMRDData();
     }
 
@@ -1474,17 +1505,20 @@ makePDFData() {
 }
 
 makeMRDData() {
+  let sequence = 0;
   this.mrdData = [];
+  let tempMrdData =[];
   const control = this.tablerowForm.get('tableRows') as FormArray;
   const tableLength = control.length -1;
-  const rawValue = control.getRawValue();
-  
+  const rawValue = control.getRawValue().reverse();
+  // console.log('[1512][mrd데이터]', rawValue);
   rawValue.forEach((item, index) => {
     
         if (item.use_yn1 === false) {
     
-              if (index === tableLength) {
-                this.mrdData.push({
+            //  if (index === tableLength) {
+              if (sequence ===  0) {
+                tempMrdData.push({
                   dateSequence: 'initial',
                   reportDate: item.report_date,
                   totalReadCount: item.total_read_count.replace(/,/g, ''),
@@ -1495,8 +1529,8 @@ makeMRDData() {
                   totalCellEquipment : item.total_cell_equipment.replace(/,/g, ''),
                 });
               } else {
-                this.mrdData.push({
-                  dateSequence: tableLength - index + ' f/u',
+                tempMrdData.push({
+                  dateSequence: sequence + ' f/u',
                   reportDate: item.report_date,
                   totalReadCount: item.total_read_count.replace(/,/g, ''),
                   readOfLQIC: item.read_of_LQIC,
@@ -1506,15 +1540,18 @@ makeMRDData() {
                   totalCellEquipment : item.total_cell_equipment.replace(/,/g, ''),
                 });   
             }
+            sequence++;
         }
   });
-   
+  this.mrdData = tempMrdData.reverse();
+  console.log('[1542][mrd데이터 순서]', this.mrdData);
 }
 //////////////////////////////////////////////////////////////////////
 // 그래프 데이타
 makeGraphclonalTotalIGHReadDepthData(index: number = 0, date: string = '', clonalTotalIGHReadDepthData: string = '' ) {
   if (Number(clonalTotalIGHReadDepthData) === 0) {
-    this.clonalTotalIGHReadDepthData.unshift('-');
+    this.clonalTotalIGHReadDepthData.unshift(Math.pow(10,-20));
+  
   } else {
     this.clonalTotalIGHReadDepthData.unshift(Number(clonalTotalIGHReadDepthData) /100);
   }
@@ -1524,11 +1561,12 @@ makeGraphclonalTotalIGHReadDepthData(index: number = 0, date: string = '', clona
 
 makeGraphclonalTotalNuclelatedCellsData(index: number = 0, date: string = '',   clonalTotalnuclelatedCells: string = '') {
   if (Number(clonalTotalnuclelatedCells) === 0) {
-    this.clonalTotalnuclelatedCellsData.unshift('-');
+    this.clonalTotalnuclelatedCellsData.unshift(Math.pow(10,-20));
   } else {
     this.clonalTotalnuclelatedCellsData.unshift(Number(clonalTotalnuclelatedCells) /100);
   }
   
+  // console.log('[1532][clonalTotalnuclelatedCellsData]', this.clonalTotalnuclelatedCellsData);
   this.updateGraphData();
 }
 
@@ -1541,12 +1579,13 @@ getAllData() {
   const len = formValue.length -1;
 
   formValue.forEach( (item, index) => {
-      if (item.use_yn1 === false ) {
-        this.makeGraphclonalTotalIGHReadDepthData(index, item.report_date, item.total_IGH_read_depth );
-        if (index === len) {
-          this.makeGraphclonalTotalNuclelatedCellsData(index,item.date, item.total_IGH_read_depth);
-        } else {
-          this.makeGraphclonalTotalNuclelatedCellsData(index,item.date, item.total_nucelated_cells);
+      // console.log('[1544][formData]', item);
+      if (item.use_yn1 === false ) {  
+          this.makeGraphclonalTotalIGHReadDepthData(index, item.report_date, item.total_IGH_read_depth );
+        if (index === len) {  
+            this.makeGraphclonalTotalNuclelatedCellsData(index,item.date, item.total_IGH_read_depth);   
+        } else {    
+           this.makeGraphclonalTotalNuclelatedCellsData(index,item.date, item.total_nucelated_cells);
         }
         
       }
@@ -1571,6 +1610,7 @@ updateGraphData() {
     yAxis: [
       {
         type: 'log',
+      //  min: 0 ,
         minorSplitLine: {
             show: true
         }
@@ -1853,10 +1893,39 @@ mrdAddCommentChange(contents: string) {
 }
 
 boxstatus(i: number, event: any) {
+
   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
   const gene = tableRows.at(i).get('gene')?.value;  
   tableRows.at(i).patchValue({ use_yn1: event.target.checked});
-  // console.log('[1784]', event.target.checked);   
+  // console.log('[1784]', event.target.checked);  
+  this.getCheckboxMax();
+}
+
+// checkbox 있으면 다름값 구하기
+getCheckboxMax() {
+  let indexNo = -1;
+  let totalIGHReadDepth = '';
+  const tableRows = this.tablerowForm.get('tableRows') as FormArray;
+  // mrdPcellLPE557  mrdnucleatedCells mrdPcellLPE557 mrdnucleatedCells
+
+  const tableValues= tableRows.getRawValue();
+  tableValues.forEach((item, index) => {
+
+    const useYN1 = tableRows.at(index).get('use_yn1')?.value;
+    if (useYN1 === false && indexNo === -1) {
+      indexNo = index;
+      totalIGHReadDepth = tableRows.at(index).get('total_IGH_read_depth')?.value;
+      this.mrdnucleatedCells = tableRows.at(index).get('total_nucelated_cells')?.value;
+      this.secondTotalBcellTcellCount = tableRows.at(index).get('total_Bcell_Tcell_count')?.value;
+
+      if (this.patientInfo.test_code === 'LPE555' || this.patientInfo.test_code === 'LPE556') {
+        this.mrdBcellLPE555LPE556 = totalIGHReadDepth;
+      } else if(this.patientInfo.test_code === 'LPE557') {
+        this.mrdPcellLPE557 = totalIGHReadDepth;
+      }
+    }
+
+  });
 }
 
  
