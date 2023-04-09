@@ -1705,20 +1705,14 @@ saveAllData() {
     this.patientInfo.recheck = this.recheck; // 확인자
     this.patientInfo.accept_date = this.requestDate; // 의뢰한 날자
     // 멘트저장
-    // initialAddComment
-    //   getFormControls.length === 1" initialTestResult commentInitial  
-    //   getFormControls.length > 1"  [ commentMRD 
-    // if (control.length === 1) {
+ 
       init_result1 = this.initialTestResult;
       init_result2 = this.initialAddComment;
       init_comment = this.commentInitial;
-    // } else {
+    
       fu_result = this.mrdAddComment;
       fu_comment = this.commentMRD;
-    //}
-
-
-     
+    
     this.firstReportDay = this.today2().replace(/-/g, '.'); 
  
     this.igTcrData = {
