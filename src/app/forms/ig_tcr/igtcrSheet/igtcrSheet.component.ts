@@ -1579,7 +1579,7 @@ getAllData() {
   const len = formValue.length -1;
 
   formValue.forEach( (item, index) => {
-      // console.log('[1544][formData]', item);
+     
       if (item.use_yn1 === false ) {  
           this.makeGraphclonalTotalIGHReadDepthData(index, item.report_date, item.total_IGH_read_depth );
         if (index === len) {  
