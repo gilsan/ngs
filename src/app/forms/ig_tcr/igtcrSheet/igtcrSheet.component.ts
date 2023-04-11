@@ -1891,7 +1891,7 @@ boxstatus(i: number, event: any) {
   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
   const gene = tableRows.at(i).get('gene')?.value;  
   tableRows.at(i).patchValue({ use_yn1: event.target.checked});
-  // console.log('[1784]', event.target.checked);  
+   
   this.getCheckboxMax();
 }
 
