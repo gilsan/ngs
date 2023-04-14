@@ -1549,8 +1549,9 @@ makeMRDData() {
 //////////////////////////////////////////////////////////////////////
 // 그래프 데이타
 makeGraphclonalTotalIGHReadDepthData(index: number = 0, date: string = '', clonalTotalIGHReadDepthData: string = '' ) {
-  if (Number(clonalTotalIGHReadDepthData) === 0) {
-    this.clonalTotalIGHReadDepthData.unshift(Math.pow(10,-20));
+  console.log('[1552][]', clonalTotalIGHReadDepthData);
+  if ((Number(clonalTotalIGHReadDepthData)/100) < 0.0001 || clonalTotalIGHReadDepthData === '0.00') {
+    this.clonalTotalIGHReadDepthData.unshift(Number(0.0001));
   
   } else {
     this.clonalTotalIGHReadDepthData.unshift(Number(clonalTotalIGHReadDepthData) /100);
@@ -1560,8 +1561,11 @@ makeGraphclonalTotalIGHReadDepthData(index: number = 0, date: string = '', clona
 }
 
 makeGraphclonalTotalNuclelatedCellsData(index: number = 0, date: string = '',   clonalTotalnuclelatedCells: string = '') {
-  if (Number(clonalTotalnuclelatedCells) === 0) {
-    this.clonalTotalnuclelatedCellsData.unshift(Math.pow(10,-20));
+  
+  // 값이 0.0001 이하면 0.0001 로 설정
+  if ( (Number(clonalTotalnuclelatedCells)/100) < 0.0001 || clonalTotalnuclelatedCells === '0.0000') {
+    // this.clonalTotalnuclelatedCellsData.unshift(Math.pow(10,-4));
+    this.clonalTotalnuclelatedCellsData.unshift(Number(0.0001));
   } else {
     this.clonalTotalnuclelatedCellsData.unshift(Number(clonalTotalnuclelatedCells) /100);
   }
@@ -1600,7 +1604,7 @@ updateGraphData() {
     color: this.colors,
     legend: {
       data: ['Clonal/total ' + this.geneType + ' read depth (%)*  ', 'Clonal/total nuclelated cells (%)**'],
-      left: 60,
+      left: 360,
       bottom: 20,
     },
     xAxis: {
@@ -1613,6 +1617,10 @@ updateGraphData() {
       //  min: 0 ,
         minorSplitLine: {
             show: true
+        },
+        axisTick: {
+          show: true,
+          length: 4
         }
      },
  
