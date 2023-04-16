@@ -346,23 +346,28 @@ table.st-01 .s-text-right {
   position: sticky;
   left: 0;
   z-index: 1;
+
 }
 
 .moving2 {
   position: sticky;
   left: 21px;
   z-index: 1;
+
 }
 
 .moving3 {
   position: sticky;
   left: 171px;
   z-index: 1;
+
 }
 
 .moving4 {
   position: sticky;
-  left:192px;
+  // left:192px;  // 192 -> 225
+  left:228px;  // 192 -> 225
+
   z-index: 1;
 }
 
@@ -379,13 +384,13 @@ table.st-01 .s-text-right {
 }
 
 .moving7 {
-  position: sticky;
+ position: sticky;
   left:  501px;
   z-index: 1;
 }
 
 .moving8 {
-  position: sticky;
+ position: sticky;
   left: 552px;
   z-index: 1;
 }
