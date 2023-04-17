@@ -71,7 +71,10 @@ parameter
 public igtcrListInfo(specimenNo: string): Observable<any> {
 
   return this.http.post(`${this.apiUrl}/igtcr/list`, {specimenNo})
+}
 
+public igtcrListTrbTrg(specimenNo: string, gene: string) {
+  return this.http.post(`${this.apiUrl}/igtcr/list_557`, {specimenNo, gene})
 }
 
 // http://183.98.12.201:3000/igtcr/save
