@@ -14,6 +14,7 @@ import { PatientsListService } from 'src/app/home/services/patientslist';
 import { UtilsService } from '../../commons/utils.service';
 import { initalComment, initialTestResult, makeComment } from './commenttype.model';
 import {  MAT_CHECKBOX_DEFAULT_OPTIONS_FACTORY } from '@angular/material/checkbox';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
  
  
 
@@ -244,39 +245,48 @@ export class IgTcrSheetComponent implements OnInit {
          
       }),
       concatMap(() => {
-       return this.service.igtcrListInfo(this.patientInfo.specimenNo)
-
+         if(this.testCode === 'TRB'  ) {
+           return this.service.igtcrListTrbTrg(this.patientInfo.specimenNo, 'TRB');
+         } else if(this.testCode === 'TRG') {
+          return this.service.igtcrListTrbTrg(this.patientInfo.specimenNo, 'TRG');
+         } else {
+          return this.service.igtcrListInfo(this.patientInfo.specimenNo)
+         }
+         
       }),
       tap(data => this.clonalLists = data)
     )
     .subscribe(data => {
      
-      this.clonalLists.forEach((item, index) => {
-        if (index === 0) {
-          if (item.gene.length) {
-            this.geneType = item.gene;
+      if (this.clonalLists.length) {
+        this.clonalLists.forEach((item, index) => {
+          if (index === 0) {
+            if (item.gene.length) {
+              this.geneType = item.gene;
+            }
           }
+          this.addRow(item);
+          this.clonalTotalIGHReadDepth(index);
+          this.clonalTotalNuclelatedCell(index);
+          this.totalCellEquivalent(index);
+        });
+        this.commentMRD =  makeComment(this.geneType,this.patientInfo.test_code) ;
+        this.commentInitial =  initalComment(this.geneType,this.patientInfo.test_code) ;
+  
+  
+  
+        if (this.patientInfo.init_result1.length) {
+          this.initialTestResult = this.patientInfo.init_result1;
+          this.initialAddComment = this.patientInfo.init_result2;
+          this.commentInitial = this.patientInfo.init_comment;
+          this.mrdAddComment = this.patientInfo.fu_result;
+          this.commentMRD = this.patientInfo.fu_comment;
+        } else {
+         // this.btCells();
         }
-        this.addRow(item);
-        this.clonalTotalIGHReadDepth(index);
-        this.clonalTotalNuclelatedCell(index);
-        this.totalCellEquivalent(index);
-      });
-      this.commentMRD =  makeComment(this.geneType,this.patientInfo.test_code) ;
-      this.commentInitial =  initalComment(this.geneType,this.patientInfo.test_code) ;
-
-
-
-      if (this.patientInfo.init_result1.length) {
-        this.initialTestResult = this.patientInfo.init_result1;
-        this.initialAddComment = this.patientInfo.init_result2;
-        this.commentInitial = this.patientInfo.init_comment;
-        this.mrdAddComment = this.patientInfo.fu_result;
-        this.commentMRD = this.patientInfo.fu_comment;
-      } else {
-       // this.btCells();
+        this.btCells();
       }
-      this.btCells();
+
  
       
     });
