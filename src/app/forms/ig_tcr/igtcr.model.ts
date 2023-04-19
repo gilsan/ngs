@@ -154,6 +154,7 @@ export interface IPatient {
       fu_comment: string;
       detected: string;
       patientid: string;
+      trbtrg: string;
       data: IClonal[]
     }
 

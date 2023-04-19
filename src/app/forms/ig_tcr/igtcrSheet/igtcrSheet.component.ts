@@ -149,6 +149,7 @@ export class IgTcrSheetComponent implements OnInit {
     fu_comment: '',
     patientid: '',
     detected: this.patientInfo.detected,
+    trbtrg: '',
     data:  []
   };
 
@@ -272,9 +273,7 @@ export class IgTcrSheetComponent implements OnInit {
         });
         this.commentMRD =  makeComment(this.geneType,this.patientInfo.test_code) ;
         this.commentInitial =  initalComment(this.geneType,this.patientInfo.test_code) ;
-  
-  
-  
+   
         if (this.patientInfo.init_result1.length) {
           this.initialTestResult = this.patientInfo.init_result1;
           this.initialAddComment = this.patientInfo.init_result2;
@@ -366,11 +365,16 @@ export class IgTcrSheetComponent implements OnInit {
 
 
   createPdf() {
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    if(control.length === 0) {
+      alert("데이터가 없어 사용할수 없습니다.");
+      return;
+    }
     this.screenstatus = '3';
     this.patientInfo.screenstatus = '3';
     this.patientsListService.changescreenstatus( this.patientInfo.specimenNo,'3','3000', 'userid').subscribe(data => {
      // this.saveAllData();
-   });
+    });
  
     
     this.pdfFirstTitle = this.geneType.toUpperCase() + ' CLONALITY REPORT';
@@ -617,7 +621,7 @@ export class IgTcrSheetComponent implements OnInit {
 
 ///////////////////////////////////////
 createRow(item: IClonal): FormGroup {
-   
+ 
   return this.fb.group({
     IGHV_mutation : [item.IGHV_mutation],
     bigo : [item.bigo],
@@ -709,7 +713,12 @@ createRow(item: IClonal): FormGroup {
 }
 
 makeNewRow(): FormGroup  {
-
+  let genetype = '';
+   if (this.testCode === 'TRB') {
+      genetype = 'TRB';
+   } else if (this.testCode === 'TRG') {
+    genetype = 'TRG';
+   }
   return this.fb.group({
     IGHV_mutation : [''],
     bigo : [''],
@@ -1706,6 +1715,11 @@ saveAllData() {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
 
+    if(control.length === 0) {
+      alert("저장할수 없습니다.");
+      return;
+    }
+
     let init_result1= '';
     let init_result2= '';
     let init_comment= '';
@@ -1748,6 +1762,7 @@ saveAllData() {
         fu_comment,
         detected: this.resultStatus === "Detected" ? '0' : '1',
         patientid: this.patientInfo.patientID,
+        trbtrg: this.testCode,
         data:  formData
       };
     
@@ -1790,6 +1805,12 @@ saveAllData() {
 }
 
   screenRead(): void {
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    if(control.length === 0) {
+      alert("데이터가 없어 사용할수 없습니다.");
+      return;
+    }
+
     this.patientInfo.screenstatus = '1';
     this.screenstatus = '1';
       this.patientsListService.changescreenstatus( this.patientInfo.specimenNo,'1','1000', 'userid').subscribe(data => {
@@ -1802,6 +1823,12 @@ saveAllData() {
   
   // 판독완료
   screenReadFinish(): void {
+    const control = this.tablerowForm.get('tableRows') as FormArray;
+    if(control.length === 0) {
+      alert("데이터가 없어 사용할수 없습니다.");
+      return;
+    }
+
     this.patientInfo.screenstatus = '2';   
     this.screenstatus = '2';
     this.patientsListService.changescreenstatus( this.patientInfo.specimenNo,'2','2000', 'userid').subscribe(data => {
@@ -1813,11 +1840,17 @@ saveAllData() {
   reset(): void {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const temp = control.getRawValue();
-    this.patientInfo.screenstatus = '1';
-    this.screenstatus = '1';
-    this.patientsListService.changescreenstatus( this.patientInfo.specimenNo,'1','100', 'userid').subscribe(data => {
-      alert('변경했습니다.');
-   })
+   
+    if (control.length === 0) {
+      alert("수정할수 없습니다.");
+    } else {
+      this.patientInfo.screenstatus = '1';
+      this.screenstatus = '1';
+      this.patientsListService.changescreenstatus( this.patientInfo.specimenNo,'1','100', 'userid').subscribe(data => {
+        alert('변경했습니다.');
+     });
+    }
+
   
   }
 
