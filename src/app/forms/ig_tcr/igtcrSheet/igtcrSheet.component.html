@@ -362,7 +362,7 @@
                                     </td>
                                  
                                     <td class="moving10"  [class.moving4] ="getFormControls.length > 0? true: false" *ngIf="testCode === 'TRB' || testCode === 'TRG'">
-                                         {{list.gene}}
+                                         {{list.get('gene')?.value}}
                                     </td>
  
                                     <td class="moving10"  [class.moving5] ="getFormControls.length > 0? true: false">

@@ -258,7 +258,7 @@ export class IgTcrSheetComponent implements OnInit {
       tap(data => this.clonalLists = data)
     )
     .subscribe(data => {
-     
+      console.log('[261][]', data);
       if (this.clonalLists.length) {
         this.clonalLists.forEach((item, index) => {
           if (index === 0) {
@@ -621,7 +621,7 @@ export class IgTcrSheetComponent implements OnInit {
 
 ///////////////////////////////////////
 createRow(item: IClonal): FormGroup {
- 
+  console.log('[624][createRow]', item, item.gene);
   return this.fb.group({
     IGHV_mutation : [item.IGHV_mutation],
     bigo : [item.bigo],
