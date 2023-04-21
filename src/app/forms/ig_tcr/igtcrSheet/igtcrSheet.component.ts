@@ -181,18 +181,19 @@ export class IgTcrSheetComponent implements OnInit {
     .pipe(
 
       tap(data => {
-        this.testCode = data['type'];
+        // this.testCode = data['type'];
         this.reportID = data['id'];
  
       }),
       switchMap(data => of(data['id'])),
       tap(data => {
         this.patientInfo = this.service.patientLists[data];
-        if (this.testCode === 'TRB') {
-            this.patientInfo.reportTitle = 'TRB Gene Rearrangement Analysis [NGS]';
-          } else if (this.testCode == 'TRG') {
-            this.patientInfo.reportTitle = 'TRG Gene Rearrangement Analysis [NGS]';
-          }
+        this.patientInfo.reportTitle = 'TRB/TRG Gene Rearrangement Analysis [NGS]';
+        // if (this.testCode === 'TRB') {
+        //     this.patientInfo.reportTitle = 'TRB Gene Rearrangement Analysis [NGS]';
+        //   } else if (this.testCode == 'TRG') {
+        //     this.patientInfo.reportTitle = 'TRG Gene Rearrangement Analysis [NGS]';
+        //   }
 
           
         if (this.patientInfo.test_code === 'LPE555') {
@@ -204,7 +205,7 @@ export class IgTcrSheetComponent implements OnInit {
             this.geneType = 'TRB';
           } else if (this.testCode == 'TRG') {
             this.geneType = 'TRG';
-          }
+        }
 
         }
         // 판독자 , 검사자
@@ -214,7 +215,7 @@ export class IgTcrSheetComponent implements OnInit {
 
         if (this.patientInfo.recheck?.length) {
                 this.recheck = this.patientInfo.recheck;
-            }
+        }
 
             // 검체 감염유부 확인
         if (parseInt(this.patientInfo.detected, 10) === 0) {
@@ -240,8 +241,8 @@ export class IgTcrSheetComponent implements OnInit {
           this.pdfFirstTitle = 'IGH/IGK CLONALITY REPORT';
           this.pdfMDRTitle = 'IGH/IGK MRD REPORT';
         }  else if (this.patientInfo.test_code === 'LPE557') {
-          this.pdfFirstTitle = 'TRB CLONALITY REPORT';
-          this.pdfMDRTitle = 'TRB MRD REPORT';
+          this.pdfFirstTitle = 'TRB/TRG CLONALITY REPORT';
+          this.pdfMDRTitle = 'TRB/TRG MRD REPORT';
         }
          
       }),
@@ -698,12 +699,12 @@ createRow(item: IClonal): FormGroup {
 }
 
 makeNewRow(): FormGroup  {
-  let genetype = '';
-   if (this.testCode === 'TRB') {
-      genetype = 'TRB';
-   } else if (this.testCode === 'TRG') {
-    genetype = 'TRG';
-   }
+  // let genetype = '';
+  //  if (this.testCode === 'TRB') {
+  //     genetype = 'TRB';
+  //  } else if (this.testCode === 'TRG') {
+  //   genetype = 'TRG';
+  //  }
   return this.fb.group({
     IGHV_mutation : [''],
     bigo : [''],
@@ -719,7 +720,7 @@ makeNewRow(): FormGroup  {
     cell_equipment9: [''],
     cell_equipment10: [''],
     comment: [''],
-    gene: [this.geneType],
+    gene: [''],
     j_gene1: [''],
     j_gene2: [''],
     j_gene3: [''],

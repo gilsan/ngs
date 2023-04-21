@@ -62,7 +62,6 @@
             <col width="8%">
             <col width="7%">
             <col width="8%">
-            <col width="8%">
             <col width="5%">
           </colgroup>
           <thead>
@@ -77,7 +76,6 @@
               <th>결과지명</th>
               <th>검체번호</th>
               <th>진행상태</th>
-              <th>&nbsp;</th>
               <th>&nbsp;</th>
               <th>연구용</th>
             </tr>
@@ -95,20 +93,29 @@
               <td class="txt_c">{{list.reportTitle}}</td>
               <td class="txt_c">{{list.specimenNo}}</td>
               <td class="txt_c">{{processingStatus(i)}}</td>
+              <td class="txt_c">
+                <button type="button" class="btn btn_03" (click)="goReporter(i,'NONE')">결과지/보고서</button>
+              </td>
+              <td  class="txt_c"  *ngIf="list.gbn === 'RESEARCH'; else research;">
+                <span>연구용</span>
+              </td>
+              <ng-template #research><td></td></ng-template>
+              <!-- 
               <td class="txt_c" *ngIf="list.test_code !== 'LPE557'">
                 <button type="button" class="btn btn_03" (click)="goReporter(i,'NONE')">결과지/보고서</button>
-            </td>
-            <td class="txt_c" *ngIf="list.test_code === 'LPE557'">
-                <button type="button" class="btn btn_03" (click)="goReporter(i, 'TRB')">결과지(TRB)</button>
-            </td>
-            <td class="txt_c" *ngIf="list.test_code === 'LPE557'">
-                <button type="button" class="btn btn_03" (click)="goReporter(i, 'TRG')">결과지(TRG)</button>
-            </td>
-            <td class="txt_c" *ngIf="list.test_code !== 'LPE557'"></td>
-            <td  class="txt_c"  *ngIf="list.gbn === 'RESEARCH'; else research;">
-              <span>연구용</span>
-            </td>
-            <ng-template #research><td></td></ng-template>
+              </td>
+              <td class="txt_c" *ngIf="list.test_code === 'LPE557'">
+                  <button type="button" class="btn btn_03" (click)="goReporter(i, 'TRB')">결과지(TRB)</button>
+              </td>
+              <td class="txt_c" *ngIf="list.test_code === 'LPE557'">
+                  <button type="button" class="btn btn_03" (click)="goReporter(i, 'TRG')">결과지(TRG)</button>
+              </td>
+              <td class="txt_c" *ngIf="list.test_code !== 'LPE557'"></td>
+              <td  class="txt_c"  *ngIf="list.gbn === 'RESEARCH'; else research;">
+                <span>연구용</span>
+              </td>
+              <ng-template #research><td></td></ng-template>
+                -->
             </tr>
           </tbody>
         </table>
