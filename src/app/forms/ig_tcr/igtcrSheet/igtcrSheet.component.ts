@@ -188,7 +188,7 @@ export class IgTcrSheetComponent implements OnInit {
       switchMap(data => of(data['id'])),
       tap(data => {
         this.patientInfo = this.service.patientLists[data];
-        this.patientInfo.reportTitle = 'TRB/TRG Gene Rearrangement Analysis [NGS]';
+        
         // if (this.testCode === 'TRB') {
         //     this.patientInfo.reportTitle = 'TRB Gene Rearrangement Analysis [NGS]';
         //   } else if (this.testCode == 'TRG') {
@@ -201,6 +201,7 @@ export class IgTcrSheetComponent implements OnInit {
         } else if(this.patientInfo.test_code === 'LPE556') {
           this.geneType = '';
         } else if(this.patientInfo.test_code === 'LPE557') {
+          this.patientInfo.reportTitle = 'TRB/TRG Gene Rearrangement Analysis [NGS]';
           if (this.testCode === 'TRB') {
             this.geneType = 'TRB';
           } else if (this.testCode == 'TRG') {
