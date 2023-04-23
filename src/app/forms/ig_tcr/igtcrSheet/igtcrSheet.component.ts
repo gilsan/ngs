@@ -1748,7 +1748,7 @@ saveAllData() {
         fu_comment,
         detected: this.resultStatus === "Detected" ? '0' : '1',
         patientid: this.patientInfo.patientID,
-        trbtrg: this.testCode,
+        trbtrg: '',
         data:  formData
       };
     
