@@ -288,8 +288,6 @@ export class IgTcrSheetComponent implements OnInit {
       this.examin = data[0].checker;
       this.recheck = data[0].reader;
     });
-
-
   }
 //////////////////////////////////////////
  putFormWithoutgraph(
@@ -392,17 +390,7 @@ export class IgTcrSheetComponent implements OnInit {
       }
       
       this.clonalCounts();
-      // 클론갯수 구하기
-      // } else if (clonalCount === 7) {
-      //   this.clonalCountTitle = '일곱';
-      // } else if (clonalCount === 8) {
-      //   this.clonalCountTitle = '여덜';
-      // } else if (clonalCount === 9) {
-      //   this.clonalCountTitle = '아홉';
-      // } else if (clonalCount === 10) {
-      //   this.clonalCountTitle = '열';
-      // }
-
+      console.log(';');
 
     } else if (tableRows.length > 1){
       let indexNo = -1;
