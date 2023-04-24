@@ -188,13 +188,7 @@ export class IgTcrSheetComponent implements OnInit {
       switchMap(data => of(data['id'])),
       tap(data => {
         this.patientInfo = this.service.patientLists[data];
-        
-        // if (this.testCode === 'TRB') {
-        //     this.patientInfo.reportTitle = 'TRB Gene Rearrangement Analysis [NGS]';
-        //   } else if (this.testCode == 'TRG') {
-        //     this.patientInfo.reportTitle = 'TRG Gene Rearrangement Analysis [NGS]';
-        //   }
-
+          
           
         if (this.patientInfo.test_code === 'LPE555') {
           this.geneType = 'IGH';
