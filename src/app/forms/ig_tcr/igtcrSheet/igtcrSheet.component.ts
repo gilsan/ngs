@@ -181,7 +181,6 @@ export class IgTcrSheetComponent implements OnInit {
     .pipe(
 
       tap(data => {
-        // this.testCode = data['type'];
         this.reportID = data['id'];
  
       }),
@@ -281,9 +280,7 @@ export class IgTcrSheetComponent implements OnInit {
         }
         this.btCells();
       }
-
- 
-      
+     
     });
     
     this.utilsService.getListsDig('IGTCR')
