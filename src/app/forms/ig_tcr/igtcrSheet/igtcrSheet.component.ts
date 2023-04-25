@@ -422,24 +422,6 @@ export class IgTcrSheetComponent implements OnInit {
     
       });
 
-
-      /*
-      const totalIGHReadDepth = tableRows.at(0).get('total_IGH_read_depth')?.value;
-      this.mrdnucleatedCells = tableRows.at(0).get('total_nucelated_cells')?.value;
-      this.densityTablePdf2 = tableRows.at(0).get('density')?.value;
-      this.secondTotalBcellTcellCount = tableRows.at(0).get('total_Bcell_Tcell_count')?.value;
-      if(this.densityTablePdf2 === '240') {
-       this.densityTablePdf1CellFEquivalent2= '36,923';
-      } else {
-        this.densityTablePdf1CellFEquivalent2 = '61,538';
-      }
-
-      if (this.patientInfo.test_code === 'LPE555' || this.patientInfo.test_code === 'LPE556') {
-        this.mrdBcellLPE555LPE556 = totalIGHReadDepth;
-      } else if(this.patientInfo.test_code === 'LPE557') {
-        this.mrdPcellLPE557 = totalIGHReadDepth;
-      }
-     */
       this.makeMRDData();
     }
 
