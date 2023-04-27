@@ -1483,7 +1483,7 @@ makeMRDData() {
     
         if (item.use_yn1 === false) {
     
-            //  if (index === tableLength) {
+            
               if (sequence ===  0) {
                 tempMrdData.push({
                   dateSequence: 'initial',
@@ -1531,13 +1531,13 @@ makeGraphclonalTotalNuclelatedCellsData(index: number = 0, date: string = '',   
   
   // 값이 0.0001 이하면 0.0001 로 설정
   if ( (Number(clonalTotalnuclelatedCells)/100) < 0.0001 || clonalTotalnuclelatedCells === '0.0000') {
-    // this.clonalTotalnuclelatedCellsData.unshift(Math.pow(10,-4));
+    
     this.clonalTotalnuclelatedCellsData.unshift(Number(0.0001));
   } else {
     this.clonalTotalnuclelatedCellsData.unshift(Number(clonalTotalnuclelatedCells) /100);
   }
   
-  // console.log('[1532][clonalTotalnuclelatedCellsData]', this.clonalTotalnuclelatedCellsData);
+  
   this.updateGraphData();
 }
 
