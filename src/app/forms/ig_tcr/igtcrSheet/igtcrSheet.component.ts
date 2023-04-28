@@ -253,7 +253,7 @@ export class IgTcrSheetComponent implements OnInit {
       tap(data => this.clonalLists = data)
     )
     .subscribe(data => {
-      console.log('[261][]', data);
+     
       if (this.clonalLists.length) {
         this.clonalLists.forEach((item, index) => {
           if (index === 0) {
@@ -266,17 +266,18 @@ export class IgTcrSheetComponent implements OnInit {
           this.clonalTotalNuclelatedCell(index);
           this.totalCellEquivalent(index);
         });
-        this.commentMRD =  makeComment(this.geneType,this.patientInfo.test_code) ;
-        this.commentInitial =  initalComment(this.geneType,this.patientInfo.test_code) ;
-   
+        
+        console.log('[270] ==>',this.patientInfo,this.patientInfo.init_result1.length, this.geneType);
         if (this.patientInfo.init_result1.length) {
           this.initialTestResult = this.patientInfo.init_result1;
           this.initialAddComment = this.patientInfo.init_result2;
-          this.commentInitial = this.patientInfo.init_comment;
           this.mrdAddComment = this.patientInfo.fu_result;
+          this.commentInitial = this.patientInfo.init_comment;
           this.commentMRD = this.patientInfo.fu_comment;
+          
+ 
         } else {
-         // this.btCells();
+         // this.btCells();         
         }
         this.btCells();
       }
@@ -1688,13 +1689,25 @@ saveAllData() {
  
       init_result1 = this.initialTestResult;
       init_result2 = this.initialAddComment;
-      init_comment = this.commentInitial;
-    
       fu_result = this.mrdAddComment;
-      fu_comment = this.commentMRD;
+      
+      
+      if(this.commentInitial.length) {
+        init_comment = this.commentInitial;
+      } else {
+        this.commentInitial =  initalComment(this.geneType,this.patientInfo.test_code) ;
+        init_comment = this.commentInitial;
+      }
+      
+      if (this.commentMRD.length) {
+        fu_comment = this.commentMRD;
+      } else {
+        this.commentMRD =  makeComment(this.geneType,this.patientInfo.test_code) ;
+        fu_comment = this.commentMRD;
+      }
     
     this.firstReportDay = this.today2().replace(/-/g, '.'); 
- 
+   
     this.igTcrData = {
         specimenNo: this.patientInfo.specimenNo,
         method: this.patientInfo.reportTitle,
@@ -1713,11 +1726,12 @@ saveAllData() {
         trbtrg: '',
         data:  formData
       };
-    
+
+
       this.service.igtSave(this.igTcrData).subscribe(data => {
         if (data.message === 'OK') {
           alert('저장 했습니다.');
-         // this.saveAfterRender(); // 임시
+          // this.saveAfterRender(); // 임시
         } else {
           alert('저장 실패.');
         }
@@ -1746,6 +1760,7 @@ saveAllData() {
           this.clonalTotalIGHReadDepth(index);
           this.clonalTotalNuclelatedCell(index);
           this.totalCellEquivalent(index);
+          this.makeMent(); 
         });        
       });
 
@@ -1922,6 +1937,18 @@ getCheckboxMax() {
 }
 
  
+
+// 멘트처리
+makeMent() {
+  if (this.patientInfo.test_code === 'LPE555' || this.patientInfo.test_code === 'LPE557') {
+    this.commentMRD =  makeComment(this.geneType,this.patientInfo.test_code) ;
+    this.commentInitial =  initalComment(this.geneType,this.patientInfo.test_code) ;       
+  } else if(this.patientInfo.test_code === 'LPE556') {
+     this.commentMRD =  makeComment('IGH/IGK',this.patientInfo.test_code) ;
+     this.commentInitial =  initalComment('IGH/IGK',this.patientInfo.test_code) ;    
+  }  
+
+}
  
 
 

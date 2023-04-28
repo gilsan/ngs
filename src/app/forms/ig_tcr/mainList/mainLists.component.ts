@@ -83,7 +83,7 @@ export class MainListsComponent implements OnInit {
   }
 
   goReporter(i: number, type: string) {
-    console.log(this.lists[i]);
+   // console.log(this.lists[i]);
     this.router.navigate(['/diag', 'igtcrMainLists', 'igtcrsheet', type,i]);
     // this.router.navigate(['/diag', 'igtcrMainLists', 'igtcrsheet', this.lists[i].test_code,i]);
 
