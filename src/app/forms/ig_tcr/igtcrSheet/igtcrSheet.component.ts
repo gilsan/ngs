@@ -653,12 +653,7 @@ createRow(item: IClonal): FormGroup {
 }
 
 makeNewRow(): FormGroup  {
-  // let genetype = '';
-  //  if (this.testCode === 'TRB') {
-  //     genetype = 'TRB';
-  //  } else if (this.testCode === 'TRG') {
-  //   genetype = 'TRG';
-  //  }
+  
   return this.fb.group({
     IGHV_mutation : [''],
     bigo : [''],
