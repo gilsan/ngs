@@ -338,16 +338,7 @@ export class IgTcrSheetComponent implements OnInit {
     this.initialTestResult = initialTestResult(this.geneType, this.clonalCountTitle);
 
   } else if (tableRows.length > 1){
-    // const totalIGHReadDepth = tableRows.at(0).get('total_IGH_read_depth')?.value;
-    // this.mrdnucleatedCells = tableRows.at(0).get('total_nucelated_cells')?.value;
- 
-    // this.secondTotalBcellTcellCount = tableRows.at(0).get('total_Bcell_Tcell_count')?.value;
- 
-    // if (this.patientInfo.test_code === 'LPE555' || this.patientInfo.test_code === 'LPE556') {
-    //   this.mrdBcellLPE555LPE556 = totalIGHReadDepth;
-    // } else if(this.patientInfo.test_code === 'LPE557') {
-    //   this.mrdPcellLPE557 = totalIGHReadDepth;
-    // }
+  
     this.getCheckboxMax();
      
   }
