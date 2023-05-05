@@ -86,6 +86,8 @@
                     <col width="5%" />
                     <col width="5%" />
                     <col width="5%" />
+                    <col width="5%" />
+                    <col width="5%" />
                     <col  width="7%"/>
                 </colgroup>
                 <thead>
@@ -121,6 +123,8 @@
                         <th>ETC3</th-->
                         <th >Igv</th>
                         <th >Sanger</th>
+                        <th>등록인</th>
+                        <th>등록일</th>
                         <th >수정/삭제</th>
 
                     </tr>
@@ -349,9 +353,6 @@
                                 </span>
                             </td>
 
-
-
-
                             <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.dbsnp_hgmd}}</span> <!--    -->
                                 <span class="clr-input" *ngIf="status.value === 'U'">
                                     <input type="text"  class="clr-input" value="{{list.dbsnp_hgmd}}" id="dbsnp_hgmd{{list.id}}" >
@@ -377,6 +378,20 @@
                                     <input type="text"  class="clr-input" value="{{list.sanger}}" id="sanger{{list.id}}" >
                                 </span>
                             </td>
+                            <td class="txt_c"><span *ngIf="status.value === 'R'">등록인1</span>  <!--    -->
+                                <span class="clr-input" *ngIf="status.value === 'U'">
+                                    <input type="text"  class="clr-input" value="등록인2" id="sanger{{list.id}}" >
+                                </span>
+                            </td>
+                            <td class="txt_c"><span *ngIf="status.value === 'R'">등록일1</span>  <!--    -->
+                                <span class="clr-input" *ngIf="status.value === 'U'">
+                                    <input type="text"  class="clr-input" value="등록일2" id="sanger{{list.id}}" >
+                                </span>
+                            </td>
+
+
+
+
                             <td class="txt_c"> <!--    -->
                                 <span *ngIf="status.value === 'R'">
                                     <a class="btn-edit" (click)="status.value='U'" >수정</a>
