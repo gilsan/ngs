@@ -248,6 +248,7 @@ export class MutationComponent implements OnInit {
       type = '';
     }
     this.totRecords = 0;
+    console.log('[251][Mutation 검색]', type);
     this.lists$ = this.mutationService.getMutationList(genes, coding, type);
     this.lists$.subscribe((data) => {
 
