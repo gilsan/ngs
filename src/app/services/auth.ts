@@ -18,6 +18,7 @@ export class AuthService {
   ) { }
 
   public loginDiag(user: string, password: string): Observable<any> {
+    console.log('[auth][login] ', this.apiUrl);
     return this.http.post(`${this.apiUrl}/loginDiag/loginuser`, { user, password });
   }
 
