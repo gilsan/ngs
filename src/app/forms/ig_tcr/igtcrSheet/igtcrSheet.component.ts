@@ -903,7 +903,7 @@ upDateColnalCount() {
   if(this.getFormControls.length === 1) {
     this.clonalCounts();
     this.initialTestResult = initialTestResult(this.geneType, this.clonalCountTitle);
-    // console.log('[946][rawCount1]', this.clonalCountTitle);
+    
   }
 }
 
@@ -1133,7 +1133,7 @@ cellEquivalent(index: number, percentTotalReads: number, percentOfLQIC: number, 
           }
         } else if (clonalNo === 6) {
           const rawCount6 =  (tableRows.at(index).get('raw_count6')?.value);
-          // tableRows.at(index).patchValue({ cell_equipment6: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount6))});
+           
           if (Number.isNaN(parseInt(rawCount6))) {
             tableRows.at(index).patchValue({ cell_equipment6:0});
           } else {
@@ -1141,7 +1141,7 @@ cellEquivalent(index: number, percentTotalReads: number, percentOfLQIC: number, 
           }
         } else if (clonalNo === 7) {
           const rawCount7 =  (tableRows.at(index).get('raw_count7')?.value);
-          // tableRows.at(index).patchValue({ cell_equipment7: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount7))});
+          
           if (Number.isNaN(parseInt(rawCount7))) {
             tableRows.at(index).patchValue({ cell_equipment7:0});
           } else {
@@ -1149,7 +1149,7 @@ cellEquivalent(index: number, percentTotalReads: number, percentOfLQIC: number, 
           }
         } else if (clonalNo === 8) {
           const rawCount8 =  tableRows.at(index).get('raw_count8')?.value;
-          //tableRows.at(index).patchValue({ cell_equipment8: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount8))});
+          
           if (Number.isNaN(parseInt(rawCount8))) {
             tableRows.at(index).patchValue({ cell_equipment8:0});
           } else {
@@ -1157,7 +1157,7 @@ cellEquivalent(index: number, percentTotalReads: number, percentOfLQIC: number, 
           }
         } else if (clonalNo === 9) {
           const rawCount9 =  this.existComma(tableRows.at(index).get('raw_count9')?.value);
-          // tableRows.at(index).patchValue({ cell_equipment9: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount9))});
+          
           if (Number.isNaN(parseInt(rawCount9))) {
             tableRows.at(index).patchValue({ cell_equipment9:0});
           } else {
@@ -1165,7 +1165,7 @@ cellEquivalent(index: number, percentTotalReads: number, percentOfLQIC: number, 
           }
         } else if (clonalNo === 10) {
           const rawCount10 =  this.existComma(tableRows.at(index).get('raw_count10')?.value);
-          // tableRows.at(index).patchValue({ cell_equipment10: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount10))});
+           
           if (Number.isNaN(parseInt(rawCount10))) {
             tableRows.at(index).patchValue({ cell_equipment10:0});
           } else {
