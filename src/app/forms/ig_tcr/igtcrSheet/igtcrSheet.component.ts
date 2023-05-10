@@ -1454,7 +1454,6 @@ makePDFData() {
       this.putFormWithoutgraph('10',vregion10,jregion10,length10,totalIGHreadDepth,clonalIGHDepth10,clonalTotalIGHReadDepth,clonalCellEquivalent,sequence10,percentTotalReads10);
     }
 
- 
 
 }
 
@@ -1514,8 +1513,7 @@ makeGraphclonalTotalIGHReadDepthData(index: number = 0, date: string = '', clona
    this.updateGraphData();
 }
 
-makeGraphclonalTotalNuclelatedCellsData(index: number = 0, date: string = '',   clonalTotalnuclelatedCells: string = '') {
-  
+makeGraphclonalTotalNuclelatedCellsData(index: number = 0, date: string = '',   clonalTotalnuclelatedCells: string = '') { 
   // 값이 0.0001 이하면 0.0001 로 설정
   if ( (Number(clonalTotalnuclelatedCells)/100) < 0.0001 || clonalTotalnuclelatedCells === '0.0000') {
     
@@ -1676,8 +1674,7 @@ saveAllData() {
       init_result1 = this.initialTestResult;
       init_result2 = this.initialAddComment;
       fu_result = this.mrdAddComment;
-      
-      
+           
       if(this.commentInitial.length) {
         init_comment = this.commentInitial;
       } else {
@@ -1750,7 +1747,6 @@ saveAllData() {
         });        
       });
 
- 
 }
 
   screenRead(): void {
@@ -1848,15 +1844,13 @@ getStatus(index: number): boolean {
         return false;
       }
     }
-    return false;
-  
+    return false; 
   }
 
   changeGeneType(gene: string) {
     this.geneType = gene;
  }
   
-
   ///////////////////////////////////////////////////////////////
 
     // tslint:disable-next-line: typedef
