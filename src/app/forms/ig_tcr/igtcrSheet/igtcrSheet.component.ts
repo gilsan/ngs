@@ -1187,7 +1187,7 @@ clonalTotalIGHReadDepth(index: number) {
   const clonalTotalIGHReadDepth = this.getClonalTotalIGHReadDepth(index);
 
   // 
-  // tableRows.at(index).patchValue({ total_IGH_read_depth: clonalTotalIGHReadDepth});
+  
   if (Number.isNaN(parseInt(clonalTotalIGHReadDepth))) {
     tableRows.at(index).patchValue({ total_IGH_read_depth:  0});
   } else {
