@@ -1497,7 +1497,7 @@ makeMRDData() {
         }
   });
   this.mrdData = tempMrdData.reverse();
-  console.log('[1542][mrd데이터 순서]', this.mrdData);
+  // console.log('[1542][mrd데이터 순서]', this.mrdData);
 }
 //////////////////////////////////////////////////////////////////////
 // 그래프 데이타
