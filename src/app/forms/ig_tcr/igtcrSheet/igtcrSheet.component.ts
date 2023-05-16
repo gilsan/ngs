@@ -1929,7 +1929,12 @@ makeMent() {
 
 }
  
-
+// toolTip
+matTooltip(i: number): string {
+  const tableRows = this.tablerowForm.get('tableRows') as FormArray;
+  const comment = tableRows.at(i).get('comment')?.value;
+  return comment;
+}
 
 
 

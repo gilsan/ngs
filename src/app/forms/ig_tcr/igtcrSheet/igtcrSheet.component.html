@@ -88,7 +88,7 @@
                 <tbody>
                     <tr>
                         <td colspan="2">
-                            {{geneType}} MRD Result : Detected   {{comment}}
+                            {{geneType}} MRD Result : {{resultStatus}}   {{comment}}
                         </td>
                     </tr>
                     <tr>
@@ -565,9 +565,10 @@
 
                                     <td><input type="text" size="10" class="clr-input textcenter tdbox" formControlName="IGHV_mutation"></td>
                                     <td><input type="text" size="10" class="clr-input textcenter tdbox" formControlName="bigo"></td>
-                                    <!--    [matTooltip]="getFormControls.get('comment').value" -->
+                                    <!--    [matTooltip]="getFormControls.get('comment').value"  list.get('total_Bcell_Tcell_count')?.value -->
                                     <td><input type="text" size="10" class="clr-input textcenter tdbox"
-                                      
+                                        [matTooltip]="matTooltip(i)"
+                                        
                                         formControlName="comment"></td>
                                     <td><input type="text" size="10" class="clr-input textcenter tdbox" formControlName="density"></td>
                                 </tr>
