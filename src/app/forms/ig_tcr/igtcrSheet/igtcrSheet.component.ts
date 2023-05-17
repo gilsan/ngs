@@ -561,7 +561,25 @@ export class IgTcrSheetComponent implements OnInit {
 
 ///////////////////////////////////////
 createRow(item: IClonal): FormGroup {
-  console.log('[624][createRow]', item, item.gene);
+  console.log('[564][createRow]', item, item.gene);
+  if (item.raw_count4 || item.sequence4 || item.sequence_length4 || item.v_gene4 || item.j_gene4) {
+    this.clonalNo = 4;
+    this.clonalDisplay4 = false;
+  } 
+  if(item.raw_count5 || item.sequence5 || item.sequence_length5 || item.v_gene5 || item.j_gene5) {
+    this.clonalNo = 5;
+    this.clonalDisplay5 = false;
+  }
+   if(item.raw_count6 || item.sequence6 || item.sequence_length6 || item.v_gene6 || item.j_gene6) {
+    this.clonalNo = 6;
+    this.clonalDisplay6 = false;
+  }
+   if(item.raw_count7 || item.sequence7 || item.sequence_length7 || item.v_gene7 || item.j_gene7) {
+    this.clonalNo = 7;
+    this.clonalDisplay7 = false;
+  }
+
+
   return this.fb.group({
     IGHV_mutation : [item.IGHV_mutation],
     bigo : [item.bigo],
@@ -760,7 +778,7 @@ addNewRow(): void {
 }
 
 addRow(item: IClonal): void {
-  const control = this.tablerowForm.get('tableRows') as FormArray;
+  const control = this.tablerowForm.get('tableRows') as FormArray; 
   control.push(this.createRow(item));
 }
 

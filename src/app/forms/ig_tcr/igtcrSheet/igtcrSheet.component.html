@@ -455,10 +455,10 @@
                                         <input type="text" size="10" class="clr-input textleft tdbox" formControlName="sequence5">
                                     </td>
                                     <td [hidden]="clonalDisplay5">
-                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="sequence_length5"  (change)="rawCount5(i, rawcount5.value)" #rawcount5>
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="sequence_length5"  >
                                     </td>
                                     <td [hidden]="clonalDisplay5">
-                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="raw_count5">
+                                        <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="raw_count5" (change)="rawCount5(i, rawcount5.value)" #rawcount5>
                                     </td>
                                     <td [hidden]="clonalDisplay5">
                                         <input type="text" size="7" class="clr-input textcenter tdbox" formControlName="v_gene5">
