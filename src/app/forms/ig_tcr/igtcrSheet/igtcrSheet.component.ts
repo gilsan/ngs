@@ -1001,7 +1001,8 @@ rawCount5(index: number , rawcount5wComma: string) {
 
 rawCount6(index: number , rawcount6wComma: string) {
   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
-  const totalReadCount =  tableRows.at(index).get('total_read_count')?.value;
+  // const totalReadCount =  tableRows.at(index).get('total_read_count')?.value;
+  const totalReadCount =  Number(this.existComma(tableRows.at(index).get('total_read_count')?.value));
   const rawcount6 = this.existComma(rawcount6wComma);
   this.percentTotalReads(index, parseInt(rawcount6), totalReadCount, 6);
   this.clonalTotalIGHReadDepth(index); // 9번
@@ -1074,7 +1075,7 @@ percentTotalReads(index: number, rawCount: number, totalReadCount:number , clona
         const tableRows = this.tablerowForm.get('tableRows') as FormArray;
         const newPercentTotalReads =   ((rawCount/totalReadCount)* 100).toFixed(2);
        const newPercentOfLQIC = tableRows.at(index).get('percent_of_LQIC')?.value;
-
+       console.log('[1077][percentTotalReads] ',rawCount,totalReadCount,newPercentTotalReads);
 
       if (clonalNo === 1) {
           tableRows.at(index).patchValue({ percent_total_reads1: newPercentTotalReads});
@@ -1102,11 +1103,12 @@ percentTotalReads(index: number, rawCount: number, totalReadCount:number , clona
 
 }
 
-cellEquivalent(index: number, percentTotalReads: number, percentOfLQIC: number, clonalNo: number) {
+cellEquivalent(index: number, percentTotalReads: number, percentOfLQIC: number, clonalNo: number) {      
         const tableRows = this.tablerowForm.get('tableRows') as FormArray;
 
         const totalReadCount  =  this.existComma(tableRows.at(index).get('total_read_count')?.value); // total read count
         const readOfLQIC  =  this.existComma(tableRows.at(index).get('read_of_LQIC')?.value); // read of LQIC
+       
 
         if (clonalNo === 1) {
           const rawCount1 =  this.existComma(tableRows.at(index).get('raw_count1')?.value);
@@ -1157,6 +1159,7 @@ cellEquivalent(index: number, percentTotalReads: number, percentOfLQIC: number, 
           } else {
             tableRows.at(index).patchValue({ cell_equipment6: this.calulateCellEquivalent(Number(totalReadCount),Number(readOfLQIC), Number(rawCount6))});
           }
+
         } else if (clonalNo === 7) {
           const rawCount7 =  (tableRows.at(index).get('raw_count7')?.value);
           
