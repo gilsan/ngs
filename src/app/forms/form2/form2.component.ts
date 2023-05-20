@@ -2105,8 +2105,6 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     this.router.navigate(['/diag', 'amlall', this.reportID]);
   }
 
-
-
   // getMutationCount(data: any): string {
   //   const tempGene = data.gene;
   //   const tempAminoAcidChange = data.amino_acid_change;
