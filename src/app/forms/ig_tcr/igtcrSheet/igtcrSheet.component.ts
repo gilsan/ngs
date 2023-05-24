@@ -579,6 +579,11 @@ createRow(item: IClonal): FormGroup {
     this.clonalDisplay7 = false;
   }
 
+  if(item.raw_count8 || item.sequence8 || item.sequence_length8 || item.v_gene8 || item.j_gene8) {
+    this.clonalNo = 8;
+    this.clonalDisplay8 = false;
+  }
+
 
   return this.fb.group({
     IGHV_mutation : [item.IGHV_mutation],
@@ -1404,7 +1409,7 @@ makePDFData() {
       this.putFormWithoutgraph('3',vregion3,jregion3,length3,totalIGHreadDepth,clonalIGHDepth3,clonalTotalIGHReadDepth,clonalCellEquivalent,sequence3,percentTotalReads3);
     }
 
-    const vregion4 = control.at(0).get('v_gene4')?.value ? control.at(0).get('v_gene5')?.value : "";
+    const vregion4 = control.at(0).get('v_gene4')?.value ? control.at(0).get('v_gene4')?.value : "";
     const jregion4 = control.at(0).get('j_gene4')?.value ? control.at(0).get('j_gene4')?.value : "";
     const rowcount4 = control.at(0).get('raw_count4')?.value ? control.at(0).get('raw_count4')?.value : "";
     const length4  = control.at(0).get('sequence_length4')?.value;
