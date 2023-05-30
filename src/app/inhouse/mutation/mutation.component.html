@@ -93,16 +93,18 @@
                 <thead>
                     <tr>
                         <th >No.</th>
+                        <th>등록일</th>
+                        <th>등록인</th>                     
+                        <th >Gene</th>
+                        <th >Necleotide Change</th>
                         <th >Buccal</th>
                         <th >Patient Name</th>
                         <th >Register No.</th>
                         <th >Fusion</th>
-                        <th >Gene</th>
                         <th>Type</th>
                         <th >Functional Impact</th>
                         <th >Transcript</th>
                         <th >Exion/Intron #</th>
-                        <th >Necleotide Change</th>
                         <th >Amino Acid Change</th>
                         <th >Zygosity</th>
                         <th >VAF%</th>
@@ -123,8 +125,8 @@
                         <th>ETC3</th-->
                         <th >Igv</th>
                         <th >Sanger</th>
-                        <th>등록인</th>
-                        <th>등록일</th>
+                      <!--   <th>등록인</th>
+                        <th>등록일</th>  -->
                         <th >수정/삭제</th>
 
                     </tr>
@@ -134,11 +136,38 @@
                             <input type="hidden" value="R" #status >
 
                             <td style="width:10px;" class="txt_c" >{{i + 1}}</td> <!--  No  -->
+
+                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.savetime}}</span>   
+                                <span class="clr-input" *ngIf="status.value === 'U'">
+                                    <input type="text"  class="clr-input" value="{{list.savetime}}" id="sanger{{list.id}}" >
+                                </span>
+                            </td>
+
+                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.savetime}}</span>   
+                                <span class="clr-input" *ngIf="status.value === 'U'">
+                                    <input type="text"  class="clr-input" value="{{list.savetime}}" id="sanger{{list.id}}" >
+                                </span>
+                            </td>
+                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.gene}}</span> <!-- gene   -->
+                                <span class="clr-input" *ngIf="status.value === 'U'">
+                                    <input type="text"  class="clr-input" value="{{list.gene}}" id="gene{{list.id}}" >
+                                </span>
+                            </td>
+                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.nucleotide_change}}</span> <!-- Necleotide Change   -->
+                                <span class="clr-input" *ngIf="status.value === 'U'">
+                                    <input type="text"  class="clr-input" value="{{list.nucleotide_change}}"  id="nucleotideChange{{list.id}}"  >
+                                </span>
+                            </td>
+
+
                             <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.buccal}}</span> <!-- buccal   -->
                                 <span class="clr-input" *ngIf="status.value === 'U'">
                                     <input type="text"  class="clr-input" value="{{list.buccal}}" id="buccal{{list.id}}"    >
                                 </span>
                             </td>
+                           <!-- 
+
+                           -->
                             <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.patient_name}}</span> <!--    -->
                                 <span *ngIf="status.value === 'U'">
                                     <input type="text"  class="clr-input" value="{{list.patient_name}}"  id="patientName{{list.id}}" >
@@ -154,11 +183,9 @@
                                     <input type="text"  class="clr-input" value="{{list.fusion}}" id="fusion{{list.id}}" >
                                 </span>
                             </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.gene}}</span> <!-- gene   -->
-                                <span class="clr-input" *ngIf="status.value === 'U'">
-                                    <input type="text"  class="clr-input" value="{{list.gene}}" id="gene{{list.id}}" >
-                                </span>
-                            </td>
+
+
+
                             <td><span *ngIf="status.value === 'R'">{{list.display}}</span> <!--  type  -->
                              <span class="bdnone" *ngIf="status.value === 'U'" [ngSwitch]="list.type">
                                        <select class="select_01 select_001"  *ngSwitchCase="'AMLALL'" #selectedtype>
@@ -270,11 +297,7 @@
                                     <input type="text"  class="clr-input" value="{{list.exon_intro}}" id="exonIntro{{list.id}}" >
                                 </span>
                             </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.nucleotide_change}}</span> <!-- Necleotide Change   -->
-                                <span class="clr-input" *ngIf="status.value === 'U'">
-                                    <input type="text"  class="clr-input" value="{{list.nucleotide_change}}"  id="nucleotideChange{{list.id}}"  >
-                                </span>
-                            </td>
+
                             <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.amino_acid_change}}</span> <!--    -->
                                 <span class="clr-input" *ngIf="status.value === 'U'">
                                     <input type="text"  class="clr-input" value="{{list.amino_acid_change}}" id="aminoAcidChange{{list.id}}" >
@@ -378,17 +401,18 @@
                                     <input type="text"  class="clr-input" value="{{list.sanger}}" id="sanger{{list.id}}" >
                                 </span>
                             </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.user_nm}}</span>  <!--    -->
+                           <!-- 
+                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.user_nm}}</span>      
                                 <span class="clr-input" *ngIf="status.value === 'U'">
                                     <input type="text"  class="clr-input" value="{{list.user_nm}}" id="sanger{{list.id}}" >
                                 </span>
                             </td>
-                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.savetime}}</span>  <!--    -->
+                            <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.savetime}}</span>   
                                 <span class="clr-input" *ngIf="status.value === 'U'">
                                     <input type="text"  class="clr-input" value="{{list.savetime}}" id="sanger{{list.id}}" >
                                 </span>
                             </td>
-
+                             -->
 
 
 
@@ -433,12 +457,14 @@
                           <thead>
                               <tr>
                                   <th >No.</th>
-                                  <th >Patient Name</th>
+                                  <th>등록일</th>
+                                  <th>등록인</th>
                                   <th >Gene</th>
+                                  <th >Necleotide Change</th>
+                                  <th >Patient Name</th>
                                   <th >Functional Impact</th>
                                   <th >Transcript</th>
                                   <th >Exion/Intron #</th>
-                                  <th >Necleotide Change</th>
                                   <th >Amino Acid Change</th>
                                   <th >Zygosity</th>
                                   <th >VAF%</th>
@@ -446,8 +472,10 @@
                                   <th >COSMIC ID</th>
                                   <th >Igv</th>
                                   <th >Sanger</th>
+                                  <!-- 
                                   <th>등록인</th>
                                   <th>등록일</th>
+                                  -->
                                   <th>수정/삭제</th>
                               </tr>
                           </thead>
@@ -455,12 +483,19 @@
                             <ng-container formArrayName="tableRows" *ngFor="let group of amlRows().controls; let i=index">
                               <tr class="table_bg"  [formGroupName]="i">
                                   <td style="width:10px;" class="txt_c" >{{i + 1}}</td>
+                                  <td class="txt_c"><input type="text"  class="clr-input" formControlName="savetime" readonly></td>
+                                  <td class="txt_c"><input type="text"  class="clr-input" formControlName="user_nm" readonly></td>
+                                  <td class="txt_c">
+                                    <input type="text"  class="clr-input"  formControlName="gene">
+                                 </td>
+                                 <td class="txt_c">
+                                    <input type="text"  class="clr-input"  formControlName="nucleotideChange">
+                                 </td>
+
                                   <td class="txt_c">
                                           <input type="text"  class="clr-input tdbox"  formControlName="name">
                                   </td>
-                                  <td class="txt_c">
-                                          <input type="text"  class="clr-input"  formControlName="gene">
-                                  </td>
+
                                   <td class="txt_c">
                                           <input type="text"  class="clr-input"  formControlName="functional_impact">
                                   </td>
@@ -470,9 +505,7 @@
                                   <td class="txt_c">
                                           <input type="text"  class="clr-input"  formControlName="exon">
                                   </td>
-                                  <td class="txt_c">
-                                          <input type="text"  class="clr-input"  formControlName="nucleotideChange">
-                                  </td>
+
                                   <td class="txt_c">
                                           <input type="text"  class="clr-input"  formControlName="aminoAcidChange">
                                   </td>
@@ -494,8 +527,7 @@
                                   <td class="txt_c">
                                           <input type="text"  class="clr-input"  formControlName="sanger">
                                   </td>
-                                  <td class="txt_c"><input type="text"  class="clr-input" formControlName="user_nm" readonly></td>
-                                  <td class="txt_c"><input type="text"  class="clr-input" formControlName="savetime" readonly></td>
+                                  
                                   <td class="txt_c actionBtn">
                                     
                                         <button class="btn-save"  (click)="amlSave(i)">저장</button>&nbsp;&nbsp;
@@ -535,6 +567,7 @@
                      <thead>
                          <tr>
                              <th >No.</th>
+
                              <th >Patient Name</th>
                              <th >Gene</th>
                              <th >Functional Impact</th>

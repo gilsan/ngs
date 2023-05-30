@@ -96,7 +96,7 @@
                             % of clonal cells (estimated value) :
                         </td>
                         <td *ngIf="patientInfo.test_code === 'LPE555' || patientInfo.test_code === 'LPE556'">
-                            {{mrdBcellLPE555LPE556}}% / total B-cells , {{mrdnucleatedCells}}% / total nucleated cells
+                            {{mrdBcellLPE555LPE556 }}% / total B-cells , {{mrdnucleatedCells}}% / total nucleated cells
                         </td>
                         <td  *ngIf="patientInfo.test_code === 'LPE557'">
                             {{mrdPcellLPE557}}% / total T-cells , {{mrdnucleatedCells}}% / total nucleated cells
@@ -559,8 +559,8 @@
                                     <td [hidden]="clonalDisplay10">{{list.get('percent_total_reads10')?.value}}%</td>
                                     <td [hidden]="clonalDisplay10">{{list.get('cell_equipment10')?.value | number:'1.0-0'}}</td>
                                     <!-- total  -->
-                                    <td>{{list.get('total_IGH_read_depth')?.value}}%</td>
-                                    <td>{{list.get('total_nucelated_cells')?.value}}%</td>
+                                    <td>{{list.get('total_IGH_read_depth')?.value  | number:'1.2-2'  }}%</td>
+                                    <td>{{list.get('total_nucelated_cells')?.value | number:'1.4-4'}}%</td>
                                     <td>{{list.get('total_cell_equipment')?.value  | number:'1.0-0'  }}</td>
 
                                     <td><input type="text" size="10" class="clr-input textcenter tdbox" formControlName="IGHV_mutation"></td>
@@ -909,8 +909,10 @@
                                             <td class="s-text-center">{{list.totalReadCount | number:'1.0-0'}}</td>
                                             <td class="s-text-center">{{list.readOfLQIC}}</td>
                                             <td class="s-text-center">{{list.totalBcellTcellCount | number:'1.0-0'}}</td>
-                                            <td class="s-text-center">{{list.totalIGHReadDepth}}</td>
-                                            <td class="s-text-center">{{list.totalNucelatedCells}}</td>
+                                           <!--<td class="s-text-center">{{list.totalIGHReadDepth }}</td> -->
+                                            <td class="s-text-center">{{totalIGHReadDepthCheck(i)}}</td> 
+                                          <!--  <td class="s-text-center">{{list.totalNucelatedCells}}</td> -->
+                                            <td class="s-text-center">{{totalNucleatedCellsCheck(i)}}</td>
                                             <td class="s-text-center">{{list.totalCellEquipment | number:'1.0-0'}}</td>
                                         </tr>
 

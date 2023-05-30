@@ -54,7 +54,7 @@ export class MutationComponent implements OnInit {
 
 
   init(): void {
-    this.search('', '', 'AMLALL');
+    this.search('', '',  'ALL');
   }
 
   deleteRow(id: string, genes: string, patientName: string): void {
@@ -248,15 +248,15 @@ export class MutationComponent implements OnInit {
       type = '';
     }
     this.totRecords = 0;
-    console.log('[251][Mutation 검색]', type);
+    console.log('[251][Mutation 검색]', genes, coding, type);
     this.lists$ = this.mutationService.getMutationList(genes, coding, type);
     this.lists$.subscribe((data) => {
-
+      console.log('[254][Mutation 검색]', data);
       this.lists = data;
       this.mapping();
       this.listMutations = data;
       this.lists = data.slice(0, 10);
-      console.log('[249][Mutation 검색]', this.lists);
+      console.log('[259][Mutation 검색]', this.lists);
       this.curPage = 1;
       this.totPage = Math.ceil(this.listMutations.length / 10);
       this.pageLine = 0;

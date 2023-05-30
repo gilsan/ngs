@@ -55,7 +55,7 @@ export class MainListsComponent implements OnInit {
   ngOnInit(): void {
    // this.search(this.startDay, this.endDay);
    const storeData = this.storeService.mainListSearchGet() ;
-    console.log('[ngOnInit]', storeData);
+    // console.log('[ngOnInit]', storeData);
    if (storeData.length > 0) {
     this.testedID.nativeElement.value = storeData[0].specimenNo;
     this.patientID.nativeElement.value = storeData[0].patientid;

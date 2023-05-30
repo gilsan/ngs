@@ -267,7 +267,7 @@ export class IgTcrSheetComponent implements OnInit {
           this.totalCellEquivalent(index);
         });
         
-        console.log('[270] ==>',this.patientInfo,this.patientInfo.init_result1.length, this.geneType);
+        // console.log('[270] ==>',this.patientInfo,this.patientInfo.init_result1.length, this.geneType);
         if (this.patientInfo.init_result1.length) {
           this.initialTestResult = this.patientInfo.init_result1;
           this.initialAddComment = this.patientInfo.init_result2;
@@ -382,7 +382,7 @@ export class IgTcrSheetComponent implements OnInit {
       }
       
       this.clonalCounts();
-      console.log(';');
+      console.log('; ');
 
     } else if (tableRows.length > 1){
       let indexNo = -1;
@@ -404,12 +404,12 @@ export class IgTcrSheetComponent implements OnInit {
            } else {
              this.densityTablePdf1CellFEquivalent2 = '61,538';
            }
-
-          if (this.patientInfo.test_code === 'LPE555' || this.patientInfo.test_code === 'LPE556') {
-            this.mrdBcellLPE555LPE556 = totalIGHReadDepth;
-          } else if(this.patientInfo.test_code === 'LPE557') {
-            this.mrdPcellLPE557 = totalIGHReadDepth;
-          }
+          
+          // if (this.patientInfo.test_code === 'LPE555' || this.patientInfo.test_code === 'LPE556') {
+          //   this.mrdBcellLPE555LPE556 = totalIGHReadDepth;
+          // } else if(this.patientInfo.test_code === 'LPE557') {
+          //   this.mrdPcellLPE557 = totalIGHReadDepth;
+          // }
         }
     
       });
@@ -561,7 +561,6 @@ export class IgTcrSheetComponent implements OnInit {
 
 ///////////////////////////////////////
 createRow(item: IClonal): FormGroup {
-  console.log('[564][createRow]', item, item.gene);
   if (item.raw_count4 || item.sequence4 || item.sequence_length4 || item.v_gene4 || item.j_gene4) {
     this.clonalNo = 4;
     this.clonalDisplay4 = false;
@@ -583,8 +582,8 @@ createRow(item: IClonal): FormGroup {
     this.clonalNo = 8;
     this.clonalDisplay8 = false;
   }
-
-
+  const newTotalIGHReadDepth = Number(item.total_IGH_read_depth) < 0.01 ? 0 : item.total_IGH_read_depth;
+  
   return this.fb.group({
     IGHV_mutation : [item.IGHV_mutation],
     bigo : [item.bigo],
@@ -656,7 +655,7 @@ createRow(item: IClonal): FormGroup {
     sequence_length10: [item.sequence_length10],
     specimenNo: [item.specimenNo],
     total_Bcell_Tcell_count: [item.total_Bcell_Tcell_count],
-    total_IGH_read_depth: [item.total_IGH_read_depth],
+    total_IGH_read_depth: [newTotalIGHReadDepth ],
     total_cell_equipment: [item.total_cell_equipment],
     total_nucelated_cells: [item.total_nucelated_cells],
     total_read_count: [item.total_read_count],
@@ -890,6 +889,10 @@ totalReadCount(index: number, totalReadCountwComma: string): void {
    if (rawCount10 !== 0 && rawCount10 !== null && rawCount10 !== undefined &&  String(rawCount10).length !== 0) {
      this.percentTotalReads(index, rawCount10, Number(totalReadCount), 10);
    }
+   // total 부분의 갱신
+   this.clonalTotalIGHReadDepth(index);
+   this.clonalTotalNuclelatedCell(index); // 1270 줄
+   this.totalCellEquivalent(index);
 
 }
 
@@ -905,6 +908,8 @@ readOfLQIC(index: number, readOfLQICwComma: string): void {
 
   this.percentOfLQIC(index, totalReadCount, parseInt(readOfLQIC));
   this.totalBcellTcellCount(index, totalReadCount, parseInt(readOfLQIC));
+  this.clonalTotalNuclelatedCell(index); // 1295 lines
+  this.totalCellEquivalent(index); // total cell equipvalent 갱신 1336 lines
 }
 
 
@@ -938,8 +943,8 @@ rawCount1(index: number , rawcount1wComma: string) {
   const totalReadCount =  Number(this.existComma(tableRows.at(index).get('total_read_count')?.value));
   const rawcount1 = this.existComma(rawcount1wComma);
   this.percentTotalReads(index, parseInt(rawcount1), totalReadCount, 1);
-  this.clonalTotalIGHReadDepth(index); // 9번
-  this.clonalTotalNuclelatedCell(index);
+  this.clonalTotalIGHReadDepth(index); // total Clonal/total IGH read depth (%) * 9번
+  this.clonalTotalNuclelatedCell(index); // total Clonal/total nucelated cells 10번
   this.totalCellEquivalent(index);
 
   if (tableRows.length === 1) {
@@ -1080,7 +1085,7 @@ percentTotalReads(index: number, rawCount: number, totalReadCount:number , clona
         const tableRows = this.tablerowForm.get('tableRows') as FormArray;
         const newPercentTotalReads =   ((rawCount/totalReadCount)* 100).toFixed(2);
        const newPercentOfLQIC = tableRows.at(index).get('percent_of_LQIC')?.value;
-       console.log('[1077][percentTotalReads] ',rawCount,totalReadCount,newPercentTotalReads);
+       // console.log('[1083][percentTotalReads] ',rawCount,totalReadCount,newPercentTotalReads);
 
       if (clonalNo === 1) {
           tableRows.at(index).patchValue({ percent_total_reads1: newPercentTotalReads});
@@ -1210,25 +1215,30 @@ calulateCellEquivalent(totalReadCount: number, readOfLQIC: number, rawCount: num
 clonalTotalIGHReadDepth(index: number) {
   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
   const reportDate = tableRows.at(index).get('report_date')?.value;
-  const clonalTotalIGHReadDepth = this.getClonalTotalIGHReadDepth(index);
-
-  // 
+  const clonalTotalIGHReadDepth = this.getClonalTotalIGHReadDepth(index); // 1246 줄
   
   if (Number.isNaN(parseInt(clonalTotalIGHReadDepth))) {
     tableRows.at(index).patchValue({ total_IGH_read_depth:  0});
   } else {
-    tableRows.at(index).patchValue({ total_IGH_read_depth: clonalTotalIGHReadDepth});
+    if (Number(clonalTotalIGHReadDepth) < 0.01) {
+      tableRows.at(index).patchValue({ total_IGH_read_depth: 0});   
+      this.checkTotalIGHReadDepth(index, '0');  // 1961 줄
+      this.clonalTotalNuclelatedCell(index); // 1275 줄
+    } else {
+      tableRows.at(index).patchValue({ total_IGH_read_depth: clonalTotalIGHReadDepth}); 
+      this.checkTotalIGHReadDepth(index, clonalTotalIGHReadDepth ); // 1961 줄
+      this.clonalTotalNuclelatedCell(index); // 1275 줄
+    } 
   }
 
-    // LPE555 LPE556 B-Cells
+  // LPE555 LPE556 B-Cells
   // LPE557 P-Cells
   if (this.patientInfo.test_code === 'LPE555' || this.patientInfo.test_code === 'LPE555') {
-    this.bcellLPE555LPE556 = clonalTotalIGHReadDepth;
+    this.bcellLPE555LPE556 = clonalTotalIGHReadDepth;  
   } else if(this.patientInfo.test_code === 'LPE557') {
     this.pcellLPE557 = clonalTotalIGHReadDepth;
   }
 
- 
 }
 
 getClonalTotalIGHReadDepth(index: number): string {
@@ -1258,7 +1268,7 @@ getClonalTotalIGHReadDepth(index: number): string {
 
     const totalRawCount =(Number(rawCount1) + Number(rawCount2) + Number(rawCount3) + Number(rawCount4) + Number(rawCount5) +
        Number(rawCount6) + Number(rawCount7) + Number(rawCount8) + Number(rawCount9) + Number(rawCount10));
-       const totalIGH = (totalRawCount / Number(totalReadCount)* 100).toFixed(2);
+       const totalIGH = (totalRawCount / Number(totalReadCount)* 100).toFixed(5);
     return totalIGH;
 }
 
@@ -1266,13 +1276,20 @@ getClonalTotalIGHReadDepth(index: number): string {
 clonalTotalNuclelatedCell(index: number) {
   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
   const reportDate = tableRows.at(index).get('report_date')?.value;
-  const clonalTotalNuclelatedCell = this.getClonalTotalNuclelatedCell(index);
-  
+  const clonalTotalNuclelatedCell = this.getClonalTotalNuclelatedCell(index); // 1296 줄
+  // console.log('[1279][clonalTotalNuclelatedCell]', index, clonalTotalNuclelatedCell);
  // tableRows.at(index).patchValue({ total_nucelated_cells: clonalTotalNuclelatedCell});
  if (Number.isNaN(parseInt(clonalTotalNuclelatedCell))) {
   tableRows.at(index).patchValue({ total_nucelated_cells: 0});
 } else {
-  tableRows.at(index).patchValue({ total_nucelated_cells: clonalTotalNuclelatedCell});
+  if (Number(clonalTotalNuclelatedCell) < 0.0001) {
+    tableRows.at(index).patchValue({ total_nucelated_cells: 0});
+    this.checkMrdnucleatedCells(index, '0'); // 1978 줄
+  } else {
+    tableRows.at(index).patchValue({ total_nucelated_cells: clonalTotalNuclelatedCell});
+    this.checkMrdnucleatedCells(index, clonalTotalNuclelatedCell);
+  }
+  
 }
    
 }
@@ -1284,17 +1301,17 @@ getClonalTotalNuclelatedCell(index: number): string {
   const readOfLQIC =  this.existComma(tableRows.at(index).get('read_of_LQIC')?.value); // read of LQIC
  
   const density = tableRows.at(index).get('density')?.value;
-
+  
   if (density === '400') {
     totalReadCountReadOfLQIC = ((Number(totalReadCount)/Number(readOfLQIC)) / 61539) * 100;
   } else  if(density === '240') {
     totalReadCountReadOfLQIC = ((Number(totalReadCount)/Number(readOfLQIC)) / 36923) * 100;
   }
-
-  
+  // console.log('[1309][getClonalTotalNuclelatedCell][density]', density, totalReadCount,totalReadCountReadOfLQIC);  
   const totalRawCount = this.totalRawCount(index)
   const clonalTotalIGHReadDepth =  (totalRawCount / Number(totalReadCount))* 100;
-  const clonalTotalNuclatedCell = (Number(totalReadCountReadOfLQIC) * Number(clonalTotalIGHReadDepth)).toFixed(4);
+  const clonalTotalNuclatedCell = (Number(totalReadCountReadOfLQIC) * Number(clonalTotalIGHReadDepth)).toFixed(5);
+  // console.log('[1313][getClonalTotalNuclelatedCell][density]', density, totalReadCount,clonalTotalIGHReadDepth,totalReadCountReadOfLQIC,clonalTotalNuclatedCell);
   return clonalTotalNuclatedCell;
 }
 
@@ -1336,13 +1353,11 @@ totalCellEquivalent(index: number) {
   const totalReadCount =  this.existComma(tableRows.at(index).get('total_read_count')?.value); // total read count
   const readOfLQIC =  this.existComma(tableRows.at(index).get('read_of_LQIC')?.value); // read of LQIC 
   const totalRawCount = this.totalRawCount(index);
-
   const totalReadCountTotalRawCount = (totalRawCount/Number(totalReadCount));
-
   // 분수의 역수를 곱한다.
   const totalReadCountRawCountTotalReadCount =  Number(totalReadCountTotalRawCount) * Number(totalReadCount);
   const cellEquivalent = ((Number(totalReadCountRawCountTotalReadCount) /Number(readOfLQIC)) * 100).toFixed(0);
-
+ 
     if (Number.isNaN(parseInt(cellEquivalent))) {
       tableRows.at(index).patchValue({ total_cell_equipment: 0});
     } else {
@@ -1494,7 +1509,6 @@ makeMRDData() {
   rawValue.forEach((item, index) => {
     
         if (item.use_yn1 === false) {
-    
             
               if (sequence ===  0) {
                 tempMrdData.push({
@@ -1906,7 +1920,6 @@ mrdAddCommentChange(contents: string) {
 }
 
 boxstatus(i: number, event: any) {
-
   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
   const gene = tableRows.at(i).get('gene')?.value;  
   tableRows.at(i).patchValue({ use_yn1: event.target.checked});
@@ -1923,23 +1936,78 @@ getCheckboxMax() {
 
   const tableValues= tableRows.getRawValue();
   tableValues.forEach((item, index) => {
-
+    // console.log('[1924][getCheckboxMax]',item)
     const useYN1 = tableRows.at(index).get('use_yn1')?.value;
     if (useYN1 === false && indexNo === -1) {
       indexNo = index;
       totalIGHReadDepth = tableRows.at(index).get('total_IGH_read_depth')?.value;
-      this.mrdnucleatedCells = tableRows.at(index).get('total_nucelated_cells')?.value;
+      // this.mrdnucleatedCells = tableRows.at(index).get('total_nucelated_cells')?.value;
+      this.checkMrdnucleatedCells(index, tableRows.at(index).get('total_nucelated_cells')?.value); // 1979 줄
       this.secondTotalBcellTcellCount = tableRows.at(index).get('total_Bcell_Tcell_count')?.value;
-
-      if (this.patientInfo.test_code === 'LPE555' || this.patientInfo.test_code === 'LPE556') {
-        this.mrdBcellLPE555LPE556 = totalIGHReadDepth;
-      } else if(this.patientInfo.test_code === 'LPE557') {
-        this.mrdPcellLPE557 = totalIGHReadDepth;
-      }
+       
+      this.checkTotalIGHReadDepth(index,totalIGHReadDepth );
+          
+      // if (this.patientInfo.test_code === 'LPE555' || this.patientInfo.test_code === 'LPE556') {       
+      //    this.mrdBcellLPE555LPE556 = totalIGHReadDepth;             
+      // } else if(this.patientInfo.test_code === 'LPE557') {                
+      //    this.mrdPcellLPE557 = totalIGHReadDepth;         
+      // }
     }
-
+   
   });
 }
+
+// totalIGHReadDepth 값이 0.01 이하인지 검사, 이하면 0 으로 설정
+checkTotalIGHReadDepth(index: number,totalIGHReadDepth: string ) {   
+    let value: string = '0';
+    if(Number(totalIGHReadDepth) === 0) {
+      if (this.patientInfo.test_code === 'LPE555' || this.patientInfo.test_code === 'LPE556') {
+        this.mrdBcellLPE555LPE556 = '<0.01';
+      } else if (this.patientInfo.test_code === 'LPE557') {
+        this.mrdPcellLPE557 = '<0.01';
+      }      
+    } else {
+      if (this.patientInfo.test_code === 'LPE555' || this.patientInfo.test_code === 'LPE556') {
+        this.mrdBcellLPE555LPE556 = Number(totalIGHReadDepth).toFixed(2);
+      } else if (this.patientInfo.test_code === 'LPE557') {
+        this.mrdPcellLPE557 = Number(totalIGHReadDepth).toFixed(2);
+      }     
+
+    }
+}
+
+checkMrdnucleatedCells(index: number,totalnucleatedCells: string ) {   
+  let value: string = '0';
+ // this.mrdnucleatedCells = tableRows.at(index).get('total_nucelated_cells')?.value;
+  if(Number(totalnucleatedCells) === 0) {
+    this.mrdnucleatedCells = '<0.0001';
+  } else {
+     this.mrdnucleatedCells = Number(totalnucleatedCells).toFixed(4);     
+
+  }
+}
+
+// totalIGHReadDepth === 0이면 <0.01% 반환
+totalIGHReadDepthCheck(index: number): string {
+  const tableRows = this.tablerowForm.get('tableRows') as FormArray;
+  const totalIGHReadDepth = tableRows.at(index).get('total_IGH_read_depth')?.value;
+  if(Number(totalIGHReadDepth) === 0) {
+    return '<0.01%';
+  } else {
+    return Number(totalIGHReadDepth).toFixed(2);
+  }
+}
+
+totalNucleatedCellsCheck(index: number): string {
+  const tableRows = this.tablerowForm.get('tableRows') as FormArray;
+  const totalNucleatedCells = tableRows.at(index).get('total_nucelated_cells')?.value;
+  if(Number(totalNucleatedCells) === 0) {
+    return '<0.0001%';
+  } else {
+    return Number(totalNucleatedCells).toFixed(4);
+  }
+}
+
 
  
 
