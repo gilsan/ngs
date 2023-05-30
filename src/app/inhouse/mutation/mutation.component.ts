@@ -251,7 +251,7 @@ export class MutationComponent implements OnInit {
     console.log('[251][Mutation 검색]', genes, coding, type);
     this.lists$ = this.mutationService.getMutationList(genes, coding, type);
     this.lists$.subscribe((data) => {
-      console.log('[254][Mutation 검색]', data);
+      // console.log('[254][Mutation 검색]', data);
       this.lists = data;
       this.mapping();
       this.listMutations = data;
