@@ -45,6 +45,12 @@ export class MutationComponent implements OnInit {
 
   ZYGOSITY: string[] = ['Heterozygous', 'Homozygous'];
 
+  lastScrollTop = 0;
+  lastScrollLeft = 0;
+  topScroll = false;
+  leftScroll = true;
+
+
   ngOnInit(): void {
     this.init();
     this.loadGeneticForm();
@@ -283,7 +289,7 @@ export class MutationComponent implements OnInit {
     }
 
     this.lists$.subscribe((data) => {
-      console.log('[260][Mutation 검색]', data, this.gubun);
+      console.log('[292][Mutation 검색]', data, this.gubun);
       this.lists = data;
       this.mapping();
       this.listMutations = data;
@@ -303,7 +309,7 @@ export class MutationComponent implements OnInit {
         this.amlRows().clear();
         this.makeAmlRows(this.lists);
       } else if (this.gubun === 'ALL') {
-        this.lists = data;
+       // this.lists = data;
       }
     });
   }
@@ -662,7 +668,29 @@ export class MutationComponent implements OnInit {
     }
   }
 
+///////////////////////////////////////
+tableScroll(evt: Event): void {
+  const target = evt.target as Element;
+  const lastScrollTop = target.scrollTop;
+  const lastScrollLeft = target.scrollLeft;
+  console.log( lastScrollTop, lastScrollLeft);
+  if (this.lastScrollTop > lastScrollTop || this.lastScrollTop < lastScrollTop) {
+    this.topScroll = true;
+    this.leftScroll = false;
+  } else {
+    this.topScroll = false;
+  }
 
+  if (this.lastScrollLeft > lastScrollLeft || this.lastScrollLeft < lastScrollLeft) {
+    this.topScroll = false;
+    this.leftScroll = true;
+  } else {
+    this.leftScroll = false;
+  }
+
+  this.lastScrollTop = lastScrollTop <= 0 ? 0 : lastScrollTop;
+  this.lastScrollLeft = lastScrollLeft <= 0 ? 0 : lastScrollLeft;
+}
 
 
 

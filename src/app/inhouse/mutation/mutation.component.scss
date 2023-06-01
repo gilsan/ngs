@@ -120,40 +120,74 @@ caption {
 .all_moving1 {
   position: sticky;
   left: 0;
+  width: 10px;
   z-index: 1;
-
 }
 
 .all_moving2 {
   position: sticky;
-  left: 44px;
+  left: 41px;
+  width: 82px;
   z-index: 1;
 }
 
 .all_moving3 {
   position: sticky;
   left: 126px;
+  width: 85px;
   z-index: 1;
 }
 
 .all_moving4 {
   position: sticky;
-  left: 212px;
+  left: 199px;
   z-index: 1;
 }
 
 .all_moving5 {
   position: sticky;
-  left: 330px;
+  left: 317px;
   z-index: 1;
 }
+
+
+
 
 .amlall_moving1 {
   position: sticky;
   left: 0;
   z-index: 1;
-
 }
 
+.amlall_moving2 {
+  position: sticky;
+  left: 41px;
+  z-index: 1;
+}
+
+.amlall_moving3 {
+  position: sticky;
+  left: 228px;
+  z-index: 1;
+}
+
+.amlall_moving4 {
+  position: sticky;
+  left: 415px;
+  z-index: 1;
+}
+
+.amlall_moving5 {
+  position: sticky;
+  left: 602px;
+  z-index: 1;
+}
+
+.amlall_header {
+  z-index: 2;
+}
+.all_moving_header {
+  z-index: 2;
+}
 
 /// ////////////////////////////////////////////////

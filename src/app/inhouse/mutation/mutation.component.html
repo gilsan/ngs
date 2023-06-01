@@ -48,17 +48,17 @@
     <div class="total">
         <span>Total: {{totRecords}} Records  ({{curPage}} / {{totPage}}) Pages</span>
     </div>
-    <div class="table-box-wrap"  >
+    <div class="table-box-wrap" >
         <div class="table-box box fill" style="overflow-x: auto;">
         <!--   - --------------------------------------------------------------     -->
-        <ng-container  *ngIf="gubun === 'ALL'">
+        <ng-container  *ngIf="gubun === 'ALL'" >
             <table   border="0" cellpadding="0" cellspacing="0" class="table_list td-fix header-fix table_list"
                style="min-width:2600px; width:100%">
             	<colgroup>
-                    <col width="3%" />
-                    <col width="2%" />
-                    <col width="5%" />
-                    <col width="5%" />
+                    <col width="3%" /> <!-- 3%-->
+                    <col width="2%" /> <!-- 2%-->
+                    <col width="15%" /> <!-- 15%-->
+                    <col width="5%" /> <!-- 5%-->
                     <col width="5%" />
                     <col width="5%" />
                     <col width="5%" />
@@ -88,15 +88,15 @@
                     <col width="5%" />
                     <col width="5%" />
                     <col width="5%" />
-                    <col  width="7%"/>
+                    <col  width="*"/>
                 </colgroup>
                 <thead>
                     <tr>
-                        <th class="all_moving1">No.</th>
-                        <th class="all_moving2">등록일</th>
-                        <th class="all_moving3">등록인</th>                     
-                        <th class="all_moving4">Gene</th>
-                        <th class="all_moving5">Necleotide Change</th>
+                        <th class="all_moving1 all_moving_header">No.</th>
+                        <th class="all_moving2 all_moving_header">등록일</th>
+                        <th class="all_moving3 all_moving_header">등록인</th>                     
+                        <th class="all_moving4 all_moving_header">Gene</th>
+                        <th class="all_moving5 all_moving_header">Necleotide Change</th>
                         <th >Buccal</th>
                         <th >Patient Name</th>
                         <th >Register No.</th>
@@ -143,9 +143,9 @@
                                 </span>
                             </td>
 
-                            <td class="txt_c  all_moving3"><span *ngIf="status.value === 'R'">{{list.savetime}}</span>   
+                            <td class="txt_c all_moving3"><span *ngIf="status.value === 'R'">{{list.user_nm}}</span>   
                                 <span class="clr-input" *ngIf="status.value === 'U'">
-                                    <input type="text"  class="clr-input" value="{{list.savetime}}" id="sanger{{list.id}}" >
+                                    <input type="text"  class="clr-input" value="{{list.user_nm}}" id="sanger{{list.id}}" >
                                 </span>
                             </td>
                             <td class="txt_c all_moving4"><span *ngIf="status.value === 'R'">{{list.gene}}</span> <!-- gene   -->
@@ -456,11 +456,11 @@
                           </colgroup>
                           <thead>
                               <tr>
-                                  <th >No.</th>
-                                  <th>등록일</th>
-                                  <th>등록인</th>
-                                  <th >Gene</th>
-                                  <th >Necleotide Change</th>
+                                  <th class="amlall_moving1 amlall_header">No.</th>
+                                  <th class="amlall_moving2 amlall_header">등록일</th>
+                                  <th class="amlall_moving3 amlall_header">등록인</th>
+                                  <th class="amlall_moving4 amlall_header">Gene</th>
+                                  <th class="amlall_moving5 amlall_header">Necleotide Change</th>
                                   <th >Patient Name</th>
                                   <th >Functional Impact</th>
                                   <th >Transcript</th>
@@ -482,13 +482,13 @@
                           <tbody>
                             <ng-container formArrayName="tableRows" *ngFor="let group of amlRows().controls; let i=index">
                               <tr class="table_bg"  [formGroupName]="i">
-                                  <td style="width:10px;" class="txt_c" >{{i + 1}}</td>
-                                  <td class="txt_c"><input type="text"  class="clr-input" formControlName="savetime" readonly></td>
-                                  <td class="txt_c"><input type="text"  class="clr-input" formControlName="user_nm" readonly></td>
-                                  <td class="txt_c">
+                                  <td style="width:10px;" class="txt_c amlall_moving1" >{{i + 1}}</td>
+                                  <td class="txt_c amlall_moving2"><input type="text"  class="clr-input" formControlName="savetime" readonly></td>
+                                  <td class="txt_c amlall_moving3"><input type="text"  class="clr-input" formControlName="user_nm" readonly></td>
+                                  <td class="txt_c amlall_moving4">
                                     <input type="text"  class="clr-input"  formControlName="gene">
                                  </td>
-                                 <td class="txt_c">
+                                 <td class="txt_c amlall_moving5">
                                     <input type="text"  class="clr-input"  formControlName="nucleotideChange">
                                  </td>
 
