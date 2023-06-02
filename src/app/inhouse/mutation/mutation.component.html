@@ -125,8 +125,6 @@
                         <th>ETC3</th-->
                         <th >Igv</th>
                         <th >Sanger</th>
-                      <!--   <th>등록인</th>
-                        <th>등록일</th>  -->
                         <th >수정/삭제</th>
 
                     </tr>
@@ -159,15 +157,12 @@
                                 </span>
                             </td>
 
-
                             <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.buccal}}</span> <!-- buccal   -->
                                 <span class="clr-input" *ngIf="status.value === 'U'">
                                     <input type="text"  class="clr-input" value="{{list.buccal}}" id="buccal{{list.id}}"    >
                                 </span>
                             </td>
-                           <!-- 
-
-                           -->
+                            
                             <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.patient_name}}</span> <!--    -->
                                 <span *ngIf="status.value === 'U'">
                                     <input type="text"  class="clr-input" value="{{list.patient_name}}"  id="patientName{{list.id}}" >
