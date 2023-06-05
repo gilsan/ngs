@@ -179,8 +179,6 @@
                                 </span>
                             </td>
 
-
-
                             <td><span *ngIf="status.value === 'R'">{{list.display}}</span> <!--  type  -->
                              <span class="bdnone" *ngIf="status.value === 'U'" [ngSwitch]="list.type">
                                        <select class="select_01 select_001"  *ngSwitchCase="'AMLALL'" #selectedtype>
@@ -233,10 +231,7 @@
                                           <option value="Genetic">유전성 유전질환</option>
                                           <option value="SEQ">Sequencing</option>
                                        </select>
-                                    <!--
-                                      <input type="text"  class="clr-input" value="{{list.type}}" id="gene{{list.id}}" >
-                                    -->
-
+                                    
                                 </span>
                             </td>
                             <td class="txt_c"><span *ngIf="status.value === 'R'">{{list.functional_impact}}</span> <!--    -->
