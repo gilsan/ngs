@@ -337,8 +337,9 @@
                                 <th [hidden]="clonalDisplay10">% total<br/>reads</th>
                                 <th [hidden]="clonalDisplay10">cell<br/>equivalent</th>
                                 <!-- total -->
-                                <th>Clonal/<br/>total IGH<br/>read depth<br/>(%)*</th>
-                                <th>Clonal/total<br/>nucelated cells<br/>(%)**</th>
+                                <th *ngIf="patientInfo.test_code === 'LPE555' || patientInfo.test_code === 'LPE556'">Clonal/<br/>total IGH<br/>read depth<br/>(%)*</th>
+                                <th *ngIf="patientInfo.test_code === 'LPE557'">Clonal/<br/>total TCR<br/>read depth<br/>(%)*</th>
+                                <th>Clonal/total<br/>nucleated cells<br/>(%)**</th>
                                 <th>cell<br/>equivalent</th>
                                 <th>IGHV<br/>mutation</th>
                                 

@@ -1080,7 +1080,7 @@ printIGTCRInfoEachPatient() {
     //   percent_total_reads10: '% total \n reads',
     //   cell_equipment10: 'cell \n equivalent',
     //   total_IGH_read_depth: 'Clonal\n total IGH \n read depth \n (%)*',
-    //   total_nucelated_cells: 'Clonal total \n nucelated cells \n (%)**',
+    //   total_nucleated_cells: 'Clonal total \n nucleated cells \n (%)**',
     //   total_cell_equipment: 'Cell \n equivalent',
     //   IGHV_mutation : 'IGHV \n mutation',
     //   bigo : '비고',

@@ -187,7 +187,7 @@ export class IgTcrSheetComponent implements OnInit {
       switchMap(data => of(data['id'])),
       tap(data => {
         this.patientInfo = this.service.patientLists[data];
-          
+          console.log('[190][환자정보]', this.patientInfo);
           
         if (this.patientInfo.test_code === 'LPE555') {
           this.geneType = 'IGH';

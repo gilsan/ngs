@@ -239,7 +239,7 @@ export class ExcelService {
     worksheet.CA1.s = { alignment: { horizontal: 'center', vertical: 'center' }   };  
     worksheet.CA2 = { t: 's', v: 'Clonal\r\n total IGH \r\n read depth \r\n (%)*' };
     worksheet.CA2.s = { alignment: { horizontal: 'center', vertical: 'center', wrapText: true }   };   
-    worksheet.CB2 = { t: 's', v: 'Clonal total\r\n nucelated cells \r\n (%)**' };
+    worksheet.CB2 = { t: 's', v: 'Clonal total\r\n nucleated cells \r\n (%)**' };
     worksheet.CB2.s = { alignment: { horizontal: 'center', vertical: 'center', wrapText: true }   };   
     worksheet.CC2 = { t: 's', v: 'Cell \r\n equivalent' };
     worksheet.CC2.s = { alignment: { horizontal: 'center', vertical: 'center', wrapText: true }   }; 
