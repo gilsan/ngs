@@ -8,14 +8,17 @@ export  const  commentMRD = `* Clonal IGH read depth를 전체 IGH read depth로
 
   export function makeComment(geneType: string, testCode: string) {
     let BTtype = '';
+    let IGHTCR = '';
     if(testCode === 'LPE555' || testCode === 'LPE556') {
         BTtype = 'B';
+        IGHTCR = 'IGH';
     } else if (testCode === 'LPE557') {
         BTtype = 'T';
+        IGHTCR = 'TCR'; 
     }
 
     return `* Clonal ${geneType} read depth를 전체 ${geneType} read depth로 나눈 값으로 ${BTtype} 세포 중의 클론의 비율을 의미합니다.
-**   LymphoQuant Internal Control (LQIC)을 이용하여 clonal IGH를 전체 유핵세포 내의 세포수 비율로 환산한 근사치입니다.
+**   LymphoQuant Internal Control (LQIC)을 이용하여 clonal ${IGHTCR}를 전체 유핵세포 내의 세포수 비율로 환산한 근사치입니다.
 *** 검체 당 ${BTtype} 세포 100개 정도의 DNA(LymphoQuant Internal Control, LQIC)를 혼합하여 측정된 값을 변환한 것입니다.
       - PCR 증폭은 ${BTtype} 세포의 DNA양에 영향을 받으며 primer결합 부위 변이가 있는 경우 위음성을 보일 가능성이 있습니다.
       - 검사의 분석 민감도는 약  10⁻⁴ ~ 10⁻⁵ 입니다.`;

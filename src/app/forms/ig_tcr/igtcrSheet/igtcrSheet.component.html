@@ -639,7 +639,11 @@
                   </colgroup>
                   <tbody>
                       <tr>
+                        <!--  
                           <td> SPECIMEN: Genomic DNA isolated from Bone marrow</td>
+                        -->
+                          <td *ngIf="patientInfo.specimen=== '015'">SPECIMEN : Genomic DNA isolated from Bone marrow</td>
+                          <td *ngIf="patientInfo.specimen=== '004'">SPECIMEN : Genomic DNA isolated from EDTA blood</td>
                           <td> REQUEST: {{patientInfo.request}}</td>
                       </tr>
                   </tbody>
@@ -713,11 +717,22 @@
                                     <th>V region</th>
                                     <th>J region</th>
                                     <th>Length (dp)</th>
+                                    <!--  
                                     <th>Total IGH read depth</th>
                                     <th>Clonal IGH depth</th>
-                                    <th>Clonal/total IGH read depth (%)*</th>
+                                -->
+                                    <th *ngIf="patientInfo.test_code === 'LPE555' || patientInfo.test_code === 'LPE556'">Total IGH read depth</th>
+                                    <th *ngIf="patientInfo.test_code === 'LPE557'">Total TCR read depth</th>
+                                    <th *ngIf="patientInfo.test_code === 'LPE555' || patientInfo.test_code === 'LPE556'">Clonal IGH depth</th>
+                                    <th *ngIf="patientInfo.test_code === 'LPE557'">Clonal TCR depth</th>
+
+                                    <th *ngIf="patientInfo.test_code === 'LPE555' || patientInfo.test_code === 'LPE556'">Clonal/<br/>total IGH<br/>read depth<br/>(%)*</th>
+                                    <th *ngIf="patientInfo.test_code === 'LPE557'">Clonal/<br/>total TCR<br/>read depth<br/>(%)*</th>
+                                   <!--  <th>Clonal/total IGH read depth (%)*</th> -->
                                     <th>Clonal cell equivalent**</th>
-                                    <th>Clonal IGH sequence</th>
+                                    <th *ngIf="patientInfo.test_code === 'LPE555' || patientInfo.test_code === 'LPE556'">Clonal IGH sequence</th>
+                                    <th *ngIf="patientInfo.test_code === 'LPE557'">Clonal TCR sequence</th>
+                                    <!--  <th>Clonal IGH sequence</th> -->
                                 </tr>
                             </thead>
                             <tbody>
@@ -814,7 +829,12 @@
                         </colgroup>
                         <tbody>
                             <tr>
-                                <td> SPECIMEN: Genomic DNA isolated from Bone marrow</td>
+                                <!-- 
+                                    <td> SPECIMEN: Genomic DNA isolated from Bone marrow</td>
+                                -->
+                                
+                                <td *ngIf="patientInfo.specimen=== '015'">SPECIMEN : Genomic DNA isolated from Bone marrow</td>
+                                <td *ngIf="patientInfo.specimen=== '004'">SPECIMEN : Genomic DNA isolated from EDTA blood</td>
                                 <td> REQUEST: {{patientInfo.request}}</td>
                             </tr>
                         </tbody>
@@ -888,11 +908,18 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Date</th>
-                                        <th>Total IGH read depth</th>
+                                    
+                                        <th *ngIf="patientInfo.test_code === 'LPE555' || patientInfo.test_code === 'LPE556'">Total IGH read depth</th>
+                                        <th *ngIf="patientInfo.test_code === 'LPE557'">Total TCR read depth</th>
                                         <th>LQIC read depth</th>
-                                        <th>Clonal IGH depth</th>
-                                        <th>Clonal/total IGH read depth (%)*</th>
-                                        <th>Clonal/total nuclelated cells (%)**</th>
+                                      
+                                        <th *ngIf="patientInfo.test_code === 'LPE555' || patientInfo.test_code === 'LPE556'">Clonal IGH depth</th>
+                                        <th *ngIf="patientInfo.test_code === 'LPE557'">Clonal TCR depth</th>
+
+                                     
+                                        <th *ngIf="patientInfo.test_code === 'LPE555' || patientInfo.test_code === 'LPE556'">Clonal/<br/>total IGH<br/>read depth<br/>(%)*</th>
+                                        <th *ngIf="patientInfo.test_code === 'LPE557'">Clonal/<br/>total TCR<br/>read depth<br/>(%)*</th>
+                                        <th>Clonal/total nucleated cells (%)**</th>
                                         <th>Clonal cell equivalent***</th>
                                     </tr>
                                 </thead>
