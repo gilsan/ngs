@@ -232,11 +232,15 @@ export class IgTcrSheetComponent implements OnInit {
           this.pdfFirstTitle = 'IGH CLONALITY REPORT'; // 첫번째 검사 제목
           this.pdfMDRTitle = 'IGH MRD REPORT';   // 두번째 검사 제목
         } else if (this.patientInfo.test_code === 'LPE556') {
-          this.pdfFirstTitle = 'IGH/IGK CLONALITY REPORT';
-          this.pdfMDRTitle = 'IGH/IGK MRD REPORT';
+          // this.pdfFirstTitle = 'IGH/IGK CLONALITY REPORT';
+          // this.pdfMDRTitle = 'IGH/IGK MRD REPORT';
+          this.pdfFirstTitle = 'IGH CLONALITY REPORT';
+          this.pdfMDRTitle = 'IGH MRD REPORT';
         }  else if (this.patientInfo.test_code === 'LPE557') {
-          this.pdfFirstTitle = 'TRB/TRG CLONALITY REPORT';
-          this.pdfMDRTitle = 'TRB/TRG MRD REPORT';
+          // this.pdfFirstTitle = 'TRB/TRG CLONALITY REPORT';
+          // this.pdfMDRTitle = 'TRB/TRG MRD REPORT';
+          this.pdfFirstTitle = 'TCR CLONALITY REPORT';
+          this.pdfMDRTitle = 'TCR MRD REPORT';
         }
          
       }),
@@ -1932,7 +1936,7 @@ getCheckboxMax() {
   let indexNo = -1;
   let totalIGHReadDepth = '';
   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
-  // mrdPcellLPE557  mrdnucleatedCells mrdPcellLPE557 mrdnucleatedCells
+  
 
   const tableValues= tableRows.getRawValue();
   tableValues.forEach((item, index) => {
@@ -1978,7 +1982,7 @@ checkTotalIGHReadDepth(index: number,totalIGHReadDepth: string ) {
 
 checkMrdnucleatedCells(index: number,totalnucleatedCells: string ) {   
   let value: string = '0';
- // this.mrdnucleatedCells = tableRows.at(index).get('total_nucelated_cells')?.value;
+  
   if(Number(totalnucleatedCells) === 0) {
     this.mrdnucleatedCells = '<0.0001';
   } else {
