@@ -877,9 +877,11 @@
                                 <td *ngIf="patientInfo.test_code === 'LPE555' || patientInfo.test_code === 'LPE556'">
                                     {{mrdBcellLPE555LPE556}}% / total B-cells , {{mrdnucleatedCells}}% / total nucleated cells
                                 </td>
+                         
                                 <td  *ngIf="patientInfo.test_code === 'LPE557'">
                                     {{mrdPcellLPE557}}% / total T-cells , {{mrdnucleatedCells}}% / total nucleated cells
                                 </td>
+                                                
                             </tr>
                             <tr>
                                 <td colspan="2">{{mrdAddComment}}</td>
