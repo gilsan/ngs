@@ -1532,7 +1532,8 @@ makeMRDData() {
                   readOfLQIC: item.read_of_LQIC,
                   totalBcellTcellCount :item.total_Bcell_Tcell_count.replace(/,/g, ''),
                   totalIGHReadDepth : item.total_IGH_read_depth,
-                  totalNucelatedCells : item.total_nucelated_cells,
+                  // totalNucelatedCells : item.total_nucelated_cells,
+                  totalNucelatedCells : item.total_IGH_read_depth,
                   totalCellEquipment : item.total_cell_equipment.replace(/,/g, ''),
                 });
               } else {
