@@ -172,9 +172,10 @@ export class IgTcrSheetComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+  
     this.init();
   }
+
 
   init() {
 
@@ -1616,7 +1617,12 @@ makeGraphclonalTotalIGHReadDepthData(index: number = 0, date: string = '', clona
   // } else {
   //   this.clonalTotalIGHReadDepthData.unshift(Number(clonalTotalIGHReadDepthData) /100);    
   // }
-   this.clonalTotalIGHReadDepthData.unshift(Number(clonalTotalIGHReadDepthData) /100); 
+  if (Number(clonalTotalIGHReadDepthData) === 0) {
+    this.clonalTotalIGHReadDepthData.unshift(0.0000000000001);
+  } else {
+    this.clonalTotalIGHReadDepthData.unshift(Number(clonalTotalIGHReadDepthData) /100);
+  }
+    
    this.checkDate.unshift(date);  
    this.updateGraphData();
 }
@@ -1628,8 +1634,11 @@ makeGraphclonalTotalNuclelatedCellsData(index: number = 0, date: string = '',   
   // } else {
   //   this.clonalTotalnuclelatedCellsData.unshift(Number(clonalTotalnuclelatedCells) /100);
   // }
-  
-  this.clonalTotalnuclelatedCellsData.unshift(Number(clonalTotalnuclelatedCells) /100);
+  if (Number(clonalTotalnuclelatedCells) === 0) {
+    this.clonalTotalnuclelatedCellsData.unshift(0.0000000000001);
+  } else {
+    this.clonalTotalnuclelatedCellsData.unshift(Number(clonalTotalnuclelatedCells) /100);
+  }
   this.updateGraphData();
 }
 
@@ -1644,7 +1653,7 @@ getAllData() {
   formValue.forEach( (item, index) => {
      
       if (item.use_yn1 === false ) {  
-        console.log('[1639][getAllData]', item);
+        // console.log('[1639][getAllData]', item);
           this.makeGraphclonalTotalIGHReadDepthData(index, item.report_date, item.total_IGH_read_depth );
         if (index === len) {  
             this.makeGraphclonalTotalNuclelatedCellsData(index,item.date, item.total_IGH_read_depth);   
