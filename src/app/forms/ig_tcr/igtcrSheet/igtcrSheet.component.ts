@@ -52,10 +52,10 @@ export class IgTcrSheetComponent implements OnInit {
   screenstatus = ''; 
 
   resultStatus = 'Detected';
-  // title = '';
   clonalLists: IClonal[] = [];
   deletedClonalLists: IClonal[] =[]; // 클로날 삭제
   mrdData: IMRDData[] =[];
+  mrdDataLength = 0;
   patientInfo: IPatient = {
     name: '',
     patientID: '',
@@ -384,7 +384,7 @@ export class IgTcrSheetComponent implements OnInit {
  
    
     const tableRows = this.tablerowForm.get('tableRows') as FormArray;
-    
+     
     if (tableRows.length === 1 ) {
       const totalIGHReadDepth = tableRows.at(0).get('total_IGH_read_depth')?.value;
       this.densityTablePdf1 = tableRows.at(0).get('density')?.value;
@@ -424,7 +424,7 @@ export class IgTcrSheetComponent implements OnInit {
       let totalIGHReadDepth = '';
       let tempMrdnucleatedCells = ''
       const tableValues= tableRows.getRawValue();
-      // console.log('[427][]', tableValues);
+      
       tableValues.forEach((item, index) => {
         
         const useYN1 = tableRows.at(index).get('use_yn1')?.value;
@@ -432,7 +432,6 @@ export class IgTcrSheetComponent implements OnInit {
         if (useYN1 === false && indexNo === -1)   {
           indexNo = index;
           totalIGHReadDepth = tableRows.at(index).get('total_IGH_read_depth')?.value;
-          // this.mrdnucleatedCells = tableRows.at(index).get('total_nucelated_cells')?.value;
           tempMrdnucleatedCells = tableRows.at(index).get('total_nucelated_cells')?.value;
           if(Number(tempMrdnucleatedCells) === 0) {
             this.mrdnucleatedCells = '0.0000';
@@ -1333,7 +1332,7 @@ getClonalTotalIGHReadDepth(index: number): string {
 
     const totalRawCount =(Number(rawCount1) + Number(rawCount2) + Number(rawCount3) + Number(rawCount4) + Number(rawCount5) +
        Number(rawCount6) + Number(rawCount7) + Number(rawCount8) + Number(rawCount9) + Number(rawCount10));
-       const totalIGH = (totalRawCount / Number(totalReadCount)* 100).toFixed(5);
+       const totalIGH = (totalRawCount / Number(totalReadCount)* 100).toFixed(50);
     return totalIGH;
 }
 
@@ -1377,8 +1376,9 @@ getClonalTotalNuclelatedCell(index: number): string {
   // console.log('[1309][getClonalTotalNuclelatedCell][density]', density, totalReadCount,totalReadCountReadOfLQIC);  
   const totalRawCount = this.totalRawCount(index)
   const clonalTotalIGHReadDepth =  (totalRawCount / Number(totalReadCount))* 100;
-  const clonalTotalNuclatedCell = (Number(totalReadCountReadOfLQIC) * Number(clonalTotalIGHReadDepth)).toFixed(5);
-  // console.log('[1313][getClonalTotalNuclelatedCell][density]', density, totalReadCount,clonalTotalIGHReadDepth,totalReadCountReadOfLQIC,clonalTotalNuclatedCell);
+  // 소수점 5자리에서 50자리로 수정 2-23-06-25 일요일
+  const clonalTotalNuclatedCell = (Number(totalReadCountReadOfLQIC) * Number(clonalTotalIGHReadDepth)).toFixed(50);
+  
   return clonalTotalNuclatedCell;
 }
 
@@ -1606,24 +1606,29 @@ makeMRDData() {
         }
   });
   this.mrdData = tempMrdData.reverse();
-  console.log('[1583][mrdData]', this.mrdData);
+  this.mrdDataLength = tempMrdData.length;
+  //console.log('[1583][mrdData]', this.mrdData);
 }
 //////////////////////////////////////////////////////////////////////
 // 그래프 데이타
 makeGraphclonalTotalIGHReadDepthData(index: number = 0, date: string = '', clonalTotalIGHReadDepthData: string = '' ) {
-   
+    
   // if ((Number(clonalTotalIGHReadDepthData)) < 0.01 ||   clonalTotalIGHReadDepthData === '0.00') {
   //   this.clonalTotalIGHReadDepthData.unshift(Number(0.0001)); 
   // } else {
   //   this.clonalTotalIGHReadDepthData.unshift(Number(clonalTotalIGHReadDepthData) /100);    
   // }
   if (Number(clonalTotalIGHReadDepthData) === 0) {
+    
     this.clonalTotalIGHReadDepthData.unshift(0.0000000000001);
+    
   } else {
     this.clonalTotalIGHReadDepthData.unshift(Number(clonalTotalIGHReadDepthData) /100);
   }
     
-   this.checkDate.unshift(date);  
+   this.checkDate.unshift(date); 
+   //console.log('[1629][날자]',   this.checkDate); 
+   //console.log('[1630][IGH값]', this.clonalTotalIGHReadDepthData);
    this.updateGraphData();
 }
 
@@ -1639,6 +1644,7 @@ makeGraphclonalTotalNuclelatedCellsData(index: number = 0, date: string = '',   
   } else {
     this.clonalTotalnuclelatedCellsData.unshift(Number(clonalTotalnuclelatedCells) /100);
   }
+  // console.log('[1645][Nuclelated]',this.clonalTotalnuclelatedCellsData)
   this.updateGraphData();
 }
 
@@ -1649,11 +1655,11 @@ getAllData() {
   this.clonalTotalnuclelatedCellsData = [];
   this.checkDate= [];
   const len = formValue.length -1;
-   
+   // console.log('[1658][getAllData]', formValue);
   formValue.forEach( (item, index) => {
      
       if (item.use_yn1 === false ) {  
-        // console.log('[1639][getAllData]', item);
+      
           this.makeGraphclonalTotalIGHReadDepthData(index, item.report_date, item.total_IGH_read_depth );
         if (index === len) {  
             this.makeGraphclonalTotalNuclelatedCellsData(index,item.date, item.total_IGH_read_depth);   
@@ -1669,46 +1675,58 @@ getAllData() {
 }
 
 updateGraphData() {
-  this.options = {
-    color: this.colors,
-    legend: {
-      data: ['Clonal/total ' + this.geneType + ' read depth (%)*  ', 'Clonal/total nuclelated cells (%)**'],
-      left: 360,
-      bottom: 20,
-    },
-    xAxis: {
-      type: 'category',
-      data:  this.checkDate,
-    },
-    yAxis: [
-      {
-        type: 'log',
-      //  min: 0 ,
-        minorSplitLine: {
-            show: true
-        },
-        axisTick: {
-          show: true,
-          length: 4
-        }
-     },
- 
-    ]
 
-      ,
-    series: [
-      {
-        name: 'Clonal/total ' + this.geneType + ' read depth (%)*  ',
-        type: 'line',
-        data: this.clonalTotalIGHReadDepthData,
+  if ( this.checkDate.length === this.mrdDataLength && 
+    this.clonalTotalIGHReadDepthData.length === this.mrdDataLength  &&
+    this.clonalTotalnuclelatedCellsData.length === this.mrdDataLength) {
+    // console.log('[1682][날자]',   this.checkDate); 
+    // console.log('[1683][IGH값]', this.clonalTotalIGHReadDepthData);
+    // console.log('[1684][Nuclelated]',this.clonalTotalnuclelatedCellsData);
+    this.options = {
+      color: this.colors,
+      legend: {
+        data: ['Clonal/total ' + this.geneType + ' read depth (%)*  ', 'Clonal/total nuclelated cells (%)**'],
+        left: 360,
+        bottom: 20,
       },
-      {
-        name: 'Clonal/total nuclelated cells (%)**',
-        type: 'line',
-        data: this.clonalTotalnuclelatedCellsData
-      }
-    ],
-  };
+      xAxis: {
+        type: 'category',
+       data:  this.checkDate,
+      
+      },
+      yAxis: [
+        {
+          type: 'log',
+        //  min: 0 ,
+          minorSplitLine: {
+              show: true
+          },
+          axisTick: {
+            show: true,
+            length: 4
+          }
+       },
+   
+      ]
+  
+        ,
+      series: [
+        {
+          name: 'Clonal/total ' + this.geneType + ' read depth (%)*  ',
+          type: 'line',
+          data: this.clonalTotalIGHReadDepthData,
+         
+        },
+        {
+          name: 'Clonal/total nuclelated cells (%)**',
+          type: 'line',
+          data: this.clonalTotalnuclelatedCellsData
+          
+        }
+      ],
+    };
+  }
+
 }
 ////////////////////////////////////////////////////////////////////////
 increaseClonal() {
