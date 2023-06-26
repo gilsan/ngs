@@ -451,11 +451,7 @@ export class IgTcrSheetComponent implements OnInit {
              this.densityTablePdf1CellFEquivalent2 = '61,538';
            }
            
-          // if (this.patientInfo.test_code === 'LPE555' || this.patientInfo.test_code === 'LPE556') {
-          //   this.mrdBcellLPE555LPE556 = totalIGHReadDepth;
-          // } else if(this.patientInfo.test_code === 'LPE557') {
-          //   this.mrdPcellLPE557 = totalIGHReadDepth;
-          // }
+     
         }
     
       });
@@ -506,7 +502,7 @@ export class IgTcrSheetComponent implements OnInit {
     const tableRows = this.tablerowForm.get('tableRows') as FormArray;
     let filename = '';
     let DATA: any;
-    // console.log('[507][createpdf2]===========')
+    
     if (tableRows.length === 1) {
       DATA = document.getElementById('resultSheet');
     } else {
