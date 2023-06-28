@@ -822,7 +822,7 @@ addNewRow(): void {
     this.initialTestResult = initialTestResult(this.geneType, this.clonalCountTitle);
   }
   
-  // control.push(this.makeNewRow());
+  
 }
 
 addRow(item: IClonal): void {
@@ -1055,7 +1055,7 @@ rawCount5(index: number , rawcount5wComma: string) {
 
 rawCount6(index: number , rawcount6wComma: string) {
   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
-  // const totalReadCount =  tableRows.at(index).get('total_read_count')?.value;
+  
   const totalReadCount =  Number(this.existComma(tableRows.at(index).get('total_read_count')?.value));
   const rawcount6 = this.existComma(rawcount6wComma);
   this.percentTotalReads(index, parseInt(rawcount6), totalReadCount, 6);
@@ -1267,15 +1267,7 @@ clonalTotalIGHReadDepth(index: number) {
     tableRows.at(index).patchValue({ total_IGH_read_depth: clonalTotalIGHReadDepth}); 
     this.checkTotalIGHReadDepth(index, clonalTotalIGHReadDepth ); // 1961 줄
     this.clonalTotalNuclelatedCell(index); // 1275 줄
-    // if (Number(clonalTotalIGHReadDepth) < 0.01) {
-    //   tableRows.at(index).patchValue({ total_IGH_read_depth: 0.001});   
-    //   this.checkTotalIGHReadDepth(index, '0.001');  // 1961 줄
-    //   this.clonalTotalNuclelatedCell(index); // 1275 줄
-    // } else {
-    //   tableRows.at(index).patchValue({ total_IGH_read_depth: clonalTotalIGHReadDepth}); 
-    //   this.checkTotalIGHReadDepth(index, clonalTotalIGHReadDepth ); // 1961 줄
-    //   this.clonalTotalNuclelatedCell(index); // 1275 줄
-    // } 
+     
   }
 
   // LPE555 LPE556 B-Cells
@@ -1338,19 +1330,13 @@ clonalTotalNuclelatedCell(index: number) {
   const reportDate = tableRows.at(index).get('report_date')?.value;
   const clonalTotalNuclelatedCell = this.getClonalTotalNuclelatedCell(index); // 1296 줄
   
- // tableRows.at(index).patchValue({ total_nucelated_cells: clonalTotalNuclelatedCell});
+  
  if (Number.isNaN(parseInt(clonalTotalNuclelatedCell))) {
   tableRows.at(index).patchValue({ total_nucelated_cells: 0});
 } else {
   tableRows.at(index).patchValue({ total_nucelated_cells: clonalTotalNuclelatedCell});
   this.checkMrdnucleatedCells(index, clonalTotalNuclelatedCell);
-  // if (Number(clonalTotalNuclelatedCell) < 0.0001) {
-  //   tableRows.at(index).patchValue({ total_nucelated_cells: 0.00001});
-  //   this.checkMrdnucleatedCells(index, '0.00001'); // 1978 줄
-  // } else {
-  //   tableRows.at(index).patchValue({ total_nucelated_cells: clonalTotalNuclelatedCell});
-  //   this.checkMrdnucleatedCells(index, clonalTotalNuclelatedCell);
-  // }
+   
   
 }
    
@@ -1369,7 +1355,7 @@ getClonalTotalNuclelatedCell(index: number): string {
   } else  if(density === '240') {
     totalReadCountReadOfLQIC = ((Number(totalReadCount)/Number(readOfLQIC)) / 36923) * 100;
   }
-  // console.log('[1309][getClonalTotalNuclelatedCell][density]', density, totalReadCount,totalReadCountReadOfLQIC);  
+    
   const totalRawCount = this.totalRawCount(index)
   const clonalTotalIGHReadDepth =  (totalRawCount / Number(totalReadCount))* 100;
   // 소수점 5자리에서 50자리로 수정 2-23-06-25 일요일
