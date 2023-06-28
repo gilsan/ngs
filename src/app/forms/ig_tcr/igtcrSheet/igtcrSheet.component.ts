@@ -1637,7 +1637,7 @@ getAllData() {
   this.clonalTotalnuclelatedCellsData = [];
   this.checkDate= [];
   const len = formValue.length -1;
-   // console.log('[1658][getAllData]', formValue);
+   
   formValue.forEach( (item, index) => {
      
       if (item.use_yn1 === false ) {  
@@ -1661,9 +1661,7 @@ updateGraphData() {
   if ( this.checkDate.length === this.mrdDataLength && 
     this.clonalTotalIGHReadDepthData.length === this.mrdDataLength  &&
     this.clonalTotalnuclelatedCellsData.length === this.mrdDataLength) {
-    // console.log('[1682][날자]',   this.checkDate); 
-    // console.log('[1683][IGH값]', this.clonalTotalIGHReadDepthData);
-    // console.log('[1684][Nuclelated]',this.clonalTotalnuclelatedCellsData);
+     
     this.options = {
       color: this.colors,
       legend: {
