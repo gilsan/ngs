@@ -1595,11 +1595,7 @@ makeMRDData() {
 // 그래프 데이타
 makeGraphclonalTotalIGHReadDepthData(index: number = 0, date: string = '', clonalTotalIGHReadDepthData: string = '' ) {
     
-  // if ((Number(clonalTotalIGHReadDepthData)) < 0.01 ||   clonalTotalIGHReadDepthData === '0.00') {
-  //   this.clonalTotalIGHReadDepthData.unshift(Number(0.0001)); 
-  // } else {
-  //   this.clonalTotalIGHReadDepthData.unshift(Number(clonalTotalIGHReadDepthData) /100);    
-  // }
+  
   if (Number(clonalTotalIGHReadDepthData) === 0) {
     
     this.clonalTotalIGHReadDepthData.unshift(0.0000000000001);
@@ -1609,8 +1605,7 @@ makeGraphclonalTotalIGHReadDepthData(index: number = 0, date: string = '', clona
   }
     
    this.checkDate.unshift(date); 
-   //console.log('[1629][날자]',   this.checkDate); 
-   //console.log('[1630][IGH값]', this.clonalTotalIGHReadDepthData);
+    
    this.updateGraphData();
 }
 
