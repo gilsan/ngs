@@ -1610,18 +1610,13 @@ makeGraphclonalTotalIGHReadDepthData(index: number = 0, date: string = '', clona
 }
 
 makeGraphclonalTotalNuclelatedCellsData(index: number = 0, date: string = '',   clonalTotalnuclelatedCells: string = '') { 
-  // 값이 0.0001 이하면 0.0001 로 설정
-  // if ( (Number(clonalTotalnuclelatedCells)) < 0.0001 || clonalTotalnuclelatedCells === '0.0000') {  
-  //   this.clonalTotalnuclelatedCellsData.unshift(Number(0.0001)); // 2023-06-23 금 수정
-  // } else {
-  //   this.clonalTotalnuclelatedCellsData.unshift(Number(clonalTotalnuclelatedCells) /100);
-  // }
+ 
   if (Number(clonalTotalnuclelatedCells) === 0) {
     this.clonalTotalnuclelatedCellsData.unshift(0.0000000000001);
   } else {
     this.clonalTotalnuclelatedCellsData.unshift(Number(clonalTotalnuclelatedCells) /100);
   }
-  // console.log('[1645][Nuclelated]',this.clonalTotalnuclelatedCellsData)
+  
   this.updateGraphData();
 }
 
