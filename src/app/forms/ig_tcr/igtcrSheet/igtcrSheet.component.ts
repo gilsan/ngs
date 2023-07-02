@@ -1567,7 +1567,7 @@ makeMRDData() {
                   readOfLQIC: item.read_of_LQIC,
                   totalBcellTcellCount :item.total_Bcell_Tcell_count.replace(/,/g, ''),
                   totalIGHReadDepth : item.total_IGH_read_depth,
-                  // totalNucelatedCells : item.total_nucelated_cells,
+                  
                   totalNucelatedCells : Number(item.total_IGH_read_depth) < 0.01 && Number(item.total_IGH_read_depth) > 0 ? '0.00001' : item.total_IGH_read_depth ,
                   totalCellEquipment : item.total_cell_equipment.replace(/,/g, ''),
                 });
@@ -1589,7 +1589,7 @@ makeMRDData() {
   });
   this.mrdData = tempMrdData.reverse();
   this.mrdDataLength = tempMrdData.length;
-  //console.log('[1583][mrdData]', this.mrdData);
+  
 }
 //////////////////////////////////////////////////////////////////////
 // 그래프 데이타
