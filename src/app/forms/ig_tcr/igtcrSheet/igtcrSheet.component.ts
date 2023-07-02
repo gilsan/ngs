@@ -1595,17 +1595,13 @@ makeMRDData() {
 // 그래프 데이타
 makeGraphclonalTotalIGHReadDepthData(index: number = 0, date: string = '', clonalTotalIGHReadDepthData: string = '' ) {
     
-  
-  if (Number(clonalTotalIGHReadDepthData) === 0) {
-    
-    this.clonalTotalIGHReadDepthData.unshift(0.0000000000001);
-    
+  if (Number(clonalTotalIGHReadDepthData) === 0) { 
+    this.clonalTotalIGHReadDepthData.unshift(0.0000000000001);   
   } else {
     this.clonalTotalIGHReadDepthData.unshift(Number(clonalTotalIGHReadDepthData) /100);
   }
     
-   this.checkDate.unshift(date); 
-    
+   this.checkDate.unshift(date);    
    this.updateGraphData();
 }
 
@@ -1615,8 +1611,7 @@ makeGraphclonalTotalNuclelatedCellsData(index: number = 0, date: string = '',   
     this.clonalTotalnuclelatedCellsData.unshift(0.0000000000001);
   } else {
     this.clonalTotalnuclelatedCellsData.unshift(Number(clonalTotalnuclelatedCells) /100);
-  }
-  
+  } 
   this.updateGraphData();
 }
 
@@ -1630,15 +1625,13 @@ getAllData() {
    
   formValue.forEach( (item, index) => {
      
-      if (item.use_yn1 === false ) {  
-      
+      if (item.use_yn1 === false ) {       
           this.makeGraphclonalTotalIGHReadDepthData(index, item.report_date, item.total_IGH_read_depth );
         if (index === len) {  
             this.makeGraphclonalTotalNuclelatedCellsData(index,item.date, item.total_IGH_read_depth);   
         } else {    
            this.makeGraphclonalTotalNuclelatedCellsData(index,item.date, item.total_nucelated_cells);
-        }
-        
+        }       
       }
 
   });
