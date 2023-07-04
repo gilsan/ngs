@@ -2005,11 +2005,7 @@ getCheckboxMax() {
        
       this.checkTotalIGHReadDepth(index,totalIGHReadDepth );
           
-      // if (this.patientInfo.test_code === 'LPE555' || this.patientInfo.test_code === 'LPE556') {       
-      //    this.mrdBcellLPE555LPE556 = totalIGHReadDepth;             
-      // } else if(this.patientInfo.test_code === 'LPE557') {                
-      //    this.mrdPcellLPE557 = totalIGHReadDepth;         
-      // }
+      
     }
    
   });
