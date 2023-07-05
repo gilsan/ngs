@@ -2003,9 +2003,7 @@ getCheckboxMax() {
       this.checkMrdnucleatedCells(index, tableRows.at(index).get('total_nucelated_cells')?.value); // 1979 줄
       this.secondTotalBcellTcellCount = tableRows.at(index).get('total_Bcell_Tcell_count')?.value;
        
-      this.checkTotalIGHReadDepth(index,totalIGHReadDepth );
-          
-      
+      this.checkTotalIGHReadDepth(index,totalIGHReadDepth );    
     }
    
   });
@@ -2054,13 +2052,7 @@ checkMrdnucleatedCells(index: number,totalnucleatedCells: string ) {
 // totalIGHReadDepth === 0이면 <0.01% 반환
 totalIGHReadDepthCheck(index: number): string {
   /*
-  const tableRows = this.tablerowForm.get('tableRows') as FormArray;
-  const totalIGHReadDepth = tableRows.at(index).get('total_IGH_read_depth')?.value;
-  if(Number(totalIGHReadDepth) === 0) {
-    return '<0.01%';
-  } else {
-    return Number(totalIGHReadDepth).toFixed(2);
-  }
+ 
   */
   if (Number(this.mrdData[index].totalIGHReadDepth) === 0) {
      return '0.00%';
