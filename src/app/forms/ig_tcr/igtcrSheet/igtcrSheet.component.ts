@@ -2051,9 +2051,7 @@ checkMrdnucleatedCells(index: number,totalnucleatedCells: string ) {
 
 // totalIGHReadDepth === 0이면 <0.01% 반환
 totalIGHReadDepthCheck(index: number): string {
-  /*
  
-  */
   if (Number(this.mrdData[index].totalIGHReadDepth) === 0) {
      return '0.00%';
   } else if ( Number(this.mrdData[index].totalIGHReadDepth) >  0 && Number(this.mrdData[index].totalIGHReadDepth) < 0.01) {
@@ -2064,16 +2062,7 @@ totalIGHReadDepthCheck(index: number): string {
 }
 
 totalNucleatedCellsCheck(index: number): string {
-  /*
-  const tableRows = this.tablerowForm.get('tableRows') as FormArray;
-  const totalNucleatedCells = tableRows.at(index).get('total_nucelated_cells')?.value;
  
-  if(Number(totalNucleatedCells) === 0) {
-    return '<0.0001%';
-  } else {
-    return Number(totalNucleatedCells).toFixed(4);
-  }
-  */
  // console.log('[2031][totalNucleatedCellsCheck][]',index, this.mrdData[index].totalNucelatedCells);
  if (Number(this.mrdData[index].totalNucelatedCells) === 0) {
      return '0.0000%';
