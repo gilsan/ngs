@@ -2037,8 +2037,7 @@ checkTotalIGHReadDepth(index: number,totalIGHReadDepth: string ) {
 
 checkMrdnucleatedCells(index: number,totalnucleatedCells: string ) {   
   let value: string = '0';
-  // console.log('[1987][checkMrdnucleatedCells]', index, totalnucleatedCells);
- 
+   
   if(Number(totalnucleatedCells) === 0) {
       this.mrdnucleatedCells = '0.0000';
   } else if (Number(totalnucleatedCells) > 0 && Number(totalnucleatedCells) < 0.0001) {
@@ -2062,8 +2061,6 @@ totalIGHReadDepthCheck(index: number): string {
 }
 
 totalNucleatedCellsCheck(index: number): string {
- 
- // console.log('[2031][totalNucleatedCellsCheck][]',index, this.mrdData[index].totalNucelatedCells);
  if (Number(this.mrdData[index].totalNucelatedCells) === 0) {
      return '0.0000%';
  } else if (Number(this.mrdData[index].totalNucelatedCells) > 0 && Number(this.mrdData[index].totalNucelatedCells) < 0.0001) {
