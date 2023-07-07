@@ -234,13 +234,11 @@ export class IgTcrSheetComponent implements OnInit {
           this.pdfFirstTitle = 'IGH CLONALITY REPORT'; // 첫번째 검사 제목
           this.pdfMDRTitle = 'IGH MRD REPORT';   // 두번째 검사 제목
         } else if (this.patientInfo.test_code === 'LPE556') {
-          // this.pdfFirstTitle = 'IGH/IGK CLONALITY REPORT';
-          // this.pdfMDRTitle = 'IGH/IGK MRD REPORT';
+          
           this.pdfFirstTitle = 'IGH CLONALITY REPORT';
           this.pdfMDRTitle = 'IGH MRD REPORT';
         }  else if (this.patientInfo.test_code === 'LPE557') {
-          // this.pdfFirstTitle = 'TRB/TRG CLONALITY REPORT';
-          // this.pdfMDRTitle = 'TRB/TRG MRD REPORT';
+          
           this.pdfFirstTitle = 'TCR CLONALITY REPORT';
           this.pdfMDRTitle = 'TCR MRD REPORT';
         }
@@ -259,7 +257,7 @@ export class IgTcrSheetComponent implements OnInit {
       tap(data => this.clonalLists = data)
     )
     .subscribe(data => {
-     // console.log('[260][clonal]', this.clonalLists);
+     
       if (this.clonalLists.length) {
         this.clonalLists.forEach((item, index) => {
           if (index === 0) {
