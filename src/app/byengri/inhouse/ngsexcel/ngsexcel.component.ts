@@ -56,6 +56,14 @@ export interface INGS {
   vus: string;
   vus_gene: string;
   stage: string;
+
+  organ: string;
+  tumor_type: string;
+  diagnosis: string;
+  void1?: string;
+  void2?: string;
+  void3?: string;
+
 }
 
 
@@ -137,6 +145,8 @@ export class NgsexcelComponent implements OnInit {
       )
       .subscribe(data => {
         this.snackBar.open('정상적으로 다운로드 하였습니다.', '닫기', { duration: 3000 });
+        // console.log('[데이터][140]', data);
+
         if (this.count < this.size) {
           lists.push(data);
           this.count++;
@@ -153,7 +163,7 @@ export class NgsexcelComponent implements OnInit {
 
   ngsLists(datas: INGS[]): void {
     const ngsLists = [];
-    // console.log('[155]', datas);
+    // console.log('[166]', datas);
     datas.forEach((item, idx) => {
       ngsLists.push({
         id: idx + 1, b1: '', c1: idx + 1, proccorpcd: item.proccorpcd, pid: item.pid,
@@ -162,8 +172,10 @@ export class NgsexcelComponent implements OnInit {
         testcd: item.testcd, bcno: item.bcno, preicd10cd: item.preicd10cd, preicd10hngnm: item.preicd10hngnm, posticd10cd: item.posticd10cd,
         posticd10hngnm: item.posticd10hngnm, v1: '', w1: '', x1: '', y1: '',
         z1: item.stage, aa1: '', spccd: item.spccd, ac1: '', spcacptdt: item.spcacptdt,
-        lstreptdt: item.lstreptdt, pv: item.pv, pv_gene: item.pv_gene, vus: item.vus, vus_gene: item.vus_gene,
-        hospnm: item.hospnm, ak1: '', al1: ''
+        lstreptdt: item.lstreptdt, 
+        organ: item.organ, tumor_type: item.tumor_type, diagnosis: item.diagnosis, void1: '', void2: '', void3:'',
+        pv: item.pv, pv_gene: item.pv_gene, vus: item.vus, vus_gene: item.vus_gene,
+        hospnm: item.hospnm, ak1: '', al1: '' 
 
       });
 
@@ -176,8 +188,10 @@ export class NgsexcelComponent implements OnInit {
       testcd: '', bcno: '', preicd10cd: '', preicd10hngnm: '', posticd10cd: '',
       posticd10hngnm: '', v1: '', w1: '', x1: '', y1: '',
       z1: '', aa1: '', spccd: '', ac1: '', spcacptdt: '',
-      lstreptdt: '', pv: '', pv_gene: '', vus: '', vus_gene: '',
-      hospnm: '', ak1: '', al1: ''
+      lstreptdt: '', 
+      organ: '', tumor_type: '', diagnosis: '', void1: '', void2: '', void3:'',
+      pv: '', pv_gene: '', vus: '', vus_gene: '',
+      hospnm: '', ak1: '', al1: '' 
     });
 
     ngsLists.unshift({
@@ -187,8 +201,10 @@ export class NgsexcelComponent implements OnInit {
       testcd: '', bcno: '', preicd10cd: '', preicd10hngnm: '', posticd10cd: '',
       posticd10hngnm: '', v1: '', w1: '', x1: '', y1: '',
       z1: '', aa1: '', spccd: '', ac1: '', spcacptdt: '',
-      lstreptdt: '', pv: '', pv_gene: '', vus: '', vus_gene: '',
-      hospnm: '', ak1: '', al1: ''
+      lstreptdt: '', 
+      organ: '', tumor_type: '', diagnosis: '', void1: '', void2: '', void3:'',
+      pv: '', pv_gene: '', vus: '', vus_gene: '',
+      hospnm: '', ak1: '', al1: '' 
     });
 
     ngsLists.unshift({
@@ -198,20 +214,24 @@ export class NgsexcelComponent implements OnInit {
       testcd: '', bcno: '', preicd10cd: '', preicd10hngnm: '', posticd10cd: '',
       posticd10hngnm: '', v1: '', w1: '', x1: '', y1: '',
       z1: '', aa1: '', spccd: '', ac1: '', spcacptdt: '',
-      lstreptdt: '', pv: '', pv_gene: '', vus: '', vus_gene: '',
-      hospnm: '', ak1: '', al1: ''
+      lstreptdt: '',   
+      organ: '', tumor_type: '', diagnosis: '', void1: '', void2: '', void3:'',    
+      pv: '', pv_gene: '', vus: '', vus_gene: '',
+      hospnm: '', ak1: '', al1: '', 
     });
 
 
 
     const ngwidth = [{ width: 6 }, { width: 21 }, { width: 12 }, { width: 12 }, { width: 9 }, // A, B, C, D,E
-    { width: 8 }, { width: 10 }, { width: 5 }, { width: 9 }, { width: 8 },    // F, G, H, I, J,K
-    { width: 7 }, { width: 9 }, { width: 14 }, { width: 19 }, { width: 24 },  // L, M, N, O, P
-    { width: 8 }, { width: 15 }, { width: 13 }, { width: 11 }, { width: 17 }, // R, S, T, U, V
-    { width: 55 }, { width: 13 }, { width: 11 }, { width: 26 }, { width: 8 }, // W, X, Y, Z
-    { width: 8 }, { width: 15 }, { width: 9 }, { width: 8 }, { width: 12 }, // AAM AB, AC, AD, AE
-    { width: 12 }, { width: 15 }, { width: 33 }, { width: 12 }, { width: 36 }, // ,AF,AG, AH, AI,
-    { width: 9 }, { width: 9 }, { width: 14 } // AJ, AK, AL
+    { width: 8 }, { width: 10 }, { width: 5 }, { width: 9 }, { width: 8 },    // F, G, H, I, J,
+    { width: 7 }, { width: 9 }, { width: 14 }, { width: 19 }, { width: 24 },  // k,L, M, N, O
+    { width: 8 }, { width: 15 }, { width: 13 }, { width: 11 }, { width: 17 }, // p,q,R, S, T,
+    { width: 55 }, { width: 13 }, { width: 11 }, { width: 26 }, { width: 8 }, //u,v, W, X, Y,
+    { width: 8 }, { width: 15 }, { width: 9 }, { width: 8 }, { width: 12 }, // Z, AA, AB, AC, AD,
+    { width: 12 }, { width: 15 }, { width: 33 }, { width: 12 }, { width: 36 }, //AE, AF,AG, AH, AI
+    { width: 9 }, { width: 9 }, { width: 17 }, // AJ,AK, AL
+    { width: 17 }, { width: 15 }, { width: 20 }, { width: 12 }, { width: 28 }, // AM,AN, AO,AP,AQ
+    { width: 14 }, { width: 9 }, { width: 14 } //AR, AS, AT
     ];
 
     this.excel.exortAsNGSTest(ngsLists, 'report', ngwidth);

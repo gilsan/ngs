@@ -66,7 +66,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
     let count;
     this.subs.sink = this.excelService.patientExcelList(start, end)
       .subscribe(lists => {
-        // console.log(lists);
+         console.log('[데이터]', lists);
         this.snackBar.open('정상적으로 다운로드 하였습니다.', '닫기', { duration: 3000 });
         excelLists.push({
           no: 'No',

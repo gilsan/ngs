@@ -32,47 +32,11 @@ export class ExcelService {
 
   public exortAsNGSTest(jsonData: any[], excelFileName: string, width: any[]): void {
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(jsonData, { skipHeader: true });
-    ws['!cols'] = width;
+    console.log('[35][exortAsNGSTest]', width);
+    ws['!cols'] = width ;
     ws['!rows'] = [{ hpx: 57 }];
     /*
-     ws.A.s = { alignment: { horizontal: 'center' } };
-     ws.B.s = { alignment: { horizontal: 'center' } };
-     ws.C.s = { alignment: { horizontal: 'center' } };
-     ws.D.s = { alignment: { horizontal: 'center' } };
-     ws.E.s = { alignment: { horizontal: 'center' } };
-     ws.F.s = { alignment: { horizontal: 'center' } };
-     ws.G.s = { alignment: { horizontal: 'center' } };
-     ws.H.s = { alignment: { horizontal: 'center' } };
-     ws.I.s = { alignment: { horizontal: 'center' } };
-     ws.J.s = { alignment: { horizontal: 'center' } };
-     ws.K.s = { alignment: { horizontal: 'center' } };
-     ws.L.s = { alignment: { horizontal: 'center' } };
-     ws.M.s = { alignment: { horizontal: 'center' } };
-     ws.N.s = { alignment: { horizontal: 'center' } };
-     ws.O.s = { alignment: { horizontal: 'center' } };
-     ws.P.s = { alignment: { horizontal: 'center' } };
-     ws.Q.s = { alignment: { horizontal: 'center' } };
-     ws.R.s = { alignment: { horizontal: 'center' } };
-     ws.S.s = { alignment: { horizontal: 'center' } };
-     ws.T.s = { alignment: { horizontal: 'center' } };
-     ws.U.s = { alignment: { horizontal: 'center' } };
-     ws.V.s = { alignment: { horizontal: 'center' } };
-     ws.W.s = { alignment: { horizontal: 'center' } };
-     ws.X.s = { alignment: { horizontal: 'center' } };
-     ws.Y.s = { alignment: { horizontal: 'center' } };
-     ws.Z.s = { alignment: { horizontal: 'center' } };
-     ws.AA.s = { alignment: { horizontal: 'center' } };
-     ws.AB.s = { alignment: { horizontal: 'center' } };
-     ws.AC.s = { alignment: { horizontal: 'center' } };
-     ws.AD.s = { alignment: { horizontal: 'center' } };
-     ws.AE.s = { alignment: { horizontal: 'center' } };
-     ws.AF.s = { alignment: { horizontal: 'center' } };
-     ws.AG.s = { alignment: { horizontal: 'center' } };
-     ws.AH.s = { alignment: { horizontal: 'center' } };
-     ws.AI.s = { alignment: { horizontal: 'center' } };
-     ws.AJ.s = { alignment: { horizontal: 'center' } };
-     ws.AK.s = { alignment: { horizontal: 'center' } };
-     ws.AL.s = { alignment: { horizontal: 'center' } };
+      
     */
 
 
@@ -168,13 +132,79 @@ export class ExcelService {
     ws.AE2 = { t: 's', v: 'D3' };
     ws.AE2.s = { alignment: { horizontal: 'center' } };
     ws.AE3 = { t: 's', v: '검사보고일' };
+
+    
+    ws.AF2 = { t: 's', v: 'D4-1' };
+    ws.AF2.s = { alignment: {horizontal: 'center'} };
+    ws.AF3 = { t: 's', v: '장기(organ)'};
+
+    ws.AG2 = { t: 's', v: 'D4-2'};
+    ws.AG2.s = { alignment: { horizontal: 'center'} };
+    ws.AG3 = { t: 's', v: '조직유형(histologic type)'};
+
+    ws.AH2 = { t: 's', v: ''};
+    ws.AH3 = { t: 's', v: ''};
+
+
+    ws.AI2 = { t: 's', v: 'D4-3'};
+    ws.AI2.s = { alignment: { horizontal: 'center'} };
+    ws.AI3 = { t: 's', v: '검사시행사유'};
+
+    ws.AJ2 = { t: 's', v: 'D5-1'};
+    ws.AJ2.s = { alignment: { horizontal: 'center'}};
+    ws.AJ3 = { t: 's', v: '단일유전자검사 시행여부'};
+
+    ws.AK2 = { t: 's', v: 'D5-2'};
+    ws.AK2.s = { alignment: { horizontal: 'center'}};
+    ws.AK3 = { t: 's', v: '단일유전자검사 시행일' };
+
+
+    ws.AL1 = { t: 's', v: 'E_검사결과' };
+    ws.AL2 = { t: 's', v: 'E1' };
+    ws.AL2.s = { alignment: { horizontal: 'center' } }; 
+    ws.AL3 = { t: 's', v: 'PV/LPV 검출 여부' };
+
+
+    ws.AM2 = { t: 's', v: 'E1-1' };
+    ws.AM2.s = { alignment: { horizontal: 'center' } }; 
+    ws.AM3 = { t: 's', v: 'PV/LPV 검출 유전자' };
+
+    
+    ws.AN2 = { t: 's', v: 'E2' };
+    ws.AN2.s = { alignment: { horizontal: 'center' } };
+    ws.AN3 = { t: 's', v: 'VUS 검출여부' };
+
+    ws.AO1 = { t: 's', v: '' };
+    ws.AO2 = { t: 's', v: 'E2-1' };
+    ws.AO2.s = { alignment: { horizontal: 'center' } };
+    ws.AO3 = { t: 's', v: 'VUS 검출 유전자' };
+
+    ws.AP1 = { t: 's', v: 'F_기타' }; 
+    ws.AP1.s = { alignment: { horizontal: 'center', vertical: 'center' } };
+    ws.AP2 = { t: 's', v: 'F1' };
+    ws.AP2.s = { alignment: { horizontal: 'center' } };
+    ws.AP3 = { t: 's', v: '검사위탁' };
+
+    ws.AQ2 = { t: 's', v: 'F2' };
+    ws.AQ2.s = { alignment: { horizontal: 'center' } };
+    ws.AQ3 = { t: 's', v: '인체유래물 등의\n기증 동의여부' };
+
+    ws.AR2 = { t: 's', v: 'F3' };
+    ws.AR2.s = { alignment: { horizontal: 'center' } };
+    ws.AR3 = { t: 's', v: '기타 특이사항' };
+   
+
+    
+
+   /*
     ws.AF1 = { t: 's', v: 'E_검사결과' };
     ws.AF2 = { t: 's', v: 'E1' };
-    ws.AF2.s = { alignment: { horizontal: 'center' } };
+    ws.AF2.s = { alignment: { horizontal: 'center' } }; 
     ws.AF3 = { t: 's', v: 'PV/LPV 검출 여부' };
     ws.AG2 = { t: 's', v: 'E1-1' };
     ws.AG2.s = { alignment: { horizontal: 'center' } };
     ws.AG3 = { t: 's', v: 'PV/LPV 검출 유전자' };
+
     ws.AH2 = { t: 's', v: 'E2' };
     ws.AH2.s = { alignment: { horizontal: 'center' } };
     ws.AH3 = { t: 's', v: 'VUS 검출여부' };
@@ -192,7 +222,7 @@ export class ExcelService {
     ws.AL2 = { t: 's', v: 'F3' };
     ws.AL2.s = { alignment: { horizontal: 'center' } };
     ws.AL3 = { t: 's', v: '기타 특이사항' };
-
+   */
 
 
 
@@ -203,10 +233,11 @@ export class ExcelService {
     { s: { c: 14, r: 0 }, e: { c: 14, r: 0 } },
     { s: { c: 15, r: 0 }, e: { c: 16, r: 0 } },
     { s: { c: 17, r: 0 }, e: { c: 26, r: 0 } },
-    { s: { c: 27, r: 0 }, e: { c: 30, r: 0 } },
-    { s: { c: 31, r: 0 }, e: { c: 33, r: 0 } },
-    { s: { c: 34, r: 0 }, e: { c: 34, r: 0 } },
-    { s: { c: 35, r: 0 }, e: { c: 37, r: 0 } },
+    { s: { c: 27, r: 0 }, e: { c: 36, r: 0 } },
+    { s: { c: 37, r: 0 }, e: { c: 40, r: 0 } },
+    { s: { c: 41, r: 0 }, e: { c: 43, r: 0 } },
+    // { s: { c: 34, r: 0 }, e: { c: 34, r: 0 } },
+    // { s: { c: 35, r: 0 }, e: { c: 37, r: 0 } },
     ];
     ws['!merges'] = a0;
 
