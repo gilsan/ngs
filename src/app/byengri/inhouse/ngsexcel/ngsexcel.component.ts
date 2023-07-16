@@ -145,7 +145,7 @@ export class NgsexcelComponent implements OnInit {
       )
       .subscribe(data => {
         this.snackBar.open('정상적으로 다운로드 하였습니다.', '닫기', { duration: 3000 });
-        // console.log('[데이터][140]', data);
+       
 
         if (this.count < this.size) {
           lists.push(data);
