@@ -35,10 +35,7 @@ export class ExcelService {
     console.log('[35][exortAsNGSTest]', width);
     ws['!cols'] = width ;
     ws['!rows'] = [{ hpx: 57 }];
-    /*
-      
-    */
-
+    
 
     ws.A1 = { t: 's', v: '순번' };
     ws.A1.s = { alignment: { horizontal: 'center', vertical: 'center' } };
