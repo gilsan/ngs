@@ -491,8 +491,8 @@ export function makeReport(
   3. Reference genome: hg19
   4. 분석 소프트웨어
   Torrent suite v5.10.2
-  Ion Reporter v5.12
-  Oncomine knowledgebase reporter v4.7
+  Ion Reporter v5.20
+  Oncomine  reporter v5.7
   5. 돌연변이 검출 기준치
   Minimum allele frequency of hotspot variant: ≥ 4%
   Minimum allele frequency of indel variant: ≥ 5%

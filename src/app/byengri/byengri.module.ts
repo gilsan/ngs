@@ -33,6 +33,8 @@ import { ReportDialogComponent } from './byengri/report/report-dialog/report-dia
 import { LimsComponent } from './byengri/lims/lims.component';
 import { JindanComponent } from './byengri/lims/jindan-dialog/jindan.component';
 import { ExtraExcelUploadComponent } from './byengri/lims/excelUpload/extraExcelUpload.component';
+import { Version52Component } from './byengri/report/dnslist/version52/version52.component';
+import { Version518Component } from './byengri/report/dnslist/version518/version518.component';
 // import { ScrollDNAMonitorDirective } from './directives/scrollsync.directive';
 
 
@@ -42,6 +44,8 @@ import { ExtraExcelUploadComponent } from './byengri/lims/excelUpload/extraExcel
 
     FileuploadComponent,
     ReportComponent,
+    Version52Component,
+    Version518Component,
     MainComponent,
     UploadComponent,
     PathReportComponent,
