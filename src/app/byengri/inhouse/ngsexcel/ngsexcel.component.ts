@@ -165,6 +165,9 @@ export class NgsexcelComponent implements OnInit {
     const ngsLists = [];
     // console.log('[166]', datas);
     datas.forEach((item, idx) => {
+      const tumor_type = item.tumor_type.charAt(0).toLowerCase() + item.tumor_type.slice(1);
+      const organ = item.organ.split(" ")[1];
+
       ngsLists.push({
         id: idx + 1, b1: '', c1: idx + 1, proccorpcd: item.proccorpcd, pid: item.pid,
         hngnm: item.hngnm, brthdd: item.brthdd, sex: item.sex, i1: 'Y', clamacptno: item.clamacptno,
@@ -173,7 +176,7 @@ export class NgsexcelComponent implements OnInit {
         posticd10hngnm: item.posticd10hngnm, v1: '', w1: '', x1: '', y1: '',
         z1: item.stage, aa1: '', spccd: item.spccd, ac1: '', spcacptdt: item.spcacptdt,
         lstreptdt: item.lstreptdt, 
-        organ: item.organ, tumor_type: item.tumor_type, diagnosis: item.diagnosis, void1: '', void2: '', void3:'',
+        organ: organ, tumor_type: tumor_type, diagnosis: item.diagnosis, void1: '', void2: '', void3:'',
         pv: item.pv, pv_gene: item.pv_gene, vus: item.vus, vus_gene: item.vus_gene,
         hospnm: item.hospnm, ak1: '', al1: '' 
 

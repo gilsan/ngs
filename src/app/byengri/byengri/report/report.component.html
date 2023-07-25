@@ -1222,8 +1222,10 @@
         <div class="list_01">
           <ul>
             <li>Torrent suite v5.18.1</li>
-            <li>Ion Reporter v5.20</li>
-            <li>Oncomine reporter v5.7</li>
+            <li *ngIf="dnaVersion518">Ion Reporter v5.18</li>
+            <li *ngIf="dnaVersion518">Oncomine reporter v5.6.0</li>           
+            <li *ngIf="dnaVersion52">Ion Reporter v5.20</li>
+            <li *ngIf="dnaVersion52">Oncomine reporter v5.7</li>
           </ul>
         </div>
         <div class="sub_title_03">돌연변이 검출 기준치</div>
@@ -1292,22 +1294,28 @@
         <div class="sub_title_03_E">
           Oncomine Comprehensive Assay plus (ThermoFisher scientific)
         </div>
-
-<div>
+ 
+<div  *ngIf="dnaVersion52">
   <app-ver52></app-ver52>
 </div>
 
+<div  *ngIf="dnaVersion518">
+  <app-ver518></app-ver518>
+</div>
 
+ 
 
 <!--    ---------------------------------          -->
-<!--  
+<!-- 
+ 
 <div>
   <table  border="0"  cellspacing="0" cellpadding="0"  class="table_result04 pd_l20" >  
         <tr>
-          <th colspan="4" class="table_result_line">CNV gain and Hotspot Genes (n=185)</th>
-          <th colspan="8" class="table_result_line">CDS genes (n=227)</th>
-          <th colspan="2" class="table_result_line">Gene Fusions<br/>(Inter- and Intra-genic)<br/>(n=49)</th>
-          <th colspan="3" class="table_result_line">TMB only genes** (n=89)</th>
+          <th colspan="3" class="table_result_line">Hotspot genes (165개)</th>
+          <th colspan="4">Full-coding DNA sequence (227개)</th>
+          <th>CNV gain only (19개)</th>
+          <th>Fusion (49개)</th>
+          <th colspan="2">TMB only genes (86개)</th>
         </tr>
 
         <tr>
@@ -1942,7 +1950,7 @@
 
 </div>
 
--->
+ -->
 <div>
   <div class="font_14 pd_l30">
     Note: Genes with less than 7 amplicons are hotspot only genes and not considered for gene-cnv reporting<br/>
@@ -1953,7 +1961,7 @@
 </div>
 
 <!--    ---------------------------------          -->
-    <!--  
+    <!--    
         <table
           border="0"
           cellspacing="0"
@@ -2575,7 +2583,7 @@
           </tr>
         
         </table>
-      -->
+      -->   
 
 
         <div class="sub_title_03_E">Comment</div>

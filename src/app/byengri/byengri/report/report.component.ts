@@ -208,6 +208,11 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   noneIAm = 'None';
   noneIFu = 'None';
   barcodefont = 'gulim';
+
+  dnaVersion52 = false;
+  dnaVersion518 = false;
+  dnaVersionDate = '2023-06-16';
+
   constructor(
     private pathologyService: PathologyService,
     private router: Router,
@@ -278,13 +283,24 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     ).subscribe(pathologyNum => {
 
       this.pathologyNum = pathologyNum; // 검체번호 저장
-      // console.log('[241] ===> ', this.pathologyService.patientInfo);
+      // console.log('[284] ===> ', this.pathologyService.patientInfo);
       try {
         this.patientInfo = this.pathologyService.patientInfo.filter(item => item.pathology_num === pathologyNum)[0];
       } catch (err) {
         console.log(err);
       }
-      console.log('[269][환자정보] ', this.patientInfo);
+      console.log('[290][환자정보] ', this.patientInfo);
+      const patientdate = new Date(this.patientInfo.report_date);
+      const dnaVerDate = new Date(this.dnaVersionDate);
+      if (dnaVerDate < patientdate) {
+        this.dnaVersion518 = true; this.dnaVersion52 = false;
+        console.log('[295][dnaVerDate] ',  dnaVerDate);
+      } else {
+        this.dnaVersion518 = false; this.dnaVersion52 = true;
+        console.log('[297][patientdate] ', patientdate);
+      }
+
+
       this.searchService.howManyImages(this.pathologyNum)
         .subscribe(data => {
           if (Number(data.count) > 0) {
@@ -317,6 +333,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 
       // 저장일
       const tempReportday = this.patientInfo.report_date.slice(0, 10);
+       
       if (parseInt(this.screenstatus, 10) === 1) {
         if (this.patientInfo.report_date === null || this.patientInfo.report_date === '' ||
           tempReportday === '1900-01-01') {
