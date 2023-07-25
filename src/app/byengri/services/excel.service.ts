@@ -133,7 +133,7 @@ export class ExcelService {
     
     ws.AF2 = { t: 's', v: 'D4-1' };
     ws.AF2.s = { alignment: {horizontal: 'center'} };
-    ws.AF3 = { t: 's', v: '장기(organ)'};
+    ws.AF3 = { t: 's', v: 'organ'};
 
     ws.AG2 = { t: 's', v: 'D4-2'};
     ws.AG2.s = { alignment: { horizontal: 'center'} };
