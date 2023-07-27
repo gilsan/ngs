@@ -211,7 +211,6 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 
   dnaVersion52 = false;
   dnaVersion518 = false;
-  dnaVersionDate = '2023-06-16';
   ionReporter = '';
   oncomineReporter = '';
 
@@ -295,8 +294,10 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       console.log('[296][환자정보] ', this.patientInfo);
       if (this.patientInfo.sw_ver === "1") {
          this.ionReporter = 'v5.18'; this.oncomineReporter = 'v5.6.0';
+         this.dnaVersion518 = true; this.dnaVersion52= false;
       } else if (this.patientInfo.sw_ver == "2") {
         this.ionReporter = 'v5.20'; this.oncomineReporter = 'v5.7';
+        this.dnaVersion518 = false; this.dnaVersion52= true;
       }
  
 
@@ -1721,6 +1722,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       this.specialment,
       this.notecontents,
       this.pathimage,
+      this.patientInfo.sw_ver
     );
     console.log(form);
 
@@ -2024,7 +2026,8 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       this.imutationEMR, this.iamplificationsEMR, this.ifusionEMR,
       this.tumorMutationalBurdenEMR, this.msiScoreEMR,
       this.generalReportEMR, this.specialmentEMR, this.notementEMR,
-      this.pathimage
+      this.pathimage,
+      this.patientInfo.sw_ver
     );
     console.log(form);
     // NU로 데이터 전송

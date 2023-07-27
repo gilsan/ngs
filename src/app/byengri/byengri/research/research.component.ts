@@ -1461,6 +1461,7 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
       this.specialment,
       this.notement,
       this.pathimage,
+      this.patientInfo.sw_ver
     );
     console.log(form);
 
@@ -1752,7 +1753,8 @@ export class ResearchComponent implements OnInit, AfterViewInit, OnDestroy {
       this.imutationEMR, this.iamplificationsEMR, this.ifusionEMR,
       this.tumorMutationalBurdenEMR, this.msiScoreEMR,
       this.generalReportEMR, this.specialmentEMR, this.notementEMR,
-      this.pathimage
+      this.pathimage,
+      this.patientInfo.sw_ver
     );
     console.log(form);
     // NU로 데이터 전송

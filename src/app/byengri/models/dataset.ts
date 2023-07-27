@@ -31,11 +31,23 @@ export function makeReport(
   specialment: string,
   notement: string,
   pathimage: string[],
+  swVer: string,
 ): string {
   let msiscore = ''
   // null 처리
   if (tumorMutationalBurden === null) {
     tumorMutationalBurden = ''
+  }
+
+  let ionReporter = '';
+  let oncomineReporter = '';
+  
+  if (swVer === "1") {
+    ionReporter = 'v5.18'; 
+    oncomineReporter = 'v5.6.0';
+  } else if (swVer === "2") {
+    ionReporter = 'v5.20'; 
+    oncomineReporter = 'v5.7';    
   }
 
   const todays = () => {
@@ -490,9 +502,9 @@ export function makeReport(
   Ion CHEF (ThermoFisher scientific)
   3. Reference genome: hg19
   4. 분석 소프트웨어
-  Torrent suite v5.10.2
-  Ion Reporter v5.20
-  Oncomine  reporter v5.7
+  Torrent suite v5.18.1
+  Ion Reporter ${ionReporter}
+  Oncomine  reporter ${oncomineReporter}
   5. 돌연변이 검출 기준치
   Minimum allele frequency of hotspot variant: ≥ 4%
   Minimum allele frequency of indel variant: ≥ 5%
