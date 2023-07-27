@@ -212,6 +212,9 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   dnaVersion52 = false;
   dnaVersion518 = false;
   dnaVersionDate = '2023-06-16';
+  ionReporter = '';
+  oncomineReporter = '';
+
 
   constructor(
     private pathologyService: PathologyService,
@@ -289,16 +292,13 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       } catch (err) {
         console.log(err);
       }
-      console.log('[290][환자정보] ', this.patientInfo);
-      const patientdate = new Date(this.patientInfo.report_date);
-      const dnaVerDate = new Date(this.dnaVersionDate);
-      if (dnaVerDate < patientdate) {
-        this.dnaVersion518 = true; this.dnaVersion52 = false;
-        console.log('[295][dnaVerDate] ',  dnaVerDate);
-      } else {
-        this.dnaVersion518 = false; this.dnaVersion52 = true;
-        console.log('[297][patientdate] ', patientdate);
+      console.log('[296][환자정보] ', this.patientInfo);
+      if (this.patientInfo.sw_ver === "1") {
+         this.ionReporter = 'v5.18'; this.oncomineReporter = 'v5.6.0';
+      } else if (this.patientInfo.sw_ver == "2") {
+        this.ionReporter = 'v5.20'; this.oncomineReporter = 'v5.7';
       }
+ 
 
 
       this.searchService.howManyImages(this.pathologyNum)

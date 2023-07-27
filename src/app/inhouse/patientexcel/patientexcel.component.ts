@@ -890,7 +890,8 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         report_date: item.report_date,
         gene: item.gene,
         total_read_count: item.total_read_count,
-        read_of_LQIC: item.read_of_LQIC?.length ? item.read_of_LQIC+'%' : '',
+        // 23.07.27  read_of_LQIC에는 % 필요없으므로 삭제
+        read_of_LQIC: item.read_of_LQIC?.length ? item.read_of_LQIC : '',
         percent_of_LQIC: item.percent_of_LQIC,
         total_Bcell_Tcell_count: item.total_Bcell_Tcell_count,
         sequence1: item.sequence1,
