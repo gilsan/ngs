@@ -965,8 +965,8 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
         j_gene10: item.j_gene10,
         percent_total_reads10: item.percent_total_reads10.length ? item.percent_total_reads10+'%': '',
         cell_equipment10: item.cell_equipment10,
-        total_IGH_read_depth: item.total_IGH_read_depth+'%',
-        total_nucelated_cells: item.total_nucelated_cells+'%',
+        total_IGH_read_depth: Number(item.total_IGH_read_depth).toFixed(2)+'%',
+        total_nucelated_cells: Number(item.total_nucelated_cells).toFixed(4)+'%',
         total_cell_equipment: item.total_cell_equipment,
         IGHV_mutation : item.IGHV_mutation,
         bigo : item.bigo,
@@ -978,7 +978,7 @@ export class PatientexcelComponent implements OnInit, OnDestroy {
     }))
   ).subscribe(data => {
     if (data.length) {
-     // console.log('[889]', this.igtcrData);
+     console.log('[981]', data);
     }
   })
 }
