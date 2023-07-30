@@ -1550,7 +1550,7 @@ makeMRDData() {
   this.mrdData = [];
   let tempMrdData =[];
   const control = this.tablerowForm.get('tableRows') as FormArray;
-  const tableLength = control.length -1;
+  // const tableLength = control.length -1;
   const rawValue = control.getRawValue().reverse();
    
   rawValue.forEach((item, index) => {
