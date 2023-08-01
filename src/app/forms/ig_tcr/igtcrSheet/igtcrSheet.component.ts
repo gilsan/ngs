@@ -566,7 +566,7 @@ export class IgTcrSheetComponent implements OnInit {
   }
 
   closeModal(): void {
-    console.log('시험용...');
+    console.log('시험용.......');
   }
 
   changeTitle(title: string) {
