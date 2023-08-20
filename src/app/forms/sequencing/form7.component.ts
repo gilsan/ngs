@@ -148,7 +148,11 @@ export class Form7Component implements OnInit, OnDestroy {
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
     // 임시변경
     // this.patientInfo.screenstatus = '0';
-    console.log('[128] 환자정보: ', this.patientInfo);
+        ////// 임시시험용
+      //  this.patientInfo.screenstatus = '';
+
+        //////
+    console.log('[151] 환자정보: ', this.patientInfo);
 
     if (this.patientInfo.specimen === '015') {
       this.specimen = 'Genomic DNA isolated from Bone marrow';
