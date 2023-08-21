@@ -299,6 +299,12 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
     // tslint:disable-next-line:max-line-length
     this.profile.genetictest = 'JAK2 V617F :' + this.patientInfo.genetic1 + '\n' + 'JAK2 exon 12 :' + this.patientInfo.genetic2 + '\n' + 'CALR :' + this.patientInfo.genetic3 + '\n' + 'MPL :' + this.patientInfo.genetic4;
+    ////// 추가 2023-08-20 일요일
+    if (this.patientInfo.screenstatus === '') {
+          this.patientInfo.screenstatus = '0';
+    }    
+    
+    
     console.log('[290][환자정보]', this.patientInfo, this.profile);
     if (this.patientInfo.gbn === 'RESEARCH') {
       this.isResearch = true;

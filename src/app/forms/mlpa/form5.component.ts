@@ -146,7 +146,13 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
     }
 
     this.patientInfo = this.getPatientinfo(this.form2TestedId);
-    console.log('[149][환자정보]', this.patientInfo);
+    ////// 추가 2023-08-20 일요일
+    if (this.patientInfo.screenstatus === '') {
+      this.patientInfo.screenstatus = '0';
+    }
+    
+    console.log('[154][환자정보]', this.patientInfo);
+
     if (this.patientInfo.specimen === '015') {
       this.specimen = 'Genomic DNA isolated from Bone marrow';
     } else if (this.patientInfo.specimen === '004') {

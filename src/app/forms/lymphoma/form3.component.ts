@@ -295,6 +295,11 @@ export class Form3Component implements OnInit, OnDestroy {
       this.target = 'Myeloma';
     }
 
+    ////// 추가 2023-08-20 일요일
+    if (this.patientInfo.screenstatus === '') {
+          this.patientInfo.screenstatus = '0';
+    }  
+
     console.log('[296][환자정보]', this.patientInfo, this.target);
     if (this.patientInfo.gbn === 'RESEARCH') {
       this.isResearch = true;

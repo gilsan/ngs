@@ -145,13 +145,12 @@ export class Form7Component implements OnInit, OnDestroy {
       return;
     }
 
-    this.patientInfo = this.getPatientinfo(this.form2TestedId);
-    // 임시변경
-    // this.patientInfo.screenstatus = '0';
-        ////// 임시시험용
-      //  this.patientInfo.screenstatus = '';
-
-        //////
+    this.patientInfo = this.getPatientinfo(this.form2TestedId);  
+        ////// 추가 2023-08-20 일요일
+    if (this.patientInfo.screenstatus === '') {
+      this.patientInfo.screenstatus = '0';
+    }
+      
     console.log('[151] 환자정보: ', this.patientInfo);
 
     if (this.patientInfo.specimen === '015') {
@@ -626,6 +625,7 @@ export class Form7Component implements OnInit, OnDestroy {
 
   getStatus(index): boolean {
     // console.log('[834][getStatus]', index, this.screenstatus);
+    
     if (index === 1) {
       if (parseInt(this.screenstatus, 10) === 0) {
         return false;
