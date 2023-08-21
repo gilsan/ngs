@@ -322,7 +322,13 @@ export class Form6Component implements OnInit, OnDestroy {
     } else {
       this.screenstatus = this.patientInfo.screenstatus;
     }
-    console.log('[309][환자정보]', this.patientInfo);
+
+    ////// 추가 2023-08-20 일요일
+    if (this.patientInfo.screenstatus === '') {
+      this.patientInfo.screenstatus = '0';
+    }  
+
+    console.log('[331][환자정보]', this.patientInfo);
     if (this.patientInfo.gbn === 'RESEARCH') {
       this.isResearch = true;
     }
