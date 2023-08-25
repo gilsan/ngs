@@ -347,7 +347,7 @@ export class UploadComponent implements OnInit {
             }
 
             if (list[0] === 'Genomic Alteration' && (list[1] === 'Gene Name')) {
-
+              
               if (count > 0) {
                 status = false;
               } else {
@@ -356,7 +356,7 @@ export class UploadComponent implements OnInit {
               }
               count++;
             }
-
+           // console.log('[359] ==> ', list [0], status);
             // 있는 파일도 있고, 없는 파일도 있음
             const temp1 = list[0].split('(');
             if (temp1[0].trim() === 'Tumor Mutational Burden' && temp1[1] && list[1].length === 0) {
@@ -368,27 +368,31 @@ export class UploadComponent implements OnInit {
             } else {
               tierExist = false;
             }
-            // console.log('[365] ==> ', list[2], list, tierExist);
+           
             if (list[4] === 'Mut/WT Ratio') {
               mutExist = true;
-            }
-
+            }  
+            // console.log('[375] ==> ',list[2],list[4], status);
             if (!tierExist && !mutExist) {
               if (list[4] === undefined || list[4].length === 0) {
-                status = false;
-              }
+                  status = false;
+                }
             } else if (tierExist && mutExist) {
               if (list[6] === undefined || list[6].length === 0) {
                 status = false;
               }
             } else if (!tierExist && mutExist) {
-              if (list[4] === undefined || list[4].length === 0) {
+              if (list[6] === undefined || list[6].length === 0) {
                 status = false;
               }
+            } else if (tierExist && !mutExist) {
+              if (list[6] === undefined || list[6].length === 0) {
+                status = false;
+              }  
             }
-
-
-            // console.log('[390] ========>', index, start, status,   list);
+            // console.log('[390] ==> ', tierExist, mutExist, status);
+            // console.log('[390] ==> ', list[5], list[6]);
+            // console.log('[391] ========>', index, start, status,   list);
             if (index >= start && status && temp1[0].trim() !== 'Tumor Mutational Burden') {
               const len = this.checkListNum(list[0]);
               if (!tierExist && !mutExist) {
@@ -399,7 +403,7 @@ export class UploadComponent implements OnInit {
                 this.geno.push({ gene: list[0], relevant1: list[4], relevant2: list[5], trial: '' });
               }
 
-              // console.log('[401][GENO]', list, this.geno, len, count);
+              // console.log('[402][GENO]', list, this.geno, len, count);
               if (len === 1) {
                 const filteredlist = list[0].trim().split(' ');
                 let tier = '';
