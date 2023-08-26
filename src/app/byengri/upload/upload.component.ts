@@ -392,7 +392,7 @@ export class UploadComponent implements OnInit {
             }
             // console.log('[390] ==> ', tierExist, mutExist, status);
             // console.log('[390] ==> ', list[5], list[6]);
-            // console.log('[391] ========>', index, start, status,   list);
+            // console.log('[391] =====>', index, start, status,   list);
             if (index >= start && status && temp1[0].trim() !== 'Tumor Mutational Burden') {
               const len = this.checkListNum(list[0]);
               if (!tierExist && !mutExist) {
