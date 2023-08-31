@@ -372,7 +372,7 @@ export class UploadComponent implements OnInit {
             if (list[4] === 'Mut/WT Ratio') {
               mutExist = true;
             }  
-            // console.log('[375] ==> ',list[2],list[4], status);
+          // console.log('[375][TierExist] ==> ', list[2], tierExist, mutExist, status);
             if (!tierExist && !mutExist) {
               if (list[4] === undefined || list[4].length === 0) {
                   status = false;
@@ -390,11 +390,11 @@ export class UploadComponent implements OnInit {
                 status = false;
               }  
             }
-            // console.log('[390] ==> ', tierExist, mutExist, status);
+         
             // console.log('[390] ==> ', list[5], list[6]);
             // console.log('[391] =====>', index, start, status,   list);
             if (index >= start && status && temp1[0].trim() !== 'Tumor Mutational Burden') {
-              const len = this.checkListNum(list[0]);
+              const len = this.checkListNum(list[0]); //유전자수
               if (!tierExist && !mutExist) {
                 this.geno.push({ gene: list[0], relevant1: list[4], relevant2: list[5], trial: list[6] });
               } else if (tierExist && mutExist) {
@@ -403,12 +403,13 @@ export class UploadComponent implements OnInit {
                 this.geno.push({ gene: list[0], relevant1: list[4], relevant2: list[5], trial: '' });
               }
 
-              // console.log('[402][GENO]', list, this.geno, len, count);
+             // console.log('[402][GENO]', list, this.geno, len, count);
               if (len === 1) {
                 const filteredlist = list[0].trim().split(' ');
                 let tier = '';
-                if (tierExist) {
-                    console.group('[406] ===>',tierExist, list);                  
+                if (list[2].length > 0) tierExist = true;
+                if (tierExist) {                
+                  //  console.group('[406] ===>',tierExist, list);                  
                         tier = list[2].substring(0, list[2].length - 1);                                   
                 }
 
