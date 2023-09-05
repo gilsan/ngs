@@ -243,6 +243,14 @@ SMA환자의 95-98%에서 SMN1 유전자의 결실 혹은 절단이 동형접합
     data: [{ seq: '1', site: 'COX10_a', result: 'Normal' }, { seq: '2', site: 'COX10_b', result: 'Normal' },
     { seq: '3', site: 'ELAC2', result: 'Normal' }, { seq: '4', site: 'KIF1B_a', result: 'Normal' },
     { seq: '5', site: 'KIF1B_b', result: 'Normal' }, { seq: '6', site: 'LRRC48', result: 'Normal' },
+    { seq: '7', site: 'Upstream PMP22_a', result: 'Normal' }, { seq: '8', site: 'Upstream PMP22_b', result: 'Normal' },
+    { seq: '9', site: 'Upstream PMP22_c', result: 'Normal' }, { seq: '10', site: 'PMP22 Exon1a', result: 'Normal' },
+    { seq: '11', site: 'PMP22 Exon1b', result: 'Normal' }, { seq: '12', site: 'PMP22 Exon2', result: 'Normal' },
+    { seq: '13', site: 'PMP22 Exon3a', result: 'Normal' }, { seq: '14', site: 'PMP22 Exon3b', result: 'Normal' },
+    { seq: '15', site: 'PMP22 Exon4a', result: 'Normal' }, { seq: '16', site: 'PMP22 Exon4b', result: 'Normal' },
+    { seq: '17', site: 'PMP22 Exon5a', result: 'Normal' }, { seq: '18', site: 'PMP22 Exon5b', result: 'Normal' },
+    { seq: '19', site: 'TEKT3_a', result: 'Normal' }, { seq: '20', site: 'TEKT3_b', result: 'Normal' }
+    /*
     { seq: '7', site: 'PMP22', result: 'Normal' }, { seq: '8', site: 'PMP22', result: 'Normal' },
     { seq: '9', site: 'PMP22 Exon1a', result: 'Normal' }, { seq: '10', site: 'PMP22 Exon1b', result: 'Normal' },
     { seq: '11', site: 'PMP22 Exon2', result: 'Normal' }, { seq: '12', site: 'PMP22 Exon3a', result: 'Normal' },
@@ -250,6 +258,7 @@ SMA환자의 95-98%에서 SMN1 유전자의 결실 혹은 절단이 동형접합
     { seq: '15', site: 'PMP22 Exon4b', result: 'Normal' }, { seq: '16', site: 'PMP22 Exon5a', result: 'Normal' },
     { seq: '17', site: 'PMP22 Exon5b', result: 'Normal' }, { seq: '18', site: 'TEKT3_a', result: 'Normal' },
     { seq: '19', site: 'TEKT3_b', result: 'Normal' }, { seq: '20', site: 'Upstream PMP22', result: 'Normal' }
+    */
     ],
     result: 'PMP22 deletion / duplication',
     conclusion: `1. PMP22 유전자에 대한 MLPA 분석결과, 본 환자에서 유전성 압박마비편향 신경병증(Hereditary
