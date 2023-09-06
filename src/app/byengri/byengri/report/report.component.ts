@@ -964,10 +964,10 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                 type = 'exon';
               }
             }
-            // console.log('[891][유전자추적]', members + '[' + gene + '][' + type + ']');
+            // console.log('[967][유전자추적]===>', members + '[' + gene + '][' + type + ']');
 
-            if (type.charAt(0) === 'p' || type === 'exon' || type.charAt(0) === 'c') {
-
+            if (type.charAt(0) === 'p' || type === 'exon' || type.charAt(0) === 'c' || type.includes('*')) {
+              
               let indexm: number;
               let nucleotideChange: string;
               let customid = '';
@@ -1052,7 +1052,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                   tier,
                   transcript
                 });
-
+               // console.log('[1055][] ==>',gene, this.mutation);
               }
 
             } else if (type === 'amplification' || type === 'deletion') { // 2022.06.01 수정 deletion 추가
@@ -1105,7 +1105,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 
               }
 
-            }
+            }  
           }); // 두번째 파싱 끝
         });
         ////////////////////////// Clinically 파싱 끝
@@ -1124,7 +1124,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                 } else  {
                   tempaminoAcidChange = item.aminoAcidChange;
                 }
-               // console.log('[1102][]===>', item, mutation, tempaminoAcidChange);
+               // console.log('[1127][]===>', item, mutation, tempaminoAcidChange);
                 if (mutation.length === 1) {
                         this.mutationNew.push({
                         gene: item.gene,
@@ -1218,7 +1218,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                   });
                 }
 
-          }
+          } 
         });
 
         //////////////////////////////////////////////
