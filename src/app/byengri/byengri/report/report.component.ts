@@ -946,7 +946,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
         this.clinically.forEach(items => {
           let type = '';
           const sepItems = items.split(';');
-        
+          
           sepItems.forEach(item => {  //
             const members = item.trim().split(' ');
           
@@ -966,7 +966,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
             }
             // console.log('[967][유전자추적]===>', members + '[' + gene + '][' + type + ']');
 
-            if (type.charAt(0) === 'p' || type === 'exon' || type.charAt(0) === 'c' || type.includes('*')) {
+            if (type.charAt(0) === 'p' || type === 'exon' || type.charAt(0) === 'c' || type.includes('*') || type.match(/[0-9][A-Z]/g)) {
               
               let indexm: number;
               let nucleotideChange: string;
@@ -1116,16 +1116,20 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
           let oncomine = '';
           const type: string = item.type.toLowerCase();
           const oncomineVariant = item.OncomineVariant.toLocaleLowerCase();
-          // console.log('[report][1079] ==>', item, type, oncomineVariant, this.fuLists );
-          if (type === 'snv' &&  this.muLists.includes(oncomineVariant)) {
-                const mutation = this.mutation.filter( list => list.gene === item.gene);
+           // tier 값구히가 2032-09-06        
+          const threeTier = this.findTier(item.gene);
+
+
+          if ( (type === 'snv' &&  this.muLists.includes(oncomineVariant)) || type === 'indel') {
+               // const mutation = this.mutation.filter( list => list.gene === item.gene);
+               const mutation = this.mutation.filter( list => list.gene === item.gene.split(';')[0]);
                 if (item.aminoAcidChange === '' || item.aminoAcidChange === null) {
                   tempaminoAcidChange = mutation[0].aminoAcidChange;
                 } else  {
                   tempaminoAcidChange = item.aminoAcidChange;
                 }
-               // console.log('[1127][]===>', item, mutation, tempaminoAcidChange);
-                if (mutation.length === 1) {
+               // console.log('[1129][]===>', item.gene.split(';')[0], this.mutation, mutation.length );
+                if (mutation.length === 1 && threeTier !== 'III') {
                         this.mutationNew.push({
                         gene: item.gene,
                         aminoAcidChange:  item.aminoAcidChange,
@@ -1136,7 +1140,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                         tier: this.findTier(item.gene),
                         transcript: item.transcript
                       });
-                } else if (mutation.length > 1) {
+                } else if (mutation.length > 1 && threeTier !== 'III') {
                   mutation.forEach( mut => {
                     this.mutationNew.push({
                       gene: item.gene,
@@ -1149,17 +1153,19 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                       transcript: item.transcript
                     });
                   });
-                } else if (mutation.length === 0) {
-                  this.mutationNew.push({
+                } else if (threeTier === 'III') {
+                  this.imutation.push({
                     gene: item.gene,
                     aminoAcidChange: item.aminoAcidChange,
                     nucleotideChange: item.coding,
-                    variantAlleleFrequency: item.frequency  ? item.frequency + '%' : '',
+                    variantAlleleFrequency:item.frequency ?  item.frequency + '%' : '', 
                     ID: item.variantID,
-                    tier: this.findTier(item.gene),
+                    tier: 'III',
                     transcript: item.transcript
                   });
+                   
                 }
+              
 
           } else if (type === 'cnv' &&  this.amLists.includes(oncomineVariant)) {
                 const amplification = this.amplifications.filter( list => list.gene === item.gene);
@@ -1248,7 +1254,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
           const temps = members[0].split(' ');
           const gene = temps[0].trim().replace(/"/g, '');
           const type = temps[1].trim().replace(/"/g, '');
-
+         
           if (type.charAt(0) === 'p' || type.charAt(0) === 'c' || type.includes('*')) {  // 임시수정
 
             let customid = '';
@@ -1258,6 +1264,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
             let nucleotidechange = '';
             let variantAlleleFrequency = '';
             const items = members[0].split(' ');
+            
             if (items[1].charAt(0) === 'p') {
               aminoAcidchange = items[1];
               tempaminoAcidchange = items[1];
@@ -1311,9 +1318,10 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 
             // 2022.11.24 수정
             if (items[1].includes('*')) {
-             // console.log('[1289] ===> ', items);
+              
               this.filteredOriginData.forEach( list => {
-                if (list.gene === items[0] && list.type.toLowerCase() === 'indel') {
+                // console.log('[1322] ===> ', list.gene.split(';')[0],items, list.type, this.imutation);
+                if (list.gene.split(';')[0] === items[0] && list.type.toLowerCase() === 'indel') {
                   this.imutation.push({
                     gene: items[0],
                     aminoAcidChange: list.aminoAcidChange,
@@ -1326,7 +1334,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 
                 }
             });
-              console.log('[1303] ==> ', items[0], items[1],   this.filteredOriginData);
+            //  console.log('[1335][prevalent] ==> ', items[0], items[1],   this.filteredOriginData);
           } else {
             const result = this.removeGeneCheck(gene, aminoAcidchange, nucleotidechange);
             if (result === -1) {
@@ -1512,9 +1520,9 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   findTier(gene): string {
-    // console.log('[246][findTier]', this.clinical, gene);
-    const idx = this.clinical.findIndex(list => list.gene === gene);
-    // console.log('[248][findTier]', this.clinical[idx]);
+    
+    const idx = this.clinical.findIndex(list => list.gene === gene );
+    
     if (idx === -1) {
       return '';
     }
@@ -3124,5 +3132,17 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
 
+  getTierValue(gene: string): string {
+        const idx = this.clinical.findIndex(list => list.gene === gene);
+        return this.clinical[idx].tier;
+  }
 
 }
+
+
+// const idx = this.clinical.findIndex(list => list.gene === gene && list.tier !== 'III');
+    
+// if (idx === -1) {
+//   return '';
+// }
+// return this.clinical[idx].tier;

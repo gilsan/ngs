@@ -480,10 +480,9 @@ export class UploadComponent implements OnInit {
               //   const member = item.trim().split(' ');
               //   return member[1] !== 'deletion';
               // });  // 2022.06.01  수정
-              this.prevalent = list[0].replace(/&gt;/g, '>').split(';'); // 2022.06.01  수정
-              console.log('[439][check prevalent]: -> ', this.prevalent);
+              this.prevalent = list[0].replace(/&gt;/g, '>').split(';'); // 2022.06.01  수정            
               this.prevalent.forEach((item, idx) => {
-                this.prevalent2.push({ gene: item.trim(), seq: idx.toString() });
+                this.prevalent2.push({ gene: item.replace(/"/g, '').trim(), seq: idx.toString() });
               });
 
             }
