@@ -879,7 +879,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
           this.genoLists = gemoicVal;
         }
 
-        console.log('[보고서 유전자정보]', this.filteredOriginData);
+        console.log('[보고서 유전자정보]', this.filteredOriginData);  // 주 데이터
         console.log('[보고서][msiscore]', this.msiScore);
         console.log('[보고서][tumorcellpercentage]', this.tumorcellpercentage);
         console.log('[보고서][tumorMutationalBurden]', this.tumorMutationalBurden);
@@ -1122,6 +1122,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 
           if ( (type === 'snv' &&  this.muLists.includes(oncomineVariant)) || type === 'indel') {
                // const mutation = this.mutation.filter( list => list.gene === item.gene);
+               console.log('[][1125]====>', this.mutation, threeTier);
                const mutation = this.mutation.filter( list => list.gene === item.gene.split(';')[0]);
                 if (item.aminoAcidChange === '' || item.aminoAcidChange === null) {
                   tempaminoAcidChange = mutation[0].aminoAcidChange;
@@ -1164,6 +1165,16 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                     transcript: item.transcript
                   });
                    
+                }  else if (mutation.length === 0) {
+                  this.mutationNew.push({
+                    gene: item.gene,
+                    aminoAcidChange:  item.aminoAcidChange,
+                    nucleotideChange:   item.coding,
+                    variantAlleleFrequency:   item.frequency  ? item.frequency + '%' : '',
+                    ID: item.variantID,                   
+                    tier:  '',
+                    transcript: item.transcript  
+                  });               
                 }
               
 
@@ -1186,6 +1197,15 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                       tier: amp.tier
                     });
                   });
+                } else if (amplification.length === 0) {
+                  amplification.forEach(amp => {
+                    this.amplificationsNew.push({
+                      gene: item.gene,
+                      region: cytoband[0] + ')',
+                      copynumber: cytoband[1],
+                      tier:  ''
+                    });
+                  });                
                 }
 
           } else if (type !== 'cnv' && type !== 'snv'  &&  this.fuLists.includes(oncomineVariant)) {
