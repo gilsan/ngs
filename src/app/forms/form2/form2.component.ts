@@ -93,6 +93,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
   chronmosomal = '';
   methods = METHODS;
   methods516 = METHODS516;
+  methods520 = METHODS516;
   general = GENERAL;
   indexNum = 0;
   selectedItem = 'mutation';
@@ -1381,7 +1382,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     let tsvVersionContents;
     if (this.tsvVersion === '510') {
       tsvVersionContents = this.methods;
-    } else if (this.tsvVersion === '516') {
+    } else if (this.tsvVersion === '516' || this.tsvVersion === '518'|| this.tsvVersion === '520') {
       tsvVersionContents = this.methods516;
     }
 
@@ -1488,7 +1489,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     let tsvVersionContents;
     if (this.tsvVersion === '510') {
       tsvVersionContents = this.methods;
-    } else if (this.tsvVersion === '516') {
+    } else if (this.tsvVersion === '516' || this.tsvVersion === '518'|| this.tsvVersion === '520') {
       tsvVersionContents = this.methods516;
     }
 
@@ -2097,6 +2098,10 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       this.tsvVersion = '516';
     } else if (tsvfile === '5.10') {
       this.tsvVersion = '510';
+    } else if (tsvfile === '5.18') {
+      this.tsvVersion = '518';
+    } else if (tsvfile === '5.20') {
+      this.tsvVersion = '520';
     }
   }
 

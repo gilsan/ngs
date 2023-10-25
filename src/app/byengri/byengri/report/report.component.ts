@@ -1165,8 +1165,8 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                     transcript: item.transcript
                   });
                    
-                }  else if (mutation.length === 0) {
-                  this.mutationNew.push({
+                }  else if ( threeTier === '') { // tier 정보 없음 mutation.length === 0
+                  this.imutation.push({
                     gene: item.gene,
                     aminoAcidChange:  item.aminoAcidChange,
                     nucleotideChange:   item.coding,
@@ -1181,14 +1181,14 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
           } else if (type === 'cnv' &&  this.amLists.includes(oncomineVariant)) {
                 const amplification = this.amplifications.filter( list => list.gene === item.gene);
                 const cytoband = item.cytoband.split(')');
-                if (amplification.length === 1) {
+                if (amplification.length === 1 && threeTier !== '') {
                   this.amplificationsNew.push({
                     gene: item.gene,
                     region: cytoband[0] + ')',
                     copynumber: cytoband[1],
-                    tier: amplification.length ? amplification[0].tier : ''
+                    tier:  amplification[0].tier
                   });
-                } else if (amplification.length > 1) {
+                } else if (amplification.length > 1 && threeTier !== '') {
                   amplification.forEach(amp => {
                     this.amplificationsNew.push({
                       gene: item.gene,
@@ -1197,13 +1197,13 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                       tier: amp.tier
                     });
                   });
-                } else if (amplification.length === 0) {
+                } else if (threeTier !== '') {
                   amplification.forEach(amp => {
-                    this.amplificationsNew.push({
+                    this.iamplifications.push({
                       gene: item.gene,
                       region: cytoband[0] + ')',
                       copynumber: cytoband[1],
-                      tier:  ''
+                      //tier:  ''
                     });
                   });                
                 }
@@ -1216,7 +1216,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                 } else if (item.oncomine.toLocaleLowerCase() === 'gain-of-function') {
                   oncomine = 'Gain';
                 }
-                if (fusion.length === 1) {
+                if (fusion.length === 1 && threeTier !== '') {
                   this.fusionNew.push({
                     gene: item.gene,
                     breakpoint: item.locus,
@@ -1224,7 +1224,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                     functions: oncomine,
                     tier: fusion.length ? fusion[0].tier : ''
                   });
-                } else if (fusion.length > 1) {
+                } else if (fusion.length > 1 && threeTier !== '') {
                   fusion.forEach( fu => {
                     this.fusionNew.push({
                       gene: item.gene,
@@ -1234,8 +1234,8 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                       tier: fu.tier
                     });
                   });
-                } else if (fusion.length === 0) {
-                  this.fusionNew.push({
+                } else if (  threeTier !== '') {
+                  this.ifusion.push({
                     gene: item.gene,
                     breakpoint: item.locus,
                     readcount: item.readcount,
@@ -1337,20 +1337,39 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
             }
 
             // 2022.11.24 수정
+            let muduplicatedGene = -100;
             if (items[1].includes('*')) {
               
               this.filteredOriginData.forEach( list => {
                 // console.log('[1322] ===> ', list.gene.split(';')[0],items, list.type, this.imutation);
+
                 if (list.gene.split(';')[0] === items[0] && list.type.toLowerCase() === 'indel') {
-                  this.imutation.push({
-                    gene: items[0],
-                    aminoAcidChange: list.aminoAcidChange,
-                    nucleotideChange: list.coding,
-                    variantAlleleFrequency: list.frequency ?  list.frequency + '%' : '', // 2022.11.29 수정
-                    ID: list.variantID,
-                    tier: '',
-                    transcript: list.transcript
-                  });
+                  // 동일한 유전자가 없을때 추가
+                  if(this.imutation.length) {
+                    muduplicatedGene = this.imutation.findIndex(item => item.gene === items[0]);
+                  } else {
+                    this.imutation.push({
+                      gene: items[0],
+                      aminoAcidChange: list.aminoAcidChange,
+                      nucleotideChange: list.coding,
+                      variantAlleleFrequency: list.frequency ?  list.frequency + '%' : '', // 2022.11.29 수정
+                      ID: list.variantID,
+                      tier: '',
+                      transcript: list.transcript
+                    });                   
+                  }
+
+                  if (muduplicatedGene === -1) {
+                    this.imutation.push({
+                      gene: items[0],
+                      aminoAcidChange: list.aminoAcidChange,
+                      nucleotideChange: list.coding,
+                      variantAlleleFrequency: list.frequency ?  list.frequency + '%' : '', // 2022.11.29 수정
+                      ID: list.variantID,
+                      tier: '',
+                      transcript: list.transcript
+                    });
+                  }
 
                 }
             });
@@ -1369,33 +1388,59 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
               } else {
                 tempVariantAlleleFrequency = variantAlleleFrequency + '%';
               }
-              this.imutation.push({
-                gene,
-                aminoAcidChange: aminoAcidchange,
-                nucleotideChange: nucleotidechange,
-                variantAlleleFrequency: tempVariantAlleleFrequency,
-                ID: customid,
-                tier: '',
-                transcript
-              });
+                    // 동일한 유전자가 없을때 추가
+                    if(this.imutation.length) {
+                        muduplicatedGene = this.imutation.findIndex(item => item.gene === items[0]);
+                    }
+
+                    if (muduplicatedGene === -1) {
+                      this.imutation.push({
+                        gene,
+                        aminoAcidChange: aminoAcidchange,
+                        nucleotideChange: nucleotidechange,
+                        variantAlleleFrequency: tempVariantAlleleFrequency,
+                        ID: customid,
+                        tier: '',
+                        transcript
+                      });
+                    }
+
             }
           }
 
           } else if (type === 'amplification') {
+            let ampduplicatedGene = -100;
             const indexa = this.findGeneInfo(gene);
             // console.log(' ######[840][prevelant][amplification] ', gene);
             if (indexa !== -1) {
               const cytoband = this.filteredOriginData[indexa].cytoband.split(')');
-              this.iamplifications.push({
-                // gene: this.filteredOriginData[indexa].gene,
-                gene,
-                region: cytoband[0] + ')',
-                copynumber: cytoband[1],
-                note: ''
-              });
+              // 동일한 유전자가 없을때 추가
+                if(this.amplifications.length) {
+                  ampduplicatedGene = this.iamplifications.findIndex(item => item.gene === gene);
+               } else {
+                this.iamplifications.push({
+                  // gene: this.filteredOriginData[indexa].gene,
+                  gene,
+                  region: cytoband[0] + ')',
+                  copynumber: cytoband[1],
+                  note: ''
+                });               
+               }
+
+               if (ampduplicatedGene === -1) {
+                this.iamplifications.push({
+                  // gene: this.filteredOriginData[indexa].gene,
+                  gene,
+                  region: cytoband[0] + ')',
+                  copynumber: cytoband[1],
+                  note: ''
+                });
+               }
+
             }
           } else if (type === 'fusion') {
             let oncomine;
+            let fuduplicatedGene = -100;
             // if (gene === 'PTPRZ1-MET') {
             // gene = 'PTPRZ1(1) - MET(2)';
             // }
@@ -1409,13 +1454,30 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
               } else if (this.filteredOriginData[index].oncomine === 'Gain-of-function') {
                 oncomine = 'Gain';
               }
-              this.ifusion.push({
 
+              // 동일한 유전자가 없을때 추가
+              if(this.ifusion.length) {
+                fuduplicatedGene = this.ifusion.findIndex(item => item.gene === gene);
+             } else {
+                  this.ifusion.push({
+                    gene,
+                    breakpoint: this.filteredOriginData[index].locus,
+                    readcount: this.filteredOriginData[index].readcount,
+                    functions: oncomine
+                  });
+             }
+              
+             if (fuduplicatedGene === -1) {
+              this.ifusion.push({
                 gene,
                 breakpoint: this.filteredOriginData[index].locus,
                 readcount: this.filteredOriginData[index].readcount,
                 functions: oncomine
               });
+             }
+
+
+
             }
           }
         });

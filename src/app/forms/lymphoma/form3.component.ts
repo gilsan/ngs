@@ -100,6 +100,7 @@ export class Form3Component implements OnInit, OnDestroy {
   methods = METHODS;
   method: string = ' ';
   methods516 = METHODS516;
+  methods520 = METHODS516;
   general = GENERAL;
   indexNum = 0;
   selectedItem = 'mutation';
@@ -168,7 +169,8 @@ export class Form3Component implements OnInit, OnDestroy {
  // tslint:disable-next-line:max-line-length
   // methodmsg = `Total genomic DNA was extracted from the each sample.  The TruSeq DNA Sample Preparation kit of Illumina was used to make the library. The Agilent SureSelect Target enrichment kit was used for in-solution enrichment of target regions. The enriched fragments were then amplified and sequenced on the MiSeqDx system (illumina). After demultiplexing, the reads were aligned to the human reference genome hg19 (GRCh37) using BWA (0.7.12) and duplicate reads were removed with Picard MarkDuplicates (1.98). Local realignment, score recalibiration and filtering sequence data were performed with GATK (2.3-9). Variants were annotated using SnpEff (4.2).`;
 
-  methodmsg = `Total genomic DNA was extracted from the each sample.  The TruSeq DNA Sample Preparation kit of Illumina was used to make the library. The Agilent SureSelect Target enrichment kit was used for in-solution enrichment of target regions. The enriched fragments were then amplified and sequenced on the MiSeqDx system (illumina). After demultiplexing, the reads were aligned to the human reference genome hg19 (GRCh37) using BWA (0.7.12) and duplicate reads were removed with Picard MarkDuplicates (1.98). Local realignment, score recalibiration and filtering sequence data were performed with GATK (2.3-9). Variants were annotated using SnpEff (4.2). The detected variants are classified as Oncogenic, Likely Oncogenic, Variant of Uncertain Significance (VUS), Likely Benign, and Benign variant according to the  Somatic Oncogenicity classification [Genetics in Medicine (2022) 24, 986–998]. We only report variants classified as Oncogenic, Likely oncogenic and VUS. The detected variants are classified as Oncogenic, Likely Oncogenic, Variant of Uncertain Significance (VUS), Likely Benign, and Benign variant according to the  Somatic Oncogenicity classification [Genetics in Medicine (2022) 24, 986–998]. We only report variants classified as Oncogenic, Likely oncogenic and VUS.`;
+  // methodmsg = `Total genomic DNA was extracted from the each sample.  The TruSeq DNA Sample Preparation kit of Illumina was used to make the library. The Agilent SureSelect Target enrichment kit was used for in-solution enrichment of target regions. The enriched fragments were then amplified and sequenced on the MiSeqDx system (illumina). After demultiplexing, the reads were aligned to the human reference genome hg19 (GRCh37) using BWA (0.7.12) and duplicate reads were removed with Picard MarkDuplicates (1.98). Local realignment, score recalibiration and filtering sequence data were performed with GATK (2.3-9). Variants were annotated using SnpEff (4.2). The detected variants are classified as Oncogenic, Likely Oncogenic, Variant of Uncertain Significance (VUS), Likely Benign, and Benign variant according to the  Somatic Oncogenicity classification [Genetics in Medicine (2022) 24, 986–998]. We only report variants classified as Oncogenic, Likely oncogenic and VUS. The detected variants are classified as Oncogenic, Likely Oncogenic, Variant of Uncertain Significance (VUS), Likely Benign, and Benign variant according to the  Somatic Oncogenicity classification [Genetics in Medicine (2022) 24, 986–998]. We only report variants classified as Oncogenic, Likely oncogenic and VUS.`;
+  methodmsg=`Total genomic DNA was extracted from the each sample. Template and automated libraries Were prepared on the Ion Chef System(Thermo Fisher Scientific) and subsequently Sequenced on the Ion S5 system (Thermo Fisher Scientific) with the Ion 530 Chip kit. Alignment of sequences to the reference human genome (GRCh37/hg19) and base calling werePerformed using the Torrent Suite software version 5.18.0 (Thermo Fisher Scientific). The Torrent Variant Caller v.5.18.0.0 (Thermo Fisher Scientific) was used for calling Variants from mapped reads and the called variants were annotated by the Ion Reporter software v5.20 The detected variants are classified as Oncogenic, Likely Oncogenic, Variant of Uncertain Significance (VUS), Likely Benign, and Benign variant according to the  Somatic Oncogenicity classification [Genetics in Medicine (2022) 24, 986-998]. We only report variants classified as Oncogenic, Likely oncogenic and VUS.`;
 
   technique = `The analysis was optimised to identify base pair substitutions with a high sensitivity. The sensitivity for small insertions and deletions was lower. Deep-intronic mutations, mutations in the promoter region, repeats, large exonic deletions and duplications, and other structural variants were not detected by this test.`;
 
@@ -1326,7 +1328,7 @@ export class Form3Component implements OnInit, OnDestroy {
     let tsvVersionContents;
     if (this.tsvVersion === '510') {
       tsvVersionContents = this.methods;
-    } else if (this.tsvVersion === '516') {
+    } else if (this.tsvVersion === '516' || this.tsvVersion === '518'|| this.tsvVersion === '520') {
       tsvVersionContents = this.methods516;
     }
 
@@ -1841,6 +1843,10 @@ export class Form3Component implements OnInit, OnDestroy {
       this.tsvVersion = '516';
     } else if (tsvfile === '5.10') {
       this.tsvVersion = '510';
+    } else if (tsvfile === '5.18') {
+      this.tsvVersion = '518';
+    } else if (tsvfile === '5.20') {
+      this.tsvVersion = '520';
     }
   }
 
