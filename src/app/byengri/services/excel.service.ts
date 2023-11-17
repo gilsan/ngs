@@ -155,7 +155,45 @@ export class ExcelService {
     ws.AK2.s = { alignment: { horizontal: 'center'}};
     ws.AK3 = { t: 's', v: '단일유전자검사 시행일' };
 
+    ws.AL2 = { t: 's', v: 'D5-3'};
+    ws.AL2.s = { alignment: { horizontal: 'center'}};
+    ws.AL3 = { t: 's', v: '단일유전자검사 검사 종목' };
 
+    ws.AM1 = { t: 's', v: 'E_검사결과' };
+    ws.AM2 = { t: 's', v: 'E1' };
+    ws.AM2.s = { alignment: { horizontal: 'center' } }; 
+    ws.AM3 = { t: 's', v: 'PV/LPV 검출 여부' };
+
+
+    ws.AN2 = { t: 's', v: 'E1-1' };
+    ws.AN2.s = { alignment: { horizontal: 'center' } }; 
+    ws.AN3 = { t: 's', v: 'PV/LPV 검출 유전자' };
+
+    
+    ws.AO2 = { t: 's', v: 'E2' };
+    ws.AO2.s = { alignment: { horizontal: 'center' } };
+    ws.AO3 = { t: 's', v: 'VUS 검출여부' };
+
+    ws.AP1 = { t: 's', v: '' };
+    ws.AP2 = { t: 's', v: 'E2-1' };
+    ws.AP2.s = { alignment: { horizontal: 'center' } };
+    ws.AP3 = { t: 's', v: 'VUS 검출 유전자' };
+
+    ws.AQ1 = { t: 's', v: 'F_기타' }; 
+    ws.AQ1.s = { alignment: { horizontal: 'center', vertical: 'center' } };
+    ws.AQ2 = { t: 's', v: 'F1' };
+    ws.AQ2.s = { alignment: { horizontal: 'center' } };
+    ws.AQ3 = { t: 's', v: '검사위탁' };
+
+    ws.AR2 = { t: 's', v: 'F2' };
+    ws.AR2.s = { alignment: { horizontal: 'center' } };
+    ws.AR3 = { t: 's', v: '인체유래물 등의\n기증 동의여부' };
+
+    ws.AS2 = { t: 's', v: 'F3' };
+    ws.AS2.s = { alignment: { horizontal: 'center' } };
+    ws.AS3 = { t: 's', v: '기타 특이사항' };
+
+/* 23.11.16
     ws.AL1 = { t: 's', v: 'E_검사결과' };
     ws.AL2 = { t: 's', v: 'E1' };
     ws.AL2.s = { alignment: { horizontal: 'center' } }; 
@@ -189,7 +227,7 @@ export class ExcelService {
     ws.AR2 = { t: 's', v: 'F3' };
     ws.AR2.s = { alignment: { horizontal: 'center' } };
     ws.AR3 = { t: 's', v: '기타 특이사항' };
-   
+  */
 
     
 
@@ -229,10 +267,16 @@ export class ExcelService {
     { s: { c: 2, r: 0 }, e: { c: 13, r: 0 } },
     { s: { c: 14, r: 0 }, e: { c: 14, r: 0 } },
     { s: { c: 15, r: 0 }, e: { c: 16, r: 0 } },
-    { s: { c: 17, r: 0 }, e: { c: 26, r: 0 } },
-    { s: { c: 27, r: 0 }, e: { c: 36, r: 0 } },
-    { s: { c: 37, r: 0 }, e: { c: 40, r: 0 } },
-    { s: { c: 41, r: 0 }, e: { c: 43, r: 0 } },
+    // 23.11.16
+    { s: { c: 17, r: 0 }, e: { c: 27, r: 0 } },
+    { s: { c: 28, r: 0 }, e: { c: 37, r: 0 } },
+    { s: { c: 38, r: 0 }, e: { c: 41, r: 0 } },
+    { s: { c: 42, r: 0 }, e: { c: 44, r: 0 } },
+   // { s: { c: 17, r: 0 }, e: { c: 26, r: 0 } },
+   // { s: { c: 27, r: 0 }, e: { c: 36, r: 0 } },
+   // { s: { c: 37, r: 0 }, e: { c: 40, r: 0 } },
+   // { s: { c: 41, r: 0 }, e: { c: 43, r: 0 } },
+
     // { s: { c: 34, r: 0 }, e: { c: 34, r: 0 } },
     // { s: { c: 35, r: 0 }, e: { c: 37, r: 0 } },
     ];

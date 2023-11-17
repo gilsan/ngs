@@ -57,6 +57,11 @@ export interface INGS {
   vus_gene: string;
   stage: string;
 
+  // 23.11.16
+  monogenicyn?: string;
+  monogenicdd?: string;
+  monogenicnm?: string;
+
   organ: string;
   tumor_type: string;
   diagnosis: string;
@@ -176,7 +181,9 @@ export class NgsexcelComponent implements OnInit {
         posticd10hngnm: item.posticd10hngnm, v1: '', w1: '', x1: '', y1: '',
         z1: item.stage, aa1: '', spccd: item.spccd, ac1: '', spcacptdt: item.spcacptdt,
         lstreptdt: item.lstreptdt, 
-        organ: organ, tumor_type: tumor_type, diagnosis: item.diagnosis, void1: '', void2: '', void3:'',
+        // 23.11.16
+        //organ: organ, tumor_type: tumor_type, diagnosis: item.diagnosis, void1: '', void2: '', void3:'',
+        organ: organ, tumor_type: tumor_type, diagnosis: item.diagnosis, void1: '', monogenicyn:item.monogenicyn, monogenicdd:item.monogenicdd, monogenicnm:item.monogenicnm,
         pv: item.pv, pv_gene: item.pv_gene, vus: item.vus, vus_gene: item.vus_gene,
         hospnm: item.hospnm, ak1: '', al1: '' 
 
@@ -192,7 +199,9 @@ export class NgsexcelComponent implements OnInit {
       posticd10hngnm: '', v1: '', w1: '', x1: '', y1: '',
       z1: '', aa1: '', spccd: '', ac1: '', spcacptdt: '',
       lstreptdt: '', 
-      organ: '', tumor_type: '', diagnosis: '', void1: '', void2: '', void3:'',
+      // 23.11.16
+      //organ: '', tumor_type: '', diagnosis: '', void1: '', void2: '', void3:'',
+      organ: '', tumor_type: '', diagnosis: '', void1: '', monogenicyn: '', monogenicdd:'', monogenicnm:'',
       pv: '', pv_gene: '', vus: '', vus_gene: '',
       hospnm: '', ak1: '', al1: '' 
     });
@@ -205,7 +214,9 @@ export class NgsexcelComponent implements OnInit {
       posticd10hngnm: '', v1: '', w1: '', x1: '', y1: '',
       z1: '', aa1: '', spccd: '', ac1: '', spcacptdt: '',
       lstreptdt: '', 
-      organ: '', tumor_type: '', diagnosis: '', void1: '', void2: '', void3:'',
+      // 23.11.16
+      //organ: '', tumor_type: '', diagnosis: '', void1: '', void2: '', void3:'',
+      organ: '', tumor_type: '', diagnosis: '', void1: '', monogenicyn: '', monogenicdd:'', monogenicnm:'',
       pv: '', pv_gene: '', vus: '', vus_gene: '',
       hospnm: '', ak1: '', al1: '' 
     });
@@ -218,7 +229,9 @@ export class NgsexcelComponent implements OnInit {
       posticd10hngnm: '', v1: '', w1: '', x1: '', y1: '',
       z1: '', aa1: '', spccd: '', ac1: '', spcacptdt: '',
       lstreptdt: '',   
-      organ: '', tumor_type: '', diagnosis: '', void1: '', void2: '', void3:'',    
+      // 23.11.16
+      //organ: '', tumor_type: '', diagnosis: '', void1: '', void2: '', void3:'',
+      organ: '', tumor_type: '', diagnosis: '', void1: '', monogenicyn: '', monogenicdd:'', monogenicnm:'',
       pv: '', pv_gene: '', vus: '', vus_gene: '',
       hospnm: '', ak1: '', al1: '', 
     });
@@ -232,9 +245,11 @@ export class NgsexcelComponent implements OnInit {
     { width: 55 }, { width: 13 }, { width: 11 }, { width: 26 }, { width: 8 }, //u,v, W, X, Y,
     { width: 8 }, { width: 15 }, { width: 9 }, { width: 8 }, { width: 12 }, // Z, AA, AB, AC, AD,
     { width: 12 }, { width: 15 }, { width: 33 }, { width: 12 }, { width: 36 }, //AE, AF,AG, AH, AI
-    { width: 9 }, { width: 9 }, { width: 17 }, // AJ,AK, AL
-    { width: 17 }, { width: 15 }, { width: 20 }, { width: 12 }, { width: 28 }, // AM,AN, AO,AP,AQ
-    { width: 14 }, { width: 9 }, { width: 14 } //AR, AS, AT
+    // 23.11.16
+    //{ width: 9 }, { width: 9 }, { width: 17 },  // AJ,AK, AL
+    { width: 9 }, { width: 9 }, { width: 17 }, { width: 36 },  // AJ,AK, AL, AM
+    { width: 17 }, { width: 15 }, { width: 20 }, { width: 12 }, { width: 28 }, // AN, AO,AP,AQ, AR
+    { width: 14 }, { width: 9 }, { width: 14 } //AS, AT, AU
     ];
 
     this.excel.exortAsNGSTest(ngsLists, 'report', ngwidth);
