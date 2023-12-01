@@ -15,7 +15,7 @@ import { UtilsService } from '../../commons/utils.service';
 import { initalComment, initialTestResult, makeComment } from './commenttype.model';
 import {  MAT_CHECKBOX_DEFAULT_OPTIONS_FACTORY } from '@angular/material/checkbox';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
- 
+import { SubSink } from 'subsink';
  
 
 @Component({
@@ -23,9 +23,9 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
   templateUrl: './igtcrSheet.component.html',
   styleUrls: [ './igtcrSheet.component.scss']
 })
-export class IgTcrSheetComponent implements OnInit {
+export class IgTcrSheetComponent implements OnInit, OnDestroy{
 
- 
+
   testCode = '';
   reportID = '';
   bcellLPE555LPE556 = '';
@@ -124,7 +124,7 @@ export class IgTcrSheetComponent implements OnInit {
 
   acceptDate = ''; // 접수일자
   tableLength = 0;
-
+  private subs = new SubSink();
   /***
    *  LPE555 => IGH CLONALITY REPORT   // IGH MRD REPORT
    *  LPE556 => IGH/IGK CLONALITY REPORT // IGH/IGK MRD REPORT TRG CLONALITY REPORT
@@ -179,7 +179,7 @@ export class IgTcrSheetComponent implements OnInit {
 
   init() {
 
-    this.route.params
+  this.subs.sink=  this.route.params
     .pipe(
 
       tap(data => {
@@ -285,15 +285,20 @@ export class IgTcrSheetComponent implements OnInit {
         }
         this.btCells();
       }
-     
+      console.log('[288]', data);
     });
     
-    this.utilsService.getListsDig('IGTCR')
+    this.subs.sink = this.utilsService.getListsDig('IGTCR')
     .subscribe(data => {
       this.examin = data[0].checker;
       this.recheck = data[0].reader;
     });
   }
+
+ //////////////////////////////////////////
+ ngOnDestroy() {
+  this.subs.unsubscribe();
+} 
 //////////////////////////////////////////
  putFormWithoutgraph(
           index: string,
@@ -372,7 +377,7 @@ export class IgTcrSheetComponent implements OnInit {
     }
     this.screenstatus = '3';
     this.patientInfo.screenstatus = '3';
-    this.patientsListService.changescreenstatus( this.patientInfo.specimenNo,'3','3000', 'userid').subscribe(data => {
+    this.subs.sink = this.patientsListService.changescreenstatus( this.patientInfo.specimenNo,'3','3000', 'userid').subscribe(data => {
      // this.saveAllData();
     });
  
@@ -464,7 +469,7 @@ export class IgTcrSheetComponent implements OnInit {
       this.createPdf2();
     }, 2000);
     
-    this.patientsListService.changescreenstatus( this.patientInfo.specimenNo,'3','3000', 'userid').subscribe(data => {
+    this.subs.sink = this.patientsListService.changescreenstatus( this.patientInfo.specimenNo,'3','3000', 'userid').subscribe(data => {
       
    });
   }
@@ -627,6 +632,7 @@ createRow(item: IClonal): FormGroup {
   const newTotalIGHReadDepth = Number(item.total_IGH_read_depth) < 0.01 ? 0 : item.total_IGH_read_depth;
   
   return this.fb.group({
+    inputActive: [item.InputActive = true],
     IGHV_mutation : [item.IGHV_mutation],
     bigo : [item.bigo],
     use_yn1: [item.use_yn1.toString() === "true"? true: false],
@@ -719,6 +725,7 @@ createRow(item: IClonal): FormGroup {
 makeNewRow(): FormGroup  {
   
   return this.fb.group({
+    inputActive: [true],
     IGHV_mutation : [''],
     bigo : [''],
     use_yn1: [false],
@@ -826,6 +833,7 @@ addNewRow(): void {
 addRow(item: IClonal): void {
   const control = this.tablerowForm.get('tableRows') as FormArray; 
   control.push(this.createRow(item));
+ 
 }
 
 removeTableRow(i: number): void {
@@ -848,8 +856,7 @@ formControls(): FormArray {
 
 get getFormControls(): FormArray {
   const control = this.tablerowForm.get('tableRows') as FormArray;
-  const val = control.getRawValue();
-   
+  // const val = control.getRawValue(); 
   return control;
 }
 //////////////////////////////////////////////////////////////////////////
@@ -1807,7 +1814,7 @@ saveAllData() {
       };
 
 
-      this.service.igtSave(this.igTcrData).subscribe(data => {
+      this.subs.sink = this.service.igtSave(this.igTcrData).subscribe(data => {
         if (data.message === 'OK') {
           alert('저장 했습니다.');
           // this.saveAfterRender(); // 임시
@@ -1820,7 +1827,7 @@ saveAllData() {
 
   // 저장한것 다시 불러오기
   saveAfterRender() {
-  this.service.igtcrListInfo(this.patientInfo.specimenNo)
+    this.subs.sink = this.service.igtcrListInfo(this.patientInfo.specimenNo)
       .pipe(
         tap(data => {
           this.clonalLists = [];
@@ -1854,7 +1861,7 @@ saveAllData() {
 
     this.patientInfo.screenstatus = '1';
     this.screenstatus = '1';
-      this.patientsListService.changescreenstatus( this.patientInfo.specimenNo,'1','1000', 'userid').subscribe(data => {
+    this.subs.sink =   this.patientsListService.changescreenstatus( this.patientInfo.specimenNo,'1','1000', 'userid').subscribe(data => {
         this.saveAllData();
         alert('저장했습니다.');
       });
@@ -1872,7 +1879,7 @@ saveAllData() {
 
     this.patientInfo.screenstatus = '2';   
     this.screenstatus = '2';
-    this.patientsListService.changescreenstatus( this.patientInfo.specimenNo,'2','2000', 'userid').subscribe(data => {
+    this.subs.sink = this.patientsListService.changescreenstatus( this.patientInfo.specimenNo,'2','2000', 'userid').subscribe(data => {
       this.saveAllData();
       
    });
@@ -1887,7 +1894,7 @@ saveAllData() {
     } else {
       this.patientInfo.screenstatus = '1';
       this.screenstatus = '1';
-      this.patientsListService.changescreenstatus( this.patientInfo.specimenNo,'1','100', 'userid').subscribe(data => {
+      this.subs.sink =  this.patientsListService.changescreenstatus( this.patientInfo.specimenNo,'1','100', 'userid').subscribe(data => {
         alert('변경했습니다.');
      });
     }
@@ -1976,11 +1983,19 @@ mrdAddCommentChange(contents: string) {
 }
 
 boxstatus(i: number, event: any) {
+  
   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
   const gene = tableRows.at(i).get('gene')?.value;  
   tableRows.at(i).patchValue({ use_yn1: event.target.checked});
    
   this.getCheckboxMax();
+}
+
+inputActiveChange(i: number, event: any) {
+  const tableRows = this.tablerowForm.get('tableRows') as FormArray; 
+  tableRows.at(i).patchValue({inputActive: event.target.checked});
+  console.log('[1993]===>', tableRows.getRawValue());
+  
 }
 
 // checkbox 있으면 다름값 구하기

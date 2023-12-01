@@ -54,6 +54,14 @@ export interface INGS {
   pv_gene: string;
   vus: string;
   vus_gene: string;
+
+  // 22.11.30
+  familyhist: string;
+  testexec: string; 
+  bmtyn: string; 
+  racial: string; 
+  reqfrmcd: string;
+        
 }
 
 
@@ -118,7 +126,11 @@ export class NgsexcelComponent implements OnInit, OnDestroy {
         hngnm: item.hngnm, brthdd: item.brthdd, sex: item.sex, i1: 'Y', clamacptno: item.clamacptno,
         docuseqno: item.docuseqno, pay100ownbrate: item.pay100ownbrate, m1: '', n1: '', testnm: item.testnm,
         testcd: item.testcd, bcno: item.bcno, preicd10cd: item.preicd10cd, preicd10hngnm: item.preicd10hngnm, posticd10cd: item.posticd10cd,
-        posticd10hngnm: item.posticd10hngnm, v1: '', w1: '', x1: '', y1: '',
+        posticd10hngnm: item.posticd10hngnm, 
+        // 22.11.30
+        familyhist: item.familyhist, testexec: item.testexec, bmtyn: item.bmtyn, racial: item.racial, reqfrmcd: item.reqfrmcd,
+        
+        v1: '', w1: '', x1: '', y1: '',
         z1: '', aa1: '', spccd: item.spccd, ac1: '', spcacptdt: item.spcacptdt,
         lstreptdt: item.lstreptdt, pv: item.pv, pv_gene: item.pv_gene, vus: item.vus, vus_gene: item.vus_gene,
         hospnm: item.hospnm, ak1: '', al1: ''
@@ -131,7 +143,12 @@ export class NgsexcelComponent implements OnInit, OnDestroy {
       hngnm: '', brthdd: '', sex: '', i1: '', clamacptno: '',
       docuseqno: '', pay100ownbrate: '', m1: '', n1: '', testnm: '',
       testcd: '', bcno: '', preicd10cd: '', preicd10hngnm: '', posticd10cd: '',
-      posticd10hngnm: '', v1: '', w1: '', x1: '', y1: '',
+      posticd10hngnm: '', 
+      
+      // 22.11.30
+      familyhist: '', testexec: '', bmtyn: '', racial: '', reqfrmcd: '',
+      
+      v1: '', w1: '', x1: '', y1: '',
       z1: '', aa1: '', spccd: '', ac1: '', spcacptdt: '',
       lstreptdt: '', pv: '', pv_gene: '', vus: '', vus_gene: '',
       hospnm: '', ak1: '', al1: ''
@@ -142,7 +159,12 @@ export class NgsexcelComponent implements OnInit, OnDestroy {
       hngnm: '', brthdd: '', sex: '', i1: '', clamacptno: '',
       docuseqno: '', pay100ownbrate: '', m1: '', n1: '', testnm: '',
       testcd: '', bcno: '', preicd10cd: '', preicd10hngnm: '', posticd10cd: '',
-      posticd10hngnm: '', v1: '', w1: '', x1: '', y1: '',
+      posticd10hngnm: '',
+      
+      // 22.11.30
+      familyhist: '', testexec: '', bmtyn: '', racial: '', reqfrmcd: '',
+      
+      v1: '', w1: '', x1: '', y1: '',
       z1: '', aa1: '', spccd: '', ac1: '', spcacptdt: '',
       lstreptdt: '', pv: '', pv_gene: '', vus: '', vus_gene: '',
       hospnm: '', ak1: '', al1: ''
@@ -153,7 +175,12 @@ export class NgsexcelComponent implements OnInit, OnDestroy {
       hngnm: '', brthdd: '', sex: '', i1: '', clamacptno: '',
       docuseqno: '', pay100ownbrate: '', m1: '', n1: '', testnm: '',
       testcd: '', bcno: '', preicd10cd: '', preicd10hngnm: '', posticd10cd: '',
-      posticd10hngnm: '', v1: '', w1: '', x1: '', y1: '',
+      posticd10hngnm: '',
+      
+      // 22.11.30
+      familyhist: '', testexec: '', bmtyn: '', racial: '', reqfrmcd: '',
+       
+      v1: '', w1: '', x1: '', y1: '',
       z1: '', aa1: '', spccd: '', ac1: '', spcacptdt: '',
       lstreptdt: '', pv: '', pv_gene: '', vus: '', vus_gene: '',
       hospnm: '', ak1: '', al1: ''
@@ -165,7 +192,12 @@ export class NgsexcelComponent implements OnInit, OnDestroy {
     { width: 8 }, { width: 10 }, { width: 5 }, { width: 9 }, { width: 8 },
     { width: 7 }, { width: 9 }, { width: 14 }, { width: 19 }, { width: 24 },
     { width: 8 }, { width: 15 }, { width: 13 }, { width: 11 }, { width: 17 },
-    { width: 55 }, { width: 13 }, { width: 11 }, { width: 26 }, { width: 8 },
+    { width: 55 },
+
+    // 22.11.30
+    { width: 15 }, { width: 13 }, { width: 11 }, { width: 17 }, { width: 17 },
+    
+    { width: 13 }, { width: 11 }, { width: 26 }, { width: 8 },
     { width: 8 }, { width: 15 }, { width: 9 }, { width: 8 }, { width: 12 },
     { width: 12 }, { width: 15 }, { width: 33 }, { width: 12 }, { width: 36 },
     { width: 9 }, { width: 9 }, { width: 14 }

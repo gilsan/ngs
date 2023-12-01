@@ -50,6 +50,7 @@ export interface IPatient {
   }
 
   export interface IClonal {
+    InputActive: boolean;
     IGHV_mutation : string;
     bigo : string;
     checked: boolean;
