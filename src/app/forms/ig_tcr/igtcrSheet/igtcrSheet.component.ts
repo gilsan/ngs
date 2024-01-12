@@ -1355,8 +1355,11 @@ getClonalTotalNuclelatedCell(index: number): string {
  
   const density = tableRows.at(index).get('density')?.value;
   
-  if (density === '400') {
-    totalReadCountReadOfLQIC = ((Number(totalReadCount)/Number(readOfLQIC)) / 61539) * 100;
+  // 23.01.04 농도 500 추가
+  if (density === '500') {
+    totalReadCountReadOfLQIC = ((Number(totalReadCount)/Number(readOfLQIC)) / 76923) * 100;
+  } else if (density === '400') {
+    totalReadCountReadOfLQIC = ((Number(totalReadCount)/Number(readOfLQIC)) / 61538) * 100;  // 61539 -> 61538
   } else  if(density === '240') {
     totalReadCountReadOfLQIC = ((Number(totalReadCount)/Number(readOfLQIC)) / 36923) * 100;
   }

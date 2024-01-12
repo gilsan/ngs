@@ -69,6 +69,9 @@ export interface INGS {
   void2?: string;
   void3?: string;
 
+  // 23.11.30
+  tier? : string
+
 }
 
 
@@ -185,7 +188,9 @@ export class NgsexcelComponent implements OnInit {
         //organ: organ, tumor_type: tumor_type, diagnosis: item.diagnosis, void1: '', void2: '', void3:'',
         organ: organ, tumor_type: tumor_type, diagnosis: item.diagnosis, void1: '', monogenicyn:item.monogenicyn, monogenicdd:item.monogenicdd, monogenicnm:item.monogenicnm,
         pv: item.pv, pv_gene: item.pv_gene, vus: item.vus, vus_gene: item.vus_gene,
-        hospnm: item.hospnm, ak1: '', al1: '' 
+        // 23.11.30
+        //hospnm: item.hospnm, ak1: '', al1: '' 
+        hospnm: item.hospnm, ak1: '', al1: '', am1: '', an1: '', tier: item.tier
 
       });
 
@@ -203,7 +208,9 @@ export class NgsexcelComponent implements OnInit {
       //organ: '', tumor_type: '', diagnosis: '', void1: '', void2: '', void3:'',
       organ: '', tumor_type: '', diagnosis: '', void1: '', monogenicyn: '', monogenicdd:'', monogenicnm:'',
       pv: '', pv_gene: '', vus: '', vus_gene: '',
-      hospnm: '', ak1: '', al1: '' 
+      // 23.11.30
+      //hospnm: '', ak1: '', al1: ''
+      hospnm: '', ak1: '', al1: '', am1: '', an1: '', tier: '' 
     });
 
     ngsLists.unshift({
@@ -218,7 +225,9 @@ export class NgsexcelComponent implements OnInit {
       //organ: '', tumor_type: '', diagnosis: '', void1: '', void2: '', void3:'',
       organ: '', tumor_type: '', diagnosis: '', void1: '', monogenicyn: '', monogenicdd:'', monogenicnm:'',
       pv: '', pv_gene: '', vus: '', vus_gene: '',
-      hospnm: '', ak1: '', al1: '' 
+      // 23.11.30
+      //hospnm: '', ak1: '', al1: ''
+      hospnm: '', ak1: '', al1: '', am1: '', an1: '', tier: '' 
     });
 
     ngsLists.unshift({
@@ -233,7 +242,9 @@ export class NgsexcelComponent implements OnInit {
       //organ: '', tumor_type: '', diagnosis: '', void1: '', void2: '', void3:'',
       organ: '', tumor_type: '', diagnosis: '', void1: '', monogenicyn: '', monogenicdd:'', monogenicnm:'',
       pv: '', pv_gene: '', vus: '', vus_gene: '',
-      hospnm: '', ak1: '', al1: '', 
+      // 23.11.30
+      //hospnm: '', ak1: '', al1: ''
+      hospnm: '', ak1: '', al1: '', am1: '', an1: '',tier: ''
     });
 
 
@@ -249,7 +260,10 @@ export class NgsexcelComponent implements OnInit {
     //{ width: 9 }, { width: 9 }, { width: 17 },  // AJ,AK, AL
     { width: 9 }, { width: 9 }, { width: 17 }, { width: 36 },  // AJ,AK, AL, AM
     { width: 17 }, { width: 15 }, { width: 20 }, { width: 12 }, { width: 28 }, // AN, AO,AP,AQ, AR
-    { width: 14 }, { width: 9 }, { width: 14 } //AS, AT, AU
+    //23.11.30
+    //{ width: 14 }, { width: 9 }, { width: 14 } //AS, AT, AU
+    { width: 14 }, { width: 9 }, { width: 14 }, { width: 14 }, { width: 14 }, { width: 14 } //AS, AT, AU, AV
+    
     ];
 
     this.excel.exortAsNGSTest(ngsLists, 'report', ngwidth);
