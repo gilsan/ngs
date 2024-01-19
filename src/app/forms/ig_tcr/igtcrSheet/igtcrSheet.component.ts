@@ -393,11 +393,13 @@ export class IgTcrSheetComponent implements OnInit, OnDestroy{
       this.densityTablePdf1 = tableRows.at(0).get('density')?.value;
       this.firstTotalBcellTcellCount = tableRows.at(0).get('total_Bcell_Tcell_count')?.value;
        
-
+      //23.01.04 농도 500 추가 (240, 400, 500) 현재 3종류임
       if(this.densityTablePdf1 === '240') {
         this.densityTablePdf1CellFEquivalent1 = '36,923';
-      } else {
+      } else if (this.densityTablePdf1 === '400'){
         this.densityTablePdf1CellFEquivalent1 = '61,538';
+      } else {    //500
+        this.densityTablePdf1CellFEquivalent1 = '76,923';
       }
       if (this.patientInfo.test_code === 'LPE555' || this.patientInfo.test_code === 'LPE556') {
           if(Number(totalIGHReadDepth) === 0) {
@@ -448,11 +450,16 @@ export class IgTcrSheetComponent implements OnInit, OnDestroy{
           this.densityTablePdf2 = tableRows.at(index).get('density')?.value;
           this.secondTotalBcellTcellCount = tableRows.at(index).get('total_Bcell_Tcell_count')?.value;
     
+          //23.01.04 농도 500 추가 (240, 400, 500) 현재 3종류임
           if(this.densityTablePdf2 === '240') {
             this.densityTablePdf1CellFEquivalent2= '36,923';
-           } else {
+           } else if (this.densityTablePdf2 === '400'){
              this.densityTablePdf1CellFEquivalent2 = '61,538';
-           }
+            } else {   //500
+              this.densityTablePdf1CellFEquivalent2 = '76,923';
+            }
+
+            
            
      
         }
@@ -1367,9 +1374,37 @@ getClonalTotalNuclelatedCell(index: number): string {
   const totalRawCount = this.totalRawCount(index)
   const clonalTotalIGHReadDepth =  (totalRawCount / Number(totalReadCount))* 100;
   // 소수점 5자리에서 50자리로 수정 2-23-06-25 일요일
-  const clonalTotalNuclatedCell = (Number(totalReadCountReadOfLQIC) * Number(clonalTotalIGHReadDepth)).toFixed(50);
   
-  return clonalTotalNuclatedCell;
+  // 24.01.16 TotalNuclatedCell 값이 100%보다 크면 의미가 없으므로 테이블상에서 좌측값인
+  //          clonalTotalIGHReadDepth 대입하라고 요청 받음
+  // 원 소스 
+  //#####################
+  //const clonalTotalNuclatedCell = (Number(totalReadCountReadOfLQIC) * Number(clonalTotalIGHReadDepth)).toFixed(50);
+  //return clonalTotalNuclatedCell;
+  //#####################
+
+  // Start of 24.01.16
+  // TotalNuclatedCell 계산
+  //*
+  let clonalTotalNuclatedCell = (Number(totalReadCountReadOfLQIC) * Number(clonalTotalIGHReadDepth));
+  let clonalTotalNuclatedCell1 = '';
+
+  // TotalNuclatedCell 계산값이 100보다 크면
+  if (clonalTotalNuclatedCell >= 100) {
+    console.log('[1379]clonalTotalNuclatedCell=', clonalTotalNuclatedCell);
+    // TotalNuclatedCell 을 clonalTotalIGHReadDepth 대입
+    clonalTotalNuclatedCell1 = clonalTotalIGHReadDepth.toFixed(50);
+  }
+  else {
+    clonalTotalNuclatedCell1 = clonalTotalNuclatedCell.toFixed(50);
+  }
+
+  console.log('[1379]clonalTotalNuclatedCell=', clonalTotalNuclatedCell);
+  console.log('[1379]clonalTotalNuclatedCell1=', clonalTotalNuclatedCell1);
+  
+  return clonalTotalNuclatedCell1;
+  //*/
+  // End of 24.01.16 
 }
 
 totalRawCount(index: number): number {
@@ -2083,12 +2118,10 @@ totalNucleatedCellsCheck(index: number): string {
      return '<0.0001%';
  } else {
     const tempVal = Number(Math.round(Number(this.mrdData[index].totalNucelatedCells) * 10000)/10000).toFixed(4);
+    
     return tempVal;
+  }
  }
-
-}
-
-
  
 
 // 멘트처리
