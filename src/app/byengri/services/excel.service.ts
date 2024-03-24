@@ -30,11 +30,42 @@ export class ExcelService {
     FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
   }
 
+  public igtcrAsExcelFile(jsonData: any[], excelFileName: string): void {
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(jsonData, { skipHeader: true });
+    console.log('[35][/app/byengri/services/excel 서비스][igTcr 데이터 액셀로 변환하기]');
+    const width = [{ width: 12 }];
+
+    ws['!cols'] = width ;
+    ws['!rows'] = [{ hpx: 57 }]; 
+
+    // 헤더
+    ws.A1 = { t: 's', v: '접수일' };
+    ws.A1.s = { alignment: { horizontal: 'center', vertical: 'center' } };
+    ws.B1 = { t: 's', v: 'New Clonal' };
+    ws.A1.s = { alignment: { horizontal: 'center', vertical: 'center' } };   
+
+
+    // 액셀 헤더 row줄 조정
+    const a0 = [
+      { s: { c: 0, r: 0 }, e: { c: 0, r: 1 } }, { s: {c: 1, r: 0}, e: {c:1, r: 1}} ];
+
+      ws['!merges'] = a0;
+
+
+    const workbook: XLSX.WorkBook = { Sheets: { data: ws }, SheetNames: ['data'] };
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+    this.saveAsExcelFile(excelBuffer, excelFileName);
+    
+
+  }
+
   public exortAsNGSTest(jsonData: any[], excelFileName: string, width: any[]): void {
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(jsonData, { skipHeader: true });
     console.log('[35][exortAsNGSTest]', width);
     ws['!cols'] = width ;
     ws['!rows'] = [{ hpx: 57 }];
+    
     
 
     ws.A1 = { t: 's', v: '순번' };

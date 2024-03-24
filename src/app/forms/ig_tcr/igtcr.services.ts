@@ -153,6 +153,7 @@ public fakeEMRSend(specimenNo: string, type: string, userid: string): Observable
 }
 
 
+// IGTCR 데이터를 excel로 만들기
 
 
 
