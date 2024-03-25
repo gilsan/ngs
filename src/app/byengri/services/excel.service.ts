@@ -41,13 +41,17 @@ export class ExcelService {
     // 헤더
     ws.A1 = { t: 's', v: '접수일' };
     ws.A1.s = { alignment: { horizontal: 'center', vertical: 'center' } };
-    ws.B1 = { t: 's', v: 'New Clonal' };
-    ws.A1.s = { alignment: { horizontal: 'center', vertical: 'center' } };   
-
+    ws.B1 = { t: 's', v: '이름' };
+    ws.B1.s = { alignment: { horizontal: 'center', vertical: 'center' } };   
+    ws.C1 = { t: 's', v: 'ID' };
+    ws.C1.s = { alignment: { horizontal: 'center', vertical: 'center' } }; 
+    
 
     // 액셀 헤더 row줄 조정
     const a0 = [
-      { s: { c: 0, r: 0 }, e: { c: 0, r: 1 } }, { s: {c: 1, r: 0}, e: {c:1, r: 1}} ];
+      { s: { c: 0, r: 0 }, e: { c: 0, r: 1 } }, { s: {c: 1, r: 0}, e: {c:1, r: 1}} ,{ s: {c: 2, r: 0}, e: {c:2, r: 2}} // A, B,C
+    
+    ];
 
       ws['!merges'] = a0;
 

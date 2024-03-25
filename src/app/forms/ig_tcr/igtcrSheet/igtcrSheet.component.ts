@@ -2168,7 +2168,9 @@ makeIGTCRtoExcel() {
   console.log(item);
   
     igtcrToExcel.push({
-      reportDate: item.report_date, gene: item.gene,totalReadCount: item.total_read_count, 
+      reportDate: item.report_date, 
+      patientName: this.patientInfo.name, patientID: this.patientInfo.patientID,
+      gene: item.gene,totalReadCount: item.total_read_count, 
       readOfLQIC: item.read_of_LQIC, percentOfLQIC: item.percent_of_LQIC,totalBcellTcellCount: item.total_Bcell_Tcell_count,
 
       sequence1:  item.sequence1, length1: item.sequence_length1, rawCount1: item.raw_count1, vGene1: item.v_gene1, jGene1:item.j_gene1, 
@@ -2208,10 +2210,12 @@ makeIGTCRtoExcel() {
       
         });
 
-      const fileName = this.patientInfo.name + '_' +   this.today();
+      const fileName = this.patientInfo.name + '_' + this.patientInfo.patientID ;
      
       igtcrToExcel.unshift({
-        reportDate:  '', gene: '',totalReadCount: '', 
+        reportDate:  '', 
+        patientName:  '', patientID: '',
+        gene: '',totalReadCount: '', 
       readOfLQIC: '', percentOfLQIC: '',totalBcellTcellCount: '',
 
       sequence1:  '', length1:  '', rawCount1:  '', vGene1:  '', jGene1: '',  percentTotalreads1:  '',cellEquivalent1: '',
@@ -2232,7 +2236,9 @@ makeIGTCRtoExcel() {
       });
 
       igtcrToExcel.unshift({
-        reportDate:  '', gene: '',totalReadCount: '', 
+        reportDate:  '', 
+        patientName:  '', patientID: '',
+        gene: '',totalReadCount: '', 
       readOfLQIC: '', percentOfLQIC: '',totalBcellTcellCount: '',
 
       sequence1:  '', length1:  '', rawCount1:  '', vGene1:  '', jGene1: '',  percentTotalreads1:  '',cellEquivalent1: '',
@@ -2253,7 +2259,9 @@ makeIGTCRtoExcel() {
       });  
  
       igtcrToExcel.unshift({
-        reportDate:  '', gene: '',totalReadCount: '', 
+        reportDate:  '', 
+        patientName:  '', patientID: '',
+        gene: '',totalReadCount: '', 
       readOfLQIC: '', percentOfLQIC: '',totalBcellTcellCount: '',
 
       sequence1:  '', length1:  '', rawCount1:  '', vGene1:  '', jGene1: '',  percentTotalreads1:  '',cellEquivalent1: '',
