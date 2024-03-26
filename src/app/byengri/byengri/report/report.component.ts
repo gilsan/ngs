@@ -296,7 +296,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
          this.ionReporter = 'v5.18'; this.oncomineReporter = 'v5.6.0';
          this.dnaVersion518 = true; this.dnaVersion52= false;
       } else if (this.patientInfo.sw_ver == "2") {
-        this.ionReporter = 'v5.20'; this.oncomineReporter = 'v5.7';
+        this.ionReporter = 'v5.20'; this.oncomineReporter = 'v5.8';
         this.dnaVersion518 = false; this.dnaVersion52= true;
       }
  

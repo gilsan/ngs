@@ -83,6 +83,8 @@ export class TsvuploadComponent implements OnInit {
 
 
   onSelectedFile(event: any): void {
+    console.log('[][tsvupload]', this.patientid);
+    console.log('[][tsvupload]', event.target.files[0].name);
     console.log('[86][tsvupload] ', event.target.files[0].name.indexOf(this.patientid));
     const result = event.target.files[0].name.indexOf(this.patientid);
     if (result !== -1) {

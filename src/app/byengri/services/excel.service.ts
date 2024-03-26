@@ -37,7 +37,7 @@ export class ExcelService {
 
     ws['!cols'] = width ;
     ws['!rows'] = [{ hpx: 57 }]; 
-
+    ws['!cols'][3]= {hidden: true};
     // 헤더
     ws.A1 = { t: 's', v: '접수일' };
     ws.A1.s = { alignment: { horizontal: 'center', vertical: 'center' } };
@@ -45,12 +45,17 @@ export class ExcelService {
     ws.B1.s = { alignment: { horizontal: 'center', vertical: 'center' } };   
     ws.C1 = { t: 's', v: 'ID' };
     ws.C1.s = { alignment: { horizontal: 'center', vertical: 'center' } }; 
-    
+    ws.D1 = { t: 's', v: 'gene' };
+    ws.D1.s = { alignment: { horizontal: 'center', vertical: 'center' } }; 
+
+    ws.E1 = { t: 's', v: 'Total\r\nRead\r\nCount' };
+    ws.E1.s = { alignment: { horizontal: 'center', vertical: 'center' } };
+
 
     // 액셀 헤더 row줄 조정
     const a0 = [
-      { s: { c: 0, r: 0 }, e: { c: 0, r: 1 } }, { s: {c: 1, r: 0}, e: {c:1, r: 1}} ,{ s: {c: 2, r: 0}, e: {c:2, r: 2}} // A, B,C
-    
+      { s: { c: 0, r: 0 }, e: { c: 0, r: 2 } }, { s: {c: 1, r: 0}, e: {c:1, r: 2}} ,{ s: {c: 2, r: 0}, e: {c:2, r: 2}}, // A, B,C
+      { s: { c: 3, r:0}, e:{c:3, r: 2}},  { s: { c: 4, r:0}, e:{c:4, r: 2}}, { s: { c: 5, r:0}, e:{c:5, r: 2}}, // D, E, F
     ];
 
       ws['!merges'] = a0;

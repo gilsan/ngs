@@ -2210,7 +2210,7 @@ makeIGTCRtoExcel() {
       
         });
 
-      const fileName = this.patientInfo.name + '_' + this.patientInfo.patientID ;
+      
      
       igtcrToExcel.unshift({
         reportDate:  '', 
@@ -2280,11 +2280,10 @@ makeIGTCRtoExcel() {
       comment:  ''
 
       });  
-
-
-      this.excel.igtcrAsExcelFile(igtcrToExcel, fileName);
-     
- })
+  
+ });
+ const fileName = this.patientInfo.name + '_' + this.patientInfo.patientID ;
+ this.excel.igtcrAsExcelFile(igtcrToExcel, fileName);
    
 }
 
