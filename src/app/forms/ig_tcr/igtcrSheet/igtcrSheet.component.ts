@@ -2160,12 +2160,12 @@ matTooltip(i: number): string {
 makeIGTCRtoExcel() {
   const control = this.tablerowForm.get('tableRows') as FormArray;
   const igtcrData = control.getRawValue();
-  
+  console.log('[2183][igtcrData]', igtcrData);
 
  // json 형태로 액셀 헤더 
  const igtcrToExcel = [];
  igtcrData.forEach((item : IClonal, index) => {
-  console.log(item);
+  
   
     igtcrToExcel.push({
       reportDate: item.report_date, 
@@ -2204,84 +2204,83 @@ makeIGTCRtoExcel() {
       percentTotalreads10: item.percent_total_reads10,cellEquivalent10:item.cell_equipment10,
 
 
-      clonalTotalghReadDepth: item.total_IGH_read_depth, clonalTotalNucleateCells: item.total_nucelated_cells, 
+      clonalTotalghReadDepth: Number(item.total_IGH_read_depth).toFixed(2), clonalTotalNucleateCells: Number(item.total_nucelated_cells).toFixed(4), 
       cellEquivalent: item.total_cell_equipment, ighvMutaion: item.IGHV_mutation, bigo: item.bigo,
       comment: item.comment
       
-        });
-
-      
-     
-      igtcrToExcel.unshift({
-        reportDate:  '', 
-        patientName:  '', patientID: '',
-        gene: '',totalReadCount: '', 
-      readOfLQIC: '', percentOfLQIC: '',totalBcellTcellCount: '',
-
-      sequence1:  '', length1:  '', rawCount1:  '', vGene1:  '', jGene1: '',  percentTotalreads1:  '',cellEquivalent1: '',
-      sequence2:  '', length2:  '', rawCount2:  '', vGene2:  '', jGene2:  '', percentTotalreads2:  '',cellEquivalent2: '',
-      sequence3:  '', length3:  '', rawCount3:  '', vGene3:  '', jGene3:  '', percentTotalreads3:  '',cellEquivalent3: '',
-      sequence4:  '', length4:  '', rawCount4:  '', vGene4:  '', jGene4:  '', percentTotalreads4:  '',cellEquivalent4: '',
-      sequence5:  '', length5:  '', rawCount5:  '', vGene5:  '', jGene5:  '', percentTotalreads5:  '',cellEquivalent5: '',
-      sequence6:  '', length6:  '', rawCount6:  '', vGene6:  '', jGene6:  '', percentTotalreads6:  '',cellEquivalent6: '',
-      sequence7:  '', length7:  '', rawCount7:  '', vGene7:  '', jGene7:  '', percentTotalreads7:  '',cellEquivalent7: '',
-      sequence8:  '', length8:  '', rawCount8:  '', vGene8:  '', jGene8:  '', percentTotalreads8:  '',cellEquivalent8: '',
-      sequence9:  '', length9:  '', rawCount9:  '', vGene9:  '', jGene9:  '', percentTotalreads9:  '',cellEquivalent9: '',
-      sequence10:  '', length10:  '', rawCount10:  '', vGene10:  '', jGene10:  '', percentTotalreads10:  '',cellEquivalent10: '',
-
-      clonalTotalghReadDepth: '', clonalTotalNucleateCells:  '', 
-      cellEquivalent:  '', ighvMutaion:  '', bigo:  '',
-      comment:  ''
-
-      });
-
-      igtcrToExcel.unshift({
-        reportDate:  '', 
-        patientName:  '', patientID: '',
-        gene: '',totalReadCount: '', 
-      readOfLQIC: '', percentOfLQIC: '',totalBcellTcellCount: '',
-
-      sequence1:  '', length1:  '', rawCount1:  '', vGene1:  '', jGene1: '',  percentTotalreads1:  '',cellEquivalent1: '',
-      sequence2:  '', length2:  '', rawCount2:  '', vGene2:  '', jGene2:  '', percentTotalreads2:  '',cellEquivalent2: '',
-      sequence3:  '', length3:  '', rawCount3:  '', vGene3:  '', jGene3:  '', percentTotalreads3:  '',cellEquivalent3: '',
-      sequence4:  '', length4:  '', rawCount4:  '', vGene4:  '', jGene4:  '', percentTotalreads4:  '',cellEquivalent4: '',
-      sequence5:  '', length5:  '', rawCount5:  '', vGene5:  '', jGene5:  '', percentTotalreads5:  '',cellEquivalent5: '',
-      sequence6:  '', length6:  '', rawCount6:  '', vGene6:  '', jGene6:  '', percentTotalreads6:  '',cellEquivalent6: '',
-      sequence7:  '', length7:  '', rawCount7:  '', vGene7:  '', jGene7:  '', percentTotalreads7:  '',cellEquivalent7: '',
-      sequence8:  '', length8:  '', rawCount8:  '', vGene8:  '', jGene8:  '', percentTotalreads8:  '',cellEquivalent8: '',
-      sequence9:  '', length9:  '', rawCount9:  '', vGene9:  '', jGene9:  '', percentTotalreads9:  '',cellEquivalent9: '',
-      sequence10:  '', length10:  '', rawCount10:  '', vGene10:  '', jGene10:  '', percentTotalreads10:  '',cellEquivalent10: '',
-
-      clonalTotalghReadDepth: '', clonalTotalNucleateCells:  '', 
-      cellEquivalent:  '', ighvMutaion:  '', bigo:  '',
-      comment:  ''
-
-      });  
- 
-      igtcrToExcel.unshift({
-        reportDate:  '', 
-        patientName:  '', patientID: '',
-        gene: '',totalReadCount: '', 
-      readOfLQIC: '', percentOfLQIC: '',totalBcellTcellCount: '',
-
-      sequence1:  '', length1:  '', rawCount1:  '', vGene1:  '', jGene1: '',  percentTotalreads1:  '',cellEquivalent1: '',
-      sequence2:  '', length2:  '', rawCount2:  '', vGene2:  '', jGene2:  '', percentTotalreads2:  '',cellEquivalent2: '',
-      sequence3:  '', length3:  '', rawCount3:  '', vGene3:  '', jGene3:  '', percentTotalreads3:  '',cellEquivalent3: '',
-      sequence4:  '', length4:  '', rawCount4:  '', vGene4:  '', jGene4:  '', percentTotalreads4:  '',cellEquivalent4: '',
-      sequence5:  '', length5:  '', rawCount5:  '', vGene5:  '', jGene5:  '', percentTotalreads5:  '',cellEquivalent5: '',
-      sequence6:  '', length6:  '', rawCount6:  '', vGene6:  '', jGene6:  '', percentTotalreads6:  '',cellEquivalent6: '',
-      sequence7:  '', length7:  '', rawCount7:  '', vGene7:  '', jGene7:  '', percentTotalreads7:  '',cellEquivalent7: '',
-      sequence8:  '', length8:  '', rawCount8:  '', vGene8:  '', jGene8:  '', percentTotalreads8:  '',cellEquivalent8: '',
-      sequence9:  '', length9:  '', rawCount9:  '', vGene9:  '', jGene9:  '', percentTotalreads9:  '',cellEquivalent9: '',
-      sequence10:  '', length10:  '', rawCount10:  '', vGene10:  '', jGene10:  '', percentTotalreads10:  '',cellEquivalent10: '',
-
-      clonalTotalghReadDepth: '', clonalTotalNucleateCells:  '', 
-      cellEquivalent:  '', ighvMutaion:  '', bigo:  '',
-      comment:  ''
-
-      });  
-  
+        });  
  });
+
+    igtcrToExcel.unshift({
+      reportDate:  '', 
+      patientName:  '', patientID: '',
+      gene: '',totalReadCount: '', 
+    readOfLQIC: '', percentOfLQIC: '',totalBcellTcellCount: '',
+
+    sequence1:  '', length1:  '', rawCount1:  '', vGene1:  '', jGene1: '',  percentTotalreads1:  '',cellEquivalent1: '',
+    sequence2:  '', length2:  '', rawCount2:  '', vGene2:  '', jGene2:  '', percentTotalreads2:  '',cellEquivalent2: '',
+    sequence3:  '', length3:  '', rawCount3:  '', vGene3:  '', jGene3:  '', percentTotalreads3:  '',cellEquivalent3: '',
+    sequence4:  '', length4:  '', rawCount4:  '', vGene4:  '', jGene4:  '', percentTotalreads4:  '',cellEquivalent4: '',
+    sequence5:  '', length5:  '', rawCount5:  '', vGene5:  '', jGene5:  '', percentTotalreads5:  '',cellEquivalent5: '',
+    sequence6:  '', length6:  '', rawCount6:  '', vGene6:  '', jGene6:  '', percentTotalreads6:  '',cellEquivalent6: '',
+    sequence7:  '', length7:  '', rawCount7:  '', vGene7:  '', jGene7:  '', percentTotalreads7:  '',cellEquivalent7: '',
+    sequence8:  '', length8:  '', rawCount8:  '', vGene8:  '', jGene8:  '', percentTotalreads8:  '',cellEquivalent8: '',
+    sequence9:  '', length9:  '', rawCount9:  '', vGene9:  '', jGene9:  '', percentTotalreads9:  '',cellEquivalent9: '',
+    sequence10:  '', length10:  '', rawCount10:  '', vGene10:  '', jGene10:  '', percentTotalreads10:  '',cellEquivalent10: '',
+
+    clonalTotalghReadDepth: '', clonalTotalNucleateCells:  '', 
+    cellEquivalent:  '', ighvMutaion:  '', bigo:  '',
+    comment:  ''
+
+    });
+
+    igtcrToExcel.unshift({
+      reportDate:  '', 
+      patientName:  '', patientID: '',
+      gene: '',totalReadCount: '', 
+    readOfLQIC: '', percentOfLQIC: '',totalBcellTcellCount: '',
+
+    sequence1:  '', length1:  '', rawCount1:  '', vGene1:  '', jGene1: '',  percentTotalreads1:  '',cellEquivalent1: '',
+    sequence2:  '', length2:  '', rawCount2:  '', vGene2:  '', jGene2:  '', percentTotalreads2:  '',cellEquivalent2: '',
+    sequence3:  '', length3:  '', rawCount3:  '', vGene3:  '', jGene3:  '', percentTotalreads3:  '',cellEquivalent3: '',
+    sequence4:  '', length4:  '', rawCount4:  '', vGene4:  '', jGene4:  '', percentTotalreads4:  '',cellEquivalent4: '',
+    sequence5:  '', length5:  '', rawCount5:  '', vGene5:  '', jGene5:  '', percentTotalreads5:  '',cellEquivalent5: '',
+    sequence6:  '', length6:  '', rawCount6:  '', vGene6:  '', jGene6:  '', percentTotalreads6:  '',cellEquivalent6: '',
+    sequence7:  '', length7:  '', rawCount7:  '', vGene7:  '', jGene7:  '', percentTotalreads7:  '',cellEquivalent7: '',
+    sequence8:  '', length8:  '', rawCount8:  '', vGene8:  '', jGene8:  '', percentTotalreads8:  '',cellEquivalent8: '',
+    sequence9:  '', length9:  '', rawCount9:  '', vGene9:  '', jGene9:  '', percentTotalreads9:  '',cellEquivalent9: '',
+    sequence10:  '', length10:  '', rawCount10:  '', vGene10:  '', jGene10:  '', percentTotalreads10:  '',cellEquivalent10: '',
+
+    clonalTotalghReadDepth: '', clonalTotalNucleateCells:  '', 
+    cellEquivalent:  '', ighvMutaion:  '', bigo:  '',
+    comment:  ''
+
+    });  
+
+    igtcrToExcel.unshift({
+      reportDate:  '', 
+      patientName:  '', patientID: '',
+      gene: '',totalReadCount: '', 
+    readOfLQIC: '', percentOfLQIC: '',totalBcellTcellCount: '',
+
+    sequence1:  '', length1:  '', rawCount1:  '', vGene1:  '', jGene1: '',  percentTotalreads1:  '',cellEquivalent1: '',
+    sequence2:  '', length2:  '', rawCount2:  '', vGene2:  '', jGene2:  '', percentTotalreads2:  '',cellEquivalent2: '',
+    sequence3:  '', length3:  '', rawCount3:  '', vGene3:  '', jGene3:  '', percentTotalreads3:  '',cellEquivalent3: '',
+    sequence4:  '', length4:  '', rawCount4:  '', vGene4:  '', jGene4:  '', percentTotalreads4:  '',cellEquivalent4: '',
+    sequence5:  '', length5:  '', rawCount5:  '', vGene5:  '', jGene5:  '', percentTotalreads5:  '',cellEquivalent5: '',
+    sequence6:  '', length6:  '', rawCount6:  '', vGene6:  '', jGene6:  '', percentTotalreads6:  '',cellEquivalent6: '',
+    sequence7:  '', length7:  '', rawCount7:  '', vGene7:  '', jGene7:  '', percentTotalreads7:  '',cellEquivalent7: '',
+    sequence8:  '', length8:  '', rawCount8:  '', vGene8:  '', jGene8:  '', percentTotalreads8:  '',cellEquivalent8: '',
+    sequence9:  '', length9:  '', rawCount9:  '', vGene9:  '', jGene9:  '', percentTotalreads9:  '',cellEquivalent9: '',
+    sequence10:  '', length10:  '', rawCount10:  '', vGene10:  '', jGene10:  '', percentTotalreads10:  '',cellEquivalent10: '',
+
+    clonalTotalghReadDepth: '', clonalTotalNucleateCells:  '', 
+    cellEquivalent:  '', ighvMutaion:  '', bigo:  '',
+    comment:  ''
+
+    });  
+
+
  const fileName = this.patientInfo.name + '_' + this.patientInfo.patientID ;
  this.excel.igtcrAsExcelFile(igtcrToExcel, fileName);
    
