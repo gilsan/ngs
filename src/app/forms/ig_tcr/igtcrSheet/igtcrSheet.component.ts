@@ -2281,7 +2281,7 @@ makeIGTCRtoExcel() {
     });  
 
 
- const fileName = this.patientInfo.name + '_' + this.patientInfo.patientID ;
+ const fileName = this.patientInfo.name + '_' + this.patientInfo.patientID + '_' + this.today() ;
  this.excel.igtcrAsExcelFile(igtcrToExcel, fileName);
    
 }

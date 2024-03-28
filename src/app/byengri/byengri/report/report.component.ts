@@ -2791,7 +2791,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
         return false;
       } else if (parseInt(this.screenstatus, 10) === 1) {
         return false;
-      } else if (parseInt(this.screenstatus, 10) === 3) {
+      } else if (parseInt(this.screenstatus, 10) === 3 || parseInt(this.screenstatus, 10) === 4) {
         return true;
       }
 
