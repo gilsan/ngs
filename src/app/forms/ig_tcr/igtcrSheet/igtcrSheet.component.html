@@ -53,16 +53,35 @@
                         <td>
                             % of clonal cells (estimated value) :
                         </td>
-                        <td *ngIf="bcellLPE555LPE556.length   && getFormControls.length === 1">
+                        <!-- 24.06.10      LPE557 일 경우 T-Cell 데이타 표시 못 한 현상으로 막음-->
+                        <!--td *ngIf="bcellLPE555LPE556.length   && getFormControls.length === 1">
                             {{bcellLPE555LPE556}}% / total B-cells
                         </td>                     
                         <td *ngIf="bcellLPE555LPE556.length === 0   && (getFormControls.length === 1 || getFormControls.length === 0)">
-                            % / total B-cells</td>
+                            % / total B-cells
+                        </td>
+                        
                         <td *ngIf="pcellLPE557.length   && getFormControls.length > 1;">
                             {{pcellLPE557}}% / total T-cells
                         </td>
                          
                         <td *ngIf="pcellLPE557.length === 0   && getFormControls.length > 1;">
+                             % / total T-cells
+                        </td-->
+
+                        <!-- 24.06.10      LPE557 일 경우 T-Cell 데이타 표시 개선-->
+                        <td *ngIf="bcellLPE555LPE556.length   && getFormControls.length === 1 && (patientInfo.test_code === 'LPE555' || this.patientInfo.test_code === 'LPE556');" >
+                            {{bcellLPE555LPE556}}% / total B-cells
+                        </td>                     
+                        <td *ngIf="bcellLPE555LPE556.length === 0   && ( getFormControls.length === 0) && (patientInfo.test_code === 'LPE555' || this.patientInfo.test_code === 'LPE556');">
+                            % / total B-cells
+                        </td>
+                        
+                        <td *ngIf="pcellLPE557.length   && getFormControls.length === 1 && patientInfo.test_code === 'LPE557';">
+                            {{pcellLPE557}}% / total T-cells
+                        </td>
+                         
+                        <td *ngIf="pcellLPE557.length === 0   && getFormControls.length === 0 && patientInfo.test_code === 'LPE557';">
                              % / total T-cells
                         </td>
                                             

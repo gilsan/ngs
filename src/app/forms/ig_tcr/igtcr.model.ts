@@ -156,7 +156,9 @@ export interface IPatient {
       detected: string;
       patientid: string;
       trbtrg: string;
-      data: IClonal[]
+      data: IClonal[];
+      //24.07.26
+      saveyn?: string;
     }
 
     export interface IMRDData {

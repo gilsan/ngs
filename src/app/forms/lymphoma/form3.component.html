@@ -94,8 +94,8 @@
             <col style="width:200px"/>  <!--  VAF %   -->
             <col style="width:130px"/>  <!--   reference  -->
             <col style="width:100px"/>   <!--  COSMIC ID   -->
-           <!-- <col style="width:200px"/>  --> <!-- IGV -->
-           <!-- <col style="width:200px"/> --> <!--  sanger -->
+            <col style="width:200px"/>   <!-- IGV -->
+            <col style="width:200px"/> <!--  sanger -->
             <col style="width:120px"/>  <!--   Site  -->
             <col style="width:80px"/>   <!--  Action -->
             </colgroup>
@@ -120,8 +120,8 @@
               <th>VAF %</th>
               <th>Reference(s)</th>
               <th>COSMIC ID</th>
-             <!--  <th>IGV</th>
-              <th>Sanger</th> -->
+              <th>IGV</th>
+              <th>Sanger</th> 
               <th>Site</th>
               <th>Action</th>
           </tr>
@@ -193,7 +193,7 @@
             <td><input type="text" size="20"  class="clr-input textcenter  tdbox"
             [matTooltip]="group.get('cosmic_id').value" [ngStyle] = "colorType(i)"
             formControlName="cosmic_id"></td>
-          <!--  <td><input type="text" size="10"  class="clr-input textcenter  tdbox"
+           <td><input type="text" size="10"  class="clr-input textcenter  tdbox"
             [matTooltip]="group.get('igv').value" [ngStyle] = "colorType(i)"
             formControlName="igv"></td>
             <td>
@@ -201,7 +201,7 @@
                 [matTooltip]="group.get('sanger').value" [ngStyle] = "colorType(i)"
                 formControlName="sanger"></textarea>
 
-            </td> -->
+            </td>
             <td  class="txt_c">
               <select class="select_01" style="width: 100%;" name="options" (change)="saveInhouse(i, inhouse.value)"
                #inhouse>

@@ -52,7 +52,7 @@ export class GenemgnComponent implements OnInit {
   LPE497 = [][10];
   LPE529 = [][10];
   LPC100 = [][10];
-  LPC101 = [][10]
+  LPC101 = [][10];
   LPE534 = [][10];
   LPE524 = [][10];
   LPE519 = [][10];
@@ -61,6 +61,13 @@ export class GenemgnComponent implements OnInit {
   LPE453 = [][10];
   LPE498 = [][10];
   LPE548 = [][10];
+
+  // 24.07.05 유전자 검사 코드 추가
+  LPE635 = [][10];
+  LPE636 = [][10];
+  LPE637 = [][10];
+  LPE638 = [][10];
+  LPE639 = [][10];
 
   lists2 = [][10];
   row = 0;
@@ -525,7 +532,72 @@ export class GenemgnComponent implements OnInit {
     ).subscribe(data => {
       this.LPE548 = this.makegenelist(data);
       if (this.genetype === 'LPE548') {
-        this.lists2 = this.LPE498;
+        // 24.07.05 유전자 검사 코드 에러
+        //this.lists2 = this.LPE498;
+        this.lists2 = this.LPE548;
+        this.selectedgene = this.lists2[0][0];
+      }
+    });
+
+    //console.log ("1111");
+    
+// 24.07.05 유전자 검사 코드 추가
+    allList$.pipe(
+      map(lists => lists.filter(list => list.test_code === 'LPE635')),
+    ).subscribe(data => {
+      //console.log ("data="+data);
+
+      this.LPE635 = this.makegenelist(data);
+      if (this.genetype === 'LPE635') {
+        this.lists2 = this.LPE635;
+        this.selectedgene = this.lists2[0][0];
+      }
+    });
+
+    allList$.pipe(
+      map(lists => lists.filter(list => list.test_code === 'LPE636')),
+    ).subscribe(data => {
+      //console.log ("data="+data);
+
+      this.LPE636 = this.makegenelist(data);
+      if (this.genetype === 'LPE636') {
+        this.lists2 = this.LPE636;
+        this.selectedgene = this.lists2[0][0];
+      }
+    });
+
+    allList$.pipe(
+      map(lists => lists.filter(list => list.test_code === 'LPE637')),
+    ).subscribe(data => {
+      //console.log ("data="+data);
+
+      this.LPE637 = this.makegenelist(data);
+      if (this.genetype === 'LPE637') {
+        this.lists2 = this.LPE637;
+        this.selectedgene = this.lists2[0][0];
+      }
+    });
+
+    allList$.pipe(
+      map(lists => lists.filter(list => list.test_code === 'LPE638')),
+    ).subscribe(data => {
+      //console.log ("data="+data);
+
+      this.LPE638 = this.makegenelist(data);
+      if (this.genetype === 'LPE638') {
+        this.lists2 = this.LPE638;
+        this.selectedgene = this.lists2[0][0];
+      }
+    });
+
+    allList$.pipe(
+      map(lists => lists.filter(list => list.test_code === 'LPE639')),
+    ).subscribe(data => {
+      //console.log ("data="+data);
+
+      this.LPE639 = this.makegenelist(data);
+      if (this.genetype === 'LPE639') {
+        this.lists2 = this.LPE639;
         this.selectedgene = this.lists2[0][0];
       }
     });
@@ -534,6 +606,9 @@ export class GenemgnComponent implements OnInit {
   }
 
   genelists(type: string): void {
+
+    console.log ("type="+type);
+
     if (type === 'ALL') {
       this.genetype = 'ALL';
       this.lists2 = this.ALL;
@@ -712,6 +787,36 @@ export class GenemgnComponent implements OnInit {
       this.selectedgene = this.lists2[0][0];
     }
 
+    // 24.07.05 유전자 검사 코드 추가
+   else if (type === 'LPE635') {
+
+//console.log ("635");
+
+    this.genetype = 'LPE635';
+    this.lists2 = this.LPE635;
+    this.selectedgene = this.lists2[0][0];
+   }   
+    else if (type === 'LPE636') {
+      this.genetype = 'LPE636';
+      this.lists2 = this.LPE636;
+      this.selectedgene = this.lists2[0][0];
+    }    
+    else if (type === 'LPE637') {
+      this.genetype = 'LPE637';
+      this.lists2 = this.LPE637;
+      this.selectedgene = this.lists2[0][0];
+    }    
+    else if (type === 'LPE638') {
+      this.genetype = 'LPE638';
+      this.lists2 = this.LPE638;
+      this.selectedgene = this.lists2[0][0];
+    }  
+    else if (type === 'LPE639') {
+      this.genetype = 'LPE639';
+      this.lists2 = this.LPE639;
+      this.selectedgene = this.lists2[0][0];
+    }
+
 
   }
 
@@ -744,6 +849,8 @@ export class GenemgnComponent implements OnInit {
       } else if (i === 9) {
         listgene[i] = lists[index].gene;
       }
+
+      //console.log ("gene=" +lists[index].gene);
 
       if (i === 9) {
         listgenes[count] = listgene;
@@ -1053,6 +1160,42 @@ export class GenemgnComponent implements OnInit {
           .subscribe(data => console.log(data));
       }
 
+      // 24.07.05 유전자 검사 코드 추가
+      else if (this.genetype === 'LPE635' && val.gene.length) {
+        const alen = this.LPE635.length;
+        const blen = this.LPE635[alen - 1].length;
+        this.addNewgene('LPE635', alen, blen, val.gene);
+        this.geneService.geneInsert('genetic', val.gene, 'LPE635')
+          .subscribe(data => console.log(data));
+      }
+      else if (this.genetype === 'LPE636' && val.gene.length) {
+        const alen = this.LPE636.length;
+        const blen = this.LPE636[alen - 1].length;
+        this.addNewgene('LPE636', alen, blen, val.gene);
+        this.geneService.geneInsert('genetic', val.gene, 'LPE636')
+          .subscribe(data => console.log(data));
+      }
+      else if (this.genetype === 'LPE637' && val.gene.length) {
+        const alen = this.LPE637.length;
+        const blen = this.LPE637[alen - 1].length;
+        this.addNewgene('LPE637', alen, blen, val.gene);
+        this.geneService.geneInsert('genetic', val.gene, 'LPE637')
+          .subscribe(data => console.log(data));
+      }
+      else if (this.genetype === 'LPE638' && val.gene.length) {
+        const alen = this.LPE638.length;
+        const blen = this.LPE638[alen - 1].length;
+        this.addNewgene('LPE638', alen, blen, val.gene);
+        this.geneService.geneInsert('genetic', val.gene, 'LPE638')
+          .subscribe(data => console.log(data));
+      }
+      else if (this.genetype === 'LPE639' && val.gene.length) {
+        const alen = this.LPE639.length;
+        const blen = this.LPE639[alen - 1].length;
+        this.addNewgene('LPE639', alen, blen, val.gene);
+        this.geneService.geneInsert('genetic', val.gene, 'LPE639')
+          .subscribe(data => console.log(data));
+      }
 
     });
   }
@@ -1348,7 +1491,42 @@ export class GenemgnComponent implements OnInit {
       }
     }
 
-
+  // 24.07.05 유전사 검사 코드 추가
+    else if (type === 'LPE635') {
+      if (blen < 10) {
+        this.LPE635[alen - 1].push(gene);
+      } else {
+        this.LPE635.push([gene]);
+      }
+    }
+    else if (type === 'LPE636') {
+      if (blen < 10) {
+        this.LPE636[alen - 1].push(gene);
+      } else {
+        this.LPE636.push([gene]);
+      }
+    }
+    else if (type === 'LPE637') {
+      if (blen < 10) {
+        this.LPE637[alen - 1].push(gene);
+      } else {
+        this.LPE637.push([gene]);
+      }
+    }
+    else if (type === 'LPE638') {
+      if (blen < 10) {
+        this.LPE638[alen - 1].push(gene);
+      } else {
+        this.LPE638.push([gene]);
+      }
+    }
+    else if (type === 'LPE639') {
+      if (blen < 10) {
+        this.LPE639[alen - 1].push(gene);
+      } else {
+        this.LPE639.push([gene]);
+      }
+    }
 
   }
 
@@ -1540,8 +1718,32 @@ export class GenemgnComponent implements OnInit {
           .subscribe();
       }
 
-
-
+    //24.07.05 유전자 검사 코드 추가
+     else if (this.genetype === 'LPE635' && val.newgene.length) {
+      this.updateGene(val.newgene);
+      this.geneService.geneUpdate('genetic', val.oldgene, val.newgene, 'LPE635')
+        .subscribe();
+      }
+      else if (this.genetype === 'LPE636' && val.newgene.length) {
+      this.updateGene(val.newgene);
+      this.geneService.geneUpdate('genetic', val.oldgene, val.newgene, 'LPE636')
+        .subscribe();
+      }
+      else if (this.genetype === 'LPE637' && val.newgene.length) {
+      this.updateGene(val.newgene);
+      this.geneService.geneUpdate('genetic', val.oldgene, val.newgene, 'LPE637')
+        .subscribe();
+      }
+      else if (this.genetype === 'LPE638' && val.newgene.length) {
+      this.updateGene(val.newgene);
+      this.geneService.geneUpdate('genetic', val.oldgene, val.newgene, 'LPE638')
+        .subscribe();
+      }
+      else if (this.genetype === 'LPE639' && val.newgene.length) {
+      this.updateGene(val.newgene);
+      this.geneService.geneUpdate('genetic', val.oldgene, val.newgene, 'LPE639')
+        .subscribe();
+      }
 
     });
 
@@ -1637,6 +1839,23 @@ export class GenemgnComponent implements OnInit {
       this.LPE498[this.row][this.col] = newgene;
     } else if (this.genetype === 'LPE548') {
       this.LPE548[this.row][this.col] = newgene;
+    }
+
+    // 24.07.05 유전자 코드 추가
+    else if (this.genetype === 'LPE635') {
+      this.LPE635[this.row][this.col] = newgene;
+    }
+    else if (this.genetype === 'LPE636') {
+      this.LPE636[this.row][this.col] = newgene;
+    }
+    else if (this.genetype === 'LPE637') {
+      this.LPE637[this.row][this.col] = newgene;
+    }
+    else if (this.genetype === 'LPE638') {
+      this.LPE638[this.row][this.col] = newgene;
+    }
+    else if (this.genetype === 'LPE639') {
+      this.LPE639[this.row][this.col] = newgene;
     }
   }
   // 삭제 다이얼로그
@@ -1738,6 +1957,22 @@ export class GenemgnComponent implements OnInit {
         } else if (this.genetype === 'LPE498') {
           this.deleteGene(val.gene);
         } else if (this.genetype === 'LPE548') {
+          this.deleteGene(val.gene);
+        }
+        // 24.07.05 유전자 검사 코드 추가
+        else if (this.genetype === 'LPE635') {
+          this.deleteGene(val.gene);
+        }
+        else if (this.genetype === 'LPE636') {
+          this.deleteGene(val.gene);
+        }
+        else if (this.genetype === 'LPE637') {
+          this.deleteGene(val.gene);
+        }
+        else if (this.genetype === 'LPE638') {
+          this.deleteGene(val.gene);
+        }
+        else if (this.genetype === 'LPE639') {
           this.deleteGene(val.gene);
         }
       }
@@ -2007,6 +2242,43 @@ export class GenemgnComponent implements OnInit {
     } else if (this.genetype === 'LPE548') {
       this.LPE548[this.row].splice(this.col, 1);
       this.geneService.geneDelete('genetic', gene, 'LPE548')
+        .subscribe(() => {
+          this.init();
+        });
+    }
+
+    // 24.07.05 유전사 검사 코드 추가
+    else if (this.genetype === 'LPE635') {
+      this.LPE635[this.row].splice(this.col, 1);
+      this.geneService.geneDelete('genetic', gene, 'LPE635')
+        .subscribe(() => {
+          this.init();
+        });
+    }
+    else if (this.genetype === 'LPE636') {
+      this.LPE636[this.row].splice(this.col, 1);
+      this.geneService.geneDelete('genetic', gene, 'LPE636')
+        .subscribe(() => {
+          this.init();
+        });
+    }
+    else if (this.genetype === 'LPE637') {
+      this.LPE637[this.row].splice(this.col, 1);
+      this.geneService.geneDelete('genetic', gene, 'LPE637')
+        .subscribe(() => {
+          this.init();
+        });
+    }
+    else if (this.genetype === 'LPE638') {
+      this.LPE638[this.row].splice(this.col, 1);
+      this.geneService.geneDelete('genetic', gene, 'LPE638')
+        .subscribe(() => {
+          this.init();
+        });
+    }
+    else if (this.genetype === 'LPE639') {
+      this.LPE639[this.row].splice(this.col, 1);
+      this.geneService.geneDelete('genetic', gene, 'LPE639')
         .subscribe(() => {
           this.init();
         });

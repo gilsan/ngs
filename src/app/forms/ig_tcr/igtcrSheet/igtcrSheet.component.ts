@@ -52,6 +52,8 @@ export class IgTcrSheetComponent implements OnInit, OnDestroy{
   densityTablePdf1CellFEquivalent2 = ''; // 두번째 검사보고서
   comment = '';
   screenstatus = ''; 
+  //24.07.26 
+  saveyn = '';
 
   resultStatus = 'Detected';
   clonalLists: IClonal[] = [];
@@ -94,6 +96,9 @@ export class IgTcrSheetComponent implements OnInit, OnDestroy{
     recheck: '',
     examin: '',
     comment: '',
+
+    //24.07.26 
+    saveyn: '',
  
   };
 
@@ -153,7 +158,10 @@ export class IgTcrSheetComponent implements OnInit, OnDestroy{
     patientid: '',
     detected: this.patientInfo.detected,
     trbtrg: '',
-    data:  []
+    data:  [],
+
+    //24.07.26 
+    saveyn: '',
   };
 
    
@@ -233,6 +241,9 @@ export class IgTcrSheetComponent implements OnInit, OnDestroy{
         this.comment = this.patientInfo.comment;
         this.acceptDate = this.patientInfo.accept_date.replace(/\./g,'-');
 
+        //24.07.26 
+        this.saveyn = this.patientInfo.saveyn;
+        
         // pdf 제목
         if (this.patientInfo.test_code === 'LPE555') {
           this.pdfFirstTitle = 'IGH CLONALITY REPORT'; // 첫번째 검사 제목
@@ -250,11 +261,17 @@ export class IgTcrSheetComponent implements OnInit, OnDestroy{
       }),
       concatMap(() => {
          if(this.testCode === 'TRB'  ) {
-           return this.service.igtcrListTrbTrg(this.patientInfo.specimenNo, 'TRB');
+          //24.07.26 
+          //return this.service.igtcrListTrbTrg(this.patientInfo.specimenNo, 'TRB');
+           return this.service.igtcrListTrbTrg(this.patientInfo.specimenNo, 'TRB', this.saveyn);
          } else if(this.testCode === 'TRG') {
-          return this.service.igtcrListTrbTrg(this.patientInfo.specimenNo, 'TRG');
+          //24.07.26 
+          // return this.service.igtcrListTrbTrg(this.patientInfo.specimenNo, 'TRG');
+          return this.service.igtcrListTrbTrg(this.patientInfo.specimenNo, 'TRG', this.saveyn);
          } else {
-          return this.service.igtcrListInfo(this.patientInfo.specimenNo)
+          //24.07.26 
+          //return this.service.igtcrListInfo(this.patientInfo.specimenNo);
+          return this.service.igtcrListInfo(this.patientInfo.specimenNo, this.saveyn);
          }
          
       }),
@@ -289,7 +306,7 @@ export class IgTcrSheetComponent implements OnInit, OnDestroy{
         }
         this.btCells();
       }
-      console.log('[288]', data);
+      console.log('[292==> LPE557]', this.getFormControls.length);
     });
     
     this.subs.sink = this.utilsService.getListsDig('IGTCR')
@@ -450,7 +467,7 @@ export class IgTcrSheetComponent implements OnInit, OnDestroy{
             this.mrdnucleatedCells = Number(Math.round(Number(tempMrdnucleatedCells) * 10000)/10000).toFixed(4);
           }  
 
-          this.secondTotalBcellTcellCount = tableRows.at(index).get('total_Bcell_Tcell_count')?.value;
+          //this.secondTotalBcellTcellCount = tableRows.at(index).get('total_Bcell_Tcell_count')?.value;
           this.densityTablePdf2 = tableRows.at(index).get('density')?.value;
           this.secondTotalBcellTcellCount = tableRows.at(index).get('total_Bcell_Tcell_count')?.value;
     
@@ -467,6 +484,7 @@ export class IgTcrSheetComponent implements OnInit, OnDestroy{
            
      
         }
+
     
       });
 
@@ -1275,8 +1293,10 @@ calulateCellEquivalent(totalReadCount: number, readOfLQIC: number, rawCount: num
 clonalTotalIGHReadDepth(index: number) {
   const tableRows = this.tablerowForm.get('tableRows') as FormArray;
   const reportDate = tableRows.at(index).get('report_date')?.value;
-  const clonalTotalIGHReadDepth = this.getClonalTotalIGHReadDepth(index); // 1246 줄
+  let clonalTotalIGHReadDepth = this.getClonalTotalIGHReadDepth(index); // 1246 줄
   
+  console.log('[1279]clonalTotalIGHReadDepth=', clonalTotalIGHReadDepth);
+
   if (Number.isNaN(parseInt(clonalTotalIGHReadDepth))) {
     tableRows.at(index).patchValue({ total_IGH_read_depth:  0});
   } else {
@@ -1287,9 +1307,9 @@ clonalTotalIGHReadDepth(index: number) {
   }
 
   // LPE555 LPE556 B-Cells
-  // LPE557 P-Cells  소수점 2자리수
+  // LPE557 T-Cells  소수점 2자리수
    
-  if (this.patientInfo.test_code === 'LPE555' || this.patientInfo.test_code === 'LPE555') { 
+  if (this.patientInfo.test_code === 'LPE555' || this.patientInfo.test_code === 'LPE556') { 
     if (Number(clonalTotalIGHReadDepth) === 0 ) {
       this.bcellLPE555LPE556 = '0.00';
     } else if(Number(clonalTotalIGHReadDepth) > 0 && Number(clonalTotalIGHReadDepth) < 0.01) {
@@ -1298,6 +1318,12 @@ clonalTotalIGHReadDepth(index: number) {
       this.bcellLPE555LPE556 = Number(clonalTotalIGHReadDepth).toFixed(2);  
     }
   } else if(this.patientInfo.test_code === 'LPE557') {
+  
+    console.log('[1300]patientInfo.test_code=', this.patientInfo.test_code);
+    console.log('[1279]clonalTotalIGHReadDepth=', clonalTotalIGHReadDepth);
+
+  
+  
     if (Number(clonalTotalIGHReadDepth) === 0) {
       this.pcellLPE557 = '0.00';
     } else if(Number(clonalTotalIGHReadDepth) > 0 && Number(clonalTotalIGHReadDepth) < 0.01) {
@@ -1605,14 +1631,49 @@ makeMRDData() {
   rawValue.forEach((item, index) => {
     
         if (item.use_yn1 === false) {
-          
+
+          // 24.07.18 start
+          // raw_count1 ~  raw_count10의 합계를 'Clonal TCR depth'에 넣는다
+          // 기존에는 total_Bcell_Tcell_count의 값이였으나 진검 요청으로 변경함
+
+          let rawCount1 = this.existComma(item.raw_count1);
+          let rawCount2 = this.existComma(item.raw_count2);
+          let rawCount3 = this.existComma(item.raw_count3);
+          let rawCount4 = this.existComma(item.raw_count4);          
+          let rawCount5 = this.existComma(item.raw_count5);
+          let rawCount6 = this.existComma(item.raw_count6);
+          let rawCount7 = this.existComma(item.raw_count7);
+          let rawCount8 = this.existComma(item.raw_count8);
+          let rawCount9 = this.existComma(item.raw_count9);
+          let rawCount10 = this.existComma(item.raw_count10);
+
+          if (Number.isNaN(parseInt(rawCount1))) {  rawCount1 = '0'; }
+          if (Number.isNaN(parseInt(rawCount2))) {  rawCount2 = '0';  }
+          if (Number.isNaN(parseInt(rawCount3))) {  rawCount3 = '0';  }
+          if (Number.isNaN(parseInt(rawCount4))) {  rawCount4 = '0';  }
+          if (Number.isNaN(parseInt(rawCount5))) {  rawCount5 = '0';  }
+          if (Number.isNaN(parseInt(rawCount6))) {  rawCount6 = '0';  }
+          if (Number.isNaN(parseInt(rawCount7))) {  rawCount7 = '0';  }
+          if (Number.isNaN(parseInt(rawCount8))) {  rawCount8 = '0';  }
+          if (Number.isNaN(parseInt(rawCount9))) {  rawCount9 = '0'; }
+          if (Number.isNaN(parseInt(rawCount10))) { rawCount10 = '0'; }
+
+          let totalrawCount =(Number(rawCount1) + Number(rawCount2) + Number(rawCount3) + Number(rawCount4) + Number(rawCount5) +
+            Number(rawCount6) + Number(rawCount7) + Number(rawCount8) + Number(rawCount9) + Number(rawCount10));
+                    
+          // 24.07.18 end
+
               if (sequence ===  0) {
                 tempMrdData.push({
                   dateSequence: 'initial',
                   reportDate: item.report_date,
                   totalReadCount: item.total_read_count.replace(/,/g, ''),
                   readOfLQIC: item.read_of_LQIC,
-                  totalBcellTcellCount :item.total_Bcell_Tcell_count.replace(/,/g, ''),
+
+                  // 24.07.18 totalrawCount로 변경
+                  //totalBcellTcellCount:  item.total_Bcell_Tcell_count.replace(/,/g, ''),                  
+                  totalBcellTcellCount :totalrawCount, 
+
                   totalIGHReadDepth : item.total_IGH_read_depth,
                   
                   totalNucelatedCells : Number(item.total_IGH_read_depth) < 0.01 && Number(item.total_IGH_read_depth) > 0 ? '0.00001' : item.total_IGH_read_depth ,
@@ -1624,7 +1685,11 @@ makeMRDData() {
                   reportDate: item.report_date,
                   totalReadCount: item.total_read_count.replace(/,/g, ''),
                   readOfLQIC: item.read_of_LQIC,
-                  totalBcellTcellCount :item.total_Bcell_Tcell_count.replace(/,/g, ''),
+
+                  // 24.07.18 totalrawCount로 변경
+                  //totalBcellTcellCount:  item.total_Bcell_Tcell_count.replace(/,/g, ''),                  
+                  totalBcellTcellCount :totalrawCount, 
+
                   totalIGHReadDepth : item.total_IGH_read_depth,
                   totalNucelatedCells : item.total_nucelated_cells,
                   totalCellEquipment : item.total_cell_equipment.replace(/,/g, ''),
@@ -1803,12 +1868,17 @@ saveAllData() {
     let init_comment= '';
     let fu_result= '';
     let fu_comment  = '';
+
+    /* 24.07.22 화면 삭제가 아니라 dB 삭제 요청
     // 삭제된 것 추가함.
     if (this.deletedClonalLists.length) {
       this.deletedClonalLists.forEach(item => {
         formData.push(item);
       });
     }
+    */
+
+    console.log("count", formData.length);
     
     // 환자정보 저장
     this.patientInfo.examin = this.examin; // 검사자
@@ -1852,7 +1922,10 @@ saveAllData() {
         detected: this.resultStatus === "Detected" ? '0' : '1',
         patientid: this.patientInfo.patientID,
         trbtrg: '',
-        data:  formData
+        data:  formData,
+
+        //24.07.26 
+        saveyn: this.saveyn,
       };
 
 
@@ -1869,7 +1942,7 @@ saveAllData() {
 
   // 저장한것 다시 불러오기
   saveAfterRender() {
-    this.subs.sink = this.service.igtcrListInfo(this.patientInfo.specimenNo)
+    this.subs.sink = this.service.igtcrListInfo(this.patientInfo.specimenNo, this.screenstatus)
       .pipe(
         tap(data => {
           this.clonalLists = [];
@@ -2179,7 +2252,7 @@ makeIGTCRtoExcel() {
       sequence2:  item.sequence2, length2: item.sequence_length2, rawCount2: item.raw_count2, vGene2: item.v_gene2, jGene2: item.j_gene2, 
       percentTotalreads2: item.percent_total_reads2,cellEquivalent2:item.cell_equipment2,
 
-      sequence3:  item.sequence3, length3: item.sequence_length3, rawCount3: item.raw_count3, vGene3: item.v_gene3, jGene: item.j_gene3, 
+      sequence3:  item.sequence3, length3: item.sequence_length3, rawCount3: item.raw_count3, vGene3: item.v_gene3, jGene3: item.j_gene3, 
       percentTotalreads3: item.percent_total_reads3,cellEquivalent3:item.cell_equipment3,
 
       sequence4:  item.sequence4, length4: item.sequence_length4, rawCount4: item.raw_count4, vGene4: item.v_gene4, jGene4: item.j_gene4, 
@@ -2206,7 +2279,8 @@ makeIGTCRtoExcel() {
 
       clonalTotalghReadDepth: Number(item.total_IGH_read_depth).toFixed(2), clonalTotalNucleateCells: Number(item.total_nucelated_cells).toFixed(4), 
       cellEquivalent: item.total_cell_equipment, ighvMutaion: item.IGHV_mutation, bigo: item.bigo,
-      comment: item.comment
+      comment: item.comment,
+      density: item.density
       
         });  
  });
@@ -2230,7 +2304,8 @@ makeIGTCRtoExcel() {
 
     clonalTotalghReadDepth: '', clonalTotalNucleateCells:  '', 
     cellEquivalent:  '', ighvMutaion:  '', bigo:  '',
-    comment:  ''
+    comment:  '',
+    density: ''
 
     });
 
@@ -2253,7 +2328,8 @@ makeIGTCRtoExcel() {
 
     clonalTotalghReadDepth: '', clonalTotalNucleateCells:  '', 
     cellEquivalent:  '', ighvMutaion:  '', bigo:  '',
-    comment:  ''
+    comment:  '',
+    density: ''
 
     });  
 
@@ -2276,10 +2352,12 @@ makeIGTCRtoExcel() {
 
     clonalTotalghReadDepth: '', clonalTotalNucleateCells:  '', 
     cellEquivalent:  '', ighvMutaion:  '', bigo:  '',
-    comment:  ''
+    comment:  '',
+    density: ''
 
     });  
 
+    console.log('[igtcr][2278]', igtcrToExcel);
 
  const fileName = this.patientInfo.name + '_' + this.patientInfo.patientID + '_' + this.today() ;
  this.excel.igtcrAsExcelFile(igtcrToExcel, fileName);

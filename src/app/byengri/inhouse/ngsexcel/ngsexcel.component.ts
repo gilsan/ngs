@@ -41,6 +41,10 @@ export interface INGS {
   posticd10hngnm: string;
   age: string;
   testcd: string;
+  // 24.05.01
+  testcd2: string;
+  // 24.05.01
+  canceryn: string;
   testnm: string;
   bcno: string;
   orddd: string;
@@ -177,11 +181,17 @@ export class NgsexcelComponent implements OnInit {
       const organ = item.organ.split(" ")[1];
 
       ngsLists.push({
-        id: idx + 1, b1: '', c1: idx + 1, proccorpcd: item.proccorpcd, pid: item.pid,
-        hngnm: item.hngnm, brthdd: item.brthdd, sex: item.sex, i1: 'Y', clamacptno: item.clamacptno,
+        //24.05.01
+      //id: idx + 1, b1: '', c1: idx + 1, proccorpcd: item.proccorpcd, pid: item.pid,
+      id: idx + 1, b1: '', c1: idx + 1, proccorpcd: item.proccorpcd,
+      hngnm: item.hngnm, brthdd: item.brthdd, sex: item.sex, i1: 'Y', clamacptno: item.clamacptno,
         docuseqno: item.docuseqno, pay100ownbrate: item.pay100ownbrate, m1: '', n1: '', testnm: item.testnm,
-        testcd: item.testcd, bcno: item.bcno, preicd10cd: item.preicd10cd, preicd10hngnm: item.preicd10hngnm, posticd10cd: item.posticd10cd,
-        posticd10hngnm: item.posticd10hngnm, v1: '', w1: '', x1: '', y1: '',
+        // 24.05.01
+        //testcd: item.testcd, bcno: item.bcno, preicd10cd: item.preicd10cd, preicd10hngnm: item.preicd10hngnm, posticd10cd: item.posticd10cd,
+        testcd: item.testcd, testcd2: item.testcd2, preicd10cd: item.preicd10cd, preicd10hngnm: item.preicd10hngnm, posticd10cd: item.posticd10cd,
+        // 24.05.01
+        //posticd10hngnm: item.posticd10hngnm, v1: '', w1: '', x1: '', y1: '',
+        posticd10hngnm: item.posticd10hngnm, v1: '', canceryn: item.canceryn,  x1: '', y1: '',
         z1: item.stage, aa1: '', spccd: item.spccd, ac1: '', spcacptdt: item.spcacptdt,
         lstreptdt: item.lstreptdt, 
         // 23.11.16
@@ -190,18 +200,26 @@ export class NgsexcelComponent implements OnInit {
         pv: item.pv, pv_gene: item.pv_gene, vus: item.vus, vus_gene: item.vus_gene,
         // 23.11.30
         //hospnm: item.hospnm, ak1: '', al1: '' 
-        hospnm: item.hospnm, ak1: '', al1: '', am1: '', an1: '', tier: item.tier
+        //24.05.01
+      //hospnm: item.hospnm, ak1: '', al1: '', am1: '', an1: '', tier: item.tier
+      hospnm: item.hospnm, ak1: 'Y', al1: '', am1: 'Y', an1: '', tier: item.tier, bcno: item.bcno, pid: item.pid
 
       });
 
     });
 
     ngsLists.unshift({
-      id: '', b1: '', c1: '', proccorpcd: '', pid: '',
+      //24.05.01
+      //id: '', b1: '', c1: '', proccorpcd: '', pid: '',
+      id: '', b1: '', c1: '', proccorpcd: '',
       hngnm: '', brthdd: '', sex: '', i1: '', clamacptno: '',
       docuseqno: '', pay100ownbrate: '', m1: '', n1: '', testnm: '',
-      testcd: '', bcno: '', preicd10cd: '', preicd10hngnm: '', posticd10cd: '',
-      posticd10hngnm: '', v1: '', w1: '', x1: '', y1: '',
+      // 24.05.01
+      //testcd: '', bcno: '', preicd10cd: '', preicd10hngnm: '', posticd10cd: '',
+      testcd: '', testcd2: '', preicd10cd: '', preicd10hngnm: '', posticd10cd: '',
+      // 24.05.01
+        //posticd10hngnm: '', v1: '', w1: '', x1: '', y1: '',
+        posticd10hngnm: '', v1: '', canceryn: '',  x1: '', y1: '',
       z1: '', aa1: '', spccd: '', ac1: '', spcacptdt: '',
       lstreptdt: '', 
       // 23.11.16
@@ -210,15 +228,23 @@ export class NgsexcelComponent implements OnInit {
       pv: '', pv_gene: '', vus: '', vus_gene: '',
       // 23.11.30
       //hospnm: '', ak1: '', al1: ''
-      hospnm: '', ak1: '', al1: '', am1: '', an1: '', tier: '' 
+      // 24.05.01
+      //hospnm: '', ak1: '', al1: '', am1: '', an1: '', tier: ''
+      hospnm: '', ak1: '', al1: '', am1: '', an1: '', tier: '', bcno: '', pid: ''
     });
 
     ngsLists.unshift({
-      id: '', b1: '', c1: '', proccorpcd: '', pid: '',
+      //24.05.01
+      //id: '', b1: '', c1: '', proccorpcd: '', pid: '',
+      id: '', b1: '', c1: '', proccorpcd: '',
       hngnm: '', brthdd: '', sex: '', i1: '', clamacptno: '',
       docuseqno: '', pay100ownbrate: '', m1: '', n1: '', testnm: '',
-      testcd: '', bcno: '', preicd10cd: '', preicd10hngnm: '', posticd10cd: '',
-      posticd10hngnm: '', v1: '', w1: '', x1: '', y1: '',
+      // 24.05.01
+      //testcd: '', bcno: '', preicd10cd: '', preicd10hngnm: '', posticd10cd: '',
+      testcd: '', testcd2: '', preicd10cd: '', preicd10hngnm: '', posticd10cd: '',
+      // 24.05.01
+        //posticd10hngnm: '', v1: '', w1: '', x1: '', y1: '',
+        posticd10hngnm: '', v1: '', canceryn: '', x1: '', y1: '',
       z1: '', aa1: '', spccd: '', ac1: '', spcacptdt: '',
       lstreptdt: '', 
       // 23.11.16
@@ -227,15 +253,23 @@ export class NgsexcelComponent implements OnInit {
       pv: '', pv_gene: '', vus: '', vus_gene: '',
       // 23.11.30
       //hospnm: '', ak1: '', al1: ''
-      hospnm: '', ak1: '', al1: '', am1: '', an1: '', tier: '' 
+      // 24.05.01
+      //hospnm: '', ak1: '', al1: '', am1: '', an1: '', tier: ''
+      hospnm: '', ak1: '', al1: '', am1: '', an1: '', tier: '', bcno: '', pid: ''
     });
 
     ngsLists.unshift({
-      id: '', b1: '', c1: '', proccorpcd: '', pid: '',
+      //24.05.01
+      //id: '', b1: '', c1: '', proccorpcd: '', pid: '',
+      id: '', b1: '', c1: '', proccorpcd: '',
       hngnm: '', brthdd: '', sex: '', i1: '', clamacptno: '',
       docuseqno: '', pay100ownbrate: '', m1: '', n1: '', testnm: '',
-      testcd: '', bcno: '', preicd10cd: '', preicd10hngnm: '', posticd10cd: '',
-      posticd10hngnm: '', v1: '', w1: '', x1: '', y1: '',
+      // 24.05.01
+      //testcd: '', bcno: '', preicd10cd: '', preicd10hngnm: '', posticd10cd: '',
+      testcd: '', testcd2: '', preicd10cd: '', preicd10hngnm: '', posticd10cd: '',
+      // 24.05.01
+        //posticd10hngnm: '', v1: '', w1: '', x1: '', y1: '',
+        posticd10hngnm: '', v1: '', canceryn: '', x1: '', y1: '',
       z1: '', aa1: '', spccd: '', ac1: '', spcacptdt: '',
       lstreptdt: '',   
       // 23.11.16
@@ -244,17 +278,19 @@ export class NgsexcelComponent implements OnInit {
       pv: '', pv_gene: '', vus: '', vus_gene: '',
       // 23.11.30
       //hospnm: '', ak1: '', al1: ''
-      hospnm: '', ak1: '', al1: '', am1: '', an1: '',tier: ''
+      // 24.05.01
+      //hospnm: '', ak1: '', al1: '', am1: '', an1: '', tier: ''
+      hospnm: '', ak1: '', al1: '', am1: '', an1: '', tier: '', bcno: '', pid: ''
     });
 
 
 
     const ngwidth = [{ width: 6 }, { width: 21 }, { width: 12 }, { width: 12 }, { width: 9 }, // A, B, C, D,E
-    { width: 8 }, { width: 10 }, { width: 5 }, { width: 9 }, { width: 8 },    // F, G, H, I, J,
+    { width: 10 }, { width: 10 }, { width: 5 }, { width: 9 }, { width: 8 },    // F, G, H, I, J,
     { width: 7 }, { width: 9 }, { width: 14 }, { width: 19 }, { width: 24 },  // k,L, M, N, O
-    { width: 8 }, { width: 15 }, { width: 13 }, { width: 11 }, { width: 17 }, // p,q,R, S, T,
+    { width: 12 }, { width: 15 }, { width: 13 }, { width: 11 }, { width: 17 }, // p,q,R, S, T,
     { width: 55 }, { width: 13 }, { width: 11 }, { width: 26 }, { width: 8 }, //u,v, W, X, Y,
-    { width: 8 }, { width: 15 }, { width: 9 }, { width: 8 }, { width: 12 }, // Z, AA, AB, AC, AD,
+    { width: 8 }, { width: 15 }, { width: 9 }, { width: 10 }, { width: 12 }, // Z, AA, AB, AC, AD,
     { width: 12 }, { width: 15 }, { width: 33 }, { width: 12 }, { width: 36 }, //AE, AF,AG, AH, AI
     // 23.11.16
     //{ width: 9 }, { width: 9 }, { width: 17 },  // AJ,AK, AL
@@ -262,7 +298,7 @@ export class NgsexcelComponent implements OnInit {
     { width: 17 }, { width: 15 }, { width: 20 }, { width: 12 }, { width: 28 }, // AN, AO,AP,AQ, AR
     //23.11.30
     //{ width: 14 }, { width: 9 }, { width: 14 } //AS, AT, AU
-    { width: 14 }, { width: 9 }, { width: 14 }, { width: 14 }, { width: 14 }, { width: 14 } //AS, AT, AU, AV
+    { width: 14 }, { width: 9 }, { width: 14 }, { width: 14 }, { width: 14 }, { width: 14 } , { width: 14 }//AS, AT, AU, AV, AW
     
     ];
 
