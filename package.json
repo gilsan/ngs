@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "set NODE_OPTIONS=--openssl-legacy-provider && ng serve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -42,8 +42,8 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.1002.0",
-    "@angular/cli": "~10.2.0",
+    "@angular-devkit/build-angular": "^0.1002.0",
+    "@angular/cli": "^10.2.1",
     "@angular/compiler-cli": "~10.2.0",
     "@types/file-saver": "^2.0.1",
     "@types/jasmine": "~3.5.0",
@@ -57,9 +57,13 @@
     "karma-coverage-istanbul-reporter": "~3.0.2",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
+    "mini-css-extract-plugin": "^0.11.3",
     "protractor": "~7.0.0",
+    "terser-webpack-plugin": "^5.3.10",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
-    "typescript": "~4.0.2"
+    "typescript": "~4.0.2",
+    "webpack": "^4.47.0",
+    "webpack-cli": "^5.1.4"
   }
 }

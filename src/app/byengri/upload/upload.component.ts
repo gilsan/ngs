@@ -415,6 +415,9 @@ export class UploadComponent implements OnInit {
 
                 // filteredlist 길이
                 const filteredlistLen = filteredlist.length;
+
+                //console.log('[418] ===>', filteredlist);
+
                 if (filteredlistLen >= 2 && list[0].length) {  //
               //    if (filteredlist[1] !== 'deletion' && filteredlist[1] !== 'stable') { 2022.06.01 수정
                   if (  filteredlist[1] !== 'stable') {

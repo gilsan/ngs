@@ -27,7 +27,7 @@ export function makeDForm(
   tsvVersionContents: string
 ): string {
 
-  if (specimenMessage.length === 0) {
+  if (specimenMessage && specimenMessage.length === 0) {
     specimenMessage = 'Genomic DNA isolated from peripheral blood';
   }
 

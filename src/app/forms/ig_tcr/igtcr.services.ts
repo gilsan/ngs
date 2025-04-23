@@ -68,21 +68,13 @@ parameter
 
 */
 
-//24.07.26 
-//public igtcrListInfo(specimenNo: string): Observable<any> {
-public igtcrListInfo(specimenNo: string, saveyn: string): Observable<any> {
+public igtcrListInfo(specimenNo: string): Observable<any> {
 
-  //24.07.26 
-  //return this.http.post(`${this.apiUrl}/igtcr/list`, {specimenNo});
-  return this.http.post(`${this.apiUrl}/igtcr/list`, {specimenNo, saveyn});
+  return this.http.post(`${this.apiUrl}/igtcr/list`, {specimenNo});
 }
 
-//24.07.26  
-//public igtcrListTrbTrg(specimenNo: string, gene: string) {
-public igtcrListTrbTrg(specimenNo: string, gene: string, saveyn: string) {
-  //24.07.26 
-  //return this.http.post(`${this.apiUrl}/igtcr/list_557`, {specimenNo, gene});
-  return this.http.post(`${this.apiUrl}/igtcr/list_557`, {specimenNo, gene, saveyn});
+public igtcrListTrbTrg(specimenNo: string, gene: string) {
+  return this.http.post(`${this.apiUrl}/igtcr/list_557`, {specimenNo, gene});
 }
 
 // http://183.98.12.201:3000/igtcr/save

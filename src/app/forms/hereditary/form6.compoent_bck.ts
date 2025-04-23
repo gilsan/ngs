@@ -10,6 +10,7 @@ import { SubSink } from 'subsink';
 import { geneTitles } from '../commons/geneList';
 import { hereditaryForm } from 'src/app/home/models/hereditary';
 
+import { IAFormVariant } from 'src/app/home/models/patients';
 
 @Component({
   selector: 'app-form6',
@@ -64,6 +65,9 @@ export class Form6Component implements OnInit, OnDestroy {
   lastReportDay = '-';  // 수정보고일
   reportType: string; //
 
+  
+  detactedVariants: IAFormVariant[] = [];
+
   checkboxStatus = []; // 체크박스 on 인것
 
   screenstatus: string;
@@ -83,7 +87,7 @@ export class Form6Component implements OnInit, OnDestroy {
   formTitle: string;
   formGeneLists: string[][10];
   functionalimpact: string[] = ['Pathogenic', 'Likely Pathogenic', 'VUS'];
-
+  form: FormGroup;
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -535,20 +539,24 @@ export class Form6Component implements OnInit, OnDestroy {
     console.log('[EMR]', this.target, this.formTitle);
     const makeForm = hereditaryForm(
       this.resultStatus,
+      "",
       this.examin, // 검사자
       this.recheck, // 확인자
       this.target,
-      this.vusmsg,
+      "",
       this.formTitle, // 제목,
       this.patientInfo.accept_date, // 검사의뢰일
       this.firstReportDay,
       this.lastReportDay,
       this.patientInfo,
-      this.immundefi,
+      this.detactedVariants,
       this.comments,
+      "",
       this.methods,
       this.technique,
-      this.genelists
+      this.genelists,
+      "", 
+      ""
     );
 
     console.log('[335] ', makeForm);

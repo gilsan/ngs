@@ -1165,6 +1165,7 @@ export class Form1Component implements OnInit, OnDestroy {
       this.checkboxRefill();
     }
 
+    // checked=true 만 EMR 만 전송
     const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
     // console.log('=== [1243][LYM][EMR로 보내기, 체크박스]', this.checkboxStatus);
     // console.log('=== [1244][LYM][EMR로 보내기 DV]', reformData);
@@ -1200,6 +1201,7 @@ export class Form1Component implements OnInit, OnDestroy {
     const makeForm = makeCForm(
       this.method,
       this.resultStatus,
+      "",
       this.examin, // 검사자
       this.recheck, // 확인자
       this.profile,
@@ -1207,6 +1209,7 @@ export class Form1Component implements OnInit, OnDestroy {
       this.specimenMessage,
       this.patientInfo,
       formData,
+      this.comments,
       this.firstReportDay,
       this.lastReportDay,
       this.genelists,

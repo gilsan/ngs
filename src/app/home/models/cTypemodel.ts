@@ -27,7 +27,7 @@ export function makeCForm(
   vusmsg: string,
 ): string {
 
-  if (specimenMessage.length === 0) {
+  if (specimenMessage && specimenMessage.length === 0) {
     specimenMessage = 'Genomic DNA isolated from Bone marrow';
   }
   // 금일날자:

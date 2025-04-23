@@ -211,7 +211,9 @@ export class PathologyService {
     const formcd = '-';
     const rsltflag = 'O';
     const pid = patientid;
-    const examcd = 'PMO12072';
+    // 24.11.11 검사코드가 고정되어서 풀음
+    //const examcd = 'PMO12072';
+    const examcd =  patientInfo.prescription_code;
     const examflag = 'P';
     const infflag = 'I';
     const userid = '20800531';

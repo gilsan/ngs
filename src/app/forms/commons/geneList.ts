@@ -10,7 +10,9 @@ export const GENETIC = ['LPE439', 'LPE452', 'LPE453', 'LPE454', 'LPE455', 'LPE45
   'LPE635', 'LPE636', 'LPE637', 'LPE638', 'LPE639'];
 
 export const SEQ = [
-  'LPC100', 'LPC101', 'LPC117', 'LPC118', 'LPC194', 'LPE115', 'LPE141', 'LPE156', 'LPE194', 'LPE221',
+  // 24.12.09 LPE224 추가
+  //'LPC100', 'LPC101', 'LPC117', 'LPC118', 'LPC194', 'LPE115', 'LPE141', 'LPE156', 'LPE194', 'LPE221',
+  'LPC100', 'LPC101', 'LPC117', 'LPC118', 'LPC194', 'LPE115', 'LPE141', 'LPE156', 'LPE194', 'LPE221', 'LPE224',
   'LPE227', 'LPE229', 'LPE231', 'LPE233', 'LPE236', 'LPE237', 'LPE238', 'LPE241', 'LPE243', 'LPE245',
   'LPE247', 'LPE249', 'LPE251', 'LPE258', 'LPE262', 'LPE267', 'LPE272', 'LPE275', 'LPE276', 'LPE280',
   'LPE282', 'LPE285', 'LPE287', 'LPE289', 'LPE290', 'LPE295', 'LPE302', 'LPE306', 'LPE308', 'LPE310',
@@ -27,7 +29,8 @@ export const MLPA = [
 
 
 
-export const genes = ['LPE439', 'LPE452', 'LPE453', 'LPE454', 'LPE455', 'LPE456', 'LPE488', 'LPE489', 'LPE490', 'LPE497',
+export const genes =
+ ['LPE439', 'LPE452', 'LPE453', 'LPE454', 'LPE455', 'LPE456', 'LPE488', 'LPE489', 'LPE490', 'LPE497',
   'LPE498', 'LPE499', 'LPE517', 'LPE518', 'LPE519', 'LPE520', 'LPE521', 'LPE522', 'LPE523', 'LPE524', 'LPE527',
   'LPE525', 'LPE526', 'LPE528', 'LPE529', 'LPE530', 'LPE531', 'LPE532', 'LPE533', 'LPE534', 'LPE535',
   // 24.07.05 유전사 검사 코드 추가
@@ -37,7 +40,9 @@ export const genes = ['LPE439', 'LPE452', 'LPE453', 'LPE454', 'LPE455', 'LPE456'
 
 
 export const sequencingLists = [
-  'LPC100', 'LPC101', 'LPC117', 'LPC118', 'LPC194', 'LPE115', 'LPE141', 'LPE156', 'LPE194', 'LPE221',
+  // 24.12.09  LPE224 추가
+  //'LPC100', 'LPC101', 'LPC117', 'LPC118', 'LPC194', 'LPE115', 'LPE141', 'LPE156', 'LPE194', 'LPE221',
+  'LPC100', 'LPC101', 'LPC117', 'LPC118', 'LPC194', 'LPE115', 'LPE141', 'LPE156', 'LPE194', 'LPE221', 'LPE224',
   'LPE227', 'LPE229', 'LPE231', 'LPE233', 'LPE236', 'LPE237', 'LPE238', 'LPE241', 'LPE243', 'LPE245',
   'LPE247', 'LPE249', 'LPE251', 'LPE258', 'LPE262', 'LPE267', 'LPE272', 'LPE275', 'LPE276', 'LPE280',
   'LPE282', 'LPE285', 'LPE287', 'LPE289', 'LPE290', 'LPE295', 'LPE302', 'LPE306', 'LPE308', 'LPE310',
@@ -55,10 +60,17 @@ export const lymphomaLists = ['LPE474', 'LPE475'];
 
 
 // 유전성 유전질환
-export const geneLists = ['LPE548', 'LPE439', 'LPE532', 'LPE454', 'LPE541', 'LPE542', 'LPE489', 'LPE456', 'LPE456', 'LPE455', 'LPE536',
+export const geneLists = 
+['LPE548', 'LPE439', 'LPE532', 'LPE454', 'LPE541', 'LPE542', 'LPE489', 'LPE456', 'LPE455', 'LPE536',
   'LPE452', 'LPE530', 'LPE525', 'LPE522', 'LPE520', 'LPE527', 'LPE526', 'LPE488', 'LPE533', 'LPE535',
   'LPE540', 'LPE490', 'LPE539', 'LPE543', 'LPE523', 'LPE531', 'LPE521', 'LPE517', 'LPE518', 'LPE497',
-  'LPE529', 'LPE534', 'LPE524', 'LPE519', 'LPE537', 'LPE538', 'LPE453', 'LPE498', 'LPE528', 'LPE499'];
+  'LPE529', 'LPE534', 'LPE524', 'LPE519', 'LPE537', 'LPE538', 'LPE453', 'LPE498', 'LPE528', 'LPE499',
+  // 24.08.22 유전사 검사 코드 추가
+  //'LPE536', 'LPE537', 'LPE538', 'LPE539', 'LPE540', 'LPE541', 'LPE542', 'LPE543', 'LPE548'];
+  'LPE536', 'LPE537', 'LPE538', 'LPE539', 'LPE540', 'LPE541', 'LPE542', 'LPE543', 'LPE548',
+  'LPE635', 'LPE636', 'LPE637', 'LPE638', 'LPE639'];
+
+  
 
 
 // 유전성 유전질환
@@ -188,6 +200,7 @@ export const testCodeLists = [
   { ngstype: 'Sequencing', title: 'VHL Gene Mutation ', code: 'LPE194', testname: 'VHL Gene Mutation ' },
   // { ngstype: 'Sequencing', title: 'MELAS, MT-TL1 gene [sequencing]', code: 'LPE196', testname: 'MELAS, MT-TL1 gene [sequencing]' },
   { ngstype: 'Sequencing', title: 'PARK2 gene, Mutation[sequencing]', code: 'LPE221', testname: 'PARK2 gene, Mutation[sequencing]' },
+  { ngstype: 'Sequencing', title: 'GCH1 gene, Mutation[sequencing]', code: 'LPE224', testname: 'GCH1 gene, Mutation[sequencing]' },
   { ngstype: 'Sequencing', title: 'Congenital adrenal hyperplasia gene test (CYP21A2) ', code: 'LPE227', testname: 'Congenital adrenal hyperplasia gene test (CYP21A2) ' },
   { ngstype: 'Sequencing', title: 'patient-Corneal dystrophy gene test (TGFBI)', code: 'LPE229', testname: 'patient-Corneal dystrophy gene test (TGFBI)' },
   { ngstype: 'Sequencing', title: 'Family-Corneal dystrophy gene test (TGFBI-부분)', code: 'LPE230', testname: 'Family-Corneal dystrophy gene test (TGFBI-부분)' },
@@ -332,6 +345,8 @@ export const listSequencing = [
   { ngstype: 'Sequencing', title: 'VHL Gene Sequencing Analysis Report', code: 'LPE194', testname: 'VHL Gene Mutation ', gene: 'VHL' },
   // { ngstype: 'Sequencing', title: 'MELAS, MT-TL1 gene [sequencing]', code: 'LPE196', testname: 'MELAS, MT-TL1 gene [sequencing]' },
   { ngstype: 'Sequencing', title: 'PARK2 Gene Sequencing Analysis Report', code: 'LPE221', testname: 'PARK2 gene, Mutation[sequencing]', gene: 'PARK2' },
+  // 24.12.09 LPE224 추가
+  { ngstype: 'Sequencing', title: 'GCH1 Gene Sequencing Analysis Report', code: 'LPE224', testname: 'GCH1 gene, mutation [Sequencing]', gene: 'GCH1' },
   { ngstype: 'Sequencing', title: 'CYP21A2 Gene Sequencing Analysis Report', code: 'LPE227', testname: 'Congenital adrenal hyperplasia gene test (CYP21A2) ', gene: 'CYP21A2' },
   { ngstype: 'Sequencing', title: 'TGFBI Gene Sequencing Analysis Report', code: 'LPE229', testname: 'patient-Corneal dystrophy gene test (TGFBI)', gene: 'TGFBI' },
   // { ngstype: 'Sequencing', title: 'Family-Corneal dystrophy gene test (TGFBI-부분)', code: 'LPE230', testname: 'Family-Corneal dystrophy gene test (TGFBI-부분)' },
@@ -454,6 +469,8 @@ export const testcodeLists = [
   { type: 'SEQ', title: 'MYD88 Gene Sequencing Analysis Report', code: 'LPE156' },
   { type: 'SEQ', title: 'VHL Gene Sequencing Analysis Report', code: 'LPE194' },
   { type: 'SEQ', title: 'PARK2 Gene Sequencing Analysis Report', code: 'LPE221' },
+  // 24.12.09 LPE 224 추가
+  { type: 'SEQ', title: 'GCH1 Gene Sequencing Analysis Report', code: 'LPE224' },
   { type: 'SEQ', title: 'CYP21A2 Gene Sequencing Analysis Report', code: 'LPE227' },
   { type: 'SEQ', title: 'TGFBI Gene Sequencing Analysis Report', code: 'LPE229' },
   { type: 'SEQ', title: 'FGFR3 Gene Sequencing Analysis Report', code: 'LPE231' },

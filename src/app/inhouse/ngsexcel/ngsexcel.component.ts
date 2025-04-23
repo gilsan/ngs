@@ -121,6 +121,9 @@ export class NgsexcelComponent implements OnInit, OnDestroy {
 
 
     datas.forEach((item, idx) => {
+
+      //console.log('[진검]', item);
+      
       ngsLists.push({
         id: idx + 1, b1: '', c1: idx + 1, proccorpcd: item.proccorpcd, pid: item.pid,
         hngnm: item.hngnm, brthdd: item.brthdd, sex: item.sex, i1: 'Y', clamacptno: item.clamacptno,
@@ -186,8 +189,6 @@ export class NgsexcelComponent implements OnInit, OnDestroy {
       hospnm: '', ak1: '', al1: ''
     });
 
-
-
     const ngwidth = [{ width: 6 }, { width: 21 }, { width: 12 }, { width: 12 }, { width: 9 },
     { width: 8 }, { width: 10 }, { width: 5 }, { width: 9 }, { width: 8 },
     { width: 7 }, { width: 9 }, { width: 14 }, { width: 19 }, { width: 24 },
@@ -246,7 +247,7 @@ export class NgsexcelComponent implements OnInit, OnDestroy {
     this.subs.sink = this.linkService.search(startday, endday)
       .pipe(
         tap(data => console.log('[진검]', data)),
-        tap(data => this.size = data.length),
+        tap(data => this.size = data.length ),
         switchMap(datas => from(datas)),
         map((data: any) => {
           const pv_gene = data.pv_gene;
@@ -265,6 +266,8 @@ export class NgsexcelComponent implements OnInit, OnDestroy {
               data.vus_gene = vus_gene.trim().replace(/[ ]/g, ',');
             }
           }
+
+          //console.log('[진검]', data);
           return data;
         }),
       )
@@ -273,8 +276,12 @@ export class NgsexcelComponent implements OnInit, OnDestroy {
         if (this.count < this.size) {
           lists.push(data);
           this.count++;
+
+          //console.log('[진검]', this.count, this.size );
         } else if (this.count === this.size) {
+          lists.push(data);
           this.ngsLists(lists);
+          //console.log('[진검]', this.count, this.size );
           this.count = 1;
           this.size = 0;
         }

@@ -52,8 +52,6 @@ export class IgTcrSheetComponent implements OnInit, OnDestroy{
   densityTablePdf1CellFEquivalent2 = ''; // 두번째 검사보고서
   comment = '';
   screenstatus = ''; 
-  //24.07.26 
-  saveyn = '';
 
   resultStatus = 'Detected';
   clonalLists: IClonal[] = [];
@@ -95,10 +93,7 @@ export class IgTcrSheetComponent implements OnInit, OnDestroy{
     screenstatus: '',
     recheck: '',
     examin: '',
-    comment: '',
-
-    //24.07.26 
-    saveyn: '',
+    comment: ''
  
   };
 
@@ -159,9 +154,6 @@ export class IgTcrSheetComponent implements OnInit, OnDestroy{
     detected: this.patientInfo.detected,
     trbtrg: '',
     data:  [],
-
-    //24.07.26 
-    saveyn: '',
   };
 
    
@@ -240,9 +232,6 @@ export class IgTcrSheetComponent implements OnInit, OnDestroy{
         this.screenstatus = this.patientInfo.screenstatus;
         this.comment = this.patientInfo.comment;
         this.acceptDate = this.patientInfo.accept_date.replace(/\./g,'-');
-
-        //24.07.26 
-        this.saveyn = this.patientInfo.saveyn;
         
         // pdf 제목
         if (this.patientInfo.test_code === 'LPE555') {
@@ -261,17 +250,11 @@ export class IgTcrSheetComponent implements OnInit, OnDestroy{
       }),
       concatMap(() => {
          if(this.testCode === 'TRB'  ) {
-          //24.07.26 
-          //return this.service.igtcrListTrbTrg(this.patientInfo.specimenNo, 'TRB');
-           return this.service.igtcrListTrbTrg(this.patientInfo.specimenNo, 'TRB', this.saveyn);
+          return this.service.igtcrListTrbTrg(this.patientInfo.specimenNo, 'TRB');
          } else if(this.testCode === 'TRG') {
-          //24.07.26 
-          // return this.service.igtcrListTrbTrg(this.patientInfo.specimenNo, 'TRG');
-          return this.service.igtcrListTrbTrg(this.patientInfo.specimenNo, 'TRG', this.saveyn);
+          return this.service.igtcrListTrbTrg(this.patientInfo.specimenNo, 'TRG');
          } else {
-          //24.07.26 
-          //return this.service.igtcrListInfo(this.patientInfo.specimenNo);
-          return this.service.igtcrListInfo(this.patientInfo.specimenNo, this.saveyn);
+          return this.service.igtcrListInfo(this.patientInfo.specimenNo);
          }
          
       }),
@@ -1419,8 +1402,14 @@ getClonalTotalNuclelatedCell(index: number): string {
   let clonalTotalNuclatedCell = (Number(totalReadCountReadOfLQIC) * Number(clonalTotalIGHReadDepth));
   let clonalTotalNuclatedCell1 = '';
 
-  // TotalNuclatedCell 계산값이 100보다 크면
-  if (clonalTotalNuclatedCell >= 100) {
+  // 24.09.23 clonalTotalIGHReadDepth(앞에값, 좌측) 값이 clonalTotalNuclatedCell1(뒤에값,우측) 값보다 작으면
+  //  의미가 없으므로 테이블상에서 clonalTotalNuclatedCell1(뒤에값,우측) 값을 앞에값(좌측값)인
+  //  clonalTotalIGHReadDepth 대입하라고 요청 받음
+  if (clonalTotalNuclatedCell > clonalTotalIGHReadDepth) {  // clonalTotalIGHReadDepth(앞에값, 좌측) 값이 clonalTotalNuclatedCell1(뒤에값,우측) 값보다 작으면
+    console.log('[1409]clonalTotalIGHReadDepth=', clonalTotalIGHReadDepth);
+    console.log('[1409]clonalTotalNuclatedCell=', clonalTotalNuclatedCell);
+    clonalTotalNuclatedCell1 = clonalTotalIGHReadDepth.toFixed(50);
+  } else if (clonalTotalNuclatedCell >= 100) {  // // TotalNuclatedCell 계산값이 100보다 크면
     console.log('[1379]clonalTotalNuclatedCell=', clonalTotalNuclatedCell);
     // TotalNuclatedCell 을 clonalTotalIGHReadDepth 대입
     clonalTotalNuclatedCell1 = clonalTotalIGHReadDepth.toFixed(50);
@@ -1868,15 +1857,13 @@ saveAllData() {
     let init_comment= '';
     let fu_result= '';
     let fu_comment  = '';
-
-    /* 24.07.22 화면 삭제가 아니라 dB 삭제 요청
+    
     // 삭제된 것 추가함.
     if (this.deletedClonalLists.length) {
       this.deletedClonalLists.forEach(item => {
         formData.push(item);
       });
-    }
-    */
+    }   
 
     console.log("count", formData.length);
     
@@ -1923,9 +1910,6 @@ saveAllData() {
         patientid: this.patientInfo.patientID,
         trbtrg: '',
         data:  formData,
-
-        //24.07.26 
-        saveyn: this.saveyn,
       };
 
 
@@ -1942,7 +1926,7 @@ saveAllData() {
 
   // 저장한것 다시 불러오기
   saveAfterRender() {
-    this.subs.sink = this.service.igtcrListInfo(this.patientInfo.specimenNo, this.screenstatus)
+    this.subs.sink = this.service.igtcrListInfo(this.patientInfo.specimenNo)
       .pipe(
         tap(data => {
           this.clonalLists = [];
@@ -2128,10 +2112,10 @@ getCheckboxMax() {
       indexNo = index;
       totalIGHReadDepth = tableRows.at(index).get('total_IGH_read_depth')?.value;
       
-      this.checkMrdnucleatedCells(index, tableRows.at(index).get('total_nucelated_cells')?.value); // 1979 줄
-      this.secondTotalBcellTcellCount = tableRows.at(index).get('total_Bcell_Tcell_count')?.value;
-       
       this.checkTotalIGHReadDepth(index,totalIGHReadDepth );    
+
+      this.checkMrdnucleatedCells(index, tableRows.at(index).get('total_nucelated_cells')?.value); // 1979 줄
+      this.secondTotalBcellTcellCount = tableRows.at(index).get('total_Bcell_Tcell_count')?.value;   
     }
    
   });
@@ -2165,14 +2149,14 @@ checkTotalIGHReadDepth(index: number,totalIGHReadDepth: string ) {
 
 checkMrdnucleatedCells(index: number,totalnucleatedCells: string ) {   
   let value: string = '0';
-   
+  
   if(Number(totalnucleatedCells) === 0) {
       this.mrdnucleatedCells = '0.0000';
   } else if (Number(totalnucleatedCells) > 0 && Number(totalnucleatedCells) < 0.0001) {
     this.mrdnucleatedCells = '<0.0001';
   }else {
-     this.mrdnucleatedCells = Number(Math.round(Number(totalnucleatedCells) * 10000)/10000).toFixed(4);     
 
+    this.mrdnucleatedCells = Number(Math.round(Number(totalnucleatedCells) * 10000)/10000).toFixed(4);     
   }
 }
 

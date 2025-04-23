@@ -127,7 +127,7 @@ export function makeReport(
               <Col id="ptno">${basicInfo.pathologyNum}</Col>
               <Col id="dnaandrnaextraction">${extraction.dnarna}</Col>
               <Col id="relptno">${extraction.managementNum}</Col>
-              <Col id="keyblock">${extraction.keyblock}</Col>
+              <Col id="keyblock"><![CDATA[${extraction.keyblock}]]></Col>
               <Col id="tumorcellpercentage">${extraction.tumorcellpercentage}</Col>
               <Col id="organ">${extraction.organ}</Col>
               <Col id="tumortype">${extraction.tumortype}</Col>
@@ -515,13 +515,17 @@ export function makeReport(
   Max fold difference for loss: 0.7
   6. Tier classification (Reference: J Mol Diagn. 2017 Jan;19(1):4-23.)
   (1) I
-  Biomarker predicts response or resistance to EMA or FDA approved therapies in thipe
-  Biomarker is included in ESMO or NCCN guidelines that predict response or resistance to
-  therapies in this cancer type
+  Biomarker predicts response or resistance to EMA or FDA approved therapies in this cancer type
+  Biomarker is included in ESMO or NCCN guidelines that predict response
+   or resistance to therapies in this cancer type
+  Biomarker is included in NCCN or ESMO guidelines as therapeutic, diagnostic,
+   and/or prognostic biomarkers in this cancer type
   (2) II
   Biomarker predicts response or resistance to EMA or FDA approved therapies in other cancer types
-  Biomarker is included in ESMO or NCCN guidelines that predict response or resistance to
-  therapies in other cancer types
+  Biomarker is included in ESMO or NCCN guidelines that predict response
+   or resistance to therapies in other cancer types
+  Biomarker is included in NCCN or ESMO guidelines as therapeutic, diagnostic,
+   and/or prognostic biomarkers in other cancer types
   Biomarker is an inclusion criteria for clinical trials
   [Comment]
   상기 검사 방법, 시약의 정도 관리 및 검사 결과는 병리과 전문의에 의해 확인되었습니다.

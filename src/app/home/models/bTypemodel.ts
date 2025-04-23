@@ -36,7 +36,7 @@ export function makeBForm(
   specimenMsg: string
 ): string {
 
-  if (specimenMessage.length === 0) {
+  if (specimenMessage && specimenMessage.length === 0) {
     specimenMessage = 'Genomic DNA isolated from ' + specimenMsg;
   }
 

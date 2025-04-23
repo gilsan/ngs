@@ -418,8 +418,24 @@ export class PatientsListService {
     const submitID = 'TXLII00124';
     const businessID = 'li';
     const instcd = '012';
+
+    // 24.09.03 specimenno_? start
     // const spcno = spcnum;
-    const spcno = spcnum;
+    let spcno = spcnum;
+    
+    console.log('[425][sendEMR]spcnum=' +  spcnum); 
+    
+    let indexOfFirst = spcnum.indexOf('_');
+  
+    if (indexOfFirst > 0)
+    {
+      let words = spcnum.split('_');
+      console.log('[433][sendEMR]spcno=' +  words[0]);
+      
+      spcno = words[0];
+    }
+    // 24.09.03 specimenno_? end
+
     const formcd = '-';
     const rsltflag = 'O';
     const pid = patientid;
@@ -439,6 +455,7 @@ export class PatientsListService {
       */
 
     const emrdata = `http://emr012edu.cmcnu.or.kr/cmcnu/.live?submit_id=${submitID}&business_id=li&instcd=012&spcno=${spcno}&formcd=-&rsltflag=O&pid=${pid}&examcd=${examcd}&examflag=${examflag}&infflag=I&userid=${userid}&rsltdesc=${rsltdesc}`;
+    console.log('[433][sendEMR]emrurl=' +  emrdata);
 
     const params = new HttpParams()
       .set('data', emrdata);

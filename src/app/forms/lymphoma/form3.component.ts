@@ -1899,6 +1899,10 @@ export class Form3Component implements OnInit, OnDestroy {
     formData.forEach((list, index) => {
       const gene = list.gene.split(',');
       gene.forEach(item => {
+        // 24.12.26 checked 만 variant check start 
+        if (list.checked === true) {
+          // 24.12.26 checked 만 variant check end
+          
         this.patientsListService.getMutationVariantsLists(item, list.nucleotideChange, 'LYM')
           .pipe(
             filter(val => !!val),
@@ -1934,6 +1938,10 @@ export class Form3Component implements OnInit, OnDestroy {
 
             }
           });
+        
+        // 24.12.26  checked 만 variant check start 
+        }
+        // 24.12.26  checked 만 variant check end 
       });
     });
   }

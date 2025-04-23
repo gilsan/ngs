@@ -514,6 +514,10 @@ export class ExcelService {
     ws.AW2.s = { alignment: { horizontal: 'center' } };
     ws.AW3 = { t: 's', v: '등록번호' };
 
+    ws.AX2 = { t: 's', v: '' };
+    ws.AX2.s = { alignment: { horizontal: 'center' } };
+    ws.AX3 = { t: 's', v: 'tier I, II' };
+
 
     const a0 = [{ s: { c: 0, r: 0 }, e: { c: 0, r: 2 } },
     { s: { c: 1, r: 0 }, e: { c: 1, r: 2 } },

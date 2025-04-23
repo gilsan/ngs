@@ -28,7 +28,7 @@ export function makeAForm(
   specimenMsg: string
 ): string {
 
-  if (specimenMessage.length === 0) {
+  if (specimenMessage && specimenMessage.length === 0) {
     specimenMessage = 'Genomic DNA isolated from ' + specimenMsg;
   }
   // 금일날자:

@@ -172,15 +172,19 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   loginID: string; // 병리사 로그인
   generalReport = ``;  // 해석적 보고
   specialment = ``; // genes were not found
+  //25.01.30
+  //본 검체에서 추출 된 RNA는 일부 QC를 만족하지 못하여 51개의 유전자(AKT2, ALK, AR, AXL, BRCA1, BRCA2, BRAF, CDKN2A, EGFR, ERBB2, ERBB4, ERG, ESR1, ETV1, ETV4, ETV5, FGFR1, FGFR2, FGFR3, FGR, FLT3, JAK2, KRAS, MDM4, MET, MYB, MYBL1, NF1, NOTCH1, NOTCH4, NRG1, NTRK1, NTRK2, NTRK3, NUTM1, PDGFRA, PDGFRB, PIK3CA, PRKACA, PRKACB, PTEN, PPARG, RAD51B, RAF1, RB1, RELA, RET, ROS1, RSPO2, RSPO3, TERT)에 대한 fusion은 확인 할 수 없었습니다. 결과에 참고하시기 바랍니다.
   notement = `[NOTE1]
-본 검체에서 추출 된 RNA는 일부 QC를 만족하지 못하여 51개의 유전자(AKT2, ALK, AR, AXL, BRCA1, BRCA2, BRAF, CDKN2A, EGFR, ERBB2, ERBB4, ERG, ESR1, ETV1, ETV4, ETV5, FGFR1, FGFR2, FGFR3, FGR, FLT3, JAK2, KRAS, MDM4, MET, MYB, MYBL1, NF1, NOTCH1, NOTCH4, NRG1, NTRK1, NTRK2, NTRK3, NUTM1, PDGFRA, PDGFRB, PIK3CA, PRKACA, PRKACB, PTEN, PPARG, RAD51B, RAF1, RB1, RELA, RET, ROS1, RSPO2, RSPO3, TERT)에 대한 fusion은 확인 할 수 없었습니다. 결과에 참고하시기 바랍니다.
+  본 검체에서 추출 된 RNA는 일부 QC를 만족하지 못하여 49개의 유전자(AKT1, AKT2, AKT3, ALK, AR, BRAF, BRCA1, CDKN2A, EGFR, ERBB2, ERBB4, ERG, ESR1, ETV1, ETV4, ETV5, FGFR1, FGFR2, FGFR3, MAP3K8, MET, MTAP, MYB, MYBL1, NOTCH1, NOTCH2, NOTCH3, NRG1, NTRK1, NTRK2, NTRK3, NUTM1, PIK3CA, PIK3CB, PPARG, PRKACA, PRKACB, RAF1, RARA, RELA, RET, ROS1, RSPO2, RSPO3, STAT6, TERT, TFE3, TFEB, YAP1)에 대한 fusion은 확인 할 수 없었습니다. 결과에 참고하시기 바랍니다. 
 
-[NOTE2]
+  [NOTE2]
 종양세포밀도가 50% 미만(XX%)의 검체에서 얻어진 결과이므로, amplification 해석에 주의가 필요합니다.
 * Deletion의 경우 이미지 보고서를 참고해 주시기 바랍니다.`; // note
 
+//25.01.30
+  //  본 검체에서 추출 된 RNA는 일부 QC를 만족하지 못하여 51개의 유전자(AKT2, ALK, AR, AXL, BRCA1, BRCA2, BRAF, CDKN2A, EGFR, ERBB2, ERBB4, ERG, ESR1, ETV1, ETV4, ETV5, FGFR1, FGFR2, FGFR3, FGR, FLT3, JAK2, KRAS, MDM4, MET, MYB, MYBL1, NF1, NOTCH1, NOTCH4, NRG1, NTRK1, NTRK2, NTRK3, NUTM1, PDGFRA, PDGFRB, PIK3CA, PRKACA, PRKACB, PTEN, PPARG, RAD51B, RAF1, RB1, RELA, RET, ROS1, RSPO2, RSPO3, TERT)에 대한 fusion은 확인 할 수 없었습니다. 결과에 참고하시기 바랍니다.
   notement2 = `[NOTE1]
-  본 검체에서 추출 된 RNA는 일부 QC를 만족하지 못하여 51개의 유전자(AKT2, ALK, AR, AXL, BRCA1, BRCA2, BRAF, CDKN2A, EGFR, ERBB2, ERBB4, ERG, ESR1, ETV1, ETV4, ETV5, FGFR1, FGFR2, FGFR3, FGR, FLT3, JAK2, KRAS, MDM4, MET, MYB, MYBL1, NF1, NOTCH1, NOTCH4, NRG1, NTRK1, NTRK2, NTRK3, NUTM1, PDGFRA, PDGFRB, PIK3CA, PRKACA, PRKACB, PTEN, PPARG, RAD51B, RAF1, RB1, RELA, RET, ROS1, RSPO2, RSPO3, TERT)에 대한 fusion은 확인 할 수 없었습니다. 결과에 참고하시기 바랍니다.
+  본 검체에서 추출 된 RNA는 일부 QC를 만족하지 못하여 49개의 유전자(AKT1, AKT2, AKT3, ALK, AR, BRAF, BRCA1, CDKN2A, EGFR, ERBB2, ERBB4, ERG, ESR1, ETV1, ETV4, ETV5, FGFR1, FGFR2, FGFR3, MAP3K8, MET, MTAP, MYB, MYBL1, NOTCH1, NOTCH2, NOTCH3, NRG1, NTRK1, NTRK2, NTRK3, NUTM1, PIK3CA, PIK3CB, PPARG, PRKACA, PRKACB, RAF1, RARA, RELA, RET, ROS1, RSPO2, RSPO3, STAT6, TERT, TFE3, TFEB, YAP1)에 대한 fusion은 확인 할 수 없었습니다. 결과에 참고하시기 바랍니다. 
 
   [NOTE2]
   종양세포밀도가 50% 미만(XX%)의 검체에서 얻어진 결과이므로, amplification 해석에 주의가 필요합니다.
@@ -189,8 +193,10 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   [NOTE3]
   본 검체는 copy number variation 분석에 필요한 Q.C를 만족하지 못하여 amplification은 확인할 수 없습니다. 결과에 참고하시기 바랍니다.`;
 
+  //25.01.30
+  //  본 검체에서 추출 된 RNA는 일부 QC를 만족하지 못하여 49개의 유전자(AKT1, AKT2, AKT3, ALK, AR, BRAF, BRCA1, CDKN2A, EGFR, ERBB2, ERBB4, ERG, ESR1, ETV1, ETV4, ETV5, FGFR1, FGFR2, FGFR3, MAP3K8, MET, MTAP, MYB, MYBL1, NOTCH1, NOTCH2, NOTCH3, NRG1, NTRK1, NTRK2, NTRK3, NUTM1, PIK3CA, PIK3CB, PPARG, PRKACA, PRKACB, RAF1, RARA, RELA, RET, ROS1, RSPO2, RSPO3, STAT6, TERT, TFE3, TFEB, YAP1)에 대한 fusion은 확인 할 수 없었습니다. 결과에 참고하시기 바랍니다.
   notement3 = `[NOTE]
-  본 검체에서 추출 된 RNA는 일부 QC를 만족하지 못하여 49개의 유전자(AKT1, AKT2, AKT3, ALK, AR, BRAF, BRCA1, CDKN2A, EGFR, ERBB2, ERBB4, ERG, ESR1, ETV1, ETV4, ETV5, FGFR1, FGFR2, FGFR3, MAP3K8, MET, MTAP, MYB, MYBL1, NOTCH1, NOTCH2, NOTCH3, NRG1, NTRK1, NTRK2, NTRK3, NUTM1, PIK3CA, PIK3CB, PPARG, PRKACA, PRKACB, RAF1, RARA, RELA, RET, ROS1, RSPO2, RSPO3, STAT6, TERT, TFE3, TFEB, YAP1)에 대한 fusion은 확인 할 수 없었습니다. 결과에 참고하시기 바랍니다.
+  본 검체에서 추출 된 RNA는 일부 QC를 만족하지 못하여 49개의 유전자(AKT1, AKT2, AKT3, ALK, AR, BRAF, BRCA1, CDKN2A, EGFR, ERBB2, ERBB4, ERG, ESR1, ETV1, ETV4, ETV5, FGFR1, FGFR2, FGFR3, MAP3K8, MET, MTAP, MYB, MYBL1, NOTCH1, NOTCH2, NOTCH3, NRG1, NTRK1, NTRK2, NTRK3, NUTM1, PIK3CA, PIK3CB, PPARG, PRKACA, PRKACB, RAF1, RARA, RELA, RET, ROS1, RSPO2, RSPO3, STAT6, TERT, TFE3, TFEB, YAP1)에 대한 fusion은 확인 할 수 없었습니다. 결과에 참고하시기 바랍니다. 
   `;
   notecontents = '';
 
@@ -970,9 +976,11 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                 type = 'exon';
               }
             }
-            // console.log('[967][유전자추적]===>', members + '[' + gene + '][' + type + ']');
+             console.log('[967][유전자추적]===>', members + '[' + gene + '][' + type + ']');
 
-            if (type.charAt(0) === 'p' || type === 'exon' || type.charAt(0) === 'c' || type.includes('*') || type.match(/[0-9][A-Z]/g)) {
+            // 25.03.29 예 genomic alteraion이 "BRAF N486_P490del" 인 경우 보안  type => N486_P490del 
+            //if (type.charAt(0) === 'p' || type === 'exon' || type.charAt(0) === 'c' || type.includes('*') || type.match(/[0-9][A-Z]/g)) {
+            if (type.charAt(0) === 'p' || type === 'exon' || type.charAt(0) === 'c' || type.charAt(0) === 'N' || type.includes('*') || type.match(/[0-9][A-Z]/g)) {
               
               let indexm: number;
               let nucleotideChange: string;
@@ -984,14 +992,21 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
               const tier = this.findTier(gene);  // clinical 에서 gene, tier, frequency 찿기
               // p.(xxxx)은 Amino acid change, c.(xxxxx)은 Nucleotide change
               const itemMembers = item.trim().split(' ');
-              if (itemMembers[1].charAt(0) === 'p') {
-                aminoAcidChange = itemMembers[1];
-                tempAminoAcidChange = itemMembers[1];
-              } else if (itemMembers[1].charAt(0) === 'c') {
-                nucleotideChange = itemMembers[1];
+              console.log('[967][유전자추적]===>', itemMembers);
+              
+              // 24.02.18  itemMembers.length 체크하도록 추가
+              // POLE [N423K;L424P] OR파일에서 이런 경우는 parsion 못 함
+              if (itemMembers.length === 2 ) {
+              
+                if (itemMembers[1].charAt(0) === 'p') {
+                  aminoAcidChange = itemMembers[1];
+                  tempAminoAcidChange = itemMembers[1];
+                } else if (itemMembers[1].charAt(0) === 'c') {
+                  nucleotideChange = itemMembers[1];
+                }
+
               }
-
-
+              
               if (type === 'exon') {
                 nucleotideChange = '';
               } else {
@@ -1039,10 +1054,13 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                   aminoAcidChange = 'Splicing mutant';
                 }
                 customid = '';
+                nucleotideChange = '';
               }
-
+              
+              console.log('[967][유전자추적]===>', aminoAcidChange, nucleotideChange );
               // gene, aminoAcidChange, nucleotideChange 조합으로 해당 되는것 삭제
               const result = this.removeGeneCheck(gene, aminoAcidChange, nucleotideChange);
+              console.log('[967][유전자추적]===>', result );
               if (result === -1) {
                 //  vc.novel.1169, 계열은 ID 에 빈공간으로 만듬.
                 if (customid.indexOf('vc.novel') !== -1) {
@@ -1125,8 +1143,10 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
            // tier 값구히가 2032-09-06        
           const threeTier = this.findTier(item.gene);
 
-
-          if ( (type === 'snv' &&  this.muLists.includes(oncomineVariant)) || type === 'indel') {
+          // 25.03.29 snv 만 처리하다 mnv도 체크함 
+          // case 1
+          //if ( (type === 'snv' &&  this.muLists.includes(oncomineVariant)) || type === 'indel') {
+          if ( ((type === 'snv' || type === 'mnv') &&  this.muLists.includes(oncomineVariant)) || type === 'indel') {
                // const mutation = this.mutation.filter( list => list.gene === item.gene);
                console.log('[][1125]====>', this.mutation, threeTier);
                const mutation = this.mutation.filter( list => list.gene === item.gene.split(';')[0]);
@@ -1183,8 +1203,8 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                   });               
                 }
               
-
-          } else if (type === 'cnv' &&  this.amLists.includes(oncomineVariant)) {
+            // case 2
+            } else if (type === 'cnv' &&  this.amLists.includes(oncomineVariant)) {
                 const amplification = this.amplifications.filter( list => list.gene === item.gene);
                 const cytoband = item.cytoband.split(')');
                 if (amplification.length === 1 && threeTier !== '') {
@@ -1214,7 +1234,10 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                   });                
                 }
 
-          } else if (type !== 'cnv' && type !== 'snv'  &&  this.fuLists.includes(oncomineVariant)) {
+          // case 4
+          // mnv 추가 25.03.30
+        //} else if (type !== 'cnv' && type !== 'snv'  &&  this.fuLists.includes(oncomineVariant)) {
+        } else if (type !== 'cnv' && type !== 'snv'  && type !== 'mnv'  &&  this.fuLists.includes(oncomineVariant)) {
                // console.log('[report][1144]==>', item, this.fuLists);
                 const fusion = this.fusion.filter( list => list.gene === item.gene);
                 if (item.oncomine.toLocaleLowerCase() === 'loss-of-function') {
@@ -2763,6 +2786,9 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   // polymorphismList에 3개가 동일하면 삭제
   removeGeneCheck(gene: string, amino: string, nucleotide: string): number {
+    
+    console.log('[2779][removeIMutation]', gene, amino, nucleotide );
+
     const result = this.polymorphismList.findIndex(item =>
       item.gene === gene && item.amino_acid_change === amino && item.nucleotide_change === nucleotide
     );

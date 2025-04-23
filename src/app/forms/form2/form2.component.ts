@@ -2164,6 +2164,10 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
 
       const gene = list.gene.split(',');
       gene.forEach(item => {
+
+        // 24.12.26 checked 만 variant check start 
+        if (list.checked === true) {
+        // 24.12.26 checked 만 variant check end
         this.patientsListService.getMutationVariantsLists(item, list.nucleotideChange, 'AMLALL')
           .pipe(
             filter(val => !!val),
@@ -2201,6 +2205,9 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
 
             }
           });
+        // 24.12.26  checked 만 variant check start 
+        }
+        // 24.12.26  checked 만 variant check end 
       });
 
     });

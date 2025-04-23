@@ -2,14 +2,18 @@ import { Component, OnInit, OnDestroy, ViewChild, TemplateRef } from '@angular/c
 import { Router } from '@angular/router';
 import { combineLatest, from, Observable } from 'rxjs';
 
-import { IComment, IDetectedVariants, IFilteredTSV, IGeneCoding, IIComment, IMutation, IPatient, IProfile, IRecoverVariants } from 'src/app/home/models/patients';
+import {
+  IComment, IDList, IExcelData, IFilteredTSV, IGeneCoding,
+  IGeneList,
+  IPatient, IProfile, IRecoverVariants
+} from 'src/app/home/models/patients';
 import { PatientsListService } from 'src/app/home/services/patientslist';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { IAFormVariant } from 'src/app/home/models/patients';
 import { shareReplay, switchMap, tap, concatMap, map } from 'rxjs/operators';
 
 import { SubSink } from 'subsink';
-import { GENERAL, makeBForm, METHODS } from 'src/app/home/models/bTypemodel';
+import { GENERAL, makeBForm, METHODS, METHODS516 } from 'src/app/home/models/bTypemodel';
 import { DetectedVariantsService } from 'src/app/home/services/detectedVariants';
 import { StoreService } from '../store.current';
 
@@ -50,6 +54,11 @@ export class Form2Component implements OnInit, OnDestroy {
   flt3itd = '';
   chronmosomal = '';
   methods = METHODS;
+  methods516 = METHODS516;
+
+  examin = ''; // 검사자
+  recheck = ''; // 확인자
+
   general = GENERAL;
   indexNum = 0;
   selectedItem = '';
@@ -58,12 +67,20 @@ export class Form2Component implements OnInit, OnDestroy {
   variants: string;
   tempid: string;
   ment = 'VUS는 ExAC, KRGDB등의 Population database에서 관철되지 않았거나, 임상적 의의가 불분명합니다. 해당변이의 의의를 명확히 하기 위하여 환자의 buccal swab 검체로 germline variant 여부에 대한 확인이 필요 합니다.';
-
+  
   mockData: IAFormVariant[] = [];
 
   tablerowForm: FormGroup;
   control: FormArray;
-
+  
+  firstReportDay = '-'; // 검사보고일
+  lastReportDay = '-';  // 수정보고일
+  
+  genelists: IGeneList[] = [];  
+  tsvVersion = '510'; // v5.10, v5.16 버전확인
+ // tslint:disable-next-line:max-line-length
+ vusmsg = 'VUS는 ExAC, KRGDB등의 Population database에서 관찰되지 않았거나, 임상적 의의가 불분명합니다. 해당변이의 의의를 명확히 하기 위하여 환자의 buccal swab 검체로 germline variant 여부에 대한 확인이 필요 합니다.';
+ 
   spcno = '';
   pid = '';
   examcd = '';
@@ -352,17 +369,37 @@ export class Form2Component implements OnInit, OnDestroy {
   sendEMR() {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
+    const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
+
+    // console.log('*******[1167][ALL][EMR전송횟수] ', this.sendEMR, this.lastReportDay);
+    let tsvVersionContents;
+    if (this.tsvVersion === '510') {
+      tsvVersionContents = this.methods;
+    } else if (this.tsvVersion === '516' || this.tsvVersion === '518'|| this.tsvVersion === '520') {
+      tsvVersionContents = this.methods516;
+    }
+    
 
     const makeForm = makeBForm(
       this.resultStatus,
+      "", // 검사자
+      "", // 확인자
       this.profile,
-      this.patientInfo.accept_date,
+      this.patientInfo.accept_date, // 검사의뢰일
       this.specimenMessage,
       this.fusion,
-      this.ment,
+      "",    // this.ment,
       this.patientInfo,
-      formData,
-      this.comments);
+      reformData,
+    //  reformData,
+      this.comments,
+      this.firstReportDay,
+      this.lastReportDay,
+      this.genelists,
+      tsvVersionContents,
+      this.specimenMsg
+    );
+
     console.log('[183] ', makeForm);
     // patientInfo_diag 테이블 참조
     // submit_id: TXLII00124
@@ -384,12 +421,16 @@ export class Form2Component implements OnInit, OnDestroy {
     *    userid: string,
      *   rsltdesc: string
      */
+
+    //  실전사용시 사용
+    const examcode = this.patientInfo.test_code;
     // 임시 멘트 처리함
     this.patientsListService.sendEMR(
       this.patientInfo.specimenNo,
       this.patientInfo.patientID,
       this.patientInfo.test_code,
       this.patientInfo.name,
+      examcode,
       makeForm).subscribe((data) => {
         // console.log('[응답]', data);
         this.router.navigate(['/diag']);
@@ -591,20 +632,21 @@ export class Form2Component implements OnInit, OnDestroy {
 
     if (this.selectedItem === 'mutation') {
       this.subs.sink = this.patientsListService.saveMutation(
-        row.igv,
-        row.sanger,
-        'M' + this.patientInfo.name,
-        this.patientInfo.patientID,
-        row.gene,
-        row.functionalImpact,
-        row.transcript,
-        row.exonIntro,
-        row.nucleotideChange,
-        row.aminoAcidChange,
-        row.zygosity,
-        row.vafPercent,
-        row.references,
-        row.cosmicID
+          'AMLALL',
+          row.igv,
+          row.sanger,
+          'M' + this.patientInfo.name,
+          this.patientInfo.patientID,
+          row.gene,
+          row.functionalImpact,
+          row.transcript,
+          row.exonIntro,
+          row.nucleotideChange,
+          row.aminoAcidChange,
+          row.zygosity,
+          row.vafPercent,
+          row.reference,
+          row.cosmic_id
       ).subscribe((data: any) => {
         if (data.insertId) {
           alert('mutation에 추가 했습니다.');
@@ -614,7 +656,8 @@ export class Form2Component implements OnInit, OnDestroy {
       });
     } else if (this.selectedItem === 'artifacts') {
       this.subs.sink = this.patientsListService.insertArtifacts(
-        row.gene, row.item.loc2, row.item.exon, row.item.transcript, row.coding, row.item.amino_acid_change
+        'AMLALL',
+        row.gene, '', '', row.transcript, row.nucleotideChange, row.aminoAcidChange
       ).subscribe((data: any) => {
         if (data.insertId) {
           alert('mutation에 추가 했습니다.');
@@ -657,7 +700,7 @@ export class Form2Component implements OnInit, OnDestroy {
     // console.log('[460][스크린 판독] ', this.form2TestedId, formData, this.comments, this.profile);
     const result = confirm('스크린 판독 전송하시겠습니까?');
     if (result) {
-      this.variantsService.screenInsert(this.form2TestedId, formData, this.comments, this.profile)
+      this.variantsService.screenInsert(this.form2TestedId, formData, this.comments, this.profile, this.resultStatus, this.patientInfo)
         .subscribe(data => {
           alert('저장되었습니다.');
           // console.log('[screenRead] screen Insert ....[554]', data);
@@ -676,7 +719,7 @@ export class Form2Component implements OnInit, OnDestroy {
     // console.log('[460][스크린판독완료] ', this.form2TestedId, formData, this.comments, this.profile);
     const result = confirm('판독완료 전송하시겠습니까?');
     if (result) {
-      this.variantsService.screenUpdate(this.form2TestedId, formData, this.comments, this.profile)
+      this.variantsService.screenUpdate(this.form2TestedId, formData, this.comments, this.profile, this.patientInfo)
         .subscribe(data => {
           //  console.log('[판독완료] screen Updated ....[566]', data);
           alert('저장되었습니다.');
@@ -741,6 +784,13 @@ export class Form2Component implements OnInit, OnDestroy {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
     const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
+
+    let tsvVersionContents;
+    if (this.tsvVersion === '510') {
+      tsvVersionContents = this.methods;
+    } else if (this.tsvVersion === '516' || this.tsvVersion === '518'|| this.tsvVersion === '520') {
+      tsvVersionContents = this.methods516;
+    }
     // console.log('[616] ', reformData);
     // console.log('[617] ', formData, this.comments, this.checkboxStatus.sort());
     // comments 첵크
@@ -759,14 +809,22 @@ export class Form2Component implements OnInit, OnDestroy {
     console.log('[697][form2][comments] ', this.comments);
     const makeForm = makeBForm(
       this.resultStatus,
+      this.examin, // 검사자
+      this.recheck, // 확인자
       this.profile,
-      this.patientInfo.accept_date,
+      this.patientInfo.accept_date, // 검사의뢰일
       this.specimenMessage,
       this.fusion,
-      this.ment,
+      this.vusmsg,    // this.ment,
       this.patientInfo,
       reformData,
-      this.comments
+    //  reformData,
+      this.comments,
+      this.firstReportDay,
+      this.lastReportDay,
+      this.genelists,
+      tsvVersionContents,
+      this.specimenMsg
     );
     console.log('[623] ', makeForm);
     this.router.navigate(['/diag']);

@@ -1,10 +1,11 @@
 // private apiUrl = 'http://160.1.17.79:3000';  // EMR 서버
 // private apiUrl = 'http://112.169.53.30:3000';
 
- export const emrUrl = 'http://61.74.215.2:3000'; // 사무실
+ export const emrUrl = 'http://211.219.69.54:3000'; // 사무실
  
 //export const emrUrl = 'http://127.0.0.1:3000';
 // export const emrUrl = 'http://160.1.17.79:3000'; // 병원 운영
+//export const emrUrl = 'http://172.17.20.42:3000'; // 병원 여의도 운영
 //export const emrUrl = 'http://160.1.17.79:5000'; // 병원 개발
 
 //

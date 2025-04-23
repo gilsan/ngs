@@ -76,6 +76,9 @@ export interface INGS {
   // 23.11.30
   tier? : string
 
+  // 25.03.28 tier I, II
+  pv_gene2? : string
+
 }
 
 
@@ -163,6 +166,7 @@ export class NgsexcelComponent implements OnInit {
           lists.push(data);
           this.count++;
         } else if (this.count === this.size) {
+          lists.push(data);
           this.ngsLists(lists);
           this.count = 1;
           this.size = 0;
@@ -202,8 +206,9 @@ export class NgsexcelComponent implements OnInit {
         //hospnm: item.hospnm, ak1: '', al1: '' 
         //24.05.01
       //hospnm: item.hospnm, ak1: '', al1: '', am1: '', an1: '', tier: item.tier
-      hospnm: item.hospnm, ak1: 'Y', al1: '', am1: 'Y', an1: '', tier: item.tier, bcno: item.bcno, pid: item.pid
-
+      // 25.03.30
+      //hospnm: item.hospnm, ak1: 'Y', al1: '', am1: 'Y', an1: '', tier: item.tier, bcno: item.bcno, pid: item.pid
+      hospnm: item.hospnm, ak1: 'Y', al1: '', am1: 'Y', an1: '', tier: item.tier, bcno: item.bcno, pid: item.pid, pv_gene2: item.pv_gene2
       });
 
     });
@@ -255,7 +260,9 @@ export class NgsexcelComponent implements OnInit {
       //hospnm: '', ak1: '', al1: ''
       // 24.05.01
       //hospnm: '', ak1: '', al1: '', am1: '', an1: '', tier: ''
-      hospnm: '', ak1: '', al1: '', am1: '', an1: '', tier: '', bcno: '', pid: ''
+      // 25.03.28
+      //hospnm: '', ak1: '', al1: '', am1: '', an1: '', tier: '', bcno: '', pid: ''
+      hospnm: '', ak1: '', al1: '', am1: '', an1: '', tier: '', bcno: '', pid: '', pv_gene2: ''
     });
 
     ngsLists.unshift({
@@ -280,7 +287,9 @@ export class NgsexcelComponent implements OnInit {
       //hospnm: '', ak1: '', al1: ''
       // 24.05.01
       //hospnm: '', ak1: '', al1: '', am1: '', an1: '', tier: ''
-      hospnm: '', ak1: '', al1: '', am1: '', an1: '', tier: '', bcno: '', pid: ''
+      // 25.03.28
+      //hospnm: '', ak1: '', al1: '', am1: '', an1: '', tier: '', bcno: '', pid: ''
+      hospnm: '', ak1: '', al1: '', am1: '', an1: '', tier: '', bcno: '', pid: '', pv_gene2: ''
     });
 
 
@@ -298,7 +307,9 @@ export class NgsexcelComponent implements OnInit {
     { width: 17 }, { width: 15 }, { width: 20 }, { width: 12 }, { width: 28 }, // AN, AO,AP,AQ, AR
     //23.11.30
     //{ width: 14 }, { width: 9 }, { width: 14 } //AS, AT, AU
-    { width: 14 }, { width: 9 }, { width: 14 }, { width: 14 }, { width: 14 }, { width: 14 } , { width: 14 }//AS, AT, AU, AV, AW
+    //25.03.28
+    ///{ width: 14 }, { width: 9 }, { width: 14 }, { width: 14 }, { width: 14 }, { width: 14 } , { width: 14 }//AS, AT, AU, AV, AW
+    { width: 14 }, { width: 9 }, { width: 14 }, { width: 14 }, { width: 14 }, { width: 14 } , { width: 14 }, { width: 14 }//AS, AT, AU, AV, AW, AX
     
     ];
 
