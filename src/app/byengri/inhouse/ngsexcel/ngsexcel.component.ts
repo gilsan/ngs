@@ -34,6 +34,9 @@ export interface INGS {
   sex: string;
   docuseqno: string;
   pay100ownbrate: string;
+  // 24.05.28
+  pay100rate?: string;
+  pay100report?: string;
   clamacptno: string;
   preicd10cd: string;
   preicd10hngnm: string;
@@ -189,7 +192,10 @@ export class NgsexcelComponent implements OnInit {
       //id: idx + 1, b1: '', c1: idx + 1, proccorpcd: item.proccorpcd, pid: item.pid,
       id: idx + 1, b1: '', c1: idx + 1, proccorpcd: item.proccorpcd,
       hngnm: item.hngnm, brthdd: item.brthdd, sex: item.sex, i1: 'Y', clamacptno: item.clamacptno,
-        docuseqno: item.docuseqno, pay100ownbrate: item.pay100ownbrate, m1: '', n1: '', testnm: item.testnm,
+      //25.04.28  
+      //docuseqno: item.docuseqno, pay100ownbrate: item.pay100ownbrate, m1: '', n1: '', testnm: item.testnm,
+        docuseqno: item.docuseqno, pay100ownbrate: item.pay100ownbrate, pay100rate:item.pay100rate, pay100report:item.pay100report ,  testnm: item.testnm,
+        
         // 24.05.01
         //testcd: item.testcd, bcno: item.bcno, preicd10cd: item.preicd10cd, preicd10hngnm: item.preicd10hngnm, posticd10cd: item.posticd10cd,
         testcd: item.testcd, testcd2: item.testcd2, preicd10cd: item.preicd10cd, preicd10hngnm: item.preicd10hngnm, posticd10cd: item.posticd10cd,
@@ -218,7 +224,9 @@ export class NgsexcelComponent implements OnInit {
       //id: '', b1: '', c1: '', proccorpcd: '', pid: '',
       id: '', b1: '', c1: '', proccorpcd: '',
       hngnm: '', brthdd: '', sex: '', i1: '', clamacptno: '',
-      docuseqno: '', pay100ownbrate: '', m1: '', n1: '', testnm: '',
+      //24.05.28
+      //docuseqno: '', pay100ownbrate: '', m1: '', n1: '', testnm: '',
+      docuseqno: '', pay100ownbrate: '', pay100rate: '', pay100report: '', testnm: '',
       // 24.05.01
       //testcd: '', bcno: '', preicd10cd: '', preicd10hngnm: '', posticd10cd: '',
       testcd: '', testcd2: '', preicd10cd: '', preicd10hngnm: '', posticd10cd: '',
@@ -243,7 +251,9 @@ export class NgsexcelComponent implements OnInit {
       //id: '', b1: '', c1: '', proccorpcd: '', pid: '',
       id: '', b1: '', c1: '', proccorpcd: '',
       hngnm: '', brthdd: '', sex: '', i1: '', clamacptno: '',
-      docuseqno: '', pay100ownbrate: '', m1: '', n1: '', testnm: '',
+      //24.05.28
+      //docuseqno: '', pay100ownbrate: '', m1: '', n1: '', testnm: '',
+      docuseqno: '', pay100ownbrate: '', pay100rate: '', pay100report: '', testnm: '',
       // 24.05.01
       //testcd: '', bcno: '', preicd10cd: '', preicd10hngnm: '', posticd10cd: '',
       testcd: '', testcd2: '', preicd10cd: '', preicd10hngnm: '', posticd10cd: '',
@@ -270,7 +280,9 @@ export class NgsexcelComponent implements OnInit {
       //id: '', b1: '', c1: '', proccorpcd: '', pid: '',
       id: '', b1: '', c1: '', proccorpcd: '',
       hngnm: '', brthdd: '', sex: '', i1: '', clamacptno: '',
-      docuseqno: '', pay100ownbrate: '', m1: '', n1: '', testnm: '',
+      //24.05.28
+      //docuseqno: '', pay100ownbrate: '', m1: '', n1: '', testnm: '',
+      docuseqno: '', pay100ownbrate: '', pay100rate: '', pay100report: '', testnm: '',
       // 24.05.01
       //testcd: '', bcno: '', preicd10cd: '', preicd10hngnm: '', posticd10cd: '',
       testcd: '', testcd2: '', preicd10cd: '', preicd10hngnm: '', posticd10cd: '',

@@ -347,6 +347,9 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       // 저장일
       const tempReportday = this.patientInfo.report_date.slice(0, 10);
        
+      console.log('=== [281][1900-01-01]', tempReportday, this.reportday);
+      console.log('=== [281][1900-01-01]', this.screenstatus);
+      
       if (parseInt(this.screenstatus, 10) === 1) {
         if (this.patientInfo.report_date === null || this.patientInfo.report_date === '' ||
           tempReportday === '1900-01-01') {
@@ -362,7 +365,13 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
           this.reportday = this.patientInfo.sendEMRDate.toString().slice(0, 10).replace(/-/g, '.'); // EMR 전송일
         }
       } else {
-        this.reportday = this.today();
+        //25.04.28
+        //this.reportday = this.today();
+        if (this.patientInfo.sendEMRDate.toString() === null || this.patientInfo.sendEMRDate.toString() === '') {
+          this.reportday = this.today();
+        } else {
+          this.reportday = this.patientInfo.sendEMRDate.toString().slice(0, 10).replace(/-/g, '.'); // EMR 전송일
+        }
       }
 
       // 검체정보

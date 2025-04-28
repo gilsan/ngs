@@ -380,9 +380,15 @@ export class ExcelService {
     ws.O2 = { t: 's', v: 'B1' };
     ws.O2.s = { alignment: { horizontal: 'center' } };
     ws.O3 = { t: 's', v: '패널구분' };
-    ws.P2 = { t: 's', v: 'B2' };
+    
+    // 25.04.28
+    ws.P2 = { t: 's', v: 'B2-1' };
     ws.P2.s = { alignment: { horizontal: 'center' } };
-    ws.P3 = { t: 's', v: '패널관리번호' };
+    ws.P3 = { t: 's', v: '검사위탁' };
+    ws.Q2 = { t: 's', v: 'B2-2' };
+    ws.Q2.s = { alignment: { horizontal: 'center' } };    
+    ws.Q3 = { t: 's', v: '패널관리번호' };
+
     ws.Q1 = { t: 's', v: 'C_상병' };
     ws.Q1.s = { alignment: { horizontal: 'center', vertical: 'center' } };
     ws.Q2 = { t: 's', v: 'C1' };
@@ -522,9 +528,15 @@ export class ExcelService {
     const a0 = [{ s: { c: 0, r: 0 }, e: { c: 0, r: 2 } },
     { s: { c: 1, r: 0 }, e: { c: 1, r: 2 } },
     { s: { c: 2, r: 0 }, e: { c: 12, r: 0 } },
-    { s: { c: 13, r: 0 }, e: { c: 15, r: 0 } },
 
-    { s: { c: 16, r: 0 }, e: { c: 25, r: 0 } },
+    // 25.05.28
+    //{ s: { c: 13, r: 0 }, e: { c: 15, r: 0 } },
+    { s: { c: 13, r: 0 }, e: { c: 16, r: 0 } },
+    
+    // 25.05.28
+    //{ s: { c: 16, r: 0 }, e: { c: 25, r: 0 } },
+    { s: { c: 17, r: 0 }, e: { c: 25, r: 0 } },
+
     { s: { c: 26, r: 0 }, e: { c: 36, r: 0 } },
     { s: { c: 37, r: 0 }, e: { c: 40, r: 0 } },
     

@@ -1321,7 +1321,7 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
       bigo: '비고',
       nano_ng: 'ng/ul',
       nano_280: '260/280',
-      nano_230: '260/280',
+      nano_230: '260/230',
       nano_dil: 'dil비율',
       ng_ui: 'ng/ul',
       dan_rna: 'DNA',
@@ -1368,7 +1368,7 @@ export class LimsComponent implements OnInit, AfterViewInit, OnDestroy {
       bigo: '비고',  // Q
       nano_ng: 'ng/ul',
       nano_280: '260/280',
-      nano_230: '260/280',
+      nano_230: '260/230',
       nano_dil: 'dil비율',
       ng_ui: 'ng/ul',
       dan_rna: 'RNA',
