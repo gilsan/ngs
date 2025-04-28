@@ -389,6 +389,8 @@ export class ExcelService {
     ws.Q2.s = { alignment: { horizontal: 'center' } };    
     ws.Q3 = { t: 's', v: '패널관리번호' };
 
+    /*
+    25.04.28
     ws.Q1 = { t: 's', v: 'C_상병' };
     ws.Q1.s = { alignment: { horizontal: 'center', vertical: 'center' } };
     ws.Q2 = { t: 's', v: 'C1' };
@@ -523,31 +525,154 @@ export class ExcelService {
     ws.AX2 = { t: 's', v: '' };
     ws.AX2.s = { alignment: { horizontal: 'center' } };
     ws.AX3 = { t: 's', v: 'tier I, II' };
+  */
 
+    ws.R1 = { t: 's', v: 'C_상병' };
+    ws.R1.s = { alignment: { horizontal: 'center', vertical: 'center' } };
+    ws.R2 = { t: 's', v: 'C1' };
+    ws.R2.s = { alignment: { horizontal: 'center' } };
+    ws.R3 = { t: 's', v: '검사 전\n상병분류기호' };
+    ws.S2 = { t: 's', v: 'C2' };
+    ws.S2.s = { alignment: { horizontal: 'center' } };
+    ws.S3 = { t: 's', v: '검사 후\n상병분류기호' };
+    ws.T2 = { t: 's', v: 'C3' };
+    ws.T2.s = { alignment: { horizontal: 'center' } };
+    ws.T3 = { t: 's', v: '해당질환\n가족력' };
+    ws.U2 = { t: 's', v: 'C4-1' };
+    ws.U2.s = { alignment: { horizontal: 'center' } };
+    ws.U3 = { t: 's', v: '고형암 여부' };
+    ws.V2 = { t: 's', v: 'C4-2' };
+    ws.V2.s = { alignment: { horizontal: 'center' } };
+    ws.V3 = { t: 's', v: '진행성, 전이성, 재발성 고형암' };
+    ws.W2 = { t: 's', v: 'C4-3' };
+    ws.W2.s = { alignment: { horizontal: 'center' } };
+    ws.W3 = { t: 's', v: '병기구분' };
+    ws.X2 = { t: 's', v: 'C4-3-1' };
+    ws.X2.s = { alignment: { horizontal: 'center' } };
+    ws.X3 = { t: 's', v: 'Stage' };
+    ws.Y2 = { t: 's', v: 'C4-3-2' };
+    ws.Y2.s = { alignment: { horizontal: 'center' } };
+    ws.Y3 = { t: 's', v: '행동양식 분류부호' };
+
+    ws.Z1 = { t: 's', v: 'D_검체' }; 
+    ws.Z1.s = { alignment: { horizontal: 'center', vertical: 'center' } };
+    ws.Z2 = { t: 's', v: 'D1' };
+    ws.Z2.s = { alignment: { horizontal: 'center' } };
+    ws.Z3 = { t: 's', v: '검체종류' };
+    ws.AA2 = { t: 's', v: 'D1-1' };
+    ws.AA2.s = { alignment: { horizontal: 'center' } };
+    ws.AA3 = { t: 's', v: '검체기타' };
+    ws.AB2 = { t: 's', v: 'D2' };
+    ws.AB2.s = { alignment: { horizontal: 'center' } };
+    ws.AB3 = { t: 's', v: '검체접수일' };
+    ws.AC2 = { t: 's', v: 'D3' };
+    ws.AC2.s = { alignment: { horizontal: 'center' } };
+    ws.AC3 = { t: 's', v: '검사보고일' };    
+    ws.AD2 = { t: 's', v: 'D4-1' };
+    ws.AD2.s = { alignment: {horizontal: 'center'} };
+    ws.AD3 = { t: 's', v: 'organ'};
+
+    ws.AE2 = { t: 's', v: 'D4-2'};
+    ws.AE2.s = { alignment: { horizontal: 'center'} };
+    ws.AE3 = { t: 's', v: '조직유형(histologic type)'};
+
+    ws.AF2 = { t: 's', v: 'D4-3'};
+    ws.AF2.s = { alignment: { horizontal: 'center'} };
+    ws.AF3 = { t: 's', v: '검사시행사유'};
+
+    ws.AG2 = { t: 's', v: 'D5-1'};
+    ws.AG2.s = { alignment: { horizontal: 'center'}};
+    ws.AG3 = { t: 's', v: '단일유전자검사 시행여부'};
+
+    ws.AH2 = { t: 's', v: 'D5-2'};
+    ws.AH2.s = { alignment: { horizontal: 'center'}};
+    ws.AH3 = { t: 's', v: '단일유전자검사 시행일' };
+
+    ws.AI1 = { t: 's', v: 'E_검사결과' };
+    ws.AI1.s = { alignment: { horizontal: 'center', vertical: 'center' } };
+    ws.AI2 = { t: 's', v: 'E1' };
+    ws.AI2.s = { alignment: { horizontal: 'center' } }; 
+    ws.AI3 = { t: 's', v: 'PV/LPV 검출 여부' };
+
+    ws.AJ2 = { t: 's', v: 'E1-1' };
+    ws.AJ2.s = { alignment: { horizontal: 'center' } }; 
+    ws.AJ3 = { t: 's', v: 'PV/LPV 검출 유전자' };
+
+    ws.AK2 = { t: 's', v: 'E2' };
+    ws.AK2.s = { alignment: { horizontal: 'center' } };
+    ws.AK3 = { t: 's', v: 'VUS 검출여부' };
+
+    ws.AL1 = { t: 's', v: '' };
+    ws.AL2 = { t: 's', v: 'E2-1' };
+    ws.AL2.s = { alignment: { horizontal: 'center' } };
+    ws.AL3 = { t: 's', v: 'VUS 검출 유전자' };
+
+    ws.AM1 = { t: 's', v: 'F_과정' }; 
+    ws.AM1.s = { alignment: { horizontal: 'center', vertical: 'center' } };
+    ws.AM2 = { t: 's', v: 'F1' };
+    ws.AM2.s = { alignment: { horizontal: 'center' } };
+    ws.AM3 = { t: 's', v: '분자종양위원회 존재 여부' };
+
+    ws.AN1 = { t: 's', v: 'G_치료' }; 
+    ws.AN1.s = { alignment: { horizontal: 'center', vertical: 'center' } };
+    ws.AN2 = { t: 's', v: 'G1' };
+    ws.AN2.s = { alignment: { horizontal: 'center' } };
+    ws.AN3 = { t: 's', v: '치료연계여부\n(비급여, 임상시험 약제 포함)' };
+
+    ws.AO1 = { t: 's', v: 'H_기타' }; 
+    ws.AO1.s = { alignment: { horizontal: 'center', vertical: 'center' } };
+    ws.AO2 = { t: 's', v: 'H1' };
+    ws.AO2.s = { alignment: { horizontal: 'center' } };
+    ws.AO3 = { t: 's', v: '인체유래물 등의\n기증 동의여부' };
+
+    ws.AP2 = { t: 's', v: 'H2' };
+    ws.AP2.s = { alignment: { horizontal: 'center' } };
+    ws.AP3 = { t: 's', v: '기타 특이사항' };
+
+    ws.AQ2 = { t: 's', v: '' };
+    ws.AQ2.s = { alignment: { horizontal: 'center' } };
+    ws.AQ3 = { t: 's', v: 'Tier' };
+
+    ws.AR2 = { t: 's', v: '' };
+    ws.AR2.s = { alignment: { horizontal: 'center' } };
+    ws.AR3 = { t: 's', v: '분자병리 접수번호' };
+
+    ws.AS2 = { t: 's', v: '' };
+    ws.AS2.s = { alignment: { horizontal: 'center' } };
+    ws.AS3 = { t: 's', v: '등록번호' };
+
+    ws.AT2 = { t: 's', v: '' };
+    ws.AT2.s = { alignment: { horizontal: 'center' } };
+    ws.AT3 = { t: 's', v: 'tier I, II' };
 
     const a0 = [{ s: { c: 0, r: 0 }, e: { c: 0, r: 2 } },
     { s: { c: 1, r: 0 }, e: { c: 1, r: 2 } },
-    { s: { c: 2, r: 0 }, e: { c: 12, r: 0 } },
+    { s: { c: 2, r: 0 }, e: { c: 12, r: 0 } },  // A
 
-    // 25.05.28
+    /*
+    // 25.04.28
     //{ s: { c: 13, r: 0 }, e: { c: 15, r: 0 } },
-    { s: { c: 13, r: 0 }, e: { c: 16, r: 0 } },
-    
-    // 25.05.28
     //{ s: { c: 16, r: 0 }, e: { c: 25, r: 0 } },
-    { s: { c: 17, r: 0 }, e: { c: 25, r: 0 } },
-
-    { s: { c: 26, r: 0 }, e: { c: 36, r: 0 } },
-    { s: { c: 37, r: 0 }, e: { c: 40, r: 0 } },
-    
-    { s: { c: 41, r: 0 }, e: { c: 41, r: 0 } },
-    { s: { c: 42, r: 0 }, e: { c: 42, r: 0 } },
-    { s: { c: 43, r: 0 }, e: { c: 43, r: 0 } },
-    { s: { c: 44, r: 0 }, e: { c: 45, r: 0 } },
+    //{ s: { c: 26, r: 0 }, e: { c: 36, r: 0 } },
+    //{ s: { c: 37, r: 0 }, e: { c: 40, r: 0 } },
+    //{ s: { c: 39, r: 0 }, e: { c: 41, r: 0 } }, // F
+    //{ s: { c: 43, r: 0 }, e: { c: 43, r: 0 } }, // G
+    //{ s: { c: 44, r: 0 }, e: { c: 45, r: 0 } }, // H
     { s: { c: 46, r: 0 }, e: { c: 46, r: 0 } },
     { s: { c: 47, r: 0 }, e: { c: 47, r: 0 } },
     { s: { c: 48, r: 0 }, e: { c: 48, r: 0 } },
-    { s: { c: 49, r: 0 }, e: { c: 49, r: 0 } }
+    */
+
+    { s: { c: 13, r: 0 }, e: { c: 16, r: 0 } }, //B
+    { s: { c: 17, r: 0 }, e: { c: 24, r: 0 } }, // C
+    { s: { c: 25, r: 0 }, e: { c: 33, r: 0 } }, // D
+    { s: { c: 34, r: 0 }, e: { c: 37, r: 0 } }, // E    
+    { s: { c: 38, r: 0 }, e: { c: 38, r: 0 } }, // F
+    { s: { c: 40, r: 0 }, e: { c: 41, r: 0 } }, // G
+    { s: { c: 42, r: 0 }, e: { c: 42, r: 0 } }, // H
+    { s: { c: 43, r: 0 }, e: { c: 43, r: 0 } },
+    { s: { c: 44, r: 0 }, e: { c: 44, r: 0 } },
+    { s: { c: 45, r: 0 }, e: { c: 45, r: 0 } },
  
     ];
     ws['!merges'] = a0;

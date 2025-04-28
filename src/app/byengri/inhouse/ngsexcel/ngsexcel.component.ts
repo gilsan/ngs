@@ -64,10 +64,14 @@ export interface INGS {
   vus_gene: string;
   stage: string;
 
+  //25.04.28
+  stage1?: string;
+  stage2?: string;
+
   // 23.11.16
-  monogenicyn?: string;
-  monogenicdd?: string;
-  monogenicnm?: string;
+  monogenicyn?: string; // 단일유전자 검사 시행 여부
+  monogenicdd?: string; // 단일유전자 검사 시행일 
+  monogenicnm?: string; // 단일유전자 검사 종목 
 
   organ: string;
   tumor_type: string;
@@ -198,23 +202,33 @@ export class NgsexcelComponent implements OnInit {
         
         // 24.05.01
         //testcd: item.testcd, bcno: item.bcno, preicd10cd: item.preicd10cd, preicd10hngnm: item.preicd10hngnm, posticd10cd: item.posticd10cd,
-        testcd: item.testcd, testcd2: item.testcd2, preicd10cd: item.preicd10cd, preicd10hngnm: item.preicd10hngnm, posticd10cd: item.posticd10cd,
+        // 25.04.28
+        //.testcd: item.testcd, testcd2: item.testcd2, preicd10cd: item.preicd10cd, preicd10hngnm: item.preicd10hngnm, posticd10cd: item.posticd10cd,
+        testcd: item.testcd, hospnm: item.hospnm, testcd2: item.testcd2, preicd10cd: item.preicd10cd, posticd10cd: item.posticd10cd,
         // 24.05.01
         //posticd10hngnm: item.posticd10hngnm, v1: '', w1: '', x1: '', y1: '',
-        posticd10hngnm: item.posticd10hngnm, v1: '', canceryn: item.canceryn,  x1: '', y1: '',
-        z1: item.stage, aa1: '', spccd: item.spccd, ac1: '', spcacptdt: item.spcacptdt,
+        
+        // 25.04.28
+        //posticd10hngnm: item.posticd10hngnm, v1: '', canceryn: item.canceryn,  x1: '', y1: '',
+        //z1: item.stage, aa1: '', spccd: item.spccd, ac1: '', spcacptdt: item.spcacptdt,
+        v1: '', canceryn: item.canceryn,  x1: '', y1: item.stage2,
+        z1: item.stage, aa1: item.stage1, spccd: item.spccd, ac1: '', spcacptdt: item.spcacptdt,
         lstreptdt: item.lstreptdt, 
         // 23.11.16
         //organ: organ, tumor_type: tumor_type, diagnosis: item.diagnosis, void1: '', void2: '', void3:'',
-        organ: organ, tumor_type: tumor_type, diagnosis: item.diagnosis, void1: '', monogenicyn:item.monogenicyn, monogenicdd:item.monogenicdd, monogenicnm:item.monogenicnm,
+        // 25.04.28
+        //organ: organ, tumor_type: tumor_type, diagnosis: item.diagnosis, void1: '', monogenicyn:item.monogenicyn, monogenicdd:item.monogenicdd, monogenicnm:item.monogenicnm,
+        organ: organ, tumor_type: tumor_type,  void1: '', monogenicyn:item.monogenicyn, monogenicdd:item.monogenicdd, 
         pv: item.pv, pv_gene: item.pv_gene, vus: item.vus, vus_gene: item.vus_gene,
         // 23.11.30
         //hospnm: item.hospnm, ak1: '', al1: '' 
         //24.05.01
-      //hospnm: item.hospnm, ak1: '', al1: '', am1: '', an1: '', tier: item.tier
-      // 25.03.30
-      //hospnm: item.hospnm, ak1: 'Y', al1: '', am1: 'Y', an1: '', tier: item.tier, bcno: item.bcno, pid: item.pid
-      hospnm: item.hospnm, ak1: 'Y', al1: '', am1: 'Y', an1: '', tier: item.tier, bcno: item.bcno, pid: item.pid, pv_gene2: item.pv_gene2
+        //hospnm: item.hospnm, ak1: '', al1: '', am1: '', an1: '', tier: item.tier
+        // 25.03.30
+        //hospnm: item.hospnm, ak1: 'Y', al1: '', am1: 'Y', an1: '', tier: item.tier, bcno: item.bcno, pid: item.pid
+        // 25.04.28
+        //hospnm: item.hospnm, ak1: 'Y', al1: '', am1: 'Y', an1: '', tier: item.tier, bcno: item.bcno, pid: item.pid, pv_gene2: item.pv_gene2
+        ak1: 'Y', al1: '', am1: 'Y', an1: '', tier: item.tier, bcno: item.bcno, pid: item.pid, pv_gene2: item.pv_gene2
       });
 
     });
@@ -229,21 +243,29 @@ export class NgsexcelComponent implements OnInit {
       docuseqno: '', pay100ownbrate: '', pay100rate: '', pay100report: '', testnm: '',
       // 24.05.01
       //testcd: '', bcno: '', preicd10cd: '', preicd10hngnm: '', posticd10cd: '',
-      testcd: '', testcd2: '', preicd10cd: '', preicd10hngnm: '', posticd10cd: '',
+      // 25.04.28
+      //testcd: '', hospnm: '', testcd2: '', preicd10cd: '', preicd10hngnm: '', posticd10cd: '',
+      testcd: '', hospnm: '', testcd2: '', preicd10cd: '', posticd10cd: '',
       // 24.05.01
-        //posticd10hngnm: '', v1: '', w1: '', x1: '', y1: '',
-        posticd10hngnm: '', v1: '', canceryn: '',  x1: '', y1: '',
+      //posticd10hngnm: '', v1: '', w1: '', x1: '', y1: '',
+      // 25.04.28
+      //posticd10hngnm: '', v1: '', canceryn: '',  x1: '', y1: '',
+      v1: '', canceryn: '',  x1: '', y1: '',
       z1: '', aa1: '', spccd: '', ac1: '', spcacptdt: '',
       lstreptdt: '', 
       // 23.11.16
       //organ: '', tumor_type: '', diagnosis: '', void1: '', void2: '', void3:'',
-      organ: '', tumor_type: '', diagnosis: '', void1: '', monogenicyn: '', monogenicdd:'', monogenicnm:'',
+      // 25.04.28
+      //organ: '', tumor_type: '', diagnosis: '', void1: '', monogenicyn: '', monogenicdd:'', monogenicnm:'',
+      organ: '', tumor_type: '',  void1: '', monogenicyn: '', monogenicdd:'', 
       pv: '', pv_gene: '', vus: '', vus_gene: '',
       // 23.11.30
       //hospnm: '', ak1: '', al1: ''
       // 24.05.01
       //hospnm: '', ak1: '', al1: '', am1: '', an1: '', tier: ''
-      hospnm: '', ak1: '', al1: '', am1: '', an1: '', tier: '', bcno: '', pid: ''
+      // 25.04.28
+      //hospnm: '', ak1: '', al1: '', am1: '', an1: '', tier: ''
+      ak1: '', al1: '', am1: '', an1: '', tier: '', bcno: '', pid: ''
     });
 
     ngsLists.unshift({
@@ -251,28 +273,34 @@ export class NgsexcelComponent implements OnInit {
       //id: '', b1: '', c1: '', proccorpcd: '', pid: '',
       id: '', b1: '', c1: '', proccorpcd: '',
       hngnm: '', brthdd: '', sex: '', i1: '', clamacptno: '',
-      //24.05.28
+      //25.04.28
       //docuseqno: '', pay100ownbrate: '', m1: '', n1: '', testnm: '',
       docuseqno: '', pay100ownbrate: '', pay100rate: '', pay100report: '', testnm: '',
       // 24.05.01
       //testcd: '', bcno: '', preicd10cd: '', preicd10hngnm: '', posticd10cd: '',
-      testcd: '', testcd2: '', preicd10cd: '', preicd10hngnm: '', posticd10cd: '',
+      //25.04.28
+      //testcd: '', testcd2: '', preicd10cd: '', preicd10hngnm: '', posticd10cd: '',
+      testcd: '', hospnm: '', testcd2: '', preicd10cd: '', posticd10cd: '',
       // 24.05.01
-        //posticd10hngnm: '', v1: '', w1: '', x1: '', y1: '',
-        posticd10hngnm: '', v1: '', canceryn: '', x1: '', y1: '',
+      //posticd10hngnm: '', v1: '', w1: '', x1: '', y1: '',
+      // 25.04.28
+      //posticd10hngnm: '', v1: '', canceryn: '', x1: '', y1: '',
+      v1: '', canceryn: '', x1: '', y1: '',
       z1: '', aa1: '', spccd: '', ac1: '', spcacptdt: '',
       lstreptdt: '', 
       // 23.11.16
       //organ: '', tumor_type: '', diagnosis: '', void1: '', void2: '', void3:'',
-      organ: '', tumor_type: '', diagnosis: '', void1: '', monogenicyn: '', monogenicdd:'', monogenicnm:'',
+      // 25.04.28
+      //organ: '', tumor_type: '', diagnosis: '', void1: '', monogenicyn: '', monogenicdd:'', monogenicnm:'',
+      organ: '', tumor_type: '',  void1: '', monogenicyn: '', monogenicdd:'',
       pv: '', pv_gene: '', vus: '', vus_gene: '',
       // 23.11.30
       //hospnm: '', ak1: '', al1: ''
       // 24.05.01
       //hospnm: '', ak1: '', al1: '', am1: '', an1: '', tier: ''
-      // 25.03.28
+      // 25.04.28
       //hospnm: '', ak1: '', al1: '', am1: '', an1: '', tier: '', bcno: '', pid: ''
-      hospnm: '', ak1: '', al1: '', am1: '', an1: '', tier: '', bcno: '', pid: '', pv_gene2: ''
+      ak1: '', al1: '', am1: '', an1: '', tier: '', bcno: '', pid: '', pv_gene2: ''
     });
 
     ngsLists.unshift({
@@ -280,28 +308,34 @@ export class NgsexcelComponent implements OnInit {
       //id: '', b1: '', c1: '', proccorpcd: '', pid: '',
       id: '', b1: '', c1: '', proccorpcd: '',
       hngnm: '', brthdd: '', sex: '', i1: '', clamacptno: '',
-      //24.05.28
+      //25.04.28
       //docuseqno: '', pay100ownbrate: '', m1: '', n1: '', testnm: '',
       docuseqno: '', pay100ownbrate: '', pay100rate: '', pay100report: '', testnm: '',
       // 24.05.01
       //testcd: '', bcno: '', preicd10cd: '', preicd10hngnm: '', posticd10cd: '',
-      testcd: '', testcd2: '', preicd10cd: '', preicd10hngnm: '', posticd10cd: '',
+      //25.04.28
+      //testcd: '', testcd2: '', preicd10cd: '', preicd10hngnm: '', posticd10cd: '',
+      testcd: '', hospnm: '', testcd2: '', preicd10cd: '', posticd10cd: '',
       // 24.05.01
-        //posticd10hngnm: '', v1: '', w1: '', x1: '', y1: '',
-        posticd10hngnm: '', v1: '', canceryn: '', x1: '', y1: '',
+      //posticd10hngnm: '', v1: '', w1: '', x1: '', y1: '',
+      // 25.04.28
+      //posticd10hngnm: '', v1: '', canceryn: '', x1: '', y1: '',
+      v1: '', canceryn: '', x1: '', y1: '',
       z1: '', aa1: '', spccd: '', ac1: '', spcacptdt: '',
       lstreptdt: '',   
       // 23.11.16
       //organ: '', tumor_type: '', diagnosis: '', void1: '', void2: '', void3:'',
-      organ: '', tumor_type: '', diagnosis: '', void1: '', monogenicyn: '', monogenicdd:'', monogenicnm:'',
+      // 25.04.28
+      //organ: '', tumor_type: '', diagnosis: '', void1: '', monogenicyn: '', monogenicdd:'', monogenicnm:'',
+      organ: '', tumor_type: '',  void1: '', monogenicyn: '', monogenicdd:'',
       pv: '', pv_gene: '', vus: '', vus_gene: '',
       // 23.11.30
       //hospnm: '', ak1: '', al1: ''
       // 24.05.01
       //hospnm: '', ak1: '', al1: '', am1: '', an1: '', tier: ''
-      // 25.03.28
+      // 25.04.28
       //hospnm: '', ak1: '', al1: '', am1: '', an1: '', tier: '', bcno: '', pid: ''
-      hospnm: '', ak1: '', al1: '', am1: '', an1: '', tier: '', bcno: '', pid: '', pv_gene2: ''
+      ak1: '', al1: '', am1: '', an1: '', tier: '', bcno: '', pid: '', pv_gene2: ''
     });
 
 
@@ -310,18 +344,21 @@ export class NgsexcelComponent implements OnInit {
     { width: 10 }, { width: 10 }, { width: 5 }, { width: 9 }, { width: 8 },    // F, G, H, I, J,
     { width: 7 }, { width: 9 }, { width: 14 }, { width: 19 }, { width: 24 },  // k,L, M, N, O
     { width: 12 }, { width: 15 }, { width: 13 }, { width: 11 }, { width: 17 }, // p,q,R, S, T,
-    { width: 55 }, { width: 13 }, { width: 11 }, { width: 26 }, { width: 8 }, //u,v, W, X, Y,
+    { width: 12 }, { width: 13 }, { width: 11 }, { width: 26 }, { width: 8 }, //u,v, W, X, Y,
     { width: 8 }, { width: 15 }, { width: 9 }, { width: 10 }, { width: 12 }, // Z, AA, AB, AC, AD,
-    { width: 12 }, { width: 15 }, { width: 33 }, { width: 12 }, { width: 36 }, //AE, AF,AG, AH, AI
+    { width: 12 }, { width: 15 }, { width: 13 }, { width: 12 }, { width: 16 }, //AE, AF,AG, AH, AI
     // 23.11.16
     //{ width: 9 }, { width: 9 }, { width: 17 },  // AJ,AK, AL
-    { width: 9 }, { width: 9 }, { width: 17 }, { width: 36 },  // AJ,AK, AL, AM
-    { width: 17 }, { width: 15 }, { width: 20 }, { width: 12 }, { width: 28 }, // AN, AO,AP,AQ, AR
+    { width: 9 }, { width: 9 }, { width: 17 }, { width: 16 },  // AJ,AK, AL, AM
+    { width: 17 }, { width: 15 }, { width: 20 }, { width: 12 }, { width: 18 }, // AN, AO,AP,AQ, AR
     //23.11.30
     //{ width: 14 }, { width: 9 }, { width: 14 } //AS, AT, AU
     //25.03.28
     ///{ width: 14 }, { width: 9 }, { width: 14 }, { width: 14 }, { width: 14 }, { width: 14 } , { width: 14 }//AS, AT, AU, AV, AW
-    { width: 14 }, { width: 9 }, { width: 14 }, { width: 14 }, { width: 14 }, { width: 14 } , { width: 14 }, { width: 14 }//AS, AT, AU, AV, AW, AX
+  
+    // 25.04.28
+    //{ width: 14 }, { width: 9 }, { width: 14 }, { width: 14 }, { width: 14 }, { width: 14 } , { width: 14 }, { width: 14 }//AS, AT, AU, AV, AW, AX
+    { width: 14 }, { width: 9 },  //AS, AT, 
     
     ];
 
