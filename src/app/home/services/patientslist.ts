@@ -215,8 +215,10 @@ export class PatientsListService {
   }
 
   // 유전체 와 coding 로 Comments 레코드에서 정보 가져오기
-  public getCommentInfoLists(gene: string, type: string): Observable<Partial<IComment>> {
-    return this.http.post(`${this.apiUrl}/ngscomments/list`, { gene, type }).pipe(
+  // 2025.4.27일 variant_id 추가
+  public getCommentInfoLists(gene: string, type: string, variant_id: string): Observable<Partial<IComment>> {
+    console.log('[219][][getCommentInfoLists]');
+    return this.http.post(`${this.apiUrl}/ngscomments/list`, { gene, type, variant_id }).pipe(
       // tap(data => console.log('[110][getCommentInfoLists]', data)),
       shareReplay()
     );
@@ -583,7 +585,7 @@ export class PatientsListService {
       }), // End of tap
       switchMap(() => from(this.geneCoding)),
       concatMap(item => {
-        // console.log('===== [467][item]====\n', item);
+        // console.log('===== [587][patientslits][item]====\n', item.tsv.variant_id);
         let tempTestType;
         if (item.gene2 === 'none') {
           if (testType === 'AML' || testType === 'ALL') {
@@ -653,7 +655,7 @@ export class PatientsListService {
       }),
       */
       concatMap(item => {
-        // console.log('===[468][patientslists][뮤테이션] getMutationInfoLists', item);
+        // console.log('=====================[656][patientList]', item);
         let tempTestType;
         if (item.gene2 === 'none') {
           const cnt = item.gene1.split(',').length;
@@ -821,6 +823,7 @@ export class PatientsListService {
         }
       }),
       concatMap(item => {
+         console.log('[코멘트][825.tsv][', item.tsv);
         if (item.gene2 === 'none') {
           // console.log('[코멘트][614][', item.gene1, item.mutationList1.functional_impact, testType);
           // console.log('[코멘트][615][', item.gene1, item.gene2, item.tsv.clinvar, item.tsv);
@@ -846,7 +849,7 @@ export class PatientsListService {
 
             return this.getCommentInfoCount(gene1, testType).pipe(
               map(comments1Count => {
-                // console.log('[코멘트][634][', comments1Count);
+              //  console.log('[코멘트][849][]patientslists][', comments1Count, item.tsv);
                 return { ...item, comments1Count: comments1Count[0].count, comments2Count: 0 };
               })
             );
@@ -855,7 +858,7 @@ export class PatientsListService {
           }
 
         } else {
-          // console.log('[코멘트][617][' + item.tsv.clinvar + ']', item);
+          // console.log('[코멘트][859][' + item.tsv.clinvar + ']', item);
           // const clinvar = item.tsv.clinvar.toString().toLowerCase();
           let clinvar = '';
           if (item.mutationList1.functional_impact !== null &&
@@ -877,7 +880,7 @@ export class PatientsListService {
             }
             return this.getCommentInfoCount(tempMentcountGene, testType).pipe(
               map(comments1Count => {
-                // console.log('==== [664][코멘트 갯수]', comments1Count, item.gene1, testType, item.tsv.clinvar);
+               console.log('==== [880][코멘트 갯수]', comments1Count, item.gene1, testType, item.tsv.clinvar);
                 return { ...item, comments1Count: comments1Count[0].count, comments2Count: 0 };
               })
             );
@@ -887,7 +890,7 @@ export class PatientsListService {
         }
       }),
       concatMap(item => {  // Comments
-        // console.log('[코멘트][677]  ====>', item);
+         console.log('[코멘트][892]  ==============>', item);
         if (item.gene2 === 'none') {
           // const clinvar = item.tsv.clinvar.toString().toLowerCase();
           // console.log('[코멘트][575][', item.gene1, item.mutationList1.functional_impact);
@@ -908,10 +911,10 @@ export class PatientsListService {
                 gene1 = 'NRAS';
               }
             }
-
-            return this.getCommentInfoLists(gene1, testType).pipe(
+            console.log('[코멘트][913]  ==============>', item.tsv.variant_id);
+            return this.getCommentInfoLists(gene1, testType, item.tsv.variant_id).pipe(
               map(comment => {
-                // console.log('==== [698][코멘트정보 내용]  Comment List :', comment);
+                 console.log('==== [916][코멘트정보 내용]  Comment List :', comment);
                 if (Array.isArray(comment) && comment.length) {
                   return { ...item, commentList1: comment[0], commentList2: 'none' };
                 } else {
@@ -941,9 +944,9 @@ export class PatientsListService {
               // tempMentGene = item.gene2;
               tempMentGene = item.multigenes;
             }
-            return this.getCommentInfoLists(tempMentGene, testType).pipe(
+            return this.getCommentInfoLists(tempMentGene, testType, item.tsv.variant_id).pipe(
               map(comment => {
-                // console.log('[405][멘트정보]  Comment List :', comment);
+                // console.log('[947][멘트정보]  Comment List :', comment);
                 if (Array.isArray(comment) && comment.length) {
                   return { ...item, commentList1: comment[0], commentList2: 'none' };
                 } else {
@@ -1249,7 +1252,7 @@ export class PatientsListService {
         );
       }),
       concatMap((items: any) => {
-        const comments$ = this.getCommentInfoLists(items.gene, type);
+        const comments$ = this.getCommentInfoLists(items.gene, type, items.tsv.variant_id);
         return comments$.pipe(
           map(comments => {
             // console.log(comments);

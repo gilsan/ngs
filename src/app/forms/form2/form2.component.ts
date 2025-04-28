@@ -458,8 +458,9 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     if (this.form2TestedId) {
       this.variantsService.screenSelect(this.form2TestedId)
         .subscribe(data => {
-          console.log('[449][저장된 데이터]', data);
-          if (data.length > 0) {
+          console.log('[461][저장된 데이터]', data);
+ 
+          if (parseInt(data.length) > 0) {
             this.recoverVariants = data;
 
             this.recoverVariants.forEach((list, index) => this.vd.push({ sequence: index, selectedname: 'mutation', gene: list.gene }));
@@ -521,7 +522,9 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
               });
             ////////////////////////////////////
           } else {
+            console.log( '[528] ==================   ',data.length, this.tsvSaveOrEmptySave);
             if (this.tsvSaveOrEmptySave === 'T') {
+              
               this.addDetectedVariant();
             }
 
@@ -602,7 +605,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
         let dvariable: IAFormVariant;
         let igv = '';
         igv = data.igv;
-        // console.log('********** [필터링원시자료][553]', igv, data);
+        console.log('**********[form2] [필터링원시자료][608]',  data);
 
         // 타입 분류
         if (data.mtype === 'M') {  // mutation
