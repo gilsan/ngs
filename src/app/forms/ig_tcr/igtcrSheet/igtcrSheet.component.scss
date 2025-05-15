@@ -136,7 +136,8 @@ table.st-01 .s-text-right {
   margin-top: 5px;
   padding: 20px 0 50px 0;
   left: 50%;
-  transform: translate(-50%, -50%);
+  /*transform: translate(-50%, -50%);*/
+  translate: -50% -50%; /* transform 대신 modern 방식 */
 }
 
 .input_title {

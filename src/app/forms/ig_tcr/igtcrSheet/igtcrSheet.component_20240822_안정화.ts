@@ -541,11 +541,13 @@ export class IgTcrSheetComponent implements OnInit, OnDestroy{
       DATA = document.getElementById('resultMRD');
     }
 
-    html2canvas(DATA).then((canvas) => {
+    html2canvas(DATA, {
+      scale: 2 // 기본값은 1
+    }).then((canvas) => {
 
       let fileWidth = 208;
       let fileHeight = (canvas.height * fileWidth) / canvas.width;
-      const FILEURI = canvas.toDataURL('image/png');
+      const FILEURI = canvas.toDataURL('image/png', 1.0);
       let PDF = new jsPDF('p', 'mm', 'a4');
       let position = 0;
       PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight);

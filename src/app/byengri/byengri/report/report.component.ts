@@ -1001,7 +1001,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
               const tier = this.findTier(gene);  // clinical 에서 gene, tier, frequency 찿기
               // p.(xxxx)은 Amino acid change, c.(xxxxx)은 Nucleotide change
               const itemMembers = item.trim().split(' ');
-              console.log('[967][유전자추적]===>', itemMembers);
+              console.log('[1004][유전자추적]===>', itemMembers);
               
               // 24.02.18  itemMembers.length 체크하도록 추가
               // POLE [N423K;L424P] OR파일에서 이런 경우는 parsion 못 함
@@ -1066,10 +1066,10 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                 nucleotideChange = '';
               }
               
-              console.log('[967][유전자추적]===>', aminoAcidChange, nucleotideChange );
+              console.log('[1069][유전자추적]===>', aminoAcidChange, nucleotideChange );
               // gene, aminoAcidChange, nucleotideChange 조합으로 해당 되는것 삭제
               const result = this.removeGeneCheck(gene, aminoAcidChange, nucleotideChange);
-              console.log('[967][유전자추적]===>', result );
+              console.log('[1072][유전자추적]===>', result );
               if (result === -1) {
                 //  vc.novel.1169, 계열은 ID 에 빈공간으로 만듬.
                 if (customid.indexOf('vc.novel') !== -1) {
@@ -1157,14 +1157,14 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
           //if ( (type === 'snv' &&  this.muLists.includes(oncomineVariant)) || type === 'indel') {
           if ( ((type === 'snv' || type === 'mnv') &&  this.muLists.includes(oncomineVariant)) || type === 'indel') {
                // const mutation = this.mutation.filter( list => list.gene === item.gene);
-               console.log('[][1125]====>', this.mutation, threeTier);
+               console.log('[][1160]====>', this.mutation, threeTier);
                const mutation = this.mutation.filter( list => list.gene === item.gene.split(';')[0]);
                 if (item.aminoAcidChange === '' || item.aminoAcidChange === null) {
                   tempaminoAcidChange = mutation[0].aminoAcidChange;
                 } else  {
                   tempaminoAcidChange = item.aminoAcidChange;
                 }
-               // console.log('[1129][]===>', item.gene.split(';')[0], this.mutation, mutation.length );
+                console.log('[1167][]===>', item.gene.split(';')[0], this.mutation, mutation.length );
                 if (mutation.length === 1 && threeTier !== 'III') {
                         this.mutationNew.push({
                         gene: item.gene,

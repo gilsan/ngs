@@ -56,7 +56,10 @@ export const defaultcodeLists = [
   { target: '', specimen: '', analyzedgene: '', method: '', comment1: '', comment2: '', type: 'SEQ', report: 'COL1A2 Gene Sequencing Analysis Report', code: 'LPE356' },
   { target: '', specimen: '', analyzedgene: '', method: '', comment1: '', comment2: '', type: 'SEQ', report: 'ASXL1 Gene Sequencing Analysis Report', code: 'LPE358' },
   { target: '', specimen: '', analyzedgene: '', method: '', comment1: '', comment2: '', type: 'SEQ', report: 'DNMT3A Gene Sequencing Analysis Report', code: 'LPE360' },
-  { target: '', specimen: '', analyzedgene: '', method: '', comment1: '', comment2: '', type: 'SEQ', report: 'SF3B1 Gene Sequencing Analysis Report', code: 'LPE362' },
+  { target: '', specimen: '', analyzedgene: '', method: '', comment1: '', comment2: '', type: 'SEQ', report: 'DNMT3A Gene Sequencing Analysis Report', code: 'LPE360' },
+  // 25.05.15 LPE362 => LPC208
+  //{ target: '', specimen: '', analyzedgene: '', method: '', comment1: '', comment2: '', type: 'SEQ', report: 'SF3B1 Gene Sequencing Analysis Report', code: 'LPE362' },
+  { target: '', specimen: '', analyzedgene: '', method: '', comment1: '', comment2: '', type: 'SEQ', report: 'SF3B1 Gene Sequencing Analysis Report', code: 'LPC208' },
   { target: '', specimen: '', analyzedgene: '', method: '', comment1: '', comment2: '', type: 'SEQ', report: 'TET2 Gene Sequencing Analysis Report', code: 'LPE364' },
   { target: '', specimen: '', analyzedgene: '', method: '', comment1: '', comment2: '', type: 'SEQ', report: 'DNAH5, DNAI1 Gene Sequencing Analysis Report', code: 'LPE366' },
   { target: '', specimen: '', analyzedgene: '', method: '', comment1: '', comment2: '', type: 'SEQ', report: 'THRB Gene Sequencing Analysis Report', code: 'LPE368' },

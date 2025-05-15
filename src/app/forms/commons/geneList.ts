@@ -17,7 +17,9 @@ export const SEQ = [
   'LPE247', 'LPE249', 'LPE251', 'LPE258', 'LPE262', 'LPE267', 'LPE272', 'LPE275', 'LPE276', 'LPE280',
   'LPE282', 'LPE285', 'LPE287', 'LPE289', 'LPE290', 'LPE295', 'LPE302', 'LPE306', 'LPE308', 'LPE310',
   'LPE313', 'LPE314', 'LPE316', 'LPE320', 'LPE334', 'LPE337', 'LPE340', 'LPE341', 'LPE342', 'LPE343',
-  'LPE349', 'LPE352', 'LPE354', 'LPE356', 'LPE358', 'LPE360', 'LPE362', 'LPE364', 'LPE366', 'LPE371',
+  // 25.05.15 LPE362 => LPC208
+  //'LPE349', 'LPE352', 'LPE354', 'LPE356', 'LPE358', 'LPE360', 'LPE362', 'LPE364', 'LPE366', 'LPE371',
+  'LPE349', 'LPE352', 'LPE354', 'LPE356', 'LPE358', 'LPE360', 'LPC208', 'LPE364', 'LPE366', 'LPE371',
   'LPE374', 'LPE375', 'LPE378', 'LPE379', 'LPE384', 'LPE391', 'LPE392', 'LPE368', 'LPE410', 'LPE412',
   'LPE414', 'LPE418', 'LPE420', 'LPE428', 'LPE431', 'LPE433', 'LPE436', 'LPE457', 'LPE460', 'LPE462',
   'LPE469', 'LPE477', 'LPE481', 'LPE482', 'LPE494', 'LPE495'];
@@ -47,7 +49,9 @@ export const sequencingLists = [
   'LPE247', 'LPE249', 'LPE251', 'LPE258', 'LPE262', 'LPE267', 'LPE272', 'LPE275', 'LPE276', 'LPE280',
   'LPE282', 'LPE285', 'LPE287', 'LPE289', 'LPE290', 'LPE295', 'LPE302', 'LPE306', 'LPE308', 'LPE310',
   'LPE313', 'LPE314', 'LPE316', 'LPE320', 'LPE334', 'LPE337', 'LPE340', 'LPE341', 'LPE342', 'LPE343',
-  'LPE349', 'LPE352', 'LPE354', 'LPE356', 'LPE358', 'LPE360', 'LPE362', 'LPE364', 'LPE366', 'LPE371',
+  // 25.05.15 LPE362 => LPC208
+  //'LPE349', 'LPE352', 'LPE354', 'LPE356', 'LPE358', 'LPE360', 'LPE362', 'LPE364', 'LPE366', 'LPE371',
+  'LPE349', 'LPE352', 'LPE354', 'LPE356', 'LPE358', 'LPE360', 'LPC208', 'LPE364', 'LPE366', 'LPE371',
   'LPE374', 'LPE375', 'LPE378', 'LPE379', 'LPE384', 'LPE391', 'LPE392', 'LPE368', 'LPE410', 'LPE412',
   'LPE414', 'LPE418', 'LPE420', 'LPE428', 'LPE431', 'LPE433', 'LPE436', 'LPE457', 'LPE460', 'LPE462',
   'LPE469', 'LPE477', 'LPE481', 'LPE482', 'LPE494', 'LPE495'];
@@ -274,7 +278,9 @@ export const testCodeLists = [
   { ngstype: 'Sequencing', title: '(국제진료용) ASXL1 gene sequencing', code: 'LPE358', testname: '' },
   { ngstype: 'Sequencing', title: 'DNMT3A gene [sequencing]', code: 'LPE360', testname: '' },
   { ngstype: 'Sequencing', title: 'DNMT3A gene(부분)', code: 'LPE361', testname: '' },
-  { ngstype: 'Sequencing', title: '(국제진료용) SF3B1 gene sequencing', code: 'LPE362', testname: '' },
+  // 25.05.15 LPE362 => LPC208
+  //  { ngstype: 'Sequencing', title: '(국제진료용) SF3B1 gene sequencing', code: 'LPE362', testname: '' },
+  { ngstype: 'Sequencing', title: '(국제진료용) SF3B1 gene sequencing', code: 'LPC208', testname: '' },
   { ngstype: 'Sequencing', title: '(국제진료용) TET2 gene sequencing ', code: 'LPE364', testname: '' },
   { ngstype: 'Sequencing', title: '(국제진료용) DNAH5, DNAI1(pirmary ciliary dyskinesia) gene test', code: 'LPE366', testname: '' },
   { ngstype: 'Sequencing', title: 'THRB gene test ', code: 'LPE368', testname: '' },
@@ -421,7 +427,9 @@ export const listSequencing = [
   { ngstype: 'Sequencing', title: 'ASXL1 Gene Sequencing Analysis Report', code: 'LPE358', testname: '(국제진료용) ASXL1 gene sequencing', gene: 'ASXL1' },
   { ngstype: 'Sequencing', title: 'DNMT3A Gene Sequencing Analysis Report', code: 'LPE360', testname: 'DNMT3A gene [sequencing]', gene: 'DNMT3A' },
   // { ngstype: 'Sequencing', title: 'DNMT3A gene(부분)', code: 'LPE361', testname: 'DNMT3A gene(부분)' },
-  { ngstype: 'Sequencing', title: 'SF3B1 Gene Sequencing Analysis Report', code: 'LPE362', testname: '(국제진료용) SF3B1 gene sequencing', gene: 'SF3B1' },
+  // 25.05.15 LPE362 => LPC208
+  //{ ngstype: 'Sequencing', title: 'SF3B1 Gene Sequencing Analysis Report', code: 'LPE362', testname: '(국제진료용) SF3B1 gene sequencing', gene: 'SF3B1' },
+  { ngstype: 'Sequencing', title: 'SF3B1 Gene Sequencing Analysis Report', code: 'LPC208', testname: '(국제진료용) SF3B1 gene sequencing', gene: 'SF3B1' },
   { ngstype: 'Sequencing', title: 'TET2 Gene Sequencing Analysis Report', code: 'LPE364', testname: '(국제진료용) TET2 gene sequencing ', gene: 'TET2' },
   { ngstype: 'Sequencing', title: 'DNAH5, DNAI1 Gene Sequencing Analysis Report', code: 'LPE366', testname: '(국제진료용) DNAH5, DNAI1(pirmary ciliary dyskinesia) gene test', gene: 'DNAH5' },
   { ngstype: 'Sequencing', title: 'THRB Gene Sequencing Analysis Report', code: 'LPE368', testname: 'THRB gene test ', gene: 'THRB' },
@@ -517,7 +525,9 @@ export const testcodeLists = [
   { type: 'SEQ', title: 'COL1A2 Gene Sequencing Analysis Report', code: 'LPE356' },
   { type: 'SEQ', title: 'ASXL1 Gene Sequencing Analysis Report', code: 'LPE358' },
   { type: 'SEQ', title: 'DNMT3A Gene Sequencing Analysis Report', code: 'LPE360' },
+  // 25.05.15 LPE362 => LPC208
   { type: 'SEQ', title: 'SF3B1 Gene Sequencing Analysis Report', code: 'LPE362' },
+  { type: 'SEQ', title: 'SF3B1 Gene Sequencing Analysis Report', code: 'LPC208' },
   { type: 'SEQ', title: 'TET2 Gene Sequencing Analysis Report', code: 'LPE364' },
   { type: 'SEQ', title: 'DNAH5, DNAI1 Gene Sequencing Analysis Report', code: 'LPE366' },
   { type: 'SEQ', title: 'THRB Gene Sequencing Analysis Report', code: 'LPE368' },
