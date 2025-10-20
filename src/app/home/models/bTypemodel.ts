@@ -1,23 +1,121 @@
 import { IAFormVariant, IPatient, IComment, IProfile, IGeneList } from './patients';
 
+// 25.09.18 인천
+import { environment } from '../../../environments/environment';
 
 export const METHODS = 'Total genomic DNA was extracted from the each sample. Template and automated libraries were prepared on the Ion Chef System(Thermo Fisher Scientific) and subsequently sequenced on the Ion S5 system (Thermo Fisher Scientific) with the Ion 530 Chip kit. Alignment of sequences to the reference human genome (GRCh37/hg19) and base calling were performed using the Torrent Suite software version 5.8.0 (Thermo Fisher Scientific). The Torrent Variant Caller v5.8.0.19 (Thermo Fisher Scientific) was used for calling variants from mapped reads and the called variants were annotated by the Ion Reporter software v5.6. ';
 
 // 2025.05.05 METHODS 문구를 여기서 읽음
 //export const METHODS516 = 'Total genomic DNA was extracted from the each sample. Template and automated libraries  Were prepared on the Ion Chef System(Thermo Fisher Scientific) and subsequently Sequenced on the Ion S5 system (Thermo Fisher Scientific) with the Ion 530 Chip kit. Alignment of sequences totherefeencehuman genome (GRCh37/hg19) and base calling werePerformed using the Torrent Suite software version 5.18.0 (Thermo Fisher Scientific). The Torrent Variant Caller v.5.18.0.0 (Thermo Fisher Scientific) was used for calling Variants from mapped reads and the called variants were annotated by the Ion Reporter software v5.20 The detected variants are classified as Oncogenic, Likely Oncogenic, Variant of Uncertain Significance (VUS), Likely Benign, and Benign variant according to the  Somatic Oncogenicity classification [Genetics in Medicine (2022) 24, 986-998]. We only report variants classified as Oncogenic, Likely oncogenic and VUS.';
+// 2025.05.05 악성림프종 형질세포종 METHODS 문구를 여기서 읽음
 export const METHODS516 = 'Total genomic DNA was extracted from the each sample.  The HEMEaccuTest SM-PanHEM was used to make the library. The HEMEaccuTest SM-PanHEM was used for in-solution enrichment of target regions. The enriched fragments were then amplified and sequenced on the NextSeq550Dx system (illumina). After demultiplexing, the reads were aligned to the human reference genome hg19 (GRCh37) using BWA (0.7.10) and duplicate reads were removed with MarkDuplicates (GATK 4.2.6.1). Local realignment, score recalibration and filtering sequence data were performed with GATK (4.2.6.1). Variants were annotated using SnpEff (4.3). The detected variants are classified as Oncogenic, Likely Oncogenic, Variant of Uncertain Significance (VUS), Likely Benign, and Benign variant according to the Somatic Oncogenicity classification [Genetics in Medicine (2022) 24.986-998]. We only report variants classified as Oncogenic, Likely oncogenic, and VUS.';
 
+// 25.09.18 인천
+// 2025.07.21 AML/ALL METHODS 문구를 여기서 읽음
+//export const METHODS516_AMLL = 'Total genomic DNA was extracted from the each sample. Template and automated libraries  Were prepared on the Ion Chef System(Thermo Fisher Scientific) and subsequently Sequenced on the Ion S5 system (Thermo Fisher Scientific) with the Ion 530 Chip kit. Alignment of sequences totherefeencehuman genome (GRCh37/hg19) and base calling werePerformed using the Torrent Suite software version 5.18.0 (Thermo Fisher Scientific). The Torrent Variant Caller v.5.18.0.0 (Thermo Fisher Scientific) was used for calling Variants from mapped reads and the called variants were annotated by the Ion Reporter software v5.20 The detected variants are classified as Oncogenic, Likely Oncogenic, Variant of Uncertain Significance (VUS), Likely Benign, and Benign variant according to the  Somatic Oncogenicity classification [Genetics in Medicine (2022) 24, 986-998]. We only report variants classified as Oncogenic, Likely oncogenic and VUS.';
+
+// 25.09.18 인천
+/**
+ * 조건 코드별 안내 문구 테이블
+ * - "DEFAULT" 키로 기본 안내 문구 관리
+ * - 특정 코드만 분기, 나머지는 DEFAULT 사용
+*/
+
+/* 25.10.02 문구 수정
+const METHODS_MESSAGES_AMLL: Record<string, string> = {
+	"016":
+	 `-Panel: HEMEaccuTest SM-PanHem
+	 -Target Region: All coding exons (CDS) with ±2 bp intronic flanks
+	 -Target Enrichment: Hybridization & Capture
+	 -Sequencing Platform: Illumina NextSeqDx
+	 -Reagent Kit: Illumina Reagent Kit Mid Output, 300 cycles
+	 -Reference Genome: GRCh37 / hg19
+	 -Bioinformatics: NGeneAnalysys pipeline v1.9.0`,
+	DEFAULT: 'Total genomic DNA was extracted from the each sample. Template and automated libraries  Were prepared on the Ion Chef System(Thermo Fisher Scientific) and subsequently Sequenced on the Ion S5 system (Thermo Fisher Scientific) with the Ion 530 Chip kit. Alignment of sequences totherefeencehuman genome (GRCh37/hg19) and base calling werePerformed using the Torrent Suite software version 5.18.0 (Thermo Fisher Scientific). The Torrent Variant Caller v.5.18.0.0 (Thermo Fisher Scientific) was used for calling Variants from mapped reads and the called variants were annotated by the Ion Reporter software v5.20 The detected variants are classified as Oncogenic, Likely Oncogenic, Variant of Uncertain Significance (VUS), Likely Benign, and Benign variant according to the  Somatic Oncogenicity classification [Genetics in Medicine (2022) 24, 986-998]. We only report variants classified as Oncogenic, Likely oncogenic and VUS.'  // fallback
+};
+*/
+
+const METHODS_MESSAGES_AMLL: Record<string, string> = {
+	"016":
+	`-Panel/Targets: HEMEaccuTest SM-PanHem; all coding exons (CDS) with ±5 bp intronic flanks. 
+	-Enrichment/Sequencing: Hybridization-capture on Illumina NextSeqDx (Mid Output, 300 cycles).
+	-Reference/Bioinformatics: GRCh37 (hg19); NGeneAnalysys pipeline v1.8.0 `,
+	// 25.10.20 변경
+   //DEFAULT: 'Total genomic DNA was extracted from the each sample.  The HEMEaccuTest SM-PanHEM was used to make the library. The HEMEaccuTest SM-PanHEM was used for in-solution enrichment of target regions. The enriched fragments were then amplified and sequenced on the NextSeq550Dx system (illumina). After demultiplexing, the reads were aligned to the human reference genome hg19 (GRCh37) using BWA (0.7.10) and duplicate reads were removed with MarkDuplicates (GATK 4.2.6.1). Local realignment, score recalibration and filtering sequence data were performed with GATK (4.2.6.1). Variants were annotated using SnpEff (4.3). The detected variants are classified as Oncogenic, Likely Oncogenic, Variant of Uncertain Significance (VUS), Likely Benign, and Benign variant according to the Somatic Oncogenicity classification [Genetics in Medicine (2022) 24.986-998]. We only report variants classified as Oncogenic, Likely oncogenic, and VUS.'  // fallback
+	DEFAULT: 'Total genomic DNA was extracted from the each sample. Template and automated libraries Were prepared on the Ion Chef System(Thermo Fisher Scientific) and subsequently Sequenced on the Ion S5 system (Thermo Fisher Scientific) with the Ion 530 Chip kit. Alignment of sequences to the reference human genome (GRCh37/hg19) and base calling were Performed using the Torrent Suite software version 5.18.0 (Thermo Fisher Scientific). The Torrent Variant Caller v.5.18.0.0 (Thermo Fisher Scientific) was used for calling Variants from mapped reads and the called variants were annotated by the Ion Reporter software v5.20 The detected variants are classified as Oncogenic, Likely Oncogenic, Variant of Uncertain Significance (VUS), Likely Benign, and Benign variant according to the Somatic Oncogenicity classification [Genetics in Medicine (2022) 24, 986-998]. We only report variants classified as Oncogenic, Likely oncogenic and VUS.'  // fallback
+};
+
+/**
+ * GENERAL: instcd 기준으로 메시지 결정
+ * - 테이블에 없으면 DEFAULT 반환
+*/
+let METHODS516_AMLL2 = METHODS_MESSAGES_AMLL[environment.instcd] ?? METHODS_MESSAGES_AMLL.DEFAULT;
+
+export const METHODS516_AMLL = METHODS516_AMLL2
+						.split('\n')
+						.map(line => line.trimStart()) // 각 줄 왼쪽 공백 제거
+						.join('\n');
 
  // tslint:disable-next-line:max-line-length
 // export const METHODS516 = 'Total genomic DNA was extracted from the each sample. Template and automated libraries were prepared on the Ion Chef System(Thermo Fisher Scientific) and subsequently sequenced on the Ion S5 system (Thermo Fisher Scientific) with the Ion 530 Chip kit. Alignment of sequences to the reference human genome (GRCh37/hg19) and base calling were performed using the Torrent Suite software version 5.16.0 (Thermo Fisher Scientific). The Torrent Variant Caller v.5.16.0.0 (Thermo Fisher Scientific) was used for calling variants from mapped reads and the called variants were annotated by the Ion Reporter software v5.16.';
 
-// export const METHODS516 = `Total genomic DNA was extracted from the each sample. Template and automated libraries were prepared on the Ion Chef System(Thermo Fisher Scientific) and subsequently sequenced on the Ion S5 system (Thermo Fisher Scientific) with the Ion 530 Chip kit. Alignment of sequences to the reference human genome (GRCh37/hg19) and base calling were performed using the Torrent Suite software version 5.16.0 (Thermo Fisher Scientific). The Torrent Variant Caller v.5.16.0.0 (Thermo Fisher Scientific) was used for calling variants from mapped reads and the called variants were annotated by the Ion Reporter software v5.16. The detected variants are classified as Oncogenic, Likely Oncogenic, Variant of Uncertain Significance (VUS), Likely Benign, and Benign variant according to the  Somatic Oncogenicity classification [Genetics in Medicine (2022) 24, 986–998]. We only report variants classified as Oncogenic, Likely oncogenic and VUS.`;
+
+// 25.09.18 인천
+/**
+ * 조건 코드별 안내 문구 테이블
+ * - "DEFAULT" 키로 기본 안내 문구 관리
+ * - 특정 코드만 분기, 나머지는 DEFAULT 사용
+*/
+const GENERAL_MESSAGES: Record<string, string> = {
+	"016":
+	 `-Method: NGS (Next-Generation Sequencing)
+	-Detectable variants: SNVs, Indels, ITD*, PTD*; structural variants (CNVs, gene rearrangements) are not detected
+	*Only FLT3-ITD and KMT2A PTD
+	-LOD: ~2% VAF (SNVs); ~5% VAF (Indels)
+	-Germline vs Somatic: Not distinguishable; VAF near 50% or 100% may indicate a possible germline variant,`,
+	DEFAULT: 'The analysis was optimised to identify base pair substitutions with a high sensitivity. The sensitivity for small insertions and deletions was lower. Deep-intronic mutations, mutations in the promoter region, repeats, large exonic deletions and duplications, and other structural variants were not detected by this test. Evaluation of germline mutation can be performed using buccal swab speciman.'  // fallback
+};
+  
+
+// 25.09.18 인천
+//export const GENERAL = 'The analysis was optimised to identify base pair substitutions with a high sensitivity. The sensitivity for small insertions and deletions was lower. Deep-intronic mutations, mutations in the promoter region, repeats, large exonic deletions and duplications, and other structural variants were not detected by this test. Evaluation of germline mutation can be performed using buccal swab speciman.';
+
+/**
+ * GENERAL: instcd 기준으로 메시지 결정
+ * - 테이블에 없으면 DEFAULT 반환
+*/
+let GENERAL2 = GENERAL_MESSAGES[environment.instcd] ?? GENERAL_MESSAGES.DEFAULT;
+
+export const GENERAL = GENERAL2
+						.split('\n')
+						.map(line => line.trimStart()) // 각 줄 왼쪽 공백 제거
+						.join('\n');
 
 
+// 25.09.18 인천
+let SHOWTABLE2: Record<string, boolean> = { 
+	"016": false, 
+	DEFAULT: true  // fallback
+};
 
+export const SHOWTABLE = SHOWTABLE2[environment.instcd] ?? SHOWTABLE2.DEFAULT;
 
-export const GENERAL = 'The analysis was optimised to identify base pair substitutions with a high sensitivity. The sensitivity for small insertions and deletions was lower. Deep-intronic mutations, mutations in the promoter region, repeats, large exonic deletions and duplications, and other structural variants were not detected by this test. Evaluation of germline mutation can be performed using buccal swab speciman.';
+/**
+ * 조건 코드별 안내 문구 테이블
+ * - "DEFAULT" 키로 기본 안내 문구 관리
+ * - 특정 코드만 분기, 나머지는 DEFAULT 사용
+*/
+const File_Name2: Record<string, string> = {
+	"016":
+	 `Excel`,
+	DEFAULT: 'TSV'  // fallback
+};
 
+/**
+ * GENERAL: instcd 기준으로 메시지 결정
+ * - 테이블에 없으면 DEFAULT 반환
+*/
+export const FileName = File_Name2[environment.instcd] ?? File_Name2.DEFAULT;
 
 export function makeBForm(
   resultStatus: string, // detected, not detected
@@ -35,7 +133,11 @@ export function makeBForm(
   lastReportDay: string,
   genelists: IGeneList[],
   tsvVersionContents: string,
-  specimenMsg: string
+
+  // 25.09.18 인천
+  //specimenMsg: string
+  specimenMsg: string,
+  general?: string,
 ): string {
 
   if (specimenMessage && specimenMessage.length === 0) {
@@ -201,6 +303,9 @@ export function makeBForm(
 	`;
   const comments = commentHeader + commentContent + commentBottom;
 
+  // 25.09.18 인천
+  
+  /*
   const fixedMent = `
 	<Dataset id="ds_4">
 	<ColumnInfo>
@@ -238,6 +343,46 @@ export function makeBForm(
 		<Column id="tg9" type="STRING" size="256"/>
 	</ColumnInfo>
 	<Rows>`;
+	*/
+
+const fixedMent = `
+	<Dataset id="ds_4">
+	<ColumnInfo>
+		<Column id="methods" type="STRING" size="256"/>
+	</ColumnInfo>
+	<Rows>
+		<Row>
+			<Col id="methods"><![CDATA[${tsvVersionContents}]]></Col>
+		</Row>
+	</Rows>
+</Dataset>
+
+<Dataset id="ds_5">
+	<ColumnInfo>
+		<Column id="technique" type="STRING" size="256"/>
+	</ColumnInfo>
+	<Rows>
+		<Row>
+			<Col id="technique"><![CDATA[${general}]]></Col>
+		</Row>
+	</Rows>
+</Dataset>
+
+<Dataset id="ds_6">
+	<ColumnInfo>
+		<Column id="tg0" type="STRING" size="256"/>
+		<Column id="tg1" type="STRING" size="256"/>
+		<Column id="tg2" type="STRING" size="256"/>
+		<Column id="tg3" type="STRING" size="256"/>
+		<Column id="tg4" type="STRING" size="256"/>
+		<Column id="tg5" type="STRING" size="256"/>
+		<Column id="tg6" type="STRING" size="256"/>
+		<Column id="tg7" type="STRING" size="256"/>
+		<Column id="tg8" type="STRING" size="256"/>
+		<Column id="tg9" type="STRING" size="256"/>
+	</ColumnInfo>
+	<Rows>`;
+
 
   let list = '';
 
