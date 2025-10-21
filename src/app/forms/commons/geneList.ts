@@ -304,8 +304,8 @@ export const testCodeLists = [
   { ngstype: 'Sequencing', title: 'HAX1 gene, Mutation [Sequencing]', code: 'LPE418', testname: '' },
   { ngstype: 'Sequencing', title: 'DMD gene, Mutation [sequencing]', code: 'LPE420', testname: '' },
   // 25.10.20  추가
-  // LPE426 TP53 Gene Sequencing Analysis Report 
-  { ngstype: 'Sequencing', title: '(비유전성) TP53 Gene Sequencing Analysis Report ', code: 'LPE426', testname: '' },
+  // LPE426 (비유전성) TP53 Gene, Mutation [sequencing] TP53 Gene Sequencing Analysis Report 
+  { ngstype: 'Sequencing', title: '(비유전성) TP53 Gene, Mutation [sequencing] ', code: 'LPE426', testname: '' },
   // 25.05.26 추가 
   // LPE427   EXT1 gene, Mutation [sequencing]  EXT1 Gene Sequencing Analysis report
   // 25.07.03
