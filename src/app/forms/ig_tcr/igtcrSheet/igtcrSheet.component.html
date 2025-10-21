@@ -727,7 +727,7 @@
                 </li>
 
                 <li>
-                    <button class="btn btn_01"  (click)="saveAllData()">임시저장</button>
+                    <button class="btn btn_01"  (click)="saveAllData('')" [disabled]="loading">임시저장</button>
                 </li>
                 <li>
                     <button class="btn btn_01" (click)="screenRead()" [disabled]="getStatus(1)">스크린완료</button>
@@ -743,204 +743,13 @@
     </div>
 </div>
 
- 
 
 </div>
-
-<div id="resultSheet" >
+<div id="resultMRD">
     <div id="container" style="position: relative;">
-        <h2 style="margin-top: 5px;">{{pdfFirstTitle}}</h2>
-       
-  
+        <h2 style="margin-top: 10px;">{{pdfMDRTitle}}</h2>
+    
         <div id="content">
-           
-                <div class="sub_title">Patient:  {{patientInfo.name}}, {{patientInfo.patientID}}({{patientInfo.gender}}/{{patientInfo.age}})</div>
-  
-                <div class="sub_title">Test Information</div>
-                <table cellpadding="0" cellspacing="0" class="table_result02">
-                  <colgroup>
-                  <col style="width:50%;" />
-                  <col style="width:50%;" />
-                  </colgroup>
-                  <tbody>
-                      <tr>
-                        
-                          <td *ngIf="patientInfo.specimen=== '015'">SPECIMEN : Genomic DNA isolated from Bone marrow</td>
-                          <td *ngIf="patientInfo.specimen=== '004'">SPECIMEN : Genomic DNA isolated from EDTA blood</td>
-                          <td> REQUEST: {{patientInfo.request}}</td>
-                      </tr>
-                  </tbody>
-                </table>
-  
-                <div class="sub_title">검사원리</div>
-                <table cellpadding="0" cellspacing="0" class="table_result02">
-                    <colgroup>
-                        <col style="width:100%;" />
-                    </colgroup>
-                    <tbody>
-                        <tr>
-                            <td>
-                                Illumina®  MiSeqDx 및 LymphoTrack(Invivoscribe Inc, San Diego, CA)을 이용하여 high throughput sequencing 방법으로 면역글로불린 유전자 재배열을 확인하고 정량하는 검사입니다.
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-
-  
-                <div class="sub_title">검사결과</div>
-                <table cellpadding="0" cellspacing="0" class="table_result02">
-                    <colgroup>
-                        <col style="width:50%;" />
-                        <col style="width:50%;" />
-                    </colgroup>
-                    <tbody>
-                        <tr>
-                            <td colspan="2">
-                                {{initialTestResult}}
-                               
-                            </td>
-                        </tr>
-                        <tr>
- 
-                            <td>
-                                % of clonal cells (estimated value) :
-                            </td>
-                            <td *ngIf="bcellLPE555LPE556.length">
-                                {{bcellLPE555LPE556}}% / total B-cells
-                            </td>
-                            <td *ngIf="pcellLPE557.length">
-                                {{pcellLPE557}}% / total T-cells
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">{{initialAddComment}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-  
-                <div class="sub_title">검출된 클론</div>
-                    <div class="box">
-                      <form [formGroup]="tablerowForm">
-                        <table class="table_list td-fix st-01 tr_list">
-                            <colgroup>
-                                <col style="width:60px"/>  <!-- #   -->
-                                <col style="width:100px"/>  <!-- V region    -->
-                                <col style="width:100px"/>  <!-- J region    -->
-                                <col style="width:100px"/>  <!-- Length (bp)   -->
-                                <col style="width:100px"/>  <!-- Total IGH read depth    -->
-                                <col style="width:80px"/>  <!-- Clonal IGH depth    -->
-                                <col style="width:100px"/>  <!-- Clonal/total IGH read depth (%)*    -->
-                                <col style="width:150px"/>  <!-- Clonal cell equivalent**    -->
-                                <col style="width:100px"/>  <!-- Clonal cell sequence    -->
-                            </colgroup>
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>V region</th>
-                                    <th>J region</th>
-                                    <th>Length (bp)</th>
-                                    <!--  
-                                    <th>Total IGH read depth</th>
-                                    <th>Clonal IGH depth</th>
-                                -->
-                                    <th *ngIf="patientInfo.test_code === 'LPE555' || patientInfo.test_code === 'LPE556'">Total IGH read depth</th>
-                                    <th *ngIf="patientInfo.test_code === 'LPE557'">Total TCR read depth</th>
-                                    <th *ngIf="patientInfo.test_code === 'LPE555' || patientInfo.test_code === 'LPE556'">Clonal IGH depth</th>
-                                    <th *ngIf="patientInfo.test_code === 'LPE557'">Clonal TCR depth</th>
-
-                                    <th *ngIf="patientInfo.test_code === 'LPE555' || patientInfo.test_code === 'LPE556'">Clonal/<br/>total IGH<br/>read depth<br/>(%)*</th>
-                                    <th *ngIf="patientInfo.test_code === 'LPE557'">Clonal/<br/>total TCR<br/>read depth<br/>(%)*</th>
-                                   <!--  <th>Clonal/total IGH read depth (%)*</th> -->
-                                    <th>Clonal cell equivalent**</th>
-                                    <th *ngIf="patientInfo.test_code === 'LPE555' || patientInfo.test_code === 'LPE556'">Clonal IGH sequence</th>
-                                    <th *ngIf="patientInfo.test_code === 'LPE557'">Clonal TCR sequence</th>
-                                    <!--  <th>Clonal IGH sequence</th> -->
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let list of formWithoutgraph; let i =index">
-                                    <td class="s-text-center">{{list.index}}</td>
-                                    <td class="s-text-center">{{list.vregion}}</td>
-                                    <td class="s-text-center">{{list.jregion}}</td>
-                                    <td class="s-text-center">{{list.length}}</td>
-                                    <td class="s-text-center">{{list.totalIGHreadDepth}}</td>
-                                    <td class="s-text-center">{{list.clonalIGHDepth}}</td>
-                                    <td class="s-text-center">{{list.PercentTotalReads}}</td>
-                                    <td class="s-text-center">{{list.clonalCellEquivalent | number:'1.0-0'}}</td>
-                                    <td class="s-text-center">{{list.ClonalCellSequence}}</td>
-                                </tr>
-                             
-                            </tbody>
-                        </table>
-                     </form>
-                    </div>
-                
-  
-                <div class="sub_title">검체정보</div>
-                <table cellpadding="0" cellspacing="0" class="table_result02 st-01">
-                    <colgroup>
-                        <col style="width:50%;" />
-                        <col style="width:50%;" />
-                    </colgroup>
-                    <tbody>
-                        <tr>
-                            <td class="s-text-right">
-                                Input DNA =
-                            </td>
-                            <td class="s-text-left">
-                                {{densityTablePdf1}} ng
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="s-text-right">
-                                Total nucleated cells (estimated) =
-                            </td>
-                            <td class="s-text-left">
-                                {{densityTablePdf1CellFEquivalent1}} cell equivalents (Estimated DNA mass per 1 cell = 6.5 pg)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="s-text-right"  *ngIf="bcellLPE555LPE556.length">
-                                Total B-cell count =
-                            </td>
-                            <td class="s-text-right"*ngIf="pcellLPE557.length">
-                              Total T-cell count =
-                            </td>
-                            <td class="s-text-left">
-                                {{firstTotalBcellTcellCount | number:'1.0-0'}} cell equivalents (Total read count/ LQIC read count) * 100
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-  
-                <div class="sub_title" >Comment</div>
-                <pre class="textarea_01 preTextarea">{{commentInitial}}</pre>
-                <!-- <div class="pd_r20">
-                    <textarea class="textarea_01" *ngIf="bcellLPE555LPE556.length">* Clonal {{geneType}} read depth를 전체 {{geneType}} read depth로 나눈 값으로 B 세포 중의 클론의 비율을 의미합니다.
-                    </textarea>
-                    <textarea class="textarea_01" *ngIf="pcellLPE557.length">* Clonal {{geneType}} read depth를 전체 {{geneType}} read depth로 나눈 값으로 T 세포 중의 클론의 비율을 의미합니다.
-                    </textarea>
-                </div>  -->
-                <hr class="mg_t30 mg_b20"/>
-                <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                    <tr>
-                        <td class="txt_l font_13 fb">검사의뢰일/검사보고일/수정보고일: {{requestDate | date: 'yyyy.MM.dd'}}/{{firstReportDay}}/{{lastReportDay}}</td>
-                        <td class="txt_1 font_16 fb">검사자:  <input type="text" [(ngModel)]="examin" class="input_02" size="30"></td>
-                        <td class="txt_1 font_16 fb">판독의사: <input type="text" [(ngModel)]="recheck" class="input_02" size="30"></td>
-                    </tr>
-                </table>
-  
-            </div>
-        </div>
-    </div>
-
-    <div id="resultMRD">
-        <div id="container" style="position: relative;">
-            <h2 style="margin-top: 10px;">{{pdfMDRTitle}}</h2>
-    
-    
-            <div id="content">
                 <div class="pd_20">
                     <div class="sub_title">Patient: {{patientInfo.name}}, {{patientInfo.patientID}}({{patientInfo.gender}}/{{patientInfo.age}})</div>
     
@@ -1176,9 +985,197 @@
                     </tr>
                 </table>
     
-            </div>
         </div>
     </div>
+</div>
+
+<div id="resultSheet" >
+    <div id="container" style="position: relative;">
+        <h2 style="margin-top: 10px;">{{pdfFirstTitle}}</h2>
+       
+        <div id="content">
+           
+            <div class="sub_title">Patient:  {{patientInfo.name}}, {{patientInfo.patientID}}({{patientInfo.gender}}/{{patientInfo.age}})</div>
+
+            <div class="sub_title">Test Information</div>
+            <table cellpadding="0" cellspacing="0" class="table_result02">
+                <colgroup>
+                <col style="width:50%;" />
+                <col style="width:50%;" />
+                </colgroup>
+                <tbody>
+                    <tr>
+                    
+                        <td *ngIf="patientInfo.specimen=== '015'">SPECIMEN : Genomic DNA isolated from Bone marrow</td>
+                        <td *ngIf="patientInfo.specimen=== '004'">SPECIMEN : Genomic DNA isolated from EDTA blood</td>
+                        <td> REQUEST: {{patientInfo.request}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="sub_title">검사원리</div>
+            <table cellpadding="0" cellspacing="0" class="table_result02">
+                <colgroup>
+                    <col style="width:100%;" />
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td>
+                            Illumina®  MiSeqDx 및 LymphoTrack(Invivoscribe Inc, San Diego, CA)을 이용하여 high throughput sequencing 방법으로 면역글로불린 유전자 재배열을 확인하고 정량하는 검사입니다.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+            <div class="sub_title">검사결과</div>
+            <table cellpadding="0" cellspacing="0" class="table_result02">
+                <colgroup>
+                    <col style="width:50%;" />
+                    <col style="width:50%;" />
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td colspan="2">
+                            {{initialTestResult}}
+                            
+                        </td>
+                    </tr>
+                    <tr>
+
+                        <td>
+                            % of clonal cells (estimated value) :
+                        </td>
+                        <td *ngIf="bcellLPE555LPE556.length">
+                            {{bcellLPE555LPE556}}% / total B-cells
+                        </td>
+                        <td *ngIf="pcellLPE557.length">
+                            {{pcellLPE557}}% / total T-cells
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">{{initialAddComment}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+            <div class="sub_title">검출된 클론</div>
+                <div class="box">
+                    <form [formGroup]="tablerowForm">
+                    <table class="table_list td-fix st-01 tr_list">
+                        <colgroup>
+                            <col style="width:60px"/>  <!-- #   -->
+                            <col style="width:100px"/>  <!-- V region    -->
+                            <col style="width:100px"/>  <!-- J region    -->
+                            <col style="width:100px"/>  <!-- Length (bp)   -->
+                            <col style="width:100px"/>  <!-- Total IGH read depth    -->
+                            <col style="width:80px"/>  <!-- Clonal IGH depth    -->
+                            <col style="width:100px"/>  <!-- Clonal/total IGH read depth (%)*    -->
+                            <col style="width:150px"/>  <!-- Clonal cell equivalent**    -->
+                            <col style="width:100px"/>  <!-- Clonal cell sequence    -->
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>V region</th>
+                                <th>J region</th>
+                                <th>Length (bp)</th>
+                                <!--  
+                                <th>Total IGH read depth</th>
+                                <th>Clonal IGH depth</th>
+                            -->
+                                <th *ngIf="patientInfo.test_code === 'LPE555' || patientInfo.test_code === 'LPE556'">Total IGH read depth</th>
+                                <th *ngIf="patientInfo.test_code === 'LPE557'">Total TCR read depth</th>
+                                <th *ngIf="patientInfo.test_code === 'LPE555' || patientInfo.test_code === 'LPE556'">Clonal IGH depth</th>
+                                <th *ngIf="patientInfo.test_code === 'LPE557'">Clonal TCR depth</th>
+
+                                <th *ngIf="patientInfo.test_code === 'LPE555' || patientInfo.test_code === 'LPE556'">Clonal/<br/>total IGH<br/>read depth<br/>(%)*</th>
+                                <th *ngIf="patientInfo.test_code === 'LPE557'">Clonal/<br/>total TCR<br/>read depth<br/>(%)*</th>
+                                <!--  <th>Clonal/total IGH read depth (%)*</th> -->
+                                <th>Clonal cell equivalent**</th>
+                                <th *ngIf="patientInfo.test_code === 'LPE555' || patientInfo.test_code === 'LPE556'">Clonal IGH sequence</th>
+                                <th *ngIf="patientInfo.test_code === 'LPE557'">Clonal TCR sequence</th>
+                                <!--  <th>Clonal IGH sequence</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let list of formWithoutgraph; let i =index">
+                                <td class="s-text-center">{{list.index}}</td>
+                                <td class="s-text-center">{{list.vregion}}</td>
+                                <td class="s-text-center">{{list.jregion}}</td>
+                                <td class="s-text-center">{{list.length}}</td>
+                                <td class="s-text-center">{{list.totalIGHreadDepth}}</td>
+                                <td class="s-text-center">{{list.clonalIGHDepth}}</td>
+                                <td class="s-text-center">{{list.PercentTotalReads}}</td>
+                                <td class="s-text-center">{{list.clonalCellEquivalent | number:'1.0-0'}}</td>
+                                <td class="s-text-center">{{list.ClonalCellSequence}}</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+                
+  
+            <div class="sub_title">검체정보</div>
+            <table cellpadding="0" cellspacing="0" class="table_result02 st-01">
+                <colgroup>
+                    <col style="width:50%;" />
+                    <col style="width:50%;" />
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td class="s-text-right">
+                            Input DNA =
+                        </td>
+                        <td class="s-text-left">
+                            {{densityTablePdf1}} ng
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="s-text-right">
+                            Total nucleated cells (estimated) =
+                        </td>
+                        <td class="s-text-left">
+                            {{densityTablePdf1CellFEquivalent1}} cell equivalents (Estimated DNA mass per 1 cell = 6.5 pg)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="s-text-right"  *ngIf="bcellLPE555LPE556.length">
+                            Total B-cell count =
+                        </td>
+                        <td class="s-text-right"*ngIf="pcellLPE557.length">
+                            Total T-cell count =
+                        </td>
+                        <td class="s-text-left">
+                            {{firstTotalBcellTcellCount | number:'1.0-0'}} cell equivalents (Total read count/ LQIC read count) * 100
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+  
+            <div class="sub_title" >Comment</div>
+            <pre class="textarea_01 preTextarea">{{commentInitial}}</pre>
+            <!-- <div class="pd_r20">
+                <textarea class="textarea_01" *ngIf="bcellLPE555LPE556.length">* Clonal {{geneType}} read depth를 전체 {{geneType}} read depth로 나눈 값으로 B 세포 중의 클론의 비율을 의미합니다.
+                </textarea>
+                <textarea class="textarea_01" *ngIf="pcellLPE557.length">* Clonal {{geneType}} read depth를 전체 {{geneType}} read depth로 나눈 값으로 T 세포 중의 클론의 비율을 의미합니다.
+                </textarea>
+            </div>  -->
+            <hr class="mg_t30 mg_b20"/>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td class="txt_l font_13 fb">검사의뢰일/검사보고일/수정보고일: {{requestDate | date: 'yyyy.MM.dd'}}/{{firstReportDay}}/{{lastReportDay}}</td>
+                    <td class="txt_1 font_16 fb">검사자:  <input type="text" [(ngModel)]="examin" class="input_02" size="30"></td>
+                    <td class="txt_1 font_16 fb">판독의사: <input type="text" [(ngModel)]="recheck" class="input_02" size="30"></td>
+                </tr>
+            </table>
+  
+        </div>
+    </div>
+</div>
+
     
 
 

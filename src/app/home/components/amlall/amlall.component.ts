@@ -15,6 +15,10 @@ import { AMLALL, LYM, SEQ, MDS, GENETIC, MLPA } from 'src/app/forms/commons/gene
 import { PatientsListService } from '../../services/patientslist';
 import { DashboardService } from '../../services/dashboard.service';
 import { AmlallDialogComponent } from './amlall-dialog/amlall-dialog.component';
+
+// 25.09.18 인천
+import { FileName } from 'src/app/home/models/bTypemodel';
+
 @Component({
   selector: 'app-amlall',
   templateUrl: './amlall.component.html',
@@ -44,6 +48,9 @@ export class AmlallComponent implements OnInit, AfterViewInit, OnDestroy {
   storeSpecimenID: string;
   storePatientName: string;
   researchs: string;
+
+  // 25.10.03 인천
+  fieName = FileName;
 
   private apiUrl = emrUrl;
   select0 = false;

@@ -7,7 +7,7 @@
       <!--button type="button" class="excel2" (click)="excelDV()">결과지액셀저장</button-->
       <div id="content">
           <div class="box pd_20">
-              <div class="box_100 main-table" style="height: auto;max-height: 500px;">
+            <div class="box_100 main-table" style="height: auto;max-height: 500px;" *ngIf="showTable">
                   <table cellpadding="0" cellspacing="0" class="table_list header-fix padding_0" style="text-align: center;">
                       <thead>
                           <tr>
@@ -153,7 +153,8 @@
                       </tbody>
                   </table>
 
-              </div>
+            </div>
+
               <div class="sub_title">Patient: {{patientInfo.name}}, {{patientInfo.patientID}} ({{patientInfo.gender}}/{{patientInfo.age}})</div>
               <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
@@ -290,7 +291,7 @@
               <th>
                 <button class="btn btn_01 btn-s" (click)="addRow()">추가</button>
               </th>
-              <th></th>
+              <th><input type="checkbox" [checked]="allSelected" (change)="toggleAll()" /></th>
               <!--
               <th>IGV</th>
               <th>Sanger</th>
@@ -507,7 +508,8 @@
               </div>
               <div class="sub_title">General limitations of the technique</div>
               <div class="pd_r20">
-                  <textarea class="textarea_01">The analysis was optimised to identify base pair substitutions with a high sensitivity. The sensitivity for small insertions and deletions was lower. Deep-intronic mutations, mutations in the promoter region, repeats, large exonic deletions and duplications, and other structural variants were not detected by this test. Evaluation of germline mutation can be performed using buccal swab speciman.</textarea>
+                  <!--textarea class="textarea_01">The analysis was optimised to identify base pair substitutions with a high sensitivity. The sensitivity for small insertions and deletions was lower. Deep-intronic mutations, mutations in the promoter region, repeats, large exonic deletions and duplications, and other structural variants were not detected by this test. Evaluation of germline mutation can be performed using buccal swab speciman.</textarea-->
+                  <textarea class="textarea_01">{{general}}</textarea>
               </div>
               <div class="sub_title">Target genes</div>
               <div class="box_gene_100"  *ngIf="reportType === 'AML'">

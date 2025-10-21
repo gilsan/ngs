@@ -41,14 +41,64 @@ export function makeReport(
 
   let ionReporter = '';
   let oncomineReporter = '';
+
+  // 25.09.08 빈센트 버전 추가
+  let torrentSuite = 'v5.18.1';
+  let targetGenes = 'Oncomine Comprehensive Assay plus (ThermoFisher scientific)';
   
+  // 시약 문자열을 조건에 맞게 준비
+  const assayInfo = swVer !== '5'
+    ? `Oncomine Comprehensive Assay plus (ThermoFisher scientific)`
+    : `Oncomine Comprehensive Assay plus DNA panel (ThermoFisher scientific)
+  Oncomine childhood cancer research assay RNA panel (ThermoFisher scientific)`;
+
+  const hostspot = swVer !== '5'
+    ? '1.5' 
+    : '5';
+  
+  const indel = swVer !== '5'
+    ? '1.5' 
+    : '5';
+  
+  const snp = swVer !== '5'
+    ? '1.5' 
+    : '5';
+  
+  const fusionCount = swVer !== '5'
+    ? '100' 
+    : '40';
+  
+  const cnv = swVer !== '5'
+    ? '6' 
+    : '4';
+  
+  const gain = swVer !== '5'
+    ? '0.05' 
+    : '40';
+  
+  const fold = swVer !== '5'
+    ? '0.7' 
+    : '0.85';
+
   if (swVer === "1") {
     ionReporter = 'v5.18'; 
     oncomineReporter = 'v5.6.0';
   } else if (swVer === "2") {
     ionReporter = 'v5.20'; 
     oncomineReporter = 'v5.7';    
-  }
+     
+  // 25.09.08 빈센트 버전 추가
+  } else if (swVer === "5") {
+    ionReporter = 'v5.20'; 
+    oncomineReporter = 'v5.20';    
+    torrentSuite = 'v5.20';
+    targetGenes = 'Oncomine Comprehensive Assay plus DNA panel and Oncomine childhood cancer research assay RNA panel (ThermoFisher scientific)';
+    
+  } else  {
+    ionReporter = 'v5.20'; 
+    oncomineReporter = 'v5.7';    
+  } 
+
 
   const todays = () => {
     const today = new Date()
@@ -496,23 +546,23 @@ export function makeReport(
        <Rows>
            <Row>
               <Col id="testinfocontent">1. 검사시약
-  Oncomine Comprehensive Assay plus (ThermoFisher scientific)
+  ${assayInfo}
   2. 검사기기
   Ion S5 XL sequencer (ThermoFisher scientific)
   Ion CHEF (ThermoFisher scientific)
   3. Reference genome: hg19
   4. 분석 소프트웨어
-  Torrent suite v5.18.1
+  Torrent suite ${torrentSuite}
   Ion Reporter ${ionReporter}
   Oncomine  reporter ${oncomineReporter}
   5. 돌연변이 검출 기준치
-  Minimum allele frequency of hotspot variant: ≥ 4%
-  Minimum allele frequency of indel variant: ≥ 5%
-  Minimum allele frequency of SNP variant: ≥ 5%
-  Minimum read counts for fusions: ≥ 40
-  CNV gain threshold: 6
-  Gain confidence level: 0.05
-  Max fold difference for loss: 0.7
+  Minimum allele frequency of hotspot variant: ≥ ${hostspot}%
+  Minimum allele frequency of indel variant: ≥ ${indel}%
+  Minimum allele frequency of SNP variant: ≥ ${snp}%
+  Minimum read counts for fusions: ≥ ${fusionCount}
+  CNV gain threshold: ${cnv}
+  Gain confidence level: ${gain}
+  Max fold difference for loss: ${fold}
   6. Tier classification (Reference: J Mol Diagn. 2017 Jan;19(1):4-23.)
   (1) I
   Biomarker predicts response or resistance to EMA or FDA approved therapies in this cancer type
@@ -544,7 +594,7 @@ export function makeReport(
        <Rows>
           <Row>
              <Col id="targetgenelist"> 타겟 유전자 목록</Col>
-             <Col id="targetgenetitle">Oncomine Comprehensive Assay plus (ThermoFisher scientific)</Col>
+             <Col id="targetgenetitle">${targetGenes}</Col>
           </Row>
        </Rows>
     </Dataset>`

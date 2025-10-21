@@ -31,14 +31,22 @@ export class TsvuploadComponent implements OnInit {
   onConfirm(): void {
     this.onSelected.emit(null);
     // 파일 업로드후 초기화
-    this.upload.files = [];
+    if (!this.upload) {
+      this.upload = { progress: 0, files: [] };
+    } else {
+      this.upload.files = [];
+    }
     this.uploadfile.nativeElement.value = '';
   }
 
   onCancel(): void {
     this.onCanceled.emit(null);
     // 파일 취소후 초기화
-    this.upload.files = [];
+    if (!this.upload) {
+      this.upload = { progress: 0, files: [] };
+    } else {
+      this.upload.files = [];
+    }
     this.uploadfile.nativeElement.value = '';
   }
 
@@ -76,9 +84,20 @@ export class TsvuploadComponent implements OnInit {
     formData.append('testedID', this.testedid);
 
     this.fileUploadService.fileUpload(formData)
-      .subscribe(result => {
-        this.upload = result;
-      });
+      .subscribe({
+        next: (result) => {
+          if (result) {
+            this.upload = result;
+            if (result.message) {
+              console.log('업로드 오류 메시지:', result.message);
+            }
+          }
+      },
+      error: (errJson: any) => {
+        console.log('업로드 오류:', errJson);
+        
+      }
+    });
   }
 
 

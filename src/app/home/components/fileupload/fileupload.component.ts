@@ -34,6 +34,7 @@ export class FileuploadComponent implements OnInit {
   upload: UploadResponse = new UploadResponse();
   isActive: boolean;
   testedid: string;
+  jsonMessage: any = null;
   artifacts: IArtifact[] = [];
 
 
@@ -91,9 +92,16 @@ export class FileuploadComponent implements OnInit {
     formData.append('testedID', this.testedid);
 
     this.fileUploadService.fileUpload(formData)
-      .subscribe(result => {
+      .subscribe({
+        next: (result) => {
         this.upload = result;
-      });
+      },
+      error: (errJson: any) => {
+        // 여기서 안전하게 message만 추출) 
+        console.log('업로드 오류:', this.jsonMessage);
+        this.jsonMessage = errJson || '알 수 없는 오류';
+      }
+    });
   }
 
   onSelectedFile(event: any): any {

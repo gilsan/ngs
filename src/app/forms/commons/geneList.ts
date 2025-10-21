@@ -21,7 +21,11 @@ export const SEQ = [
   //'LPE349', 'LPE352', 'LPE354', 'LPE356', 'LPE358', 'LPE360', 'LPE362', 'LPE364', 'LPE366', 'LPE371',
   'LPE349', 'LPE352', 'LPE354', 'LPE356', 'LPE358', 'LPE360', 'LPC208', 'LPE364', 'LPE366', 'LPE371',
   'LPE374', 'LPE375', 'LPE378', 'LPE379', 'LPE384', 'LPE391', 'LPE392', 'LPE368', 'LPE410', 'LPE412',
-  'LPE414', 'LPE418', 'LPE420', 'LPE428', 'LPE431', 'LPE433', 'LPE436', 'LPE457', 'LPE460', 'LPE462',
+  // 25.05.26 추가 
+  //'LPE414', 'LPE418', 'LPE420', 'LPE428', 'LPE431', 'LPE433', 'LPE436', 'LPE457', 'LPE460', 'LPE462',
+  // 25.05.26 , LPE426 추가 
+  //'LPE414', 'LPE418', 'LPE420', 'LPE427', 'LPE428', 'LPE431', 'LPE433', 'LPE434', 'LPE436', 'LPE457', 'LPE460', 'LPE462',
+  'LPE414', 'LPE418', 'LPE420', 'LPE426', 'LPE427', 'LPE428', 'LPE431', 'LPE433', 'LPE434', 'LPE436', 'LPE457', 'LPE460', 'LPE462',
   'LPE469', 'LPE477', 'LPE481', 'LPE482', 'LPE494', 'LPE495'];
 
 export const MLPA = [
@@ -299,9 +303,22 @@ export const testCodeLists = [
   { ngstype: 'Sequencing', title: 'PKHD1 gene, Mutation [sequencing]', code: 'LPE414', testname: '' },
   { ngstype: 'Sequencing', title: 'HAX1 gene, Mutation [Sequencing]', code: 'LPE418', testname: '' },
   { ngstype: 'Sequencing', title: 'DMD gene, Mutation [sequencing]', code: 'LPE420', testname: '' },
+  // 25.10.20  추가
+  // LPE426 TP53 Gene Sequencing Analysis Report 
+  { ngstype: 'Sequencing', title: '(비유전성) TP53 Gene Sequencing Analysis Report ', code: 'LPE426', testname: '' },
+  // 25.05.26 추가 
+  // LPE427   EXT1 gene, Mutation [sequencing]  EXT1 Gene Sequencing Analysis report
+  // 25.07.03
+  //{ ngstype: 'Sequencing', title: 'EXT1 gene, Mutation [sequencing] ', code: 'LPE427', testname: '' },
+  { ngstype: 'Sequencing', title: 'EXT1 Gene Analysis report ', code: 'LPE427', testname: '' },
   { ngstype: 'Sequencing', title: 'MLL2 gene, Mutation [sequencing]', code: 'LPE428', testname: '' },
   { ngstype: 'Sequencing', title: 'IKBKG gene, Mutation [sequencing]', code: 'LPE431', testname: '' },
   { ngstype: 'Sequencing', title: 'PRRT2, gene test [Sequencing]', code: 'LPE433', testname: '' },
+  // 25.05.26 추가 
+  // LPE434   EXT2 gene, Mutation [sequencing]  EXT2 Gene Sequencing Analysis report
+  // 27.07.03 추가 
+  //{ ngstype: 'Sequencing', title: 'EXT2 gene, Mutation [sequencing] ', code: 'LPE434', testname: '' },
+  { ngstype: 'Sequencing', title: 'EXT2 Gene Analysis report ', code: 'LPE434', testname: '' },
   { ngstype: 'Sequencing', title: 'DMD, family (부분)', code: 'LPE435', testname: '' },
   { ngstype: 'Sequencing', title: 'EPOR gene, Mutation [sequencing]', code: 'LPE436', testname: '' },
   { ngstype: 'Sequencing', title: 'FANCG gene, mutation [sequencing]', code: 'LPE457', testname: '' },
@@ -544,9 +561,18 @@ export const testcodeLists = [
   { type: 'SEQ', title: 'PKHD1 Gene Sequencing Analysis Report', code: 'LPE414' },
   { type: 'SEQ', title: 'HAX1 Gene Sequencing Analysis Report', code: 'LPE418' },
   { type: 'SEQ', title: 'DMD Gene Sequencing Analysis Report', code: 'LPE420' },
+  // 25.10.20 추가 
+  // LPE426  TP53 Gene Sequencing Analysis Report
+  { type: 'SEQ', title: '(비유전성) TP53 Gene Sequencing Analysis Report', code: 'LPE426' },
+  // 25.05.26 추가 
+  // LPE427  EXT1 Gene Sequencing Analysis report
+  { type: 'SEQ', title: 'EXT1 Gene Analysis report', code: 'LPE427' },
   { type: 'SEQ', title: 'MLL2 Gene Sequencing Analysis Report', code: 'LPE428' },
   { type: 'SEQ', title: 'IKBKG Gene Sequencing Analysis Report', code: 'LPE431' },
   { type: 'SEQ', title: 'PRRT2 Gene Sequencing Analysis Report', code: 'LPE433' },
+  // 25.05.26 추가 
+  // LPE434  EXT2 Gene Sequencing Analysis report
+  { type: 'SEQ', title: 'EXT1 Gene Analysis report', code: 'LPE434' },
   { type: 'SEQ', title: 'EPOR Gene Sequencing Analysis Report', code: 'LPE436' },
   { type: 'SEQ', title: 'FANCG Gene Sequencing Analysis Report', code: 'LPE457' },
   { type: 'SEQ', title: 'NSD1 Gene Sequencing Analysis Report', code: 'LPE460' },

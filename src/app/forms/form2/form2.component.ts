@@ -13,13 +13,15 @@ import { IAFormVariant } from 'src/app/home/models/patients';
 import { shareReplay, switchMap, tap, concatMap, map, filter, last } from 'rxjs/operators';
 
 import { SubSink } from 'subsink';
-import { GENERAL, makeBForm, METHODS, METHODS516 } from 'src/app/home/models/bTypemodel';
+// 25.09.18 인천
+//import { GENERAL, makeBForm, METHODS, METHODS516_AMLL } from 'src/app/home/models/bTypemodel';
+import { GENERAL, makeBForm, METHODS, METHODS516_AMLL, SHOWTABLE, FileName } from 'src/app/home/models/bTypemodel';
 import { DetectedVariantsService } from 'src/app/home/services/detectedVariants';
 import { StoreService } from '../store.current';
 import { ExcelService } from 'src/app/home/services/excelservice';
 
 import { MatDialog } from '@angular/material/dialog';
-import { DialogOverviewExampleDialogComponent } from '../dialog-overview-example-dialog/dialog-overview-example-dialog.component';
+//import { DialogOverviewExampleDialogComponent } from '../dialog-overview-example-dialog/dialog-overview-example-dialog.component';
 import { makeAForm } from 'src/app/home/models/aTypemodel';
 import { UtilsService } from '../commons/utils.service';
 import { CommentsService } from 'src/app/services/comments.service';
@@ -92,9 +94,10 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
   flt3itd = '';
   chronmosomal = '';
   methods = METHODS;
-  methods516 = METHODS516;
-  methods520 = METHODS516;
+  methods516 = METHODS516_AMLL;
+  methods520 = METHODS516_AMLL;
   general = GENERAL;
+
   indexNum = 0;
   selectedItem = 'mutation';
   tsvInfo: IFilteredTSV;
@@ -134,6 +137,9 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
   examin = ''; // 검사자
   recheck = ''; // 확인자
 
+  // 25.09.18 인천
+  showTable = true; // true면 보임, false면 숨김
+
   animal: string;
   name: string;
   sendEMR = 0; // EMR 보낸 수
@@ -170,6 +176,10 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('commentbox') private commentbox: TemplateRef<any>;
   @ViewChild('box100', { static: true }) box100: ElementRef;
   @ViewChild('table', { static: true }) table: ElementRef;
+
+  // 25.06.30 allselect 추가
+  allSelected = false;
+
   constructor(
     private patientsListService: PatientsListService,
     private router: Router,
@@ -201,6 +211,9 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       this.lastReportDay = '-';
     }
 
+    // 25.09.18 인천
+    this.showTable = SHOWTABLE;
+    
     this.loadForm();
 
   } // End of ngOninit
@@ -333,7 +346,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       );
     this.subs.sink = this.filteredTSV$.subscribe(data => {
       // console.log('[312][form2][fileredTSVFile]', data);
-      this.tsvLists = data;
+      this.tsvLists = data || [];
     });
 
   }
@@ -943,6 +956,24 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     control.push(this.createRow(row));
   }
+
+  // 25.06.30
+  toggleAll(): void {
+    this.allSelected = !this.allSelected;
+    this.getFormControls.controls.forEach(ctrl => {
+      ctrl.get('checked')?.setValue(this.allSelected);
+    });
+
+    this.checkboxStatus = [];
+    for (let i = 0; i < this.getFormControls.length; i++) {
+      if (this.getFormControls.at(i).get('checked')?.value === true) {
+        this.checkboxStatus.push(i);
+      }
+    }
+
+    console.log('[966][상태][boxstatus]', this.checkboxStatus);
+  }
+
   //////////////////////////////////////////
   // commentsForm
   ////////////////////////////////////////////
@@ -1098,6 +1129,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
   save(index: number) {
     console.log('[1151][저장] [index]', index, this.vd);
     const selected = this.vd.find(item => item.sequence === index);
+
     this.selectedItem = selected.selectedname;
     console.log('[1154][저장] ', index, this.vd, this.selectedItem);
     const control = this.tablerowForm.get('tableRows') as FormArray;
@@ -1357,7 +1389,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
     if (this.checkboxStatus.length === 0) {
       this.checkboxRefill();
     }
-    // check, uncheck 상관없이 모듀 EMR로 전송
+    // check 만 EMR로 전송
     const reformData = formData.filter((data, index) => this.checkboxStatus.includes(index));
     console.log('[1358][EMR로 보내기, 체크박스]', this.checkboxStatus);
     console.log('[1359][EMR로 보내기]', formData);
@@ -1411,7 +1443,12 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       this.lastReportDay,
       this.genelists,
       tsvVersionContents,
-      this.specimenMsg
+
+      // 25.09.18 인천
+      //this.specimenMsg
+      this.specimenMsg,
+      this.general
+
     );
     console.log('[1412] ', makeForm);
 

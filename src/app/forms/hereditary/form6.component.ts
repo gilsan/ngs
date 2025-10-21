@@ -179,6 +179,9 @@ export class Form6Component implements OnInit, OnDestroy {
   zygosity: string[] = ['Heterozygous', 'Homozygous'];
   isDirect = false;
 
+  // 25.06.30 allselect 추가
+  allSelected = false;
+
   @ViewChild('commentbox') private commentbox: TemplateRef<any>;
   @ViewChild('box100', { static: true }) box100: ElementRef;
   @ViewChild('table', { static: true }) table: ElementRef;
@@ -812,6 +815,24 @@ export class Form6Component implements OnInit, OnDestroy {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     control.push(this.createRow(row));
   }
+
+  // 25.06.30
+  toggleAll(): void {
+    this.allSelected = !this.allSelected;
+    this.getFormControls.controls.forEach(ctrl => {
+      ctrl.get('checked')?.setValue(this.allSelected);
+    });
+
+    this.checkboxStatus = [];
+    for (let i = 0; i < this.getFormControls.length; i++) {
+      if (this.getFormControls.at(i).get('checked')?.value === true) {
+        this.checkboxStatus.push(i);
+      }
+    }
+
+    console.log('[966][상태][boxstatus]', this.checkboxStatus);
+  }
+
   //////////////////////////////////////////
   // commentsForm
   ////////////////////////////////////////////

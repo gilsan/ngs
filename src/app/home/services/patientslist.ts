@@ -7,6 +7,7 @@ import { emrUrl } from 'src/app/config';
 import { StoreService } from 'src/app/forms/store.current';
 import { ClrVerticalNavGroup } from '@clr/angular';
 
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -416,10 +417,15 @@ export class PatientsListService {
     examcode: string,
     xmlData: string) {
 
-    const url = 'http://emr012edu.cmcnu.or.kr/cmcnu/.live';
+    //  const url = 'http://emr012edu.cmcnu.or.kr/cmcnu/.live';
+      const url = environment.emrdata + '/cmcnu/.live';
+    //const url = 'http://emr017edu.cmcnu.or.kr/cmcnu/.live';
     const submitID = 'TXLII00124';
     const businessID = 'li';
-    const instcd = '012';
+
+    //const instcd = '012';
+    const instcd =  environment.instcd;
+    //const instcd = '017';
 
     // 24.09.03 specimenno_? start
     // const spcno = spcnum;
@@ -456,7 +462,9 @@ export class PatientsListService {
       * http://emr012edu.cmcnu.or.kr/cmcnu/.live?submit_id=TXLII00124&business_id=li&instcd=012&*spcno=M20-008192&formcd=-&rsltflag=O&pid=34213582&examcd=PMO12072&examflag=${examflag}&infflag=I&userid=20800531&rsltdesc=test
       */
 
-    const emrdata = `http://emr012edu.cmcnu.or.kr/cmcnu/.live?submit_id=${submitID}&business_id=li&instcd=012&spcno=${spcno}&formcd=-&rsltflag=O&pid=${pid}&examcd=${examcd}&examflag=${examflag}&infflag=I&userid=${userid}&rsltdesc=${rsltdesc}`;
+    //const emrdata = `http://emr012edu.cmcnu.or.kr/cmcnu/.live?submit_id=${submitID}&business_id=li&instcd=012&spcno=${spcno}&formcd=-&rsltflag=O&pid=${pid}&examcd=${examcd}&examflag=${examflag}&infflag=I&userid=${userid}&rsltdesc=${rsltdesc}`;
+    const emrdata = `${url}/cmcnu/.live?submit_id=${submitID}&business_id=li&instcd=${instcd}&spcno=${spcno}&formcd=-&rsltflag=O&pid=${pid}&examcd=${examcd}&examflag=${examflag}&infflag=I&userid=${userid}&rsltdesc=${rsltdesc}`;
+    //const emrdata = `http://emr017edu.cmcnu.or.kr/cmcnu/.live?submit_id=${submitID}&business_id=li&instcd=012&spcno=${spcno}&formcd=-&rsltflag=O&pid=${pid}&examcd=${examcd}&examflag=${examflag}&infflag=I&userid=${userid}&rsltdesc=${rsltdesc}`;
     console.log('[433][sendEMR]emrurl=' +  emrdata);
 
     const params = new HttpParams()

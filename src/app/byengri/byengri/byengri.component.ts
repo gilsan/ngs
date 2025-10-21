@@ -11,6 +11,7 @@ import { map, tap } from 'rxjs/operators';
 import { SubSink } from 'subsink';
 import { ExcelAddListService } from '../services/excelAddList';
 import { ExcelService } from '../services/excel.service';
+import { environment } from '../../../environments/environment'; // 환경 경로에 맞게 수정
 
 @Component({
   selector: 'app-byengri',
@@ -19,7 +20,13 @@ import { ExcelService } from '../services/excel.service';
 })
 export class ByengriComponent implements OnInit, OnDestroy {
 
+  hospitalName = environment.home;
+
   private subs = new SubSink();
+  
+  // 25.09.12 암호 변경
+  id: string;
+  
   userid: string;
   username: string;
   dept = '병리';
@@ -40,11 +47,30 @@ export class ByengriComponent implements OnInit, OnDestroy {
     this.userid = JSON.parse(userinfo).userid;
     const pw = JSON.parse(userinfo).pw;
 
+    console.log ("[46]pw", pw)
+
     this.service.getManageUsersList('', '', this.userid, '', 'P')
       .pipe(
-        map(data => [data]),
+        /*tap(data => { 
+              console.log("[tap1] raw data:", data);
+              console.log("[tap1] isArray?", Array.isArray(data));
+                    }), // 원본 응답 찍기*/
+        map(data => Array.isArray(data) ? data : [data]),
         map(values => values.filter(val => val.user_id === this.userid && val.password === pw)),
         map(datas => datas.map(data => {
+
+          //console.log ("[46]data", data)
+
+          // 25.09.12 암호 변경
+          if (data.user_gb === null) {
+            data.user_gb = 'U';
+          }
+
+          // 25.09.12 암호 변경
+          if (data.id === null) {
+            data.id = '0';
+          }
+
           if (data.pickselect === null) {
             data.pickselect = '';
             return data;
@@ -53,8 +79,14 @@ export class ByengriComponent implements OnInit, OnDestroy {
         }))
       )
       .subscribe(data => {
+
+        //console.log ("[68]data", data);
+
         if (data.length > 0) {
           this.passwdInfo = data[0];
+
+          //console.log ("[68]this.passwdInfo", this.passwdInfo);
+
           this.username = data[0].user_nm;
           if (data[0].part_nm === 'Tester') {
             this.work = '임상병리사';
@@ -123,6 +155,8 @@ export class ByengriComponent implements OnInit, OnDestroy {
       width: '800px',
       disableClose: true,
       data: {
+        // 25.09.12 암호 변경
+        id: this.passwdInfo.id,
         userid: this.userid,
         username: this.username,
         dept: this.dept,
@@ -133,6 +167,9 @@ export class ByengriComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(data => {
 
       if (data !== undefined) {
+
+        console.log ("[68]this.passwdInfo", this.passwdInfo)
+
         const id = this.passwdInfo.id;
         const passwd = data.newpassword;
         const userNm = data.username;
@@ -151,6 +188,14 @@ export class ByengriComponent implements OnInit, OnDestroy {
             console.log(val.rowsAffected[0]);
             if (Number(val.rowsAffected[0]) === 1) {
               alert('변경 되었습니다.');
+
+              localStorage.setItem(
+                'pathuser',
+                JSON.stringify({
+                  userid: this.userid,
+                  pw: passwd,
+                }),
+              )
             }
           });
       }

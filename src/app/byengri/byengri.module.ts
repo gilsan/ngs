@@ -35,6 +35,9 @@ import { JindanComponent } from './byengri/lims/jindan-dialog/jindan.component';
 import { ExtraExcelUploadComponent } from './byengri/lims/excelUpload/extraExcelUpload.component';
 import { Version52Component } from './byengri/report/dnslist/version52/version52.component';
 import { Version518Component } from './byengri/report/dnslist/version518/version518.component';
+ 
+// 25.09.08 빈센트 버전 추가
+import { Version52VincentComponent } from './byengri/report/dnslist/version52-vincent/version52-vincent.component';
 // import { ScrollDNAMonitorDirective } from './directives/scrollsync.directive';
 
 
@@ -46,6 +49,9 @@ import { Version518Component } from './byengri/report/dnslist/version518/version
     ReportComponent,
     Version52Component,
     Version518Component,
+    // 25.09.08 빈센트 버전 추가
+    Version52VincentComponent, 
+
     MainComponent,
     UploadComponent,
     PathReportComponent,

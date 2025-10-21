@@ -14,17 +14,21 @@ import { IAFormVariant } from 'src/app/home/models/patients';
 import { shareReplay, switchMap, tap, concatMap, map, filter, last } from 'rxjs/operators';
 
 import { SubSink } from 'subsink';
-import { GENERAL, makeBForm, METHODS, METHODS516 } from 'src/app/home/models/bTypemodel';
+// 25.09.18 인천
+//import { GENERAL, makeBForm, METHODS, METHODS516 } from 'src/app/home/models/bTypemodel';
 import { DetectedVariantsService } from 'src/app/home/services/detectedVariants';
 import { StoreService } from '../store.current';
 import { ExcelService } from 'src/app/home/services/excelservice';
 
 import { MatDialog } from '@angular/material/dialog';
 import { DialogOverviewExampleDialogComponent } from '../dialog-overview-example-dialog/dialog-overview-example-dialog.component';
-import { makeAForm } from 'src/app/home/models/aTypemodel';
+// 25.09.18 인천
+//import { makeAForm } from 'src/app/home/models/aTypemodel';
 import { UtilsService } from '../commons/utils.service';
 import { CommentsService } from 'src/app/services/comments.service';
-import { makeDForm } from 'src/app/home/models/dTypemodel';
+// 25.09.18 인천
+//import { makeDForm } from 'src/app/home/models/dTypemodel';
+import { GENERAL, makeDForm, METHODS, METHODS516, zygo } from 'src/app/home/models/dTypemodel';
 import { moveItemInArray, CdkDragDrop } from '@angular/cdk/drag-drop';
 import { AnalysisService } from '../commons/analysis.service';
 import { ExcelAddListService } from 'src/app/home/services/excelAddList';
@@ -102,6 +106,13 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
   method: string;
   methods516 = METHODS516;
   general = GENERAL;
+
+  // 25.09.28 zygosity 추가
+  Zygo = zygo;
+
+  // 팝업에 전달할 값
+  popupValue: string = zygo  ;  // 기본값
+
   indexNum = 0;
   selectedItem = 'mutation';
   tsvInfo: IFilteredTSV;
@@ -174,14 +185,21 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
   // methodmsg = `Total genomic DNA was extracted from the each sample. The HEMEaccuTest MDS/MPN was used to make the library. /The HEMEaccuTest MDS/MPN was used for in-solution enrichment of target regions. The enriched fragments were then amplified and sequenced on the NextSeq550Dx system (illumina). After demultiplexing, the reads were aligned to the human reference genome hg19 (GRCh37) using BWA (0.7.10) and duplicate reads were removed with MarkDuplicates (GATK 4.0.6.0). Local realignment, score recalibiration and filtering sequence data were performed with GATK (4.0.6.0). Variants were annotated using SnpEff (4.3).`;
 
   // methodmsg = `Total genomic DNA was extracted from the each sample. The HEMEaccuTest MDS/MPN was used to make the library. The HEMEaccuTest MDS/MPN was used for in-solution enrichment of target regions. The enriched fragments were then amplified and sequenced on the NextSeq550Dx system (illumina). After demultiplexing, the reads were aligned to the human reference genome hg19 (GRCh37) using BWA (0.7.10) and duplicate reads were removed with MarkDuplicates (GATK 4.0.6.0). Local realignment, score recalibiration and filtering sequence data were performed with GATK (4.0.6.0). Variants were annotated using SnpEff (4.3). The detected variants are classified as Oncogenic, Likely Oncogenic, Variant of Uncertain Significance (VUS), Likely Benign, and Benign variant according to the  Somatic Oncogenicity classification [Genetics in Medicine (2022) 24, 986–998]. We only report variants classified as Oncogenic, Likely oncogenic and VUS. The detected variants are classified as Oncogenic, Likely Oncogenic, Variant of Uncertain Significance (VUS), Likely Benign, and Benign variant according to the  Somatic Oncogenicity classification [Genetics in Medicine (2022) 24, 986–998]. We only report variants classified as Oncogenic, Likely oncogenic and VUS.`;
-  methodmsg =`Total genomic DNA was extracted from the each sample.  The HEMEaccuTest SM-PanHEM was used to make the library. The HEMEaccuTest SM-PanHEM was used for in-solution enrichment of target regions. The enriched fragments were then amplified and sequenced on the NextSeq550Dx system (illumina). After demultiplexing, the reads were aligned to the human reference genome hg19 (GRCh37) using BWA (0.7.10) and duplicate reads were removed with MarkDuplicates (GATK 4.2.6.1). Local realignment, score recalibration and filtering sequence data were performed with GATK (4.2.6.1). Variants were annotated using SnpEff (4.3). The detected variants are classified as Oncogenic, Likely Oncogenic, Variant of Uncertain Significance (VUS), Likely Benign, and Benign variant according to the Somatic Oncogenicity classification [Genetics in Medicine (2022) 24.986-998]. We only report variants classified as Oncogenic, Likely oncogenic, and VUS.`;
+  
+  // 25.09.18 인천
+  //methodmsg =`Total genomic DNA was extracted from the each sample.  The HEMEaccuTest SM-PanHEM was used to make the library. The HEMEaccuTest SM-PanHEM was used for in-solution enrichment of target regions. The enriched fragments were then amplified and sequenced on the NextSeq550Dx system (illumina). After demultiplexing, the reads were aligned to the human reference genome hg19 (GRCh37) using BWA (0.7.10) and duplicate reads were removed with MarkDuplicates (GATK 4.2.6.1). Local realignment, score recalibration and filtering sequence data were performed with GATK (4.2.6.1). Variants were annotated using SnpEff (4.3). The detected variants are classified as Oncogenic, Likely Oncogenic, Variant of Uncertain Significance (VUS), Likely Benign, and Benign variant according to the Somatic Oncogenicity classification [Genetics in Medicine (2022) 24.986-998]. We only report variants classified as Oncogenic, Likely oncogenic, and VUS.`;
+  methodmsg = METHODS516;
 
-  technique = `The analysis was optimised to identify base pair substitutions with a high sensitivity. The sensitivity for small insertions and deletions was lower. Deep-intronic mutations, mutations in the promoter region, repeats, large exonic deletions and duplications, and other structural variants were not detected by this test.`;
+  // 25.09.18 인천
+  //technique = `The analysis was optimised to identify base pair substitutions with a high sensitivity. The sensitivity for small insertions and deletions was lower. Deep-intronic mutations, mutations in the promoter region, repeats, large exonic deletions and duplications, and other structural variants were not detected by this test.`;
 
   maxHeight = 500;
   isResearch = false;
   totalCount = 0; // 유전자와 nucleotidde change 을 가진 환자수
   savedDataExist = false;
+
+  // 25.06.30 allselect 추가
+  allSelected = false;
 
   @ViewChild('commentbox') private commentbox: TemplateRef<any>;
   @ViewChild('box100', { static: true }) box100: ElementRef;
@@ -220,6 +238,9 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     }
 
     this.loadForm();
+
+    console.log(this.Zygo);
+    console.log(this.popupValue);
 
   } // End of ngOninit
 
@@ -784,6 +805,23 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       this.checkboxStatus.push(i);
     }
     // this.putCheckboxInit(); // 체크박스 초기화
+  }
+
+  // 25.06.30
+  toggleAll(): void {
+    this.allSelected = !this.allSelected;
+    this.getFormControls.controls.forEach(ctrl => {
+      ctrl.get('checked')?.setValue(this.allSelected);
+    });
+
+    this.checkboxStatus = [];
+    for (let i = 0; i < this.getFormControls.length; i++) {
+      if (this.getFormControls.at(i).get('checked')?.value === true) {
+        this.checkboxStatus.push(i);
+      }
+    }
+
+    console.log('[966][상태][boxstatus]', this.checkboxStatus);
   }
 
   recoverVariant(item: IRecoverVariants): void {
@@ -1363,7 +1401,11 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       this.firstReportDay,
       this.lastReportDay,
       this.genelists,
-      this.methodmsg
+
+      // 25.09.18 인천
+      //this.methodmsg
+      this.methodmsg,
+      this.general
     );
     console.log('[979][MDS XML] ', makeForm);
     const examcode = this.patientInfo.test_code;

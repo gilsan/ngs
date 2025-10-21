@@ -7,6 +7,7 @@ import { IAmplification, IExtraction, IFilteredOriginData, IFusion, IIAmplificat
 import { IIMutation, IGeneTire } from './../models/patients';
 import { emrUrl } from './../../config';
 
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -166,6 +167,7 @@ export class PathologyService {
   }
 
 
+
   // EMR 로 보고서 보내기
   // tslint:disable-next-line: typedef
   public sendEMR(researchPatientInfo: IPatient, xmlData: string) {
@@ -174,7 +176,9 @@ export class PathologyService {
     const pathologyNum = researchPatientInfo.pathology_num.replace(/-/g, '');
     const submitID = 'TXLII00124';
     const businessID = 'li';
-    const instcd = '012';
+    //const instcd = '012';
+    //const instcd = '017';
+    const instcd =  environment.instcd;
     const spcno = pathologyNum;
     const formcd = '-';
     const rsltflag = 'O';
@@ -185,7 +189,11 @@ export class PathologyService {
     const userid = '20800531';
     const rsltdesc = xmlData;
 
-    const emrdata = `http://emr012.cmcnu.or.kr/cmcnu/.live?submit_id=${submitID}&business_id=li&instcd=012&spcno=${spcno}&formcd=-&rsltflag=O&pid=${pid}&examcd=${examcd}&examflag=${examflag}&infflag=I&userid=${userid}&rsltdesc=${rsltdesc}`;
+    const emrurl =  environment.emrdata;
+
+    //const emrdata = `http://emr012.cmcnu.or.kr/cmcnu/.live?submit_id=${submitID}&business_id=li&instcd=012&spcno=${spcno}&formcd=-&rsltflag=O&pid=${pid}&examcd=${examcd}&examflag=${examflag}&infflag=I&userid=${userid}&rsltdesc=${rsltdesc}`;
+    //const emrdata = `${emrurl}/cmcnu/.live?submit_id=${submitID}&business_id=li&instcd=${instcd}&spcno=${spcno}&formcd=-&rsltflag=O&pid=${pid}&examcd=${examcd}&examflag=${examflag}&infflag=I&userid=${userid}&rsltdesc=${rsltdesc}`;
+    //const emrdata = `http://emr017.cmcnu.or.kr/cmcnu/.live?submit_id=${submitID}&business_id=li&instcd=017&spcno=${spcno}&formcd=-&rsltflag=O&pid=${pid}&examcd=${examcd}&examflag=${examflag}&infflag=I&userid=${userid}&rsltdesc=${rsltdesc}`;
 
     const emr = `${this.apiUrl}/pathEMR/redirectEMR`;
     console.log('[service pathologyNum]', spcno);

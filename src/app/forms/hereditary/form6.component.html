@@ -75,7 +75,7 @@
               <th>
                 <button class="btn btn_01 btn-s" (click)="addRow()">추가</button>
               </th>
-              <th></th>
+              <th><input type="checkbox" [checked]="allSelected" (change)="toggleAll()" /></th>
               <th>Type</th>
             <!--  <th></th>  -->
               <th>Gene</th>

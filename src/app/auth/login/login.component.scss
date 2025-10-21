@@ -68,7 +68,7 @@ body {
   cursor: pointer;
 }
 
-
-// .login_logo {
-
-// }
+.login_logo {
+  max-width: 400px;  /* 가로 최대 400px */
+  height: auto  ;      /* 세로 비율 자동 유지 */
+}

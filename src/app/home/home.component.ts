@@ -22,6 +22,9 @@ import { StoreLYMService } from '../forms/store.current.lym';
 import { StoreMDSService } from '../forms/store.current.mds';
 import { StoreMLPAService } from '../forms/store.current.mlpa';
 import { StoreSEQService } from '../forms/store.current.seq';
+
+import { environment } from '../../environments/environment'; // 환경 경로에 맞게 수정
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -29,7 +32,12 @@ import { StoreSEQService } from '../forms/store.current.seq';
 })
 export class HomeComponent implements OnInit, OnDestroy {
 
+  hospitalName = environment.home;
+
   private subs = new SubSink();
+    
+  // 25.09.12 암호 변경
+  id: string;
 
   userid: string;
   username: string;
@@ -66,9 +74,24 @@ export class HomeComponent implements OnInit, OnDestroy {
     // console.log(this.userid, pw);
     this.service.getManageUsersList('', '', this.userid, '', 'D')
       .pipe(
-        map(data => [data]),
+        //map(data => [data]),
+        /*tap(data => { 
+              console.log("[tap1] raw data:", data);
+              console.log("[tap1] isArray?", Array.isArray(data));
+                    }), // 원본 응답 찍기 */
+        map(data => Array.isArray(data) ? data : [data]),
         map(values => values.filter(val => val.user_id === this.userid && val.password === pw)),
         map(datas => datas.map(data => {
+          // 25.09.12 암호 변경
+          if (data.user_gb === null) {
+            data.user_gb = 'U';
+          }
+
+          // 25.09.12 암호 변경
+          if (data.id === null) {
+            data.id = '0';
+          }
+
           if (data.pickselect === null) {
             data.pickselect = '';
             return data;
@@ -79,6 +102,9 @@ export class HomeComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         if (data.length > 0) {
           this.passwdInfo = data[0];
+          
+          //console.log("[tap1] data:", data);
+              
           this.username = data[0].user_nm;
           if (data[0].part_nm === 'Tester') {
             this.work = '기사';
@@ -152,6 +178,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       width: '800px',
       disableClose: true,
       data: {
+        // 25.09.12 암호 변경
         userid: this.userid,
         username: this.username,
         dept: this.dept,
@@ -181,6 +208,14 @@ export class HomeComponent implements OnInit, OnDestroy {
             console.log(val.rowsAffected[0]);
             if (Number(val.rowsAffected[0]) === 1) {
               alert('변경 되었습니다.');
+
+              localStorage.setItem(
+                'diaguser',
+                JSON.stringify({
+                  userid: this.userid,
+                  pw: passwd,
+                }),
+              )
             }
           });
       }

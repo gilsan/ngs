@@ -13,7 +13,9 @@ import { IAFormVariant } from 'src/app/home/models/patients';
 import { shareReplay, switchMap, tap, concatMap, map, filter, last } from 'rxjs/operators';
 
 import { SubSink } from 'subsink';
-import { GENERAL, makeBForm, METHODS, METHODS516 } from 'src/app/home/models/bTypemodel';
+
+// 25.09.18 인천
+//import { GENERAL, makeBForm, METHODS, METHODS516 } from 'src/app/home/models/bTypemodel';
 import { DetectedVariantsService } from 'src/app/home/services/detectedVariants';
 import { StoreService } from '../store.current';
 import { ExcelService } from 'src/app/home/services/excelservice';
@@ -22,7 +24,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogOverviewExampleDialogComponent } from '../dialog-overview-example-dialog/dialog-overview-example-dialog.component';
 import { UtilsService } from '../commons/utils.service';
 import { CommentsService } from 'src/app/services/comments.service';
-import { makeCForm } from 'src/app/home/models/cTypemodel';
+
+// 25.09.18 인천
+//import { makeCForm } from 'src/app/home/models/cTypemodel';
+import { GENERAL, makeCForm, METHODS, METHODS516 } from 'src/app/home/models/cTypemodel';
 import { moveItemInArray, CdkDragDrop } from '@angular/cdk/drag-drop';
 import { AnalysisService } from '../commons/analysis.service';
 import { ExcelAddListService } from 'src/app/home/services/excelAddList';
@@ -174,13 +179,18 @@ export class Form3Component implements OnInit, OnDestroy {
   // 2025.05.05  쓰지 않은 걸로 파악되서 막음 
   //methodmsg =`Total genomic DNA was extracted from the each sample.  The HEMEaccuTest SM-PanHEM was used to make the library. The HEMEaccuTest SM-PanHEM was used for in-solution enrichment of target regions. The enriched fragments were then amplified and sequenced on the NextSeq550Dx system (illumina). After demultiplexing, the reads were aligned to the human reference genome hg19 (GRCh37) using BWA (0.7.10) and duplicate reads were removed with MarkDuplicates (GATK 4.2.6.1). Local realignment, score recalibration and filtering sequence data were performed with GATK (4.2.6.1). Variants were annotated using SnpEff (4.3). The detected variants are classified as Oncogenic, Likely Oncogenic, Variant of Uncertain Significance (VUS), Likely Benign, and Benign variant according to the Somatic Oncogenicity classification [Genetics in Medicine (2022) 24.986-998]. We only report variants classified as Oncogenic, Likely oncogenic, and VUS.`;
 
-  technique = `The analysis was optimised to identify base pair substitutions with a high sensitivity. The sensitivity for small insertions and deletions was lower. Deep-intronic mutations, mutations in the promoter region, repeats, large exonic deletions and duplications, and other structural variants were not detected by this test.`;
+  // 25.09.18 인천
+  //technique = `The analysis was optimised to identify base pair substitutions with a high sensitivity. The sensitivity for small insertions and deletions was lower. Deep-intronic mutations, mutations in the promoter region, repeats, large exonic deletions and duplications, and other structural variants were not detected by this test.`;
 
   maxHeight = 500;
   isResearch = false;
   target: string;
   savedDataExist = false;
   tsvSaveOrEmptySave = 'T';
+
+  // 25.06.30 allselect 추가
+  allSelected = false;
+
   @ViewChild('commentbox') private commentbox: TemplateRef<any>;
   @ViewChild('box100', { static: true }) box100: ElementRef;
   @ViewChild('table', { static: true }) table: ElementRef;
@@ -632,6 +642,23 @@ export class Form3Component implements OnInit, OnDestroy {
 
       }); // End of Subscribe
 
+  }
+
+  // 25.06.30
+  toggleAll(): void {
+    this.allSelected = !this.allSelected;
+    this.getFormControls.controls.forEach(ctrl => {
+      ctrl.get('checked')?.setValue(this.allSelected);
+    });
+
+    this.checkboxStatus = [];
+    for (let i = 0; i < this.getFormControls.length; i++) {
+      if (this.getFormControls.at(i).get('checked')?.value === true) {
+        this.checkboxStatus.push(i);
+      }
+    }
+
+    console.log('[966][상태][boxstatus]', this.checkboxStatus);
   }
 
 
@@ -1352,7 +1379,11 @@ export class Form3Component implements OnInit, OnDestroy {
       this.lastReportDay,
       this.genelists,
       tsvVersionContents,
-      this.vusmsg
+
+      // 25.09.18 인천
+      //this.vusmsg
+      this.vusmsg,
+      this.general
     );
     console.log('[1214][LYM XML] ', makeForm);
     const examcode = this.patientInfo.test_code;

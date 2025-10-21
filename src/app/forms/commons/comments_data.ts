@@ -76,10 +76,18 @@ export const defaultcodeLists = [
   { target: '', specimen: '', analyzedgene: '', method: '', comment1: '', comment2: '', type: 'SEQ', report: 'PKHD1 Gene Sequencing Analysis Report', code: 'LPE414' },
   { target: '', specimen: '', analyzedgene: '', method: '', comment1: '', comment2: '', type: 'SEQ', report: 'HAX1 Gene Sequencing Analysis Report', code: 'LPE418' },
   { target: '', specimen: '', analyzedgene: '', method: '', comment1: '', comment2: '', type: 'SEQ', report: 'DMD Gene Sequencing Analysis Report', code: 'LPE420' },
+  // 25.10.20 추가 
+  // LPE426  TP53 Gene Sequencing Analysis Report
+  { target: '', specimen: '', analyzedgene: '', method: '', comment1: '', comment2: '', type: 'SEQ', report: '(비유전성) TP53 Gene Sequencing Analysis Report', code: 'LPE426' },
+  // 25.05.26 추가 
+  // LPE427  EXT1 Gene Sequencing Analysis report
+  { target: '', specimen: '', analyzedgene: '', method: '', comment1: '', comment2: '', type: 'SEQ', report: 'EXT1 Gene Analysis report', code: 'LPE427' },
   { target: '', specimen: '', analyzedgene: '', method: '', comment1: '', comment2: '', type: 'SEQ', report: 'MLL2 Gene Sequencing Analysis Report', code: 'LPE428' },
   { target: '', specimen: '', analyzedgene: '', method: '', comment1: '', comment2: '', type: 'SEQ', report: 'IKBKG Gene Sequencing Analysis Report', code: 'LPE431' },
   { target: '', specimen: '', analyzedgene: '', method: '', comment1: '', comment2: '', type: 'SEQ', report: 'PRRT2 Gene Sequencing Analysis Report', code: 'LPE433' },
-  { target: '', specimen: '', analyzedgene: '', method: '', comment1: '', comment2: '', type: 'SEQ', report: 'EPOR Gene Sequencing Analysis Report', code: 'LPE436' },
+  // 25.05.26 추가 
+  // LPE434   EXT2 Gene Sequencing Analysis report
+  { target: '', specimen: '', analyzedgene: '', method: '', comment1: '', comment2: '', type: 'SEQ', report: 'EXT2 Gene Analysis report', code: 'LPE434 ' },
   { target: '', specimen: '', analyzedgene: '', method: '', comment1: '', comment2: '', type: 'SEQ', report: 'FANCG Gene Sequencing Analysis Report', code: 'LPE457' },
   { target: '', specimen: '', analyzedgene: '', method: '', comment1: '', comment2: '', type: 'SEQ', report: 'NSD1 Gene Sequencing Analysis Report', code: 'LPE460' },
   { target: '', specimen: '', analyzedgene: '', method: '', comment1: '', comment2: '', type: 'SEQ', report: 'CHD7 Gene Sequencing Analysis Report', code: 'LPE462' },

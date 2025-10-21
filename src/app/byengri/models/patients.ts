@@ -2,6 +2,8 @@ export interface IGeneTire {
   gene: string;
   tier: string;
   frequency: string;
+  //25.08.06 aminoAcidChange 추가
+  aminoAcidChange?: string;
 }
 export interface IFilteredOriginData {
   type: string;

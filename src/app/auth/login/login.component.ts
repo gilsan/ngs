@@ -4,12 +4,16 @@ import { Router } from '@angular/router'
 import { AuthService } from 'src/app/services/auth'
 import { SubSink } from 'subsink'
 
+import { environment } from 'src/environments/environment';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
+  environment = environment;
+  
   private subs = new SubSink()
   type: string
 
@@ -117,4 +121,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.type = type
     // console.log('[checkbox status]', this.type);
   }
+
+  // 
+
+
+
+
 }

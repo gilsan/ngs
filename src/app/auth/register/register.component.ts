@@ -41,6 +41,34 @@ export class RegisterComponent implements OnInit {
       alert('암호를 입력하세요!');
       return;
     }
+
+    if (password.value.length < 8) {
+      alert("8자리 이상의 패스워드를 입력하세요!!!");
+      return; 
+    }
+
+    if (!/[A-Za-z]/.test(password.value)) {
+      alert("비밀번호에 영문자가 포함되어야 합니다.");
+      return; 
+    }    
+
+    if (!/[0-9]/.test(password.value)) {
+      alert("비밀번호에 숫자가 포함되어야 합니다.");
+      return;
+    } 
+
+    if (!/^(?=.*[(?=.*[!@#$%^&*()_+{};|,.<>/?]).+$/.test(password.value)) {
+      alert("비밀번호에 특수문자가 포함되어야 합니다.");
+      return;
+    }
+
+    if (this.hasSequentialChars(password.value)) {
+      alert("비밀번호에 연속된 숫자나 문자가 포함될 수 없습니다.");
+      return;
+    }
+
+
+
     if (confirmPassword.value === '') {
       alert('확인암호를 입력하세요!');
       return;
@@ -82,6 +110,27 @@ export class RegisterComponent implements OnInit {
     return false;
   }
 
+   // 연속된 문자 또는 숫자 확인 함수
+   hasSequentialChars = (pwd) => {
+    for (let i = 0; i < pwd.length - 2; i++) {
+      const char1 = pwd.charCodeAt(i);
+      const char2 = pwd.charCodeAt(i + 1);
+      const char3 = pwd.charCodeAt(i + 2);
+
+      // 연속된 문자 또는 숫자 확인
+      if (
+        (char2 === char1 + 1 && char3 === char2 + 1) || // 증가
+        (char2 === char1 - 1 && char3 === char2 - 1)    // 감소
+      ) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+
+
+ 
 
 
 }

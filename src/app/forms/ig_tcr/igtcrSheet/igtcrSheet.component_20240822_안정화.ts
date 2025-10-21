@@ -128,7 +128,11 @@ export class IgTcrSheetComponent implements OnInit, OnDestroy{
   recheck = ''; // 확인자
   requestDate = ''; // 검사의뢰일
   firstReportDay = '-'; // 검사보고일
-  lastReportDay = '-';  // 수정보고일
+  lastReportDay = '-';  // 수정보고일 
+
+  // 25.07.04
+  sendEmr = '';
+  updstatus = ''; 
 
   acceptDate = ''; // 접수일자
   tableLength = 0;
@@ -149,7 +153,14 @@ export class IgTcrSheetComponent implements OnInit, OnDestroy{
     examin: this.examin,
     comment: '',
     sendEMRDate: this.patientInfo.sendEMRDate,
-    report_date: this.patientInfo.sendEMRDate,
+    
+    // 25.07.24
+    sendEMR: '',
+    // 25.07.04
+    //report_date: this.patientInfo.sendEMRDate,
+    report_date: '',
+    updstatus: '',
+
     init_result1: '',
     init_result2: '',
     init_comment: '',
@@ -164,7 +175,8 @@ export class IgTcrSheetComponent implements OnInit, OnDestroy{
     //saveyn: '',
   };
 
-   
+  // 25.08.05 저장시 클릭방지
+  loading = false;
 
   constructor(
     private fb: FormBuilder,
@@ -233,10 +245,34 @@ export class IgTcrSheetComponent implements OnInit, OnDestroy{
         }    
 
         this.requestDate = this.patientInfo.accept_date;   
-        if (this.patientInfo.sendEMRDate !== undefined || this.patientInfo.sendEMRDate !== null) {
-          this.firstReportDay = this.patientInfo.sendEMRDate;
-          this.lastReportDay = this.patientInfo.sendEMRDate;
+        
+           
+        
+        console.log ("[231]this.patientInfo.screenstatus=", this.patientInfo.screenstatus);
+        console.log ("[231]this.patientInfo.sendEMR=", this.patientInfo.sendEMR);
+        console.log ("[231]this.patientInfo.sendEMRDate=", this.patientInfo.sendEMRDate);
+
+        // 25.07.04 pdf 전이면 표시 안한다
+        if (this.patientInfo.sendEMR === '1') {
+        
+          if (this.patientInfo.sendEMRDate !== undefined || this.patientInfo.sendEMRDate !== null) {
+            this.firstReportDay = this.patientInfo.sendEMRDate;
+            // 25.07.04
+            this.sendEmr = '1';
+            //this.lastReportDay = this.patientInfo.sendEMRDate;
+          }
+
+          // 25.07.04
+          if (this.patientInfo.report_date !== undefined || this.patientInfo.report_date !== null) {
+            this.lastReportDay = this.patientInfo.report_date;
+            this.updstatus = '1';
+          }
         }
+        else {
+          this.firstReportDay = '-';
+          this.lastReportDay = '-';
+        }
+
         this.screenstatus = this.patientInfo.screenstatus;
         this.comment = this.patientInfo.comment;
         this.acceptDate = this.patientInfo.accept_date.replace(/\./g,'-');
@@ -398,8 +434,12 @@ export class IgTcrSheetComponent implements OnInit, OnDestroy{
     }
     this.screenstatus = '3';
     this.patientInfo.screenstatus = '3';
+    this.sendEmr = '1'
     this.subs.sink = this.patientsListService.changescreenstatus( this.patientInfo.specimenNo,'3','3000', 'userid').subscribe(data => {
-     // this.saveAllData();
+
+      // 25.07.04
+      //this.saveAllData();
+      this.saveAllData(this.sendEmr);
     });
  
     
@@ -532,25 +572,118 @@ export class IgTcrSheetComponent implements OnInit, OnDestroy{
 
   createPdf2() {
     const tableRows = this.tablerowForm.get('tableRows') as FormArray;
+    const clonalCount = this.formWithoutgraph.length;
     let filename = '';
-    let DATA: any;
-    
+    let DATA: HTMLElement;
+  
+    // 캡처할 대상 DOM 선택
     if (tableRows.length === 1) {
       DATA = document.getElementById('resultSheet');
+      //DATA.style.transform = 'none'; // transform 해제
+      //(DATA.style as any).zoom = '1';         // zoom 해제
+      //DATA.style.scale = '1';        // scale 해제
     } else {
       DATA = document.getElementById('resultMRD');
     }
+  
 
+    // 디바이스 해상도 기반으로 캡처 해상도 설정
+    const scale = 3; //window.devicePixelRatio || 2;
+    //const scale = window.devicePixelRatio * 4;
+  
     html2canvas(DATA, {
-      scale: 2 // 기본값은 1
+      scale: scale,             // 고해상도 캡처
+      useCORS: true,            // 외부 이미지 CORS 허용
+      scrollY: -window.scrollY  // 스크롤 위치 보정
     }).then((canvas) => {
+      console.log('✅ Canvas captured. Size:', canvas.width, canvas.height);
+      // 1. 캡처된 canvas를 이미지로 변환 (최고 품질)
+      const imgData = canvas.toDataURL('image/png', 1.0);
+      console.log('🖼 imgData length:', imgData.length);
+  
+      console.log('Canvas size:', canvas.width, canvas.height);
+    
+      /*
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4',
+      });
 
-      let fileWidth = 208;
-      let fileHeight = (canvas.height * fileWidth) / canvas.width;
-      const FILEURI = canvas.toDataURL('image/png', 1.0);
-      let PDF = new jsPDF('p', 'mm', 'a4');
+      const imgWidthPx = canvas.width;
+      const imgHeightPx = canvas.height;
+      
+      const pageWidth = 210;
+      const pageHeight = 297;
+      const DPI = 96; // html2canvas 기본 해상도
+
+      const pxToMm = (px: number) => (px * 25.4) / DPI;
+
+      const imgWidthMm = pxToMm(imgWidthPx);
+      const imgHeightMm = pxToMm(imgHeightPx);
+
+      const imgRatio = imgWidthMm / imgHeightMm;
+      const pageRatio = pageWidth / pageHeight;
+
+      console.log('imgRatio:', imgRatio);
+      console.log('pageRatio:', pageRatio);
+    
+      let finalWidth, finalHeight;
+
+      if (imgRatio > pageRatio) {
+        finalWidth = pageWidth;
+        finalHeight = pageWidth / imgRatio;
+      } else {
+        finalHeight = pageHeight;
+        finalWidth = pageHeight * imgRatio;
+      }
+      console.log('📐 Final dimensions (mm):', finalWidth, finalHeight);
+
+      pdf.addImage(imgData, 'PNG', 0, 0, finalWidth, finalHeight);
+      */
+
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'pt',
+        format: 'a4',
+      });
+
+      const pageWidth = 595.28;    
+      const pageHeight = 841.89;
+
+      const imgWidth = pageWidth;
+      let imgHeight = 0 ;
+      if (tableRows.length === 1) { // 첫번찌
+        
+        if (clonalCount === 1 || clonalCount === 2) {
+          imgHeight = pageHeight * 2 / 3;
+        }
+        else if (clonalCount === 3) {
+          imgHeight = pageHeight * 3 / 4;
+        }
+        else  {
+          imgHeight = pageHeight ;
+        }
+      }
+      else {
+        imgHeight = (canvas.height * imgWidth) / canvas.width;
+      }
+
+      // 이미지가 A4보다 크면 비율 맞춰서 페이지 나누기
       let position = 0;
-      PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight);
+      if (imgHeight <= pageHeight) {
+        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+      } else {
+        while (position < imgHeight) {
+          pdf.addImage(imgData, 'PNG', 0, -position, imgWidth, imgHeight);
+          position += pageHeight;
+          if (position < imgHeight) {
+            pdf.addPage();
+          }
+        }
+      }
+
+      // 4. 파일 이름 구성
       if (tableRows.length === 1) { // 첫번찌
         if (this.patientInfo.test_code === 'LPE555') {
           filename = 'IGH_CLONALITY_REPORT_'+this.patientInfo.patientID+'_'+this.today() ;
@@ -577,7 +710,8 @@ export class IgTcrSheetComponent implements OnInit, OnDestroy{
         }
       }
       
-      PDF.save(filename);
+      // 5. PDF 저장
+      pdf.save(filename);
 
     }) ;
 
@@ -1508,7 +1642,9 @@ makePDFData() {
   
     const totalIGHreadDepth = this.existComma(control.at(0).get('total_read_count')?.value);
     const clonalTotalIGHReadDepth = control.at(0).get('total_IGH_read_depth')?.value;
-    const clonalCellEquivalent = control.at(0).get('total_cell_equipment')?.value;
+    // 25.05.26 total_cell_equipment => cell_equipment1 변경
+    //const clonalCellEquivalent = control.at(0).get('total_cell_equipment')?.value;
+    const clonalCellEquivalent = control.at(0).get('cell_equipment1')?.value;
    
 
     const vregion1 = control.at(0).get('v_gene1')?.value ? control.at(0).get('v_gene1')?.value : "";
@@ -1540,18 +1676,21 @@ makePDFData() {
     const length2  = control.at(0).get('sequence_length2')?.value;
     const clonalIGHDepth2  = Number(control.at(0).get('raw_count2')?.value);
     const sequence2 = control.at(0).get('sequence2')?.value;
+    // 25.05.26 cell_equipment2 추가
+    const clonalCellEquivalent2 = control.at(0).get('cell_equipment2')?.value;
     if (vregion2.length !== 0 || jregion2.length !== 0 || rowcount2.length !== 0) {
-      this.putFormWithoutgraph('2',vregion2,jregion2,length2,totalIGHreadDepth,clonalIGHDepth2,clonalTotalIGHReadDepth,clonalCellEquivalent,sequence2,percentTotalReads2);
+      this.putFormWithoutgraph('2',vregion2,jregion2,length2,totalIGHreadDepth,clonalIGHDepth2,clonalTotalIGHReadDepth,clonalCellEquivalent2,sequence2,percentTotalReads2);
     }
-
     const vregion3 = control.at(0).get('v_gene3')?.value ? control.at(0).get('v_gene3')?.value : "";
     const jregion3 = control.at(0).get('j_gene3')?.value ? control.at(0).get('j_gene3')?.value : "";
     const rowcount3 = control.at(0).get('raw_count3')?.value ? control.at(0).get('raw_count3')?.value : "";
     const length3  = control.at(0).get('sequence_length3')?.value;
     const clonalIGHDepth3  = Number(control.at(0).get('raw_count3')?.value);
     const sequence3 = control.at(0).get('sequence3')?.value;
+    // 25.05.26 cell_equipment3 추가
+    const clonalCellEquivalent3 = control.at(0).get('cell_equipment3')?.value;
     if (vregion3.length !== 0 || jregion3.length !== 0 || rowcount3.length !== 0) {
-      this.putFormWithoutgraph('3',vregion3,jregion3,length3,totalIGHreadDepth,clonalIGHDepth3,clonalTotalIGHReadDepth,clonalCellEquivalent,sequence3,percentTotalReads3);
+      this.putFormWithoutgraph('3',vregion3,jregion3,length3,totalIGHreadDepth,clonalIGHDepth3,clonalTotalIGHReadDepth,clonalCellEquivalent3,sequence3,percentTotalReads3);
     }
 
     const vregion4 = control.at(0).get('v_gene4')?.value ? control.at(0).get('v_gene4')?.value : "";
@@ -1560,9 +1699,11 @@ makePDFData() {
     const length4  = control.at(0).get('sequence_length4')?.value;
     const clonalIGHDepth4  = Number(control.at(0).get('raw_count4')?.value);
     const sequence4 = control.at(0).get('sequence4')?.value;
-     
+    // 25.05.26 cell_equipment4 추가
+    const clonalCellEquivalent4 = control.at(0).get('cell_equipment4')?.value;
+
     if (vregion4.length !== 0 || jregion4.length !== 0 || rowcount4.length !== 0) {
-      this.putFormWithoutgraph('4',vregion4,jregion4,length4,totalIGHreadDepth,clonalIGHDepth4,clonalTotalIGHReadDepth,clonalCellEquivalent,sequence4,percentTotalReads4);
+      this.putFormWithoutgraph('4',vregion4,jregion4,length4,totalIGHreadDepth,clonalIGHDepth4,clonalTotalIGHReadDepth,clonalCellEquivalent4,sequence4,percentTotalReads4);
     }
 
     const vregion5 = control.at(0).get('v_gene5')?.value ? control.at(0).get('v_gene5')?.value : "";
@@ -1571,8 +1712,10 @@ makePDFData() {
     const length5  = control.at(0).get('sequence_length5')?.value;
     const sequence5 = control.at(0).get('sequence5')?.value;
     const clonalIGHDepth5  = Number(control.at(0).get('raw_count5')?.value);
+    // 25.05.26 cell_equipment5 추가
+    const clonalCellEquivalent5 = control.at(0).get('cell_equipment5')?.value;
     if (vregion5.length !== 0 || jregion5.length !== 0 || rowcount5.length !== 0) {
-      this.putFormWithoutgraph('5',vregion5,jregion5,length5,totalIGHreadDepth,clonalIGHDepth5,clonalTotalIGHReadDepth,clonalCellEquivalent,sequence5,percentTotalReads5);
+      this.putFormWithoutgraph('5',vregion5,jregion5,length5,totalIGHreadDepth,clonalIGHDepth5,clonalTotalIGHReadDepth,clonalCellEquivalent5,sequence5,percentTotalReads5);
     }
 
     const vregion6 = control.at(0).get('v_gene6')?.value ? control.at(0).get('v_gene6')?.value : "";
@@ -1580,9 +1723,12 @@ makePDFData() {
     const rowcount6 = control.at(0).get('raw_count6')?.value ? control.at(0).get('raw_count6')?.value : "";
     const length6  = control.at(0).get('sequence_length6')?.value;
     const clonalIGHDepth6  = Number(control.at(0).get('raw_count6')?.value);
-    const sequence6 = control.at(0).get('sequence6')?.value;
+    const sequence6 = control.at(0).get('sequence6')?.value; 
+    // 25.05.26 cell_equipment6 추가
+    const clonalCellEquivalent6 = control.at(0).get('cell_equipment6')?.value;
+
     if (vregion6.length !== 0 || jregion6.length !== 0 || rowcount6.length !== 0) {
-      this.putFormWithoutgraph('6',vregion6,jregion6,length6,totalIGHreadDepth,clonalIGHDepth6,clonalTotalIGHReadDepth,clonalCellEquivalent,sequence6,percentTotalReads6);
+      this.putFormWithoutgraph('6',vregion6,jregion6,length6,totalIGHreadDepth,clonalIGHDepth6,clonalTotalIGHReadDepth,clonalCellEquivalent6,sequence6,percentTotalReads6);
     }
 
     const vregion7 = control.at(0).get('v_gene7')?.value ? control.at(0).get('v_gene7')?.value : "";
@@ -1590,9 +1736,12 @@ makePDFData() {
     const rowcount7 = control.at(0).get('raw_count7')?.value ? control.at(0).get('raw_count7')?.value : "";
     const length7  = control.at(0).get('sequence_length7')?.value;
     const clonalIGHDepth7  = Number(control.at(0).get('raw_count7')?.value);
-    const sequence7 = control.at(0).get('sequence7')?.value;
+    const sequence7 = control.at(0).get('sequence7')?.value;  
+    // 25.05.26 cell_equipment7 추가
+    const clonalCellEquivalent7 = control.at(0).get('cell_equipment7')?.value;
+
     if (vregion7.length !== 0 || jregion7.length !== 0 || rowcount7.length !== 0) {
-      this.putFormWithoutgraph('7',vregion7,jregion7,length7,totalIGHreadDepth,clonalIGHDepth7,clonalTotalIGHReadDepth,clonalCellEquivalent,sequence7,percentTotalReads7);
+      this.putFormWithoutgraph('7',vregion7,jregion7,length7,totalIGHreadDepth,clonalIGHDepth7,clonalTotalIGHReadDepth,clonalCellEquivalent7,sequence7,percentTotalReads7);
     }
 
     const vregion8 = control.at(0).get('v_gene8')?.value ? control.at(0).get('v_gene8')?.value : "";
@@ -1600,9 +1749,12 @@ makePDFData() {
     const rowcount8 = control.at(0).get('raw_count8')?.value ? control.at(0).get('raw_count8')?.value : "";
     const length8  = control.at(0).get('sequence_length8')?.value;
     const clonalIGHDepth8  = Number(control.at(0).get('raw_count8')?.value);
-    const sequence8 = control.at(0).get('sequence8')?.value;
+    const sequence8 = control.at(0).get('sequence8')?.value;   
+    // 25.05.26 cell_equipment8 추가
+    const clonalCellEquivalent8 = control.at(0).get('cell_equipment8')?.value;
+
     if (vregion8.length !== 0 || jregion8.length !== 0 || rowcount8.length !== 0) {
-      this.putFormWithoutgraph('8',vregion8,jregion8,length8,totalIGHreadDepth,clonalIGHDepth8,clonalTotalIGHReadDepth,clonalCellEquivalent,sequence8,percentTotalReads8);
+      this.putFormWithoutgraph('8',vregion8,jregion8,length8,totalIGHreadDepth,clonalIGHDepth8,clonalTotalIGHReadDepth,clonalCellEquivalent8,sequence8,percentTotalReads8);
     }
 
     const vregion9 = control.at(0).get('v_gene9')?.value ? control.at(0).get('v_gene9')?.value : "";
@@ -1611,8 +1763,11 @@ makePDFData() {
     const length9  = control.at(0).get('sequence_length9')?.value;
     const clonalIGHDepth9  = Number(control.at(0).get('raw_count9')?.value);
     const sequence9 = control.at(0).get('sequence9')?.value;
+    // 25.05.26 cell_equipment9 추가
+    const clonalCellEquivalent9 = control.at(0).get('cell_equipment9')?.value;
+
     if (vregion9.length !== 0 || jregion9.length !== 0 || rowcount9.length !== 0) {
-      this.putFormWithoutgraph('9',vregion9,jregion9,length9,totalIGHreadDepth,clonalIGHDepth9,clonalTotalIGHReadDepth,clonalCellEquivalent,sequence9,percentTotalReads9);
+      this.putFormWithoutgraph('9',vregion9,jregion9,length9,totalIGHreadDepth,clonalIGHDepth9,clonalTotalIGHReadDepth,clonalCellEquivalent9,sequence9,percentTotalReads9);
     }
 
     const vregion10 = control.at(0).get('v_gene10')?.value ? control.at(0).get('v_gene10')?.value : "";
@@ -1621,9 +1776,13 @@ makePDFData() {
     const length10  = control.at(0).get('sequence_length10')?.value;
     const clonalIGHDepth10  = Number(control.at(0).get('raw_count10')?.value);
     const sequence10 = control.at(0).get('sequence10')?.value;
+    // 25.05.26 cell_equipment10 추가
+    const clonalCellEquivalent10 = control.at(0).get('cell_equipment10')?.value;
+
     if (vregion10.length !== 0 || jregion10.length !== 0 || rowcount10.length !== 0) {
-      this.putFormWithoutgraph('10',vregion10,jregion10,length10,totalIGHreadDepth,clonalIGHDepth10,clonalTotalIGHReadDepth,clonalCellEquivalent,sequence10,percentTotalReads10);
+      this.putFormWithoutgraph('10',vregion10,jregion10,length10,totalIGHreadDepth,clonalIGHDepth10,clonalTotalIGHReadDepth,clonalCellEquivalent10,sequence10,percentTotalReads10);
     }
+
 
 
 }
@@ -1771,10 +1930,20 @@ updateGraphData() {
         data: ['Clonal/total ' + this.geneType + ' read depth (%)*  ', 'Clonal/total nuclelated cells (%)**'],
         left: 360,
         bottom: 20,
+        textStyle: {
+          color: '#333',         // 또는 '#000'
+          fontWeight: 'bold',    // 진하게
+          fontSize: 12           // 크기 조정
+        },
       },
       xAxis: {
         type: 'category',
        data:  this.checkDate,
+       axisLabel: {
+         color: '#333',         // 또는 '#000'
+         fontWeight: 'bold',
+         fontSize: 12
+       },
       
       },
       yAxis: [
@@ -1787,6 +1956,11 @@ updateGraphData() {
           axisTick: {
             show: true,
             length: 4
+          },
+          axisLabel: {
+            color: '#333',         // 또는 '#000'
+            fontWeight: 'bold',
+            fontSize: 12
           }
        },
    
@@ -1862,7 +2036,9 @@ decreaseClonal() {
 
 //////////////////////////////////////////////////////////////////////////////
 // 저장 하기
-saveAllData() {
+// 25.07.04
+//saveAllData(sendEmr: string) {
+  saveAllData(sendEmr: string) {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     const formData = control.getRawValue();
 
@@ -1870,6 +2046,10 @@ saveAllData() {
       alert("저장할수 없습니다.");
       return;
     }
+
+    // 25.08.05 저장시 클릭방지
+    if (this.loading) return; // 중복 클릭 방지
+    this.loading = true;
 
     let init_result1= '';
     let init_result2= '';
@@ -1894,33 +2074,50 @@ saveAllData() {
     this.patientInfo.accept_date = this.requestDate; // 의뢰한 날자
     // 멘트저장
  
-      init_result1 = this.initialTestResult;
-      init_result2 = this.initialAddComment;
-      fu_result = this.mrdAddComment;
-           
-      if(this.commentInitial.length) {
-        init_comment = this.commentInitial;
-      } else {
-        this.commentInitial =  initalComment(this.geneType,this.patientInfo.test_code) ;
-        init_comment = this.commentInitial;
-      }
-      
-      if (this.commentMRD.length) {
-        fu_comment = this.commentMRD;
-      } else {
-        this.commentMRD =  makeComment(this.geneType,this.patientInfo.test_code) ;
-        fu_comment = this.commentMRD;
-      }
+    init_result1 = this.initialTestResult;
+    init_result2 = this.initialAddComment;
+    fu_result = this.mrdAddComment;
+          
+    if(this.commentInitial.length) {
+      init_comment = this.commentInitial;
+    } else {
+      this.commentInitial =  initalComment(this.geneType,this.patientInfo.test_code) ;
+      init_comment = this.commentInitial;
+    }
     
-    this.firstReportDay = this.today2().replace(/-/g, '.'); 
+    if (this.commentMRD.length) {
+      fu_comment = this.commentMRD;
+    } else {
+      this.commentMRD =  makeComment(this.geneType,this.patientInfo.test_code) ;
+      fu_comment = this.commentMRD;
+    }
+  
+    console.log('[DEBUG] saveAllData sendEmr =', sendEmr);
+    // 25.07.04
+    let firstReportDate = ''
+    if (sendEmr === '1') {
+      firstReportDate = this.today2().replace(/-/g, '.'); 
+    }
+    // 25.07.24
+    let lastReportDate = ''
+    if (this.updstatus === '1') {
+      lastReportDate = this.today2().replace(/-/g, '.'); 
+    }
    
     this.igTcrData = {
         specimenNo: this.patientInfo.specimenNo,
         method: this.patientInfo.reportTitle,
         recheck: this.recheck,
         examin: this.examin,
-        sendEMRDate: this.firstReportDay,
-        report_date: '',
+        // 25.07.24
+        sendEMR: this.sendEmr,
+        // 25.07.24
+        //sendEMRDate: this.firstReportDay,
+        sendEMRDate: firstReportDate,
+        // 25.07.24
+        //report_date: '',
+        report_date: lastReportDate,
+        updstatus: this.updstatus,
         comment: this.comment,
         init_result1,
         init_result2,
@@ -1938,6 +2135,10 @@ saveAllData() {
 
 
       this.subs.sink = this.service.igtSave(this.igTcrData).subscribe(data => {
+        
+        // 25.08.05 저장시 클릭방지
+        this.loading = false;
+        
         if (data.message === 'OK') {
           alert('저장 했습니다.');
           // this.saveAfterRender(); // 임시
@@ -1975,8 +2176,9 @@ saveAllData() {
         });        
       });
 
-}
+  }
 
+  //  스크린 완료  
   screenRead(): void {
     const control = this.tablerowForm.get('tableRows') as FormArray;
     if(control.length === 0) {
@@ -1987,8 +2189,8 @@ saveAllData() {
     this.patientInfo.screenstatus = '1';
     this.screenstatus = '1';
     this.subs.sink =   this.patientsListService.changescreenstatus( this.patientInfo.specimenNo,'1','1000', 'userid').subscribe(data => {
-        this.saveAllData();
-        alert('저장했습니다.');
+        this.saveAllData('');
+        //alert('저장했습니다.');
       });
      
   }
@@ -2005,7 +2207,7 @@ saveAllData() {
     this.patientInfo.screenstatus = '2';   
     this.screenstatus = '2';
     this.subs.sink = this.patientsListService.changescreenstatus( this.patientInfo.specimenNo,'2','2000', 'userid').subscribe(data => {
-      this.saveAllData();
+      this.saveAllData('');
       
    });
   }

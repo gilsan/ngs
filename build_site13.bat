@@ -1,0 +1,1 @@
+set NODE_OPTIONS=--openssl-legacy-provider && ng build --configuration=site13 --output-hashing=all

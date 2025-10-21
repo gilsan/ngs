@@ -122,7 +122,7 @@
               <th>
                 <button class="btn btn_01 btn-s" (click)="addRow()">추가</button>
               </th>
-              <th></th>
+              <th><input type="checkbox" [checked]="allSelected" (change)="toggleAll()" /></th>
               <th>Type</th>
             <!--  <th></th>  -->
               <th>Gene</th>
@@ -131,7 +131,8 @@
               <th>Exon/Intron #</th>
               <th>Nucleotide change</th>
               <th>Amino acid change</th>
-              <th>Zygosity</th>
+              <!--th>Zygosity</th-->   
+              <th> {{Zygo}}</th>   
               <th>VAF %</th>
               <th>Reference(s)</th>
               <th>COSMIC ID</th>
@@ -308,12 +309,12 @@
 
   <div class="pd_r20">
 
-                  <textarea class="textarea_01">{{methodmsg}}</textarea>
+    <textarea class="textarea_01">{{methodmsg}}</textarea>
 </div>
 
 <div class="sub_title">General limitations of the technique</div>
 <div class="pd_r20">
-    <textarea class="textarea_01" [(ngModel)]="technique">{{technique}}</textarea>
+    <textarea class="textarea_01" [(ngModel)]="general">{{general}}</textarea>
 </div>
 
   <!-- --------------------------      -->
@@ -433,6 +434,7 @@
            (closemodal)="previewToggle()"
            [specimenMessage]="specimenMessage"
            [comments]="comments"
+           [zygosity]="popupValue"
            [type]="reportType"></app-preview>
        </div>
    </div>

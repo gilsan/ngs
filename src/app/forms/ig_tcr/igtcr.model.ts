@@ -145,6 +145,11 @@ export interface IPatient {
       method: string;
       recheck: string;
       examin: string;
+      
+      // 25.07.24
+      sendEMR?: string;
+      updstatus: string;
+
       sendEMRDate: string;
       report_date: string;
       comment: string;

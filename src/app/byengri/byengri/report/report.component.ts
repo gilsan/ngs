@@ -26,6 +26,10 @@ import { essentialDNAMentList } from '../essensDNAMent';
 import { ReportDialogComponent } from './report-dialog/report-dialog.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { SequencingService } from '../../services/sequencing.service';
+
+// 25.10.13 빈센트
+import { environment } from '../../../../environments/environment';
+
 import * as moment from 'moment';
 @Component({
   selector: 'app-report',
@@ -51,8 +55,8 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   muTier: string;
   ampTier: string;
   fuTier: string;
-  clinically = [];
-  tempClinically: { clinically: string, seq: string }[] = [];
+  clinically : { clinically: string, seq: string, tier: string, frequency: string }[]=[];
+  tempClinically: { clinically: string, seq: string, tier: string, frequency: string }[] = [];
   clinical: IGeneTire[] = [];
   tempPrevalent: { prevalent: string, seq: string }[] = [];
   prevalent = [];
@@ -115,15 +119,22 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 
   muLists = [
     'truncating', 'hotspot',
-'egfrexon19deletion', 'egfrexon20insertion', 'erbb2exon20insertion', 'metexon14skipping'
+    'egfrexon19deletion', 'egfrexon20insertion', 'erbb2exon20insertion', 'metexon14skipping'
   ];
   amLists = [
     'amplification', 'deletion', 'exondeletion'
   ];
 
   fuLists = [
-    'fusion', 'rnaexonvariants', 'expressionimbalance', 'rnaexontiles'
+    // 25.05.23 NonTargetedFusion 
+    //'fusion', 'rnaexonvariants', 'expressionimbalance', 'rnaexontiles'
+    //'fusion',  'NonTargetedFusion',  'rnaexonvariants', 'expressionimbalance', 'rnaexontiles'
+    // 25.08.28 rnaexonvariant 추가
+    'fusion',  'NonTargetedFusion',  'rnaexonvariants', 'rnaexonvariant', 'expressionimbalance', 'rnaexontiles'
   ];
+
+  // 25.05.23 NonTargetedFusion 대문자를 소문자 처리
+  lowerFuLists = this.fuLists.map(item => item.toLowerCase());
 
   mutation: IMutation[] = []; // 0: "ERBB2 p.(I655V) c.1963A>G" 양식으로 된것
   amplifications: IAmplification[] = [];
@@ -142,6 +153,9 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   iamplificationsEMR: IIAmplification[] = [];
   ifusionEMR: IFusion[] = [];
 
+  // 25.10.13 빈센트 요청
+  instCd = '012'; 
+  
   tumorMutationalBurden = '';
   msiScore = '';
   tumorcellpercentage: string;
@@ -220,6 +234,35 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   ionReporter = '';
   oncomineReporter = '';
 
+  // 25.09.08 빈센트 버전 추가
+  rnaVersion52 = false;
+  torrentSuite = '';
+  targetGenes = '';
+  
+  items = [
+    { label: 'Oncomine Comprehensive Assay plus (ThermoFisher scientific)', showFor: false },
+
+    { label: 'Oncomine Comprehensive Assay plus DNA panel (ThermoFisher scientific)', showFor: true },
+    { label: 'Oncomine childhood cancer research assay RNA panel (ThermoFisher scientific)', showFor: true }
+  ];
+  
+  items2 = [
+    { label: 'Minimum allele frequency of hotspot variant: ≥ 1.5%', showFor: false },
+    { label: 'Minimum allele frequency of indel variant: ≥ 1.5%', showFor: false },
+    { label: 'Minimum allele frequency of SNP variant: ≥ 1.5%', showFor: false },
+    { label: 'Minimum read counts for fusions: ≥ 100', showFor: false },
+    { label: 'CNV gain threshold: 6', showFor: false },
+    { label: 'Gain confidence level: 0.05', showFor: false },
+    { label: 'Max fold difference for loss: 0.7', showFor: false },
+
+    { label: 'Minimum allele frequency of hotspot variant: ≥ 5%', showFor: true },
+    { label: 'Minimum allele frequency of indel variant: ≥ 5%', showFor: true },
+    { label: 'Minimum allele frequency of SNP variant: ≥ 5%', showFor: true },
+    { label: 'Minimum read counts for fusions: ≥ 40', showFor: true },
+    { label: 'CNV gain threshold: 4', showFor: true },
+    { label: 'Gain confidence level: 0.05', showFor: true },
+    { label: 'Max fold difference for loss: 0.85', showFor: true },
+  ];
 
   constructor(
     private pathologyService: PathologyService,
@@ -298,22 +341,45 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log(err);
       }
       console.log('[296][환자정보] ', this.patientInfo);
+  
       if (this.patientInfo.sw_ver === "1") {
-         this.ionReporter = 'v5.18'; this.oncomineReporter = 'v5.6.0';
-         this.dnaVersion518 = true; this.dnaVersion52= false;
+        this.ionReporter = 'v5.18'; this.oncomineReporter = 'v5.6.0';
+        this.dnaVersion518 = true; this.dnaVersion52= false;
+        // 25.09.08 빈센트 버전 추가
+        this.torrentSuite = 'v5.18.1'; 
+        this.rnaVersion52 = false;  
+        this.targetGenes = 'Oncomine Comprehensive Assay plus (ThermoFisher scientific)';
       } else if (this.patientInfo.sw_ver == "2") {
         this.ionReporter = 'v5.20'; this.oncomineReporter = 'v5.7';
         this.dnaVersion518 = false; this.dnaVersion52= true;
+        // 25.09.08 빈센트 버전 추가
+        this.torrentSuite = 'v5.18.1';
+        this.rnaVersion52 = false; 
+        this.targetGenes = 'Oncomine Comprehensive Assay plus (ThermoFisher scientific)';
       } else if (this.patientInfo.sw_ver == "3") {
         this.ionReporter = 'v5.20'; this.oncomineReporter = 'v5.8';
         this.dnaVersion518 = false; this.dnaVersion52= true;      
+        // 25.09.08 빈센트 버전 추가
+        this.torrentSuite = 'v5.18.1';
+        this.rnaVersion52 = false; 
+        this.targetGenes = 'Oncomine Comprehensive Assay plus (ThermoFisher scientific)';
       } else if (this.patientInfo.sw_ver == "4") {  // 24.06.11 Oncomine reporter version 변경
         this.ionReporter = 'v5.20'; this.oncomineReporter = 'v5.9';
         this.dnaVersion518 = false; this.dnaVersion52= true;
+        // 25.09.08 빈센트 버전 추가
+        this.torrentSuite = 'v5.18.1';
+        this.rnaVersion52 = false;  
+        this.targetGenes = 'Oncomine Comprehensive Assay plus (ThermoFisher scientific)';
+      
+        // 25.09.08 빈센트 버전 추가
+      } else if (this.patientInfo.sw_ver == "5") {  // 25.09.08 빈센트 version 변경
+        this.ionReporter = 'v5.20'; this.oncomineReporter = 'v5.20';
+        this.dnaVersion518 = false; this.dnaVersion52= false;
+        this.torrentSuite = 'v5.20';
+        this.rnaVersion52 = true; 
+        this.targetGenes = 'Oncomine Comprehensive Assay plus DNA panel and Oncomine childhood cancer research assay RNA panel (ThermoFisher scientific)';
       }
  
-
-
       this.searchService.howManyImages(this.pathologyNum)
         .subscribe(data => {
           if (Number(data.count) > 0) {
@@ -327,6 +393,17 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       this.init(pathologyNum);
     });
   }
+
+  // 25.09.08 빈센트 버전 추가
+  get filteredItems() {
+    return this.items.filter(item => item.showFor === this.rnaVersion52);
+  }
+
+  // 25.09.08 빈센트 버전 추가
+  get filteredItems2() {
+    return this.items2.filter(item => item.showFor === this.rnaVersion52);
+  }
+
 
   getUrl(): SafeResourceUrl {
     const url = 'http://10.10.55.140:3729/';
@@ -418,9 +495,22 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       }
 
       if (this.patientInfo.tumorburden.length === 0) { // 2022.11.24 추가
-         this.tumorMutationalBurden = 'row';
+        // 2025.19.13 tumorburden.length 없을 떄 오류 수정
+        if (this.instCd === environment.instcd ) {
+          this.tumorMutationalBurden = 'row';
+        } else  {
+          this.tumorMutationalBurden = '';
+        }
       } else {
-        this.tumorMutationalBurden = this.patientInfo.tumorburden;
+        let tumorburden = this.patientInfo.tumorburden;
+
+        if (this.instCd !== environment.instcd ) {
+          if (tumorburden === 'row') {
+            tumorburden = '';
+          } 
+        }
+
+        this.tumorMutationalBurden = tumorburden;
       }
 
       this.extraction.tumorburden = this.tumorMutationalBurden;
@@ -818,7 +908,8 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
           this.msiScore = '';
           this.extraction.msiscore = '';
         }
-
+        
+        /*
         // 2022.11.24 수정
         if (tumorMutationalBurdenVal.length > 0) {
           if (tumorMutationalBurdenVal[0].tumorMutationalBurden.length) {
@@ -832,6 +923,40 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
           this.tumorMutationalBurden = 'row';
           this.extraction.tumorburden = 'row';
         }
+        */
+       
+        let tumorburden = '';
+
+        if (tumorMutationalBurdenVal.length > 0) {
+          if (tumorMutationalBurdenVal[0].tumorMutationalBurden.length) {
+
+            if (this.instCd !== environment.instcd ) {
+              tumorburden = tumorMutationalBurdenVal[0].tumorMutationalBurden;
+              if (tumorburden === 'row') {
+                tumorburden = '';
+              }
+            }
+
+            this.tumorMutationalBurden = tumorburden;
+            tumorburden = tumorMutationalBurdenVal[0].tumorMutationalBurden;
+          } else {
+            if (this.instCd === environment.instcd ) {
+              tumorburden = 'row';
+            } else  {
+              tumorburden = '';
+            }
+            this.tumorMutationalBurden = tumorburden ;
+          }
+        } else {
+          if (this.instCd === environment.instcd ) {
+            tumorburden = 'row';
+          } else  {
+            tumorburden = '';
+          }
+          this.tumorMutationalBurden = tumorburden ;
+      }
+
+        this.extraction.tumorburden = tumorburden;
 
         if (tumortypeVal.length > 0) {
           tumortypes = tumortypeVal[0].tumortype;
@@ -858,17 +983,17 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
         this.basicInfo.pathologyNum = this.patientInfo.pathology_num;
         this.basicInfo.age = this.patientInfo.age;
         // 순번대로 정렬
-        // console.log('[616][tempClinically ]', this.tempClinically);
+        console.log('[616][tempClinically ]', this.tempClinically);
         if (this.tempClinically.length > 1) {
           const tempClinically = this.tempClinically.sort((a, b) => {
             return parseInt(a.seq, 10) - parseInt(b.seq, 10);
           });
-          // console.log('[620][tempClinically ]', tempClinically);
+          console.log('[866][tempClinically ]', tempClinically);
           tempClinically.forEach(item => {
-            this.clinically.push(item.clinically);
+            this.clinically.push({clinically: item.clinically, tier: item.tier, frequency: item.frequency, seq:item.seq});
           });
         } else if (this.tempClinically.length === 1) {
-          this.clinically.push(this.tempClinically[0].clinically);
+          this.clinically.push({clinically: this.tempClinically[0].clinically, tier: this.tempClinically[0].tier, frequency: this.tempClinically[0].frequency, seq: this.tempClinically[0].seq});
         } else {
           this.clinically = [];
         }
@@ -966,7 +1091,10 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
         ////////////////////////////////// clinically 시작
         this.clinically.forEach(items => {
           let type = '';
-          const sepItems = items.split(';');
+          var reg = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
+          let frequency = items.frequency ?? '';
+          const removedFrequency = frequency.replace(reg,'');
+          const sepItems = items.clinically.split(';');
           
           sepItems.forEach(item => {  //
             const members = item.trim().split(' ');
@@ -985,11 +1113,14 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                 type = 'exon';
               }
             }
-             console.log('[967][유전자추적]===>', members + '[' + gene + '][' + type + ']');
+            console.log('[967][유전자추적]===>', members + '[' + gene + '][' + type + ']');
+            //console.log('[967][유전자추적]===>', members + '[' + gene + '][' + type + ']', type.match(/[0-9][A-Za-z]/g));
 
-            // 25.03.29 예 genomic alteraion이 "BRAF N486_P490del" 인 경우 보안  type => N486_P490del 
+            // 25.03.29 예 genomic alteraion이 "BRAF N486_P490Del" 인 경우 보안  type => N486_P490Del 
             //if (type.charAt(0) === 'p' || type === 'exon' || type.charAt(0) === 'c' || type.includes('*') || type.match(/[0-9][A-Z]/g)) {
-            if (type.charAt(0) === 'p' || type === 'exon' || type.charAt(0) === 'c' || type.charAt(0) === 'N' || type.includes('*') || type.match(/[0-9][A-Z]/g)) {
+            //if (type.charAt(0) === 'p' || type === 'exon' || type.charAt(0) === 'c' || type.charAt(0) === 'N' || type.includes('*') || type.match(/[0-9][A-Z]/g)) {
+            // 25.05.23 예 genomic alteraion이 (대소문자 포함 검색) "KIT A502_Y503dup" 인 경우 보안  type => A502_Y503dup 
+            if (type.charAt(0) === 'p' || type === 'exon' || type.charAt(0) === 'c' || type.charAt(0) === 'N' || type.includes('*') || type.match(/[0-9][A-Za-z]/g)) {
               
               let indexm: number;
               let nucleotideChange: string;
@@ -998,13 +1129,14 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
               let variantAlleleFrequency = '';
               let aminoAcidChange = '';
               let tempAminoAcidChange = '';
-              const tier = this.findTier(gene);  // clinical 에서 gene, tier, frequency 찿기
+              const tier = items.tier; // 25.5.18 수정
+             // const tier = this.findTier(gene);  // clinical 에서 gene, tier, frequency 찿기
               // p.(xxxx)은 Amino acid change, c.(xxxxx)은 Nucleotide change
               const itemMembers = item.trim().split(' ');
-              console.log('[1004][유전자추적]===>', itemMembers);
+              //console.log('[1004][유전자추적]===>', itemMembers,  tier);
               
               // 24.02.18  itemMembers.length 체크하도록 추가
-              // POLE [N423K;L424P] OR파일에서 이런 경우는 parsion 못 함
+              // POLE [N423K;L424P] OR파일에서 이런 경우는 parsion 못 함  // 25.5.18 EGFR L858R, EGFR E709G            
               if (itemMembers.length === 2 ) {
               
                 if (itemMembers[1].charAt(0) === 'p') {
@@ -1013,7 +1145,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                 } else if (itemMembers[1].charAt(0) === 'c') {
                   nucleotideChange = itemMembers[1];
                 }
-
+              //  console.log('[1016] ====> itemMembers ', itemMembers[0], itemMembers[1])
               }
               
               if (type === 'exon') {
@@ -1027,8 +1159,8 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                 }
               }
 
-              variantAlleleFrequency = this.findFrequency(gene);
-
+              //  variantAlleleFrequency = this.findFrequency(gene);
+              variantAlleleFrequency= items.frequency;
               if (type === 'exon') {
                 indexm = this.findGeneInfo(gene);
 
@@ -1066,10 +1198,10 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                 nucleotideChange = '';
               }
               
-              console.log('[1069][유전자추적]===>', aminoAcidChange, nucleotideChange );
+             // console.log('[1069][유전자추적]===>', aminoAcidChange, nucleotideChange );
               // gene, aminoAcidChange, nucleotideChange 조합으로 해당 되는것 삭제
               const result = this.removeGeneCheck(gene, aminoAcidChange, nucleotideChange);
-              console.log('[1072][유전자추적]===>', result );
+              console.log('[1072][유전자추적]===>', result, gene , type);
               if (result === -1) {
                 //  vc.novel.1169, 계열은 ID 에 빈공간으로 만듬.
                 if (customid.indexOf('vc.novel') !== -1) {
@@ -1085,13 +1217,16 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                   tier,
                   transcript
                 });
-               // console.log('[1055][] ==>',gene, this.mutation);
+               console.log('[1092][mutation] ==>',gene, this.mutation);
               }
 
             } else if (type === 'amplification' || type === 'deletion') { // 2022.06.01 수정 deletion 추가
-
               const indexa = this.findGeneInfo(gene);
-              const atier = this.findTier(gene);
+              
+              // 25.08.06 frequency로 못 찾는 경우 aminoacid로 재 검색한다.
+              //const atier = this.findTier(gene,removedFrequency, '');
+              const atier = this.findTier(gene,removedFrequency, type);
+
               const geneindexlist = this.findMultiGeneInfo(gene);
 
               if (indexa !== -1) {
@@ -1102,6 +1237,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                   cylen = this.filteredOriginData[num].cytoband.length;
                   if (cylen) {
                     const cytoband = this.filteredOriginData[num].cytoband.split(')');
+                
                     this.amplifications.push({
                       // gene: this.filteredOriginData[num].gene,
                       gene,
@@ -1117,8 +1253,13 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
             } else if (type === 'fusion') {
               let oncomine;
 
+              console.log('[1130][mutation] ==>',gene );
+
               const index = this.findFusionInfo(gene);
-              const ftier = this.findTier(gene);
+              
+              // 25.08.06 frequency로 못 찾는 경우 aminoacid로 재 검색한다.
+              //const ftier = this.findTier(gene,removedFrequency);
+              const ftier = this.findTier(gene,removedFrequency, '');
 
               if (index !== -1) {  // 여기주의
                 if (this.filteredOriginData[index].oncomine === 'Loss-of-function') {
@@ -1136,7 +1277,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                   tier: ftier
                 });
 
-              }
+              } 
 
             }  
           }); // 두번째 파싱 끝
@@ -1146,25 +1287,37 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
         // Mutation
         this.filteredOriginData.forEach(item => {
           let tempaminoAcidChange = '';
+          
+          // 25.08.06 frequency로 못 찾는 경우 aminoacid로 재 검색한다.
+          let tempaminoAcidChange2 = item.aminoAcidChange;
+          
           let oncomine = '';
           const type: string = item.type.toLowerCase();
           const oncomineVariant = item.OncomineVariant.toLocaleLowerCase();
-           // tier 값구히가 2032-09-06        
-          const threeTier = this.findTier(item.gene);
+          
+          // tier 값구히가 2032-09-06        
+          // 25.08.06 frequency로 못 찾는 경우 aminoacid로 재 검색한다.
+          //const threeTier = this.findTier(item.gene, item.frequency);
+          const threeTier = this.findTier(item.gene, item.frequency, tempaminoAcidChange2);
+
+          console.log('[1162][]===>', oncomineVariant, item.gene, type, tempaminoAcidChange2, this.fuLists.includes(oncomineVariant), this.lowerFuLists.includes(oncomineVariant), this.amLists.includes(oncomineVariant));
 
           // 25.03.29 snv 만 처리하다 mnv도 체크함 
           // case 1
           //if ( (type === 'snv' &&  this.muLists.includes(oncomineVariant)) || type === 'indel') {
           if ( ((type === 'snv' || type === 'mnv') &&  this.muLists.includes(oncomineVariant)) || type === 'indel') {
-               // const mutation = this.mutation.filter( list => list.gene === item.gene);
-               console.log('[][1160]====>', this.mutation, threeTier);
+               // const mutation = this.mutation.filter( list => list.gene === item.gene);             
                const mutation = this.mutation.filter( list => list.gene === item.gene.split(';')[0]);
+               
+               console.log('[mutationNew][1160]========>',  item.gene, tempaminoAcidChange2, this.mutationNew, mutation);
+               console.log('[mutationNew][1160]========>',  item.gene, item.aminoAcidChange,  );
                 if (item.aminoAcidChange === '' || item.aminoAcidChange === null) {
                   tempaminoAcidChange = mutation[0].aminoAcidChange;
                 } else  {
                   tempaminoAcidChange = item.aminoAcidChange;
                 }
-                console.log('[1167][]===>', item.gene.split(';')[0], this.mutation, mutation.length );
+
+                console.log('[1167][]===>', item.gene.split(';')[0], this.mutation, mutation.length, threeTier );
                 if (mutation.length === 1 && threeTier !== 'III') {
                         this.mutationNew.push({
                         gene: item.gene,
@@ -1173,11 +1326,16 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                         variantAlleleFrequency:   item.frequency  ? item.frequency + '%' : '',
                         ID: item.variantID,
                         // tier: mutation.length ? mutation[0].tier : '', // 2022.11.25 수정
-                        tier: this.findTier(item.gene),
+                        
+                        // 25.08.06 frequency로 못 찾는 경우 aminoacid로 재 검색한다.          
+                        //tier: this.findTier(item.gene, item.frequency),
+                        tier: this.findTier(item.gene, item.frequency, tempaminoAcidChange2),
                         transcript: item.transcript
                       });
+                      console.log('[mutationNew][1181]====>', this.mutationNew);
                 } else if (mutation.length > 1 && threeTier !== 'III') {
-                  mutation.forEach( mut => {
+                  //25.05.23 mutation에 중복 추가 에러
+                  //mutation.forEach( mut => {
                     this.mutationNew.push({
                       gene: item.gene,
                       aminoAcidChange:  item.aminoAcidChange,
@@ -1185,11 +1343,15 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                       variantAlleleFrequency:   item.frequency ? item.frequency + '%' : '',
                       ID: item.variantID,
                       // tier:  mut.tier,  // 2022.11.25 수정
-                      tier: this.findTier(item.gene),
+
+                      // 25.08.06 frequency로 못 찾는 경우 aminoacid로 재 검색한다.          
+                      //tier: this.findTier(item.gene, item.frequency),
+                      tier: this.findTier(item.gene, item.frequency, tempaminoAcidChange2),
                       transcript: item.transcript
                     });
-                  });
-                } else if (threeTier === 'III') {
+                  //});
+                  console.log('[mutationNew][1195]====>', this.mutationNew);
+                } else if (threeTier === 'III' ) {
                   this.imutation.push({
                     gene: item.gene,
                     aminoAcidChange: item.aminoAcidChange,
@@ -1200,7 +1362,35 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                     transcript: item.transcript
                   });
                    
-                }  else if ( threeTier === '') { // tier 정보 없음 mutation.length === 0
+                // 25.08.06 조건 추가 // tier == ''  mutation.length === 0   
+                }  else if (threeTier === '' ) {
+                  console.log('[mutationNew][1246]====>threeTier', threeTier);
+                  this.imutation.push({
+                    gene: item.gene,
+                    aminoAcidChange: item.aminoAcidChange,
+                    nucleotideChange: item.coding,
+                    variantAlleleFrequency:item.frequency ?  item.frequency + '%' : '', 
+                    ID: item.variantID,
+                    tier: '',
+                    transcript: item.transcript
+                  });
+                   
+                // 25.08.06 조건 추가 // tier !== 'III'  mutation.length === 0   
+                }  else if (threeTier !== 'III') {
+                  console.log('[mutationNew][1260]====>', item);
+                  this.mutationNew.push({
+                    gene: item.gene,
+                    aminoAcidChange:  item.aminoAcidChange,
+                    nucleotideChange:   item.coding,
+                    variantAlleleFrequency:   item.frequency ? item.frequency + '%' : '',
+                    ID: item.variantID,
+                    tier: threeTier,
+                    transcript: item.transcript
+                  });
+                // 25.08.06 조건 추가   
+                //}  else if ( threeTier === '') { // tier 정보 없음 mutation.length === 0
+                }  else  { // tier 정보 없음 mutation.length === 0
+                  console.log('[imutation][1222]====>', item.gene);
                   this.imutation.push({
                     gene: item.gene,
                     aminoAcidChange:  item.aminoAcidChange,
@@ -1215,6 +1405,12 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
             // case 2
             } else if (type === 'cnv' &&  this.amLists.includes(oncomineVariant)) {
                 const amplification = this.amplifications.filter( list => list.gene === item.gene);
+                console.log('[1359]  ======> ', amplification);
+                console.log('[1359]  ======> ', this.amplifications);
+                
+                 // 25.08.05 tier가 없는 경우 추가  
+                const atier = this.findTier(item.gene, '', oncomineVariant);
+
                 const cytoband = item.cytoband.split(')');
                 if (amplification.length === 1 && threeTier !== '') {
                   this.amplificationsNew.push({
@@ -1232,23 +1428,69 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                       tier: amp.tier
                     });
                   });
+                // 25.08.05 tier가 없는 경우 추가  
+                } else if (atier !== '') {
+                  console.log('[amplification][1253]====>atier', atier);
+
+                  // 25.08.05 iamplifications => amplificationsNew 변경
+                  //this.iamplifications.push({
+                  this.amplificationsNew.push({
+                    gene: item.gene,
+                    region: cytoband[0] + ')',
+                    copynumber: cytoband[1],
+
+                    // 25.08.05  tier 변경
+                    //tier:  ''
+                    tier: atier
+                  });
+
+                  console.log('[1359]  ======> ', this.amplificationsNew);
+                // 25.08.05 threetier가 없는 경우 추가  
                 } else if (threeTier !== '') {
-                  amplification.forEach(amp => {
+                  console.log('[amplification][1253]====>threeTier', threeTier);
+
+                  // 25.08.05 iamplifications => amplificationsNew 변경
+                  //this.iamplifications.push({
+                  this.amplificationsNew.push({
+                    gene: item.gene,
+                    region: cytoband[0] + ')',
+                    copynumber: cytoband[1],
+
+                    // 25.08.05  tier 변경
+                    //tier:  ''
+                    tier: threeTier
+                  });
+
+                  console.log('[1359]  ======> ', this.amplificationsNew);
+                // 25.08.05 threetier가 없는 경우 추가  
+                } /* else  {
+                  console.log('[amplification][1267]====>threeTier', threeTier);
+                  ///amplification.forEach(amp => {
                     this.iamplifications.push({
                       gene: item.gene,
                       region: cytoband[0] + ')',
                       copynumber: cytoband[1],
                       //tier:  ''
                     });
-                  });                
-                }
+                  //});   
+                } */
 
           // case 4
           // mnv 추가 25.03.30
-        //} else if (type !== 'cnv' && type !== 'snv'  &&  this.fuLists.includes(oncomineVariant)) {
-        } else if (type !== 'cnv' && type !== 'snv'  && type !== 'mnv'  &&  this.fuLists.includes(oncomineVariant)) {
-               // console.log('[report][1144]==>', item, this.fuLists);
+         //} else if (type !== 'cnv' && type !== 'snv'  &&  this.fuLists.includes(oncomineVariant)) {
+          //  25.05.23 fusionlist 대소문자 상관없이 검색 추가
+        } else if (type !== 'cnv' && type !== 'snv'  && type !== 'mnv' 
+                           &&  ( this.fuLists.includes(oncomineVariant) || this.lowerFuLists.includes(oncomineVariant) )) {
+                console.log('[report][1260]==>', item);
+                console.log('[report][1260]==>', threeTier);
+                
                 const fusion = this.fusion.filter( list => list.gene === item.gene);
+                
+                // 25.08.06 frequency로 못 찾는 경우 aminoacid로 재 검색한다.
+                //const atier = this.findTier(item.variantID.replace('-', '::').split('.')[0] ,'');
+                const atier = this.findTier(item.variantID.replace('-', '::').split('.')[0] ,'', '');
+                
+                console.log('[report][1260]==>', threeTier, fusion, this.fusion);
                 if (item.oncomine.toLocaleLowerCase() === 'loss-of-function') {
                   oncomine = 'Loss';
                 } else if (item.oncomine.toLocaleLowerCase() === 'gain-of-function') {
@@ -1272,7 +1514,27 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                       tier: fu.tier
                     });
                   });
-                } else if (  threeTier !== '') {
+                } else if ( threeTier !== '') {
+                  this.fusionNew.push({
+                    gene: item.gene,
+                    breakpoint: item.locus,
+                    readcount: item.readcount,
+                    functions: oncomine,
+                    tier: threeTier
+                  });
+                // 25.05.23 tier가 없는 경우 추가  
+                } else if (atier !== '') {
+                  console.log('[report][1144]==> tier X',  atier);
+                  this.fusionNew.push({
+                    gene: item.gene,
+                    breakpoint: item.locus,
+                    readcount: item.readcount,
+                    functions: oncomine,
+                    tier: atier
+                  });
+                // 25.08.05 tier 가 없는 경우는 prevalent로 처리
+                } /*else {
+                  console.log('[report][1319]==> tier X',  atier);
                   this.ifusion.push({
                     gene: item.gene,
                     breakpoint: item.locus,
@@ -1280,7 +1542,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                     functions: oncomine,
                     tier: ''
                   });
-                }
+                } */
 
           } 
         });
@@ -1288,11 +1550,13 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
         //////////////////////////////////////////////
 
         if (this.mutationNew.length) {
+        //  console.log('[1293]  ======> ', this.mutationNew);
           this.mutationNew.forEach((mItem, index) => {
             this.mutationLists().push(this.createMutaion(mItem, index.toString()));
           });
         }
 
+        console.log('[1359]  ======> ', this.amplificationsNew);
         if (this.amplificationsNew.length) {
           this.amplificationsNew.forEach((aItem, index) => {
             this.amplificationsLists().push(this.createAmplifications(aItem, index.toString()));
@@ -1312,6 +1576,8 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
           const temps = members[0].split(' ');
           const gene = temps[0].trim().replace(/"/g, '');
           const type = temps[1].trim().replace(/"/g, '');
+
+          //console.log(' ######[1334][prevelant] item=', item);
          
           if (type.charAt(0) === 'p' || type.charAt(0) === 'c' || type.includes('*')) {  // 임시수정
 
@@ -1483,39 +1749,61 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
             // gene = 'PTPRZ1(1) - MET(2)';
             // }
             const index = this.findFusionInfo(gene);
+            
+            const geneindexlist = this.findMultiFusionInfo(gene);
 
+            console.log(' ######[1227][prevelant]', gene, index, geneindexlist);
             // const index = this.findGeneInfo(gene);
 
-            if (index !== -1) {
-              if (this.filteredOriginData[index].oncomine === 'Loss-of-function') {
-                oncomine = 'Loss';
-              } else if (this.filteredOriginData[index].oncomine === 'Gain-of-function') {
-                oncomine = 'Gain';
-              }
+            if (geneindexlist.length > 0 ) {
+              Array.from(geneindexlist, (num: number) => {
+                
+                if (this.filteredOriginData[num].oncomine === 'Loss-of-function') {
+                  oncomine = 'Loss';
+                } else if (this.filteredOriginData[num].oncomine === 'Gain-of-function') {
+                  oncomine = 'Gain';
+                }
+                  const cytoband = this.filteredOriginData[num].cytoband.split(')');
+                  this.ifusion.push({
+                    gene: this.filteredOriginData[num].gene,
+                    breakpoint: this.filteredOriginData[num].locus,
+                    readcount: this.filteredOriginData[num].readcount,
+                    functions: oncomine
+                  });
+                }
+              );
+            } else {
 
-              // 동일한 유전자가 없을때 추가
-              if(this.ifusion.length) {
-                fuduplicatedGene = this.ifusion.findIndex(item => item.gene === gene);
-             } else {
+
+              if (index !== -1) {
+                if (this.filteredOriginData[index].oncomine === 'Loss-of-function') {
+                  oncomine = 'Loss';
+                } else if (this.filteredOriginData[index].oncomine === 'Gain-of-function') {
+                  oncomine = 'Gain';
+                }
+
+                // 동일한 유전자가 없을때 추가
+                if(this.ifusion.length) {
+                  fuduplicatedGene = this.ifusion.findIndex(item => item.gene === gene);
+                } else {
+                      this.ifusion.push({
+                        gene,
+                        breakpoint: this.filteredOriginData[index].locus,
+                        readcount: this.filteredOriginData[index].readcount,
+                        functions: oncomine
+                      });
+                }
+                
+                if (fuduplicatedGene === -1) {
                   this.ifusion.push({
                     gene,
                     breakpoint: this.filteredOriginData[index].locus,
                     readcount: this.filteredOriginData[index].readcount,
                     functions: oncomine
                   });
-             }
-              
-             if (fuduplicatedGene === -1) {
-              this.ifusion.push({
-                gene,
-                breakpoint: this.filteredOriginData[index].locus,
-                readcount: this.filteredOriginData[index].readcount,
-                functions: oncomine
-              });
-             }
+                }
 
-
-
+              }
             }
           }
         });
@@ -1580,8 +1868,26 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   // Fusion 검색은 variant ID 값을 파싱하여 비교한다.
   //
   findFusionInfo(gene: string): number {
-    const idx = this.filteredOriginData.findIndex(item => gene === item.variantID.split('.')[0]);
+    let idx = this.filteredOriginData.findIndex(item => gene === item.gene.split('.')[0]);
+
+    if (idx === -1) {
+      idx = this.filteredOriginData.findIndex(item => gene === item.variantID.replace('-', '::').split('.')[0]);
+    }
     return idx;
+  }
+
+  //22.05.23 or의 gene을 이용하여 ir의 variantID 멀티 유전자를 찾는다
+  findMultiFusionInfo(gene: string): any {
+    const len = this.filteredOriginData.length;
+    const geneinfo = [];
+    for (let i = 0; i < len; i++) {
+      // if (this.filteredOriginData[i].gene === gene) {
+      //  console.log('[1616]', i, this.filteredOriginData[i].variantID.replace('-', '::'));
+      if (this.filteredOriginData[i].variantID.replace('-', '::').includes(gene)) {
+        geneinfo.push(i);
+      }
+    }
+    return geneinfo;
   }
 
 
@@ -1639,15 +1945,65 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.clinical[idx].frequency;
   }
 
-  findTier(gene): string {
+  // 25.08.06 frequency로 못 찾는 경우 aminoacid로 재 검색한다.
+  //findTier(gene: string, frequency: string): string {
+  findTier(gene: string, frequency: string, aminoAcidChange: string): string {
+  
+    let idx = 0;
+
+    if (frequency !== '') {
+      idx = this.clinical.findIndex(list => list.gene === gene && list.frequency === frequency + '%' );
+    }
+    else { 
+      idx = this.clinical.findIndex(list => list.gene === gene && list.frequency === frequency + '%' );
+    }
     
-    const idx = this.clinical.findIndex(list => list.gene === gene );
+    console.log('[1647] ====> ', gene, frequency, aminoAcidChange, idx);
     
     if (idx === -1) {
-      return '';
+      if (frequency !== '') {
+        idx = this.clinical.findIndex(list => list.gene === gene && list.frequency === frequency + '%' );
+        //console.log('[1647] ====> ', gene, frequency, aminoAcidChange, idx);
+
+        // 25.08.06 frequency로 못 찾는 경우 aminoacid로 재 검색한다.
+        if (idx === -1) {
+          if (aminoAcidChange !== '') {
+            if (aminoAcidChange === 'amplification') {
+              idx = this.clinical.findIndex(list => list.gene === gene && list.aminoAcidChange === aminoAcidChange  );
+            } else {
+              idx = this.clinical.findIndex(list => list.gene === gene   );
+            }
+            //console.log('[1647] ====> ', gene, frequency, idx, this.clinical);
+          } else {
+            idx = this.clinical.findIndex(list => list.gene === gene   );
+          }
+        }
+      }
+      else { 
+        // 25.08.06 frequency가 없는 경우 aminoacid가 존재허묜 재 검색한다.
+        //idx = this.clinical.findIndex(list => list.gene === gene  );
+        
+        if (aminoAcidChange !== '') {
+          idx = this.clinical.findIndex(list => list.gene === gene && list.aminoAcidChange === aminoAcidChange  );
+        } else {
+          idx = this.clinical.findIndex(list => list.gene === gene   );
+        }
+      }
+
+      console.log('[1647] ====> ', gene, frequency, idx);
+
+      if (idx === -1) {
+        return '';
+      }
+      else {
+        console.log('[1647] ====> ', gene, frequency, idx, this.clinical[idx].tier);
+
+      }
     }
     return this.clinical[idx].tier;
   }
+
+  
   ///////////////////////////////////////
   // DNA and RNA extraction
 
@@ -2798,9 +3154,19 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     
     console.log('[2779][removeIMutation]', gene, amino, nucleotide );
 
-    const result = this.polymorphismList.findIndex(item =>
-      item.gene === gene && item.amino_acid_change === amino && item.nucleotide_change === nucleotide
-    );
+    // 25.05.23 amino nucleotide 없는 경우 에러
+    let result = -1;
+    if (amino !== '' && nucleotide !== '') {
+
+      // 25.08.26 this.polymorphismList array 체크 한다
+      if (Array.isArray(this.polymorphismList)) {
+        
+        result = this.polymorphismList.findIndex(item =>
+          item.gene === gene && item.amino_acid_change === amino && item.nucleotide_change === nucleotide
+        );
+
+      }
+    }
 
     return result;
 

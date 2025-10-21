@@ -9,6 +9,7 @@ import { StoreService } from '../store.current';
 })
 export class PreviewComponent implements OnInit {
 
+
   @Input() vusmsg: string;
   @Input() result: string;
   @Input() comments: IComment[];
@@ -16,6 +17,9 @@ export class PreviewComponent implements OnInit {
   @Input() target: string;
   @Input() specimenMessage: string;
   @Output() closemodal = new EventEmitter<void>();
+
+  @Input() zygosity?: string;
+
   patientInfo: IPatient;
   profile: IProfile;  //  { leukemia: '', flt3itd: '', chron: '' };
   dts: IAFormVariant[];
@@ -23,6 +27,9 @@ export class PreviewComponent implements OnInit {
   vusstatus: boolean;
   // comments: IComment[];
   vusMsg: string;
+  
+  
+  Zygosity: string = 'Zygosity';
   constructor(
     private store: StoreService
   ) { }
@@ -36,11 +43,17 @@ export class PreviewComponent implements OnInit {
     // this.vusstatus = this.store.getVUSstatus();
     // this.comments = this.store.getComments();
     this.vusMsg = this.vusmsg;
+    
+    if (this.zygosity) {
+      this.Zygosity = this.zygosity; // 값이 있으면 덮어쓰기
+    }
+    
     console.log('[30][preview]', this.dts);
     console.log('[30][preview][프로파일]', this.profile);
     console.log('[31][preview][mockData]\n', this.specimenMsg, this.vusstatus);
     console.log('[32][preview][comments]\n', this.comments);
     console.log('[32][preview][vusmsg]\n', this.vusmsg);
+    console.log("[this.Zygosity]", this.Zygosity);
   }
 
   closeModal(): void {

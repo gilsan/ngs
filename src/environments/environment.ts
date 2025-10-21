@@ -3,7 +3,13 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  
+  apiUrl: 'http://59.13.225.160:3000',
+  logo: 'assets/images/login_logo.png',
+  home: '가톨릭대학교 서울성모병원',
+  instcd: '012',
+  emrdata: 'http://emr012.cmcnu.or.kr',
 };
 
 /*
