@@ -11,7 +11,7 @@ import { SubSink } from 'subsink';
 import * as moment from 'moment';
 import { geneTitles } from 'src/app/forms/commons/geneList';
 import { TestCodeTitleService } from 'src/app/home/services/testCodeTitle.service';
-import { AMLALL, LYM, SEQ, MDS, GENETIC, MLPA } from 'src/app/forms/commons/geneList';
+//import { AMLALL, LYM, SEQ, MDS, GENETIC, MLPA } from 'src/app/forms/commons/geneList';
 import { PatientsListService } from '../../services/patientslist';
 import { DashboardService } from '../../services/dashboard.service';
 import { AmlallDialogComponent } from './amlall-dialog/amlall-dialog.component';

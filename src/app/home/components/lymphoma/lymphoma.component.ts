@@ -12,7 +12,7 @@ import { SubSink } from 'subsink';
 import * as moment from 'moment';
 import { geneTitles } from 'src/app/forms/commons/geneList';
 
-import { TestCodeTitleService } from 'src/app/home/services/testCodeTitle.service';
+//import { TestCodeTitleService } from 'src/app/home/services/testCodeTitle.service';
 import { LymDialogComponent } from './lym-dialog/lym-dialog.component';
 import { create } from 'domain';
 
@@ -92,7 +92,7 @@ export class LymphomaComponent implements OnInit, AfterViewInit, OnDestroy {
     private route: ActivatedRoute,
     private store: StoreLYMService,
     private sanitizer: DomSanitizer,
-    private titleService: TestCodeTitleService,
+    //private titleService: TestCodeTitleService,
     public dialog: MatDialog,
   ) { }
 

@@ -154,7 +154,9 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   ifusionEMR: IFusion[] = [];
 
   // 25.10.13 빈센트 요청
-  instCd = '012'; 
+  //instcd = '012'; 
+  // 22.12.07 빈센트 요청 
+  vincent = '017'; 
   
   tumorMutationalBurden = '';
   msiScore = '';
@@ -494,9 +496,13 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
         this.extraction.diagnosis = this.patientInfo.pathological_dx;
       }
 
-      if (this.patientInfo.tumorburden.length === 0) { // 2022.11.24 추가
+      console.log ("[497]this.patientInfo.tumorburden=", this.patientInfo.tumorburden);
+
+      if (!this.patientInfo.tumorburden) { // 2022.11.24 추가
         // 2025.19.13 tumorburden.length 없을 떄 오류 수정
-        if (this.instCd === environment.instcd ) {
+        // 22.12.07 서울 요청
+        //if (this.inst === environment.instcd ) {
+        if (this.vincent === environment.instcd ) {
           this.tumorMutationalBurden = 'row';
         } else  {
           this.tumorMutationalBurden = '';
@@ -504,7 +510,11 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       } else {
         let tumorburden = this.patientInfo.tumorburden;
 
-        if (this.instCd !== environment.instcd ) {
+        console.log ("tumorburden=", tumorburden);
+
+        // 22.12.07 서울 요청
+        //if (this.inst === environment.instcd ) {
+        if (this.vincent === environment.instcd ) {
           if (tumorburden === 'row') {
             tumorburden = '';
           } 
@@ -927,11 +937,17 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
        
         let tumorburden = '';
 
+        console.log('[789][tumorMutationalBurdenVal]', tumorMutationalBurdenVal);
         if (tumorMutationalBurdenVal.length > 0) {
-          if (tumorMutationalBurdenVal[0].tumorMutationalBurden.length) {
+          if (tumorMutationalBurdenVal[0].tumorMutationalBurden) {
+            console.log('[789][tumorMutationalBurdenVal[0].tumorMutationalBurden]', tumorMutationalBurdenVal[0].tumorMutationalBurden);
 
-            if (this.instCd !== environment.instcd ) {
-              tumorburden = tumorMutationalBurdenVal[0].tumorMutationalBurden;
+            tumorburden = tumorMutationalBurdenVal[0].tumorMutationalBurden;
+
+            // 22.12.07 서울 요청
+            //if (this.instCd === environment.instcd ) {
+            if (this.vincent === environment.instcd ) {
+              //tumorburden = tumorMutationalBurdenVal[0].tumorMutationalBurden;
               if (tumorburden === 'row') {
                 tumorburden = '';
               }
@@ -940,7 +956,9 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
             this.tumorMutationalBurden = tumorburden;
             tumorburden = tumorMutationalBurdenVal[0].tumorMutationalBurden;
           } else {
-            if (this.instCd === environment.instcd ) {
+            // 22.12.07 서울 요청        
+            //if (this.instCd === environment.instcd ) {
+            if (this.vincent === environment.instcd ) {
               tumorburden = 'row';
             } else  {
               tumorburden = '';
@@ -948,7 +966,9 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
             this.tumorMutationalBurden = tumorburden ;
           }
         } else {
-          if (this.instCd === environment.instcd ) {
+          // 22.12.07
+          //if (this.instCd === environment.instcd ) {
+          if (this.vincent === environment.instcd ) {
             tumorburden = 'row';
           } else  {
             tumorburden = '';
@@ -1295,6 +1315,11 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
           const type: string = item.type.toLowerCase();
           const oncomineVariant = item.OncomineVariant.toLocaleLowerCase();
           
+          // 25.12.09 vincent/인천 조건 추가
+          const isVincent = [this.vincent].includes(environment.instcd);
+
+          console.log('[1322] isVincent ======> ', isVincent);
+          
           // tier 값구히가 2032-09-06        
           // 25.08.06 frequency로 못 찾는 경우 aminoacid로 재 검색한다.
           //const threeTier = this.findTier(item.gene, item.frequency);
@@ -1305,7 +1330,102 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
           // 25.03.29 snv 만 처리하다 mnv도 체크함 
           // case 1
           //if ( (type === 'snv' &&  this.muLists.includes(oncomineVariant)) || type === 'indel') {
-          if ( ((type === 'snv' || type === 'mnv') &&  this.muLists.includes(oncomineVariant)) || type === 'indel') {
+          
+          // 25.12.09  vincent/인천 조건 추가 start
+          //if ( ((type === 'snv' || type === 'mnv') &&  this.muLists.includes(oncomineVariant)) || type === 'indel') {
+          if  (((type === 'snv' || type === 'mnv') &&  isVincent)  || type === 'indel' ) {
+              // const mutation = this.mutation.filter( list => list.gene === item.gene);             
+              const mutation = this.mutation.filter( list => list.gene === item.gene.split(';')[0]);
+              
+              console.log('[mutationNew][1160]========>',  item.gene, tempaminoAcidChange2, this.mutationNew, mutation);
+              console.log('[mutationNew][1160]========>',  item.gene, item.aminoAcidChange,  );
+               if (item.aminoAcidChange === '' || item.aminoAcidChange === null) {
+                 tempaminoAcidChange = mutation[0].aminoAcidChange;
+               } else  {
+                 tempaminoAcidChange = item.aminoAcidChange;
+               }
+
+               console.log('[1167][]===>', item.gene.split(';')[0], this.mutation, mutation.length, threeTier );
+               if (mutation.length === 1 && threeTier !== 'III') {
+                       this.mutationNew.push({
+                       gene: item.gene,
+                       aminoAcidChange:  item.aminoAcidChange,
+                       nucleotideChange:   item.coding,
+                       variantAlleleFrequency:   item.frequency  ? item.frequency + '%' : '',
+                       ID: item.variantID,
+                       
+                       // frequency로 못 찾는 경우 aminoacid로 재 검색한다.          
+                       tier: this.findTier(item.gene, item.frequency, tempaminoAcidChange2),
+                       transcript: item.transcript
+                     });
+                     console.log('[mutationNew][1181]====>', this.mutationNew);
+               } else if (mutation.length > 1 && threeTier !== 'III') {
+                 // mutation에 중복 추가 에러
+                 //mutation.forEach( mut => {
+                   this.mutationNew.push({
+                     gene: item.gene,
+                     aminoAcidChange:  item.aminoAcidChange,
+                     nucleotideChange:   item.coding,
+                     variantAlleleFrequency:   item.frequency ? item.frequency + '%' : '',
+                     ID: item.variantID,
+                     
+                     // frequency로 못 찾는 경우 aminoacid로 재 검색한다.          
+                     tier: this.findTier(item.gene, item.frequency, tempaminoAcidChange2),
+                     transcript: item.transcript
+                   });
+                 //});
+                 console.log('[mutationNew][1195]====>', this.mutationNew);
+               } else if (threeTier === 'III' ) {
+                 this.imutation.push({
+                   gene: item.gene,
+                   aminoAcidChange: item.aminoAcidChange,
+                   nucleotideChange: item.coding,
+                   variantAlleleFrequency:item.frequency ?  item.frequency + '%' : '', 
+                   ID: item.variantID,
+                   tier: 'III',
+                   transcript: item.transcript
+                 });
+                  
+               // tier == ''  mutation.length === 0   
+               }  else if (threeTier === '' ) {
+                 console.log('[mutationNew][1246]====>threeTier', threeTier);
+                 this.imutation.push({
+                   gene: item.gene,
+                   aminoAcidChange: item.aminoAcidChange,
+                   nucleotideChange: item.coding,
+                   variantAlleleFrequency:item.frequency ?  item.frequency + '%' : '', 
+                   ID: item.variantID,
+                   tier: '',
+                   transcript: item.transcript
+                 });
+                  
+               // tier !== 'III'  mutation.length === 0   
+               }  else if (threeTier !== 'III') {
+                 console.log('[mutationNew][1260]====>', item);
+                 this.mutationNew.push({
+                   gene: item.gene,
+                   aminoAcidChange:  item.aminoAcidChange,
+                   nucleotideChange:   item.coding,
+                   variantAlleleFrequency:   item.frequency ? item.frequency + '%' : '',
+                   ID: item.variantID,
+                   tier: threeTier,
+                   transcript: item.transcript
+                 });
+               // tier 정보 없음 mutation.length === 0
+               }  else  { // tier 정보 없음 mutation.length === 0
+                 console.log('[imutation][1222]====>', item.gene);
+                 this.imutation.push({
+                   gene: item.gene,
+                   aminoAcidChange:  item.aminoAcidChange,
+                   nucleotideChange:   item.coding,
+                   variantAlleleFrequency:   item.frequency  ? item.frequency + '%' : '',
+                   ID: item.variantID,                   
+                   tier:  '',
+                   transcript: item.transcript  
+                 });               
+               }
+             
+           } else if ( ((type === 'snv' || type === 'mnv') &&  this.muLists.includes(oncomineVariant)) || type === 'indel') {
                // const mutation = this.mutation.filter( list => list.gene === item.gene);             
                const mutation = this.mutation.filter( list => list.gene === item.gene.split(';')[0]);
                
@@ -1401,14 +1521,78 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                     transcript: item.transcript  
                   });               
                 }
+              // 25.12.09  vincent 조건 추가 end
               
-            // case 2
-            } else if (type === 'cnv' &&  this.amLists.includes(oncomineVariant)) {
+              // 25.12.09  vincent 조건 추가 start
+              // case 2
+            } else if (type === 'cnv' && isVincent ) {
+                const amplification = this.amplifications.filter( list => list.gene === item.gene);
+                console.log('[1529]  ======> ', amplification);
+                console.log('[1529]  ======> ', this.amplifications);
+                
+                 // tier가 없는 경우 추가  
+                const atier = this.findTier(item.gene, '', oncomineVariant);
+
+                const cytoband = item.cytoband.split('x');
+                const value = Number(cytoband[1]);
+                
+                const isCopyNumer = !isNaN(value) && (value < 1 || value >= 4);
+
+                if (isCopyNumer) {
+
+                  if (amplification.length === 1 && threeTier !== '') {
+                    this.amplificationsNew.push({
+                      gene: item.gene,
+                      region: cytoband[0] ,
+                      copynumber: 'x' + cytoband[1],
+                      tier:  amplification[0].tier
+                    });
+                  } else if (amplification.length > 1 && threeTier !== '') {
+                    amplification.forEach(amp => {
+                      this.amplificationsNew.push({
+                        gene: item.gene,
+                        region: cytoband[0] ,
+                        copynumber: 'x' + cytoband[1],
+                        tier: amp.tier
+                      });
+                    });
+                  // tier가 없는 경우 추가  
+                  } else if (atier !== '') {
+                    console.log('[amplification][1553]====>atier', atier);
+
+                    this.amplificationsNew.push({
+                      gene: item.gene,
+                      region: cytoband[0] ,
+                      copynumber: 'x' + cytoband[1],
+
+                      tier: atier
+                    });
+
+                    console.log('[1559]  ======> ', this.amplificationsNew);
+                  // threetier가 없는 경우 추가  
+                  } else if (threeTier !== '') {
+                    console.log('[amplification][1553]====>threeTier', threeTier);
+
+                    this.amplificationsNew.push({
+                      gene: item.gene,
+                      region: cytoband[0]  ,
+                      copynumber: 'x' + cytoband[1],
+
+                      tier: threeTier
+                    });
+
+                    console.log('[1559]  ======> ', this.amplificationsNew);
+                  } 
+                }
+                // 25.12.09  vincent 조건 추가 end
+                
+                // case 2
+              } else if (type === 'cnv' &&  this.amLists.includes(oncomineVariant)) {
                 const amplification = this.amplifications.filter( list => list.gene === item.gene);
                 console.log('[1359]  ======> ', amplification);
                 console.log('[1359]  ======> ', this.amplifications);
                 
-                 // 25.08.05 tier가 없는 경우 추가  
+                // 25.08.05 tier가 없는 경우 추가  
                 const atier = this.findTier(item.gene, '', oncomineVariant);
 
                 const cytoband = item.cytoband.split(')');
@@ -1463,18 +1647,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 
                   console.log('[1359]  ======> ', this.amplificationsNew);
                 // 25.08.05 threetier가 없는 경우 추가  
-                } /* else  {
-                  console.log('[amplification][1267]====>threeTier', threeTier);
-                  ///amplification.forEach(amp => {
-                    this.iamplifications.push({
-                      gene: item.gene,
-                      region: cytoband[0] + ')',
-                      copynumber: cytoband[1],
-                      //tier:  ''
-                    });
-                  //});   
-                } */
-
+                }
           // case 4
           // mnv 추가 25.03.30
          //} else if (type !== 'cnv' && type !== 'snv'  &&  this.fuLists.includes(oncomineVariant)) {
@@ -1570,7 +1743,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
         } else {
           this.fusionNew = [];
         }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         this.prevalent.forEach(item => {
           const members = item.trim().split(',');
           const temps = members[0].split(' ');
@@ -1825,6 +1998,9 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
             this.ifusionLists().push(this.createIFusion(fItem, index.toString()));
           });
         }
+
+        console.log('[1829][필수유전자목록][유전자]', this.extraction.tumortype);
+
 
         /// Genomic Alteration
         this.essentialMent();
@@ -2493,7 +2669,9 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log('[EMR 검사내용]', this.mutationEMR, this.amplificationsEMR, this.fusionEMR);
     console.log('[EMR 검사내용]', this.imutationEMR, this.iamplificationsEMR, this.ifusionEMR);
     console.log('[EMR tumor/msi]', this.tumorMutationalBurdenEMR, this.msiScoreEMR);
-    console.log('[EMR 멘트]', this.generalReportEMR, this.specialmentEMR, this.notementEMR);
+    console.log('[EMR 멘트]', this.generalReportEMR, );
+    console.log('[EMR 멘트1]', this.specialmentEMR);
+    console.log('[EMR 멘트2]', this.notementEMR);
     console.log('[EMR 사진경로]', this.pathimage);
     console.log('[EMR 정도관리', this.stateControl);
     // const emrDate = this.patientInfo.sendEMRDate.toString().slice(0, 10);
@@ -3594,9 +3772,25 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     let muDNA = '';
     let amDNA = '';
     let fuDNA = '';
+    console.log('[2916][필수유전자목록][유전자]', this.extraction.tumortype);
     this.sequencingService.getEssTitle()
       .subscribe(data => {
         console.log('[2916][필수유전자목록][유전자]', data, this.extraction.tumortype);
+        // 25.11.17 'Glioblastoma IDH-wildtype (Grade 4)' 를 'Glioblastoma'로 찾기
+        //const idx = data.findIndex(list => list.title.toLowerCase() === this.extraction.tumortype.toLowerCase());
+        // 25.12.07
+        //const idx = data.findIndex(list => this.extraction.tumortype.toLowerCase().includes(list.title.toLowerCase())); 
+        /*
+        // 1) 괄호 제거 (없으면 무시)
+        let cleaned = this.extraction.tumortype.replace(/\(.*?\)/g, '').trim();
+        // ex: "Glioblastoma IDH-wildtype (Grade 4)" → "Glioblastoma IDH-wildtype"
+
+        // 2) EssTitle 목록 중에서 cleaned 의 앞부분과 정확히 일치하는 title 찾기
+        const idx = data.findIndex(list =>
+          cleaned.toLowerCase().startsWith(list.title.toLowerCase())
+        );
+        */
+        // 25.12.07 'Glioblastoma IDH-wildtype (Grade 4)' 로 찾기
         const idx = data.findIndex(list => list.title.toLowerCase() === this.extraction.tumortype.toLowerCase());
         if (idx !== -1) {
           const { id, title, mutation, amplification, fusion } = data[idx];

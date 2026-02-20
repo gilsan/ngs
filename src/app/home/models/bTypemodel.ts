@@ -54,7 +54,7 @@ let METHODS516_AMLL2 = METHODS_MESSAGES_AMLL[environment.instcd] ?? METHODS_MESS
 export const METHODS516_AMLL = METHODS516_AMLL2
 						.split('\n')
 						.map(line => line.trimStart()) // 각 줄 왼쪽 공백 제거
-						.join('\n');
+						.join('\r\n');
 
  // tslint:disable-next-line:max-line-length
 // export const METHODS516 = 'Total genomic DNA was extracted from the each sample. Template and automated libraries were prepared on the Ion Chef System(Thermo Fisher Scientific) and subsequently sequenced on the Ion S5 system (Thermo Fisher Scientific) with the Ion 530 Chip kit. Alignment of sequences to the reference human genome (GRCh37/hg19) and base calling were performed using the Torrent Suite software version 5.16.0 (Thermo Fisher Scientific). The Torrent Variant Caller v.5.16.0.0 (Thermo Fisher Scientific) was used for calling variants from mapped reads and the called variants were annotated by the Ion Reporter software v5.16.';
@@ -69,8 +69,7 @@ export const METHODS516_AMLL = METHODS516_AMLL2
 const GENERAL_MESSAGES: Record<string, string> = {
 	"016":
 	 `-Method: NGS (Next-Generation Sequencing)
-	-Detectable variants: SNVs, Indels, ITD*, PTD*; structural variants (CNVs, gene rearrangements) are not detected
-	*Only FLT3-ITD and KMT2A PTD
+	-Detectable variants: SNVs, Indels, ITD*, PTD*; structural variants (CNVs, gene rearrangements) are not detected (*Only FLT3-ITD and KMT2A PTD)
 	-LOD: ~2% VAF (SNVs); ~5% VAF (Indels)
 	-Germline vs Somatic: Not distinguishable; VAF near 50% or 100% may indicate a possible germline variant,`,
 	DEFAULT: 'The analysis was optimised to identify base pair substitutions with a high sensitivity. The sensitivity for small insertions and deletions was lower. Deep-intronic mutations, mutations in the promoter region, repeats, large exonic deletions and duplications, and other structural variants were not detected by this test. Evaluation of germline mutation can be performed using buccal swab speciman.'  // fallback
@@ -89,7 +88,7 @@ let GENERAL2 = GENERAL_MESSAGES[environment.instcd] ?? GENERAL_MESSAGES.DEFAULT;
 export const GENERAL = GENERAL2
 						.split('\n')
 						.map(line => line.trimStart()) // 각 줄 왼쪽 공백 제거
-						.join('\n');
+						.join('\r\n');
 
 
 // 25.09.18 인천

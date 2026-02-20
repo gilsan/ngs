@@ -7,14 +7,12 @@ import {
   ElementRef,
   AfterViewInit
 }
-
 from '@angular/core';
 
 import {
   ActivatedRoute,
   Router
 }
-
 from '@angular/router';
 
 import {
@@ -23,7 +21,6 @@ import {
   Observable,
   of
 }
-
 from 'rxjs';
 
 import {
@@ -38,13 +35,11 @@ import {
   IProfile,
   IRecoverVariants
 }
-
 from 'src/app/home/models/patients';
 
 import {
   PatientsListService
 }
-
 from 'src/app/home/services/patientslist';
 
 import {
@@ -52,13 +47,11 @@ import {
   FormGroup,
   FormArray
 }
-
 from '@angular/forms';
 
 import {
   IAFormVariant
 }
-
 from 'src/app/home/models/patients';
 
 import {
@@ -70,13 +63,11 @@ import {
   filter,
   last
 }
-
 from 'rxjs/operators';
 
 import {
   SubSink
 }
-
 from 'subsink';
 
 import {
@@ -85,93 +76,61 @@ import {
   METHODS,
   METHODS516
 }
-
 from 'src/app/home/models/bTypemodel';
 
 import {
   DetectedVariantsService
 }
-
 from 'src/app/home/services/detectedVariants';
 
 import {
   StoreService
 }
-
 from '../store.current';
 
 import {
   ExcelService
 }
-
 from 'src/app/home/services/excelservice';
 
-import {
-  MatDialog
-}
+//import {  MatDialog }from '@angular/material/dialog';
 
-from '@angular/material/dialog';
+//import {  DialogOverviewExampleDialogComponent} from '../dialog-overview-example-dialog/dialog-overview-example-dialog.component';
 
-import {
-  DialogOverviewExampleDialogComponent
-}
+//import {  makeAForm} from 'src/app/home/models/aTypemodel';
 
-from '../dialog-overview-example-dialog/dialog-overview-example-dialog.component';
-
-import {
-  makeAForm
-}
-
-from 'src/app/home/models/aTypemodel';
-
-import {
-  UtilsService
-}
-
+import {  UtilsService}
 from '../commons/utils.service';
 
 import {
   CommentsService
 }
-
 from 'src/app/services/comments.service';
 
-import {
-  makeDForm
-}
-
-from 'src/app/home/models/dTypemodel';
+//import {  makeDForm }from 'src/app/home/models/dTypemodel';
 
 import {
   makeCForm
 }
-
 from 'src/app/home/models/cTypemodel';
 
 import {
   moveItemInArray,
   CdkDragDrop
 }
-
 from '@angular/cdk/drag-drop';
 
 import {
   AnalysisService
 }
-
 from '../commons/analysis.service';
 
 import {
   ExcelAddListService
 }
-
 from 'src/app/home/services/excelAddList';
 
-import {
-  MatSnackBar
-}
-
-from '@angular/material/snack-bar';
+import {  MatSnackBar} from '@angular/material/snack-bar';
 
 /**  profile
  *  ALL/AML   LYM           MDS
@@ -274,7 +233,7 @@ AfterViewInit {
 
   mockData: IAFormVariant[]=[];
 
-  // tablerowForm: FormGroup;
+   tablerowForm: FormGroup;
   // singleCommentForm: FormGroup;
   // control: FormArray;
   // listForm: FormGroup;
@@ -295,9 +254,9 @@ AfterViewInit {
   tempCommentVariants='';
   tempCommentreference='';
   tempCommentComment='';
-  // vusstatus = true;
+  vusstatus = true;
   preview=true;
-  // isVisible = false;
+  isVisible = false;
 
   examin=''; // 검사자
   recheck=''; // 확인자
@@ -316,9 +275,7 @@ AfterViewInit {
 
   vd: {
     sequence: number, selectedname: string, gene: string
-  }
-
-  []=[];
+  } []=[];
 
   lastScrollTop=0;
   lastScrollLeft=0;
@@ -326,7 +283,7 @@ AfterViewInit {
   leftScroll=true;
   tsvVersion='510'; // v5.16 버전확인
   // tslint:disable-next-line:max-line-length
-  // vusmsg = `VUS는 ExAC, KRGDB등의 Population database에서 관찰되지 않았거나, 임상적 의의가 불분명합니다. 해당변이의 의의를 명확히 하기 위하여 환자의 buccal swab 검체로 germline variant 여부에 대한 확인이 필요 합니다.`;
+  vusmsg = `VUS는 ExAC, KRGDB등의 Population database에서 관찰되지 않았거나, 임상적 의의가 불분명합니다. 해당변이의 의의를 명확히 하기 위하여 환자의 buccal swab 검체로 germline variant 여부에 대한 확인이 필요 합니다.`;
 
   functionalimpact: string[]=['Pathogenic',
   'Likely Pathogenic',
@@ -344,20 +301,20 @@ AfterViewInit {
 
   // @ViewChild('commentbox') private commentbox: TemplateRef<any>;
   // @ViewChild('box100', { static: true }) box100: ElementRef;
-  // @ViewChild('table', { static: true }) table: ElementRef;
+  @ViewChild('table', { static: true }) table: ElementRef;
   constructor(private patientsListService: PatientsListService,
     private router: Router,
-    // private fb: FormBuilder,
+    private fb: FormBuilder,
     private variantsService: DetectedVariantsService,
     private store: StoreService,
     private excel: ExcelService,
     // public dialog: MatDialog,
     private route: ActivatedRoute,
     private utilsService: UtilsService,
-    // private commentsService: CommentsService,
+    private commentsService: CommentsService,
     private analysisService: AnalysisService,
     private excelService: ExcelAddListService,
-    // private snackBar: MatSnackBar,
+    private snackBar: MatSnackBar,
   ) {}
 
   ngOnInit(): void {
@@ -1294,7 +1251,7 @@ AfterViewInit {
     const commentControl=this.tablerowForm.get('commentsRows') as FormArray;
     this.comments=commentControl.getRawValue();
 
-    from(this.comments) .pipe(concatMap(ment=> this.commentsService.insertCommentsList('', ment.type, ment.gene, ment.variant_id, ment.comment, ment.reference)),
+    from(this.comments) .pipe(concatMap(ment=> this.commentsService.insertCommentsList(ment.type, '', '', ment.gene, ment.variant_id, ment.comment, ment.reference, '')),
       last()).subscribe(data=> {
         if (data) {
           alert('등록 되었습니다.');
@@ -1329,6 +1286,7 @@ AfterViewInit {
         row.zygosity,
         row.vafPercent,
         row.references,
+        '', 
         row.cosmicID).subscribe((data: any)=> {
           alert('mutation에 추가 했습니다.');
         }
@@ -1339,7 +1297,7 @@ AfterViewInit {
     else if (this.selectedItem==='artifacts') {
 
       // console.log('[755][artifacts][저장] ', row);
-      this.subs.sink=this.patientsListService.insertArtifacts(row.gene, '', '', row.transcript, row.nucleotideChange, row.aminoAcidChange).subscribe((data: any)=> {
+      this.subs.sink=this.patientsListService.insertArtifacts('', row.gene, '', '', row.transcript, row.nucleotideChange, row.aminoAcidChange).subscribe((data: any)=> {
           console.log('[759][artifacts][저장] ', data);
           alert('artifacts에 추가 했습니다.');
 
@@ -1644,25 +1602,30 @@ AfterViewInit {
     }
 
     // console.log('[944][LYM EMR][comments] ', this.comments);
-    const makeForm=makeCForm(this.resultStatus,
+    const makeForm=makeCForm(
+      '',
+      this.resultStatus,
       this.examin, // 검사자
       this.recheck, // 확인자
+      '',
       this.profile,
       this.patientInfo.accept_date, // 검사의뢰일
       this.specimenMessage,
-      this.vusmsg, //          this.ment,  // VUS 멘트
       this.patientInfo,
       reformData,
       this.comments,
       this.firstReportDay,
       this.lastReportDay,
       this.genelists,
-      tsvVersionContents);
+      tsvVersionContents,
+      this.vusmsg, //          this.ment,  // VUS 멘트
+      '');
     console.log('[1150][LYM XML] ', makeForm);
 
     this.patientsListService.sendEMR(this.patientInfo.specimenNo,
       this.patientInfo.patientID,
       this.patientInfo.test_code,
+      '',
       this.patientInfo.name,
       makeForm) .pipe(concatMap(()=> this.patientsListService.resetscreenstatus(this.form2TestedId, '3', userid, 'LYM')),
       concatMap(()=> this.patientsListService.setEMRSendCount(this.form2TestedId, ++this.sendEMR)), // EMR 발송횟수 전송

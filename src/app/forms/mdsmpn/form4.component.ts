@@ -35,6 +35,9 @@ import { ExcelAddListService } from 'src/app/home/services/excelAddList';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ResearchService } from 'src/app/home/services/research.service';
 
+// 25.11.14 인천
+import { environment } from '../../../environments/environment';
+
 /**
  *  ALL/AML   LYM           MDS
  * leukemia                 diagnosis,leukemiaassociatedfusion
@@ -98,6 +101,9 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
   checkboxStatus = []; // 체크박스 on 인것
   ngsData = [];
   private subs = new SubSink();
+
+  // 25.11.14 인천 요청
+  instCd = '016'; 
 
   resultStatus = 'Detected';
   fusion = '';
@@ -398,7 +404,11 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
       .subscribe(() => {
         if (this.savedDataExist) {
           console.log('[351][true]', this.savedDataExist);
-          this.recoverDetected();
+          if (this.patientInfo.saveyn === "T") {
+            this.init(this.form2TestedId);
+          } else {
+            this.recoverDetected();
+          }
         } else {
           console.log('[354][false]', this.savedDataExist);
           this.init(this.form2TestedId);
@@ -522,10 +532,11 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
 
   init(form2TestedId: string): void {
 
-
+    //console.log('[532]form2TestedId=', this.form2TestedId);
     if (this.form2TestedId) {
       // this.variantsService.screenSelect(this.form2TestedId).subscribe(data => {
-      this.patientsListService.mlpafiltering(this.form2TestedId, this.reportType, this.patientInfo.specimenNo).subscribe(data => {
+      this.patientsListService.mlpafiltering(this.form2TestedId, this.reportType, this.patientInfo.specimenNo).
+      subscribe(data => {
         if (data.length > 0) {
           console.log('[459]', data);
           this.recoverVariants = data;
@@ -576,7 +587,7 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
           this.putCheckboxInit(); // 체크박스 초기화
 
         } else {
-          // this.addDetectedVariant();
+          this.addDetectedVariant();
         }
       });
 
@@ -755,25 +766,92 @@ export class Form4Component implements OnInit, OnDestroy, AfterViewInit {
     }
     console.log('[658]', count, tempCount);
 
-    if (type === 'M') {
+    if (type === 'M' ) {
+      if (this.instCd === environment.instcd ) {
+        tempvalue = {
+          igv : '',
+          sanger: '',
+          type,
+          cnt: tempCount,
+          gene,
+          // 25.11.14
+          //functionalImpact: item.functional_impact,
+          functionalImpact: tsv.clinvar,
+          transcript: tsv.transcript.replace(/;/g, ','),
+          exonIntro: 'E' + tsv.exon.replace(/;/g, ','),
+          nucleotideChange: tsv.coding.replace(/;/g, ','),
+          aminoAcidChange: tsv.amino_acid_change.replace(/;/g, ','),
+          // 25.11.14
+          //zygosity: 'Heterozygous',
+          zygosity: tsv.zygosity,
+          vafPercent: tsv.frequency.replace(/;/g, ','),
+          reference: tsv.reference,
+          cosmic_id: tsv.cosmic,
+          gubun: 'MDS'
+        };
+      } else {
+        tempvalue = {
+          igv : '',
+          sanger: '',
+          type,
+          cnt: tempCount,
+          gene,
+          // 25.11.14
+          //functionalImpact: item.functional_impact,
+          functionalImpact: tsv.clinvar,
+          transcript: tsv.transcript.replace(/;/g, ','),
+          exonIntro: 'E' + tsv.exon.replace(/;/g, ','),
+          nucleotideChange: tsv.coding.replace(/;/g, ','),
+          aminoAcidChange: tsv.amino_acid_change.replace(/;/g, ','),
+          zygosity: 'Heterozygous',
+          vafPercent: tsv.frequency.replace(/;/g, ','),
+          reference: item.references,
+          cosmic_id: item.cosmic_id,
+          gubun: 'MDS'
+        };
+      }
+
+    // 25.11.14
+  } else if ( type === 'New') {
+    if (this.instCd === environment.instcd ) {
       tempvalue = {
-        igv: '',
+        igv : '',
         sanger: '',
         type,
         cnt: tempCount,
         gene,
-        functionalImpact: item.functional_impact,
-        transcript: tsv.transcript,
-        exonIntro: 'E' + tsv.exon,
-        nucleotideChange: coding,
-        aminoAcidChange: tsv.amino_acid_change,
-        // zygosity: item.zygosity,
-        zygosity: 'Heterozygous',
-        vafPercent: tsv.frequency,
-        reference: item.reference,
-        cosmic_id: item.cosmic_id,
+        // 25.11.14
+        //functionalImpact: item.functional_impact,
+        functionalImpact: tsv.clinvar,
+        transcript: tsv.transcript.replace(/;/g, ','),
+        exonIntro: 'E' + tsv.exon.replace(/;/g, ','),
+        nucleotideChange: tsv.coding.replace(/;/g, ','),
+        aminoAcidChange: tsv.amino_acid_change.replace(/;/g, ','),
+        zygosity: tsv.zygosity,
+        vafPercent: tsv.frequency.replace(/;/g, ','),
+        reference: tsv.reference,
+        cosmic_id: tsv.cosmic,
         gubun: 'MDS'
       };
+    } else {
+      tempvalue = {
+        igv : '',
+        sanger: '',
+        type,
+        cnt: tempCount,
+        gene,
+        functionalImpact: '',
+        transcript: tsv.transcript.replace(/;/g, ','),
+        exonIntro: 'E' + tsv.exon.replace(/;/g, ','),
+        nucleotideChange: tsv.coding.replace(/;/g, ','),
+        aminoAcidChange: tsv.amino_acid_change.replace(/;/g, ','),
+        zygosity: 'Heterozygous',
+        vafPercent: tsv.frequency.replace(/;/g, ','),
+        reference: '',
+        cosmic_id: '',
+        gubun: 'MDS'
+      };
+    }
 
     } else {
       tempvalue = {

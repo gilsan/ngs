@@ -40,7 +40,7 @@ let METHODS5162 = METHODS_MESSAGES[environment.instcd] ?? METHODS_MESSAGES.DEFAU
 export const METHODS516 = METHODS5162
 						.split('\n')
 						.map(line => line.trimStart()) // 각 줄 왼쪽 공백 제거
-						.join('\n');
+						.join('\r\n');
 
 						
 // 25.09.18 인천
@@ -68,7 +68,7 @@ let GENERAL2 = GENERAL_MESSAGES[environment.instcd] ?? GENERAL_MESSAGES.DEFAULT;
 export const GENERAL = GENERAL2
 						.split('\n')
 						.map(line => line.trimStart()) // 각 줄 왼쪽 공백 제거
-						.join('\n');
+						.join('\r\n');
 /**
  * 조건 코드별 안내 문구 테이블
  * - "DEFAULT" 키로 기본 안내 문구 관리

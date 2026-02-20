@@ -13,7 +13,7 @@ import * as moment from 'moment';
 import { geneTitles, mlpaLists, listMLPA } from 'src/app/forms/commons/geneList';
 import { MLPATLIST } from 'src/app/forms/commons/mlpa.data';
 import { MlpaService } from 'src/app/services/mlpa.service';
-import { TestCodeTitleService } from '../../services/testCodeTitle.service';
+//import { TestCodeTitleService } from '../../services/testCodeTitle.service';
 import { MlpaDialogComponent } from './mlpa-dialog/mlpa-dialog.component';
 import { CodeDefaultValue } from 'src/app/services/codedefaultvalue';
 import { ICodement } from 'src/app/inhouse/models/comments';
@@ -91,7 +91,7 @@ export class MlpaComponent implements OnInit, AfterViewInit, OnDestroy {
     private store: StoreMLPAService,
     private sanitizer: DomSanitizer,
     public mlpaService: MlpaService,
-    private titleService: TestCodeTitleService,
+    //private titleService: TestCodeTitleService,
     public dialog: MatDialog,
     private codeDefaultValueService: CodeDefaultValue
   ) { }

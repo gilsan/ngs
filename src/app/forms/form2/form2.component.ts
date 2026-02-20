@@ -32,6 +32,9 @@ import { ExcelAddListService } from 'src/app/home/services/excelAddList';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ResearchService } from 'src/app/home/services/research.service';
 
+// 25.11.14 인천
+import { environment } from '../../../environments/environment';
+
 @Component({
   selector: 'app-form2',
   templateUrl: './form2.component.html',
@@ -88,6 +91,9 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
   checkboxStatus = []; // 체크박스 on 인것
   ngsData = [];
   private subs = new SubSink();
+
+  // 25.11.14 인천 요청
+  instCd = '016'; 
 
   resultStatus = 'Detected';
   fusion = '';
@@ -345,7 +351,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
         shareReplay()
       );
     this.subs.sink = this.filteredTSV$.subscribe(data => {
-      // console.log('[312][form2][fileredTSVFile]', data);
+      console.log('[312][form2][fileredTSVFile]', data);
       this.tsvLists = data || [];
     });
 
@@ -534,12 +540,12 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
                 }
               });
             ////////////////////////////////////
-          } else {
+          }else {
             console.log( '[528] ==================   ',data.length, this.tsvSaveOrEmptySave);
-            if (this.tsvSaveOrEmptySave === 'T') {
+            //if (this.tsvSaveOrEmptySave === 'T') {
               
               this.addDetectedVariant();
-            }
+            //}
 
           }
         });
@@ -629,6 +635,7 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
             // this.resultStatus = 'Detected';
 
           }
+
 
         } else if (parseInt(data.artifacts1Count, 10) > 0 ||
           parseInt(data.artifacts2Count, 10) > 0) {
@@ -807,24 +814,95 @@ export class Form2Component implements OnInit, OnDestroy, AfterViewInit {
       tempCount = '';
     }
 
-    if (type === 'M') {
-      tempvalue = {
-        igv,
-        sanger: '',
-        type,
-        cnt: tempCount,
-        gene,
-        functionalImpact: item.functional_impact,
-        transcript: tsv.transcript.replace(/;/g, ','),
-        exonIntro: 'E' + tsv.exon.replace(/;/g, ','),
-        nucleotideChange: tsv.coding.replace(/;/g, ','),
-        aminoAcidChange: tsv.amino_acid_change.replace(/;/g, ','),
-        zygosity: 'Heterozygous',
-        vafPercent: tsv.frequency.replace(/;/g, ','),
-        reference: item.reference,
-        cosmic_id: item.cosmic_id,
-        gubun: 'AMLALL'
-      };
+    console.log('==== [819][type]', type);
+
+    if (type === 'M' ) {
+      if (this.instCd === environment.instcd ) {
+        tempvalue = {
+          igv,
+          sanger: '',
+          type,
+          cnt: tempCount,
+          gene,
+          // 25.11.14
+          //functionalImpact: item.functional_impact,
+          functionalImpact: tsv.clinvar,
+          transcript: tsv.transcript.replace(/;/g, ','),
+          exonIntro: 'E' + tsv.exon.replace(/;/g, ','),
+          nucleotideChange: tsv.coding.replace(/;/g, ','),
+          aminoAcidChange: tsv.amino_acid_change.replace(/;/g, ','),
+          // 25.11.14
+          //zygosity: 'Heterozygous',
+          zygosity: tsv.zygosity,
+          vafPercent: tsv.frequency.replace(/;/g, ','),
+          reference: tsv.reference,
+          cosmic_id: tsv.cosmic,
+          gubun: 'AMLALL'
+        };
+      } else {
+        tempvalue = {
+          igv,
+          sanger: '',
+          type,
+          cnt: tempCount,
+          gene,
+          // 25.11.28
+          // 서울(인천 제외)은 detected_variants에서 읽어온다
+          functionalImpact: item.functional_impact,
+          transcript: tsv.transcript.replace(/;/g, ','),
+          exonIntro: 'E' + tsv.exon.replace(/;/g, ','),
+          nucleotideChange: tsv.coding.replace(/;/g, ','),
+          aminoAcidChange: tsv.amino_acid_change.replace(/;/g, ','),
+          zygosity: 'Heterozygous',
+          vafPercent: tsv.frequency.replace(/;/g, ','),
+          reference: item.references,
+          cosmic_id: item.cosmic_id,
+          gubun: 'AMLALL'
+        };
+      }
+
+    // 25.11.14
+    } else if ( type === 'New') {
+      if (this.instCd === environment.instcd ) {
+        tempvalue = {
+          igv,
+          sanger: '',
+          type,
+          cnt: tempCount,
+          gene,
+          // 25.11.14
+          //functionalImpact: item.functional_impact,
+          functionalImpact: tsv.clinvar,
+          transcript: tsv.transcript.replace(/;/g, ','),
+          exonIntro: 'E' + tsv.exon.replace(/;/g, ','),
+          nucleotideChange: tsv.coding.replace(/;/g, ','),
+          aminoAcidChange: tsv.amino_acid_change.replace(/;/g, ','),
+          zygosity: tsv.zygosity,
+          vafPercent: tsv.frequency.replace(/;/g, ','),
+          reference: tsv.reference,
+          cosmic_id: tsv.cosmic,
+          gubun: 'AMLALL'
+        };
+      } else {
+        tempvalue = {
+          igv,
+          sanger: '',
+          type,
+          cnt: tempCount,
+          gene,
+          functionalImpact: '',
+          transcript: tsv.transcript.replace(/;/g, ','),
+          exonIntro: 'E' + tsv.exon.replace(/;/g, ','),
+          nucleotideChange: tsv.coding.replace(/;/g, ','),
+          aminoAcidChange: tsv.amino_acid_change.replace(/;/g, ','),
+          zygosity: 'Heterozygous',
+          vafPercent: tsv.frequency.replace(/;/g, ','),
+          reference: '',
+          cosmic_id: '',
+          gubun: 'AMLALL'
+        };
+      }
+    
 
     } else {
       tempvalue = {

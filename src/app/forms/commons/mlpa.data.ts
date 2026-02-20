@@ -286,8 +286,128 @@ SMA환자의 95-98%에서 SMN1 유전자의 결실 혹은 절단이 동형접합
     technique: `* The P033-B3 CMT1 probemix contains probes for the PMP22, COX10, & TEKT3 genes located in the
   CMT/HNPP region at 17p12. Probes for each of the five PMP22 exons are present in this probemix. In addition, this probemix contains several probes just outside the CMT/HNPP region for reference. Finally, 2 probes for KIF1B are included. Defects in the KIF1B gene have been implicated in Charcot Marie disease type 2A1.`,
     comment: ''
-  }
+  },
+  /*
+  // 25.12.09 LPE464 추가
+  {
+    type: 'LPE464',
+    title: 'PARK2 Gene MLPA Analysis Report',
+    data: [
+      { seq: '1', site: 'TNFRSF9 Exon 2', result: 'Normal' }, 
+      { seq: '2', site: 'PARK7 Upstream', result: 'Normal' },
+      { seq: '3', site: 'PARK7 Exon 1', result: 'Normal' }, 
+      { seq: '4', site: 'PARK7 Exon 2', result: 'Normal' },
+      { seq: '5', site: 'PARK7 Exon 3', result: 'Normal' }, 
+      { seq: '6', site: 'PARK7 Exon 4', result: 'Normal' },
+      { seq: '7', site: 'PARK7 Exon 5', result: 'Normal' }, 
+      { seq: '8', site: 'PARK7 Exon 6', result: 'Normal' },
+      { seq: '9', site: 'PARK7 Exon 7', result: 'Normal' }, 
+      { seq: '10', site: 'ATP13A2 Exon 2', result: 'Normal' },
+      { seq: '11', site: 'ATP13A2 Exon 9', result: 'Normal' }, 
+      { seq: '12', site: 'ATP13A2 Exon 14', result: 'Normal' },
+      { seq: '13', site: 'ATP13A2 Exon 27', result: 'Normal' }, 
+      { seq: '14', site: 'PINK1 Exon 1', result: 'Normal' },
+      { seq: '15', site: 'PINK1 Exon 2', result: 'Normal' }, 
+      { seq: '16', site: 'PINK1 Exon 3', result: 'Normal' },
+      { seq: '17', site: 'PINK1 Exon 4', result: 'Normal' }, 
+      { seq: '18', site: 'PINK1 Exon 5', result: 'Normal' },
+      { seq: '19', site: 'PINK1 Exon 6', result: 'Normal' }, 
+      { seq: '20', site: 'PINK1 Exon 7', result: 'Normal' }, 
+      { seq: '21', site: 'PINK1 Exon 8', result: 'Normal' },
 
+      { seq: '22', site: 'UCHL1 Exon 1', result: 'Normal' },
+      { seq: '23', site: 'UCHL1 Exon 2', result: 'Normal' },
+      { seq: '24', site: 'UCHL1 Exon 3', result: 'Normal' },
+      { seq: '25', site: 'UCHL1 Exon 4', result: 'Normal' },
+      { seq: '26', site: 'UCHL1 Exon 5', result: 'Normal' },
+      { seq: '27', site: 'UCHL1 Exon 6', result: 'Normal' },
+      { seq: '28', site: 'UCHL1 Exon 7', result: 'Normal' },
+      { seq: '29', site: 'UCHL1 Exon 8', result: 'Normal' },
+      { seq: '30', site: 'UCHL1 Exon 9', result: 'Normal' },
+    
+      { seq: '31', site: 'SNCA Exon 1', result: 'Normal' },
+      { seq: '32', site: 'SNCA Exon 2', result: 'Normal' },
+      { seq: '33', site: 'SNCA Exon 2 (A30P)', result: 'Normal' },
+      { seq: '34', site: 'SNCA Exon 3', result: 'Normal' },
+      { seq: '35', site: 'SNCA Exon 4', result: 'Normal' },
+      { seq: '36', site: 'SNCA Exon 5', result: 'Normal' },
+      { seq: '37', site: 'SNCA Exon 6', result: 'Normal' },
+    
+      { seq: '38', site: 'LPA 6q25 (Flanking)', result: 'Normal' },
+    
+      { seq: '39', site: 'PACRG Exon 1 (PARK2 Intr 1)', result: 'Normal' },
+    
+      { seq: '40', site: 'PARK2 Exon 1', result: 'Normal' },
+      { seq: '41', site: 'PARK2 Exon 2a', result: 'Normal' },
+      { seq: '42', site: 'PARK2 Exon 2b', result: 'Normal' },
+      { seq: '43', site: 'PARK2 Exon 3a', result: 'Normal' },
+      { seq: '44', site: 'PARK2 Exon 3b', result: 'Normal' },
+      { seq: '45', site: 'PARK2 Exon 4a', result: 'Normal' },
+      { seq: '46', site: 'PARK2 Exon 4b', result: 'Normal' },
+      { seq: '47', site: 'PARK2 Exon 5a', result: 'Normal' },
+      { seq: '48', site: 'PARK2 Exon 5b', result: 'Normal' },
+      { seq: '49', site: 'PARK2 Exon 6a', result: 'Normal' },
+      { seq: '50', site: 'PARK2 Exon 6b', result: 'Normal' },
+      { seq: '51', site: 'PARK2 Exon 7a', result: 'Normal' },
+      { seq: '52', site: 'PARK2 Exon 7b', result: 'Normal' },
+      { seq: '53', site: 'PARK2 Exon 8a', result: 'Normal' },
+      { seq: '54', site: 'PARK2 Exon 8b', result: 'Normal' },
+      { seq: '55', site: 'PARK2 Exon 9a', result: 'Normal' },
+      { seq: '56', site: 'PARK2 Exon 9b', result: 'Normal' },
+      { seq: '57', site: 'PARK2 Exon 10a', result: 'Normal' },
+      { seq: '58', site: 'PARK2 Exon 10b', result: 'Normal' },
+      { seq: '59', site: 'PARK2 Exon 11a', result: 'Normal' },
+      { seq: '60', site: 'PARK2 Exon 11b', result: 'Normal' },
+      { seq: '61', site: 'PARK2 Exon 12a', result: 'Normal' },
+      { seq: '62', site: 'PARK2 Exon 12b', result: 'Normal' },
+    
+      { seq: '63', site: 'CAV1 Exon 3', result: 'Normal' },
+      { seq: '64', site: 'CAV2 Exon 3', result: 'Normal' },
+    
+      { seq: '65', site: 'LRRK2 Exon 1', result: 'Normal' },
+      { seq: '66', site: 'LRRK2 Exon 2', result: 'Normal' },
+      { seq: '67', site: 'LRRK2 Exon 10', result: 'Normal' },
+      { seq: '68', site: 'LRRK2 Exon 15', result: 'Normal' },
+      { seq: '69', site: 'LRRK2 Exon 27', result: 'Normal' },
+      { seq: '70', site: 'LRRK2 Exon 41', result: 'Normal' },
+      { seq: '71', site: 'LRRK2 Exon 41 (G2019S)', result: 'Normal' },
+      { seq: '72', site: 'LRRK2 Intron 49', result: 'Normal' },
+    
+      { seq: '73', site: 'GCH1 Upstream', result: 'Normal' },
+      { seq: '74', site: 'GCH1 Exon 2', result: 'Normal' },
+      { seq: '75', site: 'GCH1 Exon 3', result: 'Normal' },
+      { seq: '76', site: 'GCH1 Exon 4', result: 'fasfsaf' },
+      { seq: '77', site: 'GCH1 Exon 5', result: 'Normal' },
+      { seq: '78', site: 'GCH1 Exon 6', result: 'Normal' }
+    ],
+    result: 'PMP22 deletion / duplication',
+    conclusion: `1. PMP22 유전자에 대한 MLPA 분석결과, 본 환자에서 유전성 압박마비편향 신경병증(Hereditary
+      neuropathy with liability to pressure palsies; HNPP) 및 샤르코-마리-투스병 1A 형(Charcot-
+      Marie-Tooth disease, type 1A )과 관련된 PMP22 유전자의 결실 및 중복은 관찰되지 않습니다.
+      HNPP 는 말초 신경병증으로 압박마비가 주 소견이며 이외에도 tingling sensation, 저림, 통증, 쇠약,
+      근위축 등을 유발할 수 있습니다. HNPP 의 증상은 주로 십대 후반에서 이십대 초반에 나타나기
+      시작하며 비골신경, 척골신경, 정중신경을 주로 침범합니다.
+      Charcot-Marie-Tooth neuropathy type 1 (CMT1)은 탈수초 말초 신경병증으로 원위 근육 쇠약 및
+      위축, 감각 손실, 느린 신경 전도 속도를 특징으로 합니다. 환자들은 5-25 세 사이에 증상이 발견되며,
+      상염색체 우성 유전양상을 보입니다.
+
+      PMP22 유전자는 유전성 압박마비편향 신경병증 및 샤르코-마리-투스병 1A 형의 단일 원인
+      유전자로서 유전성 압박마비편향 신경병증에서는 PMP22 유전자의 결실 소견이 관찰되며 샤르코-
+      마리-투스병 1A 형의 경우 PMP22 유전자의 중복 소견이 관찰됩니다.
+
+      본 검사는 PMP22 유전자의 결실/중복을 검사하는 방법으로, 전체 유전성 압박마비편향 신경병증
+      환자의 약 85%에서 본 검사법으로 PMP22 유전자의 결실 소견을 보이며, 샤르코-마리-투스병 1A 형
+      환자의 경우 70-80%에서 본 검사법으로 중복 소견을 보입니다.
+
+      HNPP 환자의 약 15%에서 관찰되는 PMP22 유전자의 점 돌연변이는 본 검사법으로는 확인할 수
+      없습니다. CMT1 에는 여러 아형이 있으며 본 검사는 전체 CMT1 의 70-80%에 해당하는 가장 빈도가
+      높은 아형인 CMT1A 의 원인 유전자인 PMP22 유전자의 중복을 검사하는 방법이며 CMT1 의 다른
+      아형인 CMT1B, CMT1C, CMT1D, CMT1E, CMT2E/1F 의 원인 유전자의 변이는 본 검사로는 확인할 수 없습니다.`,
+    technique: `* The P033-B3 CMT1 probemix contains probes for the PMP22, COX10, & TEKT3 genes located in the
+  CMT/HNPP region at 17p12. Probes for each of the five PMP22 exons are present in this probemix. In addition, this probemix contains several probes just outside the CMT/HNPP region for reference. Finally, 2 probes for KIF1B are included. Defects in the KIF1B gene have been implicated in Charcot Marie disease type 2A1.`,
+    comment: ''
+  }
+  */
 ];
 
 export const HEADER = [

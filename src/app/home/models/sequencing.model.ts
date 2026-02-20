@@ -24,6 +24,8 @@ export function sequencingForm(
 
 ): string {
 
+  // 25.11.14
+  /*
   const patient = `<root>
 	<Dataset id="ds_1">
 	    <ColumnInfo>
@@ -73,7 +75,57 @@ export function sequencingForm(
 		</Rows>
 	</Dataset>
 	`;
+  */
 
+  const patient = `<root>
+	<Dataset id="ds_1">
+	    <ColumnInfo>
+			<Column id="patient" type="STRING" size="256"/>
+			<Column id="result" type="STRING" size="256"/>
+      <Column id="rsltright1" type="STRING" size="256"/>
+			<Column id="rsltright2" type="STRING" size="256"/>
+			<Column id="rsltleft1" type="STRING" size="256"/>
+			<Column id="rsltleft2" type="STRING" size="256"/>
+      <Column id="rsltcenter1" type="STRING" size="256"/>
+      <Column id="rsltcenter2" type="STRING" size="256"/>
+			<Column id="testinfo1" type="STRING" size="256"/>
+			<Column id="testinfo2" type="STRING" size="256"/>
+			<Column id="testinfo3" type="STRING" size="256"/>
+			<Column id="testinfo4" type="STRING" size="256"/>
+      <Column id="testinfo5" type="STRING" size="256"/>
+      <Column id="identified" type="STRING" size="256"/>
+      <Column id="opnion" type="STRING" size="256"/>
+			<Column id="title" type="STRING" size="256"/>
+			<Column id="examdt" type="STRING" size="256"/>
+			<Column id="examid" type="STRING" size="256"/>
+			<Column id="signid" type="STRING" size="256"/>
+
+		</ColumnInfo>
+		<Rows>
+			<Row>
+				<Col id="patient">${patientInfo.name}, ${patientInfo.patientID} (${patientInfo.gender}/${patientInfo.age})</Col>
+				<Col id="result"><![CDATA[${resultStatus} ${resultname} ]]></Col>
+        <Col id="rsltright1"></Col>
+				<Col id="rsltright2"></Col>
+				<Col id="rsltleft1"></Col>
+				<Col id="rsltleft2"></Col>
+        <Col id="rsltcenter1"></Col>
+        <Col id="rsltcenter2"></Col>
+				<Col id="testinfo1"><![CDATA[TARGET DISEASE: ${targetdisease}]]></Col>
+				<Col id="testinfo2"><![CDATA[METHOD:  ${method}]]></Col>
+				<Col id="testinfo3"><![CDATA[SPECIMEN:  ${specimen}]]></Col>
+				<Col id="testinfo4">REQUEST: ${patientInfo.request}</Col>
+        <Col id="testinfo5">ANALYZED GENE: ${analyzedgene}</Col>
+        <Col id="identified"><![CDATA[${variations}]]></Col>
+        <Col id="opnion"><![CDATA[${seqcomment}]]></Col>
+				<Col id="title">${title}</Col>
+				<Col id="examdt">${acceptdate}/${firstReportDay}/${lastReportDay} </Col>
+				<Col id="examid">${examin}</Col>
+				<Col id="signid">${recheck}</Col>
+			</Row>
+		</Rows>
+	</Dataset>
+	`;
 
   const variantHeader = `
 	<Dataset id="ds_2">

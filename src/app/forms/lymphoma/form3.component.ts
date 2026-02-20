@@ -34,6 +34,9 @@ import { ExcelAddListService } from 'src/app/home/services/excelAddList';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ResearchService } from 'src/app/home/services/research.service';
 
+// 25.11.14 인천
+import { environment } from '../../../environments/environment';
+
 /**  profile
  *  ALL/AML   LYM           MDS
  * diagnosis                 diagnosis
@@ -98,6 +101,9 @@ export class Form3Component implements OnInit, OnDestroy {
   checkboxStatus = []; // 체크박스 on 인것
   ngsData = [];
   private subs = new SubSink();
+
+  // 25.11.14 인천 요청
+  instCd = '016'; 
 
   resultStatus = 'Detected';
   fusion = '';
@@ -503,11 +509,11 @@ export class Form3Component implements OnInit, OnDestroy {
             this.recoverVariant(item);  // 354
           });
           this.putCheckboxInit(); // 체크박스 초기화
-        } else {
+        } else { 
 
-          if (this.tsvSaveOrEmptySave === 'T') {
+          //if (this.tsvSaveOrEmptySave === 'T') {
             this.addDetectedVariant();
-          }
+          //}
 
         }
       });
@@ -776,25 +782,94 @@ export class Form3Component implements OnInit, OnDestroy {
       tempCount = '';
     }
     // console.log('[676]', count, tempCount);
-    if (type === 'M') {
-      tempvalue = {
-        igv,
-        sanger: '',
-        type,
-        cnt: tempCount,
-        gene,
-        functionalImpact: item.functional_impact,
-        transcript: tsv.transcript.replace(/;/g, ','),
-        exonIntro: 'E' + tsv.exon.replace(/;/g, ','),
-        nucleotideChange: tsv.coding.replace(/;/g, ','),
-        aminoAcidChange: tsv.amino_acid_change.replace(/;/g, ','),
-
-        zygosity: 'Heterozygous',
-        vafPercent: tsv.frequency.replace(/;/g, ','),
-        reference: item.reference,
-        cosmic_id: item.cosmic_id,
-        gubun: 'LYM'
-      };
+    // 25.11.14
+    //if (type === 'M' ) {
+      if (type === 'M' ) {
+        if (this.instCd === environment.instcd ) {
+          tempvalue = {
+            igv,
+            sanger: '',
+            type,
+            cnt: tempCount,
+            gene,
+            // 25.11.14
+            //functionalImpact: item.functional_impact,
+            functionalImpact: tsv.clinvar,
+            transcript: tsv.transcript.replace(/;/g, ','),
+            exonIntro: 'E' + tsv.exon.replace(/;/g, ','),
+            nucleotideChange: tsv.coding.replace(/;/g, ','),
+            aminoAcidChange: tsv.amino_acid_change.replace(/;/g, ','),
+            // 25.11.14
+            //zygosity: 'Heterozygous',
+            zygosity: tsv.zygosity,
+            vafPercent: tsv.frequency.replace(/;/g, ','),
+            reference: tsv.reference,
+            cosmic_id: tsv.cosmic,
+            gubun: 'LYM'
+          };
+        } else {
+          tempvalue = {
+            igv,
+            sanger: '',
+            type,
+            cnt: tempCount,
+            gene,
+            // 25.11.14
+            //functionalImpact: item.functional_impact,
+            functionalImpact: tsv.clinvar,
+            transcript: tsv.transcript.replace(/;/g, ','),
+            exonIntro: 'E' + tsv.exon.replace(/;/g, ','),
+            nucleotideChange: tsv.coding.replace(/;/g, ','),
+            aminoAcidChange: tsv.amino_acid_change.replace(/;/g, ','),
+            zygosity: 'Heterozygous',
+            vafPercent: tsv.frequency.replace(/;/g, ','),
+            reference: item.references,
+            cosmic_id: item.cosmic_id,
+            gubun: 'LYM'
+          };
+        }
+  
+      // 25.11.14
+    } else if ( type === 'New') {
+      if (this.instCd === environment.instcd ) {
+        tempvalue = {
+          igv,
+          sanger: '',
+          type,
+          cnt: tempCount,
+          gene,
+          // 25.11.14
+          //functionalImpact: item.functional_impact,
+          functionalImpact: tsv.clinvar,
+          transcript: tsv.transcript.replace(/;/g, ','),
+          exonIntro: 'E' + tsv.exon.replace(/;/g, ','),
+          nucleotideChange: tsv.coding.replace(/;/g, ','),
+          aminoAcidChange: tsv.amino_acid_change.replace(/;/g, ','),
+          zygosity: tsv.zygosity,
+          vafPercent: tsv.frequency.replace(/;/g, ','),
+          reference: tsv.reference,
+          cosmic_id: tsv.cosmic,
+          gubun: 'LYM'
+        };
+      } else {
+        tempvalue = {
+          igv,
+          sanger: '',
+          type,
+          cnt: tempCount,
+          gene,
+          functionalImpact: '',
+          transcript: tsv.transcript.replace(/;/g, ','),
+          exonIntro: 'E' + tsv.exon.replace(/;/g, ','),
+          nucleotideChange: tsv.coding.replace(/;/g, ','),
+          aminoAcidChange: tsv.amino_acid_change.replace(/;/g, ','),
+          zygosity: 'Heterozygous',
+          vafPercent: tsv.frequency.replace(/;/g, ','),
+          reference: '',
+          cosmic_id: '',
+          gubun: 'LYM'
+        };
+      }
 
     } else {
       tempvalue = {

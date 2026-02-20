@@ -12,7 +12,7 @@ import { SubSink } from 'subsink';
 import * as moment from 'moment';
 import { geneTitles } from 'src/app/forms/commons/geneList';
 
-import { TestCodeTitleService } from 'src/app/home/services/testCodeTitle.service';
+//import { TestCodeTitleService } from 'src/app/home/services/testCodeTitle.service';
 import { MdsDialogComponent } from './mds-dialog/mds-dialog.component';
 @Component({
   selector: 'app-mdsmpn',
@@ -86,7 +86,7 @@ export class MdsmpnComponent implements OnInit, AfterViewInit, OnDestroy {
     private route: ActivatedRoute,
     private store: StoreMDSService,
     private sanitizer: DomSanitizer,
-    private titleService: TestCodeTitleService,
+    //private titleService: TestCodeTitleService,
     public dialog: MatDialog,
   ) { }
 

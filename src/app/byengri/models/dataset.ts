@@ -114,17 +114,46 @@ export function makeReport(
     return now
   }
 
-  const reportDate = todays()
+  //const reportDate = todays()
 
   let mutationData = ''
   let amplificationData = ''
   let fusionData = ''
 
   if (specialment.length > 0) {
-    const items = specialment.trim().split('\n')
+    //console.log('[EMR specialment]', specialment);
+    //let incLf = specialment?.includes('\n');
+    //console.log('[EMR specialment]', incLf);
+    const items = specialment.split('\n');
     if (items.length === 2) {
-      const eachItem0 = items[0].split(':')[0].split('-')[1].trim()
-      const eachItem1 = items[1].split(':')[0].split('-')[1].trim()
+
+      let incLf = items[0].includes('\t');
+    
+      //console.log('[EMR 멘트1]', incLf);
+
+      //console.log('[EMR 멘트1]', items[0]);
+
+      //25.11.17 - 포함되지 않은 문자열은 빈 공간으로 보낸다
+      // - Mutation: aaa  => aaa 
+      // -Mutation: aaa  => ' '
+      //const eachItem0 = items[0]?.split(":")?.[0]?.split("-")?.[1];
+      //const eachItem1 = items[1]?.split(":")?.[0]?.split("-")?.[1];
+
+      const eachItem01 = items[0]?.split(":")?.[0]?.split("-")?.[1];
+      const eachItem11 = items[1]?.split(":")?.[0]?.split("-")?.[1];
+
+      //console.log('[EMR 멘트1]', eachItem01);
+
+      let eachItem0 = '';
+      let eachItem1 = '';
+ 
+      if (eachItem01) { 
+        eachItem0 = eachItem01.trim();
+      }
+      if (eachItem11) { 
+        eachItem1 = eachItem11.trim();
+      }
+
       if (eachItem0 === 'Mutation') {
         mutationData = items[0]
       } else if (eachItem0 === 'Fusion') {

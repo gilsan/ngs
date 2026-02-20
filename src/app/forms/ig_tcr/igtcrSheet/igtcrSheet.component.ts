@@ -1543,24 +1543,40 @@ getClonalTotalNuclelatedCell(index: number): string {
   // TotalNuclatedCell 계산
   //*
   let clonalTotalNuclatedCell = (Number(totalReadCountReadOfLQIC) * Number(clonalTotalIGHReadDepth));
+  
+  // totalReadCountReadOfLQIC= 0.0275582
+  //clonalTotalIGHReadDepth= 295.6909120
+  //   9.0457 = 1347 * 0067155
+
+
+
   let clonalTotalNuclatedCell1 = '';
+
+  // Clonal/total TCR read depth= 0.0067155
+  // Clonal/total nucleated cells= 0.0072383
+  // 반환 clonalTotalNuclatedCell1 = 0.0067155
+
+  console.log('[1549]totalReadCountReadOfLQIC=', totalReadCountReadOfLQIC);
+  console.log('[1549]clonalTotalIGHReadDepth=', clonalTotalIGHReadDepth);
+  console.log('[1549]clonalTotalNuclatedCell=', clonalTotalNuclatedCell);
 
   // 24.09.23 clonalTotalIGHReadDepth(앞에값, 좌측) 값이 clonalTotalNuclatedCell1(뒤에값,우측) 값보다 작으면
   //  의미가 없으므로 테이블상에서 clonalTotalNuclatedCell1(뒤에값,우측) 값을 앞에값(좌측값)인
   //  clonalTotalIGHReadDepth 대입하라고 요청 받음
   if (clonalTotalNuclatedCell > clonalTotalIGHReadDepth) {  // clonalTotalIGHReadDepth(앞에값, 좌측) 값이 clonalTotalNuclatedCell1(뒤에값,우측) 값보다 작으면
-    console.log('[1409]clonalTotalIGHReadDepth=', clonalTotalIGHReadDepth);
-    console.log('[1409]clonalTotalNuclatedCell=', clonalTotalNuclatedCell);
+    console.log('[1555]clonalTotalIGHReadDepth=', clonalTotalIGHReadDepth);
     clonalTotalNuclatedCell1 = clonalTotalIGHReadDepth.toFixed(50);
   } else if (clonalTotalNuclatedCell >= 100) {  // // TotalNuclatedCell 계산값이 100보다 크면
-    console.log('[1379]clonalTotalNuclatedCell=', clonalTotalNuclatedCell);
+    console.log('[1559]clonalTotalNuclatedCell=', clonalTotalNuclatedCell);
     // TotalNuclatedCell 을 clonalTotalIGHReadDepth 대입
     clonalTotalNuclatedCell1 = clonalTotalIGHReadDepth.toFixed(50);
   }
   else {
+    console.log('[1569]clonalTotalNuclatedCell=', clonalTotalNuclatedCell);
     clonalTotalNuclatedCell1 = clonalTotalNuclatedCell.toFixed(50);
   }
 
+  console.log('[1379]clonalTotalIGHReadDepth=', clonalTotalIGHReadDepth);
   console.log('[1379]clonalTotalNuclatedCell=', clonalTotalNuclatedCell);
   console.log('[1379]clonalTotalNuclatedCell1=', clonalTotalNuclatedCell1);
   

@@ -666,14 +666,16 @@ export class Form6Component implements OnInit, OnDestroy {
     }
     console.log('[623]', count, tempCount);
 
-    if (type === 'M') {
+    if (type === 'M' ) {
       tempvalue = {
         igv: '',
         sanger: '',
         type,
         cnt: tempCount,
         gene,
-        functionalImpact: item.functional_impact,
+        // 25.11.14
+        //functionalImpact: item.functional_impact,
+        functionalImpact: tsv.clinvar,
         transcript: tsv.transcript,
         exonIntro: 'E' + tsv.exon,
         nucleotideChange: coding,

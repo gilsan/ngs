@@ -7,9 +7,9 @@ import { IPatient, ISequence } from 'src/app/home/models/patients';
 import { SubSink } from 'subsink';
 import { ActivatedRoute, Router } from '@angular/router';
 import { concatMap, filter, map, shareReplay } from 'rxjs/operators';
-import { FindNgsTitleService } from '../commons/findngstitle.service';
+//import { FindNgsTitleService } from '../commons/findngstitle.service';
 import { sequencingForm } from 'src/app/home/models/sequencing.model';
-import { listSequencing } from 'src/app/forms/commons/geneList';
+//import { listSequencing } from 'src/app/forms/commons/geneList';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ExamplementComponent } from '../examplement/examplement.component';
 import { CodeDefaultValue } from 'src/app/services/codedefaultvalue';
@@ -105,7 +105,7 @@ export class Form7Component implements OnInit, OnDestroy {
     private patientsListService: PatientsListService,
     private utilsService: UtilsService,
     private variantsService: DetectedVariantsService,
-    private titleService: FindNgsTitleService,
+    //private titleService: FindNgsTitleService,
     public dialog: MatDialog,
     private defaultService: CodeDefaultValue,
     private snackBar: MatSnackBar,

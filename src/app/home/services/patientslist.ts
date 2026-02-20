@@ -218,7 +218,7 @@ export class PatientsListService {
   // 유전체 와 coding 로 Comments 레코드에서 정보 가져오기
   // 2025.4.27일 variant_id 추가
   public getCommentInfoLists(gene: string, type: string, variant_id: string): Observable<Partial<IComment>> {
-    console.log('[219][][getCommentInfoLists]');
+    console.log('[219][][getCommentInfoLists]', gene, type, );
     return this.http.post(`${this.apiUrl}/ngscomments/list`, { gene, type, variant_id }).pipe(
       // tap(data => console.log('[110][getCommentInfoLists]', data)),
       shareReplay()
@@ -455,6 +455,9 @@ export class PatientsListService {
     const userid = '21502549';
     // const userid = userID;
     const rsltdesc = xmlData;
+    
+    //console.log('[459][sendEMR]xmlData=' +  xmlData);
+
     // const rsltdesc = 'TEST';
     /**
       *
@@ -465,7 +468,7 @@ export class PatientsListService {
     //const emrdata = `http://emr012edu.cmcnu.or.kr/cmcnu/.live?submit_id=${submitID}&business_id=li&instcd=012&spcno=${spcno}&formcd=-&rsltflag=O&pid=${pid}&examcd=${examcd}&examflag=${examflag}&infflag=I&userid=${userid}&rsltdesc=${rsltdesc}`;
     const emrdata = `${url}/cmcnu/.live?submit_id=${submitID}&business_id=li&instcd=${instcd}&spcno=${spcno}&formcd=-&rsltflag=O&pid=${pid}&examcd=${examcd}&examflag=${examflag}&infflag=I&userid=${userid}&rsltdesc=${rsltdesc}`;
     //const emrdata = `http://emr017edu.cmcnu.or.kr/cmcnu/.live?submit_id=${submitID}&business_id=li&instcd=012&spcno=${spcno}&formcd=-&rsltflag=O&pid=${pid}&examcd=${examcd}&examflag=${examflag}&infflag=I&userid=${userid}&rsltdesc=${rsltdesc}`;
-    console.log('[433][sendEMR]emrurl=' +  emrdata);
+    console.log('[470][sendEMR]emrurl=' +  emrdata);
 
     const params = new HttpParams()
       .set('data', emrdata);
@@ -586,7 +589,7 @@ export class PatientsListService {
             // coding = item.coding.replace(/;/g, ',');
             const id = item.id;
             const igv = item.locus;
-            // console.log('===== [391][gene1/gene2/coding]====\n', gene1, gene2, coding);
+            //console.log('===== [391][gene1/gene2/coding/clinVar]====\n', gene1, gene2, coding, clinVar);
             return { id, gene1, gene2, coding, tsv, clinVar, multigenes, igv };
           }
         });
@@ -677,7 +680,7 @@ export class PatientsListService {
 
             return this.getMutationInfoLists(item.gene1, item.coding, tempTestType).pipe(
               map(lists => {
-                // console.log('========[469][patientslist][뮤테이션]', lists, item.gene1, item.coding);
+                console.log('========[689][patientslist][뮤테이션]', lists, item.gene1, item.coding);
                 if (Array.isArray(lists) && lists.length) {
                   return { ...item, mutationList1: lists[0], mutationList2: 'none', mtype: 'M' };
                 } else {
@@ -791,7 +794,7 @@ export class PatientsListService {
           return this.getMutationInfoLists(tempGene, tempCoding, tempTestType).pipe(
             // tap(data => console.log(data)),
             map(lists => {
-              // console.log('[710][Mutation][결과값]', lists);
+              console.log('[710][Mutation][결과값]', lists);
               if (Array.isArray(lists) && lists.length) {
                 return { ...item, mutationList1: lists[0], mutationList2: 'none', mtype: 'M' };
               } else {
@@ -833,19 +836,27 @@ export class PatientsListService {
       concatMap(item => {
          console.log('[코멘트][825.tsv][', item.tsv);
         if (item.gene2 === 'none') {
-          // console.log('[코멘트][614][', item.gene1, item.mutationList1.functional_impact, testType);
-          // console.log('[코멘트][615][', item.gene1, item.gene2, item.tsv.clinvar, item.tsv);
+           console.log('[코멘트][839][', item.gene1, item.mutationList1.functional_impact, testType);
+           console.log('[코멘트][839][', item.gene1, item.gene2, item.tsv.clinvar, item.tsv);
           // const clinvar = item.tsv.clinvar.toString().toLowerCase();
           let clinvar = '';
-          if (item.mutationList1.functional_impact !== null &&
-            item.mutationList1.functional_impact !== undefined) {
-            clinvar = item.mutationList1.functional_impact.toString().toLowerCase();
+          // 25.11.14
+          //if (item.mutationList1.functional_impact !== null &&
+          //  item.mutationList1.functional_impact !== undefined) {
+          if (item.tsv.clinvar !== null &&
+            item.tsv.clinvar !== undefined) {
+            //clinvar = item.mutationList1.functional_impact.toString().toLowerCase();
+            clinvar = item.tsv.clinvar.toString().toLowerCase();
           }
-          // console.log('[코멘트][618][', clinvar);
+          
+          console.log('[코멘트][839][', clinvar);
           if (clinvar === 'likely pathogenic'
             || clinvar === 'pathogenic'
             || clinvar === 'pathogenic/likely pathogenic'
-            || clinvar === 'likely pathogenic/pathogenic') {
+            || clinvar === 'likely pathogenic/pathogenic'
+            // 25.11.14
+            || clinvar === 'likely oncogenic'  
+            || clinvar === 'oncogenic') {
             let gene1;
             const checkNum = item.gene1.split(',');
             gene1 = item.gene1;
@@ -855,9 +866,11 @@ export class PatientsListService {
               }
             }
 
+            console.log('[코멘트][839][', gene1, testType);
+
             return this.getCommentInfoCount(gene1, testType).pipe(
               map(comments1Count => {
-              //  console.log('[코멘트][849][]patientslists][', comments1Count, item.tsv);
+                console.log('[코멘트][849][]patientslists][', comments1Count, item.tsv);
                 return { ...item, comments1Count: comments1Count[0].count, comments2Count: 0 };
               })
             );
@@ -866,7 +879,7 @@ export class PatientsListService {
           }
 
         } else {
-          // console.log('[코멘트][859][' + item.tsv.clinvar + ']', item);
+          console.log('[코멘트][880][' + item.tsv.clinvar + ']', item);
           // const clinvar = item.tsv.clinvar.toString().toLowerCase();
           let clinvar = '';
           if (item.mutationList1.functional_impact !== null &&
@@ -876,7 +889,10 @@ export class PatientsListService {
           if (clinvar === 'likely pathogenic'
             || clinvar === 'pathogenic'
             || clinvar === 'pathogenic/likely pathogenic'
-            || clinvar === 'likely pathogenic/pathogenic') {
+            || clinvar === 'likely pathogenic/pathogenic'
+            // 25.11.14
+            || clinvar === 'likely oncogenic'
+            || clinvar === 'oncogenic') {
             // console.log('==== [654][코멘트 갯수]');
             // CSDE1,NRAS 인경우 NRAS로 찿는다.
             let tempMentcountGene;
@@ -901,16 +917,23 @@ export class PatientsListService {
          console.log('[코멘트][892]  ==============>', item);
         if (item.gene2 === 'none') {
           // const clinvar = item.tsv.clinvar.toString().toLowerCase();
-          // console.log('[코멘트][575][', item.gene1, item.mutationList1.functional_impact);
-          let clinvar = '';
-          if (item.mutationList1.functional_impact !== null &&
-            item.mutationList1.functional_impact !== undefined) {
-            clinvar = item.mutationList1.functional_impact.toString().toLowerCase();
+          console.log('[코멘트][575][', item.gene1, item.mutationList1.functional_impact);
+          console.log('[코멘트][575][', item.gene1, item.tsv.clinvar);
+          let clinvar = '';// 25.11.14
+          //if (item.mutationList1.functional_impact !== null &&
+          //  item.mutationList1.functional_impact !== undefined) {
+          if (item.tsv.clinvar !== null &&
+            item.tsv.clinvar !== undefined) {
+            //clinvar = item.mutationList1.functional_impact.toString().toLowerCase();
+            clinvar = item.tsv.clinvar.toString().toLowerCase();
           }
           if (clinvar === 'likely pathogenic'
             || clinvar === 'pathogenic'
             || clinvar === 'pathogenic/likely pathogenic'
-            || clinvar === 'likely pathogenic/pathogenic') {
+            || clinvar === 'likely pathogenic/pathogenic'
+            // 25.11.14
+            || clinvar === 'likely oncogenic'
+            || clinvar === 'oncogenic') {
             let gene1;
             const checkNum = item.gene1.split(',');
             gene1 = item.gene1;
@@ -919,8 +942,11 @@ export class PatientsListService {
                 gene1 = 'NRAS';
               }
             }
-            console.log('[코멘트][913]  ==============>', item.tsv.variant_id);
-            return this.getCommentInfoLists(gene1, testType, item.tsv.variant_id).pipe(
+            // 25.11.14
+            //console.log('[코멘트][913]  ==============>', item.tsv.variant_id);
+            console.log('[코멘트][913]  ==============>', item.tsv.amino_acid_change);
+            //return this.getCommentInfoLists(gene1, testType, item.tsv.variant_id).pipe(
+            return this.getCommentInfoLists(gene1, testType, item.tsv.amino_acid_change).pipe(
               map(comment => {
                  console.log('==== [916][코멘트정보 내용]  Comment List :', comment);
                 if (Array.isArray(comment) && comment.length) {
@@ -936,14 +962,21 @@ export class PatientsListService {
         } else {
           // const clinvar = item.tsv.clinvar.toString().toLowerCase();
           let clinvar = '';
-          if (item.mutationList1.functional_impact !== null &&
-            item.mutationList1.functional_impact !== undefined) {
-            clinvar = item.mutationList1.functional_impact.toString().toLowerCase();
+          // 25.11.14
+          //if (item.mutationList1.functional_impact !== null &&
+          //  item.mutationList1.functional_impact !== undefined) {
+          if (item.tsv.clinvar !== null &&
+              item.tsv.clinvar !== undefined) {
+              //clinvar = item.mutationList1.functional_impact.toString().toLowerCase();
+              clinvar = item.tsv.clinvar.toString().toLowerCase();
           }
           if (clinvar === 'likely pathogenic'
             || clinvar === 'pathogenic'
             || clinvar === 'pathogenic/likely pathogenic'
-            || clinvar === 'likely pathogenic/pathogenic') {
+            || clinvar === 'likely pathogenic/pathogenic'
+            // 25.11.14
+            || clinvar === 'likely oncogenic'
+            || clinvar === 'oncogenic') {
             // CSDE1,NRAS 인경우 NRAS로 찿는다.
             let tempMentGene;
             if (item.gene1 === 'NRAS') {
@@ -952,7 +985,10 @@ export class PatientsListService {
               // tempMentGene = item.gene2;
               tempMentGene = item.multigenes;
             }
-            return this.getCommentInfoLists(tempMentGene, testType, item.tsv.variant_id).pipe(
+            
+            // 25.11.14
+            //return this.getCommentInfoLists(tempMentGene, testType, item.tsv.variant_id).pipe(
+            return this.getCommentInfoLists(tempMentGene, testType, item.tsv.amino_acid_change).pipe(
               map(comment => {
                 // console.log('[947][멘트정보]  Comment List :', comment);
                 if (Array.isArray(comment) && comment.length) {
@@ -1260,7 +1296,12 @@ export class PatientsListService {
         );
       }),
       concatMap((items: any) => {
-        const comments$ = this.getCommentInfoLists(items.gene, type, items.tsv.variant_id);
+        // 25.11.14
+        //const comments$ = this.getCommentInfoLists(items.gene, type, items.tsv.variant_id);
+
+        console.log('[코멘트][1300]  ==============>', items);
+
+        const comments$ = this.getCommentInfoLists(items.gene, type, items.amino_acid_change);
         return comments$.pipe(
           map(comments => {
             // console.log(comments);

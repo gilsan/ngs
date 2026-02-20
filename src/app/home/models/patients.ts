@@ -208,6 +208,11 @@ export interface IFilteredTSV {
   krgdb_1100_leukemia: string;
   filename: string;
   testedID: string;
+
+  // 25.11.14
+  zygosity: string;
+  reference? : string;
+
   createdate?: string;
   specimenNo?: string;
 }

@@ -92,7 +92,10 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
 
   method: string;
   testcode: string;
-  resultStatus = 'Detected';
+
+  // 25.10.22 Detected -> Not Detected로 변경
+  //resultStatus = 'Detected';
+  resultStatus = 'Not Detected';
   type: string;
   specimenNo: string;
   examin = ''; // 검사자
@@ -187,6 +190,10 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
     if (parseInt(this.screenstatus, 10) === 0) {
       // 전송횟수, 검사보고일, 수정보고일  저장
       this.setReportdaymgn(this.patientInfo);
+
+      // 25.12.09 시작인 경우 타이틀을 표시
+      //this.getTitle(this.testcode);
+
     } else if (parseInt(this.screenstatus, 10) > 0) {
       // 판독자 , 검사자
       if (this.patientInfo.examin.length) {
@@ -253,12 +260,16 @@ export class Form5Component implements OnInit, OnDestroy, AfterViewInit {
 
     const index = this.mlpaLists.findIndex(item => item.type === testcode);
     this.mlpaData = this.mlpaLists[index];
-    // console.log('[214]', testcode, this.mlpaData);
+    console.log('[214]', testcode, this.mlpaData);
     const len = this.mlpaData.data.length; // 데이터 길이
+    //console.log('[214]', this.mlpaData.data);
+    //console.log('[214]', this.mlpaData.data.length);
     const firstHalf = Math.round(this.mlpaData.data.length / 2);
     // MLPA 데이터 2개로 나누기
     const mlpa1 = this.mlpaData.data.slice(0, firstHalf);
     const mlpa2 = this.mlpaData.data.slice(firstHalf);
+
+    console.log('[214]', mlpa1);
 
     this.mlpaData1 = mlpa1;
     this.mlpaData2 = mlpa2;

@@ -10,8 +10,8 @@ import { IPatient } from '../../models/patients';
 import { PatientsListService } from '../../services/patientslist';
 import { SubSink } from 'subsink';
 import * as moment from 'moment';
-import { listSequencing, sequencingLists } from 'src/app/forms/commons/geneList';
-import { TestCodeTitleService } from '../../services/testCodeTitle.service';
+//import { listSequencing, sequencingLists } from 'src/app/forms/commons/geneList';
+//import { TestCodeTitleService } from '../../services/testCodeTitle.service';
 import { SeqDialogComponent } from './seq-dialog/seq-dialog.component';
 import { CodeDefaultValue } from 'src/app/services/codedefaultvalue';
 import { ICodement } from 'src/app/inhouse/models/comments';
@@ -94,7 +94,7 @@ export class SequencingComponent implements OnInit, AfterViewInit, OnDestroy {
     private route: ActivatedRoute,
     private store: StoreSEQService,
     private sanitizer: DomSanitizer,
-    private titleService: TestCodeTitleService,
+    //private titleService: TestCodeTitleService,
     public dialog: MatDialog,
     private codeDefaultValueService: CodeDefaultValue
   ) { }

@@ -12,7 +12,7 @@ import { SubSink } from 'subsink';
 import * as moment from 'moment';
 import { geneTitles, geneLists } from 'src/app/forms/commons/geneList';
 
-import { TestCodeTitleService } from 'src/app/home/services/testCodeTitle.service';
+//import { TestCodeTitleService } from 'src/app/home/services/testCodeTitle.service';
 import { HereDialogComponent } from './here-dialog/here-dialog.component';
 import { ICodement } from 'src/app/inhouse/models/comments';
 import { CodeDefaultValue } from 'src/app/services/codedefaultvalue';
@@ -92,7 +92,7 @@ export class HereditaryComponent implements OnInit, AfterViewInit, OnDestroy {
     private route: ActivatedRoute,
     private store: StoreGENService,
     private sanitizer: DomSanitizer,
-    private titleService: TestCodeTitleService,
+    //private titleService: TestCodeTitleService,
     public dialog: MatDialog,
     private codeDefaultValueService: CodeDefaultValue
   ) { }

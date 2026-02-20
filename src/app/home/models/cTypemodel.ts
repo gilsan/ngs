@@ -44,7 +44,7 @@ let METHODS5162 = METHODS_MESSAGES[environment.instcd] ?? METHODS_MESSAGES.DEFAU
 export const METHODS516 = METHODS5162
 						.split('\n')
 						.map(line => line.trimStart()) // 각 줄 왼쪽 공백 제거
-						.join('\n');
+						.join('\r\n');
 
 // 25.09.18 인천
 //export const GENERAL = 'The analysis was optimised to identify base pair substitutions with a high sensitivity. The sensitivity for small insertions and deletions was lower. Deep-intronic mutations, mutations in the promoter region, repeats, large exonic deletions and duplications, and other structural variants were not detected by this test. Evaluation of germline mutation can be performed using buccal swab speciman.';
@@ -73,7 +73,7 @@ let GENERAL2 = GENERAL_MESSAGES[environment.instcd] ?? GENERAL_MESSAGES.DEFAULT;
 export const GENERAL = GENERAL2
 						.split('\n')
 						.map(line => line.trimStart()) // 각 줄 왼쪽 공백 제거
-						.join('\n');
+						.join('\r\n');
 
 export function makeCForm(
   method,

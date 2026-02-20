@@ -37,17 +37,16 @@ export class TierComponent implements OnInit {
   ngOnInit(): void {
     this.loadForm();
     this.loadData();
-    // this.this.myControl.valueChanges.pipe(
-    //   startWith(''),
-    //   map(value => this._filter(value)),
-    // );
+    this.myControl.valueChanges.pipe(
+       startWith(''),
+       map(value => this._filter(value)),
+     );
   }
 
-  // private _filter(value: string): IESS[] {
-  //   const filterValue = value.toLowerCase();
-  //   return this.listTiers.filter(option => option.title.toLowerCase().includes(filterValue));
-  // }
-
+  private _filter(value: string): IESS[] {
+    const filterValue = value.toLowerCase();
+    return this.listTiers.filter(option => option.title.toLowerCase().includes(filterValue));
+  }
 
   loadData(): void {
     this.sequencingService.getEssTitle()
