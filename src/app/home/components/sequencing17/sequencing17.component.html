@@ -1,0 +1,147 @@
+<div id="wrap1111">
+  <app-tsvupload [hidden]="isVisible" (onSelected)="onSelected()" [specimenNo]="specimenNo"
+    [patientid]="patientID" (onCanceled)="onCanceled()">
+  </app-tsvupload>
+  <div id="container">
+    <div id="content">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mg_b10">
+        <tr>
+            <td  class="mail_title">WorkList (Sequencing)</td>
+            <td class="main_btn"></td>
+        </tr>
+    </table>
+
+      <div class="box mg_b20 pd_20">
+
+        <input type="text" class="input_01" #seqTestedID placeholder="검체번호" style="width: 100px;"
+        (keyup.enter)="search(seqStart.value, seqEnd.value, seqTestedID.value,
+        seqPatient.value, seqStatus.value, seqSheet.value, seqResearch.value, seqpatientName.value)"/>&nbsp;&nbsp;
+        <input name="" type="text" placeholder="환자ID" #seqPatient class="input_01" style="width: 100px;"
+        (keyup.enter)="search(seqStart.value, seqEnd.value, seqTestedID.value,
+        seqPatient.value, seqStatus.value, seqSheet.value, seqResearch.value, seqpatientName.value)"/>&nbsp;&nbsp;
+        <input name="" type="text" placeholder="환자이름" #seqpatientName class="input_01" style="width: 100px;"
+        (keyup.enter)="search(seqStart.value, seqEnd.value, seqTestedID.value,
+        seqPatient.value, seqStatus.value, seqSheet.value, seqResearch.value, seqpatientName.value)"/>&nbsp;&nbsp;
+        <!--
+        <select class="select_01 select_001"  #seqTestedID (change)="optionTestcode(seqTestedID.value)">
+          <option value="100">검체번호전체</option>
+          <option [value]="specimenno" [selected]="specimenno === storeSpecimenID"  *ngFor="let specimenno of specimenNoLists">{{specimenno}}</option>
+        </select>&nbsp;&nbsp;
+
+        <select class="select_01 select_001"  #seqPatient (change)="optionPatientid(seqPatient.value)">
+          <option value="100">환자ID전체</option>
+          <option [value]="patientid" [selected]="patientid === storePatientID"  *ngFor="let patientid of patientIDLists">{{patientid}}</option>
+        </select>&nbsp;&nbsp;
+
+        <select class="select_01 select_001"  #seqpatientName (change)="optionPatientname(seqpatientName.value)">
+          <option value="100">환자이름전체</option>
+          <option [value]="patientname"   [selected]="patientname === storePatientName" *ngFor="let patientname of patientNameLists">{{patientname}}</option>
+        </select>&nbsp;&nbsp;
+        -->
+        <select class="select_01 select_001"  #seqStatus   (change)="selectOption(seqStatus.value)">
+          <option value="100"[selected]= "qselect100">전체</option>
+          <option value="10" [selected]= "qselect10">접수</option>
+          <option value="0" [selected]= "qselect0">시작</option>
+          <option value="1" [selected]= "qselect1">스크린판독</option>
+          <option value="2" [selected]= "qselect2">판독완료</option>
+          <option value="3" [selected]= "qselect3">EMR전송</option>
+          <option value="5" [selected]= "qselect5">접수취소</option>
+        </select>&nbsp;&nbsp;
+
+        <select class="select_01 select_001" #seqSheet >
+          <option value="Sequencing">전체</option>
+          <option  *ngFor="let list of listSequencing" [selected]="sheetOption(list.code)"
+          [value]="list.code">{{list.report}} ({{list.code}})</option>
+        </select>&nbsp;&nbsp;
+
+        <select class="select_01 select_001" #seqResearch>
+          <option value="TOTAL" [selected]= "qresearchTOTAL">전체</option>
+          <option value="diag" [selected]= "qresearchDiag">환자용</option>
+          <option value="RESEARCH" [selected]= "qresearchResearch">연구용</option>
+        </select>&nbsp;&nbsp;&nbsp;
+
+        <input type="date" [value]="qstartDay" (change)="setStartDate(seqStart.value)" #seqStart class="input_01"
+          style="width:150px;" />
+        ~
+        <input type="date" class="input_01" (change)="setEndDate(seqEnd.value)" #seqEnd [value]="qendDay"
+          style="width:150px;">
+        <button type="button" class="btn btn_02" style="margin-left: 10px;"
+          (click)="search(seqStart.value, seqEnd.value, seqTestedID.value, seqPatient.value,
+           seqStatus.value, seqSheet.value, seqResearch.value, seqpatientName.value)">조 회</button>
+        &nbsp;&nbsp;
+
+
+
+        <button type="button" class="btn btn_02" style="margin-left: 10px;"
+          (click)="openDialog()">연구용추가</button>&nbsp;&nbsp;
+
+        <button type="button" class="btn btn_02" style="margin-left: 10px;"
+          (click)="goDashboard()">DashBoard</button>
+
+      </div>
+      <div class="box">
+        <div class="box_100 fill" [appDiagScrollMonitor]="'SEQ'" #dbox100>
+        <table border="0" cellpadding="0" cellspacing="0" class="table_list  fixed_header table_resul_x">
+          <colgroup>
+            <col width="40px">
+            <col width="100px">
+            <col width="80px">
+            <col width="50px">
+            <col width="50px">
+            <col width="80px">
+            <col width="80px">
+            <col width="170px">
+            <col width="90px">
+            <col width="90px">
+            <col width="100px">
+            <col width="80px">
+          </colgroup>
+          <thead>
+            <tr>
+              <th>No.</th>
+              <th>접수일</th>
+              <th>환자이름</th>
+              <th>나이</th>
+              <th>성별</th>
+              <th>환자ID</th>
+              <th>검사명1</th>
+              <th>결과지명</th>
+              <th>검체번호</th>
+              <th>진행상태</th>
+              <th>&nbsp;</th>
+             <th>연구용</th>
+            </tr>
+          </thead>
+          <div></div>
+          <tbody>
+            <tr [ngClass]="toggle(i)" *ngFor="let list of  lists; let i = index;">
+              <td class="txt_c">{{ i + 1}}</td>
+              <td class="txt_c">{{list.accept_date}}</td>
+              <td class="txt_c">{{list.name}}</td>
+              <td class="txt_c">{{list.age}}</td>
+              <td class="txt_c">{{list.gender}}</td>
+              <td class="txt_c">{{list.patientID}}</td>
+              <td class="txt_c">{{list.test_code}}</td>
+              <td class="txt_c">{{list.reportTitle}}</td>
+              <td class="txt_c">{{list.specimenNo}}</td>
+              <td class="txt_c">{{processingStatus(i)}}</td>
+              <td class="txt_c">
+                <button type="button" class="btn btn_03"
+                  (click)="goReporter(i)">결과지/보고서</button>
+              </td>
+
+              <td  class="txt_c" *ngIf="list.gbn === 'RESEARCH'; else research;">
+                <span>연구용</span>
+              </td>
+              <ng-template #research><td></td></ng-template>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

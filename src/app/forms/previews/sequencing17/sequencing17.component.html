@@ -1,0 +1,135 @@
+<div id="result">
+    <div id="container" style="position: relative;">
+        <h2 style="margin-top: 5px;">&#60;{{title}}&#62;</h2>
+        <button type="button" class="preview__button" (click)="closeModal()">닫기</button>
+
+        <div id="content">
+            <div class="box pd_20">
+                <div class="sub_title">Patient:  {{patientInfo.name}}, {{patientInfo.patientID}} ({{patientInfo.gender}}/{{patientInfo.age}})</div>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td class="txt_02" ><span class="fb">Result </span>:
+                        <label class="">{{resultname}}</label>
+                        &nbsp;&nbsp;{{result}}
+                    </td>
+                  </tr>
+                </table>
+
+                <div class="sub_title">Test Information</div>
+                <table cellpadding="0" cellspacing="0" class="table_result02">
+                  <colgroup>
+                  <col style="width:50%;" />
+                  <col style="width:50%;" />
+                  </colgroup>
+                  <tbody>
+                      <tr>
+                          <td> TARGET DISEASE:  {{targetdisease}}</td>
+                          <td> METHOD: {{method}}</td>
+                      </tr>
+                      <tr>
+                          <td> SPECIMEN: {{specimen}}</td>
+                          <td> REQUEST: {{patientInfo.request}}</td>
+                      </tr>
+                      <tr>
+                        <td> ANALYZED GENE:  {{analyzedgene}}</td>
+                      </tr>
+
+                  </tbody>
+                </table>
+
+
+                <div class="sub_title">Identified Variations: <input type="text" class="input_02" style="width:37%;"
+                [value]="variations"></div>
+
+                <div class="sub_title">Mutation</div>
+                <div class="box">
+                    <div class="box_1000">
+
+                        <table class="table_list td-fix" style="text-align: center;">
+                            <colgroup>
+                                <col style="width:60px"/>  <!-- Type   -->
+                                <col style="width:100px"/>  <!-- Exon/Intron #    -->
+                                <col style="width:100px"/>  <!-- 진단시<br/>(2019.09.04)    -->
+                                <col style="width:120px"/>  <!-- Nuceleotide change   -->
+                                <col style="width:120px"/>  <!-- Amino acid change    -->
+                                <col style="width:120px"/>  <!-- dbSNP/COSMIC ID    -->
+                                <col style="width:120px"/>
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Exon/Intron #</th>
+                                    <th>Nucleotide change</th>
+                                    <th>Amino acid change</th>
+                                    <th>Zygosity</th>
+                                    <th>rs ID</th>
+                                    <th>GenBank accesion no.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr  *ngFor="let sequence of sequences">
+                                    <td>
+                                        <input type="text" size="10" class="clr-input textcenter tdbox" [value]='sequence.type'>
+                                    </td>
+                                    <td>
+                                        <input type="text" size="10" class="clr-input textcenter tdbox" [value]='sequence.exonintron'>
+                                    </td>
+                                    <td>
+                                        <input type="text" size="20" class="clr-input textcenter tdbox" [value]='sequence.nucleotideChange'>
+                                    </td>
+                                    <td>
+                                        <input type="text" size="15" class="clr-input textcenter tdbox" [value]='sequence.aminoAcidChange'>
+                                    </td>
+                                    <td>
+                                        <input type="text" size="40" class="clr-input textcenter tdbox" [value]='sequence.zygosity'>
+                                    </td>
+                                    <td>
+                                        <input type="text" size="40" class="clr-input textcenter tdbox" [value]='sequence.rsid'>
+                                    </td>
+                                    <td>
+                                        <input type="text" size="40" class="clr-input textcenter tdbox" [value]='sequence.genbankaccesion'>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+
+                <div class="pd_r20">
+                  <textarea class="textarea_01">{{seqcomment}}</textarea>
+                </div>
+
+
+                <div style="margin-bottom: 10px;margin-top: 25px;">
+                  <ul style="display:flex;justify-content:flex-start; align-items: center;">
+                      <li>
+                          <span class="sub_title">판독 코멘트</span>
+                      </li>
+                  </ul>
+              </div>
+
+                <div class="pd_r20">
+                    <textarea class="textarea_01"   >{{comment}}</textarea>
+                </div>
+
+                <div class="sub_title" >일반코멘트1</div>
+                <div class="pd_r20">
+                    <textarea class="textarea_01"  >{{comment1}}</textarea>
+                </div>
+
+                <div class="sub_title">일반코멘트2</div>
+                <div class="pd_r20">
+                    <textarea class="textarea_01" >{{comment2}}</textarea>
+                </div>
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+

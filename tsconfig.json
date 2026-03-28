@@ -3,6 +3,12 @@
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
+    "paths": {
+      "@home/*": ["src/app/home/*"],
+      "@models/*": ["src/app/home/models/*"],
+      "@services/*": ["src/app/home/services/*"],
+      "@commons/*": ["src/app/forms/commons/*"]
+    },
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,

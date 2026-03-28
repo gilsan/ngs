@@ -23,12 +23,18 @@ import { TypestaticsComponent } from '../inhouse/statistics/typestatics/typestat
 import { AmlallComponent } from './components/amlall/amlall.component';
 import { LymphomaComponent } from './components/lymphoma/lymphoma.component';
 import { MlpaComponent } from './components/mlpa/mlpa.component';
+
 import { SequencingComponent } from './components/sequencing/sequencing.component';
+import { Sequencing17Component } from './components/sequencing17/sequencing17.component';
+
 import { HereditaryComponent } from './components/hereditary/hereditary.component';
 import { MdsmpnComponent } from './components/mdsmpn/mdsmpn.component';
 import { ReportmgnComponent } from './components/reportmgn/reportmgn.component';
 import { Form5Component } from '../forms/mlpa/form5.component';
+
+import { Form17Component } from '../forms/sequencing17/form17.component';
 import { Form7Component } from '../forms/sequencing/form7.component';
+
 import { Form6Component } from '../forms/hereditary/form6.component';
 import { Form4Component } from '../forms/mdsmpn/form4.component';
 import { Form3Component } from '../forms/lymphoma/form3.component';
@@ -40,8 +46,6 @@ import { JsPDFComponent } from '../forms/ig_tcr/jspdf/jspdf.component';
 
 // import { AllamlComponent } from './components/amlall/allaml/allaml.component';
 // import { LymComponent } from './components/lymphoma/lym/lym.component';
-
-
 
 const routes: Routes = [
   {
@@ -74,6 +78,11 @@ const routes: Routes = [
       { path: 'sequencing/:type', component: SequencingComponent },
       { path: 'sequencing/form7', component: Form7Component },
       { path: 'sequencing/form7/:type/:id', component: Form7Component },
+
+      { path: 'sequencing17', component: Sequencing17Component },
+      { path: 'sequencing17/:type', component: Sequencing17Component },
+      { path: 'sequencing17/form17', component: Form17Component },
+      { path: 'sequencing17/form17/:type/:id', component: Form17Component },
 
       { path: 'mlpa', component: MlpaComponent },
       { path: 'mlpa/:type', component: MlpaComponent },

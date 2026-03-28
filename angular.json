@@ -157,6 +157,22 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.site17.ts"
+                },
+                {
+                  "replace": "src/app/home/components/sequencing/sequencing.component.ts",
+                  "with": "src/app/home/components/sequencing/site17/sequencing.component.ts"
+                },
+                {
+                  "replace": "src/app/home/components/sequencing/sequencing.component.html",
+                  "with": "src/app/home/components/sequencing/site17/sequencing.component.html"
+                },
+                {
+                  "replace": "src/app/forms/sequencing/form17.component.ts",
+                  "with": "src/app/forms/sequencing17/form17.component.ts"
+                },
+                {
+                  "replace": "src/app/forms/sequencing/form17.component.html",
+                  "with": "src/app/forms/sequencing17/form17.component.html"
                 }
               ],
               "optimization": true,
@@ -185,6 +201,22 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.samsung.ts"
+                },
+                {
+                  "replace": "src/app/home/components/sequencing/sequencing.component.ts",
+                  "with": "src/app/home/components/sequencing17/sequencing17.component.ts"
+                },
+                {
+                  "replace": "src/app/home/components/sequencing/sequencing.component.html",
+                  "with": "src/app/home/components/sequencing17/sequencing17.component.html"
+                },
+                {
+                  "replace": "src/app/forms/sequencing/form7.component.ts",
+                  "with": "src/app/forms/sequencing17/form17.component.ts"
+                },
+                {
+                  "replace": "src/app/forms/sequencing/form7.component.html",
+                  "with": "src/app/forms/sequencing17/form17.component.html"
                 }
               ],
               "optimization": true,

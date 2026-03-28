@@ -28,7 +28,10 @@ import { AmlallComponent } from './components/amlall/amlall.component';
 import { LymphomaComponent } from './components/lymphoma/lymphoma.component';
 import { MdsmpnComponent } from './components/mdsmpn/mdsmpn.component';
 import { HereditaryComponent } from './components/hereditary/hereditary.component';
+
 import { SequencingComponent } from './components/sequencing/sequencing.component';
+import { Sequencing17Component } from './components/sequencing17/sequencing17.component';
+
 import { MlpaComponent } from './components/mlpa/mlpa.component';
 import { XlxsuploadComponent } from './components/xlxsupload/xlxsupload.component';
 import { TxtuploadComponent } from './components/txtupload/txtupload.component';
@@ -69,7 +72,10 @@ import { ResearchDialogComponent } from '../forms/ig_tcr/mainList/research-dialo
     LymphomaComponent,
     MdsmpnComponent,
     HereditaryComponent,
+
     SequencingComponent,
+    Sequencing17Component,
+
     MlpaComponent,
     XlxsuploadComponent,
     TxtuploadComponent,
