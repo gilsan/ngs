@@ -32,7 +32,7 @@ import { MdsmpnComponent } from './components/mdsmpn/mdsmpn.component';
 import { ReportmgnComponent } from './components/reportmgn/reportmgn.component';
 import { Form5Component } from '../forms/mlpa/form5.component';
 
-import { Form17Component } from '../forms/sequencing17/form17.component';
+//import { Form17Component } from '../forms/sequencing17/form17.component';
 import { Form7Component } from '../forms/sequencing/form7.component';
 
 import { Form6Component } from '../forms/hereditary/form6.component';
@@ -81,8 +81,8 @@ const routes: Routes = [
 
       { path: 'sequencing17', component: Sequencing17Component },
       { path: 'sequencing17/:type', component: Sequencing17Component },
-      { path: 'sequencing17/form17', component: Form17Component },
-      { path: 'sequencing17/form17/:type/:id', component: Form17Component },
+      //{ path: 'sequencing17/form17', component: Form17Component },
+      //{ path: 'sequencing17/form17/:type/:id', component: Form17Component },
 
       { path: 'mlpa', component: MlpaComponent },
       { path: 'mlpa/:type', component: MlpaComponent },

@@ -12,7 +12,7 @@ import { SubSink } from 'subsink';
 import * as moment from 'moment';
 //import { listSequencing, sequencingLists } from 'src/app/forms/commons/geneList';
 //import { TestCodeTitleService } from '../../services/testCodeTitle.service';
-import { Seq17DialogComponent } from './seq-dialog/seq17-dialog.component';
+import { Seq17DialogComponent } from './seq-dialog17/seq17-dialog.component';
 import { CodeDefaultValue } from 'src/app/services/codedefaultvalue';
 import { ICodement } from 'src/app/inhouse/models/comments';
 

@@ -46,7 +46,10 @@ import { LymDialogComponent } from './components/lymphoma/lym-dialog/lym-dialog.
 import { MdsDialogComponent } from './components/mdsmpn/mds-dialog/mds-dialog.component';
 import { HereDialogComponent } from './components/hereditary/here-dialog/here-dialog.component';
 import { MlpaDialogComponent } from './components/mlpa/mlpa-dialog/mlpa-dialog.component';
+
 import { SeqDialogComponent } from './components/sequencing/seq-dialog/seq-dialog.component';
+import { Seq17DialogComponent } from './components/sequencing17/seq-dialog17/seq17-dialog.component';
+
 import { MainListsComponent } from '../forms/ig_tcr/mainList/mainLists.component';
 import { IgTcrSheetComponent } from '../forms/ig_tcr/igtcrSheet/igtcrSheet.component';
 import { JsPDFComponent } from '../forms/ig_tcr/jspdf/jspdf.component';
@@ -92,7 +95,9 @@ import { ResearchDialogComponent } from '../forms/ig_tcr/mainList/research-dialo
     MdsDialogComponent,
     HereDialogComponent,
     MlpaDialogComponent,
+
     SeqDialogComponent,
+    Seq17DialogComponent,
 
 
   ],

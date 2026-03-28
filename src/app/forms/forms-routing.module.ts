@@ -8,7 +8,7 @@ import { Form4Component } from './mdsmpn/form4.component';
 import { Form5Component } from './mlpa/form5.component';
 import { Form6Component } from './hereditary/form6.component';
 
-import { Form17Component } from './sequencing17/form17.component';
+//import { Form17Component } from './sequencing17/form17.component';
 import { Form7Component } from './sequencing/form7.component';
 
 import { FormsComponent } from './forms.component';
@@ -33,8 +33,8 @@ const routes: Routes = [
 
       { path: 'form7', component: Form7Component },
       { path: 'form7/:type/:id', component: Form7Component },  // Sequencing
-      { path: 'form17', component: Form17Component },
-      { path: 'form17/:type/:id', component: Form17Component },  // Sequencing
+      //{ path: 'form17', component: Form17Component },
+      //{ path: 'form17/:type/:id', component: Form17Component },  // Sequencing
     ]
   }
 ];

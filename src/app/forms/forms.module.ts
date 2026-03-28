@@ -20,7 +20,7 @@ import { Form5Component } from './mlpa/form5.component';
 import { Form6Component } from './hereditary/form6.component';
 
 import { Form7Component } from './sequencing/form7.component';
-import { Form17Component } from './sequencing17/form17.component';
+//import { Form17Component } from './sequencing17/form17.component';
 
 import { LymphomaPreviewComponent } from './previews/lymphomaPreview/lymphomaPreview';
 import { ImmundefiComponent } from './previews/immundefi/immundefi.component';
@@ -81,11 +81,12 @@ import { ExamplementComponent } from './examplement/examplement.component';
     Form6Component,
 
     Form7Component,
-    Form17Component,
-    
+    //Form17Component,
+
     LymphomaPreviewComponent,
     ImmundefiComponent,
     SequencingComponent,
+    Sequencing17Component,
     MlpapreviewComponent
   ]
 })

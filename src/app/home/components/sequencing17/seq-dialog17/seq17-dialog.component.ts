@@ -10,8 +10,8 @@ import { combineLatest, } from 'rxjs';
 
 @Component({
   selector: 'app-seq-dialog17',
-  templateUrl: './seq-dialog17.component.html',
-  styleUrls: ['./seq-dialog17.component.scss']
+  templateUrl: './seq17-dialog.component.html',
+  styleUrls: ['./seq17-dialog.component.scss']
 })
 export class Seq17DialogComponent implements OnInit {
 
